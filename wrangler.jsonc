@@ -1,0 +1,12 @@
+// Cloudflare Workers deploy (Workers Builds runs `npx wrangler deploy` after `npm run build`):
+// the site is the static files in dist/, served as they are. The Worker (worker/index.js) only
+// handles POST /api/log: the app's anonymous error reports, written to Workers Logs
+// (observability). Nothing else runs on the server and no design is ever stored there.
+{
+  "name": "open-mouthpiece",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-25",
+  "workers_dev": true,  // the public *.workers.dev address
+  "assets": { "directory": "./dist", "binding": "ASSETS" },
+  "observability": { "enabled": true }
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60mm" height="80mm" viewBox="0 0 60 80">
+  <!-- Sample picture for top_image: an eighth note, filled shapes only. -->
+  <ellipse cx="18" cy="64" rx="12" ry="8.5" transform="rotate(-25 18 64)" fill="black"/>
+  <rect x="26" y="6" width="4" height="58" fill="black"/>
+  <path d="M30 6 C 34 20, 52 26, 50 46 C 48 38, 40 32, 30 30 Z" fill="black"/>
+</svg>

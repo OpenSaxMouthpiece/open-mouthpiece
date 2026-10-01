@@ -1,0 +1,11 @@
+# OpenSCAD sources stay LF: with CRLF the web app's Customizer mis-attaches descriptions
+# and drops the sliders (core.autocrlf=true would otherwise convert them on checkout).
+*.scad text eol=lf
+# binary
+*.stl binary
+*.STL binary
+*.png binary
+*.jpg binary
+*.pdf binary
+# Windows batch files need CRLF
+*.cmd text eol=crlf

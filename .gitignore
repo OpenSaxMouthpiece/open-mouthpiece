@@ -1,0 +1,60 @@
+# dependencies / build output
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Third-party reference meshes: measure only, never commit (see CLAUDE.md "License").
+# example_models/ is CC BY-NC-SA; the downloaded meshes in reference/ have unconfirmed licenses.
+example_models/
+reference/*.stl
+reference/*.STL
+# local map of param file -> reference mesh for npm run check
+test/references.json
+
+# render outputs
+/*.stl
+test/out/
+*.log
+
+# emitted by `tsc -b` for the Vite config
+vite.config.js
+vite.config.d.ts
+
+# parameter-sweep repro files (scripts/sweep.mjs)
+scad/_sweep/
+
+# print kit output (scripts/print_kit.mjs)
+prints/
+
+# static-site inputs (scripts/fetch_openscad_wasm.mjs, scripts/build_static_project.mjs)
+public/openscad/
+public/project/
+# flow demo meshes (presets rendered with print_orientation=false)
+public/flow/
+
+# fits of reference meshes (scripts/fit_mouthpiece.mjs): fine point lists of third-party meshes
+scad/fits/
+
+# third-party files kept locally only (unknown licenses)
+reference/reed_v2_1*
+reference/study.pdf
+mp-fig1.jpg
+
+# local-only tools (kept on disk, not in the repo): launchers, reference-mesh measuring scripts
+# (check.mjs uses compare_sections.mjs only when test/references.json exists), the design spec
+/Start Open Mouthpiece*.cmd
+scripts/fit_mouthpiece.mjs
+scripts/interior_profile.mjs
+scripts/compare_sections.mjs
+scripts/stl_diff.mjs
+scripts/stl_profile.mjs
+scripts/print_kit.mjs
+reference/
+
+# private working notes (public equivalent: CONTRIBUTING.md + docs/dev/)
+CLAUDE.md
+
+# parked airflow demo (kept locally)
+flow.html
+src/flow/
+docs/dev/FLOW_DEMO.md
