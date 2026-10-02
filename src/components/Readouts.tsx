@@ -2,17 +2,28 @@
 // volume, thinnest wall) and the generator's notes when a guarantee changed a value. While comparing, each
 // card also shows B's number.
 import { formatThou } from "../design";
-import { isAdjustment, type Summary } from "../readouts";
+import { gaugeFacingLength, isAdjustment, type Summary, type Wall } from "../readouts";
 
 interface Props {
   summary: Summary | null;
-  wall: { wall: number; where: string } | null;
+  wall: Wall | null;
+  facing?: [number, number][] | null; // the facing curve: the facing length a feeler gauge reads
   busy: boolean;
   compact?: boolean; // desktop: one strip of small cards, the fine print in tooltips
-  compare?: { summary: Summary | null; air: number | null } | null; // B (A/B compare)
+  compare?: { summary: Summary | null; air: number | null; facing?: [number, number][] | null } | null; // B (A/B compare)
 }
 
-export function Readouts({ summary, wall, busy, compact = false, compare }: Props) {
+// The wall's place in words: "side wall beside the window, 3.4 mm from the tip".
+function wallText(w: Wall, length: number | null) {
+  const back = length !== null ? length - w.z : null;
+  const at = back !== null && back >= 0 && back < length! - 0.5 ? `, ${back.toFixed(1)} mm from the tip` : "";
+  const rails = /beside the window/.test(w.where)
+    ? ". Beside the window the side rails set the wall; the thinnest wall allowed applies everywhere else."
+    : "";
+  return `${w.where}${at}${rails}`;
+}
+
+export function Readouts({ summary, wall, facing, busy, compact = false, compare }: Props) {
   if (!summary)
     return (
       <div className={`readouts empty muted${compact ? " compact" : ""}`}>
@@ -20,7 +31,12 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
       </div>
     );
   const b = compare?.summary;
-  const cards: [string, string, string?, string?][] = [
+  // Facing length as a .0015" feeler reads it; the slider sets where the curve leaves the table.
+  const gauge = gaugeFacingLength(facing ?? null);
+  const bGauge = gaugeFacingLength(compare?.facing ?? null) ?? b?.facing ?? null;
+  const atRails = !!wall && /beside the window/.test(wall.where);
+  // [label, value, fine print, B's value, a short note shown under the value on desktop too]
+  const cards: [string, string, string?, string?, string?][] = [
     [
       compact ? "Tip" : "Tip opening",
       summary.tip !== null ? formatThou(summary.tip) : "–",
@@ -29,9 +45,12 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     ],
     [
       compact ? "Facing" : "Facing length",
-      summary.facing !== null ? `${summary.facing} mm` : "–",
-      undefined,
-      b?.facing != null ? `${b.facing} mm` : undefined,
+      gauge !== null ? `${gauge.toFixed(1)} mm` : summary.facing !== null ? `${summary.facing} mm` : "–",
+      gauge !== null
+        ? `where a .0015" feeler stops, from the tip (the curve leaves the table at ${summary.facing} mm)`
+        : undefined,
+      bGauge != null ? `${bGauge.toFixed(1)} mm` : undefined,
+      gauge !== null ? '.0015" stop' : undefined,
     ],
     [
       "Length",
@@ -48,13 +67,15 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     [
       compact ? "Wall" : "Thinnest wall",
       wall ? `${wall.wall.toFixed(2)} mm` : "…",
-      wall ? `thinnest wall: ${wall.where}` : "measuring the thinnest wall…",
+      wall ? wallText(wall, summary.length) : "measuring the thinnest wall…",
+      undefined,
+      atRails ? "at the rails" : undefined,
     ],
   ];
   return (
     <div className={`readouts${busy ? " stale" : ""}${compact ? " compact" : ""}`}>
       <div className="readout-cards">
-        {cards.map(([k, v, sub, bv]) => (
+        {cards.map(([k, v, sub, bv, short]) => (
           <div key={k} className="readout-card" title={compact && sub ? `${k}: ${sub}` : undefined}>
             <div className="readout-label">{k}</div>
             <div className={`readout-value${v === "…" ? " pending" : ""}`}>{v}</div>
@@ -64,6 +85,7 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
               </div>
             )}
             {sub && !compact && <div className="readout-sub">{sub}</div>}
+            {short && compact && <div className="readout-short">{short}</div>}
           </div>
         ))}
       </div>

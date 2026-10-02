@@ -34,7 +34,7 @@ import {
   writeStl,
   type PrintFrame,
 } from "./meshFrame";
-import { FACING_CHOICES, hasDesignParams } from "./design";
+import { FACING_CHOICES, fileAbout, hasDesignParams } from "./design";
 import { parseFacing, parseSummary } from "./readouts";
 import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
@@ -128,6 +128,7 @@ export default function App() {
     return () => clearTimeout(t);
   }, [notice]);
   const [dl, setDl] = useState<Download | null>(null); // a download in progress or just finished
+  const [printed, setPrinted] = useState(false); // a mouthpiece STL was downloaded: the after-download note
   const [hintSeen, setHintSeen] = useState(() => readFlag(HINT_KEY)); // the first-visit hint card
   const [shareLink, setShareLink] = useState<string | null>(null); // shown when the clipboard refuses
   const [shareArt, setShareArt] = useState(false); // put the user's own picture in the share link
@@ -845,6 +846,7 @@ export default function App() {
       download(await partStl(what === "ligature" ? "ligature" : null), "model/stl", `${name}.stl`);
       notify({ text: `Downloaded ${name}.stl`, short: "Downloaded", kind: "ok" });
       setDl({ what, state: "done" });
+      if (what === "model" && !otherPart) setPrinted(true);
     } catch (err) {
       fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
       setDl({ what, state: "error" });
@@ -1396,9 +1398,12 @@ export default function App() {
     <Readouts
       summary={summary}
       wall={wall}
+      facing={facing}
       busy={status.kind === "busy"}
       compact={!isPhone}
-      compare={pinned ? { summary: pinned.summary ?? null, air: pinned.air ?? null } : null}
+      compare={
+        pinned ? { summary: pinned.summary ?? null, air: pinned.air ?? null, facing: pinned.facing ?? null } : null
+      }
     />
   );
   const ligHead = (
@@ -1466,6 +1471,8 @@ export default function App() {
       ligature={ligOK ? { on: ligMade, shown: lig.on, head: ligHead } : undefined}
       showNames={coding}
       deeper={deeperEl}
+      about={fileAbout(mainTab.source)}
+      printed={printed ? () => setPrinted(false) : undefined}
     />
   );
   const downloadDisabled = (!stl && !svg) || dlBusy("model");

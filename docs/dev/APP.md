@@ -111,13 +111,17 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   / ligature unless the code is open; ranges and descriptions from the `.param` export) + the deeper
   folds; `Readouts` = cards from the render log (`parseSummary`: length/tip/facing/air, validate()
   warnings as notes) and the two echo-only reports (`facing_report()` -> facing chart +
-  feeler-gauge stops, `clearance_report()` -> thinnest wall): the full-quality render appends
+  feeler-gauge stops, `clearance_report()` -> thinnest wall). The Facing card is the facing
+  length as players and refacers quote it, where a .0015" feeler stops (`gaugeFacingLength`); the
+  slider is "Facing curve length" (`facing_length`, to the break). The Wall card says "at the
+  rails" when the thinnest wall is beside the window (the rails set it there, not `min_wall`;
+  the generator reports "side wall beside the window"). The full-quality render appends
   them (and the zoom targets) to its source (`REPORTS_ECHO`, +~40ms instead of two more
   evaluations; their lines are kept out of the console); separate runs only when the readouts
   come into view later, or when the model on screen came without
   them (`ensureReports`: e.g. the first render at startup runs before the params are known). The facing chart
-  (`FacingChart.tsx`, under "Tip & facing") has curve chips (`FACING_CHOICES`: As designed / Free
-  / Even / Focused / Radius = facing_model + facing_exponent values); its points drag: the tip end =
+  (`FacingChart.tsx`, under "Tip & facing") has curve chips (`FACING_CHOICES`: As designed / Opens early
+  / Even / Opens late / Radius = facing_model + facing_exponent values); its points drag: the tip end =
   `tip_opening`, the flat end = `facing_length` (the points between scale along), a point between =
   `facing_model = "gauge"` with `facing_gauge_points` as a *value* (App's `POINT_VALUES`: kept
   though not a Customizer param, so it works on presets, downloads and shares; Curves edits the same
@@ -127,6 +131,10 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   also shows the raw name); `tip_opening` is in thou everywhere. Reports run while the readouts can
   be seen (`reportsOn`: always on a desktop). The Customizer hides the "Not yet implemented" group.
   The printing-guide link waits for `REPO_URL` in `src/links.ts`.
+  A variant shows its file's header line over the settings (`fileAbout`: "Ash, compared with the
+  Alto preset: ..."; factual, no sound claims). After a mouthpiece STL download a dismissible note
+  links the printing guide and Ko-fi. The WebAssembly build's startup complaints (localization,
+  fontconfig) are kept out of the console.
 - **Quality** (Draft 32 / Normal 64 / Fine 96 = `render_fn`, saved with the layout; only for a
   file that declares `render_fn` and when the Customizer hasn't set it): a change renders a Draft
   pass, then the chosen quality after 700ms quiet (`refineTimer`; a newer change cancels it, so a

@@ -6,7 +6,7 @@ import { useCallback, useRef, useState, type RefObject } from "react";
 import { api, base64ToBuffer, type RenderTarget, type ScadParam } from "../api";
 import { parseAirVolume } from "../compare";
 import { FOCUS_ECHO, parseFocusEcho, type FocusData } from "../focus";
-import { parseClearance, parseFacing, parseLigature, type LigatureInfo } from "../readouts";
+import { parseClearance, parseFacing, parseLigature, type LigatureInfo, type Wall } from "../readouts";
 import { renderEnded, renderStarted, report } from "../report";
 import { reportDesign, type Values } from "../app/files";
 import { QUALITY_FN, type LigatureView, type Quality } from "../app/session";
@@ -34,9 +34,16 @@ interface Options {
 const REFINE_DELAY = 700; // ms of quiet after a draft before the full-quality render
 const SLOW_RENDER_S = 45; // reported to the site's log when a render takes longer
 const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n";
-// The reports' lines stay out of the console.
-const withoutReports = (log: string) =>
+// The reports' lines stay out of the console, and so do the WebAssembly build's harmless startup
+// complaints (no locale files, no fontconfig file: the generator registers its fonts itself).
+const NOISE = /^(Could not initialize localization|Fontconfig error: Cannot load default config file)/;
+const withoutNoise = (log: string) =>
   log
+    .split("\n")
+    .filter((l) => !NOISE.test(l))
+    .join("\n");
+const withoutReports = (log: string) =>
+  withoutNoise(log)
     .split("\n")
     .filter((l) => !/^ECHO: (PARAM_FOCUS|"(FACING|CLEARANCE))/.test(l))
     .join("\n");
@@ -47,7 +54,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const [svg, setSvg] = useState<string | null>(null);
   const [log, setLog] = useState("");
   const [facing, setFacing] = useState<[number, number][] | null>(null);
-  const [wall, setWall] = useState<{ wall: number; where: string } | null>(null);
+  const [wall, setWall] = useState<Wall | null>(null);
   const [air, setAir] = useState<number | null>(null); // inside air volume of the last render
   const [ligStl, setLigStl] = useState<ArrayBuffer | null>(null);
   const [reedStl, setReedStl] = useState<ArrayBuffer | null>(null);
@@ -167,7 +174,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
           );
         const r = await run;
         if (ac.signal.aborted) return;
-        setLog(withReports ? withoutReports(r.log) : r.log);
+        setLog(withReports ? withoutReports(r.log) : withoutNoise(r.log));
         if (withReports && r.ok) {
           reportsAbort.current?.abort(); // an older separate run must not overwrite these
           setFacing(parseFacing(r.log));

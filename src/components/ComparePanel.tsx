@@ -70,7 +70,14 @@ export function ComparePanel({ a, b, labelA, labelB, onUseB, onSwap, onClear }: 
       digits: 2,
       unit: " mm",
     },
-    { label: "Facing length", a: A?.facing, b: B?.facing, show: (v) => `${fmt(v, 1)} mm`, digits: 1, unit: " mm" },
+    {
+      label: "Facing curve length",
+      a: A?.facing,
+      b: B?.facing,
+      show: (v) => `${fmt(v, 1)} mm`,
+      digits: 1,
+      unit: " mm",
+    },
     { label: "Length", a: A?.length, b: B?.length, show: (v) => `${fmt(v, 1)} mm`, digits: 1, unit: " mm" },
     {
       label: "Air volume",

@@ -5,7 +5,7 @@ import type { ParamValue, ScadParam } from "../api";
 import { DESIGN_HIDDEN_GROUPS, DESIGN_OPTIONS, DESIGN_SECTIONS, paramLabel } from "../design";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
-import { DONATE_URL, PRESET_SOURCES, REPO_URL } from "../links";
+import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL, REPO_URL } from "../links";
 
 interface Props {
   title: string;
@@ -26,6 +26,8 @@ interface Props {
   showNames?: boolean; // while the code is open: All parameters shows each one's name in the file, every group and option
   notes?: string[]; // the generator's notes, over All parameters
   deeper?: ReactNode; // sections for going further, after All parameters (Curves, Compare)
+  about?: string; // a variant's one-line description, over the settings
+  printed?: () => void; // a mouthpiece STL was just downloaded: the note on printing it (closes with this)
 }
 
 const same = (a: ParamValue, b: ParamValue) => JSON.stringify(a) === JSON.stringify(b);
@@ -49,6 +51,8 @@ export function DesignPanel({
   showNames = false,
   notes,
   deeper,
+  about,
+  printed,
 }: Props) {
   const byName = new Map(params.map((p) => [p.name, p]));
   const setParam = (name: string, v: ParamValue) => {
@@ -130,6 +134,36 @@ export function DesignPanel({
       </div>
       <PanelOptions ids={ids} />
       <div className="design-scroll">
+        {printed && (
+          <div className="printed-note">
+            <span>
+              Printing it?{" "}
+              {PRINTING_GUIDE_URL && (
+                <>
+                  The{" "}
+                  <a href={PRINTING_GUIDE_URL} target="_blank" rel="noreferrer">
+                    printing guide
+                  </a>{" "}
+                  covers sanding the table and checking the facing with feeler gauges.
+                </>
+              )}
+              {DONATE_URL && (
+                <>
+                  {" "}
+                  If it plays well,{" "}
+                  <a href={DONATE_URL} target="_blank" rel="noreferrer">
+                    you can support Open Mouthpiece
+                  </a>{" "}
+                  ♥
+                </>
+              )}
+            </span>
+            <button onClick={printed} aria-label="Close" title="Close">
+              ✕
+            </button>
+          </div>
+        )}
+        {about && !q && <p className="design-about muted">{about}</p>}
         {DESIGN_SECTIONS.map((s) => {
           const filled = (n: string) => String(values[n] ?? byName.get(n)?.initial ?? "").trim() !== "";
           const rows = s.items.filter(
@@ -213,7 +247,8 @@ export function DesignPanel({
               </a>
             </span>
           ))}
-          .
+          . What this adds: a socket fitted to your own neck cork, your tip opening and facing curve, a matching
+          ligature, and extra stock to sand the table flat.
         </p>
         <p className="preset-credit muted">
           The geometry is made by{" "}

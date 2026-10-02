@@ -1616,6 +1616,35 @@ button.link:hover {
 .readouts.compact .readout-value {
   font-size: 14px;
 }
+.printed-note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.printed-note button {
+  flex: none;
+  padding: 0 6px;
+}
+.design-about {
+  margin: 8px 0 4px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.readout-short {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .readout-value.pending {
   color: var(--muted);
   animation: pulse 1.2s ease-in-out infinite;

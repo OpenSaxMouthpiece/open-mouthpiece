@@ -49,8 +49,6 @@ use <fonts/KaushanScript-Regular.ttf>
 // ===========================================================================================
 
 /* [Shank] */
-// Total length, neck end to tip (mm). Also changes the inside volume.
-overall_length = 89.3; // [55:0.1:160]
 // Your neck cork's diameter (mm), measured with calipers.
 neck_cork_diameter = 16.2; // [10:0.05:27]
 // How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.
@@ -65,13 +63,13 @@ shank_depth = 22.0; // [10:0.5:70]
 bore_diameter = 15.6; // [8:0.1:24]
 // Angle between the bore and the reed table (degrees); typically about 4.
 bore_tilt = 4.4; // [-3:0.1:8]
-// Outside size of the shank end (1 = as measured).
+// Outside size of the shank end (1 = the preset's own outline).
 shank_scale = 1.0; // [0.85:0.01:1.3]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
 chamber_shape = "horseshoe"; // [round, square, horseshoe]
-// Chamber width above the rails (mm); never narrower than the window.
+// Inside width of the chamber (mm); never narrower than the window.
 chamber_width = 14.6; // [8:0.1:30]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
@@ -111,7 +109,7 @@ window_width = 15.1; // [6:0.1:22]
 window_taper = 3.3; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 5.5; // [0:0.1:10]
-// Side walls above the rails (degrees): + lean out (scooped), - lean in.
+// Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
 sidewall_angle = 0; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]
@@ -131,19 +129,21 @@ reed_length = 71.8; // [50:0.5:120]
 table_concavity = 0; // [0:0.005:0.1]
 
 /* [Facing] */
-// Gap between the reed and the tip (mm).
+// Gap at the tip, from the tip rail to a straightedge on the table (mm).
 tip_opening = 1.93; // [0.5:0.01:4.5]
-// Length of the curve the reed bends away on, back from the tip (mm).
+// From the tip back to the break, where the rails leave the flat table (mm).
 facing_length = 23.8; // [10:0.1:45]
-// Facing curve type: Power (smooth), Arc (circle) or Gauge (your own points).
+// Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).
 facing_model = "power"; // [power, arc, gauge]
 // Power curve shape: 2 is an even curve; lower opens sooner, higher later.
 facing_exponent = 1.8; // [1.5:0.05:3]
 
 /* [Exterior] */
-// Body width (1 = as measured).
+// Total length, neck end to tip (mm). Also changes the inside volume.
+overall_length = 89.3; // [55:0.1:160]
+// Body width (1 = the preset's own outline).
 body_width_scale = 1.0; // [0.8:0.01:1.25]
-// Body height (1 = as measured).
+// Body height (1 = the preset's own outline).
 body_height_scale = 1.0; // [0.8:0.01:1.25]
 // Height of the beak at the tip (mm).
 beak_tip_height = 3.6; // [2:0.1:8]
@@ -151,7 +151,7 @@ beak_tip_height = 3.6; // [2:0.1:8]
 body_squareness = 2.0; // [1.2:0.1:8]
 // Top of the beak: lower = ridged, higher = flat.
 beak_squareness = 1.6; // [1.2:0.1:8]
-// Beak from the side: + scooped in (a swoop), - fuller.
+// Beak profile from the side: + concave (scooped), - convex (fuller).
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
@@ -915,7 +915,9 @@ module clearance_report() {
   socket = min(E0[E_HW] - r, E0[E_TOP] - (eff_bah + r / cos(bore_tilt)), (eff_bah - r / cos(bore_tilt)) - max(E0[E_BOT], 0));
   all = concat(mins, [[socket, 0, "socket wall"]]);
   worst = [for (a = all) if (a[0] == min([for (b = all) b[0]])) a][0];
-  echo(str("CLEARANCE ", worst[0], " at z=", worst[1], " (", worst[2], ")"));
+  // beside the window the side rails set the wall (guarantee 3), not min_wall: say so
+  where = worst[2] == "side wall" && worst[1] >= win_z0 ? "side wall beside the window" : worst[2];
+  echo(str("CLEARANCE ", worst[0], " at z=", worst[1], " (", where, ")"));
   for (a = all) echo(str("CLEARANCE_", a[2], " ", a[0], " at z=", a[1]));
 }
 

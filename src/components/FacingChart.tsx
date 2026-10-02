@@ -289,7 +289,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
                 {i === 0
                   ? "Tip opening: drag up or down"
                   : i === shown.length - 1
-                    ? "Facing length: drag left or right"
+                    ? "Facing curve length (the break): drag left or right"
                     : "Drag to shape the facing; double-click to remove"}
               </title>
             </g>
@@ -299,7 +299,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
             {drag.current.i === 0
               ? `tip ${mmToThou(sT).toFixed(0)} thou (${sT.toFixed(2)} mm)`
               : drag.current.i === shown.length - 1
-                ? `facing length ${sF.toFixed(1)} mm`
+                ? `facing curve ${sF.toFixed(1)} mm`
                 : `${shown[drag.current.i][0].toFixed(1)} mm: ${mmToThou(shown[drag.current.i][1]).toFixed(1)} thou`}
           </text>
         )}
@@ -317,8 +317,8 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
       {edit && (
         <div className="facing-edit muted">
           <span>
-            Drag the points: the tip end sets the tip opening, the flat end the facing length. Tap the curve to add a
-            point, double-click one to remove it.
+            Drag the points: the tip end sets the tip opening, the flat end (the break) the facing curve length. Tap the
+            curve to add a point, double-click one to remove it.
           </span>
           {edit.gauge && (
             <button

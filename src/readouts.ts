@@ -40,10 +40,15 @@ export function parseFacing(log: string): [number, number][] {
   );
 }
 
-// Thinnest wall: "CLEARANCE w at z=.. (where)".
-export function parseClearance(log: string): { wall: number; where: string } | null {
-  const m = /CLEARANCE ([\d.]+) at z=[\d.]+ \(([^)]*)\)/.exec(log);
-  return m ? { wall: Number(m[1]), where: m[2] } : null;
+// Thinnest wall: "CLEARANCE w at z=.. (where)"; z from the shank end.
+export interface Wall {
+  wall: number;
+  where: string;
+  z: number;
+}
+export function parseClearance(log: string): Wall | null {
+  const m = /CLEARANCE ([\d.]+) at z=([-\d.e]+) \(([^)]*)\)/.exec(log);
+  return m ? { wall: Number(m[1]), z: Number(m[2]), where: m[3] } : null;
 }
 
 // The ligature made for the mouthpiece (part = "ligature" / "ligature_seated"): "LIGATURE <length>
@@ -79,6 +84,10 @@ export function parseLigature(log: string): LigatureInfo | null {
 
 // Feeler-gauge stops for checking a facing (inches).
 export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05];
+
+// Facing length as players and refacers quote it: where a .0015" feeler stops, from the tip (mm).
+export const gaugeFacingLength = (facing: [number, number][] | null) =>
+  facing && facing.length > 1 ? (gaugeStops(facing)[0]?.at ?? null) : null;
 
 // Where the facing gap equals a gauge's thickness (distance from the tip, mm), by interpolation.
 export function gaugeStops(facing: [number, number][]): { gauge: number; at: number }[] {

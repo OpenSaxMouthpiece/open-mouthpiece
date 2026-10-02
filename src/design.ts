@@ -32,14 +32,26 @@ export interface FacingChoice {
 }
 export const FACING_CHOICES: FacingChoice[] = [
   { id: "file", label: "As designed", hint: "The facing this mouthpiece comes with" },
-  { id: "free", label: "Free", model: "power", exponent: 1.6, hint: "Opens up soon after the flat part" },
-  { id: "even", label: "Even", model: "power", exponent: 2, hint: "An even curve" },
-  { id: "focused", label: "Focused", model: "power", exponent: 2.6, hint: "Keeps the reed close until near the tip" },
-  { id: "radius", label: "Radius", model: "arc", hint: "A section of a circle" },
+  {
+    id: "free",
+    label: "Opens early",
+    model: "power",
+    exponent: 1.6,
+    hint: "Power curve, exponent 1.6: the gap grows soon after the break",
+  },
+  { id: "even", label: "Even", model: "power", exponent: 2, hint: "Power curve, exponent 2" },
+  {
+    id: "focused",
+    label: "Opens late",
+    model: "power",
+    exponent: 2.6,
+    hint: "Power curve, exponent 2.6: the gap stays small until near the tip",
+  },
+  { id: "radius", label: "Radius", model: "arc", hint: "A true radius: a section of a circle" },
 ];
 
 const BAFFLES: Record<string, string> = {
-  measured: "As measured",
+  measured: "Original",
   flat: "Flat",
   rollover: "Rollover",
   step: "Step",
@@ -61,9 +73,10 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "tip_opening",
         label: "Tip opening",
         unit: "thou",
-        caption: 'Gap between the reed and the tip, in thousandths of an inch (76 = .076"; typing mm works too).',
+        caption:
+          'Gap at the tip, from the tip rail to a straightedge on the table, in thousandths (76 = .076"; mm works too).',
       },
-      { name: "facing_length", label: "Facing length" },
+      { name: "facing_length", label: "Facing curve length" },
     ],
   },
   {
@@ -213,6 +226,12 @@ for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertic
       : "no text or picture to apply it to";
 }
 export const paramInactive = (name: string, get: Getter) => INACTIVE[name]?.(get) ?? null;
+// A variant's one-line description, from its file's header ('// Alto "Ash": a variant of alto.scad ...'
+// then "// Ash: closer tip, ..."): "Ash, compared with the Alto preset: closer tip, ...".
+export const fileAbout = (source: string) => {
+  const m = /^\/\/ (\w+) "(\w+)": a variant of [^\n]*\n\/\/ \w+: ([^\n]+)/.exec(source);
+  return m ? `${m[2]}, compared with the ${m[1]} preset: ${m[3].trim()}` : undefined;
+};
 // A description for both screens where the control differs from the file's (tip in thousandths).
 export const paramCaption = (name: string) => DESIGN_ITEMS.get(name)?.caption;
 // Whether a file has any of the Design screen's parameters (a mouthpiece file, not a scratch file).

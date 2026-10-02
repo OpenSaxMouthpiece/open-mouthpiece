@@ -1,12 +1,10 @@
 // Baritone "Ash": a variant of baritone.scad (its baffle table; its own outline).
-// Ash: closer tip, arc facing, round chamber, concave baffle; slim round body, smooth convex beak. Tends darker.
+// Ash: closer tip, arc facing, round chamber, concave baffle; slim round body, smooth convex beak.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
 
 /* [Shank] */
-// Total length, neck end to tip (mm). Also changes the inside volume.
-overall_length = 137.2; // [55:0.1:160]
 // Your neck cork's diameter (mm), measured with calipers.
 neck_cork_diameter = 18.0; // [10:0.05:27]
 // How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.
@@ -21,13 +19,13 @@ shank_depth = 30.0; // [10:0.5:70]
 bore_diameter = 16.9; // [8:0.1:24]
 // Angle between the bore and the reed table (degrees); typically about 4.
 bore_tilt = 4.8; // [-3:0.1:8]
-// Outside size of the shank end (1 = as measured).
+// Outside size of the shank end (1 = the preset's own outline).
 shank_scale = 0.95; // [0.85:0.01:1.3]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
 chamber_shape = "round"; // [round, square, horseshoe]
-// Chamber width above the rails (mm); never narrower than the window.
+// Inside width of the chamber (mm); never narrower than the window.
 chamber_width = 15.4; // [8:0.1:30]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
@@ -67,7 +65,7 @@ window_width = 17.2; // [6:0.1:22]
 window_taper = 4.3; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 6.3; // [0:0.1:10]
-// Side walls above the rails (degrees): + lean out (scooped), - lean in.
+// Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
 sidewall_angle = 0; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]
@@ -87,19 +85,21 @@ reed_length = 101.5; // [50:0.5:120]
 table_concavity = 0; // [0:0.005:0.1]
 
 /* [Facing] */
-// Gap between the reed and the tip (mm).
+// Gap at the tip, from the tip rail to a straightedge on the table (mm).
 tip_opening = 2.67; // [0.5:0.01:4.5]
-// Length of the curve the reed bends away on, back from the tip (mm).
+// From the tip back to the break, where the rails leave the flat table (mm).
 facing_length = 29; // [10:0.1:45]
-// Facing curve type: Power (smooth), Arc (circle) or Gauge (your own points).
+// Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).
 facing_model = "arc"; // [power, arc, gauge]
 // Power curve shape: 2 is an even curve; lower opens sooner, higher later.
 facing_exponent = 1.8; // [1.5:0.05:3]
 
 /* [Exterior] */
-// Body width (1 = as measured).
+// Total length, neck end to tip (mm). Also changes the inside volume.
+overall_length = 137.2; // [55:0.1:160]
+// Body width (1 = the preset's own outline).
 body_width_scale = 1.0; // [0.8:0.01:1.25]
-// Body height (1 = as measured).
+// Body height (1 = the preset's own outline).
 body_height_scale = 1.0; // [0.8:0.01:1.25]
 // Height of the beak at the tip (mm).
 beak_tip_height = 5.1; // [2:0.1:8]
@@ -107,7 +107,7 @@ beak_tip_height = 5.1; // [2:0.1:8]
 body_squareness = 1.7; // [1.2:0.1:8]
 // Top of the beak: lower = ridged, higher = flat.
 beak_squareness = 1.3; // [1.2:0.1:8]
-// Beak from the side: + scooped in (a swoop), - fuller.
+// Beak profile from the side: + concave (scooped), - convex (fuller).
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
