@@ -9,6 +9,15 @@ server). OpenSCAD runs in the browser, the project comes from the site, and the 
 pictures stay in their browser. `npm run dev` is plain Vite; a build is a static site (docs/HOSTING.md).
 
 - `src/api.ts`: the `Api` interface + types; `api` = `browserApi` (src/browserApi.ts).
+- Where the app's code lives: `App.tsx` holds the state (tabs, values, layout, B) and both layouts;
+  `src/app/files.ts` (tabs, names, labels, downloads) and `src/app/session.ts` (what is kept in this
+  browser); hooks in `src/hooks/`: `useModelRender` (the render loop: draft then full quality, the
+  readouts' reports, the ligature, download renders), `useParamFocus` (zoom to a parameter),
+  `useValueHistory` (undo/redo), `useMediaQuery` (+ window width, pointer drags); the toolbar and
+  panel pieces in `src/components/` (TabBar, FilePickers, SaveAsPanel, LigatureHead, PartNote, ...).
+- Status: render progress and errors are the status (`useModelRender`); what a user action did
+  (downloading, saved, link copied, delete prompts) is a *notice* shown in its place, for 4s once
+  done, so the render a save starts doesn't hide it. Errors clear the notice (and are reported).
 - OpenSCAD: the official WebAssembly build, pinned in `scripts/fetch_openscad_wasm.mjs` (version +
   SHA-256; bump together) into `public/openscad/` (gitignored; `npm run dev` fetches it once).
   `src/wasm/openscad.worker.ts` compiles the wasm once per worker and makes a fresh OpenSCAD
@@ -105,7 +114,8 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   feeler-gauge stops, `clearance_report()` -> thinnest wall): the full-quality render appends
   them (and the zoom targets) to its source (`REPORTS_ECHO`, +~40ms instead of two more
   evaluations; their lines are kept out of the console); separate runs only when the readouts
-  come into view later (`loadReports`). The facing chart
+  come into view later, or when the model on screen came without
+  them (`ensureReports`: e.g. the first render at startup runs before the params are known). The facing chart
   (`FacingChart.tsx`, under "Tip & facing") has curve chips (`FACING_CHOICES`: As designed / Free
   / Even / Focused / Radius = facing_model + facing_exponent values); its points drag: the tip end =
   `tip_opening`, the flat end = `facing_length` (the points between scale along), a point between =

@@ -21,6 +21,7 @@ interface Props {
   ligature?: { on: boolean; shown?: boolean; head: ReactNode }; // the Ligature section: its head (make / show / download), controls once on
   allParams?: boolean; // "All parameters" below the controls
   failed?: boolean; // the file didn't render, so it has no parameters to show
+  loading?: boolean; // the file's parameters aren't known yet
   history?: { canUndo: boolean; canRedo: boolean; step(redo: boolean): void }; // undo / redo of setting changes
   showNames?: boolean; // while the code is open: All parameters shows each one's name in the file, every group and option
   notes?: string[]; // the generator's notes, over All parameters
@@ -43,6 +44,7 @@ export function DesignPanel({
   ligature,
   allParams = true,
   failed = false,
+  loading = false,
   history,
   showNames = false,
   notes,
@@ -67,8 +69,10 @@ export function DesignPanel({
                 {title} has an error, so there is nothing to adjust. The code's console (Code, on the left) shows where
                 it is.
               </>
+            ) : loading ? (
+              "Loading the settings…"
             ) : (
-              "No settings to show (yet)."
+              <>{title} has no settings to adjust: it's plain OpenSCAD code. Edit it under Code.</>
             )}
           </p>
           {deeper}

@@ -96,3 +96,17 @@ export function gaugeStops(facing: [number, number][]): { gauge: number; at: num
   }
   return out;
 }
+
+// The ligature's numbers as sentences (appended to the Ligature section's or the part's text).
+export function ligatureText(g: LigatureInfo | null): string {
+  if (!g) return "";
+  const front = g.front >= 0 ? `${g.front} mm behind` : `${-g.front} mm over`;
+  const parts = [
+    ` Inside ${g.rear[0].toFixed(1)} × ${g.rear[1].toFixed(1)} mm at the back, ${g.girth.toFixed(1)} mm around;` +
+      ` front edge ${front} the window's end.`,
+  ];
+  if (g.touch)
+    parts.push(` It touches the reed ${g.touch.toFixed(1)} mm before this; push it the rest of the way to grip.`);
+  if (g.shift !== null) parts.push(` A reed 0.1 mm thicker seats it ${g.shift.toFixed(1)} mm further forward.`);
+  return parts.join("");
+}
