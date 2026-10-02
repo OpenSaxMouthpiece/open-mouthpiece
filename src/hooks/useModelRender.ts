@@ -235,19 +235,32 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const render = useCallback(() => renderPass(true), [renderPass]);
 
   // The model on screen (part null) or another part, for a download: at the chosen quality, Normal
-  // at least (never a draft); the model on screen when it already is that.
+  // at least (never a draft); the model on screen when it already is that. extra: settings on top
+  // (the print kit's test rings at other clearances).
   const partStl = useCallback(
-    async (part: string | null): Promise<ArrayBuffer> => {
+    async (part: string | null, extra?: Values): Promise<ArrayBuffer> => {
       const { target: t, values: vals, quality: q } = state.current!;
       if (!t) throw new Error("no model yet");
       const fn = qualityFn(q === "draft" ? "normal" : q, vals);
-      if (!part && stl && (fn === null || fn === shownFn.current)) return stl;
-      const r = await api.render(t, withFn(part ? { ...vals, part } : vals, fn));
+      if (!part && !extra && stl && (fn === null || fn === shownFn.current)) return stl;
+      const r = await api.render(t, withFn({ ...vals, ...extra, ...(part ? { part } : {}) }, fn));
       if (!r.ok || !r.stl) throw new Error("the render failed (the console says why)");
       return base64ToBuffer(r.stl);
     },
     [state, qualityFn, stl],
   );
+
+  // The numbers for the print kit's check card, fresh for the settings now: one echo-only run
+  // (the summary, the facing and the thinnest wall).
+  const kitReports = useCallback(async () => {
+    const { target: t, values: vals } = state.current!;
+    if (!t) throw new Error("no model yet");
+    const r = await api.echo(
+      { ...t, source: t.source + "\nfacing_report();\n" },
+      { ...vals, part: "clearance_report" },
+    );
+    return { log: r.log, facing: parseFacing(r.log), wall: parseClearance(r.log) };
+  }, [state]);
 
   // The readouts are showing but the model on screen came without their reports (it was rendered
   // before they showed, e.g. before the file's parameters had loaded at startup): fetch them.
@@ -284,6 +297,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     loadLigature,
     ensureReports,
     partStl,
+    kitReports,
     showModel,
     clearLigature,
   };

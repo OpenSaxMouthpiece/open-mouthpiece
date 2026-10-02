@@ -36,6 +36,7 @@ import {
 } from "./meshFrame";
 import { FACING_CHOICES, fileAbout, hasDesignParams } from "./design";
 import { parseFacing, parseSummary } from "./readouts";
+import { checkCard, kitSqueezes, ringFile } from "./printKit";
 import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
 import { migrateScad } from "./migrate";
@@ -77,7 +78,7 @@ const QUALITY_HINT =
 const MIN_EDITOR_W = 260;
 const MIN_PANEL_W = 320;
 
-type Download = { what: "model" | "ligature"; state: "busy" | "done" | "error" };
+type Download = { what: "model" | "ligature" | "kit"; state: "busy" | "done" | "error" };
 
 export default function App() {
   const saved = useRef(loadSession()).current;
@@ -199,7 +200,7 @@ export default function App() {
   // ---- rendering (hooks/useModelRender.ts) and zoom to parameter (hooks/useParamFocus.ts)
   const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
-  const { stl, svg, log, facing, wall, air, render, renderPass, partStl } = model;
+  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
 
   // Errors go to the site's log (src/report.ts), with the render's first OpenSCAD error line.
@@ -866,6 +867,54 @@ export default function App() {
       "Download failed"
     );
   const dlBusy = (what: Download["what"]) => dl?.what === what && dl.state === "busy";
+  // The print kit, one zip: the mouthpiece, shank test rings at three cork squeezes (and the design's
+  // own), the ligature if made, and a check card (printKit.ts).
+  const downloadKit = async () => {
+    if (dl?.state === "busy") return;
+    const name = downloadName(mainTab, values, isRO(mainTab));
+    const get = (n: string) => (n in values ? values[n] : param(n)?.initial);
+    const withLigature = !!param("ligature_length") && get("ligature_made") === true;
+    setDl({ what: "kit", state: "busy" });
+    notify({ text: `Making the print kit for ${labelA}…`, short: "Preparing the print kit…", kind: "busy" });
+    try {
+      const out: [string, Uint8Array<ArrayBuffer>][] = [];
+      out.push([`${name}.stl`, new Uint8Array(await partStl(otherPart ? "mouthpiece" : null))]);
+      for (const c of kitSqueezes(Number(get("shank_clearance"))))
+        out.push([ringFile(name, c), new Uint8Array(await partStl("shank_test_ring", { shank_clearance: c }))]);
+      if (withLigature) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
+      const r = await kitReports();
+      const card = checkCard({
+        name,
+        title: labelA,
+        ...r,
+        get,
+        files: out.map(([f]) => f),
+        date: new Date().toLocaleDateString("sv-SE"),
+      });
+      out.push([`${name}_check_card.txt`, new TextEncoder().encode(card)]);
+      download(zipSync(Object.fromEntries(out)), "application/zip", `${name}_print_kit.zip`);
+      notify({ text: `Downloaded ${name}_print_kit.zip`, short: "Downloaded", kind: "ok" });
+      setDl({ what: "kit", state: "done" });
+      setPrinted(true);
+    } catch (err) {
+      fail({ text: `Print kit failed: ${(err as Error).message}`, kind: "error" });
+      setDl({ what: "kit", state: "error" });
+    }
+  };
+  const kitOK = !!param("shank_clearance") && !noReadouts;
+  const printKitButton = (
+    <div className="lig-head print-kit">
+      <p className="muted">
+        Everything for a first print in one zip: the mouthpiece, shank test rings at cork squeeze 0.10 / 0.20 / 0.30 mm,
+        the ligature if made, and a check card with the numbers to measure the print against.
+      </p>
+      <div className="lig-actions">
+        <button onClick={downloadKit} disabled={!stl || dlBusy("kit")} aria-live="polite">
+          {dlLabel("kit", "Download print kit (.zip)")}
+        </button>
+      </div>
+    </div>
+  );
   // One self-contained file of plain OpenSCAD (bundle.ts): the settings, then the generator.
   const fullScad = () =>
     bundleDesign({
@@ -1362,7 +1411,6 @@ export default function App() {
             ? "Making the STL for download…"
             : undefined
       }
-      simple={!coding}
       overlay={hintEl}
       quality={isPhone ? undefined : qualityDropdown}
       ligature={
@@ -1469,6 +1517,7 @@ export default function App() {
         ) : undefined
       }
       ligature={ligOK ? { on: ligMade, shown: lig.on, head: ligHead } : undefined}
+      printKit={kitOK ? printKitButton : undefined}
       showNames={coding}
       deeper={deeperEl}
       about={fileAbout(mainTab.source)}
@@ -1568,6 +1617,11 @@ export default function App() {
               <button onClick={act(() => downloadPart("model"))} disabled={downloadDisabled}>
                 Download {svg ? "SVG" : "STL"}
               </button>
+              {kitOK && (
+                <button onClick={act(downloadKit)} disabled={!stl || dlBusy("kit")}>
+                  Download print kit (.zip)
+                </button>
+              )}
               {qualitySelect}
               {fileActions}
               <button onClick={act(share)}>Share this design (copy link)</button>
@@ -1667,6 +1721,15 @@ export default function App() {
               title="One self-contained .scad file (your settings + the generator): opens in any OpenSCAD, and here again with Open"
             >
               Download the design as .scad
+            </button>
+          )}
+          {kitOK && (
+            <button
+              onClick={menuAction(close, downloadKit)}
+              disabled={!stl || dlBusy("kit")}
+              title="One zip: the mouthpiece, shank test rings at three cork squeezes, the ligature if made, and a check card"
+            >
+              Download print kit (.zip)
             </button>
           )}
           <button onClick={menuAction(close, () => setCodeOpen(!codeOpen))}>

@@ -217,6 +217,22 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_reed_thickness = 3.0; // [2:0.05:4.5]
 // Reed width (mm); 0 = the table's width.
 ligature_reed_width = 0; // [0:0.1:24]
+// Text on the ligature's top (empty = none). Same fill-ins as the top text.
+ligature_text = "";
+// Ligature letter height (mm).
+ligature_text_size = 4; // [2:0.5:12]
+// Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+ligature_text_angle = 90; // [0:90:270]
+// SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.
+ligature_image = "";
+// Ligature picture width (mm).
+ligature_image_width = 8; // [3:0.5:30]
+// Picture height / width, for spacing (the app fills it in).
+ligature_image_aspect = 1; // [0.1:0.01:10]
+// Ligature picture rotation (degrees).
+ligature_image_angle = 0; // [0:15:345]
+// Moves the ligature's text and picture toward the tip (+) or the shank (-) (mm).
+ligature_lettering_position = 0; // [-15:0.5:15]
 
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, or debug pieces.
@@ -232,8 +248,9 @@ print_orientation = true;
 // style stations measured from a real mouthpiece; the base file's are the alto's): full width,
 // top, underside behind the table (the table cut takes over after it), height of the section's
 // widest point, top and underside squareness, and the "medium" baffle. Shape: short tenon, quick
-// flare to the widest body at ~20% of the length, a gently falling top, a sharp shoulder at ~58%,
-// then a straight beak to a thin tip. Any ext_*_points override replaces the matching curve.
+// flare to the widest body, near-flat top, a steep shoulder at ~60% of the length (where the
+// section gets boxier), then a straight beak to a thin, WIDE tip. Any ext_*_points override
+// replaces the matching curve.
 shape_width = [[0, 23], [0.078, 23], [0.124, 24.3], [0.155, 26.5], [0.186, 29.8], [0.2, 29.6], [0.248, 29.3], [0.62, 26.3], [0.745, 25.2], [0.838, 23.6], [0.9, 21.6], [0.962, 18.6], [1, 16.4]];
 shape_top = [[0, 26.5], [0.093, 26], [0.13, 26.4], [0.165, 27.7], [0.186, 29], [0.23, 28.4], [0.32, 27.3], [0.403, 26.2], [0.483, 24], [0.562, 19.9], [0.652, 16.1], [0.761, 12], [0.881, 7.7], [1, 3.6]];
 shape_bottom = [[0, 3.45], [0.093, 2.8], [0.14, 1.9], [0.171, 0.96], [0.2, 0]];

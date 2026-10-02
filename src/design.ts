@@ -127,11 +127,15 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "side_text_left", label: "Text, left side" },
       { name: "side_text_size", label: "Side text size", showIf: ["side_text_right", "side_text_left"] },
       { name: "side_text_position", label: "Side text position", showIf: ["side_text_right", "side_text_left"] },
-      { name: "lettering_font", label: "Font", showIf: ["top_text", "side_text_right", "side_text_left"] },
+      {
+        name: "lettering_font",
+        label: "Font",
+        showIf: ["top_text", "side_text_right", "side_text_left", "ligature_text"],
+      },
       {
         name: "lettering_style",
         label: "Lettering style",
-        showIf: ["top_text", "top_image", "side_text_right", "side_text_left"],
+        showIf: ["top_text", "top_image", "side_text_right", "side_text_left", "ligature_text", "ligature_image"],
       },
     ],
   },
@@ -153,6 +157,22 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "ligature_wall", label: "Wall" },
       { name: "ligature_reed_thickness", label: "Reed thickness" },
       { name: "ligature_reed_width", label: "Reed width" },
+      {
+        name: "ligature_text",
+        label: "Text on the ligature",
+        caption:
+          "Text on the band's top (empty = none); {tip} etc. fill in. Font, style and depth are set in Personalise.",
+      },
+      { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
+      { name: "ligature_text_angle", label: "Text direction", showIf: ["ligature_text"] },
+      { name: "ligature_image", label: "Picture on the ligature" },
+      { name: "ligature_image_width", label: "Picture size", showIf: ["ligature_image"] },
+      { name: "ligature_image_angle", label: "Picture rotation", showIf: ["ligature_image"] },
+      {
+        name: "ligature_lettering_position",
+        label: "Text and picture position",
+        showIf: ["ligature_text", "ligature_image"],
+      },
     ],
   },
   {
@@ -220,11 +240,11 @@ for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {
     INACTIVE[i.name] = (get) => (anyText(get, i.showIf!) ? null : "no text or picture to apply it to");
 }
 for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertical", "top_image_aspect"]) {
-  INACTIVE[n] = (get) =>
-    anyText(get, ["top_text", "top_image", "side_text_right", "side_text_left"])
-      ? null
-      : "no text or picture to apply it to";
+  const on = ["top_text", "top_image", "side_text_right", "side_text_left"];
+  if (n === "lettering_depth") on.push("ligature_text", "ligature_image");
+  INACTIVE[n] = (get) => (anyText(get, on) ? null : "no text or picture to apply it to");
 }
+INACTIVE.ligature_image_aspect = (get) => (anyText(get, ["ligature_image"]) ? null : "no picture on the ligature");
 export const paramInactive = (name: string, get: Getter) => INACTIVE[name]?.(get) ?? null;
 // A variant's one-line description, from its file's header ('// Alto "Ash": a variant of alto.scad ...'
 // then "// Ash: closer tip, ..."): "Ash, compared with the Alto preset: closer tip, ...".

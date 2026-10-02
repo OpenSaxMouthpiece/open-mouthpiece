@@ -99,9 +99,9 @@ export function Customizer({
             />
             <label
               className="zoom-toggle"
-              title="When you touch a parameter, zoom the view to the part it shapes (and cut the model open for parts inside)"
+              title="Auto-zoom: when you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
             >
-              <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Zoom
+              <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
             </label>
             <button disabled={!changed} onClick={onResetAll} title="Reset every parameter to the file's default">
               Reset{changed ? ` (${changed})` : ""}

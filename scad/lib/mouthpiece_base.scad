@@ -261,6 +261,22 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_reed_thickness = 3.0; // [2:0.05:4.5]
 // Reed width (mm); 0 = the table's width.
 ligature_reed_width = 0; // [0:0.1:24]
+// Text on the ligature's top (empty = none). Same fill-ins as the top text.
+ligature_text = "";
+// Ligature letter height (mm).
+ligature_text_size = 4; // [2:0.5:12]
+// Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+ligature_text_angle = 90; // [0:90:270]
+// SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.
+ligature_image = "";
+// Ligature picture width (mm).
+ligature_image_width = 8; // [3:0.5:30]
+// Picture height / width, for spacing (the app fills it in).
+ligature_image_aspect = 1; // [0.1:0.01:10]
+// Ligature picture rotation (degrees).
+ligature_image_angle = 0; // [0:15:345]
+// Moves the ligature's text and picture toward the tip (+) or the shank (-) (mm).
+ligature_lettering_position = 0; // [-15:0.5:15]
 
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, or debug pieces.
@@ -1197,8 +1213,9 @@ module lettering_zone(top, hw, y_hi) {
 // 0 once laid on the top. Paths are relative to this file (lib/), so "../art/".
 // $fn = 16 for its curves: the model's global $fn (render_fn) made a detailed drawing several times
 // heavier (a knot wrapped at 40mm: 240k facets, 5.4s -> 102k, 2.8s) for no visible difference.
-module top_image_2d() {
-  rotate(-180 - top_image_angle) resize([top_image_width, 0], auto = true) import(str("../art/", top_image), center = true, $fn = 16);
+module top_image_2d() { art_2d(top_image, top_image_width, top_image_angle); }
+module art_2d(name, width, angle) {
+  rotate(-180 - angle) resize([width, 0], auto = true) import(str("../art/", name), center = true, $fn = 16);
 }
 
 // ---- Wrapped picture: the flat picture's x becomes the distance around the body from the top
@@ -1399,6 +1416,9 @@ function param_focus() =
    ["ligature_wall", ligature, "end", false], ["ligature_fit", ligature, "end", false],
    ["ligature_shape", ligature, "end", false], ["ligature_reed_grip", ligature, "end", false], ["ligature_tongue", ligature, "side", false], ["ligature_tongue_side", ligature, "side", false],
    ["ligature_reed_thickness", ligature, "end", false], ["ligature_reed_width", ligature, "table", false],
+   ["ligature_text", ligature, "top", false], ["ligature_text_size", ligature, "top", false], ["ligature_text_angle", ligature, "top", false],
+   ["ligature_image", ligature, "top", false], ["ligature_image_width", ligature, "top", false], ["ligature_image_aspect", ligature, "top", false],
+   ["ligature_image_angle", ligature, "top", false], ["ligature_lettering_position", ligature, "top", false],
    ["ext_width_points", whole, "top", false], ["ext_top_points", whole, "side", false], ["ext_bottom_points", rear, "side", false],
    ["ext_widest_points", whole, "side", false], ["ext_top_squareness_points", whole, "iso", false],
    ["ext_bottom_squareness_points", whole, "table", false], ["table_width_points", table, "table", false],
@@ -1508,9 +1528,10 @@ function lig_corner(h, i, d) =
   [(ha * b[1] - hb * a[1]) / det, (a[0] * hb - b[0] * ha) / det];
 function lig_ring(h, z, d) = [for (i = [0 : LIG_N - 1]) concat(lig_corner(h, i, d), z)];
 // Ring t (0 = the rear edge, following the tongue; 1 = the front edge): each corner at its own z.
-function lig_ring_t(env, t, d) =
+// inset: that far inside both edges (the lettering's skin).
+function lig_ring_t(env, t, d, inset = 0) =
   [for (i = [0 : LIG_N - 1])
-    let(th = -90 + i * 360 / LIG_N, z = lerp(lig_z0 - lig_tongue * lig_tongue_w(th), lig_z1, t))
+    let(th = -90 + i * 360 / LIG_N, z = lerp(lig_z0 - lig_tongue * lig_tongue_w(th) + inset, lig_z1 - inset, t))
     concat(lig_corner(lig_h_at(env, z), i, d), z)];
 
 function ring_perimeter(R) = vsum([for (i = [0 : len(R) - 1]) norm(R[(i + 1) % len(R)] - R[i])]);
@@ -1531,14 +1552,74 @@ module tube_loft(outer, inner) {
   polyhedron(points = pts, faces = faces, convexity = 4);
 }
 
+// ---- Lettering on the ligature (ligature_text / ligature_image) on the band's top, in the
+// mouthpiece's lettering font, style and depth. As the top text: a straight prism down onto the
+// top, acting only in a skin of the band (its own rings offset by the depth, so it follows the
+// band), kept LIG_ART_INSET inside the band's edges (no faces shared with them). Picture toward the
+// tip, text toward the shank, 2mm apart, centred on the top (the tongue counts when it is on top).
+// Engraving leaves at least 0.8mm of the band's wall.
+LIG_HAS_ART = has_text(ligature_text) || has_text(ligature_image);
+LIG_ART_INSET = 0.8;
+lig_art_depth = lettering_raised ? lettering_depth : max(0.1, min(lettering_depth, ligature_wall - 0.8));
+lig_top_z0 = lig_z0 - lig_tongue * lig_tongue_w(90);   // the top's rear edge
+lig_text_n = len(fill_tokens(ligature_text));
+lig_text_len = abs(sin(ligature_text_angle)) * ligature_text_size + abs(cos(ligature_text_angle)) * 0.62 * ligature_text_size * lig_text_n;
+lig_text_wide = abs(cos(ligature_text_angle)) * ligature_text_size + abs(sin(ligature_text_angle)) * 0.62 * ligature_text_size * lig_text_n;
+lig_image_len = ligature_image_width * (abs(cos(ligature_image_angle)) * ligature_image_aspect + abs(sin(ligature_image_angle)));
+lig_image_wide = ligature_image_width * (abs(sin(ligature_image_angle)) * ligature_image_aspect + abs(cos(ligature_image_angle)));
+lig_art_both = has_text(ligature_text) && has_text(ligature_image);
+lig_art_mid = max(lig_top_z0, min(lig_z1, (lig_top_z0 + lig_z1) / 2 + ligature_lettering_position));
+lig_image_z = lig_art_mid + (lig_art_both ? (lig_text_len + 2) / 2 : 0);
+lig_text_z = lig_art_mid - (lig_art_both ? (lig_image_len + 2) / 2 : 0);
+lig_art_len = (has_text(ligature_text) ? lig_text_len : 0) + (has_text(ligature_image) ? lig_image_len : 0) + (lig_art_both ? 2 : 0);
+lig_art_wide = max(has_text(ligature_text) ? lig_text_wide : 0, has_text(ligature_image) ? lig_image_wide : 0);
+
+// The text and picture as prisms standing up from the band's widest line (so they reach only its
+// top), readable from above with the tip away, as the mouthpiece's top text.
+module lig_art_prisms(env, y_lo, y_hi) {
+  if (has_text(ligature_image))
+    translate([0, y_lo, lig_image_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
+      art_2d(ligature_image, ligature_image_width, ligature_image_angle);
+  if (has_text(ligature_text))
+    translate([0, y_lo, lig_text_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
+      rotate(-90 - ligature_text_angle) lettering_text(ligature_text, ligature_text_size);
+}
+
+// Engraved: what to cut from the band; raised: what to add to it. The skin is a tube between the
+// band's rings at two offsets, LIG_ART_INSET inside both edges (two closed solids subtracted left a
+// sliver where their end caps differ, over the tongue's slanted edge).
+module lig_art(env, y_lo, y_hi) {
+  d = ligature_fit + ligature_wall;
+  rings = function(dd) [for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, dd, LIG_ART_INSET)];
+  intersection() {
+    lig_art_prisms(env, y_lo, y_hi);
+    tube_loft(rings(lettering_raised ? d + lig_art_depth : d + 1), rings(lettering_raised ? d - 0.2 : d - lig_art_depth));
+  }
+}
+
 module ligature_band() {
   env = lig_env();
+  outer = [for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, ligature_fit + ligature_wall)];
+  inner = [for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, ligature_fit)];
+  // the lettering's reach: up from the widest line (at the band's middle) to above its top
+  mid = lig_ring(lig_h_at(env, (lig_z0 + lig_z1) / 2), (lig_z0 + lig_z1) / 2, ligature_fit + ligature_wall);
+  y_lo = mid[LIG_N / 4][1];
+  y_hi = max([for (p = outer[0]) p[1]]) + lig_art_depth + 5;
   // through the solid kernel (a box around it), so a bad face shows and the genus is reported
   intersection() {
     translate([-100, -100, lig_zt - 1]) cube([200, 200, lig_z1 - lig_zt + 2]);
-    tube_loft([for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, ligature_fit + ligature_wall)],
-              [for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, ligature_fit)]);
+    if (!LIG_HAS_ART) tube_loft(outer, inner);
+    else if (lettering_raised) union() { tube_loft(outer, inner); lig_art(env, y_lo, y_hi); }
+    else difference() { tube_loft(outer, inner); lig_art(env, y_lo, y_hi); }
   }
+  room_w = 2 * 0.75 * max([for (p = mid) p[0]]);
+  room_l = lig_z1 - lig_top_z0 - 2 * LIG_ART_INSET;
+  if (LIG_HAS_ART && lig_art_wide > room_w + 0.01)
+    echo(str("WARNING: ligature lettering is about ", round(lig_art_wide), "mm wide but the band's top is about ", round(room_w), "mm wide: it runs down the sides; make it smaller or shorter"));
+  if (LIG_HAS_ART && lig_art_len > room_l + 0.01)
+    echo(str("WARNING: ligature lettering is about ", round(lig_art_len), "mm long but the band's top is about ", round(room_l), "mm long: the ends are cut off; make it smaller or turn it across"));
+  if (LIG_HAS_ART && lig_art_depth < lettering_depth)
+    echo(str("WARNING: ligature lettering depth ", lettering_depth, "mm limited to ", lig_art_depth, "mm: at least 0.8mm of the band's wall must remain"));
   if (lig_len < ligature_length - 0.01)
     echo(str("WARNING: ligature_length ", ligature_length, "mm shortened to ", round(lig_len * 10) / 10, "mm: the band has to stay on the reed and behind the tip"));
   else if (lig_tongue < ligature_tongue - 0.01)

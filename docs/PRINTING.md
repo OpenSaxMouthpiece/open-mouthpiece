@@ -8,6 +8,11 @@ the **Printing** section's **What to print** to pick the part (the mouthpiece, a
 the ligature) and download its STL. Every download is already oriented for printing: standing on
 the neck end.
 
+Or take everything at once: **Download print kit** (Printing section, or More) makes one zip with
+the mouthpiece, the three shank test rings below, the ligature if you made one, and a check card
+with the numbers to measure the print against (tip opening, facing, where each feeler gauge should
+stop).
+
 ## 1. Check the cork fit (15 minutes)
 
 Print three shank test rings: set **What to print** to *Shank test ring*, then download one at
@@ -112,6 +117,9 @@ tongue) on top, toward the shank. It's made so the **reed** is the tight spot: i
   of reed moves it). Printing grips of 0.1, 0.2 and 0.3 side by side is a quick way to find yours.
 - **Band length**, **Tongue**, **Position** and **Wall** change how much of the reed it holds,
   where, and how stiff it is; **Shape** can also be fully round or follow the whole mouthpiece.
+- **Text on the ligature** / **Picture on the ligature** put lettering or a picture on its top, in
+  the font, style (engraved or raised) and depth set under Personalise. Keep it short: the band's
+  top is only about as long as the band plus the tongue.
 
 ## 5. Play-test and adjust
 

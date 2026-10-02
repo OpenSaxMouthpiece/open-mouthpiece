@@ -195,6 +195,20 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   band ∩ mouthpiece, which `npm run check` requires to be empty. Only evaluated when a ligature part
   is rendered (module-local), so mouthpiece renders don't pay for it. Voices: 12mm band + 7mm
   tongue (as Windy City's bari ligature), soprano 10 + 5.
+- **Ligature lettering** (2026-10-02; `ligature_text` (+ `_size`, `_angle`), `ligature_image` (+
+  `_width`, `_aspect`, `_angle`), `ligature_lettering_position`): on the band's top, in the
+  mouthpiece's `lettering_font` / `lettering_style` / `lettering_depth`; picture toward the tip,
+  text toward the shank, 2mm apart, centred on the top (the tongue counts when it is on top). As the
+  top text: straight prisms (`lig_art_prisms`) standing up from the band's widest line at its
+  middle (so they reach only the top), acting in a skin = `tube_loft` between the band's rings at two
+  offsets (engraved: outer + 1 down to outer - depth, the depth clamped to leave 0.8mm of
+  `ligature_wall`; raised: outer - 0.2 up to outer + depth), built by `lig_ring_t(.., inset)` 0.8mm
+  inside both edges (no faces shared with the band's ends). Two closed solids subtracted instead
+  left a loose sliver at the centre (their fan end caps differ over the tongue's slanted edge).
+  `art_2d(name, width, angle)` is the shared picture import (`top_image_2d` calls it). Warnings
+  (shown in the Ligature readout): wider than 0.75 x the band's width, longer than its top, depth
+  limited. Without ligature lettering the band is built exactly as before (baselines unchanged).
+  Tested genus 1 on every voice, d / round / conform, both tongue sides, both styles.
 - **Braces in strings**: OpenSCAD's parameter export (native and wasm) stops at a string value
   containing `{`, dropping every later parameter from the Customizer (the variants' `side_text_left
   = "{tip}"` hid their Lettering rest, Ligature and Printing settings). Files write it `"\u007Btip}"`

@@ -103,7 +103,6 @@ interface Props {
   busyLabel?: string; // what it is making, if not the model on screen (a download)
   overlay?: ReactNode; // e.g. the first-visit hint
   quality?: ReactNode; // the render quality switch, with the view tools
-  simple?: boolean; // not editing code: fewer view tools (no wireframe)
   labelA?: string; // names for the A/B legend and the labels under the models
   labelB?: string;
   compareKey?: string; // changes when a different B is pinned (-> side by side)
@@ -182,7 +181,6 @@ export function Viewer({
   busyLabel,
   overlay,
   quality,
-  simple = false,
   labelA,
   labelB,
   compareKey,
@@ -658,11 +656,9 @@ export function Viewer({
                 <Check on={edges} set={setEdges} title="Outline the model's edges">
                   Edges
                 </Check>
-                {!simple && (
-                  <Check on={wire} set={setWire} title="Show the triangles">
-                    Wireframe
-                  </Check>
-                )}
+                <Check on={wire} set={setWire} title="Show the triangles">
+                  Wireframe
+                </Check>
                 <Check
                   on={seeThrough}
                   set={setSeeThrough}

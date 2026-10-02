@@ -18,6 +18,7 @@ interface Props {
   onFocusParam(name: string): void;
   readouts?: ReactNode; // shown above the controls, not scrolling (desktop)
   facing?: ReactNode; // the facing chart, under "Tip & facing"
+  printKit?: ReactNode; // the print kit download, under "Printing"
   ligature?: { on: boolean; shown?: boolean; head: ReactNode }; // the Ligature section: its head (make / show / download), controls once on
   allParams?: boolean; // "All parameters" below the controls
   failed?: boolean; // the file didn't render, so it has no parameters to show
@@ -43,6 +44,7 @@ export function DesignPanel({
   onFocusParam,
   readouts,
   facing,
+  printKit,
   ligature,
   allParams = true,
   failed = false,
@@ -105,8 +107,11 @@ export function DesignPanel({
           onChange={(e) => setQuery(e.target.value)}
           aria-label="Find a setting"
         />
-        <label className="zoom-toggle" title="When you touch a control, zoom the view to the part it shapes">
-          <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Zoom
+        <label
+          className="zoom-toggle"
+          title="Auto-zoom: when you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
+        >
+          <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
         </label>
         {history && (
           <span className="undo-redo">
@@ -208,6 +213,7 @@ export function DesignPanel({
                 );
               })}
               {s.title === "Tip & facing" && !q && facing}
+              {s.title === "Printing" && !q && printKit}
             </Fold>
           );
         })}

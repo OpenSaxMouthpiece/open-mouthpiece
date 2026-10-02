@@ -50,6 +50,12 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   and the ligature's (if made; `partStl`, download quality), each downloaded or zipped (fflate).
   The choices persist (`saveAs` pref). Own designs show with spaces for `_` (`voiceLabel`). Typed names are made file-safe
   (`scadFileName`: spaces -> `_`, `.scad` added). Typed numbers are clamped to the slider range.
+- **Download print kit** (2026-10-02; Printing section, More ▾, phone ☰): one zip
+  (`downloadKit` in App.tsx, src/printKit.ts): the mouthpiece, shank test rings at cork squeeze
+  0.10 / 0.20 / 0.30 (plus the design's own if different; `partStl(part, extra)`), the ligature if
+  made, and `<name>_check_card.txt` (tip, facing curve length, length, air, thinnest wall, cork /
+  socket, feeler-gauge stops), from one echo-only run (`kitReports`: part `clearance_report` +
+  `facing_report()`). The app version of `scripts/print_kit.mjs`.
 - **Open .scad… / Download .scad** (toolbar on both screens, phone ☰ menu). Download writes ONE
   self-contained file that opens in any OpenSCAD (`bundleDesign`, src/bundle.ts, the method of
   scripts/bundle_scad.mjs): a header, the rendered file with the Customizer values put into its own
@@ -89,7 +95,7 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   left, closed by default (the "Code" strip / More ▾ / ‹); `coding` (that column open, or the
   phone's Code/Console tab) brings back what was Advanced-only: the Render button and Auto (else
   every change renders), the full status line, parameter names, every group and dropdown value in
-  All parameters, wireframe, and Save as acting on the editor's tab instead of the design on
+  All parameters, and Save as acting on the editor's tab instead of the design on
   screen. Descriptions hide behind each row's ⓘ unless "Descriptions" is on. The panel's left edge
   drags (`panelW`). UI prefs (open sections, descriptions, panelW, codeOpen, look) live in
   `src/uiPrefs.ts`, localStorage `open-mouthpiece-ui-v1`. Phone: tabs Design (all the folds) /

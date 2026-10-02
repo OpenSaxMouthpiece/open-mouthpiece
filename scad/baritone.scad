@@ -218,6 +218,22 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_reed_thickness = 3.0; // [2:0.05:4.5]
 // Reed width (mm); 0 = the table's width.
 ligature_reed_width = 0; // [0:0.1:24]
+// Text on the ligature's top (empty = none). Same fill-ins as the top text.
+ligature_text = "";
+// Ligature letter height (mm).
+ligature_text_size = 4; // [2:0.5:12]
+// Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+ligature_text_angle = 90; // [0:90:270]
+// SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.
+ligature_image = "";
+// Ligature picture width (mm).
+ligature_image_width = 8; // [3:0.5:30]
+// Picture height / width, for spacing (the app fills it in).
+ligature_image_aspect = 1; // [0.1:0.01:10]
+// Ligature picture rotation (degrees).
+ligature_image_angle = 0; // [0:15:345]
+// Moves the ligature's text and picture toward the tip (+) or the shank (-) (mm).
+ligature_lettering_position = 0; // [-15:0.5:15]
 
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, or debug pieces.
