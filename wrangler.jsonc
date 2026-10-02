@@ -1,7 +1,8 @@
 // Cloudflare Workers deploy (Workers Builds runs `npx wrangler deploy` after `npm run build`):
 // the site is the static files in dist/, served as they are. The Worker (worker/index.js) only
-// handles POST /api/log: the app's anonymous error reports, written to Workers Logs
-// (observability). Nothing else runs on the server and no design is ever stored there.
+// handles POST /api/log (anonymous error reports, written to Workers Logs) and POST /api/usage
+// (anonymous usage events); both are stored in the USAGE database (D1, worker/usage.sql;
+// docs/HOSTING.md). No design is ever stored on the server.
 {
   "name": "open-mouthpiece",
   "main": "worker/index.js",
@@ -9,4 +10,11 @@
   "workers_dev": true, // the public *.workers.dev address
   "assets": { "directory": "./dist", "binding": "ASSETS" },
   "observability": { "enabled": true },
+  "d1_databases": [
+    {
+      "binding": "USAGE",
+      "database_name": "open-mouthpiece-usage",
+      "database_id": "2fd50e4d-47dd-4445-bba4-bb819ee8c09f",
+    },
+  ],
 }
