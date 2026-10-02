@@ -88,9 +88,11 @@ export function reportUnfinishedRender() {
 // Uncaught errors in the page.
 export function watchPageErrors() {
   window.addEventListener("pagehide", renderEnded);
-  window.addEventListener("error", (e) =>
-    report("page-error", `${e.message} @ ${e.filename?.split("/").pop()}:${e.lineno}`),
-  );
+  window.addEventListener("error", (e) => {
+    // the browser's harmless "ResizeObserver loop ..." notice (no script file) isn't a page error
+    if (/^ResizeObserver loop/.test(e.message ?? "")) return;
+    report("page-error", `${e.message} @ ${e.filename?.split("/").pop()}:${e.lineno}`);
+  });
   window.addEventListener("unhandledrejection", (e) =>
     report("page-error", `unhandled: ${String((e.reason as Error)?.message ?? e.reason)}`),
   );

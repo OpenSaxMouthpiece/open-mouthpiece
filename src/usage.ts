@@ -22,7 +22,7 @@ interface UsageEvent {
 const START = Date.now();
 const VISIT = Math.random().toString(36).slice(2, 10);
 const MAX_EVENTS = 400; // per page
-const FLUSH_MS = 20000;
+const FLUSH_MS = 5000; // a tab closed abruptly loses at most this much (the page's last send can be cut off)
 const SETTING_GAP_MS = 5000; // a slider drag counts once
 
 let queue: UsageEvent[] = [];

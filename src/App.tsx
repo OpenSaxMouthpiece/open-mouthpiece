@@ -216,10 +216,9 @@ export default function App() {
       report("error", status.text, { openscad: /^ERROR: .*$/m.exec(log)?.[0]?.slice(0, 300) });
     // eslint-disable-next-line react-hooks/exhaustive-deps -- once per error, with the log of that moment
   }, [status.kind, status.text]);
-  useEffect(
-    () => setReportContext({ design: reportDesign(mainTab?.path ?? null), changed: Object.keys(values) }),
-    [mainTab?.path, values],
-  );
+  // no design until the tabs load (not "own design": the visit's first events came before it)
+  const reportedDesign = mainTab ? reportDesign(mainTab.path) : "";
+  useEffect(() => setReportContext({ design: reportedDesign, changed: Object.keys(values) }), [reportedDesign, values]);
   // Anonymous usage (src/usage.ts): the visit, each design opened, the code column, the quality.
   useEffect(() => trackVisit(), []);
   useEffect(() => {
