@@ -128,7 +128,7 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   spot, picture toward the tip, 2mm apart). Strokes import unreliably (a stroked circle came out a
   disk): use filled shapes; holes must be subpaths of their shape (evenodd or reversed): colours are
   ignored, so a white shape on top cuts nothing. Examples in scad/art/ (saxophone, happy face,
-  monogram badge, note; original, lines >= 0.5mm at the widths in scad/art/README.md). OpenSCAD
+  note; original, lines >= 0.5mm at the widths in scad/art/README.md). OpenSCAD
   quirk: several import()s of computed file names in one for loop all gave the first file.
   User uploads are not in scad/art/: the app keeps them in the browser and sends them per render.
 - **Wrapped picture** (`top_image_wrap`): the flat picture's x becomes the distance around the body

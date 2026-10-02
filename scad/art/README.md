@@ -9,7 +9,6 @@ Examples (original drawings, same license as the project):
 |---|---|
 | `saxophone.svg` | 16 mm or more |
 | `happy_face.svg` | 10 mm or more |
-| `monogram_badge.svg` | 13 mm or more (change the letter to your initial) |
 | `sample_note.svg` | 10 mm or more |
 
 ## Making your own
