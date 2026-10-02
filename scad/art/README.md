@@ -1,7 +1,7 @@
 # Pictures for `top_image`
 
 SVG drawings the generator can engrave (or raise) on top of the mouthpiece. Pick one in the
-app's Parameters panel (Lettering → top image), or upload your own there.
+app (Personalise → Picture on top), or upload your own there.
 
 Examples (original drawings, same license as the project):
 
