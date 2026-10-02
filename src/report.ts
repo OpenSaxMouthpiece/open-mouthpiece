@@ -20,14 +20,18 @@ export const setReportContext = (c: ReportContext) => {
   context = c;
 };
 
-const enabled = () =>
+export const currentDesign = () => context.design;
+
+// The ⚙ menu's "Share anonymous usage" covers these reports and the usage events (src/usage.ts);
+// the pref keeps its old name, so whoever turned error reports off stays out of both.
+export const reportsEnabled = () =>
   import.meta.env.PROD &&
   !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) &&
   getPref("errorReports", true);
 
 export function report(kind: string, message: string, extra: Record<string, unknown> = {}) {
   try {
-    if (!enabled()) return;
+    if (!reportsEnabled()) return;
     const key = `${kind}|${message}`;
     if (sent.has(key) || sent.size >= MAX_PER_PAGE) return;
     sent.add(key);

@@ -54,7 +54,10 @@ npm run dev            # the app (OpenSCAD runs in the browser)
 - Putting the app online: [docs/HOSTING.md](docs/HOSTING.md)
 - Working on the code: [CONTRIBUTING.md](CONTRIBUTING.md)
 
-The live site logs anonymous error reports (what failed, never your design; ⚙ turns them off).
+The live site collects anonymous usage and error reports to improve the app: which designs and
+settings get used, what gets printed (its numbers) and what fails. Never lettering, pictures or file
+names, no cookies, no IP addresses, nothing that links one visit to the next; ⚙ "Share anonymous
+usage" turns it off.
 
 Open Mouthpiece is free, with no ads. If it made you a mouthpiece you like, you can
 [support it on Ko-fi](https://ko-fi.com/opensaxmouthpiece).

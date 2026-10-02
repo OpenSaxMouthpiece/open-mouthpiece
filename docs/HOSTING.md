@@ -41,11 +41,12 @@ the build command `npm run build` and the output folder `dist`.
   a public `*.workers.dev` address besides its own domain; Cloudflare Access (free for up to 50
   people) can put a login in front.
   Security rules on the domain (free plan, Security > Security rules): block ports other than
-  443/80; allow only GET/HEAD, plus POST to `/api/log`; block common scanner paths (`/wp-`,
-  `.php`, `/.env`, `/.git`, `/cgi-bin`); rate-limit `/api/log` to 5 requests per 10s per IP. Also
+  443/80; allow only GET/HEAD, plus POST to `/api/log` and `/api/usage`; block common scanner paths
+  (`/wp-`, `.php`, `/.env`, `/.git`, `/cgi-bin`); rate-limit `/api/log` and `/api/usage` to 5
+  requests per 10s per IP. Also
   on: Bot Fight Mode, Always Use HTTPS, minimum TLS 1.2.
 - **Cloudflare Pages**: the same build (`npm run build`, output `dist`), but without the Worker,
-  so no error reports.
+  so no error reports or usage.
 - **GitLab Pages / Netlify**: similar; point them at `npm run build` and `dist/`.
 
 ### Error reports (Cloudflare Worker)
@@ -61,10 +62,37 @@ of changed settings, never setting values, lettering or file text, and no IP add
 turn them off in the ⚙ menu. On any other host `/api/log` doesn't exist and the reports are simply
 dropped.
 
+### Anonymous usage (Cloudflare D1)
+
+`POST /api/usage` takes the app's usage events in batches (`src/usage.ts`) and stores them, with
+the error reports, in a D1 database bound as `USAGE` (`wrangler.jsonc`; table `events`,
+`worker/usage.sql`). Events: `visit` (phone or desktop, window width rounded to 100px, language,
+the referring site), `design` (a preset's path or "own design"), `setting` (a setting's name, at
+most once per 5s each), `section` (opened), `feature` (code, compare, ligature, share, save_as,
+open_file), `quality`, `download` (mouthpiece, ligature, shank_test_ring, print_kit, scad; a
+mouthpiece or kit download carries the design's numeric and dropdown settings and its readouts).
+Never lettering, pictures, file names or curve points; no cookie, no IP address; `visit` is random
+per page load, so nothing links visits. Off in the ⚙ menu ("Share anonymous usage", the same switch
+as the error reports), and never sent from localhost or `npm run dev`. Without the binding the
+Worker drops the events.
+
+Set up once (Wrangler 4 needs Node 22; `wrangler@3` works on Node 21):
+
+```
+npx wrangler@3 login
+npx wrangler@3 d1 create open-mouthpiece-usage          # put its database_id in wrangler.jsonc
+npx wrangler@3 d1 execute open-mouthpiece-usage --remote --file worker/usage.sql
+```
+
+Read it: `node scripts/usage.mjs [days] [--json]` (visits, devices, countries, referrers, designs,
+settings touched, sections, features, downloads, what gets printed, errors), or any SQL with
+`npx wrangler@3 d1 execute open-mouthpiece-usage --remote --command "SELECT ..."`.
+
 ## What visitors should know
 
 - The first visit downloads ~4 MB compressed (OpenSCAD); after that the browser caches it.
-- If something goes wrong, the site sends an anonymous error report (see above; ⚙ turns it off).
+- The site sends anonymous usage and error reports (see above; ⚙ "Share anonymous usage" turns
+  them off).
 - Saved files and uploaded pictures live in that browser only. Download .scad keeps a design
   as a file (Open .scad… loads it again, on any device).
 - Rendering happens on their device: phones are slower, so let a render finish before the next

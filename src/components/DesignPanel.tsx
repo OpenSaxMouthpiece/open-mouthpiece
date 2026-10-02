@@ -279,8 +279,8 @@ export function DesignPanel({
         </p>
         {DONATE_URL && (
           <p className="donate-note muted">
-            Open Mouthpiece is free: no ads, no accounts, nothing saved on a server. If it made you a mouthpiece you
-            like,{" "}
+            Open Mouthpiece is free: no ads, no accounts, your designs stay in your browser (anonymous usage helps
+            improve it; ⚙ turns it off). If it made you a mouthpiece you like,{" "}
             <a href={DONATE_URL} target="_blank" rel="noreferrer">
               you can support it
             </a>{" "}

@@ -37,6 +37,7 @@ import {
 import { FACING_CHOICES, fileAbout, hasDesignParams } from "./design";
 import { parseFacing, parseSummary } from "./readouts";
 import { checkCard, kitSqueezes, ringFile } from "./printKit";
+import { designNumbers, track, trackSetting, trackVisit } from "./usage";
 import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
 import { migrateScad } from "./migrate";
@@ -219,6 +220,16 @@ export default function App() {
     () => setReportContext({ design: reportDesign(mainTab?.path ?? null), changed: Object.keys(values) }),
     [mainTab?.path, values],
   );
+  // Anonymous usage (src/usage.ts): the visit, each design opened, the code column, the quality.
+  useEffect(() => trackVisit(), []);
+  useEffect(() => {
+    if (mainTab) track("design");
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- once per design opened
+  }, [mainTab?.key]);
+  useEffect(() => {
+    if (codeOpen) track("feature", "code");
+  }, [codeOpen]);
+  useEffect(() => track("quality", quality), [quality]);
   useEffect(() => {
     if (!dl || dl.state === "busy") return;
     const t = setTimeout(() => setDl(null), dl.state === "done" ? 3000 : 5000);
@@ -295,18 +306,15 @@ export default function App() {
   );
 
   const taken = (key: string) => live.current.tabs.some((t) => t.key === key);
-  const openLocalFile = async (file: File) => openTab(localTab(file.name, migrateScad(await file.text()), taken));
-
-  const newFile = () => {
-    let n = 1;
-    while (taken(`${LOCAL}untitled${n}.scad`)) n++;
-    openTab(localTab(`untitled${n}`, "cube(10);\n", taken));
+  const openLocalFile = async (file: File) => {
+    track("feature", "open_file");
+    openTab(localTab(file.name, migrateScad(await file.text()), taken));
   };
 
-  // Closing a code tab never changes the design on screen: its tab has no × (the voice picker
-  // chooses the design). Closing it left nothing to render when it was the only design (stuck on
-  // "Loading…"). Your own design's Close and Delete (top bar) go to the preset of its voice instead.
-  const canClose = (t: Tab) => t.key !== mainKey;
+  // A preset or variant on screen has no × in the code column (the voice picker chooses the design;
+  // closing it as the only design left nothing to render, stuck on "Loading…"). Your own or an
+  // unsaved design on screen closes (its ×, or Close / Delete in the top bar) to its voice's preset.
+  const canClose = (t: Tab) => t.key !== mainKey || !t.path || ownFiles.has(t.path);
   // Swap the design on screen (key) for its voice's preset: the preset is loaded first, so there's
   // never a moment with nothing to show.
   const replaceWithPreset = async (key: string, source: string) => {
@@ -421,6 +429,7 @@ export default function App() {
   // The user's own pictures go along only with "Include picture"; otherwise a picture parameter
   // using one goes out as none.
   const share = async () => {
+    track("feature", "share");
     const t = live.current.tabs.find((x) => x.key === mainKey);
     if (!t) return;
     const src = isRO(t) ? undefined : t.source;
@@ -572,6 +581,7 @@ export default function App() {
     if (isPhone) setPhonePanel("design");
   };
   const pinCurrent = () => {
+    track("feature", "compare");
     if (!current) return;
     setPinned({ ...current, values: { ...current.values }, files: { ...current.files } });
     showCompare();
@@ -834,6 +844,7 @@ export default function App() {
   // ---- setting values
   const setValue = (n: string, initial: ParamValue | undefined, v: ParamValue | undefined) => {
     if (!mainTab) return;
+    trackSetting(n);
     const key = mainTab.key;
     setValuesByKey((all) => {
       const next = { ...(all[key] ?? {}) };
@@ -872,6 +883,12 @@ export default function App() {
     notify({ text: `Making ${name}.stl for the download…`, short: "Preparing the download…", kind: "busy" });
     try {
       download(await partStl(what === "ligature" ? "ligature" : null), "model/stl", `${name}.stl`);
+      track("download", what === "ligature" ? "ligature" : otherPart || "mouthpiece", {
+        ...(what === "model" && !otherPart && summary
+          ? { tip: summary.tip, facing: summary.facing, length: summary.length, air: summary.air }
+          : {}),
+        settings: designNumbers(params, values),
+      });
       notify({ text: `Downloaded ${name}.stl`, short: "Downloaded", kind: "ok" });
       setDl({ what, state: "done" });
       if (what === "model" && !otherPart) setPrinted(true);
@@ -919,6 +936,15 @@ export default function App() {
         date: new Date().toLocaleDateString("sv-SE"),
       });
       out.push([`${name}_check_card.txt`, new TextEncoder().encode(card)]);
+      const s = parseSummary(r.log);
+      track("download", "print_kit", {
+        tip: s.tip,
+        facing: s.facing,
+        length: s.length,
+        air: s.air,
+        ligature: withLigature,
+        settings: designNumbers(params, values),
+      });
       download(zipSync(Object.fromEntries(out)), "application/zip", `${name}_print_kit.zip`);
       notify({ text: `Downloaded ${name}_print_kit.zip`, short: "Downloaded", kind: "ok" });
       setDl({ what: "kit", state: "done" });
@@ -953,6 +979,7 @@ export default function App() {
       date: new Date().toLocaleDateString("sv-SE"), // YYYY-MM-DD, local
     });
   const downloadScad = async () => {
+    track("download", "scad");
     const name = `${downloadName(mainTab, values, isRO(mainTab))}.scad`;
     notify({ text: `Making ${name}…`, short: "Preparing the download…", kind: "busy" });
     try {
@@ -973,6 +1000,7 @@ export default function App() {
   const opts = { ...SAVE_DEFAULTS, ...saveOpts };
   const ligatureFile = ligMade && values.part !== "ligature";
   const saveDesignAs = async (typed: string) => {
+    track("feature", "save_as", { ...opts });
     const p = scadFileName(typed);
     if (!p) return fail({ text: "Save as: give the design a name", kind: "error" });
     const name = baseName(p);
@@ -1040,6 +1068,7 @@ export default function App() {
 
   // ---- the ligature
   const makeLigature = () => {
+    track("feature", "ligature");
     setValue("ligature_made", false, true);
     setLig((l) => ({ ...l, on: true, reed: true }));
   };
@@ -1699,7 +1728,6 @@ export default function App() {
                 <summary>Code files</summary>
                 <div className="phone-code-actions">
                   {openProjectSelect}
-                  <button onClick={act(newFile)}>New file</button>
                   {saveButton}
                   {coding && saveAsControl}
                   {revertButton}
@@ -1855,9 +1883,6 @@ export default function App() {
               ‹
             </button>
             {openProjectSelect}
-            <button onClick={newFile} title="New scratch file">
-              New
-            </button>
             {saveButton}
             {saveAsControl}
             {revertButton}

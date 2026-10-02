@@ -91,11 +91,12 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   the generator, "Builds every design. Its values are only defaults: each design's settings replace
   them." Open project file… is grouped: Presets / Variants / Your designs / Generator, with the same
   names. The file is not renamed (saves, links and downloads include that path).
-  **Closing a code tab never changes the design on screen**: its tab has no × (`canClose`); the
-  voice picker chooses the design (closing it as the only design left nothing to render: stuck on
-  "Loading…"). Your own design's Close and Delete (top bar) go to its voice's preset
-  (`presetFor`: the voice named in a comment near the top; Alto if none), loaded before the design
-  is removed (`replaceWithPreset`), so nothing flashes.
+  **A preset or variant on screen has no × in the code column** (`canClose`; the voice picker
+  chooses the design; closing it as the only design left nothing to render: stuck on "Loading…").
+  Your own or an unsaved design on screen closes (its ×, or Close / Delete in the top bar) to its
+  voice's preset (`presetFor`: the voice named in a comment near the top; Alto if none), loaded
+  before the design is removed (`replaceWithPreset`), so nothing flashes. No "New" scratch file
+  (removed 2026-10-02: a `cube(10)` meant nothing here; Save as… makes a new design).
 - **One screen (2026-09-27; the Simple / Advanced switch is gone)**: you go as deep as you open.
   Top bar = logo, voice picker, file actions | Share, Download STL, "More ▾" (`components/Menu.tsx`:
   Open .scad, Compare with…, Pin as B, Download .scad, Quality, show/hide the code, printing guide),

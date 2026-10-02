@@ -35,7 +35,7 @@ scad/lib/fonts/                 lettering fonts (SIL OFL, licence files alongsid
 src/                            the app (React + CodeMirror 6 + three.js); src/wasm/: OpenSCAD runner
 scripts/                        check, sweep, sync, variants, bundle, static-site build helpers
 test/baselines.json             regression baselines for npm run check
-worker/index.js                 the site's only server code: logs anonymous error reports
+worker/index.js                 the site's only server code: anonymous usage + error reports
 docs/PRINTING.md, HOSTING.md    for players and for hosting a copy
 docs/dev/                       developer notes: GEOMETRY.md (the generator), APP.md (the app)
 ```

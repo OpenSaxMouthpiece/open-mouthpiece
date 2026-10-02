@@ -1,6 +1,7 @@
 // A collapsible panel section: closed by default, its header shows a one-line summary (so the
 // design reads without opening anything) and how many settings in it are changed. Open/closed is
 // kept in this browser per id (uiPrefs).
+import { track } from "../usage";
 import type { ReactNode } from "react";
 import { useSectionOpen } from "../uiPrefs";
 
@@ -19,7 +20,15 @@ export function Fold({ id, title, summary, changed = 0, forceOpen = false, class
   const open = forceOpen || stored;
   return (
     <section className={`fold${open ? " open" : ""} ${className}`}>
-      <button className="fold-head" aria-expanded={open} onClick={() => setOpen(!open)} disabled={forceOpen}>
+      <button
+        className="fold-head"
+        aria-expanded={open}
+        onClick={() => {
+          if (!open) track("section", id);
+          setOpen(!open);
+        }}
+        disabled={forceOpen}
+      >
         <span className="fold-chevron" aria-hidden="true">
           ▸
         </span>

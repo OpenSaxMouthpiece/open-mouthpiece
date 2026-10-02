@@ -119,9 +119,9 @@ export function AppearancePanel() {
         </button>
       </div>
       <div className="appearance-row checks">
-        <label title="When something goes wrong (an error, a render that hangs), the site logs what failed: the kind of design and the names of changed settings, never your lettering or values">
-          <input type="checkbox" checked={reports} onChange={(e) => setReports(e.target.checked)} /> Send error reports
-          (anonymous)
+        <label title="Helps improve the app: which designs and settings get used, what gets printed (its numbers) and what goes wrong. Never your lettering, pictures or file names; no cookies, nothing that recognises you on your next visit.">
+          <input type="checkbox" checked={reports} onChange={(e) => setReports(e.target.checked)} /> Share anonymous
+          usage
         </label>
       </div>
     </div>
@@ -133,7 +133,7 @@ export function AppearanceMenu() {
     <Menu
       className="appearance-menu"
       label={<span aria-hidden="true">⚙</span>}
-      title="Appearance: light or dark, model colour, background; error reports"
+      title="Appearance: light or dark, model colour, background; anonymous usage"
     >
       {() => <AppearancePanel />}
     </Menu>
