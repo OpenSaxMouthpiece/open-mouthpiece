@@ -47,7 +47,7 @@ throat_taper = 11; // [1:0.5:80]
 throat_shape = "chamber"; // [chamber, round, square, horseshoe]
 
 /* [Baffle] */
-// Roof shape above the reed: As measured, Flat, Rollover, Step (a ledge) or Concave.
+// Shape of the roof above the reed. Step = a ledge.
 baffle_type = "measured"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
 baffle_height = 0; // [-3:0.1:4]

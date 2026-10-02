@@ -379,10 +379,10 @@ export function ImagePicker({
       <div className="image-picker-row">
         <select value={value} onChange={(e) => pick(e.target.value)}>
           <option value="">(none)</option>
-          {value && !files.includes(value) && <option value={value}>{value} (missing)</option>}
+          {value && !files.includes(value) && <option value={value}>{artLabel(value)} (missing)</option>}
           {files.map((f) => (
             <option key={f} value={f}>
-              {f}
+              {artLabel(f)}
             </option>
           ))}
         </select>
@@ -409,6 +409,14 @@ export function ImagePicker({
     </div>
   );
 }
+
+// A picture's file name as a label: "happy_face.svg" -> "Happy face".
+const artLabel = (f: string) =>
+  f
+    .replace(/^.*\//, "")
+    .replace(/\.svg$/i, "")
+    .replace(/_/g, " ")
+    .replace(/^./, (c) => c.toUpperCase());
 
 // Typed numbers stay inside the parameter's slider range (the range the generator is swept over).
 const clamp = (p: ScadParam, n: number) => Math.min(p.max ?? Infinity, Math.max(p.min ?? -Infinity, n));
