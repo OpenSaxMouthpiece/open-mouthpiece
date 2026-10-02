@@ -1,5 +1,5 @@
 // The project files the app loads (from project/ on the site): the presets, the generator,
-// its fonts and the example art. Left out on purpose: scad/fits/ (fits of third-party meshes),
+// its fonts and the example art. Left out on purpose: scad/fits/ (local),
 // scad/_sweep/. Used by scripts/build_static_project.mjs (copies them into public/project/ for a
 // build) and vite.config.ts (serves them straight from scad/ in `npm run dev`).
 import fs from 'node:fs';

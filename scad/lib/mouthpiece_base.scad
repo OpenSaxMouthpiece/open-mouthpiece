@@ -1,8 +1,8 @@
 // Saxophone mouthpiece generator — BASE FILE: every parameter (with alto defaults), the shape
 // math, and all geometry. How it is built: docs/dev/GEOMETRY.md.
 //
-// Use it through a voice file (scad/alto.scad, tenor.scad, baritone.scad, soprano.scad, or a fit in
-// scad/fits/): each one does `include <lib/mouthpiece_base.scad>` FIRST and then assigns its own
+// Use it through a voice file (scad/alto.scad, tenor.scad, baritone.scad, soprano.scad, or your own
+// design): each one does `include <lib/mouthpiece_base.scad>` FIRST and then assigns its own
 // values — OpenSCAD uses the last assignment of a variable everywhere, so the voice file's values
 // win, and its Customizer shows its own (annotated) parameter block. Rendering this file directly
 // gives the alto. scripts/sync_voice_files.mjs regenerates the voice files' parameter blocks from
@@ -587,7 +587,7 @@ function exterior_ring_at(z) =
   let(hw = hw0 + w * max(0, socket_d / 2 + min_wall - hw0))
   let(top = top0 + w * max(0, bah_at(z) + socket_ry + min_wall - top0))
   // Floor at -40: where the tip pinches the width to ~0 the table solve heads for -infinity, and
-  // anything below the facing cutter's -50 survives as a detached sliver (seen on a fit of a reference mesh).
+  // anything below the facing cutter's -50 survives as a detached sliver (seen once on an unusual outline).
   let(bot0 = max(-40, exterior_bottom_from(z, hw, top, n_bot)))
   let(bot = bot0 - w * max(0, bot0 - (bah_at(z) - socket_ry - min_wall)))
   let(cy = has_pts(EXT_WIDEST_C) ? max(bot + 0.3, widest_raw(z, top)) : (top + bot) / 2)

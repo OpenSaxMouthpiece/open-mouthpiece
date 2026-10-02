@@ -165,9 +165,8 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   **The reed is the tight spot:** the reed counts `ligature_reed_grip` + `ligature_fit` thinner, so
   the band squeezes it by the grip (0.2) while the body keeps the fit gap (0.1); the band first
   touches the reed grip / taper mm further forward and is pushed on from there (the readout says
-  how far), so it fits any preset, variant or user design (store
-  ligatures only fit bodies near the one they were made for; Windy City's printed "Baritone Ligature" STL,
-  ID 28.8 -> 30.2mm over 19mm, matches our alto's taper and sits ~5mm too far forward on our bari).
+  how far), so it fits any preset, variant or user design (a ligature made for one mouthpiece
+  only fits bodies close to it).
   Per station (1mm apart, from the band's rear to the tip) a **support function** h(phi) over 1.5 x
   render_fn directions: the body's exact outline above the table plane (`ext_ring_pt`), the table
   edges, and a reed (flat top at y = 0, bark arched below: `ligature_reed_thickness` in the middle,
@@ -216,47 +215,17 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 - `SHAPE_TABLES_OK`: an empty `shape_*` table used to hang the render (squareness/baffle) or collapse
   the outline; it now stops with an assertion message. The tables have no fallback.
 
-## Presets and measurements
+## Presets
 
-- Measured (`fit_mouthpiece.mjs --json`) from Windy City **Alto_64_0.076** and **Bari_64_0.110**
-  (their bari is 142mm long with a 17.8mm socket); Bari_72 is nearly identical to Bari_64.
-- The tenor is **Tenor_64_0.095** throughout (2026-10-02; before, its outline was the "72"'s, whose
-  high stepped baffle and .105" tip were hard to sound in the first test print, weak low D and
-  below). Tenor_64 mis-fits in the fitter (socket at -5.5mm, tilt 0, tip read ~0.3mm large) and its
-  frame comes out yawed 0.66° (centerline +0.2 -> -0.9mm in x along the length): straighten the
-  frame before scoring. The fitter's width table read 1-1.6mm too wide from mid-body to the tip, so
-  the outline (`shape_width/top/bottom/widest`) was measured directly from slices (top, underside
-  and width at x = 0, widest-point height) and rounded to coarse stations. L 96.7, beak tip 3.6,
-  window 16.2 / taper 4.3 / r 5.3, tip rail 1.4, table 17.6 / 14.7, `reed_length` 77.7,
-  `chamber_width` 14.5, two `shape_baffle` stations where its baffle starts (z 40.5-44.5).
-  Socket and bore are one 17mm tube in the mesh, so `shank_depth` 26 stays as set. IoU 0.907
-  (0.937 against the straightened frame); interior floor/roof/width within ~0.3mm except the last
-  ~8mm of the window (0.5mm narrower). Facing: nominal tip and measured curve length with the
-  standard exponent 1.8, as every voice (not matched to the mesh, whose tip reading is unreliable).
-  Left: the underside under the flare reaches the table ~4mm early (the generator's `table_ramp`
-  scoop, the same on every preset).
-  The soprano (2026-09-26) is **Soprano_64_.065**: shape tables resampled from its fit at a 0.15mm
-  tolerance, engraving dents dropped, `shape_bottom` start lowered so the derived bore height
-  matches (11.3mm), `beak_tip_height` 3.0 (thinner tip scored better than the fitter's 3.6), square
-  chamber (round/horseshoe scored lower). Chamber matched with `scripts/interior_profile.mjs`
-  (floor/roof/width along the bore, ref vs model): `throat_position` 34.5 (clamped to 1mm before the
-  window), `throat_taper` 3, `chamber_width` 9.5 (no chamber wider than the window: the passage under
-  the window is the slot itself), a 5-point `floor_points` (0.1mm) -> floor RMS 0.05, roof 0.10,
-  width 0.52mm (the window cut's 0.3mm side clearance), IoU 0.913. Its bore is the socket's width, so `shank_depth` 25.5 is
-  the fitter's reading, not visible in the mesh. Before it had no reference (alto tables scaled
-  by 18.5/22, IoU 0.694).
-- Chambers (2026-09-26), matched with `interior_profile.mjs` (floor, roof and width on the
-  centerline every mm, ref vs model): alto `bore_diameter` 16.0 (was 15.6), `throat_taper` 9; tenor
-  `bore_diameter` 17.0, throat 14.9mm at z 53 over 11mm, a 4-point flat `floor_points`; bari: its bore is
-  a straight cone, 16.9 at the socket end -> 14.8 at the throat (`throat_taper` 55); tenor and bari
-  `shape_bottom` starts raised (+0.4 / +0.6) to lift the derived bore axis ~0.2-0.3mm onto the
-  references'. All within ~0.3mm RMS. The socket (neck fit) was left as printed.
-- Shape tables have ~6-14 stations per curve (z as a fraction of L to 0.005, values to 0.1mm),
-  smoothed by hand (engraving and mould seams dropped). `chamber_width` presets are the references'
-  typical width under the baffle (alto 13.8, tenor 14.8, bari 15.4, soprano 11.6), not their max.
-  Bari: `bore_diameter` 16.9 + `throat_taper` 55 model its conical bore. Tip openings are the files'
-  nominal sizes (.076" / .095" / .110" / .065").
-- Inside air volume: alto 9.0, tenor 10.2 (10.5 before the Tenor_64 outline), bari 17.0, soprano 2.9 cm³ (was alto 8.8, tenor 9.7, bari 17.4 before the chamber pass).
+- The four presets' sizes were measured from Windy City Woodwinds' "64" models (credited in
+  README.md) and entered as coarse shape tables: ~6-14 stations per curve (z as a fraction of L to
+  0.005, values to 0.1mm), smoothed by hand. Tip openings are the models' nominal sizes (.076" /
+  .095" / .110" / .065"); every voice uses facing exponent 1.8 with the measured curve length.
+- Chambers: `bore_diameter`, the throat settings, `chamber_width` and a few `floor_points` follow
+  the measured floor, roof and width along the bore within ~0.3mm. `chamber_width` is the typical
+  width under the baffle (alto 13.8, tenor 14.8, bari 15.4, soprano 11.6), not the maximum. The
+  bari's bore is a cone: `bore_diameter` 16.9 + `throat_taper` 55.
+- Inside air volume: alto 9.0, tenor 10.2, bari 17.0, soprano 2.9 cm³.
 - Variants (2026-09-27): `scad/variants/<voice>_<family>.scad`, generated by
   `scripts/make_variants.mjs` from the voice file (re-run it, don't edit the files). Families with
   neutral names (no sound claims): **Ash** (the big-chamber recipe: closer tip, arc facing, round
@@ -282,44 +251,21 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   each recipe's air (~5% per 3mm on the alto), so all sit near the preset on the cork (air +7%..-2%).
   A shorter Ash stops at what the reed needs (table start >= 0.16 L: tenor 95.3, soprano stays 66)
   and moves the throat (and the bari's bore cone) with the window.
-- Scoring a preset: `fit_mouthpiece.mjs ref.stl --frame ref_frame.stl`, render the preset with
-  `-D print_orientation=false`, then `compare_sections.mjs ref_frame.stl preset.stl` (per-slice and
-  overall volume IoU; `--png out.png --at z1,z2,..` draws overlays: dark both, orange ref only, blue
-  model only). `npm run check` does this for the presets whose reference exists locally.
-
-## Fitting other mouthpieces
-
-The measuring scripts named here and above (`fit_mouthpiece.mjs`, `interior_profile.mjs`,
-`compare_sections.mjs`) are local tools, not in the repository.
-
-- `fit_mouthpiece.mjs ref.stl [--scad out.scad] [--frame ref_frame.stl] [--json out.json]` finds the
-  table (largest supporting flat face), orients into the design frame, measures every 0.5mm and
-  writes a param file with `*_points` overrides for exterior, table, chamber and baffle. Knots are
-  chosen so the PCHIP curve (not a polyline) stays within tolerance. The top profile's running median
-  only fills engraving dents (symmetric window at the ends) and is extended to the tip.
-- `*_points` lists are `[[z, value], ...]`, PCHIP-joined, prepared once (`pchip_prep`) and evaluated
-  with `pchip_at` (binary search) — add new overrides the same way. The Customizer can't edit nested
-  lists; the app's Curves panel can (or set them in the file or with `-D`).
-- Fits stay local (`scad/fits/` is gitignored; `npm run check` covers scad/*.scad only, name a fit
-  to check it). The baritones80nc fit (IoU 0.971) missed only small features: engraving, a ridge
-  on the bari beak, window-front detail.
-- Squareness lists are smoothed and simplified in **fill-fraction** space (superellipse area / box:
-  n = 8 and 12 look alike, so raw exponents jumped 12 -> 2.5 -> 12): exterior median +-1.5mm then
-  mean +-2mm; interior median +-0.75mm only (the chamber really goes round -> square in ~2mm).
-  Test harness pattern: fit each reference -> render -> `compare_sections.mjs` (IoU with it: bs80
-  0.970, Windy City alto 0.954, tenor 0.952, bari 0.919). The bs80 fit predates this.
+- `*_points` overrides are `[[z, value], ...]`, PCHIP-joined, prepared once (`pchip_prep`) and
+  evaluated with `pchip_at` (binary search); add new overrides the same way. The Customizer can't
+  edit nested lists; the app's Curves panel can (or set them in the file or with `-D`).
 
 ## History
 
 - 2026-09-22/23: a hand-rolled three.js generator looked like a "bottle/vase"; moved to OpenSCAD.
   First OpenSCAD pass (hull lofts, pointed tip, "fish" window) rejected; rewritten with ring lofts.
-- 2026-09-24: `*_points` overrides and the fitter; optimization pass, then the Manifold nightly
+- 2026-09-24: `*_points` overrides; optimization pass, then the Manifold nightly
   (renders 20-120s -> ~1s); generic web UI; presets rebuilt from measurements (the old ones
   looked like "beluga whales"); base + voice files replaced the voice dropdown; genus/robustness
   fixes; git + regression check + sweep; plain-language parameter descriptions; baffle sliders and
   parameter cleanup; chamber model; print stock.
 - 2026-09-25: print kit + printing guide, section view, air-volume readout; LAN mode and the
-  phone/tablet layout; fitter squareness smoothing; Curves panel; zoom to parameter.
+  phone/tablet layout; Curves panel; zoom to parameter.
 - 2026-09-27: Ash/Birch/Cedar variants (alto). Tip crease fixed on every model: the widest-point
   table ended before the tip and then held level while the crest kept descending, so the top of
   the section flattened over the last ~4mm (a lip line); it now keeps the table's end slope

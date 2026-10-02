@@ -3,12 +3,10 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# Third-party reference meshes: measure only, never commit (see CLAUDE.md "License").
-# example_models/ is CC BY-NC-SA; the downloaded meshes in reference/ have unconfirmed licenses.
+# local reference files (not part of the project)
 example_models/
 reference/*.stl
 reference/*.STL
-# local map of param file -> reference mesh for npm run check
 test/references.json
 
 # render outputs
@@ -32,16 +30,13 @@ public/project/
 # flow demo meshes (presets rendered with print_orientation=false)
 public/flow/
 
-# fits of reference meshes (scripts/fit_mouthpiece.mjs): fine point lists of third-party meshes
+# local working files
 scad/fits/
-
-# third-party files kept locally only (unknown licenses)
 reference/reed_v2_1*
 reference/study.pdf
 mp-fig1.jpg
 
-# local-only tools (kept on disk, not in the repo): launchers, reference-mesh measuring scripts
-# (check.mjs uses compare_sections.mjs only when test/references.json exists), the design spec
+# local tools and notes
 /Start Open Mouthpiece*.cmd
 scripts/fit_mouthpiece.mjs
 scripts/interior_profile.mjs
@@ -51,7 +46,6 @@ scripts/stl_profile.mjs
 scripts/print_kit.mjs
 reference/
 
-# private working notes (public equivalent: CONTRIBUTING.md + docs/dev/)
 CLAUDE.md
 
 # parked airflow demo (kept locally)

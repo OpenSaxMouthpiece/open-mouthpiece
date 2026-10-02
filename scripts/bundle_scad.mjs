@@ -1,4 +1,4 @@
-// Flatten a voice/param file (scad/alto.scad, a fit, ...) into ONE self-contained .scad — for the
+// Flatten a voice/param file (scad/alto.scad, a design, ...) into ONE self-contained .scad — for the
 // web app, or anywhere include<> paths don't resolve. The output is the param file's
 // own block (header, Customizer tabs, hidden shape tables) followed by the base geometry with its
 // default assignments for those parameters removed: in a single file a variable must be assigned

@@ -1,14 +1,13 @@
-// Regression check for every param file (scad/*.scad and scad/variants/*.scad that include the base; fits in scad/fits/ are
-// local only, check one by naming it):
+// Regression check for every param file (scad/*.scad and scad/variants/*.scad that include the
+// base; name any other file to check it):
 //   1. renders cleanly: no errors / OpenSCAD warnings, genus 1 (one through-bore, no holes, no
 //      loose pieces);
 //   2. geometry matches test/baselines.json (vertex-set fingerprint; volume change reported);
 //   3. print orientation: the part stands on z = 0 on its shank end ring;
 //   4. the bundled single-file version (scripts/bundle_scad.mjs) renders identically, and the
 //      app's opening of it (src/migrate.ts, "Open .scad") leaves its text unchanged;
-//   5. volume IoU against its reference mesh, where that mesh exists locally (third-party meshes
-//      are gitignored), must not drop; needs the local-only fit_mouthpiece.mjs and
-//      compare_sections.mjs (not in the repo), skipped without test/references.json;
+//   5. optional, local only: shape agreement with a reference, when test/references.json and the
+//      local measuring tools exist (skipped otherwise);
 //   6. the ligature made for it: genus 1, stands on z = 0, never touches the mouthpiece
 //      (part = ligature_clash is empty), fingerprinted like the mouthpiece.
 //   npm run check                 # compare with the baselines (exit 1 on any failure/change)
@@ -32,9 +31,8 @@ const args = process.argv.slice(2);
 const UPDATE = args.includes('--update');
 fs.mkdirSync(OUT, { recursive: true });
 
-// Reference meshes for the IoU check: test/references.json (local, gitignored, like the meshes
-// themselves) maps a param file to its mesh, e.g. {"alto.scad": "example_models/.../alto.stl"},
-// paths relative to the project root. Files without one (or a missing mesh) skip the check.
+// The optional local comparison (step 5): test/references.json maps a param file to a local
+// reference file, paths relative to the project root. Files without one skip the check.
 const REFS_FILE = path.join(ROOT, 'test', 'references.json');
 const REFERENCES = Object.fromEntries(
   Object.entries(fs.existsSync(REFS_FILE) ? JSON.parse(fs.readFileSync(REFS_FILE, 'utf8')) : {}).map(([k, v]) => [

@@ -17,7 +17,7 @@ npm run build
 
 This downloads OpenSCAD's official WebAssembly build (pinned version, checksum verified) into
 `public/openscad/`, copies the generator, presets, fonts and example pictures into
-`public/project/` (not `scad/fits/` or `reference/`), and builds everything into **`dist/`**.
+`public/project/` (not local working folders), and builds everything into **`dist/`**.
 `dist/` is the whole website (~16 MB, mostly OpenSCAD itself; the largest file, openscad.wasm,
 is 11 MB, under Cloudflare's 25 MB per-file limit). Paths are relative, so it works
 from any address or sub-folder.

@@ -27,7 +27,7 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
   the worker (the next job starts a new one). Every run gets the project, the user's files, their
   pictures (`art/<name>`) and the unsaved buffers; a file from the device is written at the root
   as `__local__<name>` so `include <lib/...>` still works.
-- Project files = `scripts/project_files.mjs` (scad/ minus fits/, _sweep/; the presets list,
+- Project files = `scripts/project_files.mjs` (scad/ minus local folders; the presets list,
   which includes every `variants/*.scad`).
   `npm run dev`: the `liveProject` plugin in vite.config.ts serves them from scad/ at `project/`
   (manifest built per request, so edits to the generator show on the next render). Build:
