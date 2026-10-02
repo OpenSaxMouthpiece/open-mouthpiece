@@ -1,12 +1,45 @@
 # Open Mouthpiece
 
-A parametric saxophone mouthpiece generator. Adjust real design parameters (tip opening, facing,
-chamber, baffle, window, ...) and get a printable STL. OpenSCAD builds the geometry, and a web
-app (editor, parameter sliders, 3D viewer) drives it on a desktop or on a phone.
+**Design your own saxophone mouthpiece in the browser, then 3D-print it.**
+Try it: **https://opensaxmouthpiece.org**
 
-Presets: alto, tenor, baritone and soprano (`scad/*.scad`).
+![The app: a mouthpiece, its readouts, and the tip and facing settings with the facing curve](docs/images/app.png)
 
-## Quick start
+Change real design parameters (tip opening, facing, chamber, baffle, window, body and beak) and
+download a printable STL. Everything runs in your browser: no account, nothing to install, and
+nothing is saved on a server.
+
+## What it does
+
+- **Start from a preset**: soprano, alto, tenor or baritone, each with three variants.
+- **Shape it in sax terms**: tip opening in thousandths, facing length and curve (drag it, or pick
+  one), chamber, baffle, window, body and beak.
+- **See the numbers**: tip, facing, length, inside air volume and thinnest wall, and where
+  feeler gauges stop along the facing.
+- **Fit your horn**: set your neck cork's diameter and how tight it should be; print a small test
+  ring first to check.
+- **Make a matching ligature**: a ring ligature built from the mouthpiece's own shape.
+- **Compare A/B** with another design, or with an STL of a mouthpiece you have.
+- **Personalise it** with text or a picture on the body.
+- **Keep and share**: save in your browser, download a .scad (it opens in OpenSCAD) or the STL, or
+  send a link.
+- Works on phones and tablets too.
+
+The generator keeps every realistic combination printable: walls, the socket and the window are
+limited so that no setting breaks the model.
+
+| Compare A/B | Ligature | Phone |
+|---|---|---|
+| ![Two mouthpieces side by side, with both facing curves](docs/images/compare.png) | ![A mouthpiece with a reed and a printed ring ligature](docs/images/ligature.png) | ![The app on a phone](docs/images/phone.png) |
+
+## Status
+
+Early but usable. The alto and baritone presets have been printed and played; the tenor is being
+reworked after its first print, and the variants and the ligature haven't been printed yet.
+[docs/PRINTING.md](docs/PRINTING.md) walks through printing, fitting and play-testing.
+Feedback and prints are welcome (open an issue).
+
+## Run it locally
 
 The app needs only Node.js (OpenSCAD runs in the browser). The test scripts (`npm run check`,
 `npm run sweep`) also need a recent OpenSCAD nightly (for the Manifold backend): set `OPENSCAD`
@@ -21,9 +54,10 @@ npm run dev            # the app (OpenSCAD runs in the browser)
 - Putting the app online: [docs/HOSTING.md](docs/HOSTING.md)
 - Working on the code: [CONTRIBUTING.md](CONTRIBUTING.md)
 
-Nothing is saved on a server: designs stay in the browser, in downloaded .scad files, or in share
-links. The live site logs anonymous error reports (what failed, never your design; ⚙ turns them
-off).
+The live site logs anonymous error reports (what failed, never your design; ⚙ turns them off).
+
+Open Mouthpiece is free, with no ads. If it made you a mouthpiece you like, you can
+[support it on Ko-fi](https://ko-fi.com/opensaxmouthpiece).
 
 ## Credits
 
