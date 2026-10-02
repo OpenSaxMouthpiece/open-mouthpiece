@@ -66,8 +66,7 @@ Open Mouthpiece is free, with no ads. If it made you a mouthpiece you like, you 
   https://acta-acustica.edpsciences.org/articles/aacus/abs/2021/01/aacus210019/aacus210019.html
 - **Preset dimensions** were measured from Windy City Woodwinds' mouthpiece models on Thingiverse
   (CC BY-NC-SA): the "64" soprano (https://www.thingiverse.com/thing:6645219), "64" alto
-  (https://www.thingiverse.com/thing:6645230), "64" tenor (https://www.thingiverse.com/thing:6645238;
-  the tenor's outline is still from their "72" tenor, https://www.thingiverse.com/thing:6645240) and
+  (https://www.thingiverse.com/thing:6645230), "64" tenor (https://www.thingiverse.com/thing:6645238) and
   "64" bari (https://www.thingiverse.com/thing:6645244). Their outlines were measured as coarse
   tables (a few to about 15 points per curve, smoothed by hand; the soprano's more finely) and
   rebuilt in this generator; no mesh from those models is included here. The ligature follows the

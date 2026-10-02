@@ -11,6 +11,5 @@ export const PRESET_SOURCES: { label: string; url: string }[] = [
   { label: '"64" soprano', url: "https://www.thingiverse.com/thing:6645219" },
   { label: '"64" alto', url: "https://www.thingiverse.com/thing:6645230" },
   { label: '"64" tenor', url: "https://www.thingiverse.com/thing:6645238" },
-  { label: '"72" tenor', url: "https://www.thingiverse.com/thing:6645240" },
   { label: '"64" bari', url: "https://www.thingiverse.com/thing:6645244" },
 ];

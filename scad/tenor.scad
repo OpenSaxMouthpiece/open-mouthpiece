@@ -1,4 +1,4 @@
-// Tenor saxophone mouthpiece. Values measured from a real tenor mouthpiece (0.105" tip):
+// Tenor saxophone mouthpiece. Values measured from a real tenor mouthpiece (0.095" tip):
 // rounded, caliper-style dimensions only — no mesh geometry (see Credits in README.md).
 // Geometry: lib/mouthpiece_base.scad.
 
@@ -26,7 +26,7 @@ shank_scale = 1.0; // [0.85:0.01:1.3]
 // Cross-section of the chamber after the throat.
 chamber_shape = "round"; // [round, square, horseshoe]
 // Inside width of the chamber (mm); never narrower than the window.
-chamber_width = 14.8; // [8:0.1:30]
+chamber_width = 14.5; // [8:0.1:30]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
 // How far the full width runs toward the tip (mm); 40 = as far as it can.
@@ -60,27 +60,27 @@ baffle_hump = 0; // [0:0.1:3]
 // Length of the opening under the reed (mm).
 window_length = 42.0; // [8:0.5:70]
 // Width of the opening under the reed (mm); kept inside the rails automatically.
-window_width = 16.5; // [6:0.1:22]
+window_width = 16.2; // [6:0.1:22]
 // How much narrower the window is at the back (mm).
-window_taper = 4.7; // [0:0.1:12]
+window_taper = 4.3; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
-window_rear_radius = 5.0; // [0:0.1:10]
+window_rear_radius = 5.3; // [0:0.1:10]
 // Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
 sidewall_angle = 0; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
-tip_rail_thickness = 1.5; // [0.3:0.02:3]
+tip_rail_thickness = 1.4; // [0.3:0.02:3]
 // How far back the tip's curve reaches (mm), outside and window. Match your reed.
 tip_curve = 3.8; // [0.5:0.1:12]
 
 /* [Table] */
 // Width of the reed seat toward the tip (mm). Match your reed.
-table_width_tip = 17.8; // [8:0.1:30]
+table_width_tip = 17.6; // [8:0.1:30]
 // Width of the reed seat at the back (mm). Match your reed's heel.
-table_width_rear = 14.6; // [8:0.1:30]
+table_width_rear = 14.7; // [8:0.1:30]
 // Length of your reed (mm): the reed seat starts this far back from the tip.
-reed_length = 79.8; // [50:0.5:120]
+reed_length = 77.7; // [50:0.5:120]
 // A slight hollow along the reed seat (mm) so the reed seals at both ends.
 table_concavity = 0; // [0:0.005:0.1]
 
@@ -96,13 +96,13 @@ facing_exponent = 1.8; // [1.5:0.05:3]
 
 /* [Exterior] */
 // Total length, neck end to tip (mm). Also changes the inside volume.
-overall_length = 97.8; // [55:0.1:160]
+overall_length = 96.7; // [55:0.1:160]
 // Body width (1 = the preset's own outline).
 body_width_scale = 1.0; // [0.8:0.01:1.25]
 // Body height (1 = the preset's own outline).
 body_height_scale = 1.0; // [0.8:0.01:1.25]
 // Height of the beak at the tip (mm).
-beak_tip_height = 4.3; // [2:0.1:8]
+beak_tip_height = 3.6; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
 body_squareness = 2.0; // [1.2:0.1:8]
 // Top of the beak: lower = ridged, higher = flat.
@@ -232,15 +232,14 @@ print_orientation = true;
 // style stations measured from a real mouthpiece; the base file's are the alto's): full width,
 // top, underside behind the table (the table cut takes over after it), height of the section's
 // widest point, top and underside squareness, and the "medium" baffle. Shape: short tenon, quick
-// flare to the widest body, near-flat top, a steep shoulder at ~60% of the length (where the
-// section gets boxier), then a straight beak to a thin, WIDE tip. Any ext_*_points override
-// replaces the matching curve.
-shape_width = [[0, 23.1], [0.09, 23.1], [0.125, 24.1], [0.175, 28.1], [0.2, 30.8], [0.285, 30.0], [0.455, 28.6], [0.81, 25.2], [1, 17.7]];
-shape_top = [[0, 26.2], [0.13, 26.2], [0.17, 27.8], [0.2, 29.2], [0.3, 28.0], [0.41, 26.8], [0.485, 25.9], [0.585, 24.6], [0.625, 19.9], [0.69, 16.4], [0.78, 12.7], [1, 4.3]];
-shape_bottom = [[0, 3.9], [0.14, 2.3], [0.185, 0]];
-shape_widest = [[0, 14.9], [0.19, 14.8], [0.225, 13.5], [0.345, 12.7], [0.435, 11.8], [0.595, 10.9], [0.73, 10.0], [0.84, 7.0], [0.96, 3.5]];
-shape_top_squareness = [[0, 2.0], [0.59, 2.0], [0.635, 2.3], [0.79, 1.5], [1, 1.5]];
-shape_bottom_squareness = [[0, 2.0], [0.725, 1.9], [0.84, 1.2], [1, 1.2]];
-shape_baffle = [[0.496, 18.7], [0.559, 16.9], [0.595, 15.5], [0.703, 10.8], [0.765, 8.5], [0.853, 5.7], [0.915, 3.8], [0.977, 2.7]];
+// flare to the widest body at ~20% of the length, a gently falling top, a sharp shoulder at ~58%,
+// then a straight beak to a thin tip. Any ext_*_points override replaces the matching curve.
+shape_width = [[0, 23.0], [0.078, 23.0], [0.124, 24.3], [0.155, 26.7], [0.186, 30.5], [0.2, 30.7], [0.248, 30.3], [0.62, 27.0], [0.745, 25.8], [0.838, 24.1], [0.9, 21.9], [0.962, 18.7], [1, 16.4]];
+shape_top = [[0, 26.5], [0.093, 25.95], [0.13, 26.4], [0.165, 27.9], [0.186, 29.3], [0.23, 28.8], [0.32, 27.7], [0.46, 26.1], [0.54, 25.2], [0.58, 24.8], [0.595, 22.5], [0.61, 20.7], [0.645, 18.3], [0.672, 17.1], [0.775, 12.9], [1, 3.6]];
+shape_bottom = [[0, 3.45], [0.093, 2.8], [0.14, 1.9], [0.171, 0.96], [0.2, 0]];
+shape_widest = [[0, 15.1], [0.186, 15.2], [0.2, 13.7], [0.372, 12.85], [0.62, 11.25], [0.7, 10.5], [0.775, 9.3], [0.869, 6.1], [0.962, 3.1]];
+shape_top_squareness = [[0, 2.0], [0.1, 2.1], [0.56, 1.9], [0.62, 2.2], [0.68, 2.0], [0.81, 1.5], [1, 1.5]];
+shape_bottom_squareness = [[0, 2.0], [0.2, 2.0], [0.38, 1.8], [0.68, 1.6], [0.745, 1.45], [0.815, 1.2], [1, 1.2]];
+shape_baffle = [[0.419, 20.7], [0.46, 19.7], [0.496, 18.7], [0.559, 16.9], [0.595, 15.5], [0.703, 10.8], [0.765, 8.5], [0.853, 5.7], [0.915, 3.8], [0.977, 2.7]];
 // Commercial tip-opening range for this instrument — only used for a validate() warning (mm).
 tip_opening_range = [1.60, 3.80];
