@@ -7,11 +7,12 @@ interface Props {
   mainKey: string;
   armedClose: string | null; // a tab whose close was clicked once (unsaved: click again to discard)
   isReadOnly: (t: Tab) => boolean;
+  canClose: (t: Tab) => boolean; // the design on screen, when it's the only one, can't be closed
   onActivate: (key: string) => void;
   onClose: (key: string) => void;
 }
 
-export function TabBar({ tabs, activeKey, mainKey, armedClose, isReadOnly, onActivate, onClose }: Props) {
+export function TabBar({ tabs, activeKey, mainKey, armedClose, isReadOnly, canClose, onActivate, onClose }: Props) {
   return (
     <div className="tabbar">
       {tabs.map((t) => {
@@ -29,7 +30,7 @@ export function TabBar({ tabs, activeKey, mainKey, armedClose, isReadOnly, onAct
           <div
             key={t.key}
             className={`tab${t.key === activeKey ? " active" : ""}${main ? " main" : ""}`}
-            title={where + role}
+            title={where + role + (canClose(t) ? "" : " (the design on screen: pick another with the voice picker)")}
             onClick={() => onActivate(t.key)}
           >
             {main && (
@@ -48,16 +49,18 @@ export function TabBar({ tabs, activeKey, mainKey, armedClose, isReadOnly, onAct
                 ●
               </span>
             )}
-            <button
-              className={`close${armed ? " armed" : ""}`}
-              title={armed ? "Unsaved — click again to discard" : "Close"}
-              onClick={(e) => {
-                e.stopPropagation();
-                onClose(t.key);
-              }}
-            >
-              {armed ? "!" : "×"}
-            </button>
+            {canClose(t) && (
+              <button
+                className={`close${armed ? " armed" : ""}`}
+                title={armed ? "Unsaved — click again to discard" : "Close"}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClose(t.key);
+                }}
+              >
+                {armed ? "!" : "×"}
+              </button>
+            )}
           </div>
         );
       })}

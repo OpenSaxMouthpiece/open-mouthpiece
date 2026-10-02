@@ -302,9 +302,14 @@ export default function App() {
     openTab(localTab(`untitled${n}`, "cube(10);\n", taken));
   };
 
+  // The design on screen is the only design: closing it would leave nothing to render (the generator
+  // can't be shown on its own; it stuck on "Loading…"). Its tab has no ×; your own design's Close
+  // (top bar) closes it and opens the default preset, as Delete does.
+  const canClose = (t: Tab) => t.key !== mainKey || tabs.some((x) => x.key !== t.key && !isLibrary(x));
   const closeTab = (key: string) => {
     const t = tabs.find((x) => x.key === key);
     if (!t) return;
+    const last = !canClose(t);
     if ((isDirty(t) || (t.path === null && t.source.trim() !== "")) && armedClose !== key) {
       setArmedClose(key); // first click on a tab with unsaved text arms, second closes
       notify({
@@ -317,6 +322,10 @@ export default function App() {
     setArmedClose(null);
     const rest = tabs.filter((x) => x.key !== key);
     setTabs(rest);
+    if (last) {
+      openProjectFile(DEFAULT_FILE);
+      return;
+    }
     if (activeKey === key && rest.length) activate(rest[rest.length - 1].key, rest);
     if (mainKey === key) setMainKey(rest.find((x) => !isLibrary(x))?.key ?? rest[0]?.key ?? "");
   };
@@ -1358,6 +1367,7 @@ export default function App() {
       mainKey={mainTab.key}
       armedClose={armedClose}
       isReadOnly={isRO}
+      canClose={canClose}
       onActivate={activate}
       onClose={closeTab}
     />
