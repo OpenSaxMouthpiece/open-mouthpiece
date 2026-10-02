@@ -1,6 +1,6 @@
 // Links shown in the app. The printing guide points at the repository's copy of
-// docs/PRINTING.md; set REPO_URL to the public repository once it exists.
-export const REPO_URL = "";
+// docs/PRINTING.md.
+export const REPO_URL = "https://github.com/OpenSaxMouthpiece/open-mouthpiece";
 export const PRINTING_GUIDE_URL = REPO_URL ? `${REPO_URL}/blob/master/docs/PRINTING.md` : "";
 
 // Donation page (Ko-fi). Empty hides every donation link.

@@ -40,7 +40,7 @@ import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
 import { migrateScad } from "./migrate";
 import { imageRefs, isUserArt, receiveArt, sharedArt } from "./userArt";
-import { DONATE_URL, PRINTING_GUIDE_URL } from "./links";
+import { DONATE_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
 import { setSectionsOpen, usePref } from "./uiPrefs";
 import {
   DEFAULT_FILE,
@@ -1505,6 +1505,11 @@ export default function App() {
       Printing guide
     </a>
   );
+  const sourceLink = REPO_URL && (
+    <a className="button" href={REPO_URL} target="_blank" rel="noreferrer">
+      Source code (GitHub)
+    </a>
+  );
 
   // ---- phone: viewer on top, one panel below (Design goes as deep as you open it; the code has its
   // own tabs), everything else in the ☰ menu
@@ -1566,6 +1571,7 @@ export default function App() {
                 Pin this model as B (compare)
               </button>
               {printingGuideLink}
+              {sourceLink}
               {DONATE_URL && (
                 <a className="button donate" href={DONATE_URL} target="_blank" rel="noreferrer">
                   ♥ Support Open Mouthpiece (donate)
@@ -1660,6 +1666,7 @@ export default function App() {
             {codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console"}
           </button>
           {printingGuideLink}
+          {sourceLink}
         </div>
       )}
     </Menu>
