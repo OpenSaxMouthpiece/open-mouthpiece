@@ -8,7 +8,7 @@
 // events are dropped (and errors still reach the log).
 const FIELDS = { kind: 60, message: 500, design: 80, build: 20, ua: 200, openscad: 300 };
 const MAX_BODY = 32000;
-const MAX_EVENTS = 60; // per request
+const MAX_EVENTS = 40; // per request (the app sends at most 40 at a time)
 
 function clean(data) {
   const out = {};
