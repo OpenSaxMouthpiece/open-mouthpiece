@@ -440,8 +440,7 @@ const BLURB = {
   ash: 'Ash: closer tip, arc facing, round chamber, concave baffle; slim round body, smooth convex beak.',
   birch:
     'Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, straight beak.',
-  cedar:
-    'Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak.',
+  cedar: 'Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak.',
 };
 
 // "{" as \u007B: OpenSCAD's parameter export stops at a string with a brace in it ("{tip}").
