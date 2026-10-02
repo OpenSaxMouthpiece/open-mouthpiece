@@ -32,14 +32,20 @@ the build command `npm run build` and the output folder `dist`.
 
 - **GitHub Pages**: free for public repositories; for a private repository it needs GitHub Pro,
   and the site itself is still public.
-- **Cloudflare Pages** (what this project uses): free, and builds from the GitHub
-  repository on every push. Dashboard: Workers & Pages > Create > Pages > Connect to Git, pick the
-  repository, then: production branch `master`, framework preset None, build command
-  `npm run build`, output directory `dist`. Node comes from `.node-version` (22). Set up as a
-  Worker instead (Workers Builds, deploy command `npx wrangler deploy`), `wrangler.jsonc` serves
-  `dist/` as static assets (without it wrangler tries to auto-configure Vite and needs Vite 6+). The site gets a
-  public `*.pages.dev` address; adding Cloudflare Access (free for up to 50 people) puts a login
-  in front, so it can stay private.
+- **Cloudflare Workers** (what this project uses): free, and builds from the GitHub repository on
+  every push to `master` (Workers Builds). Worker > Settings > Builds > Connect: the repository,
+  production branch `master`, build command `npm run build`, deploy command `npx wrangler deploy`,
+  root directory `/`, preview builds off (only `master` deploys). Node comes from `.node-version`
+  (22). `wrangler.jsonc` serves `dist/` as static assets (without it wrangler tries to
+  auto-configure Vite and needs Vite 6+) and runs `worker/index.js` for `/api/log`. The site gets
+  a public `*.workers.dev` address besides its own domain; Cloudflare Access (free for up to 50
+  people) can put a login in front.
+  Security rules on the domain (free plan, Security > Security rules): block ports other than
+  443/80; allow only GET/HEAD, plus POST to `/api/log`; block common scanner paths (`/wp-`,
+  `.php`, `/.env`, `/.git`, `/cgi-bin`); rate-limit `/api/log` to 5 requests per 10s per IP. Also
+  on: Bot Fight Mode, Always Use HTTPS, minimum TLS 1.2.
+- **Cloudflare Pages**: the same build (`npm run build`, output `dist`), but without the Worker,
+  so no error reports.
 - **GitLab Pages / Netlify**: similar; point them at `npm run build` and `dist/`.
 
 ### Error reports (Cloudflare Worker)
