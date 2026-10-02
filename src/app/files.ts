@@ -63,6 +63,13 @@ export const voiceLabel = (p: string) =>
     : isVariant(p)
       ? baseName(p).split("_").map(titleCase).join(" ")
       : baseName(p).replace(/_/g, " ");
+// The preset of a design's voice, from the comment line that names it near the top ("// Tenor
+// saxophone mouthpiece.", a variant's "// Tenor "Birch": ...", designs saved from them, also after a
+// downloaded .scad's own header); the default when it doesn't say.
+export const presetFor = (source: string) => {
+  const m = /^\s*\/\/\s*(soprano|alto|tenor|baritone)\b/im.exec(source.slice(0, 3000));
+  return m ? `${m[1].toLowerCase()}.scad` : DEFAULT_FILE;
+};
 // The generator every design includes: the geometry, with default values its settings files override.
 export const GENERATOR = "lib/mouthpiece_base.scad";
 export const includesGenerator = (source: string) => /include\s*<[^>]*mouthpiece_base\.scad>/.test(source);

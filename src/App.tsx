@@ -44,6 +44,7 @@ import { imageRefs, isUserArt, receiveArt, sharedArt } from "./userArt";
 import { DONATE_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
 import { setSectionsOpen, usePref } from "./uiPrefs";
 import {
+  presetFor,
   DEFAULT_FILE,
   GENERATOR,
   LOCAL,
@@ -302,14 +303,25 @@ export default function App() {
     openTab(localTab(`untitled${n}`, "cube(10);\n", taken));
   };
 
-  // The design on screen is the only design: closing it would leave nothing to render (the generator
-  // can't be shown on its own; it stuck on "Loading…"). Its tab has no ×; your own design's Close
-  // (top bar) closes it and opens the default preset, as Delete does.
-  const canClose = (t: Tab) => t.key !== mainKey || tabs.some((x) => x.key !== t.key && !isLibrary(x));
+  // Closing a code tab never changes the design on screen: its tab has no × (the voice picker
+  // chooses the design). Closing it left nothing to render when it was the only design (stuck on
+  // "Loading…"). Your own design's Close and Delete (top bar) go to the preset of its voice instead.
+  const canClose = (t: Tab) => t.key !== mainKey;
+  // Swap the design on screen (key) for its voice's preset: the preset is loaded first, so there's
+  // never a moment with nothing to show.
+  const replaceWithPreset = async (key: string, source: string) => {
+    const p = presetFor(source);
+    const open = live.current.tabs.find((x) => x.key === p);
+    const next = open ?? projectTab(p, (await api.file(p)).source);
+    setTabs((old) => {
+      const rest = [...old.filter((x) => x.key !== key), ...(open ? [] : [next])];
+      activate(next.key, rest);
+      return rest;
+    });
+  };
   const closeTab = (key: string) => {
     const t = tabs.find((x) => x.key === key);
     if (!t) return;
-    const last = !canClose(t);
     if ((isDirty(t) || (t.path === null && t.source.trim() !== "")) && armedClose !== key) {
       setArmedClose(key); // first click on a tab with unsaved text arms, second closes
       notify({
@@ -320,14 +332,15 @@ export default function App() {
       return;
     }
     setArmedClose(null);
-    const rest = tabs.filter((x) => x.key !== key);
-    setTabs(rest);
-    if (last) {
-      openProjectFile(DEFAULT_FILE);
+    if (key === mainKey) {
+      replaceWithPreset(key, t.source).catch((err) =>
+        fail({ text: `Close failed: ${(err as Error).message}`, kind: "error" }),
+      );
       return;
     }
-    if (activeKey === key && rest.length) activate(rest[rest.length - 1].key, rest);
-    if (mainKey === key) setMainKey(rest.find((x) => !isLibrary(x))?.key ?? rest[0]?.key ?? "");
+    const rest = tabs.filter((x) => x.key !== key);
+    setTabs(rest);
+    if (activeKey === key) activate(mainKey, rest);
   };
 
   const updateSource = useCallback((key: string, text: string) => {
@@ -1014,14 +1027,10 @@ export default function App() {
     setArmedDelete(null);
     try {
       await api.remove(p);
-      const rest = tabs.filter((x) => x.key !== p);
-      setTabs(rest);
+      const own = tabs.find((x) => x.key === p);
+      if (mainKey === p) await replaceWithPreset(p, own?.source ?? "");
+      else setTabs((old) => old.filter((x) => x.key !== p));
       dropValues(p);
-      if (mainKey === p) {
-        const next = rest.find((x) => !isLibrary(x));
-        if (next) activate(next.key, rest);
-        else openProjectFile(DEFAULT_FILE);
-      }
       refreshFiles().catch(() => {});
       notify({ text: `Deleted “${voiceLabel(p)}” from this browser`, kind: "ok" });
     } catch (err) {
