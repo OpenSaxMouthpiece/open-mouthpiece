@@ -736,6 +736,18 @@ button.toggle.on {
   min-width: 120px;
   max-width: 220px;
 }
+.file-note {
+  padding: 4px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  line-height: 1.4;
+}
+.file-note .link {
+  font: inherit;
+  color: var(--text);
+}
 .tabbar {
   display: flex;
   overflow-x: auto;

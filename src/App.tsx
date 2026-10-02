@@ -45,20 +45,25 @@ import { DONATE_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
 import { setSectionsOpen, usePref } from "./uiPrefs";
 import {
   DEFAULT_FILE,
+  GENERATOR,
   LOCAL,
   NO_VALUES,
+  PRESETS,
   baseName,
   download,
   downloadName,
   fileName,
+  includesGenerator,
   isDirty,
   isLibrary,
+  isVariant,
   localTab,
   otherPartOf,
   partName,
   projectTab,
   reportDesign,
   scadFileName,
+  tabLabel,
   voiceLabel,
   type Tab,
   type Values,
@@ -1147,11 +1152,25 @@ export default function App() {
       title="Open one of the project's files (or your saved ones) in a new tab"
     >
       <option value="">Open project file…</option>
-      {files.map((f) => (
-        <option key={f} value={f}>
-          {f}
-        </option>
-      ))}
+      {(
+        [
+          ["Presets", files.filter((f) => PRESETS.includes(f))],
+          ["Variants", files.filter(isVariant)],
+          ["Your designs", files.filter((f) => ownFiles.has(f))],
+          ["Generator", files.filter((f) => f === GENERATOR)],
+        ] as [string, string[]][]
+      ).map(
+        ([group, fs]) =>
+          fs.length > 0 && (
+            <optgroup key={group} label={group}>
+              {fs.map((f) => (
+                <option key={f} value={f} title={f}>
+                  {f === GENERATOR ? "Generator (mouthpiece_base.scad)" : voiceLabel(f)}
+                </option>
+              ))}
+            </optgroup>
+          ),
+      )}
     </select>
   );
   const qualityOptions = (labels: Record<Quality, string>) =>
@@ -1349,6 +1368,21 @@ export default function App() {
       {coding && <span className="backend">{backend && `OpenSCAD · ${backend}`}</span>}
     </div>
   );
+  // One quiet line on what the open file is: a design's settings, or the generator they feed.
+  const fileNote =
+    activeTab.path === GENERATOR ? (
+      <div className="file-note">
+        Builds every design. Its values are only defaults: each design's settings replace them.
+      </div>
+    ) : includesGenerator(activeTab.source) ? (
+      <div className="file-note">
+        Settings for {tabLabel(activeTab)}, as the sliders set them. Built by the{" "}
+        <button className="link" onClick={() => openProjectFile(GENERATOR)}>
+          Generator
+        </button>
+        .
+      </div>
+    ) : null;
   const editorEl = (
     <Editor
       ref={editor}
@@ -1681,6 +1715,7 @@ export default function App() {
             "code",
             <>
               {tabBar}
+              {fileNote}
               {editorEl}
             </>,
             " code",
@@ -1822,6 +1857,7 @@ export default function App() {
             </button>
           </div>
           {tabBar}
+          {fileNote}
           {editorEl}
           {consoleEl}
         </section>

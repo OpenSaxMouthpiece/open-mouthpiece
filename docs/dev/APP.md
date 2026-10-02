@@ -83,11 +83,19 @@ pictures stay in their browser. `npm run dev` is plain Vite; a build is a static
 
 ## The app (src/)
 
+- **Code column: settings vs generator (2026-10-02)**: tabs are named by role (`tabLabel` in
+  src/app/files.ts): a design's name ("Tenor", "Alto Birch", "my alto"), or "Generator" for
+  `lib/mouthpiece_base.scad` (`GENERATOR`); the path is in the tooltip. One quiet line above the
+  editor (`fileNote` in App.tsx): on a file that includes the generator (`includesGenerator`),
+  "Settings for Tenor, as the sliders set them. Built by the Generator." (a link that opens it); on
+  the generator, "Builds every design. Its values are only defaults: each design's settings replace
+  them." Open project file… is grouped: Presets / Variants / Your designs / Generator, with the same
+  names. The file is not renamed (saves, links and downloads include that path).
 - **One screen (2026-09-27; the Simple / Advanced switch is gone)**: you go as deep as you open.
   Top bar = logo, voice picker, file actions | Share, Download STL, "More ▾" (`components/Menu.tsx`:
   Open .scad, Compare with…, Pin as B, Download .scad, Quality, show/hide the code, printing guide),
   ⚙ (`AppearanceMenu.tsx`). Right panel (`DesignPanel`): readouts strip (fine print in tooltips),
-  "Find a setting" (opens matching sections, also searches All parameters), Undo/Redo, Zoom, Reset,
+  "Find a setting" (opens matching sections, also searches All parameters), Undo/Redo, Auto-zoom, Reset,
   "Expand all / Collapse all / Descriptions", then folds (`Fold`, closed by default, one-line
   summary from `DesignSection.summary`, ● count of changed settings): the curated sections, All
   parameters, Curves, Compare A/B (while a B is pinned; pinning opens it). The facing chart sits

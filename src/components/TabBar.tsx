@@ -1,5 +1,5 @@
 // The code editor's open files. ▶ marks the rendered file, 🔒 a read-only project file, ● unsaved text.
-import { isDirty, isLibrary, type Tab } from "../app/files";
+import { GENERATOR, isDirty, isLibrary, tabLabel, type Tab } from "../app/files";
 
 interface Props {
   tabs: Tab[];
@@ -18,7 +18,13 @@ export function TabBar({ tabs, activeKey, mainKey, armedClose, isReadOnly, onAct
         const main = t.key === mainKey;
         const armed = armedClose === t.key;
         const where = t.path ?? `${t.name} (from your computer — not saved)`;
-        const role = main ? " · rendered" : isLibrary(t) ? " · included by other files" : "";
+        const role = main
+          ? " · rendered"
+          : t.path === GENERATOR
+            ? " · builds every design"
+            : isLibrary(t)
+              ? " · included by other files"
+              : "";
         return (
           <div
             key={t.key}
@@ -36,7 +42,7 @@ export function TabBar({ tabs, activeKey, mainKey, armedClose, isReadOnly, onAct
                 🔒
               </span>
             )}
-            <span className="tab-name">{t.path && t.path.includes("/") ? t.path : t.name}</span>
+            <span className="tab-name">{tabLabel(t)}</span>
             {(isDirty(t) || !t.path) && (
               <span className="dirty" title={t.path ? "Unsaved changes (used in renders)" : "Not saved"}>
                 ●

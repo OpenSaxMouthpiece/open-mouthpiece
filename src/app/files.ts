@@ -63,6 +63,12 @@ export const voiceLabel = (p: string) =>
     : isVariant(p)
       ? baseName(p).split("_").map(titleCase).join(" ")
       : baseName(p).replace(/_/g, " ");
+// The generator every design includes: the geometry, with default values its settings files override.
+export const GENERATOR = "lib/mouthpiece_base.scad";
+export const includesGenerator = (source: string) => /include\s*<[^>]*mouthpiece_base\.scad>/.test(source);
+// A tab's name in the code column: "Generator", or the design's name ("Tenor", "Alto Ash").
+export const tabLabel = (t: Tab) =>
+  t.path === GENERATOR ? "Generator" : isLibrary(t) ? t.path! : voiceLabel(t.path ?? t.name);
 // For error reports: a preset's or variant's path, or just "own design" (never the user's file name).
 export const reportDesign = (p: string | null) => (p && (PRESETS.includes(p) || isVariant(p)) ? p : "own design");
 
