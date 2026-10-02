@@ -8,7 +8,11 @@ import type { WasmJob, WasmResult } from "./types";
 
 export type Lane = "render" | "quick";
 type Pending = { job: WasmJob; resolve(r: WasmResult): void; reject(e: unknown): void; signal?: AbortSignal };
-interface LaneState { worker: Worker | null; running: Pending | null; queue: Pending[] }
+interface LaneState {
+  worker: Worker | null;
+  running: Pending | null;
+  queue: Pending[];
+}
 
 const BASE = new URL(import.meta.env.BASE_URL, location.href).href;
 const lanes: Record<Lane, LaneState> = {
@@ -42,27 +46,38 @@ function getWorker(l: LaneState) {
 function pump(l: LaneState) {
   while (!l.running && l.queue.length) {
     const p = l.queue.shift()!;
-    if (p.signal?.aborted) { p.reject(new DOMException("Aborted", "AbortError")); continue; }
+    if (p.signal?.aborted) {
+      p.reject(new DOMException("Aborted", "AbortError"));
+      continue;
+    }
     l.running = p;
     getWorker(l).postMessage(p.job);
   }
 }
 
-export function runOpenscad(job: Omit<WasmJob, "id" | "base">, signal?: AbortSignal, lane: Lane = "render"): Promise<WasmResult> {
+export function runOpenscad(
+  job: Omit<WasmJob, "id" | "base">,
+  signal?: AbortSignal,
+  lane: Lane = "render",
+): Promise<WasmResult> {
   const l = lanes[lane];
   return new Promise((resolve, reject) => {
     const p: Pending = { job: { ...job, id: nextId++, base: BASE }, resolve, reject, signal };
-    signal?.addEventListener("abort", () => {
-      const i = l.queue.indexOf(p);
-      if (i >= 0) l.queue.splice(i, 1);
-      if (l.running === p) {
-        l.worker?.terminate();
-        l.worker = null;
-        l.running = null;
-        pump(l);
-      }
-      reject(new DOMException("Aborted", "AbortError"));
-    }, { once: true });
+    signal?.addEventListener(
+      "abort",
+      () => {
+        const i = l.queue.indexOf(p);
+        if (i >= 0) l.queue.splice(i, 1);
+        if (l.running === p) {
+          l.worker?.terminate();
+          l.worker = null;
+          l.running = null;
+          pump(l);
+        }
+        reject(new DOMException("Aborted", "AbortError"));
+      },
+      { once: true },
+    );
     l.queue.push(p);
     pump(l);
   });

@@ -156,7 +156,7 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 - `param_focus()`: for "zoom to parameter" — per parameter/list a box (design frame, from
   `exterior_ring_at` over its z range), a view side and whether it's inside (cut), plus the print
   transform. Add new parameters to it.
-- **Ligature** (section 9b; `ligature_made` (bool, the app's "Make a ligature") only records that
+- **Ligature** (section 8b; `ligature_made` (bool, the app's "Make a ligature") only records that
   the design has one, so saves, downloads and links keep it; no geometry reads it; `part = ligature | ligature_seated | reed_model | ligature_clash`): a
   friction-fit ring made for the model itself, modelled on Windy City Woodwinds' printed ring (round inside,
   12mm band rising to 19mm on one side: a "tongue" toward the shank, on top by default; 2mm

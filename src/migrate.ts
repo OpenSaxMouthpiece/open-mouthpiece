@@ -22,8 +22,11 @@ const chamberLength = (v: ParamValue) => (v === 0 ? 40 : v);
 
 export function migrateValues(values: Record<string, ParamValue>): Record<string, ParamValue> {
   if (!Object.keys(values).some((n) => n in RENAMED)) return values;
-  return Object.fromEntries(Object.entries(values).map(([n, v]) =>
-    n in RENAMED ? [RENAMED[n], n === "chamber_length" ? chamberLength(v) : v] : [n, v]));
+  return Object.fromEntries(
+    Object.entries(values).map(([n, v]) =>
+      n in RENAMED ? [RENAMED[n], n === "chamber_length" ? chamberLength(v) : v] : [n, v],
+    ),
+  );
 }
 
 export function migrateScad(text: string): string {
@@ -33,12 +36,20 @@ export function migrateScad(text: string): string {
   if (text.includes("RENAMED_PARAMS")) return text;
   if (!OLD.test(text) && !text.includes("/* [Not yet implemented] */")) return text;
   OLD.lastIndex = 0;
-  return text
-    // chamber_length = 0; // [0:0.5:30]  ->  chamber_full_length = 40; // [0:0.5:40]
-    .replace(/^(\s*)chamber_length\s*=\s*0(\.0*)?\s*;\s*\/\/\s*\[0:0\.5:30\]/m, "$1chamber_full_length = 40; // [0:0.5:40]")
-    .replace(/^(\s*)chamber_length\s*=\s*0(\.0*)?\s*;/m, "$1chamber_full_length = 40;")
-    .replace(OLD, (m) => RENAMED[m])
-    // The tooth-patch pocket used to be "not yet implemented" with a 0.3mm default that did
-    // nothing: an old file keeps it off.
-    .replace(/\/\* \[Not yet implemented\] \*\/([\s\S]*?)tooth_plate_recess\s*=\s*[\d.]+/, "/* [Tooth patch] */$1tooth_plate_recess = 0");
+  return (
+    text
+      // chamber_length = 0; // [0:0.5:30]  ->  chamber_full_length = 40; // [0:0.5:40]
+      .replace(
+        /^(\s*)chamber_length\s*=\s*0(\.0*)?\s*;\s*\/\/\s*\[0:0\.5:30\]/m,
+        "$1chamber_full_length = 40; // [0:0.5:40]",
+      )
+      .replace(/^(\s*)chamber_length\s*=\s*0(\.0*)?\s*;/m, "$1chamber_full_length = 40;")
+      .replace(OLD, (m) => RENAMED[m])
+      // The tooth-patch pocket used to be "not yet implemented" with a 0.3mm default that did
+      // nothing: an old file keeps it off.
+      .replace(
+        /\/\* \[Not yet implemented\] \*\/([\s\S]*?)tooth_plate_recess\s*=\s*[\d.]+/,
+        "/* [Tooth patch] */$1tooth_plate_recess = 0",
+      )
+  );
 }

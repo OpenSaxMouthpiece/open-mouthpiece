@@ -12,7 +12,7 @@ import type { ParamValue } from "./api";
 
 interface Options {
   source: string;
-  path: string | null;                     // the file's project path (null: from the device)
+  path: string | null; // the file's project path (null: from the device)
   values: Record<string, ParamValue>;
   readFile(path: string): Promise<string>; // a project file's text (unsaved text wins)
   date: string;
@@ -20,7 +20,13 @@ interface Options {
 
 const ASSIGN = /^([A-Za-z_]\w*) = (.*?);(\s*\/\/.*)?$/;
 const readAssignments = (text: string) =>
-  Object.fromEntries(text.split("\n").map((l) => ASSIGN.exec(l)).filter((m) => m).map((m) => [m![1], m![2]]));
+  Object.fromEntries(
+    text
+      .split("\n")
+      .map((l) => ASSIGN.exec(l))
+      .filter((m) => m)
+      .map((m) => [m![1], m![2]]),
+  );
 
 // Fonts that come with desktop OpenSCAD (the Liberation faces); the others need installing.
 const BUILT_IN_FONTS = ["Sans Bold", "Sans", "Serif Bold", "Serif", "Serif Italic", "Mono Bold"];
@@ -58,7 +64,8 @@ export async function bundleDesign(o: Options): Promise<string> {
   // missing one is an ERROR line). Desktop OpenSCAD has the Liberation faces built in and finds
   // the others by name once installed; the app adds its fonts itself (browserApi.ts).
   // Pictures were imported relative to lib/ ("../art/"): now relative to this file ("art/").
-  const body = keep.join("\n")
+  const body = keep
+    .join("\n")
     .replace(/^\/\/ Lettering fonts \(see LETTERING_FONTS\)[^\n]*\n(\/\/[^\n]*\n)*(use <fonts\/[^>]+>\n)+/m, "")
     .replace(/^use <fonts\/[^>]+>\n/gm, "")
     .replace(/import\(str\("\.\.\/art\/", /g, 'import(str("art/", ')
@@ -73,10 +80,12 @@ export async function bundleDesign(o: Options): Promise<string> {
     `// Open Mouthpiece (Open .scad…).`,
     `// Fonts for lettering: Sans, Serif and Mono come with OpenSCAD. The others are free Google Fonts;`,
     `// install the one you pick, or OpenSCAD uses its default font.${font && !BUILT_IN_FONTS.includes(font) ? ` This design uses ${font}.` : ""}`,
-    ...(pictures.length ? [
-      `// Picture: ${pictures.join(", ")} is not in this file (a .scad can't hold an SVG). Put it in an`,
-      `// art/ folder next to this file, or the model is made without it. The STL always has it.`,
-    ] : []),
+    ...(pictures.length
+      ? [
+          `// Picture: ${pictures.join(", ")} is not in this file (a .scad can't hold an SVG). Put it in an`,
+          `// art/ folder next to this file, or the model is made without it. The STL always has it.`,
+        ]
+      : []),
     "",
   ].join("\n");
   return [

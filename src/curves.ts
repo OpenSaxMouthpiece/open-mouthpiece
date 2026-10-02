@@ -5,14 +5,16 @@ export type Pt = [number, number];
 
 export interface PointList {
   name: string;
-  line: number;       // 0-based line of the (last) assignment
+  line: number; // 0-based line of the (last) assignment
   pts: Pt[];
-  caption?: string;   // the comment line right above, as the Customizer shows it
+  caption?: string; // the comment line right above, as the Customizer shows it
 }
 
 const NUM = String.raw`-?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?`;
 const PAIR = String.raw`\[\s*${NUM}\s*,\s*${NUM}\s*\]`;
-const ASSIGN = new RegExp(String.raw`^(\s*)([A-Za-z_]\w*)(\s*=\s*)(\[\s*(?:${PAIR}\s*(?:,\s*${PAIR}\s*)*)?\])(\s*;.*)$`);
+const ASSIGN = new RegExp(
+  String.raw`^(\s*)([A-Za-z_]\w*)(\s*=\s*)(\[\s*(?:${PAIR}\s*(?:,\s*${PAIR}\s*)*)?\])(\s*;.*)$`,
+);
 
 // Top-level single-line assignments whose value is a list of number pairs (possibly empty). The
 // last assignment of a name wins, as in OpenSCAD.
@@ -62,26 +64,44 @@ export function pchip(x: number, pts: Pt[]): number {
   const m = (i: number) => {
     if (i === 0) return d(0);
     if (i === n - 1) return d(n - 2);
-    const d0 = d(i - 1), d1 = d(i), h0 = pts[i][0] - pts[i - 1][0], h1 = pts[i + 1][0] - pts[i][0];
+    const d0 = d(i - 1),
+      d1 = d(i),
+      h0 = pts[i][0] - pts[i - 1][0],
+      h1 = pts[i + 1][0] - pts[i][0];
     if (d0 * d1 <= 0) return 0;
-    const w1 = 2 * h1 + h0, w2 = h1 + 2 * h0;
+    const w1 = 2 * h1 + h0,
+      w2 = h1 + 2 * h0;
     return (w1 + w2) / (w1 / d0 + w2 / d1);
   };
   let i = 0;
   while (i < n - 2 && x > pts[i + 1][0]) i++;
-  const h = pts[i + 1][0] - pts[i][0], t = (x - pts[i][0]) / h, t2 = t * t, t3 = t2 * t;
-  return (2 * t3 - 3 * t2 + 1) * pts[i][1] + (t3 - 2 * t2 + t) * h * m(i) + (-2 * t3 + 3 * t2) * pts[i + 1][1] + (t3 - t2) * h * m(i + 1);
+  const h = pts[i + 1][0] - pts[i][0],
+    t = (x - pts[i][0]) / h,
+    t2 = t * t,
+    t3 = t2 * t;
+  return (
+    (2 * t3 - 3 * t2 + 1) * pts[i][1] +
+    (t3 - 2 * t2 + t) * h * m(i) +
+    (-2 * t3 + 3 * t2) * pts[i + 1][1] +
+    (t3 - t2) * h * m(i + 1)
+  );
 }
 
 // Few knots whose PCHIP curve stays within tol of a densely sampled curve (as the fitter does it:
 // Douglas-Peucker, then add the worst sample until it fits).
 function simplify(pts: Pt[], tol: number): Pt[] {
   if (pts.length < 3) return pts;
-  const a = pts[0], b = pts[pts.length - 1];
-  let worst = 0, wi = 0;
+  const a = pts[0],
+    b = pts[pts.length - 1];
+  let worst = 0,
+    wi = 0;
   for (let i = 1; i < pts.length - 1; i++) {
-    const t = (pts[i][0] - a[0]) / (b[0] - a[0]), e = Math.abs(pts[i][1] - (a[1] + t * (b[1] - a[1])));
-    if (e > worst) { worst = e; wi = i; }
+    const t = (pts[i][0] - a[0]) / (b[0] - a[0]),
+      e = Math.abs(pts[i][1] - (a[1] + t * (b[1] - a[1])));
+    if (e > worst) {
+      worst = e;
+      wi = i;
+    }
   }
   if (worst <= tol) return [a, b];
   return [...simplify(pts.slice(0, wi + 1), tol).slice(0, -1), ...simplify(pts.slice(wi), tol)];
@@ -89,8 +109,15 @@ function simplify(pts: Pt[], tol: number): Pt[] {
 export function knots(samples: Pt[], tol: number): Pt[] {
   let k = simplify(samples, tol);
   for (let it = 0; it < samples.length; it++) {
-    let worst = tol, wi = -1;
-    samples.forEach((p, i) => { const e = Math.abs(pchip(p[0], k) - p[1]); if (e > worst) { worst = e; wi = i; } });
+    let worst = tol,
+      wi = -1;
+    samples.forEach((p, i) => {
+      const e = Math.abs(pchip(p[0], k) - p[1]);
+      if (e > worst) {
+        worst = e;
+        wi = i;
+      }
+    });
     if (wi < 0) break;
     k = [...k, samples[wi]].sort((a, b) => a[0] - b[0]);
   }
@@ -115,7 +142,10 @@ export function parseCurvesEcho(log: string): ModelCurves | null {
     const out: ModelCurves = { curves: {} };
     for (const [name, v] of raw) {
       if (name === "L" && typeof v === "number") out.L = v;
-      else if (Array.isArray(v)) out.curves[name] = (v as Pt[]).filter((p) => Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1]));
+      else if (Array.isArray(v))
+        out.curves[name] = (v as Pt[]).filter(
+          (p) => Array.isArray(p) && Number.isFinite(p[0]) && Number.isFinite(p[1]),
+        );
     }
     return out;
   } catch {

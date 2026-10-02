@@ -21,7 +21,10 @@ export function Console({ log, onGoto, onClear }: Props) {
   useEffect(() => {
     if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
   }, [log]);
-  const lines = log.replace(/\r/g, "").split("\n").filter((l) => l.trim() !== "");
+  const lines = log
+    .replace(/\r/g, "")
+    .split("\n")
+    .filter((l) => l.trim() !== "");
   return (
     <div className="console">
       <div className="console-head">
@@ -35,7 +38,12 @@ export function Console({ log, onGoto, onClear }: Props) {
           return (
             <div key={i} className={lineClass(l)}>
               {l}
-              {m && <button className="goto" onClick={() => onGoto(Number(m[2]), file)}>→ {file ? `${file.split("/").pop()}:` : "line "}{m[2]}</button>}
+              {m && (
+                <button className="goto" onClick={() => onGoto(Number(m[2]), file)}>
+                  → {file ? `${file.split("/").pop()}:` : "line "}
+                  {m[2]}
+                </button>
+              )}
             </div>
           );
         })}

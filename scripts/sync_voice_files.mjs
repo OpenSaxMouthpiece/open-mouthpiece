@@ -8,16 +8,18 @@ import path from 'node:path';
 import { SCAD_DIR, buildVoiceFile, readAssignments, readHeader, isVoiceFile } from './voice_file.mjs';
 
 const listed = process.argv.slice(2);
-const files = listed.length ? listed : [SCAD_DIR, path.join(SCAD_DIR, 'fits'), path.join(SCAD_DIR, 'variants')]
-  .flatMap((d) => (fs.existsSync(d) ? fs.readdirSync(d).map((f) => path.join(d, f)) : []))
-  .filter((f) => f.endsWith('.scad'));
+const files = listed.length
+  ? listed
+  : [SCAD_DIR, path.join(SCAD_DIR, 'fits'), path.join(SCAD_DIR, 'variants')]
+      .flatMap((d) => (fs.existsSync(d) ? fs.readdirSync(d).map((f) => path.join(d, f)) : []))
+      .filter((f) => f.endsWith('.scad'));
 
 for (const f of files) {
   const text = fs.readFileSync(f, 'utf8');
   if (!isVoiceFile(text)) continue;
   const out = buildVoiceFile({ values: readAssignments(text), header: readHeader(text), filePath: path.resolve(f) });
   if (out !== text.replace(/\r\n/g, '\n')) {
-    fs.writeFileSync(f, out);  // LF only: the web app's Customizer mis-parses CRLF
+    fs.writeFileSync(f, out); // LF only: the web app's Customizer mis-parses CRLF
     console.log('updated', path.relative(process.cwd(), f));
   } else console.log('unchanged', path.relative(process.cwd(), f));
 }

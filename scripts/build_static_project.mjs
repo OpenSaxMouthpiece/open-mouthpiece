@@ -21,20 +21,32 @@ for (const rel of files) {
 // from it), measured with the native OpenSCAD when there is one; the site measures any it lacks.
 const aspect = {};
 let openscad = null;
-try { openscad = await import('./openscad.mjs'); } catch { /* no native OpenSCAD here */ }
+try {
+  openscad = await import('./openscad.mjs');
+} catch {
+  /* no native OpenSCAD here */
+}
 fs.mkdirSync(path.join(ROOT, 'test', 'out'), { recursive: true });
 for (const rel of files.filter((f) => f.startsWith('art/') && f.endsWith('.svg'))) {
   if (!openscad) break;
   const tmp = fs.mkdtempSync(path.join(ROOT, 'test', 'out', 'art-'));
   try {
-    fs.writeFileSync(path.join(tmp, 'm.scad'), `import(${JSON.stringify(path.join(SCAD, rel).split(path.sep).join('/'))}, center = true);\n`);
+    fs.writeFileSync(
+      path.join(tmp, 'm.scad'),
+      `import(${JSON.stringify(path.join(SCAD, rel).split(path.sep).join('/'))}, center = true);\n`,
+    );
     await openscad.runOpenscad(['-o', path.join(tmp, 'm.svg'), path.join(tmp, 'm.scad')]);
     const box = /viewBox="([-\d.e ]+)"/.exec(fs.readFileSync(path.join(tmp, 'm.svg'), 'utf8'));
     const [, , w, h] = box ? box[1].trim().split(/\s+/).map(Number) : [];
     if (w > 0 && h > 0) aspect[rel.slice(4)] = Math.round((h / w) * 1000) / 1000;
-  } catch { /* leave it to the site */ } finally {
+  } catch {
+    /* leave it to the site */
+  } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 }
-fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify({ files, readOnly: READ_ONLY.filter((f) => files.includes(f)), aspect }, null, 1));
+fs.writeFileSync(
+  path.join(OUT, 'manifest.json'),
+  JSON.stringify({ files, readOnly: READ_ONLY.filter((f) => files.includes(f)), aspect }, null, 1),
+);
 console.log(`wrote public/project/: ${files.length} files, ${Object.keys(aspect).length} picture aspects`);

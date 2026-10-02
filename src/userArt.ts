@@ -4,10 +4,17 @@
 // example pictures (a user's picture of the same name wins).
 const KEY = "open-mouthpiece-art-v1";
 
-interface Stored { text: string; aspect: number | null }
+interface Stored {
+  text: string;
+  aspect: number | null;
+}
 
 function load(): Record<string, Stored> {
-  try { return JSON.parse(localStorage.getItem(KEY) ?? "{}"); } catch { return {}; }
+  try {
+    return JSON.parse(localStorage.getItem(KEY) ?? "{}");
+  } catch {
+    return {};
+  }
 }
 
 export const userArtNames = () => Object.keys(load()).sort();
@@ -37,7 +44,12 @@ export function saveUserArt(name: string, text: string, aspect: number | null) {
 
 // Checks shared by both APIs; returns the file name the generator will import.
 export function checkArt(name: string, svg: string): string {
-  const n = String(name).split(/[\\/]/).pop()!.replace(/\.svg$/i, "").replace(/[^\w.-]/g, "_") + ".svg";
+  const n =
+    String(name)
+      .split(/[\\/]/)
+      .pop()!
+      .replace(/\.svg$/i, "")
+      .replace(/[^\w.-]/g, "_") + ".svg";
   if (!/^\w[\w.-]*\.svg$/i.test(n)) throw new Error("need an .svg file name");
   if (svg.length > 2_000_000) throw new Error("SVG is larger than 2 MB");
   if (!/<svg[\s>]/i.test(svg)) throw new Error("that file is not an SVG drawing");
@@ -55,7 +67,11 @@ export function imageRefs(values: Record<string, unknown>, source?: string): Rec
 // The user's own pictures a design uses, {name: svg text}, for a share link that includes them.
 export function sharedArt(values: Record<string, unknown>, source?: string): Record<string, string> {
   const s = load();
-  return Object.fromEntries(Object.values(imageRefs(values, source)).filter((n) => n in s).map((n) => [n, s[n].text]));
+  return Object.fromEntries(
+    Object.values(imageRefs(values, source))
+      .filter((n) => n in s)
+      .map((n) => [n, s[n].text]),
+  );
 }
 
 // Pictures that came in a share link: kept like an upload (under a new name if this browser has a
@@ -66,7 +82,11 @@ export function receiveArt(art: Record<string, string>, values: Record<string, u
   for (const [name, text] of Object.entries(art)) {
     if (typeof text !== "string") continue;
     let n: string;
-    try { n = checkArt(name, text); } catch { continue; }
+    try {
+      n = checkArt(name, text);
+    } catch {
+      continue;
+    }
     const s = load();
     for (let i = 2; n in s && s[n].text !== text; i++) n = checkArt(`${name.replace(/\.svg$/i, "")}_${i}`, text);
     const keys = Object.keys(refs).filter((k) => refs[k] === name);
@@ -77,4 +97,5 @@ export function receiveArt(art: Record<string, string>, values: Record<string, u
   return out;
 }
 
-export const NO_SHAPES = "OpenSCAD found no filled shapes in that SVG (outlines only?): fill the shapes, or convert strokes to paths";
+export const NO_SHAPES =
+  "OpenSCAD found no filled shapes in that SVG (outlines only?): fill the shapes, or convert strokes to paths";

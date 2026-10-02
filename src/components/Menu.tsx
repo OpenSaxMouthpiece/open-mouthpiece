@@ -15,16 +15,35 @@ export function Menu({ label, title, className = "", align = "right", children }
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return;
-    const down = (e: PointerEvent) => { if (!ref.current?.contains(e.target as Node)) setOpen(false); };
-    const key = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    const down = (e: PointerEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const key = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
     document.addEventListener("pointerdown", down);
     document.addEventListener("keydown", key);
-    return () => { document.removeEventListener("pointerdown", down); document.removeEventListener("keydown", key); };
+    return () => {
+      document.removeEventListener("pointerdown", down);
+      document.removeEventListener("keydown", key);
+    };
   }, [open]);
   return (
     <div className={`menu ${className}`} ref={ref}>
-      <button className={open ? "active" : ""} aria-expanded={open} aria-haspopup="true" title={title} onClick={() => setOpen((o) => !o)}>{label}</button>
-      {open && <div className={`menu-pop ${align}`} role="menu">{children(() => setOpen(false))}</div>}
+      <button
+        className={open ? "active" : ""}
+        aria-expanded={open}
+        aria-haspopup="true"
+        title={title}
+        onClick={() => setOpen((o) => !o)}
+      >
+        {label}
+      </button>
+      {open && (
+        <div className={`menu-pop ${align}`} role="menu">
+          {children(() => setOpen(false))}
+        </div>
+      )}
     </div>
   );
 }

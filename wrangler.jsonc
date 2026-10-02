@@ -6,7 +6,7 @@
   "name": "open-mouthpiece",
   "main": "worker/index.js",
   "compatibility_date": "2026-09-25",
-  "workers_dev": true,  // the public *.workers.dev address
+  "workers_dev": true, // the public *.workers.dev address
   "assets": { "directory": "./dist", "binding": "ASSETS" },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
 }

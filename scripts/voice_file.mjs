@@ -41,12 +41,15 @@ function baseParts(base) {
 
 // Replace the values of assignment lines in `block`, keeping each line's annotation comment.
 function fill(block, values, used) {
-  return block.split('\n').map((line) => {
-    const m = ASSIGN.exec(line);
-    if (!m || !(m[1] in values)) return line;
-    used.add(m[1]);
-    return `${m[1]} = ${values[m[1]]};${m[3] ?? ''}`;
-  }).join('\n');
+  return block
+    .split('\n')
+    .map((line) => {
+      const m = ASSIGN.exec(line);
+      if (!m || !(m[1] in values)) return line;
+      used.add(m[1]);
+      return `${m[1]} = ${values[m[1]]};${m[3] ?? ''}`;
+    })
+    .join('\n');
 }
 
 // Build a voice file. `values` = {name: valueText}; `header` = leading comment lines; `filePath`

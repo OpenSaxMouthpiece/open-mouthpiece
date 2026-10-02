@@ -24,18 +24,57 @@ const VIEW_DIRS: Record<ViewName, [number, number, number]> = {
   top: [0, -0.0001, 1],
 };
 
-const VIEW_LABELS: Record<ViewName, string> = { iso: "3D", front: "Table", back: "Top", left: "Left", right: "Right", top: "Tip" };
+const VIEW_LABELS: Record<ViewName, string> = {
+  iso: "3D",
+  front: "Table",
+  back: "Top",
+  left: "Left",
+  right: "Right",
+  top: "Tip",
+};
 const VIEW_TITLES: Record<ViewName, string> = {
-  iso: "3D view (fit)", front: "Looking at the table and window", back: "Looking down on the top (the lettering side)",
-  left: "The player's left side", right: "The player's right side", top: "Looking down the tip, along the bore",
+  iso: "3D view (fit)",
+  front: "Looking at the table and window",
+  back: "Looking down on the top (the lettering side)",
+  left: "The player's left side",
+  right: "The player's right side",
+  top: "Looking down the tip, along the bore",
 };
 
-function Toggle({ on, set, title, children }: { on: boolean; set(on: boolean): void; title: string; children: ReactNode }) {
-  return <button className={`toggle${on ? " on" : ""}`} aria-pressed={on} title={title} onClick={() => set(!on)}>{children}</button>;
+function Toggle({
+  on,
+  set,
+  title,
+  children,
+}: {
+  on: boolean;
+  set(on: boolean): void;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <button className={`toggle${on ? " on" : ""}`} aria-pressed={on} title={title} onClick={() => set(!on)}>
+      {children}
+    </button>
+  );
 }
 // A checkbox line in the Show menu.
-function Check({ on, set, title, children }: { on: boolean; set(on: boolean): void; title: string; children: ReactNode }) {
-  return <label className="show-item" title={title}><input type="checkbox" checked={on} onChange={(e) => set(e.target.checked)} /> {children}</label>;
+function Check({
+  on,
+  set,
+  title,
+  children,
+}: {
+  on: boolean;
+  set(on: boolean): void;
+  title: string;
+  children: ReactNode;
+}) {
+  return (
+    <label className="show-item" title={title}>
+      <input type="checkbox" checked={on} onChange={(e) => set(e.target.checked)} /> {children}
+    </label>
+  );
 }
 
 interface Ctx {
@@ -60,28 +99,50 @@ interface Props {
   frameKey: string; // changes when a different file is loaded -> reframe on the next model
   compact?: boolean; // phone layout: the tool strip folds behind a ⋯ button
   focus?: FocusRequest | null; // fly to the part a parameter shapes (cut open when it's inside)
-  busy?: boolean;              // a render is running: show progress over the current model
-  busyLabel?: string;          // what it is making, if not the model on screen (a download)
-  overlay?: ReactNode;         // e.g. the first-visit hint
-  quality?: ReactNode;         // the render quality switch, with the view tools
-  simple?: boolean;            // not editing code: fewer view tools (no wireframe)
-  labelA?: string;             // names for the A/B legend and the labels under the models
+  busy?: boolean; // a render is running: show progress over the current model
+  busyLabel?: string; // what it is making, if not the model on screen (a download)
+  overlay?: ReactNode; // e.g. the first-visit hint
+  quality?: ReactNode; // the render quality switch, with the view tools
+  simple?: boolean; // not editing code: fewer view tools (no wireframe)
+  labelA?: string; // names for the A/B legend and the labels under the models
   labelB?: string;
-  compareKey?: string;         // changes when a different B is pinned (-> side by side)
+  compareKey?: string; // changes when a different B is pinned (-> side by side)
   onClearB?(): void;
   // The ligature made for A, seated on it (same frame as A), and a model reed under it. on / reedOn =
   // the tools' toggles; beside = the ligature stands next to A instead of on it.
-  ligature?: { on: boolean; beside: boolean; reedOn: boolean; stl: ArrayBuffer | null; reed: ArrayBuffer | null } | null;
+  ligature?: {
+    on: boolean;
+    beside: boolean;
+    reedOn: boolean;
+    stl: ArrayBuffer | null;
+    reed: ArrayBuffer | null;
+  } | null;
   onLigature?(change: { on?: boolean; beside?: boolean; reed?: boolean }): void;
 }
 
 // View settings outlive the viewer: the desktop and phone layouts each mount their own, and a
 // switch shouldn't reset them. The toggles are also kept in this browser (a convenience only).
 type Section = "off" | "length" | "across";
-interface ViewPrefs { edges: boolean; wire: boolean; seeThrough: boolean; layout: "overlay" | "side"; section: Section; showA: boolean; showB: boolean }
+interface ViewPrefs {
+  edges: boolean;
+  wire: boolean;
+  seeThrough: boolean;
+  layout: "overlay" | "side";
+  section: Section;
+  showA: boolean;
+  showB: boolean;
+}
 const PREFS_KEY = "open-mouthpiece-view-v1";
 const viewPrefs: ViewPrefs = (() => {
-  const p: ViewPrefs = { edges: true, wire: false, seeThrough: false, layout: "side", section: "off", showA: true, showB: true };
+  const p: ViewPrefs = {
+    edges: true,
+    wire: false,
+    seeThrough: false,
+    layout: "side",
+    section: "off",
+    showA: true,
+    showB: true,
+  };
   try {
     const s = JSON.parse(localStorage.getItem(PREFS_KEY) ?? "{}") as Partial<ViewPrefs>;
     for (const k of ["edges", "wire", "seeThrough"] as const) if (typeof s[k] === "boolean") p[k] = s[k]!;
@@ -94,7 +155,10 @@ const viewPrefs: ViewPrefs = (() => {
 function keepPrefs(p: ViewPrefs) {
   Object.assign(viewPrefs, p);
   try {
-    localStorage.setItem(PREFS_KEY, JSON.stringify({ edges: p.edges, wire: p.wire, seeThrough: p.seeThrough, layout: p.layout }));
+    localStorage.setItem(
+      PREFS_KEY,
+      JSON.stringify({ edges: p.edges, wire: p.wire, seeThrough: p.seeThrough, layout: p.layout }),
+    );
   } catch {
     // storage unavailable: kept for this page only
   }
@@ -107,7 +171,25 @@ const LIG_CUT = 0x7a2a22;
 const REED_COLOR = 0xe6dcbc;
 const REED_CUT = 0x9a8f6c;
 
-export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = null, busy = false, busyLabel, overlay, quality, simple = false, labelA, labelB, compareKey, onClearB, ligature = null, onLigature }: Props) {
+export function Viewer({
+  stl,
+  svg,
+  compare,
+  frameKey,
+  compact = false,
+  focus = null,
+  busy = false,
+  busyLabel,
+  overlay,
+  quality,
+  simple = false,
+  labelA,
+  labelB,
+  compareKey,
+  onClearB,
+  ligature = null,
+  onLigature,
+}: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   // Appearance (the ⚙ menu): model colour, background, grid, axes.
   const [look] = useLook();
@@ -124,22 +206,29 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
   const [layout, setLayout] = useState<"overlay" | "side">(viewPrefs.layout);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [section, setSection] = useState<Section>(viewPrefs.section);
-  useEffect(() => keepPrefs({ edges, wire, seeThrough, layout, section, showA, showB }), [edges, wire, seeThrough, layout, section, showA, showB]);
+  useEffect(
+    () => keepPrefs({ edges, wire, seeThrough, layout, section, showA, showB }),
+    [edges, wire, seeThrough, layout, section, showA, showB],
+  );
   // A newly pinned B: side by side (overlaid, a B that is nearly the same shape hides inside A).
   const lastB = useRef(compareKey);
   const framedB = useRef<string | undefined>(compare ? compareKey : undefined);
   useEffect(() => {
-    if (compareKey && compareKey !== lastB.current) { setLayout("side"); setShowB(true); }
+    if (compareKey && compareKey !== lastB.current) {
+      setLayout("side");
+      setShowB(true);
+    }
     lastB.current = compareKey;
   }, [compareKey]);
   // "A" / "B" under the models while they stand side by side (placed on every draw).
-  const labelARef = useRef<HTMLDivElement>(null), labelBRef = useRef<HTMLDivElement>(null);
+  const labelARef = useRef<HTMLDivElement>(null),
+    labelBRef = useRef<HTMLDivElement>(null);
   const labelsOn = useRef(false);
   labelsOn.current = layout === "side" && !!compare && !svg;
   const [secPos, setSecPos] = useState(0);
   const [bounds, setBounds] = useState<{ x: [number, number]; z: [number, number] }>({ x: [-20, 20], z: [0, 100] });
   const plane = useRef(new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0));
-  const autoCut = useRef(false);     // the section was turned on by a focus (so a later one may turn it off)
+  const autoCut = useRef(false); // the section was turned on by a focus (so a later one may turn it off)
   const flight = useRef<number | null>(null);
   const [elapsed, setElapsed] = useState(0);
 
@@ -175,7 +264,10 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
     const axes = new THREE.AxesHelper(25);
     scene.add(grid, axes);
     const model = new THREE.Group();
-    const a = new THREE.Group(), b = new THREE.Group(), lig = new THREE.Group(), reed = new THREE.Group();
+    const a = new THREE.Group(),
+      b = new THREE.Group(),
+      lig = new THREE.Group(),
+      reed = new THREE.Group();
     model.add(a, b, lig, reed);
     scene.add(model);
 
@@ -183,9 +275,15 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
     const place = (el: HTMLDivElement | null, g: THREE.Group) => {
       if (!el) return;
       const box = new THREE.Box3().setFromObject(g);
-      if (!labelsOn.current || !g.visible || box.isEmpty()) { el.style.display = "none"; return; }
+      if (!labelsOn.current || !g.visible || box.isEmpty()) {
+        el.style.display = "none";
+        return;
+      }
       const p = new THREE.Vector3((box.min.x + box.max.x) / 2, (box.min.y + box.max.y) / 2, box.min.z).project(camera);
-      if (p.z > 1) { el.style.display = "none"; return; }
+      if (p.z > 1) {
+        el.style.display = "none";
+        return;
+      }
       el.style.display = "";
       el.style.left = `${((p.x + 1) / 2) * host.clientWidth}px`;
       el.style.top = `${((1 - p.y) / 2) * host.clientHeight}px`;
@@ -196,13 +294,15 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
       place(labelBRef.current, b);
     };
     controls.addEventListener("change", draw);
-    controls.addEventListener("start", () => { // the user takes over: stop any camera flight
+    controls.addEventListener("start", () => {
+      // the user takes over: stop any camera flight
       if (flight.current !== null) cancelAnimationFrame(flight.current);
       flight.current = null;
     });
 
     const ro = new ResizeObserver(() => {
-      const w = host.clientWidth, h = Math.max(1, host.clientHeight);
+      const w = host.clientWidth,
+        h = Math.max(1, host.clientHeight);
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
@@ -255,14 +355,17 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
     const hfov = 2 * Math.atan(Math.tan(vfov / 2) * ctx.camera.aspect);
     const dist = (r / Math.sin(Math.min(vfov, hfov) / 2)) * 1.3; // some context around the part
     const toPos = sphere.center.clone().addScaledVector(dirIn.clone().normalize(), dist);
-    const fromPos = ctx.camera.position.clone(), fromTarget = ctx.controls.target.clone();
+    const fromPos = ctx.camera.position.clone(),
+      fromTarget = ctx.controls.target.clone();
     ctx.camera.near = Math.min(ctx.camera.near, dist / 100);
     ctx.camera.far = Math.max(ctx.camera.far, dist * 100);
     ctx.camera.updateProjectionMatrix();
     if (flight.current !== null) cancelAnimationFrame(flight.current);
-    const t0 = performance.now(), ms = 450;
+    const t0 = performance.now(),
+      ms = 450;
     const step = () => {
-      const t = Math.min(1, (performance.now() - t0) / ms), e = t * t * (3 - 2 * t);
+      const t = Math.min(1, (performance.now() - t0) / ms),
+        e = t * t * (3 - 2 * t);
       ctx.camera.position.lerpVectors(fromPos, toPos, e);
       ctx.controls.target.lerpVectors(fromTarget, sphere.center, e);
       ctx.controls.update();
@@ -287,14 +390,24 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focus?.nonce]);
 
-  const fill = (group: THREE.Group, buf: ArrayBuffer | null, color: number | string, cut: number | string = color === B_COLOR ? B_CUT : cutColor(color)) => {
+  const fill = (
+    group: THREE.Group,
+    buf: ArrayBuffer | null,
+    color: number | string,
+    cut: number | string = color === B_COLOR ? B_CUT : cutColor(color),
+  ) => {
     clearModel(group);
     if (!buf) return;
     const geom = new STLLoader().parse(buf);
-    const mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0.05, wireframe: wire }));
+    const mesh = new THREE.Mesh(
+      geom,
+      new THREE.MeshStandardMaterial({ color, roughness: 0.55, metalness: 0.05, wireframe: wire }),
+    );
     mesh.name = "body";
-    const lines = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 25),
-      new THREE.LineBasicMaterial({ color: edgeColor(color), transparent: true, opacity: 0.35 }));
+    const lines = new THREE.LineSegments(
+      new THREE.EdgesGeometry(geom, 25),
+      new THREE.LineBasicMaterial({ color: edgeColor(color), transparent: true, opacity: 0.35 }),
+    );
     lines.visible = edges && !wire;
     lines.name = "edges";
     // Back faces in a flat color: only visible through a section cut, where they show the walls.
@@ -305,20 +418,27 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
 
   // See-through: both models with the toggle; B also whenever it is overlaid on A.
   const applyLook = (ctx: Ctx) => {
-    const set = (group: THREE.Group, on: boolean) => group.traverse((o) => {
-      if (o.name !== "body" || !(o instanceof THREE.Mesh)) return;
-      const m = o.material as THREE.MeshStandardMaterial;
-      Object.assign(m, on ? { transparent: true, opacity: 0.45, depthWrite: false } : { transparent: false, opacity: 1, depthWrite: true });
-      m.needsUpdate = true;
-      o.renderOrder = on ? 1 : 0;
-    });
+    const set = (group: THREE.Group, on: boolean) =>
+      group.traverse((o) => {
+        if (o.name !== "body" || !(o instanceof THREE.Mesh)) return;
+        const m = o.material as THREE.MeshStandardMaterial;
+        Object.assign(
+          m,
+          on
+            ? { transparent: true, opacity: 0.45, depthWrite: false }
+            : { transparent: false, opacity: 1, depthWrite: true },
+        );
+        m.needsUpdate = true;
+        o.renderOrder = on ? 1 : 0;
+      });
     set(ctx.a, seeThrough);
     set(ctx.lig, seeThrough);
     set(ctx.reed, seeThrough);
     set(ctx.b, seeThrough || layout === "overlay");
     const overlaid = layout === "overlay";
     ctx.b.traverse((o) => {
-      if (o.name === "body" && o instanceof THREE.Mesh && overlaid && !seeThrough) (o.material as THREE.Material).opacity = 0.3;
+      if (o.name === "body" && o instanceof THREE.Mesh && overlaid && !seeThrough)
+        (o.material as THREE.Material).opacity = 0.3;
       if (o.name === "edges" && o instanceof THREE.LineSegments) {
         const m = o.material as THREE.LineBasicMaterial;
         m.depthTest = !overlaid; // overlaid: B's edges (window, table, tip) show through A
@@ -351,7 +471,9 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
     ctx.b.position.set(0, 0, 0);
     if (layout === "side" && ctx.a.children.length && ctx.b.children.length) {
       // a lengthwise cut keeps x <= pos, so B then goes along Y (else the cut would take it away)
-      const ba = new THREE.Box3().setFromObject(ctx.a), bb = new THREE.Box3().setFromObject(ctx.b), k = section === "length" ? "y" : sideAxis.current;
+      const ba = new THREE.Box3().setFromObject(ctx.a),
+        bb = new THREE.Box3().setFromObject(ctx.b),
+        k = section === "length" ? "y" : sideAxis.current;
       const gap = 0.15 * Math.max(ba.max.x - ba.min.x, 5);
       ctx.b.position[k] = ba.max[k] + gap - bb.min[k];
     }
@@ -362,7 +484,8 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
   const placeLig = (ctx: Ctx) => {
     ctx.lig.position.set(0, 0, 0);
     if (!ligature?.beside || !ctx.a.children.length || !ctx.lig.children.length) return;
-    const ba = new THREE.Box3().setFromObject(ctx.a), bl = new THREE.Box3().setFromObject(ctx.lig);
+    const ba = new THREE.Box3().setFromObject(ctx.a),
+      bl = new THREE.Box3().setFromObject(ctx.lig);
     ctx.lig.position.y = ba.min.y - 0.4 * Math.max(bl.max.y - bl.min.y, 5) - bl.max.y;
     ctx.lig.position.z = -bl.min.z;
   };
@@ -416,8 +539,10 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
     placeB(ctx);
     applySection(ctx);
     // a different B: frame both (a re-aligned STL of the same B keeps the camera)
-    if (compare && compareKey !== framedB.current) { framedB.current = compareKey; frame("iso"); }
-    else ctx.draw();
+    if (compare && compareKey !== framedB.current) {
+      framedB.current = compareKey;
+      frame("iso");
+    } else ctx.draw();
     if (!compare) framedB.current = undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [compare]);
@@ -459,7 +584,9 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
       if (o.name === "cap") m.color.set(cutColor(look.model));
       if (o.name === "edges") m.color.set(edgeColor(look.model));
     });
-    const mats = (Array.isArray(ctx.grid.material) ? ctx.grid.material : [ctx.grid.material]) as THREE.LineBasicMaterial[];
+    const mats = (
+      Array.isArray(ctx.grid.material) ? ctx.grid.material : [ctx.grid.material]
+    ) as THREE.LineBasicMaterial[];
     const [center, line] = bg.light ? [0x8f96a3, 0xb3b9c4] : [0x5a6070, 0x3a3f4b];
     ctx.grid.geometry.dispose();
     const fresh = new THREE.GridHelper(200, 20, center, line);
@@ -505,57 +632,136 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
   return (
     <div className={`viewer${bg.light ? " light-bg" : ""}`} style={{ background: bg.css }}>
       <div className="viewer-canvas" ref={hostRef} />
-      {svg && <div className="svg-view"><img alt="2D result" src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`} /></div>}
+      {svg && (
+        <div className="svg-view">
+          <img alt="2D result" src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`} />
+        </div>
+      )}
       {!svg && (!compact || toolsOpen) && (
         <div className={`viewer-tools${compact ? " compact" : ""}`}>
           <div className="segmented views" role="group" aria-label="View">
             {(["iso", "front", "back", "left", "right", "top"] as ViewName[]).map((v) => (
-              <button key={v} onClick={() => frame(v)} title={VIEW_TITLES[v]}>{VIEW_LABELS[v]}</button>
+              <button key={v} onClick={() => frame(v)} title={VIEW_TITLES[v]}>
+                {VIEW_LABELS[v]}
+              </button>
             ))}
           </div>
           <span className="sep" />
-          <Menu label="Show ▾" title="What the view shows: edges, see-through, the ligature and a reed" align="left" className="show-menu">
+          <Menu
+            label="Show ▾"
+            title="What the view shows: edges, see-through, the ligature and a reed"
+            align="left"
+            className="show-menu"
+          >
             {() => (
               <div className="show-list">
-                <Check on={edges} set={setEdges} title="Outline the model's edges">Edges</Check>
-                {!simple && <Check on={wire} set={setWire} title="Show the triangles">Wireframe</Check>}
-                <Check on={seeThrough} set={setSeeThrough} title="Translucent models: see the chamber and bore through the walls">See-through</Check>
-                {onLigature && <>
-                  <Check on={!!ligature?.on} set={(on) => onLigature({ on })} title="Show the ligature made for this mouthpiece (red) on it">Ligature</Check>
-                  {ligature?.on && (
-                    <select value={ligature.beside ? "beside" : "on"} onChange={(e) => onLigature({ beside: e.target.value === "beside" })} title="Where the ligature is shown">
-                      <option value="on">On the mouthpiece</option>
-                      <option value="beside">Beside it</option>
-                    </select>
-                  )}
-                  <Check on={!!ligature?.reedOn} set={(reed) => onLigature({ reed })} title="Show a reed on the table">Reed</Check>
-                </>}
+                <Check on={edges} set={setEdges} title="Outline the model's edges">
+                  Edges
+                </Check>
+                {!simple && (
+                  <Check on={wire} set={setWire} title="Show the triangles">
+                    Wireframe
+                  </Check>
+                )}
+                <Check
+                  on={seeThrough}
+                  set={setSeeThrough}
+                  title="Translucent models: see the chamber and bore through the walls"
+                >
+                  See-through
+                </Check>
+                {onLigature && (
+                  <>
+                    <Check
+                      on={!!ligature?.on}
+                      set={(on) => onLigature({ on })}
+                      title="Show the ligature made for this mouthpiece (red) on it"
+                    >
+                      Ligature
+                    </Check>
+                    {ligature?.on && (
+                      <select
+                        value={ligature.beside ? "beside" : "on"}
+                        onChange={(e) => onLigature({ beside: e.target.value === "beside" })}
+                        title="Where the ligature is shown"
+                      >
+                        <option value="on">On the mouthpiece</option>
+                        <option value="beside">Beside it</option>
+                      </select>
+                    )}
+                    <Check
+                      on={!!ligature?.reedOn}
+                      set={(reed) => onLigature({ reed })}
+                      title="Show a reed on the table"
+                    >
+                      Reed
+                    </Check>
+                  </>
+                )}
               </div>
             )}
           </Menu>
-          <select className={section !== "off" ? "on" : ""} value={section} onChange={(e) => chooseSection(e.target.value as Section)} title="Cut the model open to see the inside">
+          <select
+            className={section !== "off" ? "on" : ""}
+            value={section}
+            onChange={(e) => chooseSection(e.target.value as Section)}
+            title="Cut the model open to see the inside"
+          >
             <option value="off">Cut open: off</option>
             <option value="length">Cut lengthwise</option>
             <option value="across">Cut across</option>
           </select>
           {section !== "off" && (
-            <label className="section-pos" title={section === "length" ? "Cut position across the width (0 = centerline)" : "Cut height along the mouthpiece"}>
-              <input type="range" min={range[0]} max={range[1]} step={0.1} value={secPos} onChange={(e) => setSecPos(Number(e.target.value))} />
+            <label
+              className="section-pos"
+              title={
+                section === "length"
+                  ? "Cut position across the width (0 = centerline)"
+                  : "Cut height along the mouthpiece"
+              }
+            >
+              <input
+                type="range"
+                min={range[0]}
+                max={range[1]}
+                step={0.1}
+                value={secPos}
+                onChange={(e) => setSecPos(Number(e.target.value))}
+              />
               <span>{secPos.toFixed(1)}</span>
             </label>
           )}
           {quality}
           <span className="sep" />
-          <button className="toggle picture" onClick={snapshot} title="Save this view as a picture (PNG)" aria-label="Save a picture of the view">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
-              <path d="M4 8h3l2-2.5h6L17 8h3v11H4z" /><circle cx="12" cy="13" r="3.5" />
+          <button
+            className="toggle picture"
+            onClick={snapshot}
+            title="Save this view as a picture (PNG)"
+            aria-label="Save a picture of the view"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="16"
+              height="16"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M4 8h3l2-2.5h6L17 8h3v11H4z" />
+              <circle cx="12" cy="13" r="3.5" />
             </svg>
           </button>
           {compare && (
             <>
               <span className="sep" />
-              <Toggle on={showA} set={setShowA} title="Show A (this design)"><span className="swatch a" /> A</Toggle>
-              <Toggle on={showB} set={setShowB} title="Show B (the one you compare with)"><span className="swatch b" /> B</Toggle>
+              <Toggle on={showA} set={setShowA} title="Show A (this design)">
+                <span className="swatch a" /> A
+              </Toggle>
+              <Toggle on={showB} set={setShowB} title="Show B (the one you compare with)">
+                <span className="swatch b" /> B
+              </Toggle>
               <select value={layout} onChange={(e) => setLayout(e.target.value as "overlay" | "side")}>
                 <option value="overlay">Overlay</option>
                 <option value="side">Side by side</option>
@@ -566,17 +772,30 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
       )}
       {compare && !svg && labelB && (
         <div className="ab-legend">
-          <span title={labelA}><span className="swatch a" /> A {labelA}</span>
-          <span title={labelB}><span className="swatch b" /> B {labelB}</span>
-          {onClearB && <button onClick={onClearB} aria-label="Stop comparing (clear B)" title="Stop comparing (clear B)">✕</button>}
+          <span title={labelA}>
+            <span className="swatch a" /> A {labelA}
+          </span>
+          <span title={labelB}>
+            <span className="swatch b" /> B {labelB}
+          </span>
+          {onClearB && (
+            <button onClick={onClearB} aria-label="Stop comparing (clear B)" title="Stop comparing (clear B)">
+              ✕
+            </button>
+          )}
         </div>
       )}
-      <div ref={labelARef} className="model-label a" style={{ display: "none" }}>A</div>
-      <div ref={labelBRef} className="model-label b" style={{ display: "none" }}>B</div>
+      <div ref={labelARef} className="model-label a" style={{ display: "none" }}>
+        A
+      </div>
+      <div ref={labelBRef} className="model-label b" style={{ display: "none" }}>
+        B
+      </div>
       {busy && (
         <div className={`render-progress${stl ? "" : " first"}`} role="status">
           <span className="spinner" aria-hidden="true" />
-          {busyLabel ?? "Rendering…"}{elapsed >= 1 ? ` ${elapsed.toFixed(0)}s` : ""}
+          {busyLabel ?? "Rendering…"}
+          {elapsed >= 1 ? ` ${elapsed.toFixed(0)}s` : ""}
         </div>
       )}
       {overlay}
@@ -584,10 +803,19 @@ export function Viewer({ stl, svg, compare, frameKey, compact = false, focus = n
         <div className="viewer-tools-toggle">
           {!toolsOpen && section !== "off" && (
             <label className="section-pos">
-              <input type="range" min={range[0]} max={range[1]} step={0.1} value={secPos} onChange={(e) => setSecPos(Number(e.target.value))} />
+              <input
+                type="range"
+                min={range[0]}
+                max={range[1]}
+                step={0.1}
+                value={secPos}
+                onChange={(e) => setSecPos(Number(e.target.value))}
+              />
             </label>
           )}
-          <button onClick={() => setToolsOpen((o) => !o)} aria-label="View options" aria-expanded={toolsOpen}>{toolsOpen ? "✕" : "⋯"}</button>
+          <button onClick={() => setToolsOpen((o) => !o)} aria-label="View options" aria-expanded={toolsOpen}>
+            {toolsOpen ? "✕" : "⋯"}
+          </button>
         </div>
       )}
     </div>

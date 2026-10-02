@@ -54,16 +54,31 @@ self.onmessage = async (e: MessageEvent<WasmJob>) => {
     } catch (err) {
       // exit() and aborts surface as exceptions; a numeric one is an uncaught C++ exception
       code = typeof (err as { status?: number }).status === "number" ? (err as { status: number }).status : 1;
-      if (typeof (err as { status?: number }).status !== "number") log.push(`ERROR: OpenSCAD stopped unexpectedly (${String(err)})`);
+      if (typeof (err as { status?: number }).status !== "number")
+        log.push(`ERROR: OpenSCAD stopped unexpectedly (${String(err)})`);
     }
     const outputs: Record<string, Uint8Array | null> = {};
     for (const p of job.outputs) {
-      try { outputs[p] = inst.FS.readFile(p); } catch { outputs[p] = null; }
+      try {
+        outputs[p] = inst.FS.readFile(p);
+      } catch {
+        outputs[p] = null;
+      }
     }
     const result: WasmResult = { id: job.id, code, log: log.join("\n"), outputs };
-    (self as unknown as Worker).postMessage(result, Object.values(outputs).filter((o): o is Uint8Array => !!o).map((o) => o.buffer));
+    (self as unknown as Worker).postMessage(
+      result,
+      Object.values(outputs)
+        .filter((o): o is Uint8Array => !!o)
+        .map((o) => o.buffer),
+    );
   } catch (err) {
-    const result: WasmResult = { id: job.id, code: -1, log: [...log, `ERROR: could not run OpenSCAD in the browser: ${String(err)}`].join("\n"), outputs: {} };
+    const result: WasmResult = {
+      id: job.id,
+      code: -1,
+      log: [...log, `ERROR: could not run OpenSCAD in the browser: ${String(err)}`].join("\n"),
+      outputs: {},
+    };
     (self as unknown as Worker).postMessage(result);
   }
 };

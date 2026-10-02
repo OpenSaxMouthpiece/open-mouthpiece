@@ -13,6 +13,8 @@ npm run dev:lan        # the same, reachable from phones/tablets on your network
 npm run build          # the site -> dist/ (docs/HOSTING.md); npm run preview to try it
 npm run check          # regression check of every param file; -- --update to accept changes
 npm run sweep          # robustness sweep over the parameter space (a few minutes)
+npm run lint           # ESLint (TypeScript, React hooks); npm run typecheck for tsc alone
+npm run format         # Prettier (src/, scripts/); format:check only reports
 node scripts/sync_voice_files.mjs     # after changing parameters/descriptions in the base file
 node scripts/make_variants.mjs alto   # regenerate a voice's Ash/Birch/Cedar variant files
 node scripts/bundle_scad.mjs scad/alto.scad -o alto_flat.scad   # one-file version for other tools

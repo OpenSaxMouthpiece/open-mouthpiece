@@ -18,8 +18,12 @@ const OUT = path.join(ROOT, 'public', 'openscad');
 const STAMP = path.join(OUT, 'VERSION');
 const WANT = ['openscad.js', 'openscad.wasm'];
 
-if (!process.argv.includes('--force') && fs.existsSync(STAMP) && fs.readFileSync(STAMP, 'utf8').trim() === VERSION
-    && WANT.every((f) => fs.existsSync(path.join(OUT, f)))) {
+if (
+  !process.argv.includes('--force') &&
+  fs.existsSync(STAMP) &&
+  fs.readFileSync(STAMP, 'utf8').trim() === VERSION &&
+  WANT.every((f) => fs.existsSync(path.join(OUT, f)))
+) {
   console.log(`OpenSCAD WebAssembly ${VERSION} already in public/openscad/`);
   process.exit(0);
 }
@@ -41,7 +45,9 @@ const got = [];
 for (let i = 0; i < count; i++) {
   const method = zip.readUInt16LE(p + 10);
   const csize = zip.readUInt32LE(p + 20);
-  const nameLen = zip.readUInt16LE(p + 28), extraLen = zip.readUInt16LE(p + 30), commentLen = zip.readUInt16LE(p + 32);
+  const nameLen = zip.readUInt16LE(p + 28),
+    extraLen = zip.readUInt16LE(p + 30),
+    commentLen = zip.readUInt16LE(p + 32);
   const local = zip.readUInt32LE(p + 42);
   const name = zip.toString('utf8', p + 46, p + 46 + nameLen);
   p += 46 + nameLen + extraLen + commentLen;

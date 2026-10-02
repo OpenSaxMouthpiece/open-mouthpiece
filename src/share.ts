@@ -7,15 +7,18 @@ import { migrateScad, migrateValues } from "./migrate";
 
 export interface SharedDesign {
   v: 1;
-  file: string;                    // project path (e.g. "alto.scad") or a file name
+  file: string; // project path (e.g. "alto.scad") or a file name
   values: Record<string, ParamValue>;
-  source?: string;                 // the file's text, when it isn't a preset
-  art?: Record<string, string>;    // the user's own pictures, when they chose to include them
+  source?: string; // the file's text, when it isn't a preset
+  art?: Record<string, string>; // the user's own pictures, when they chose to include them
 }
 
 const KEY = "d=";
 
-async function pipe(data: Uint8Array<ArrayBuffer>, stream: CompressionStream | DecompressionStream): Promise<Uint8Array<ArrayBuffer>> {
+async function pipe(
+  data: Uint8Array<ArrayBuffer>,
+  stream: CompressionStream | DecompressionStream,
+): Promise<Uint8Array<ArrayBuffer>> {
   const out = new Blob([data]).stream().pipeThrough(stream);
   return new Uint8Array(await new Response(out).arrayBuffer());
 }
@@ -45,7 +48,8 @@ export async function readShare(): Promise<SharedDesign | null> {
   if (!h.startsWith(KEY)) return null;
   const json = await pipe(fromBase64Url(h.slice(KEY.length)), new DecompressionStream("deflate-raw"));
   const d = JSON.parse(new TextDecoder().decode(json)) as SharedDesign;
-  if (d?.v !== 1 || typeof d.file !== "string" || typeof d.values !== "object" || d.values === null) throw new Error("not a design link");
+  if (d?.v !== 1 || typeof d.file !== "string" || typeof d.values !== "object" || d.values === null)
+    throw new Error("not a design link");
   // links made before the parameter renames (migrate.ts)
   return { ...d, values: migrateValues(d.values), source: d.source === undefined ? undefined : migrateScad(d.source) };
 }

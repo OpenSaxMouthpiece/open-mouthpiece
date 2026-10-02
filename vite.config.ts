@@ -35,8 +35,11 @@ function liveProject(): Plugin {
 
 // The build's commit, for error reports (src/report.ts): Cloudflare's Workers Builds sets it, else git.
 const BUILD = (() => {
-  try { return (process.env.WORKERS_CI_COMMIT_SHA ?? execSync("git rev-parse HEAD").toString()).trim().slice(0, 7); }
-  catch { return "dev"; }
+  try {
+    return (process.env.WORKERS_CI_COMMIT_SHA ?? execSync("git rev-parse HEAD").toString()).trim().slice(0, 7);
+  } catch {
+    return "dev";
+  }
 })();
 
 export default defineConfig({

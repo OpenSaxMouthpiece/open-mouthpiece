@@ -8,9 +8,9 @@ export const DONATE_URL = "https://ko-fi.com/opensaxmouthpiece";
 
 // The mouthpieces the presets were measured from (rounded dimensions only; credited in README.md).
 export const PRESET_SOURCES: { label: string; url: string }[] = [
-  { label: "\"64\" soprano", url: "https://www.thingiverse.com/thing:6645219" },
-  { label: "\"64\" alto", url: "https://www.thingiverse.com/thing:6645230" },
-  { label: "\"64\" tenor", url: "https://www.thingiverse.com/thing:6645238" },
-  { label: "\"72\" tenor", url: "https://www.thingiverse.com/thing:6645240" },
-  { label: "\"64\" bari", url: "https://www.thingiverse.com/thing:6645244" },
+  { label: '"64" soprano', url: "https://www.thingiverse.com/thing:6645219" },
+  { label: '"64" alto', url: "https://www.thingiverse.com/thing:6645230" },
+  { label: '"64" tenor', url: "https://www.thingiverse.com/thing:6645238" },
+  { label: '"72" tenor', url: "https://www.thingiverse.com/thing:6645240" },
+  { label: '"64" bari', url: "https://www.thingiverse.com/thing:6645244" },
 ];

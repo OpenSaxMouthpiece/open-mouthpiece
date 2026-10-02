@@ -1,4 +1,4 @@
-// Design mode: the handful of parameters a player or maker starts with, in sax terms. Ranges and
+// The curated settings: the handful of parameters a player or maker starts with, in sax terms. Ranges and
 // descriptions come from the rendered file's own Customizer export (so they follow
 // scad/lib/mouthpiece_base.scad); a name the file doesn't declare is simply skipped.
 
@@ -9,8 +9,8 @@ export interface DesignItem {
   label: string;
   unit?: DesignUnit;
   options?: string[]; // only offer these of the parameter's dropdown values
-  showIf?: string[];  // only shown once one of these (text / picture) parameters is filled in
-  caption?: string;   // instead of the file's description (when the control differs from the file's unit/options)
+  showIf?: string[]; // only shown once one of these (text / picture) parameters is filled in
+  caption?: string; // instead of the file's description (when the control differs from the file's unit/options)
   optionLabels?: Record<string, string>; // dropdown values in words
 }
 
@@ -23,7 +23,13 @@ export interface DesignSection {
 
 // Facing curves to pick from (under the facing chart; the facing curve is chosen there, not in
 // the list). "As designed" = the file's own facing; the curve can also be dragged.
-export interface FacingChoice { id: string; label: string; hint: string; model?: string; exponent?: number }
+export interface FacingChoice {
+  id: string;
+  label: string;
+  hint: string;
+  model?: string;
+  exponent?: number;
+}
 export const FACING_CHOICES: FacingChoice[] = [
   { id: "file", label: "As designed", hint: "The facing this mouthpiece comes with" },
   { id: "free", label: "Free", model: "power", exponent: 1.6, hint: "Opens up soon after the flat part" },
@@ -32,8 +38,18 @@ export const FACING_CHOICES: FacingChoice[] = [
   { id: "radius", label: "Radius", model: "arc", hint: "A section of a circle" },
 ];
 
-const BAFFLES: Record<string, string> = { measured: "As measured", flat: "Flat", rollover: "Rollover", step: "Step", concave: "Concave" };
-const PARTS: Record<string, string> = { mouthpiece: "Mouthpiece", shank_test_ring: "Shank test ring", ligature: "Ligature" };
+const BAFFLES: Record<string, string> = {
+  measured: "As measured",
+  flat: "Flat",
+  rollover: "Rollover",
+  step: "Step",
+  concave: "Concave",
+};
+const PARTS: Record<string, string> = {
+  mouthpiece: "Mouthpiece",
+  shank_test_ring: "Shank test ring",
+  ligature: "Ligature",
+};
 const num = (v: unknown, unit: string) => (typeof v === "number" ? `${+v.toFixed(2)} ${unit}` : null);
 const join = (parts: unknown[]) => parts.filter((p) => typeof p === "string" && p).join(" · ");
 
@@ -41,8 +57,12 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   {
     title: "Tip & facing",
     items: [
-      { name: "tip_opening", label: "Tip opening", unit: "thou",
-        caption: "Gap between the reed and the tip, in thousandths of an inch (76 = .076\"; typing mm works too)." },
+      {
+        name: "tip_opening",
+        label: "Tip opening",
+        unit: "thou",
+        caption: 'Gap between the reed and the tip, in thousandths of an inch (76 = .076"; typing mm works too).',
+      },
       { name: "facing_length", label: "Facing length" },
     ],
   },
@@ -50,8 +70,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     title: "Chamber & baffle",
     items: [
       { name: "chamber_width", label: "Chamber width" },
-      { name: "baffle_type", label: "Baffle shape",
-        optionLabels: BAFFLES },
+      { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
       { name: "baffle_height", label: "Baffle height" },
       { name: "baffle_hump", label: "Baffle hump" },
       { name: "window_width", label: "Window width" },
@@ -96,7 +115,11 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "side_text_size", label: "Side text size", showIf: ["side_text_right", "side_text_left"] },
       { name: "side_text_position", label: "Side text position", showIf: ["side_text_right", "side_text_left"] },
       { name: "lettering_font", label: "Font", showIf: ["top_text", "side_text_right", "side_text_left"] },
-      { name: "lettering_style", label: "Lettering style", showIf: ["top_text", "top_image", "side_text_right", "side_text_left"] },
+      {
+        name: "lettering_style",
+        label: "Lettering style",
+        showIf: ["top_text", "top_image", "side_text_right", "side_text_left"],
+      },
     ],
   },
   {
@@ -107,7 +130,11 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "ligature_position", label: "Position" },
       { name: "ligature_tongue", label: "Tongue" },
       { name: "ligature_tongue_side", label: "Tongue side", optionLabels: { top: "On top", reed: "Under the reed" } },
-      { name: "ligature_shape", label: "Shape", optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" } },
+      {
+        name: "ligature_shape",
+        label: "Shape",
+        optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" },
+      },
       { name: "ligature_reed_grip", label: "Reed grip" },
       { name: "ligature_fit", label: "Gap to the body" },
       { name: "ligature_wall", label: "Wall" },
@@ -117,23 +144,31 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Printing",
-    summary: (get) => join([get("part") !== "mouthpiece" && (PARTS[String(get("part"))] ?? get("part")), Number(get("print_stock")) > 0 && `+${get("print_stock")} mm stock`]),
+    summary: (get) =>
+      join([
+        get("part") !== "mouthpiece" && (PARTS[String(get("part"))] ?? get("part")),
+        Number(get("print_stock")) > 0 && `+${get("print_stock")} mm stock`,
+      ]),
     items: [
-      { name: "part", label: "What to print", options: ["mouthpiece", "shank_test_ring", "ligature"],
+      {
+        name: "part",
+        label: "What to print",
+        options: ["mouthpiece", "shank_test_ring", "ligature"],
         caption: "The mouthpiece, a shank test ring (print it first to check the fit on your cork), or the ligature.",
-        optionLabels: PARTS },
+        optionLabels: PARTS,
+      },
       { name: "print_stock", label: "Extra stock for finishing" },
     ],
   },
 ];
 
-// Customizer groups never shown (the parameters still work from the file or the code editor).
-export const HIDDEN_GROUPS = ["Not yet implemented"];
-// Also hidden from All parameters unless the code is open: point lists (the Curves section edits them).
-export const DESIGN_HIDDEN_GROUPS = [...HIDDEN_GROUPS, "Profile overrides"];
-// Dropdown values offered in Design mode, where a parameter's full list is for debugging.
+// Hidden from All parameters unless the code is open: point lists (the Curves section edits them).
+export const DESIGN_HIDDEN_GROUPS = ["Profile overrides"];
+// Dropdown values offered in the settings panel, where a parameter's full list is for debugging.
 export const DESIGN_OPTIONS: Record<string, string[]> = Object.fromEntries(
-  DESIGN_SECTIONS.flatMap((s) => s.items).filter((i) => i.options).map((i) => [i.name, i.options!]),
+  DESIGN_SECTIONS.flatMap((s) => s.items)
+    .filter((i) => i.options)
+    .map((i) => [i.name, i.options!]),
 );
 
 export const MM_PER_THOU = 0.0254;
@@ -157,18 +192,25 @@ const filled = (v: unknown) => (typeof v === "string" && v !== "") || (Array.isA
 const anyText = (get: Getter, names: string[]) => names.some((n) => filled(get(n)));
 const INACTIVE: Record<string, (get: Getter) => string | null> = {
   // Gauge without points falls back to Power, so the exponent still counts then
-  facing_exponent: (get) => (get("facing_model") === "arc" || (get("facing_model") === "gauge" && filled(get("facing_gauge_points")))
-    ? "only the Power facing uses it" : null),
+  facing_exponent: (get) =>
+    get("facing_model") === "arc" || (get("facing_model") === "gauge" && filled(get("facing_gauge_points")))
+      ? "only the Power facing uses it"
+      : null,
   facing_gauge_points: (get) => (get("facing_model") === "gauge" ? null : "only the Gauge facing uses them"),
   bore_axis_height: (get) => (filled(get("ext_top_points")) ? null : "only with your own top outline (ext_top_points)"),
-  tooth_plate_length: (get) => (Number(get("tooth_plate_recess")) > 0 ? null : "the tooth-patch pocket is off (depth 0)"),
+  tooth_plate_length: (get) =>
+    Number(get("tooth_plate_recess")) > 0 ? null : "the tooth-patch pocket is off (depth 0)",
 };
 // The lettering settings do nothing without something to letter (same rule as the sections' showIf).
 for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {
-  if (i.showIf && !INACTIVE[i.name]) INACTIVE[i.name] = (get) => (anyText(get, i.showIf!) ? null : "no text or picture to apply it to");
+  if (i.showIf && !INACTIVE[i.name])
+    INACTIVE[i.name] = (get) => (anyText(get, i.showIf!) ? null : "no text or picture to apply it to");
 }
 for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertical", "top_image_aspect"]) {
-  INACTIVE[n] = (get) => (anyText(get, ["top_text", "top_image", "side_text_right", "side_text_left"]) ? null : "no text or picture to apply it to");
+  INACTIVE[n] = (get) =>
+    anyText(get, ["top_text", "top_image", "side_text_right", "side_text_left"])
+      ? null
+      : "no text or picture to apply it to";
 }
 export const paramInactive = (name: string, get: Getter) => INACTIVE[name]?.(get) ?? null;
 // A description for both screens where the control differs from the file's (tip in thousandths).

@@ -11,19 +11,26 @@ import { runOpenscad } from "./wasm/runner";
 import { checkArt, NO_SHAPES, saveUserArt, userArtAspect, userArtFiles, userArtNames, userArtUrl } from "./userArt";
 
 const BASE = import.meta.env.BASE_URL;
-const ROOT = "/scad";            // the project's scad/ folder inside OpenSCAD's filesystem
+const ROOT = "/scad"; // the project's scad/ folder inside OpenSCAD's filesystem
 const STORE_KEY = "open-mouthpiece-files-v1";
 
-interface Manifest { files: string[]; readOnly: string[]; aspect?: Record<string, number | null> }
-interface Stored { text: string }
+interface Manifest {
+  files: string[];
+  readOnly: string[];
+  aspect?: Record<string, number | null>;
+}
+interface Stored {
+  text: string;
+}
 
 // ---- project files (from the site) and the user's files (localStorage) ------------------------
 
 let manifest: Promise<Manifest> | null = null;
-const getManifest = () => (manifest ??= fetch(`${BASE}project/manifest.json`, { cache: "no-cache" }).then((r) => {
-  if (!r.ok) throw new Error(`project manifest: ${r.status}`);
-  return r.json() as Promise<Manifest>;
-}));
+const getManifest = () =>
+  (manifest ??= fetch(`${BASE}project/manifest.json`, { cache: "no-cache" }).then((r) => {
+    if (!r.ok) throw new Error(`project manifest: ${r.status}`);
+    return r.json() as Promise<Manifest>;
+  }));
 
 const projectData = new Map<string, Promise<Uint8Array>>();
 function projectFile(rel: string): Promise<Uint8Array> {
@@ -45,7 +52,9 @@ function loadStore(): Record<string, Stored> {
     // files saved before the parameter renames (migrate.ts); rewritten on their next save
     for (const f of Object.values(s)) if (f && typeof f.text === "string") f.text = migrateScad(f.text);
     return s;
-  } catch { return {}; }
+  } catch {
+    return {};
+  }
 }
 // The user's files; a stored copy of a project file (from an older version) is ignored, so the
 // project on the site always wins.
@@ -57,7 +66,9 @@ function saveStore(s: Record<string, Stored>) {
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(s));
   } catch {
-    throw new Error("This browser's storage is full or blocked, so the file can't be saved here. Use Download to keep a copy.");
+    throw new Error(
+      "This browser's storage is full or blocked, so the file can't be saved here. Use Download to keep a copy.",
+    );
   }
 }
 
@@ -67,7 +78,11 @@ const decoder = new TextDecoder();
 async function workspace(t: RenderTarget) {
   const m = await getManifest();
   const files: Record<string, string | Uint8Array> = {};
-  await Promise.all(m.files.map(async (rel) => { files[`${ROOT}/${rel}`] = await projectFile(rel); }));
+  await Promise.all(
+    m.files.map(async (rel) => {
+      files[`${ROOT}/${rel}`] = await projectFile(rel);
+    }),
+  );
   for (const [rel, s] of Object.entries(await ownFiles())) files[`${ROOT}/${rel}`] = s.text;
   for (const [rel, text] of Object.entries(userArtFiles())) files[`${ROOT}/${rel}`] = text;
   for (const [rel, text] of Object.entries(t.files ?? {})) if (safeRel(rel)) files[`${ROOT}/${rel}`] = text;
@@ -81,8 +96,10 @@ async function workspace(t: RenderTarget) {
   // OpenSCAD can't find crashes it: register the project's fonts after its text (use<> works
   // anywhere in a file; at the end the line numbers in messages stay right).
   const source = t.source ?? "";
-  const fonts = /^\s*include\s*</m.test(source) || /\.ttf>/.test(source) ? []
-    : m.files.filter((f) => /\.(ttf|otf)$/i.test(f)).map((f) => `use <${ROOT}/${f}>`);
+  const fonts =
+    /^\s*include\s*</m.test(source) || /\.ttf>/.test(source)
+      ? []
+      : m.files.filter((f) => /\.(ttf|otf)$/i.test(f)).map((f) => `use <${ROOT}/${f}>`);
   files[`${ROOT}/${mainRel}`] = fonts.length ? `${source}\n${fonts.join("\n")}\n` : source;
   const clean = (log: string) => log.split(`${ROOT}/`).join("").split(mainRel!).join(display);
   return { files, main: `${ROOT}/${mainRel}`, clean };
@@ -93,7 +110,9 @@ const safeRel = (rel: string) => /^[\w.-]+(\/[\w.-]+)*$/.test(rel) && !rel.split
 // ---- OpenSCAD runs -----------------------------------------------------------------------------
 
 const defineArgs = (values: Record<string, ParamValue> = {}) =>
-  Object.entries(values).filter(([n]) => /^[A-Za-z_$][A-Za-z0-9_]*$/.test(n)).flatMap(([n, v]) => ["-D", `${n}=${scadLiteral(v)}`]);
+  Object.entries(values)
+    .filter(([n]) => /^[A-Za-z_$][A-Za-z0-9_]*$/.test(n))
+    .flatMap(([n, v]) => ["-D", `${n}=${scadLiteral(v)}`]);
 
 function toBase64(bytes: Uint8Array) {
   let bin = "";
@@ -105,10 +124,16 @@ const BACKEND = ["--backend=manifold"];
 
 // Height / width of a drawing as OpenSCAD imports it (the viewBox of its own SVG export).
 async function measureArt(svg: string): Promise<number | null> {
-  const r = await runOpenscad({
-    files: { "/tmp/art.svg": svg, "/tmp/m.scad": 'import("/tmp/art.svg", center = true);\n' },
-    cwd: "/tmp", args: ["-o", "/tmp/m_out.svg", "/tmp/m.scad"], outputs: ["/tmp/m_out.svg"],
-  }, undefined, "quick");
+  const r = await runOpenscad(
+    {
+      files: { "/tmp/art.svg": svg, "/tmp/m.scad": 'import("/tmp/art.svg", center = true);\n' },
+      cwd: "/tmp",
+      args: ["-o", "/tmp/m_out.svg", "/tmp/m.scad"],
+      outputs: ["/tmp/m_out.svg"],
+    },
+    undefined,
+    "quick",
+  );
   const out = r.outputs["/tmp/m_out.svg"];
   const box = out && /viewBox="([-\d.e ]+)"/.exec(decoder.decode(out));
   const [, , w, h] = box ? box[1].trim().split(/\s+/).map(Number) : [];
@@ -121,8 +146,14 @@ export const browserApi: Api = {
 
   files: async () => {
     const m = await getManifest();
-    const own = Object.keys(await ownFiles()).filter((p) => p.endsWith(".scad")).sort();
-    return { files: [...new Set([...m.files.filter((f) => f.endsWith(".scad")), ...own])].sort(), readOnly: m.readOnly, own };
+    const own = Object.keys(await ownFiles())
+      .filter((p) => p.endsWith(".scad"))
+      .sort();
+    return {
+      files: [...new Set([...m.files.filter((f) => f.endsWith(".scad")), ...own])].sort(),
+      readOnly: m.readOnly,
+      own,
+    };
   },
 
   file: async (path: string) => {
@@ -135,7 +166,8 @@ export const browserApi: Api = {
 
   save: async (path: string, source: string) => {
     const m = await getManifest();
-    if (!safeRel(path) || !path.endsWith(".scad")) throw new Error("need a .scad path like my_alto.scad or folder/name.scad");
+    if (!safeRel(path) || !path.endsWith(".scad"))
+      throw new Error("need a .scad path like my_alto.scad or folder/name.scad");
     if (m.files.includes(path)) throw new Error(`${path} is part of the project: use "Save as…" to make your own copy`);
     const s = loadStore();
     s[path] = { text: source };
@@ -153,10 +185,18 @@ export const browserApi: Api = {
 
   params: async (t: RenderTarget, signal?: AbortSignal) => {
     const w = await workspace(t);
-    const r = await runOpenscad({ files: w.files, cwd: ROOT, args: ["-o", "/tmp/out.param", w.main], outputs: ["/tmp/out.param"] }, signal, "quick");
+    const r = await runOpenscad(
+      { files: w.files, cwd: ROOT, args: ["-o", "/tmp/out.param", w.main], outputs: ["/tmp/out.param"] },
+      signal,
+      "quick",
+    );
     const out = r.outputs["/tmp/out.param"];
     let parameters: ScadParam[] = [];
-    try { parameters = out ? JSON.parse(decoder.decode(out)).parameters ?? [] : []; } catch { /* no parameters */ }
+    try {
+      parameters = out ? (JSON.parse(decoder.decode(out)).parameters ?? []) : [];
+    } catch {
+      /* no parameters */
+    }
     return { parameters, log: w.clean(r.log) };
   },
 
@@ -164,23 +204,51 @@ export const browserApi: Api = {
     const t0 = performance.now();
     const w = await workspace(t);
     const defs = defineArgs(values);
-    const r3 = await runOpenscad({ files: w.files, cwd: ROOT, args: [...BACKEND, "--export-format=binstl", "-o", "/tmp/out.stl", ...defs, w.main], outputs: ["/tmp/out.stl"] }, signal);
+    const r3 = await runOpenscad(
+      {
+        files: w.files,
+        cwd: ROOT,
+        args: [...BACKEND, "--export-format=binstl", "-o", "/tmp/out.stl", ...defs, w.main],
+        outputs: ["/tmp/out.stl"],
+      },
+      signal,
+    );
     const ms = () => Math.round(performance.now() - t0);
     const stl = r3.outputs["/tmp/out.stl"];
-    if (r3.code === 0 && stl && stl.length > 84) return { ok: true, kind: "3d", stl: toBase64(stl), log: w.clean(r3.log), ms: ms() };
+    if (r3.code === 0 && stl && stl.length > 84)
+      return { ok: true, kind: "3d", stl: toBase64(stl), log: w.clean(r3.log), ms: ms() };
     if (/not a 3D object/i.test(r3.log)) {
-      const r2 = await runOpenscad({ files: w.files, cwd: ROOT, args: [...BACKEND, "-o", "/tmp/out.svg", ...defs, w.main], outputs: ["/tmp/out.svg"] }, signal);
+      const r2 = await runOpenscad(
+        {
+          files: w.files,
+          cwd: ROOT,
+          args: [...BACKEND, "-o", "/tmp/out.svg", ...defs, w.main],
+          outputs: ["/tmp/out.svg"],
+        },
+        signal,
+      );
       const svg = r2.outputs["/tmp/out.svg"];
-      if (r2.code === 0 && svg) return { ok: true, kind: "2d", svg: decoder.decode(svg), log: w.clean(r2.log), ms: ms() };
+      if (r2.code === 0 && svg)
+        return { ok: true, kind: "2d", svg: decoder.decode(svg), log: w.clean(r2.log), ms: ms() };
       return { ok: false, log: w.clean(r2.log), ms: ms() };
     }
-    if (/top level object is empty|no top.level geometry/i.test(r3.log)) return { ok: true, kind: "empty", log: w.clean(r3.log), ms: ms() };
+    if (/top level object is empty|no top.level geometry/i.test(r3.log))
+      return { ok: true, kind: "empty", log: w.clean(r3.log), ms: ms() };
     return { ok: false, log: w.clean(r3.log), ms: ms() };
   },
 
   echo: async (t: RenderTarget, values: Record<string, ParamValue>, signal?: AbortSignal) => {
     const w = await workspace(t);
-    const r = await runOpenscad({ files: w.files, cwd: ROOT, args: ["-o", "/tmp/out.echo", ...defineArgs(values), w.main], outputs: ["/tmp/out.echo"] }, signal, "quick");
+    const r = await runOpenscad(
+      {
+        files: w.files,
+        cwd: ROOT,
+        args: ["-o", "/tmp/out.echo", ...defineArgs(values), w.main],
+        outputs: ["/tmp/out.echo"],
+      },
+      signal,
+      "quick",
+    );
     const out = r.outputs["/tmp/out.echo"];
     return { ok: r.code === 0, log: w.clean(r.log + "\n" + (out ? decoder.decode(out) : "")) };
   },
@@ -191,14 +259,22 @@ export const browserApi: Api = {
     const own = new Set(userArtNames());
     const files = [...new Set([...project, ...own])].sort();
     const aspect: Record<string, number | null> = {};
-    await Promise.all(files.map(async (n) => {
-      if (own.has(n)) aspect[n] = userArtAspect(n);
-      else if (m.aspect && n in m.aspect) aspect[n] = m.aspect[n];
-      else {
-        if (!artAspects.has(n)) artAspects.set(n, projectFile(`art/${n}`).then((d) => measureArt(decoder.decode(d))).catch(() => null));
-        aspect[n] = await artAspects.get(n)!;
-      }
-    }));
+    await Promise.all(
+      files.map(async (n) => {
+        if (own.has(n)) aspect[n] = userArtAspect(n);
+        else if (m.aspect && n in m.aspect) aspect[n] = m.aspect[n];
+        else {
+          if (!artAspects.has(n))
+            artAspects.set(
+              n,
+              projectFile(`art/${n}`)
+                .then((d) => measureArt(decoder.decode(d)))
+                .catch(() => null),
+            );
+          aspect[n] = await artAspects.get(n)!;
+        }
+      }),
+    );
     return { files, aspect };
   },
 

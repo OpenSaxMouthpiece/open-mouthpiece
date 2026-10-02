@@ -9,17 +9,21 @@ import { getPref } from "./uiPrefs";
 declare const __BUILD__: string;
 
 export interface ReportContext {
-  design: string;          // "alto.scad", "variants/alto_ash.scad", or "own design"
-  changed: string[];       // names of the settings changed from the file
+  design: string; // "alto.scad", "variants/alto_ash.scad", or "own design"
+  changed: string[]; // names of the settings changed from the file
 }
 
 const MAX_PER_PAGE = 8;
 const sent = new Set<string>();
 let context: ReportContext = { design: "", changed: [] };
-export const setReportContext = (c: ReportContext) => { context = c; };
+export const setReportContext = (c: ReportContext) => {
+  context = c;
+};
 
 const enabled = () =>
-  import.meta.env.PROD && !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) && getPref("errorReports", true);
+  import.meta.env.PROD &&
+  !/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) &&
+  getPref("errorReports", true);
 
 export function report(kind: string, message: string, extra: Record<string, unknown> = {}) {
   try {
@@ -28,13 +32,19 @@ export function report(kind: string, message: string, extra: Record<string, unkn
     if (sent.has(key) || sent.size >= MAX_PER_PAGE) return;
     sent.add(key);
     const body = JSON.stringify({
-      kind, message: message.slice(0, 500), ...extra,
-      design: context.design, changed: context.changed.slice(0, 40),
-      build: typeof __BUILD__ === "string" ? __BUILD__ : "?", ua: navigator.userAgent.slice(0, 200),
+      kind,
+      message: message.slice(0, 500),
+      ...extra,
+      design: context.design,
+      changed: context.changed.slice(0, 40),
+      build: typeof __BUILD__ === "string" ? __BUILD__ : "?",
+      ua: navigator.userAgent.slice(0, 200),
     });
     const url = new URL("api/log", document.baseURI).href;
     if (!navigator.sendBeacon?.(url, new Blob([body], { type: "application/json" })))
-      fetch(url, { method: "POST", body, headers: { "Content-Type": "application/json" }, keepalive: true }).catch(() => {});
+      fetch(url, { method: "POST", body, headers: { "Content-Type": "application/json" }, keepalive: true }).catch(
+        () => {},
+      );
   } catch {
     // reporting must never break the page
   }
@@ -45,10 +55,18 @@ export function report(kind: string, message: string, extra: Record<string, unkn
 // on the next visit is reported then.
 const RENDER_MARK = "open-mouthpiece-rendering";
 export function renderStarted(design: string) {
-  try { localStorage.setItem(RENDER_MARK, JSON.stringify({ at: Date.now(), design })); } catch { /* no storage */ }
+  try {
+    localStorage.setItem(RENDER_MARK, JSON.stringify({ at: Date.now(), design }));
+  } catch {
+    /* no storage */
+  }
 }
 export function renderEnded() {
-  try { localStorage.removeItem(RENDER_MARK); } catch { /* no storage */ }
+  try {
+    localStorage.removeItem(RENDER_MARK);
+  } catch {
+    /* no storage */
+  }
 }
 export function reportUnfinishedRender() {
   try {
@@ -58,12 +76,18 @@ export function reportUnfinishedRender() {
     const { at, design } = JSON.parse(m) as { at: number; design: string };
     const age = Math.round((Date.now() - at) / 1000);
     report("unfinished-render", `the last visit ended during a render (${design}), ${age}s ago`);
-  } catch { /* no storage */ }
+  } catch {
+    /* no storage */
+  }
 }
 
 // Uncaught errors in the page.
 export function watchPageErrors() {
   window.addEventListener("pagehide", renderEnded);
-  window.addEventListener("error", (e) => report("page-error", `${e.message} @ ${e.filename?.split("/").pop()}:${e.lineno}`));
-  window.addEventListener("unhandledrejection", (e) => report("page-error", `unhandled: ${String((e.reason as Error)?.message ?? e.reason)}`));
+  window.addEventListener("error", (e) =>
+    report("page-error", `${e.message} @ ${e.filename?.split("/").pop()}:${e.lineno}`),
+  );
+  window.addEventListener("unhandledrejection", (e) =>
+    report("page-error", `unhandled: ${String((e.reason as Error)?.message ?? e.reason)}`),
+  );
 }

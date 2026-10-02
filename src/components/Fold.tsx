@@ -8,8 +8,8 @@ interface Props {
   id: string;
   title: ReactNode;
   summary?: ReactNode;
-  changed?: number;     // settings changed from the file's values (a dot + count on the header)
-  forceOpen?: boolean;  // e.g. while a search matches inside
+  changed?: number; // settings changed from the file's values (a dot + count on the header)
+  forceOpen?: boolean; // e.g. while a search matches inside
   className?: string;
   children: ReactNode;
 }
@@ -20,9 +20,15 @@ export function Fold({ id, title, summary, changed = 0, forceOpen = false, class
   return (
     <section className={`fold${open ? " open" : ""} ${className}`}>
       <button className="fold-head" aria-expanded={open} onClick={() => setOpen(!open)} disabled={forceOpen}>
-        <span className="fold-chevron" aria-hidden="true">▸</span>
+        <span className="fold-chevron" aria-hidden="true">
+          ▸
+        </span>
         <span className="fold-title">{title}</span>
-        {changed > 0 && <span className="fold-changed" title={`${changed} changed from the file's values`}>● {changed}</span>}
+        {changed > 0 && (
+          <span className="fold-changed" title={`${changed} changed from the file's values`}>
+            ● {changed}
+          </span>
+        )}
         {summary && <span className="fold-summary">{summary}</span>}
       </button>
       {open && <div className="fold-body">{children}</div>}

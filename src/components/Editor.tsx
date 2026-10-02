@@ -15,14 +15,17 @@ export interface EditorHandle {
 }
 
 interface Props {
-  docKey: string;   // which tab is shown
-  doc: string;      // that tab's text (external changes — reload, swap — are applied to the editor)
+  docKey: string; // which tab is shown
+  doc: string; // that tab's text (external changes — reload, swap — are applied to the editor)
   readOnly?: boolean; // that tab can't be edited (a preset)
   onChange(key: string, text: string): void;
   onRun(): void;
 }
 
-export const Editor = forwardRef<EditorHandle, Props>(function Editor({ docKey, doc, readOnly = false, onChange, onRun }, ref) {
+export const Editor = forwardRef<EditorHandle, Props>(function Editor(
+  { docKey, doc, readOnly = false, onChange, onRun },
+  ref,
+) {
   const hostRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const states = useRef(new Map<string, EditorState>());
@@ -45,7 +48,13 @@ export const Editor = forwardRef<EditorHandle, Props>(function Editor({ docKey, 
       ro.current.of([]),
       cpp(),
       look.current.of(theme === "dark" ? oneDark : []),
-      Prec.highest(keymap.of([{ key: "Mod-Enter", run }, { key: "F6", run }, { key: "F5", run }])),
+      Prec.highest(
+        keymap.of([
+          { key: "Mod-Enter", run },
+          { key: "F6", run },
+          { key: "F5", run },
+        ]),
+      ),
       EditorView.updateListener.of((u) => {
         if (u.docChanged) cb.current.onChange(shownKey.current, u.state.doc.toString());
       }),
@@ -54,7 +63,10 @@ export const Editor = forwardRef<EditorHandle, Props>(function Editor({ docKey, 
   }
 
   useEffect(() => {
-    const view = new EditorView({ state: EditorState.create({ doc, extensions: extensions.current }), parent: hostRef.current! });
+    const view = new EditorView({
+      state: EditorState.create({ doc, extensions: extensions.current }),
+      parent: hostRef.current!,
+    });
     viewRef.current = view;
     return () => view.destroy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -70,10 +82,14 @@ export const Editor = forwardRef<EditorHandle, Props>(function Editor({ docKey, 
       view.setState(states.current.get(docKey) ?? EditorState.create({ doc, extensions: extensions.current }));
     }
     view.dispatch({ effects: look.current.reconfigure(theme === "dark" ? oneDark : []) });
-    view.dispatch({ effects: ro.current.reconfigure(readOnly ? [EditorState.readOnly.of(true), EditorView.editable.of(false)] : []) });
+    view.dispatch({
+      effects: ro.current.reconfigure(readOnly ? [EditorState.readOnly.of(true), EditorView.editable.of(false)] : []),
+    });
     const cur = view.state.doc.toString();
-    if (cur !== doc) { // replace only the changed span, so the cursor and scroll stay put
-      let a = 0, b = 0;
+    if (cur !== doc) {
+      // replace only the changed span, so the cursor and scroll stay put
+      let a = 0,
+        b = 0;
       while (a < cur.length && a < doc.length && cur[a] === doc[a]) a++;
       while (b < cur.length - a && b < doc.length - a && cur[cur.length - 1 - b] === doc[doc.length - 1 - b]) b++;
       view.dispatch({ changes: { from: a, to: cur.length - b, insert: doc.slice(a, doc.length - b) } });

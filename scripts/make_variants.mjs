@@ -26,26 +26,145 @@ const inch = (x) => +(x * 0.0254).toFixed(2);
 // and show the options; tip, facing, baffle and air volume carry most of the difference.
 const VOICES = {
   alto: {
-    beak: 3.6, text: 5,
-    ash: { tip_opening: inch(70), facing_length: 24.5, facing_model: 'arc', chamber_shape: 'round', throat_shape: 'round', chamber_width: 14.2,
-      baffle_type: 'concave', baffle_height: 0, throat_width: 14.4, tip_rail_thickness: 2.2 },
-    birch: { tip_opening: inch(80), facing_length: 24.5, chamber_shape: 'square', throat_shape: 'square', throat_taper: 3,
-      baffle_type: 'rollover', baffle_height: 0.1, baffle_hump: 0.4, baffle_curve: -0.3, chamber_height: 16, throat_width: 14.8,
-      sidewall_angle: -4, window_rear_radius: 3, tip_rail_thickness: 1.6 },
-    cedar: { tip_opening: inch(68), facing_length: 22.5, baffle_type: 'flat', side_rail_width: 1.2, throat_width: 14.8, tip_rail_thickness: 2.2 },
+    beak: 3.6,
+    text: 5,
+    ash: {
+      tip_opening: inch(70),
+      facing_length: 24.5,
+      facing_model: 'arc',
+      chamber_shape: 'round',
+      throat_shape: 'round',
+      chamber_width: 14.2,
+      baffle_type: 'concave',
+      baffle_height: 0,
+      throat_width: 14.4,
+      tip_rail_thickness: 2.2,
+    },
+    birch: {
+      tip_opening: inch(80),
+      facing_length: 24.5,
+      chamber_shape: 'square',
+      throat_shape: 'square',
+      throat_taper: 3,
+      baffle_type: 'rollover',
+      baffle_height: 0.1,
+      baffle_hump: 0.4,
+      baffle_curve: -0.3,
+      chamber_height: 16,
+      throat_width: 14.8,
+      sidewall_angle: -4,
+      window_rear_radius: 3,
+      tip_rail_thickness: 1.6,
+    },
+    cedar: {
+      tip_opening: inch(68),
+      facing_length: 22.5,
+      baffle_type: 'flat',
+      side_rail_width: 1.2,
+      throat_width: 14.8,
+      tip_rail_thickness: 2.2,
+    },
     shape: {
       // Ash: slim, a long smooth convex beak with no shoulder.
-      ash: { shape_top: [[0, 25.5], [0.125, 25.4], [0.205, 27.0], [0.3, 25.8], [0.42, 24.2], [0.52, 22.3], [0.62, 19.4], [0.72, 15.6], [0.82, 11.6], [0.91, 7.6], [1, 3.6]],
-        shape_width: [[0, 22.0], [0.085, 22.0], [0.125, 23.2], [0.175, 25.8], [0.205, 27.0], [0.29, 26.0], [0.46, 24.5], [0.83, 21.2], [1, 16.9]],
-        shape_top_squareness: [[0, 2.0], [0.5, 2.0], [0.8, 1.7], [1, 1.6]] },
+      ash: {
+        shape_top: [
+          [0, 25.5],
+          [0.125, 25.4],
+          [0.205, 27.0],
+          [0.3, 25.8],
+          [0.42, 24.2],
+          [0.52, 22.3],
+          [0.62, 19.4],
+          [0.72, 15.6],
+          [0.82, 11.6],
+          [0.91, 7.6],
+          [1, 3.6],
+        ],
+        shape_width: [
+          [0, 22.0],
+          [0.085, 22.0],
+          [0.125, 23.2],
+          [0.175, 25.8],
+          [0.205, 27.0],
+          [0.29, 26.0],
+          [0.46, 24.5],
+          [0.83, 21.2],
+          [1, 16.9],
+        ],
+        shape_top_squareness: [
+          [0, 2.0],
+          [0.5, 2.0],
+          [0.8, 1.7],
+          [1, 1.6],
+        ],
+      },
       // Birch: lower body, a crisp shoulder set back, then a long straight ramp.
-      birch: { shape_top: [[0, 25.5], [0.125, 25.4], [0.205, 26.2], [0.3, 25.0], [0.42, 23.6], [0.5, 22.4], [0.56, 19.5], [0.66, 15.2], [0.83, 9.7], [1, 3.2]],
-        shape_width: [[0, 22.0], [0.085, 22.0], [0.125, 23.2], [0.175, 26.0], [0.205, 27.2], [0.29, 26.0], [0.46, 24.6], [0.83, 21.8], [1, 16.9]],
-        shape_top_squareness: [[0, 2.0], [0.48, 2.0], [0.55, 2.7], [0.8, 1.8], [1, 1.6]] },
+      birch: {
+        shape_top: [
+          [0, 25.5],
+          [0.125, 25.4],
+          [0.205, 26.2],
+          [0.3, 25.0],
+          [0.42, 23.6],
+          [0.5, 22.4],
+          [0.56, 19.5],
+          [0.66, 15.2],
+          [0.83, 9.7],
+          [1, 3.2],
+        ],
+        shape_width: [
+          [0, 22.0],
+          [0.085, 22.0],
+          [0.125, 23.2],
+          [0.175, 26.0],
+          [0.205, 27.2],
+          [0.29, 26.0],
+          [0.46, 24.6],
+          [0.83, 21.8],
+          [1, 16.9],
+        ],
+        shape_top_squareness: [
+          [0, 2.0],
+          [0.48, 2.0],
+          [0.55, 2.7],
+          [0.8, 1.8],
+          [1, 1.6],
+        ],
+      },
       // Cedar: a soft early shoulder, then a concave ski-slope beak.
-      cedar: { shape_top: [[0, 25.5], [0.125, 25.4], [0.205, 27.2], [0.3, 26.0], [0.4, 24.6], [0.48, 22.6], [0.56, 18.8], [0.65, 15.2], [0.76, 11.4], [0.88, 7.4], [1, 3.6]],
-        shape_width: [[0, 22.0], [0.085, 22.0], [0.125, 23.3], [0.175, 26.4], [0.205, 28.0], [0.29, 27.2], [0.46, 25.6], [0.83, 21.8], [1, 16.9]],
-        shape_top_squareness: [[0, 2.0], [0.46, 2.0], [0.56, 2.3], [0.8, 1.7], [1, 1.6]] },
+      cedar: {
+        shape_top: [
+          [0, 25.5],
+          [0.125, 25.4],
+          [0.205, 27.2],
+          [0.3, 26.0],
+          [0.4, 24.6],
+          [0.48, 22.6],
+          [0.56, 18.8],
+          [0.65, 15.2],
+          [0.76, 11.4],
+          [0.88, 7.4],
+          [1, 3.6],
+        ],
+        shape_width: [
+          [0, 22.0],
+          [0.085, 22.0],
+          [0.125, 23.3],
+          [0.175, 26.4],
+          [0.205, 28.0],
+          [0.29, 27.2],
+          [0.46, 25.6],
+          [0.83, 21.8],
+          [1, 16.9],
+        ],
+        shape_top_squareness: [
+          [0, 2.0],
+          [0.46, 2.0],
+          [0.56, 2.3],
+          [0.8, 1.7],
+          [1, 1.6],
+        ],
+      },
     },
   },
   // The other voices: tips and facings from the plan, the same family recipes; the outlines are
@@ -55,31 +174,122 @@ const VOICES = {
   // brings them down early, and the chamber/throat stay the preset's where air is tight. The bari keeps its conical bore (throat_taper 55):
   // Birch's abrupt throat would turn it into a much bigger cylinder.
   tenor: {
-    beak: 4.3, text: 5.5, landmarks: [0, 0.13, 0.2, 0.585, 1],
-    ash: { tip_opening: inch(90), facing_length: 26.0, facing_model: 'arc', chamber_shape: 'round', throat_shape: 'round',
-      baffle_type: 'concave', baffle_height: 0.3, baffle_curve: -0.5, tip_rail_thickness: 1.7 },
-    birch: { tip_opening: inch(100), facing_length: 26.5, chamber_shape: 'square', throat_shape: 'square', throat_taper: 3,
-      baffle_type: 'rollover', baffle_height: 0.1, baffle_hump: 0.4, baffle_curve: -0.3, chamber_height: 17.0, throat_width: 15.5,
-      sidewall_angle: -4, window_rear_radius: 3, tip_rail_thickness: 1.3 },
-    cedar: { tip_opening: inch(85), facing_length: 24.3, baffle_type: 'flat', side_rail_width: 1.2, throat_width: 15.5, tip_rail_thickness: 1.8 },
+    beak: 4.3,
+    text: 5.5,
+    landmarks: [0, 0.13, 0.2, 0.585, 1],
+    ash: {
+      tip_opening: inch(90),
+      facing_length: 26.0,
+      facing_model: 'arc',
+      chamber_shape: 'round',
+      throat_shape: 'round',
+      baffle_type: 'concave',
+      baffle_height: 0.3,
+      baffle_curve: -0.5,
+      tip_rail_thickness: 1.7,
+    },
+    birch: {
+      tip_opening: inch(100),
+      facing_length: 26.5,
+      chamber_shape: 'square',
+      throat_shape: 'square',
+      throat_taper: 3,
+      baffle_type: 'rollover',
+      baffle_height: 0.1,
+      baffle_hump: 0.4,
+      baffle_curve: -0.3,
+      chamber_height: 17.0,
+      throat_width: 15.5,
+      sidewall_angle: -4,
+      window_rear_radius: 3,
+      tip_rail_thickness: 1.3,
+    },
+    cedar: {
+      tip_opening: inch(85),
+      facing_length: 24.3,
+      baffle_type: 'flat',
+      side_rail_width: 1.2,
+      throat_width: 15.5,
+      tip_rail_thickness: 1.8,
+    },
   },
   baritone: {
-    beak: 4.8, text: 6.5, landmarks: [0, 0.185, 0.27, 0.655, 1],
-    ash: { tip_opening: inch(105), facing_length: 29.0, facing_model: 'arc', chamber_shape: 'round', throat_shape: 'round',
-      baffle_type: 'concave', baffle_height: 0, baffle_curve: -0.7, tip_rail_thickness: 2.0 },
-    birch: { tip_opening: inch(115), facing_length: 29.5, chamber_shape: 'square', throat_shape: 'square',
-      baffle_type: 'rollover', baffle_height: 0.1, baffle_hump: 0.4, baffle_curve: -0.7, chamber_height: 17.6,
-      sidewall_angle: -4, window_rear_radius: 3, tip_rail_thickness: 1.5 },
-    cedar: { tip_opening: inch(100), facing_length: 27.3, baffle_type: 'flat', baffle_curve: -0.3, side_rail_width: 1.2, tip_rail_thickness: 2.0 },
+    beak: 4.8,
+    text: 6.5,
+    landmarks: [0, 0.185, 0.27, 0.655, 1],
+    ash: {
+      tip_opening: inch(105),
+      facing_length: 29.0,
+      facing_model: 'arc',
+      chamber_shape: 'round',
+      throat_shape: 'round',
+      baffle_type: 'concave',
+      baffle_height: 0,
+      baffle_curve: -0.7,
+      tip_rail_thickness: 2.0,
+    },
+    birch: {
+      tip_opening: inch(115),
+      facing_length: 29.5,
+      chamber_shape: 'square',
+      throat_shape: 'square',
+      baffle_type: 'rollover',
+      baffle_height: 0.1,
+      baffle_hump: 0.4,
+      baffle_curve: -0.7,
+      chamber_height: 17.6,
+      sidewall_angle: -4,
+      window_rear_radius: 3,
+      tip_rail_thickness: 1.5,
+    },
+    cedar: {
+      tip_opening: inch(100),
+      facing_length: 27.3,
+      baffle_type: 'flat',
+      baffle_curve: -0.3,
+      side_rail_width: 1.2,
+      tip_rail_thickness: 2.0,
+    },
   },
   soprano: {
-    beak: 3.0, text: 4, landmarks: [0, 0.07, 0.145, 0.57, 1],
-    ash: { tip_opening: inch(62), facing_length: 20.5, facing_model: 'arc', chamber_shape: 'round', throat_shape: 'round',
-      baffle_type: 'concave', baffle_height: 0.5, baffle_curve: -0.8, tip_rail_thickness: 1.9 },
-    birch: { tip_opening: inch(70), facing_length: 20.5, chamber_shape: 'square', throat_shape: 'square',
-      baffle_type: 'rollover', baffle_height: 0.1, baffle_hump: 0.4, baffle_curve: -0.3, chamber_height: 11.7, throat_width: 9.9,
-      sidewall_angle: -4, window_rear_radius: 3, tip_rail_thickness: 1.5 },
-    cedar: { tip_opening: inch(59), facing_length: 19.3, chamber_shape: 'horseshoe', baffle_type: 'flat', baffle_curve: -0.4, side_rail_width: 1.2, tip_rail_thickness: 2.0 },
+    beak: 3.0,
+    text: 4,
+    landmarks: [0, 0.07, 0.145, 0.57, 1],
+    ash: {
+      tip_opening: inch(62),
+      facing_length: 20.5,
+      facing_model: 'arc',
+      chamber_shape: 'round',
+      throat_shape: 'round',
+      baffle_type: 'concave',
+      baffle_height: 0.5,
+      baffle_curve: -0.8,
+      tip_rail_thickness: 1.9,
+    },
+    birch: {
+      tip_opening: inch(70),
+      facing_length: 20.5,
+      chamber_shape: 'square',
+      throat_shape: 'square',
+      baffle_type: 'rollover',
+      baffle_height: 0.1,
+      baffle_hump: 0.4,
+      baffle_curve: -0.3,
+      chamber_height: 11.7,
+      throat_width: 9.9,
+      sidewall_angle: -4,
+      window_rear_radius: 3,
+      tip_rail_thickness: 1.5,
+    },
+    cedar: {
+      tip_opening: inch(59),
+      facing_length: 19.3,
+      chamber_shape: 'horseshoe',
+      baffle_type: 'flat',
+      baffle_curve: -0.4,
+      side_rail_width: 1.2,
+      tip_rail_thickness: 2.0,
+    },
   },
 };
 VOICES.alto.landmarks = [0, 0.125, 0.205, 0.575, 1];
@@ -91,61 +301,94 @@ VOICES.alto.landmarks = [0, 0.125, 0.205, 0.575, 1];
 //   beak: the family's own curve, normalised from its height at the beak start down to the tip, laid
 //     from the mapped beak start to the voice's tip height;
 //   squareness: the family's table with the same fraction mapping (its bump stays on the shoulder).
-const BEAK_START = { ash: 0.42, birch: 0.42, cedar: 0.40 };
+const BEAK_START = { ash: 0.42, birch: 0.42, cedar: 0.4 };
 
 // Body height and beak length per family, on top of any family outline (hand-made or derived):
 // height scales the body behind the beak (fading in over the flare, so the tenon keeps its size);
 // beakShift moves where the beak starts (fraction of L; - = a longer, gentler beak). The tip end
 // stays put, so the tip, facing, rails and beak_tip_height don't change: feel and looks only
 // (the interior roof is clamped under the exterior, so check air and walls after a change).
-const RESHAPE = { ash: { height: 1, beakShift: -0.03 }, birch: { height: 1, beakShift: 0.02 }, cedar: { height: 1, beakShift: 0 } };
+const RESHAPE = {
+  ash: { height: 1, beakShift: -0.03 },
+  birch: { height: 1, beakShift: 0.02 },
+  cedar: { height: 1, beakShift: 0 },
+};
 // Overall length (shank end to tip) per family, as a fraction of the voice's: length adds or removes
 // inside air (~5% per 3mm on the alto), so each family's goes against its recipe's air: Ash (big
 // chamber, more air) shorter, Birch (small chamber, less air) longer. Both then sit nearer the
 // preset on the cork.
 const LENGTH = { ash: -0.034, birch: 0.034, cedar: 0 };
-const smooth = (t) => { t = Math.max(0, Math.min(1, t)); return t * t * t * (t * (6 * t - 15) + 10); };
+const smooth = (t) => {
+  t = Math.max(0, Math.min(1, t));
+  return t * t * t * (t * (6 * t - 15) + 10);
+};
 function reshape(shape, fs, lm, { height: k, beakShift }) {
-  const top = shape.shape_top, T = top[top.length - 1][1], fs2 = fs + beakShift;
-  const body = top.filter(([f]) => f <= fs + 0.002), beak = top.filter(([f]) => f > fs + 0.002);  // derived tables round fs
+  const top = shape.shape_top,
+    T = top[top.length - 1][1],
+    fs2 = fs + beakShift;
+  const body = top.filter(([f]) => f <= fs + 0.002),
+    beak = top.filter(([f]) => f > fs + 0.002); // derived tables round fs
   const H = lin(top, fs);
   // Height at the new beak start: on the body, or the body's last slope carried on.
   const [p, q] = body.slice(-2);
-  const H2 = fs2 <= fs ? lin(top, fs2) : q[1] + (q[1] - p[1]) / (q[0] - p[0]) * (fs2 - q[0]);
+  const H2 = fs2 <= fs ? lin(top, fs2) : q[1] + ((q[1] - p[1]) / (q[0] - p[0])) * (fs2 - q[0]);
   const kAt = (f) => 1 + (k - 1) * smooth((f - lm[1]) / (lm[2] - lm[1]));
   // Over the flare (tenon end to body peak) the top never drops below the tenon's top + 0.3mm: a
   // lowered body, or a flat alto flare scaled onto a steep one (the bari Birch), left a dip there.
-  const tenonTop = lin(top, lm[1]), sc = (f, y) => (f > lm[1] && f <= lm[2] ? Math.max(y * kAt(f), tenonTop + 0.3) : y * kAt(f));
-  const beakAt = (f) => fs2 + (f - fs) / (1 - fs) * (1 - fs2);
+  const tenonTop = lin(top, lm[1]),
+    sc = (f, y) => (f > lm[1] && f <= lm[2] ? Math.max(y * kAt(f), tenonTop + 0.3) : y * kAt(f));
+  const beakAt = (f) => fs2 + ((f - fs) / (1 - fs)) * (1 - fs2);
   return {
     ...shape,
-    shape_top: [...body.filter(([f]) => f < fs2 - 0.01).map(([f, y]) => [f, r1(sc(f, y))]), [r3(fs2), r1(sc(fs2, H2))],
-      ...beak.map(([f, y]) => [r3(beakAt(f)), r1(T + (sc(fs2, H2) - T) * (y - T) / (H - T))])],
-    shape_top_squareness: shape.shape_top_squareness.map(([f, n]) => [r3(f <= fs ? f * fs2 / fs : beakAt(f)), n]),
+    shape_top: [
+      ...body.filter(([f]) => f < fs2 - 0.01).map(([f, y]) => [f, r1(sc(f, y))]),
+      [r3(fs2), r1(sc(fs2, H2))],
+      ...beak.map(([f, y]) => [r3(beakAt(f)), r1(T + ((sc(fs2, H2) - T) * (y - T)) / (H - T))]),
+    ],
+    shape_top_squareness: shape.shape_top_squareness.map(([f, n]) => [r3(f <= fs ? (f * fs2) / fs : beakAt(f)), n]),
   };
 }
 const table = (src, name) => JSON.parse(new RegExp(`^${name} = (\\[.*\\]);`, 'm').exec(src)[1]);
 const lin = (t, f) => {
   if (f <= t[0][0]) return t[0][1];
-  for (let i = 1; i < t.length; i++) if (f <= t[i][0]) { const [a, b] = [t[i - 1], t[i]]; return a[1] + (b[1] - a[1]) * (f - a[0]) / (b[0] - a[0]); }
+  for (let i = 1; i < t.length; i++)
+    if (f <= t[i][0]) {
+      const [a, b] = [t[i - 1], t[i]];
+      return a[1] + ((b[1] - a[1]) * (f - a[0])) / (b[0] - a[0]);
+    }
   return t[t.length - 1][1];
 };
-const pw = (x, from, to) => lin(from.map((f, i) => [f, to[i]]), x);  // piecewise-linear landmark map
-const r1 = (x) => Math.round(x * 10) / 10, r3 = (x) => Math.round(x * 1000) / 1000;
+const pw = (x, from, to) =>
+  lin(
+    from.map((f, i) => [f, to[i]]),
+    x,
+  ); // piecewise-linear landmark map
+const r1 = (x) => Math.round(x * 10) / 10,
+  r3 = (x) => Math.round(x * 1000) / 1000;
 function deriveShapes(voice, src, altoSrc) {
-  const A = VOICES.alto.landmarks, V = VOICES[voice].landmarks;
-  const toV = (fa) => pw(fa, A, V), toA = (fv) => pw(fv, V, A);
+  const A = VOICES.alto.landmarks,
+    V = VOICES[voice].landmarks;
+  const toV = (fa) => pw(fa, A, V),
+    toA = (fv) => pw(fv, V, A);
   const pre = { shape_top: table(src, 'shape_top'), shape_width: table(src, 'shape_width') };
   const preA = { shape_top: table(altoSrc, 'shape_top'), shape_width: table(altoSrc, 'shape_width') };
   const out = {};
   for (const fam of ['ash', 'birch', 'cedar']) {
-    const F = VOICES.alto.shape[fam], fs = BEAK_START[fam], fsV = toV(fs);
+    const F = VOICES.alto.shape[fam],
+      fs = BEAK_START[fam],
+      fsV = toV(fs);
     const ratio = (t, fa) => lin(F[t], fa) / lin(preA[t], fa);
-    const famV = (fa) => (fa <= fs ? toV(fa) : fsV + (fa - fs) / (1 - fs) * (1 - fsV));
-    const H = lin(pre.shape_top, fsV) * ratio('shape_top', fs), T = pre.shape_top[pre.shape_top.length - 1][1];
-    const HA = lin(F.shape_top, fs), TA = F.shape_top[F.shape_top.length - 1][1];
-    const body = pre.shape_top.filter(([f]) => f < fsV - 0.01).map(([f, y]) => [f, f <= V[1] ? y : r1(y * ratio('shape_top', toA(f)))]);
-    const beak = F.shape_top.filter(([fa]) => fa > fs).map(([fa, y]) => [r3(famV(fa)), r1(T + (H - T) * (y - TA) / (HA - TA))]);
+    const famV = (fa) => (fa <= fs ? toV(fa) : fsV + ((fa - fs) / (1 - fs)) * (1 - fsV));
+    const H = lin(pre.shape_top, fsV) * ratio('shape_top', fs),
+      T = pre.shape_top[pre.shape_top.length - 1][1];
+    const HA = lin(F.shape_top, fs),
+      TA = F.shape_top[F.shape_top.length - 1][1];
+    const body = pre.shape_top
+      .filter(([f]) => f < fsV - 0.01)
+      .map(([f, y]) => [f, f <= V[1] ? y : r1(y * ratio('shape_top', toA(f)))]);
+    const beak = F.shape_top
+      .filter(([fa]) => fa > fs)
+      .map(([fa, y]) => [r3(famV(fa)), r1(T + ((H - T) * (y - TA)) / (HA - TA))]);
     out[fam] = {
       shape_top: [...body, [r3(fsV), r1(H)], ...beak],
       shape_width: pre.shape_width.map(([f, w]) => [f, r1(w * ratio('shape_width', toA(f)))]),
@@ -159,27 +402,57 @@ function deriveShapes(voice, src, altoSrc) {
 // curve and the planform differ, not just the size. shape_top_squareness's bump (the section boxing
 // up) must sit at the family's own shoulder, or it shows as a band. Voice-specific tables live in VOICES[v].shape.
 const LOOKS = {
-  ash: (v) => ({ ...v.shape.ash, body_squareness: 1.7, beak_squareness: 1.3,
-    beak_tip_height: +(v.beak + 0.3).toFixed(1), shank_scale: 0.95,
-    lettering_style: 'engraved', lettering_depth: 0.5, lettering_font: 'Marcellus SC', side_text_right: 'Ash' }),
-  birch: (v) => ({ ...v.shape.birch, body_squareness: 3.2, underside_squareness: 2.2,
-    beak_squareness: 3.0, beak_tip_height: +(v.beak - 0.4).toFixed(1), shank_scale: 1.04,
-    lettering_style: 'engraved', lettering_depth: 0.5, lettering_font: 'Bebas Neue', side_text_right: 'BIRCH' }),
-  cedar: (v) => ({ ...v.shape.cedar, body_squareness: 2.2, beak_squareness: 2.0,
-    lettering_style: 'engraved', lettering_depth: 0.6, lettering_font: 'Pacifico', side_text_right: 'Cedar' }),
+  ash: (v) => ({
+    ...v.shape.ash,
+    body_squareness: 1.7,
+    beak_squareness: 1.3,
+    beak_tip_height: +(v.beak + 0.3).toFixed(1),
+    shank_scale: 0.95,
+    lettering_style: 'engraved',
+    lettering_depth: 0.5,
+    lettering_font: 'Marcellus SC',
+    side_text_right: 'Ash',
+  }),
+  birch: (v) => ({
+    ...v.shape.birch,
+    body_squareness: 3.2,
+    underside_squareness: 2.2,
+    beak_squareness: 3.0,
+    beak_tip_height: +(v.beak - 0.4).toFixed(1),
+    shank_scale: 1.04,
+    lettering_style: 'engraved',
+    lettering_depth: 0.5,
+    lettering_font: 'Bebas Neue',
+    side_text_right: 'BIRCH',
+  }),
+  cedar: (v) => ({
+    ...v.shape.cedar,
+    body_squareness: 2.2,
+    beak_squareness: 2.0,
+    lettering_style: 'engraved',
+    lettering_depth: 0.6,
+    lettering_font: 'Pacifico',
+    side_text_right: 'Cedar',
+  }),
 };
 // Neutral names on purpose: the headers state the design; tone is only a tendency.
 const BLURB = {
   ash: 'Ash: closer tip, arc facing, round chamber, concave baffle; slim round body, smooth convex beak. Tends darker.',
-  birch: 'Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, straight beak. Tends brighter.',
-  cedar: 'Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak. Tends easier to control softly.',
+  birch:
+    'Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, straight beak. Tends brighter.',
+  cedar:
+    'Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak. Tends easier to control softly.',
 };
 
 // "{" as \u007B: OpenSCAD's parameter export stops at a string with a brace in it ("{tip}").
-const fmt = (v) => (typeof v === 'string' || Array.isArray(v) ? JSON.stringify(v).replace(/,/g, ', ').replace(/{/g, '\\u007B') : String(v));
+const fmt = (v) =>
+  typeof v === 'string' || Array.isArray(v)
+    ? JSON.stringify(v).replace(/,/g, ', ').replace(/{/g, '\\u007B')
+    : String(v);
 
 if (process.argv[2] === '--derive') {
-  const v = process.argv[3], src = fs.readFileSync(path.join(ROOT, 'scad', `${v}.scad`), 'utf8');
+  const v = process.argv[3],
+    src = fs.readFileSync(path.join(ROOT, 'scad', `${v}.scad`), 'utf8');
   console.log(JSON.stringify(deriveShapes(v, src, src), null, 0).replace(/\],"/g, '],\n"'));
   process.exit(0);
 }
@@ -190,17 +463,29 @@ for (const voice of process.argv.slice(2)) {
   if (!v.shape) v.shape = deriveShapes(voice, src, fs.readFileSync(path.join(ROOT, 'scad', 'alto.scad'), 'utf8'));
   // Where each family's beak starts on this voice (the alto's BEAK_START, landmark-mapped).
   const toV = (fa) => pw(fa, VOICES.alto.landmarks, v.landmarks);
-  v.shape = Object.fromEntries(Object.entries(v.shape).map(([fam, sh]) => [fam, reshape(sh, toV(BEAK_START[fam]), v.landmarks, RESHAPE[fam])]));
+  v.shape = Object.fromEntries(
+    Object.entries(v.shape).map(([fam, sh]) => [fam, reshape(sh, toV(BEAK_START[fam]), v.landmarks, RESHAPE[fam])]),
+  );
   for (const fam of ['ash', 'birch', 'cedar']) {
     // Shorter: never below what the reed needs (the table starts at >= 0.16 L: tenon + table ramp),
     // and the throat moves with the window (both are in mm from the tip end) so it stays before it.
     const num = (k) => +new RegExp(`^${k} = ([0-9.]+);`, 'm').exec(src)[1];
-    const L0 = num('overall_length'), Lmin = Math.min(L0, Math.ceil((num('reed_length') / 0.84 + 0.3) * 10) / 10);
+    const L0 = num('overall_length'),
+      Lmin = Math.min(L0, Math.ceil((num('reed_length') / 0.84 + 0.3) * 10) / 10);
     const L1 = r1(Math.max(L0 * (1 + LENGTH[fam]), Lmin));
-    const vals = { ...v[fam], ...LOOKS[fam](v), side_text_left: '{tip}', side_text_size: v.text, overall_length: L1,
-      ...(L1 < L0 ? { throat_position: r1(num('throat_position') + L1 - L0) } : {}) };
+    const vals = {
+      ...v[fam],
+      ...LOOKS[fam](v),
+      side_text_left: '{tip}',
+      side_text_size: v.text,
+      overall_length: L1,
+      ...(L1 < L0 ? { throat_position: r1(num('throat_position') + L1 - L0) } : {}),
+    };
     // A long bore cone (the bari's) has to fit between the socket and the moved throat.
-    if (L1 < L0) { const room = vals.throat_position - num('shank_depth') - 1.5; if (num('throat_taper') > room) vals.throat_taper = r1(room); }
+    if (L1 < L0) {
+      const room = vals.throat_position - num('shank_depth') - 1.5;
+      if (num('throat_taper') > room) vals.throat_taper = r1(room);
+    }
     let out = src;
     for (const [k, val] of Object.entries(vals)) {
       const re = new RegExp(`^${k} = [^;]*;`, 'm');
@@ -211,7 +496,9 @@ for (const voice of process.argv.slice(2)) {
     // Header: replace the leading comment block.
     const body = out.replace(/^(\/\/[^\n]*\n)+/, '');
     const Voice = voice[0].toUpperCase() + voice.slice(1);
-    out = `// ${Voice} "${fam[0].toUpperCase() + fam.slice(1)}": a variant of ${voice}.scad (its baffle table; its own outline).\n// ${BLURB[fam]}\n// Geometry: lib/mouthpiece_base.scad.\n` + body;
+    out =
+      `// ${Voice} "${fam[0].toUpperCase() + fam.slice(1)}": a variant of ${voice}.scad (its baffle table; its own outline).\n// ${BLURB[fam]}\n// Geometry: lib/mouthpiece_base.scad.\n` +
+      body;
     const dst = path.join(ROOT, 'scad', 'variants', `${voice}_${fam}.scad`);
     fs.mkdirSync(path.dirname(dst), { recursive: true });
     fs.writeFileSync(dst, out);

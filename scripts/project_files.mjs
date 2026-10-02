@@ -9,8 +9,19 @@ import { fileURLToPath } from 'node:url';
 export const SCAD_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'scad');
 // The measured presets can't be saved over (a user's "Save as…" copy goes into their browser).
 // The variants (scad/variants/, made by scripts/make_variants.mjs) are presets too.
-export const READ_ONLY = ['alto.scad', 'tenor.scad', 'baritone.scad', 'soprano.scad', ...(fs.existsSync(path.join(SCAD_DIR, 'variants'))
-  ? fs.readdirSync(path.join(SCAD_DIR, 'variants')).filter((f) => f.endsWith('.scad')).sort().map((f) => `variants/${f}`) : [])];
+export const READ_ONLY = [
+  'alto.scad',
+  'tenor.scad',
+  'baritone.scad',
+  'soprano.scad',
+  ...(fs.existsSync(path.join(SCAD_DIR, 'variants'))
+    ? fs
+        .readdirSync(path.join(SCAD_DIR, 'variants'))
+        .filter((f) => f.endsWith('.scad'))
+        .sort()
+        .map((f) => `variants/${f}`)
+    : []),
+];
 const EXCLUDE_DIRS = new Set(['fits', '_sweep']);
 export const EXTS = ['.scad', '.ttf', '.otf', '.svg'];
 
@@ -19,8 +30,10 @@ export function listProjectFiles(dir = SCAD_DIR) {
   const out = [];
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, e.name);
-    if (e.isDirectory()) { if (!EXCLUDE_DIRS.has(e.name)) out.push(...listProjectFiles(full)); }
-    else if (EXTS.some((x) => e.name.toLowerCase().endsWith(x))) out.push(path.relative(SCAD_DIR, full).split(path.sep).join('/'));
+    if (e.isDirectory()) {
+      if (!EXCLUDE_DIRS.has(e.name)) out.push(...listProjectFiles(full));
+    } else if (EXTS.some((x) => e.name.toLowerCase().endsWith(x)))
+      out.push(path.relative(SCAD_DIR, full).split(path.sep).join('/'));
   }
   return out.sort();
 }

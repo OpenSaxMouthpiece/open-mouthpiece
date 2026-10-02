@@ -1,13 +1,13 @@
-// Readouts for Design mode, parsed from what the generator echoes: the summary lines of every
+// The readouts, parsed from what the generator echoes: the summary lines of every
 // render, and the echo-only reports (part = "facing_report" / "clearance_report").
 import { parseAirVolume } from "./compare";
 
 export interface Summary {
-  length: number | null;   // mm
-  tip: number | null;      // mm
-  facing: number | null;   // mm
-  air: number | null;      // cm3
-  notes: string[];         // validate() warnings, in plain words
+  length: number | null; // mm
+  tip: number | null; // mm
+  facing: number | null; // mm
+  air: number | null; // cm3
+  notes: string[]; // validate() warnings, in plain words
 }
 
 export function parseSummary(log: string): Summary {
@@ -35,7 +35,9 @@ function plainNote(s: string) {
 
 // Facing gap (mm) against distance from the tip (mm): "FACING d h" lines.
 export function parseFacing(log: string): [number, number][] {
-  return [...log.matchAll(/FACING ([\d.eE+-]+) ([\d.eE+-]+)/g)].map((m) => [Number(m[1]), Number(m[2])] as [number, number]);
+  return [...log.matchAll(/FACING ([\d.eE+-]+) ([\d.eE+-]+)/g)].map(
+    (m) => [Number(m[1]), Number(m[2])] as [number, number],
+  );
 }
 
 // Thinnest wall: "CLEARANCE w at z=.. (where)".
@@ -50,12 +52,12 @@ export function parseClearance(log: string): { wall: number; where: string } | n
 // touches the reed (the grip)>" (-1 = no taper), and its warnings.
 export interface LigatureInfo {
   length: number;
-  front: number;                 // mm behind the window's back end (negative: over the window)
-  rear: [number, number];        // inside width, height at the rear (shank) end
-  frontSize: [number, number];   // same at the front end
-  girth: number;                 // inside, around, at the rear
-  shift: number | null;          // mm it seats further forward per 0.1mm thicker reed
-  touch: number | null;          // mm further forward it first touches the reed (then it's pushed on to squeeze it)
+  front: number; // mm behind the window's back end (negative: over the window)
+  rear: [number, number]; // inside width, height at the rear (shank) end
+  frontSize: [number, number]; // same at the front end
+  girth: number; // inside, around, at the rear
+  shift: number | null; // mm it seats further forward per 0.1mm thicker reed
+  touch: number | null; // mm further forward it first touches the reed (then it's pushed on to squeeze it)
   notes: string[];
 }
 export function parseLigature(log: string): LigatureInfo | null {
@@ -63,11 +65,20 @@ export function parseLigature(log: string): LigatureInfo | null {
   if (!m) return null;
   const n = m[1].trim().split(" ").map(Number);
   const notes = [...log.matchAll(/ECHO: "WARNING: (ligature[^"]*)"/g)].map((w) => plainNote(w[1]));
-  return { length: n[0], front: n[1], rear: [n[2], n[3]], frontSize: [n[4], n[5]], girth: n[6], shift: n[7] >= 0 ? n[7] : null, touch: n.length > 8 && n[8] >= 0 ? n[8] : null, notes };
+  return {
+    length: n[0],
+    front: n[1],
+    rear: [n[2], n[3]],
+    frontSize: [n[4], n[5]],
+    girth: n[6],
+    shift: n[7] >= 0 ? n[7] : null,
+    touch: n.length > 8 && n[8] >= 0 ? n[8] : null,
+    notes,
+  };
 }
 
 // Feeler-gauge stops for checking a facing (inches).
-export const GAUGES_IN = [0.0015, 0.010, 0.024, 0.034, 0.050];
+export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05];
 
 // Where the facing gap equals a gauge's thickness (distance from the tip, mm), by interpolation.
 export function gaugeStops(facing: [number, number][]): { gauge: number; at: number }[] {
@@ -75,7 +86,8 @@ export function gaugeStops(facing: [number, number][]): { gauge: number; at: num
   for (const g of GAUGES_IN) {
     const h = g * 25.4;
     for (let i = 1; i < facing.length; i++) {
-      const [d0, h0] = facing[i - 1], [d1, h1] = facing[i];
+      const [d0, h0] = facing[i - 1],
+        [d1, h1] = facing[i];
       if ((h0 - h) * (h1 - h) <= 0 && h0 !== h1) {
         out.push({ gauge: g, at: d0 + ((h0 - h) / (h0 - h1)) * (d1 - d0) });
         break;

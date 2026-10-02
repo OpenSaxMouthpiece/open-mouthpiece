@@ -12,11 +12,17 @@ const args = process.argv.slice(2);
 const oi = args.indexOf('-o');
 const outPath = oi >= 0 ? args[oi + 1] : null;
 const file = args.find((a, i) => !a.startsWith('-') && i !== oi + 1);
-if (!file) { console.error('usage: node scripts/bundle_scad.mjs file.scad [-o out.scad]'); process.exit(1); }
+if (!file) {
+  console.error('usage: node scripts/bundle_scad.mjs file.scad [-o out.scad]');
+  process.exit(1);
+}
 
 const text = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
 const inc = /^\s*include\s*<([^>]+)>.*$/m.exec(text);
-if (!inc) { process.stdout.write(text); process.exit(0); }
+if (!inc) {
+  process.stdout.write(text);
+  process.exit(0);
+}
 const basePath = path.resolve(path.dirname(file), inc[1]);
 const base = fs.readFileSync(basePath, 'utf8').replace(/\r\n/g, '\n');
 const own = readAssignments(text);
@@ -35,7 +41,10 @@ for (let i = 0; i < baseLines.length; i++) {
 }
 // A single file can't carry the lettering fonts in lib/fonts/: drop their use<>s (the Liberation
 // choices ship with OpenSCAD; the others fall back to its default font). top_image needs art/.
-const baseBody = keep.filter((l) => !/^use <fonts\//.test(l)).join('\n').replace(/^\/\* \[(?!Hidden)[^\]]*\] \*\/\n(\n|$)/gm, '');  // now-empty tab markers
+const baseBody = keep
+  .filter((l) => !/^use <fonts\//.test(l))
+  .join('\n')
+  .replace(/^\/\* \[(?!Hidden)[^\]]*\] \*\/\n(\n|$)/gm, ''); // now-empty tab markers
 
 const out = [
   text.replace(inc[0], `// (bundled: ${path.basename(basePath)} is inlined at the end of this file)`),
@@ -44,4 +53,7 @@ const out = [
   `// ======================== ${path.basename(basePath)} (inlined) ========================`,
   baseBody,
 ].join('\n');
-if (outPath) { fs.writeFileSync(outPath, out); console.error(`wrote ${outPath}`); } else process.stdout.write(out);
+if (outPath) {
+  fs.writeFileSync(outPath, out);
+  console.error(`wrote ${outPath}`);
+} else process.stdout.write(out);

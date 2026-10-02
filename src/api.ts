@@ -42,11 +42,15 @@ export interface Api {
   files(): Promise<{ files: string[]; readOnly?: string[]; own?: string[] }>;
   file(path: string): Promise<{ source: string; readOnly?: boolean }>;
   save(path: string, source: string): Promise<{ ok: boolean }>;
-  remove(path: string): Promise<{ ok: boolean }>;   // one of the user's saved files
+  remove(path: string): Promise<{ ok: boolean }>; // one of the user's saved files
   params(t: RenderTarget, signal?: AbortSignal): Promise<{ parameters: ScadParam[]; log: string }>;
   render(t: RenderTarget, values: Record<string, ParamValue>, signal?: AbortSignal): Promise<RenderResult>;
   // Evaluate without geometry; the log holds the ECHO lines.
-  echo(t: RenderTarget, values: Record<string, ParamValue>, signal?: AbortSignal): Promise<{ ok: boolean; log: string }>;
+  echo(
+    t: RenderTarget,
+    values: Record<string, ParamValue>,
+    signal?: AbortSignal,
+  ): Promise<{ ok: boolean; log: string }>;
   // Pictures for *_image parameters: the project's examples (art/) plus the user's own.
   art(): Promise<{ files: string[]; aspect: Record<string, number | null> }>;
   uploadArt(name: string, svg: string): Promise<{ ok: boolean; name: string; aspect: number | null }>;

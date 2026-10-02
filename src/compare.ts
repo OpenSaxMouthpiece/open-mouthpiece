@@ -13,8 +13,8 @@ export interface Snapshot {
   values: Record<string, ParamValue>;
   params: ScadParam[];
   stl: ArrayBuffer | null;
-  air?: number | null;           // inside air volume (cm³) from the render's console output
-  summary?: Summary | null;      // tip opening, facing length, length (the generator's echo)
+  air?: number | null; // inside air volume (cm³) from the render's console output
+  summary?: Summary | null; // tip opening, facing length, length (the generator's echo)
   facing?: [number, number][] | null; // the facing curve (facing_report): [mm from the tip, gap mm]
   // an uploaded STL (no source or parameters): its triangles in the design frame when it could be
   // lined up with the model (stl then follows the model's print orientation), else as uploaded
@@ -78,8 +78,10 @@ export interface ParamDiffRow {
 
 // Effective Customizer values (override ?? file default) of both models, in A's order then B's extras.
 export function diffParams(a: Snapshot, b: Snapshot): ParamDiffRow[] {
-  const eff = (s: Snapshot) => new Map(s.params.map((p) => [p.name, { group: p.group, value: s.values[p.name] ?? p.initial }]));
-  const ea = eff(a), eb = eff(b);
+  const eff = (s: Snapshot) =>
+    new Map(s.params.map((p) => [p.name, { group: p.group, value: s.values[p.name] ?? p.initial }]));
+  const ea = eff(a),
+    eb = eff(b);
   const names = [...ea.keys(), ...[...eb.keys()].filter((k) => !ea.has(k))];
   return names.map((name) => ({
     name,
@@ -107,7 +109,8 @@ export function diffAssignments(a: Snapshot, b: Snapshot) {
     for (const [k, v] of Object.entries(s.values)) if (!skip.has(k)) m.set(k, scadLiteral(v));
     return m;
   };
-  const ca = collect(a), cb = collect(b);
+  const ca = collect(a),
+    cb = collect(b);
   const names = [...ca.keys(), ...[...cb.keys()].filter((k) => !ca.has(k))];
   const rows = names.filter((n) => ca.get(n) !== cb.get(n)).map((name) => ({ name, a: ca.get(name), b: cb.get(name) }));
   const shape = (n: string) => /^shape_|_points$|_range$/.test(n);

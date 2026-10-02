@@ -9,23 +9,21 @@
 // the annotations below (keeping each file's values); scripts/bundle_scad.mjs flattens a voice file
 // into one self-contained file (for the web app).
 //
-// Coordinates (spec section 1): Z = bore axis (0 = shank end, L = tip), Y = height (0 = table
+// Coordinates: Z = bore axis (0 = shank end, L = tip), Y = height (0 = table
 // plane, body above), X = width (symmetric about x = 0).
 //
 // Profile overrides (tab "Profile overrides"): each *_points parameter is a list of [z, value]
 // pairs (z from the shank end) joined by a smooth monotone cubic (PCHIP). [] keeps the built-in
 // shape. Together they contour the body, table, chamber and baffle to nearly any real mouthpiece.
-// The Customizer can't edit
-// nested lists: use the app's Curves panel, or set them in the file or with -D.
+// The Customizer can't edit nested lists: use the app's Curves panel, or set them in the file or
+// with -D.
 //
 // File layout:
-//   1. Parameters (Customizer) + shape    5. Exterior profile       9. Solids (ring lofts, cutters)
-//      tables (Hidden)                    6. Window + baffle       10. Assembly and part selection
-//   3. Curve math (PCHIP etc.)            7. Interior profile
-//   4. Derived dimensions, facing         8. Validation
-//
-// Known simplifications: the params in "Not yet implemented" are accepted but not cut; internal
-// volume (spec 4.1) isn't computed — export part="interior_only" and measure it externally.
+//   1. Parameters (Customizer) + shape tables (Hidden)   6. Interior profile
+//   2. Curve math (PCHIP etc.)                            7. Validation, readouts, air volume
+//   3. Derived dimensions, facing curve                   8. Solids (ring lofts, cutters,
+//   4. Exterior profile                                      lettering), 8b. Ligature
+//   5. Window planform + baffle                           9. Assembly and part selection
 
 // Lettering fonts (see LETTERING_FONTS); use<> of a font file only registers it. The Liberation
 // faces also come with desktop OpenSCAD, but not with its WebAssembly build (where a missing font
@@ -308,7 +306,7 @@ baffle_rollover = undef;
 RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
 // ===========================================================================================
-// 3. Curve math
+// 2. Curve math
 // ===========================================================================================
 
 function clamp01(x) = max(0, min(1, x));
@@ -346,7 +344,7 @@ function pchip_at(x, c) =
   (-2 * t3 + 3 * t2) * c[i + 1][1] + (t3 - t2) * h * c[i + 1][2];
 
 // Every profile override, prepared once (the exterior outline curves EXT_WIDTH_C, EXT_TOP_C,
-// EXT_BOTTOM_C, EXT_WIDEST_C are set up in section 5: override or built-in shape table).
+// EXT_BOTTOM_C, EXT_WIDEST_C are set up in section 4: override or built-in shape table).
 EXT_TOP_SQ_C     = pchip_prep(ext_top_squareness_points);
 EXT_BOTTOM_SQ_C  = pchip_prep(ext_bottom_squareness_points);
 TABLE_WIDTH_C    = pchip_prep(table_width_points);
@@ -356,7 +354,7 @@ INT_BOTTOM_SQ_C  = pchip_prep(interior_bottom_squareness_points);
 FLOOR_C          = pchip_prep(floor_points);
 
 // ===========================================================================================
-// 4. Derived dimensions, facing curve, baffle
+// 3. Derived dimensions, facing curve
 // ===========================================================================================
 
 L = overall_length;
@@ -411,7 +409,7 @@ chamber_extra = chamber_height > 0 ? (chamber_height - chamber_width) / 2 : 0;
 eff_shank_depth = max(5, min(shank_depth, eff_throat_z - eff_throat_length - socket_cone, win_z0 - 6 - socket_cone));
 shank_taper_end_z = eff_shank_depth + socket_cone;  // end of the socket-to-bore cone
 
-// Facing curve (spec 3.10): rail height above the table plane at s mm from the break toward the tip.
+// Facing curve: rail height above the table plane at s mm from the break toward the tip.
 function facing_height(s) =
   s <= 0 ? 0 :
   s >= F ? T :
@@ -421,7 +419,7 @@ function facing_height(s) =
 function facing_at_z(z) = facing_height(max(0, z - break_z));
 
 // ===========================================================================================
-// 5. Exterior profile. The built-in outline is the shape tables (shape_width, shape_top,
+// 4. Exterior profile. The built-in outline is the shape tables (shape_width, shape_top,
 // shape_bottom, shape_widest: stations along the length, measured from real mouthpieces) joined by
 // PCHIP. Any ext_*_points override replaces the matching curve.
 // The table is a real reed seat: a flat, full-width face from the reed's heel (table_rear_z, one
@@ -590,7 +588,7 @@ function ring_half_width_at_y(E, y) =
   E[E_HW] * pow(1 - pow(rel, n), 1 / n);
 
 // ===========================================================================================
-// 6. Window planform (looking at the table): a long slot, slightly wider toward the tip, rear end
+// 5. Window planform (looking at the table): a long slot, slightly wider toward the tip, rear end
 // squared off with rounded corners, front edge following the reed-tip arc one tip rail inside the
 // exterior's own tip arc. Side rails stay an even width along its length.
 // ===========================================================================================
@@ -613,7 +611,7 @@ function window_half_width(z) =
   let(rear = d >= r ? 1e3 : (window_base_hw(z) - r) + sqrt(max(0, r * r - (r - d) * (r - d))))
   (z < win_z0 || z > win_front_z) ? 0 : min(window_side_hw(z), rear);
 
-// Baffle (spec 3.5): the interior roof above the reed, from where it takes over from the round
+// Baffle: the interior roof above the reed, from where it takes over from the round
 // bore/chamber roof to the tip. Base curve: baffle_points_custom if given, else the measured table
 // (shape_baffle), PCHIP-joined; baffle_type can replace it with a classic shape spanning the same
 // start and tip heights (baffle_type_at). The three knobs then shape it:
@@ -664,7 +662,7 @@ function baffle_roof(z) =
   -smin(-raw, -(facing_at_z(z) + 0.4), 0.5);
 
 // ===========================================================================================
-// 7. Interior profile: bore -> throat (narrowest) -> chamber (widens again) -> window/baffle
+// 6. Interior profile: bore -> throat (narrowest) -> chamber (widens again) -> window/baffle
 // region, one continuous closed tube. Every dimension is clamped against the exterior ring at the
 // same z, so it cannot poke through regardless of parameter values.
 // ===========================================================================================
@@ -833,7 +831,7 @@ function sidewall_allowed(I, y) =
   min(I[0], max(0.3 * I[5], min(I[5], I[0]) + rise * tan(sidewall_angle)));
 
 // ===========================================================================================
-// 8. Validation (spec 7.8) — echoed to the console, not geometry. Assumes the built-in shape.
+// 7. Validation — echoed to the console, not geometry. Assumes the built-in shape.
 // ===========================================================================================
 
 // Inside air volume (mm^3): from the end of the neck (the socket depth) to the tip, with the reed
@@ -922,7 +920,7 @@ module clearance_report() {
 }
 
 // ===========================================================================================
-// 9. Solids
+// 8. Solids
 // ===========================================================================================
 
 // Ring-stitched loft. Every main solid is built this way, never hull()-lofted: each ring has the
@@ -1059,7 +1057,7 @@ module interior_solid(with_socket = true) {
   ring_loft(with_socket ? concat(socket, air) : air);
 }
 
-// ---- Facing cutter (spec 3.10): a 2D (Z,Y) profile — table line + facing curve on top, filled
+// ---- Facing cutter: a 2D (Z,Y) profile — table line + facing curve on top, filled
 // below — extruded across the full width. Runs the whole length: behind table_start_z the body's
 // underside is above y=0, so it removes nothing there.
 module facing_cutter() {
@@ -1410,7 +1408,7 @@ function param_focus() =
    ["shape_bottom_squareness", whole, "table", false], ["shape_baffle", baffle, "side", true]];
 
 // ===========================================================================================
-// 9b. Ligature (part = "ligature"): a friction-fit ring made for this mouthpiece plus a reed. It
+// 8b. Ligature (part = "ligature"): a friction-fit ring made for this mouthpiece plus a reed. It
 // slides on over the tip with the reed and wedges where the body grows to fill it (the band's
 // front edge ligature_position behind the window's back end). Shapes: "d" (default) is round over
 // the top like the classic printed ring ligatures and follows the reed underneath, so it presses
@@ -1575,7 +1573,7 @@ module reed_model() {
 }
 
 // ===========================================================================================
-// 10. Assembly and part selection
+// 9. Assembly and part selection
 // ===========================================================================================
 
 module mouthpiece_body() {
