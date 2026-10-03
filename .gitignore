@@ -8,6 +8,7 @@ example_models/
 reference/*.stl
 reference/*.STL
 test/references.json
+test/reference_scores.json
 
 # render outputs
 /*.stl

@@ -34,6 +34,8 @@ fs.mkdirSync(OUT, { recursive: true });
 // The optional local comparison (step 5): test/references.json maps a param file to a local
 // reference file, paths relative to the project root. Files without one skip the check.
 const REFS_FILE = path.join(ROOT, 'test', 'references.json');
+// Its scores are kept beside it, locally too (not in the shared baselines).
+const REF_SCORES = path.join(ROOT, 'test', 'reference_scores.json');
 const REFERENCES = Object.fromEntries(
   Object.entries(fs.existsSync(REFS_FILE) ? JSON.parse(fs.readFileSync(REFS_FILE, 'utf8')) : {}).map(([k, v]) => [
     k,
@@ -208,9 +210,11 @@ const results = await pool(files, 4, (f) =>
 );
 
 const baselines = fs.existsSync(BASELINES) ? JSON.parse(fs.readFileSync(BASELINES, 'utf8')) : {};
+const scores = fs.existsSync(REF_SCORES) ? JSON.parse(fs.readFileSync(REF_SCORES, 'utf8')) : {};
 let failed = 0;
 for (const r of results) {
   const b = baselines[r.file];
+  const bIou = scores[r.file];
   if (!UPDATE && r.hash) {
     if (!b) r.problems.push('no baseline yet (run with --update to record one)');
     else if (b.hash !== r.hash) {
@@ -221,8 +225,8 @@ for (const r of results) {
     }
     if (b && r.ligHash && b.ligHash !== r.ligHash)
       r.problems.push(`ligature changed: volume ${b.ligVolume ?? '?'} -> ${r.ligVolume} mm³`);
-    if (b?.iou !== undefined && r.iou !== undefined && r.iou < b.iou - 0.002)
-      r.problems.push(`reference IoU dropped ${b.iou} -> ${r.iou}`);
+    if (bIou !== undefined && r.iou !== undefined && r.iou < bIou - 0.002)
+      r.problems.push(`reference IoU dropped ${bIou} -> ${r.iou}`);
   }
   const status = r.problems.length ? 'FAIL' : 'ok  ';
   if (r.problems.length) failed++;
@@ -243,11 +247,12 @@ if (UPDATE) {
       volume: r.volume,
       size: r.size,
       hash: r.hash,
-      ...(r.iou !== undefined ? { iou: r.iou } : {}),
       ...(r.ligHash ? { ligHash: r.ligHash, ligVolume: r.ligVolume } : {}),
     };
+    if (r.iou !== undefined) scores[r.file] = r.iou;
   }
   fs.writeFileSync(BASELINES, JSON.stringify(next, null, 2) + '\n');
+  if (Object.keys(scores).length) fs.writeFileSync(REF_SCORES, JSON.stringify(scores, null, 2) + '\n');
   console.log(`baselines updated: ${path.relative(ROOT, BASELINES)}`);
 }
 console.log(`${results.length - failed}/${results.length} passed in ${((Date.now() - t0) / 1000).toFixed(1)}s`);

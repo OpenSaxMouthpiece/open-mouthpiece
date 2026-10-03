@@ -8,7 +8,6 @@
       91.132
     ],
     "hash": "4c9c0cd76a04f1de",
-    "iou": 0.9395,
     "ligHash": "da15a2e10792422d",
     "ligVolume": 2639.666
   },
@@ -21,7 +20,6 @@
       143.944
     ],
     "hash": "85d3e8f52d34fc5d",
-    "iou": 0.9031,
     "ligHash": "36b7ed35b29e65c4",
     "ligVolume": 2775.578
   },
@@ -34,7 +32,6 @@
       67.617
     ],
     "hash": "9414935c1d82f261",
-    "iou": 0.9127,
     "ligHash": "dccb0ac51feb38d6",
     "ligVolume": 1836.559
   },
@@ -47,7 +44,6 @@
       98.476
     ],
     "hash": "6499549900abe297",
-    "iou": 0.9073,
     "ligHash": "0ca0adbaa696b6a3",
     "ligVolume": 2785.615
   },
