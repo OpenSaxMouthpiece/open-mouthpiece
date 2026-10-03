@@ -190,5 +190,15 @@
     "hash": "cc552c019bf0d41b",
     "ligHash": "7b7339cc5ad48386",
     "ligVolume": 2765.402
+  },
+  "experiments/dual_reed.scad": {
+    "tris": 15986,
+    "volume": 10615.412,
+    "size": [
+      23.056,
+      22.551,
+      89.31
+    ],
+    "hash": "0e42a17df19c3004"
   }
 }

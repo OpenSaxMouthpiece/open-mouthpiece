@@ -1,5 +1,5 @@
 // Regression check for every param file (scad/*.scad and scad/variants/*.scad that include the
-// base; name any other file to check it):
+// base, and the experiments in scad/experiments/; name any other file to check it):
 //   1. renders cleanly: no errors / OpenSCAD warnings, genus 1 (one through-bore, no holes, no
 //      loose pieces);
 //   2. geometry matches test/baselines.json (vertex-set fingerprint; volume change reported);
@@ -58,10 +58,22 @@ const listed = args.filter((a) => !a.startsWith('--'));
 const files = (
   listed.length
     ? listed.map((f) => path.resolve(f))
-    : [SCAD, path.join(SCAD, 'variants')]
-        .flatMap((d) => (fs.existsSync(d) ? fs.readdirSync(d).map((f) => path.join(d, f)) : []))
-        .filter((f) => f.endsWith('.scad') && isVoiceFile(fs.readFileSync(f, 'utf8')))
+    : [
+        ...[SCAD, path.join(SCAD, 'variants')]
+          .flatMap((d) => (fs.existsSync(d) ? fs.readdirSync(d).map((f) => path.join(d, f)) : []))
+          .filter((f) => f.endsWith('.scad') && isVoiceFile(fs.readFileSync(f, 'utf8'))),
+        ...(fs.existsSync(path.join(SCAD, 'experiments'))
+          ? fs
+              .readdirSync(path.join(SCAD, 'experiments'))
+              .filter((f) => f.endsWith('.scad'))
+              .map((f) => path.join(SCAD, 'experiments', f))
+          : []),
+      ]
 ).sort();
+
+// The genus a file says its model has ("EXPECTED GENUS n", e.g. an experiment with two
+// windows); 1 for a mouthpiece from the generator (one through-bore).
+const expectedGenus = (log) => Number(/EXPECTED GENUS (\d+)/.exec(log)?.[1] ?? 1);
 
 function meshInfo(stlPath) {
   const T = loadTris(stlPath);
@@ -116,39 +128,8 @@ function nodeScript(script, scriptArgs) {
   });
 }
 
-async function checkFile(file) {
-  const name = rel(file);
-  const tag = name.replace(/[/.]/g, '_');
-  const r = { file: name, problems: [], notes: [] };
-  // 1 + 2: design-frame render
-  const stl = path.join(OUT, `${tag}.stl`);
-  const run = await runOpenscad(['-o', stl, '-D', 'print_orientation=false', file], { cwd: path.dirname(file) });
-  const log = parseLog(run.log);
-  if (!log.ok || run.code !== 0) {
-    r.problems.push(`render failed${log.errors.length ? `: ${log.errors[0]}` : ''}`);
-    return r;
-  }
-  if (log.genus !== null && log.genus !== 1)
-    r.problems.push(
-      `genus ${log.genus} (expected 1: ${log.genus > 1 ? 'extra holes' : 'a loose piece or no through-bore'})`,
-    );
-  for (const w of log.warnings) r.problems.push(w);
-  for (const w of log.designWarnings) r.notes.push(w);
-  const m = meshInfo(stl);
-  Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
-  // 3: print orientation
-  const pstl = path.join(OUT, `${tag}_print.stl`);
-  const prun = await runOpenscad(['-o', pstl, file], { cwd: path.dirname(file) });
-  if (prun.code !== 0) r.problems.push('print-orientation render failed');
-  else {
-    const pm = meshInfo(pstl);
-    const area = plateArea(pm.T, pm.zmin);
-    r.plate = +area.toFixed(1);
-    if (Math.abs(pm.zmin) > 1e-3)
-      r.problems.push(`print orientation: lowest point at z=${pm.zmin.toFixed(3)} (expected 0)`);
-    if (area < 20) r.problems.push(`print orientation: only ${area.toFixed(1)}mm² on the plate`);
-  }
-  // 4: bundle
+// Step 4: the bundled single-file version renders the same geometry and opens unchanged in the app.
+async function checkBundle(file, tag, m, r) {
   const bundled = path.join(OUT, `${tag}_bundled.scad`);
   nodeScript('bundle_scad.mjs', [file, '-o', bundled]);
   const btext = fs.readFileSync(bundled, 'utf8');
@@ -173,6 +154,43 @@ async function checkFile(file) {
     if (meshInfo(bstl).hash !== refHash)
       r.problems.push(`bundled file renders different geometry${fontDefs.length ? ' (compared in Sans Bold)' : ''}`);
   }
+}
+
+async function checkFile(file) {
+  const name = rel(file);
+  const tag = name.replace(/[/.]/g, '_');
+  const r = { file: name, problems: [], notes: [] };
+  // 1 + 2: design-frame render
+  const stl = path.join(OUT, `${tag}.stl`);
+  const run = await runOpenscad(['-o', stl, '-D', 'print_orientation=false', file], { cwd: path.dirname(file) });
+  const log = parseLog(run.log);
+  if (!log.ok || run.code !== 0) {
+    r.problems.push(`render failed${log.errors.length ? `: ${log.errors[0]}` : ''}`);
+    return r;
+  }
+  const genus = expectedGenus(run.log);
+  if (log.genus !== null && log.genus !== genus)
+    r.problems.push(
+      `genus ${log.genus} (expected ${genus}: ${log.genus > genus ? 'extra holes' : 'a loose piece or no through-bore'})`,
+    );
+  for (const w of log.warnings) r.problems.push(w);
+  for (const w of log.designWarnings) r.notes.push(w);
+  const m = meshInfo(stl);
+  Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
+  // 3: print orientation
+  const pstl = path.join(OUT, `${tag}_print.stl`);
+  const prun = await runOpenscad(['-o', pstl, file], { cwd: path.dirname(file) });
+  if (prun.code !== 0) r.problems.push('print-orientation render failed');
+  else {
+    const pm = meshInfo(pstl);
+    const area = plateArea(pm.T, pm.zmin);
+    r.plate = +area.toFixed(1);
+    if (Math.abs(pm.zmin) > 1e-3)
+      r.problems.push(`print orientation: lowest point at z=${pm.zmin.toFixed(3)} (expected 0)`);
+    if (area < 20) r.problems.push(`print orientation: only ${area.toFixed(1)}mm² on the plate`);
+  }
+  // 4: bundle (a file without an include is one file already)
+  if (/^\s*include\s*</m.test(fs.readFileSync(file, 'utf8'))) await checkBundle(file, tag, m, r);
   // 5: reference IoU
   const ref = REFERENCES[name];
   if (ref && fs.existsSync(ref)) {
@@ -182,7 +200,8 @@ async function checkFile(file) {
     const iou = /overall volume IoU ([\d.]+)/.exec(nodeScript('compare_sections.mjs', [frame, stl]));
     if (iou) r.iou = Number(iou[1]);
   }
-  // 6: ligature
+  // 6: ligature (files that can make one)
+  if (!/^ligature_length\s*=/m.test(fs.readFileSync(file, 'utf8'))) return r;
   const lstl = path.join(OUT, `${tag}_ligature.stl`);
   const lrun = await runOpenscad(['-o', lstl, '-D', 'part="ligature"', file], { cwd: path.dirname(file) });
   const llog = parseLog(lrun.log);

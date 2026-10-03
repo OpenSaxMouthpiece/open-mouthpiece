@@ -4,7 +4,7 @@
 //   1. extremes — every parameter at its slider min and max, one at a time (clear attribution);
 //   2. random mixes — 3..10 parameters changed at once (seeded, reproducible); every failing mix
 //      is shrunk to the smallest set of changes that still fails.
-// Each sample is checked for: render failure / OpenSCAD errors, OpenSCAD warnings, genus != 1
+// Each sample is checked for: render failure / OpenSCAD errors, OpenSCAD warnings, genus other than the file's (1, or its EXPECTED GENUS echo)
 // (holes or loose pieces), and wall clearance below --min-wall (part="clearance_report").
 // Failures get a repro param file in scad/_sweep/ (gitignored) — open it from the app.
 //   npm run sweep
@@ -86,10 +86,12 @@ async function evaluate(base, overrides) {
   const problems = [];
   if (r.code !== 0 || !log.ok) problems.push({ kind: 'render', text: log.errors[0] ?? 'render failed' });
   for (const w of log.warnings) problems.push({ kind: 'warning', text: w.replace(/ in file .*$/, '') });
-  if (log.ok && log.genus !== null && log.genus !== 1)
+  // the genus the file says it has (an experiment with two windows), else one through-bore
+  const genus = Number(/EXPECTED GENUS (\d+)/.exec(r.log)?.[1] ?? 1);
+  if (log.ok && log.genus !== null && log.genus !== genus)
     problems.push({
       kind: 'genus',
-      text: `genus ${log.genus} (${log.genus > 1 ? 'holes' : 'loose piece / no through-bore'})`,
+      text: `genus ${log.genus} (${log.genus > genus ? 'holes' : 'loose piece / no through-bore'})`,
     });
   let clearance = null;
   if (log.ok) {
@@ -199,7 +201,7 @@ console.log(
 const byKind = {};
 for (const f of failures) for (const p of f.problems) (byKind[p.kind] ??= []).push({ f, p });
 const kindTitle = {
-  genus: 'Holes / loose pieces (genus != 1)',
+  genus: 'Holes / loose pieces (unexpected genus)',
   thin: `Walls thinner than ${MIN_WALL}mm`,
   warning: 'OpenSCAD warnings',
   render: 'Render failures',
