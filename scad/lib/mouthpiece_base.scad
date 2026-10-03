@@ -155,6 +155,8 @@ beak_squareness = 1.6; // [1.2:0.1:8]
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
+// How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
+shoulder_sweep = 0; // [0:0.5:12]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 underside_squareness = 1.2; // [1.2:0.1:8]
 // Pocket on the beak for a stick-on tooth patch (mm deep); 0 = none.
@@ -296,7 +298,7 @@ print_orientation = true;
 // section gets boxier), then a straight beak to a thin, WIDE tip. Any ext_*_points override
 // replaces the matching curve.
 shape_width = [[0, 22.0], [0.085, 22.0], [0.125, 23.3], [0.175, 26.7], [0.205, 29.0], [0.29, 28.1], [0.46, 26.4], [0.83, 22.3], [1, 16.9]];
-shape_top = [[0, 25.5], [0.125, 25.4], [0.205, 27.6], [0.3, 26.3], [0.405, 25.1], [0.495, 24.0], [0.575, 22.7], [0.62, 18.9], [0.685, 15.4], [0.775, 11.9], [1, 3.6]];
+shape_top = [[0, 25.5], [0.125, 25.4], [0.205, 27.6], [0.3, 26.3], [0.405, 25.1], [0.495, 24.0], [0.575, 22.85], [0.585, 22.7], [0.6, 20.9], [0.62, 18.9], [0.685, 15.4], [0.775, 11.9], [1, 3.6]];
 shape_bottom = [[0, 3.5], [0.115, 2.4], [0.195, 0]];
 shape_widest = [[0, 14.5], [0.18, 13.9], [0.27, 12.6], [0.385, 11.4], [0.76, 8.7], [0.95, 3.5]];
 shape_top_squareness = [[0, 2.0], [0.58, 2.0], [0.64, 2.7], [0.84, 1.6], [1, 1.6]];
@@ -602,6 +604,32 @@ function ring_half_width_at_y(E, y) =
   let(up = y >= E[E_CY], n = up ? E[E_NT] : E[E_NB])
   let(rel = min(1, abs(y - E[E_CY]) / (up ? E[E_TOP] - E[E_CY] : E[E_CY] - E[E_BOT])))
   E[E_HW] * pow(1 - pow(rel, n), 1 / n);
+
+// shoulder_sweep: the sides keep the body's height a little past the shoulder, longer the lower
+// down (by shoulder_sweep x (1 - sin) of the point's angle above the ring's centre), so the
+// shoulder line runs diagonally down the flanks toward the tip. What is delayed is only the drop
+// below the body's own line (sweep_drop), so the body behind the shoulder is untouched, and it
+// fades out before the tip rounding. Applied to finished ring points (sweep_pt) along rays from
+// the ring's centre: a superellipse with a taller top half, so the section stays star-shaped
+// (no folds) and only ever grows (walls and clamps measured on exterior_ring_at stay safe).
+SWEEP_Z0 = (USER_TOP ? shoulder_f([for (p = ext_top_points) [p[0] / L, p[1]]]) : SHOULDER_F2) * L;
+SWEEP_SLOPE = (exterior_top_at(SWEEP_Z0) - exterior_top_at(SWEEP_Z0 - 5)) / 5;
+function sweep_drop(z) = z <= SWEEP_Z0 ? 0
+  : max(0, exterior_top_at(SWEEP_Z0) + SWEEP_SLOPE * (z - SWEEP_Z0) - exterior_top_at(z));
+function sweep_lift(z, s) = shoulder_sweep <= 0 || s <= 0 || z <= SWEEP_Z0 ? 0
+  : let(z1 = SWEEP_Z0 + shoulder_sweep, f = 1 - smootherstep(clamp01((z - z1) / max(1, L - tip_curve - z1))))
+    let(sh = shoulder_sweep * (1 - s) * f, w = sh)
+    // The delayed drop is blurred over its delay: crisp on top, softer lower down (a sharp
+    // line slanting across the 1mm ring spacing came out jagged, and the bottom of the drop showed
+    // as a second ridge along the beak).
+    max(0, sweep_drop(z) - vsum([for (i = [-3 : 3]) sweep_drop(z - sh + w * i / 3) * (4 - abs(i))]) / 16);
+// p: a point of the ring (hw, top, cy, n = top exponent) at z, [x, y] or [x, y, z].
+function sweep_pt(p, z, hw, top, cy, n) = shoulder_sweep <= 0 || p[1] <= cy ? p
+  : let(v = [p[0], p[1] - cy], r = norm(v)) r < 1e-6 ? p
+  : let(u = v / r, lift = sweep_lift(z, u[1])) lift <= 0 ? p
+  : let(ht = top - cy + lift, rho = 1 / pow(pow(abs(u[0]) / hw, n) + pow(u[1] / ht, n), 1 / n))
+    concat([u[0] * rho, cy + u[1] * rho], len(p) > 2 ? [p[2]] : []);
+function sweep_ring(pts, z, hw, top, cy, n) = shoulder_sweep <= 0 ? pts : [for (p = pts) sweep_pt(p, z, hw, top, cy, n)];
 
 // ===========================================================================================
 // 5. Window planform (looking at the table): a long slot, slightly wider toward the tip, rear end
@@ -1047,7 +1075,7 @@ module exterior_solid() {
   z_first = max([for (p = end_ring) p[2]]);  // the regular stations start just in front of the end face
   ring_loft(concat([end_ring], [for (z = drop_first(station_list(z_first, L - 0.02, tip_curve + 1, Z_STEP)))
     let(E = exterior_ring_at(max(0, z)))
-    sring(dirs, z, E[E_HW], E[E_TOP], E[E_BOT], E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z))]));
+    sweep_ring(sring(dirs, z, E[E_HW], E[E_TOP], E[E_BOT], E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), max(0, z), E[E_HW], E[E_TOP], E[E_CY], E[E_NT])]));
 }
 
 // ---- Interior: the shank socket, then the air path to the window front, as one loft. The socket
@@ -1187,8 +1215,8 @@ lettering_font_name = let(hit = [for (f = LETTERING_FONTS) if (f[0] == lettering
 module exterior_offset(z0, z1, d) {
   dirs = ring_dirs(EXT_RING_POINTS);
   n = max(2, ceil((z1 - z0) / Z_STEP));
-  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, E = exterior_ring_at(max(0, min(L, z))))
-    sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z))]);
+  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, zc = max(0, min(L, z)), E = exterior_ring_at(zc))
+    sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
 }
 
 module lettering_text(s, size) {
@@ -1222,15 +1250,16 @@ module art_2d(name, width, angle) {
 // centre (u), measured on the exterior ring at top_image_z. It is cut into 3mm strips, each a
 // short prism along that point's inward normal, so the picture follows the surface down both
 // sides. Seen from above, a narrow picture looks the same wrapped or not.
-function ext_ring_pt(E, th) =
+function ext_ring_pt(E, th, z = undef) =
   let(c = cos(th), s = sin(th), e = 2 / (s >= 0 ? E[E_NT] : E[E_NB]), h = s >= 0 ? E[E_TOP] - E[E_CY] : E[E_CY] - E[E_BOT])
-  [E[E_HW] * sign(c) * pow(abs(c), e), E[E_CY] + h * sign(s) * pow(abs(s), e)];
+  let(p = [E[E_HW] * sign(c) * pow(abs(c), e), E[E_CY] + h * sign(s) * pow(abs(s), e)])
+  is_undef(z) ? p : sweep_pt(p, z, E[E_HW], E[E_TOP], E[E_CY], E[E_NT]);
 // The lowest the wrap goes: 1mm above the underside, and 3.5mm above the table alongside the
 // window (as the side text), clear of the thin walls beside the rails.
 function wrap_floor(z, E) = max(E[E_BOT] + 1, z >= win_z0 - 2 ? 3.5 : 1);
 WRAP_E = exterior_ring_at(top_image_z);
 // The right half of that ring from the top centre down (x >= 0), and the arc length to each point.
-WRAP_PTS = [for (j = [0 : 360]) ext_ring_pt(WRAP_E, 90 - j / 2)];
+WRAP_PTS = [for (j = [0 : 360]) ext_ring_pt(WRAP_E, 90 - j / 2, top_image_z)];
 WRAP_CUM = [for (i = 0, a = 0; i <= 360; a = a + (i < 360 ? norm(WRAP_PTS[i + 1] - WRAP_PTS[i]) : 0), i = i + 1) a];
 WRAP_MAX = let(fl = wrap_floor(top_image_z, WRAP_E), below = [for (i = [0 : 360]) if (WRAP_PTS[i][1] < fl) i])
   len(below) > 0 ? WRAP_CUM[below[0]] : WRAP_CUM[360];
@@ -1332,7 +1361,7 @@ module tooth_pocket() {
       let(w = max(0.05, ring_half_width_at_y(E, ys) - 0.7))
       [[-w, ys, z], [w, ys, z], [w, E[E_TOP] + 5, z], [-w, E[E_TOP] + 5, z]]]);
     ring_loft([for (z = [tooth_z0 - 1, each zs, tooth_z1 + 1]) let(zc = max(tooth_z0, min(tooth_z1, z)), E = exterior_ring_at(zc), d = tooth_depth(zc, E))
-      sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(zc))]);
+      sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(zc)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
   }
 }
 
@@ -1400,7 +1429,7 @@ function param_focus() =
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
    ["body_width_scale", whole, "top", false], ["body_height_scale", whole, "side", false], ["beak_tip_height", beak, "side", false],
-   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
+   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
    ["bore_axis_height", bore, "side", true], ["min_wall", whole, "side", true],
    ["tooth_plate_recess", beak, "top", false], ["tooth_plate_length", beak, "top", false], ["table_concavity", table, "table", false],
    ["top_text", lettering_top, "top", false], ["top_text_size", lettering_top, "top", false],
@@ -1479,7 +1508,7 @@ function lig_reed_pts(z, t) =
 // Body above the table plane + the table's edges.
 function lig_body_pts(z) =
   let(E = exterior_ring_at(z))
-  let(body = [for (j = [0 : LIG_N - 1]) let(p = ext_ring_pt(E, j * 360 / LIG_N)) if (p[1] >= 0) p])
+  let(body = [for (j = [0 : LIG_N - 1]) let(p = ext_ring_pt(E, j * 360 / LIG_N, z)) if (p[1] >= 0) p])
   let(hw0 = E[E_BOT] < 0 ? ring_half_width_at_y(E, 0) : 0)
   concat(body, [[hw0, 0], [-hw0, 0]]);
 

@@ -105,6 +105,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "overall_length", label: "Length" },
       { name: "beak_curve", label: "Beak curve" },
       { name: "beak_length", label: "Beak length" },
+      { name: "shoulder_sweep", label: "Shoulder sweep" },
       { name: "beak_tip_height", label: "Beak height at the tip" },
       { name: "beak_squareness", label: "Beak top" },
       { name: "body_width_scale", label: "Body width" },

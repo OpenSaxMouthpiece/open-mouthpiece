@@ -111,6 +111,8 @@ beak_squareness = 1.6; // [1.2:0.1:8]
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
+// How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
+shoulder_sweep = 0; // [0:0.5:12]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 underside_squareness = 1.2; // [1.2:0.1:8]
 // Pocket on the beak for a stick-on tooth patch (mm deep); 0 = none.
@@ -252,7 +254,7 @@ print_orientation = true;
 // section gets boxier), then a straight beak to a thin, WIDE tip. Any ext_*_points override
 // replaces the matching curve.
 shape_width = [[0, 22.0], [0.085, 22.0], [0.125, 23.3], [0.175, 26.7], [0.205, 29.0], [0.29, 28.1], [0.46, 26.4], [0.83, 22.3], [1, 16.9]];
-shape_top = [[0, 25.5], [0.125, 25.4], [0.205, 27.6], [0.3, 26.3], [0.405, 25.1], [0.495, 24.0], [0.575, 22.7], [0.62, 18.9], [0.685, 15.4], [0.775, 11.9], [1, 3.6]];
+shape_top = [[0, 25.5], [0.125, 25.4], [0.205, 27.6], [0.3, 26.3], [0.405, 25.1], [0.495, 24.0], [0.575, 22.85], [0.585, 22.7], [0.6, 20.9], [0.62, 18.9], [0.685, 15.4], [0.775, 11.9], [1, 3.6]];
 shape_bottom = [[0, 3.5], [0.115, 2.4], [0.195, 0]];
 shape_widest = [[0, 14.5], [0.18, 13.9], [0.27, 12.6], [0.385, 11.4], [0.76, 8.7], [0.95, 3.5]];
 shape_top_squareness = [[0, 2.0], [0.58, 2.0], [0.64, 2.7], [0.84, 1.6], [1, 1.6]];

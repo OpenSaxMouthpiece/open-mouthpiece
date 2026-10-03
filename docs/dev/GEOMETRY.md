@@ -28,6 +28,19 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   at +15). `beak_curve` (-1..1, + = scooped / a "swoop") resamples the top from `SHOULDER_F2` to the
   tip (17 knots) and subtracts a half sine of 12% of the beak's drop, so shoulder and tip are
   unchanged; the interior's roof cap (guarantee 4) keeps the wall. Sweep: no holes. A top exponent < 2 (ridge) eases to 2 near the tip (`exterior_top_exp_final`).
+  `shoulder_sweep` (2026-10-02, mm, 0..12, a no-op at 0): the shoulder line runs down the sides
+  toward the tip. Each upper-half ring point keeps the body's height longer the lower it sits:
+  its top is `top + sweep_drop(z) - sweep_drop(z - sh)`, with `sweep_drop` the drop below the
+  body's own line from the shoulder (so the body behind it is untouched), `sh = sweep x (1 - sin)`
+  of the point's angle above the ring centre, blurred over `sh` (unblurred, the slanting line came
+  out jagged across the 1mm ring spacing) and fading out before the tip rounding. `sweep_pt` moves
+  finished ring points along rays from the ring centre onto that taller superellipse: star-shaped
+  (no folds) and only ever larger, so everything measured on `exterior_ring_at` (interior clamps,
+  window corners) stays safe. Every surface-following part goes through it: the exterior loft,
+  `exterior_offset` (engraved/raised lettering), the tooth pocket, `ext_ring_pt` (wrapped
+  picture, ligature support). Past ~12 the lifted flanks rise above the crest and leave a channel
+  along the beak, hence the range. The alto's shoulder was also made crisper (2026-10-02: two
+  more `shape_top` knots, closer to its reference).
 - **Bore axis** is centred in the table's tenon (`eff_bah`); `bore_axis_height` only applies with
   `ext_top_points`. The shank end face is square to the tilted bore, built into the loft's first
   ring (no trimming boolean).

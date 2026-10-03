@@ -111,6 +111,8 @@ beak_squareness = 1.3; // [1.2:0.1:8]
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
+// How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
+shoulder_sweep = 0; // [0:0.5:12]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 underside_squareness = 1.2; // [1.2:0.1:8]
 // Pocket on the beak for a stick-on tooth patch (mm deep); 0 = none.
