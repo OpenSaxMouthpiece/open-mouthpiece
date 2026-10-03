@@ -8,6 +8,7 @@ import { scadLiteral } from "./scadText";
 export interface Snapshot {
   name: string;
   path: string | null;
+  label?: string; // its name on screen, when not the file's (e.g. "Alto (original)")
   source: string;
   files: Record<string, string>; // unsaved text of other project files at pin time (e.g. an edited base)
   values: Record<string, ParamValue>;

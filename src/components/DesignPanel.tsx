@@ -13,6 +13,7 @@ interface Props {
   values: Record<string, ParamValue>;
   onChange(name: string, value: ParamValue | undefined): void;
   onResetAll(): void;
+  onCompareOriginal?(): void; // the design as it was (published / saved) as B
   zoom: boolean;
   onZoomChange(on: boolean): void;
   onFocusParam(name: string): void;
@@ -39,6 +40,7 @@ export function DesignPanel({
   values,
   onChange,
   onResetAll,
+  onCompareOriginal,
   zoom,
   onZoomChange,
   onFocusParam,
@@ -136,6 +138,15 @@ export function DesignPanel({
         <button disabled={!changed} onClick={onResetAll} title="Back to the values in the file">
           Reset{changed ? ` (${changed})` : ""}
         </button>
+        {onCompareOriginal && (
+          <button
+            disabled={!changed}
+            onClick={onCompareOriginal}
+            title="Compare with the original: the design as it was (a preset as published, yours as saved), as B"
+          >
+            vs original
+          </button>
+        )}
       </div>
       <PanelOptions ids={ids} />
       <div className="design-scroll">

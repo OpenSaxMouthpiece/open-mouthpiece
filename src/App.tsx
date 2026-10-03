@@ -616,6 +616,19 @@ export default function App() {
       values: readOnly.has(p) ? {} : (valuesByKey[p] ?? {}),
     });
   };
+  // The design as it was (what Reset goes back to): a preset as published, your design as saved.
+  const compareOriginal = () => {
+    track("feature", "compare_original");
+    const label = `${labelA} (original)`;
+    pinScad(label, {
+      name: mainTab.name,
+      path: mainTab.path,
+      label,
+      source: mainTab.saved ?? mainTab.source,
+      files: sideFiles(),
+      values: {},
+    });
+  };
   const pinSource = (name: string, source: string, vals: Values) =>
     pinScad(name, { name, path: null, source, files: sideFiles(), values: vals });
 
@@ -865,7 +878,8 @@ export default function App() {
   const editorWShown = Math.max(MIN_EDITOR_W, Math.min(editorW, winW * 0.45));
   const panelWShown = Math.max(MIN_PANEL_W, Math.min(panelW, winW * 0.5));
   const groups = groupFiles(files, readOnly, ownFiles);
-  const labelOf = (s: { name: string; path: string | null }) => (s.path ? voiceLabel(s.path) : s.name);
+  const labelOf = (s: { name: string; path: string | null; label?: string }) =>
+    s.label ?? (s.path ? voiceLabel(s.path) : s.name);
   const labelA = labelOf(mainTab);
   const labelB = pinned ? labelOf(pinned) : undefined;
 
@@ -1588,6 +1602,7 @@ export default function App() {
       title={voiceLabel(mainTab.path ?? mainTab.name)}
       onChange={(n, v) => setValue(n, undefined, v)}
       onResetAll={() => setValuesByKey((all) => ({ ...all, [mainTab.key]: {} }))}
+      onCompareOriginal={compareOriginal}
       zoom={zoom}
       onZoomChange={setZoom}
       onFocusParam={focusOn}
@@ -1713,6 +1728,9 @@ export default function App() {
               <button onClick={act(pinCurrent)} disabled={!stl}>
                 Pin this model as B (compare)
               </button>
+              <button onClick={act(compareOriginal)} disabled={!stl}>
+                Compare with the original
+              </button>
               {printingGuideLink}
               {sourceLink}
               {DONATE_URL && (
@@ -1793,6 +1811,13 @@ export default function App() {
             title="Freeze the current model and its settings as B, to compare against while you change things"
           >
             Pin this model as B (compare)
+          </button>
+          <button
+            onClick={menuAction(close, compareOriginal)}
+            disabled={!stl}
+            title="Compare with the design as it was: a preset as published, your design as saved"
+          >
+            Compare with the original
           </button>
           {coding && (
             <button onClick={menuAction(close, () => fileInput.current?.click())}>Open .scad from this device…</button>

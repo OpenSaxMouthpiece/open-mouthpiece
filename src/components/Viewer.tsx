@@ -4,6 +4,10 @@
 // Section view: a clipping plane cuts the model lengthwise (keeps x <= position) or across (keeps
 // z <= position); the solid's back faces, seen through the cut, are drawn in a flat cut color so
 // walls read as solid material.
+// Ghost: after a change of settings, the previous shape is drawn faintly over the new one (an
+// onion skin: its own pass with the depth cleared, so only its outer surface and edges show) until
+// rendering has been quiet for a moment, then it fades. It is kept (hidden) until the next change,
+// so "Last shape" can bring it back.
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -87,6 +91,7 @@ interface Ctx {
   b: THREE.Group;
   lig: THREE.Group;
   reed: THREE.Group;
+  ghost: THREE.Group; // the previous shape of A, for a moment after a change
   grid: THREE.GridHelper;
   axes: THREE.AxesHelper;
   draw(): void;
@@ -130,6 +135,7 @@ interface ViewPrefs {
   section: Section;
   showA: boolean;
   showB: boolean;
+  ghost: boolean;
 }
 const PREFS_KEY = "open-mouthpiece-view-v1";
 const viewPrefs: ViewPrefs = (() => {
@@ -141,10 +147,11 @@ const viewPrefs: ViewPrefs = (() => {
     section: "off",
     showA: true,
     showB: true,
+    ghost: true,
   };
   try {
     const s = JSON.parse(localStorage.getItem(PREFS_KEY) ?? "{}") as Partial<ViewPrefs>;
-    for (const k of ["edges", "wire", "seeThrough"] as const) if (typeof s[k] === "boolean") p[k] = s[k]!;
+    for (const k of ["edges", "wire", "seeThrough", "ghost"] as const) if (typeof s[k] === "boolean") p[k] = s[k]!;
     if (s.layout === "overlay" || s.layout === "side") p.layout = s.layout;
   } catch {
     // no storage: defaults
@@ -156,7 +163,7 @@ function keepPrefs(p: ViewPrefs) {
   try {
     localStorage.setItem(
       PREFS_KEY,
-      JSON.stringify({ edges: p.edges, wire: p.wire, seeThrough: p.seeThrough, layout: p.layout }),
+      JSON.stringify({ edges: p.edges, wire: p.wire, seeThrough: p.seeThrough, layout: p.layout, ghost: p.ghost }),
     );
   } catch {
     // storage unavailable: kept for this page only
@@ -169,6 +176,11 @@ const LIG_COLOR = 0xd9564a;
 const LIG_CUT = 0x7a2a22;
 const REED_COLOR = 0xe6dcbc;
 const REED_CUT = 0x9a8f6c;
+// The ghost: how long it stays once rendering is quiet, how long it fades, and how strong it is.
+const GHOST_HOLD_MS = 2500;
+const GHOST_FADE_MS = 700;
+const GHOST_FILM = 0.2; // the old surface's tint
+const GHOST_EDGES = 0.6; // its edges
 
 export function Viewer({
   stl,
@@ -204,10 +216,26 @@ export function Viewer({
   const [layout, setLayout] = useState<"overlay" | "side">(viewPrefs.layout);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [section, setSection] = useState<Section>(viewPrefs.section);
+  const [ghostOn, setGhostOn] = useState(viewPrefs.ghost);
   useEffect(
-    () => keepPrefs({ edges, wire, seeThrough, layout, section, showA, showB }),
-    [edges, wire, seeThrough, layout, section, showA, showB],
+    () => keepPrefs({ edges, wire, seeThrough, layout, section, showA, showB, ghost: ghostOn }),
+    [edges, wire, seeThrough, layout, section, showA, showB, ghostOn],
   );
+  // The design and part of the model on screen: a ghost only compares shapes of the same one.
+  const shownKey = useRef<string | null>(null);
+  const ghostColor = useRef(0xffffff);
+  ghostColor.current = bg.light ? 0x1b1d23 : 0xffffff;
+  const ghostTimer = useRef<number | null>(null);
+  const ghostFade = useRef<number | null>(null);
+  // none; showing (after a change, fades by itself); kept (hidden, can be brought back); held (shown
+  // by "Last shape" until turned off)
+  type GhostMode = "none" | "showing" | "kept" | "held";
+  const [ghostMode, setGhostModeState] = useState<GhostMode>("none");
+  const ghostModeRef = useRef<GhostMode>("none");
+  const setGhostMode = (m: GhostMode) => {
+    ghostModeRef.current = m;
+    setGhostModeState(m);
+  };
   // A newly pinned B: side by side (overlaid, a B that is nearly the same shape hides inside A).
   const lastB = useRef(compareKey);
   const framedB = useRef<string | undefined>(compare ? compareKey : undefined);
@@ -265,8 +293,12 @@ export function Viewer({
     const a = new THREE.Group(),
       b = new THREE.Group(),
       lig = new THREE.Group(),
-      reed = new THREE.Group();
+      reed = new THREE.Group(),
+      ghost = new THREE.Group();
     model.add(a, b, lig, reed);
+    // the ghost has its own pass, drawn over everything else
+    const ghostScene = new THREE.Scene();
+    ghostScene.add(ghost);
     scene.add(model);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -288,6 +320,12 @@ export function Viewer({
     };
     const draw = () => {
       renderer.render(scene, camera);
+      if (ghost.visible && ghost.children.length) {
+        renderer.autoClear = false;
+        renderer.clearDepth();
+        renderer.render(ghostScene, camera);
+        renderer.autoClear = true;
+      }
       place(labelARef.current, a);
       place(labelBRef.current, b);
     };
@@ -307,7 +345,7 @@ export function Viewer({
       draw();
     });
     ro.observe(host);
-    ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, grid, axes, draw };
+    ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, ghost, grid, axes, draw };
     // Dev-only handle for scripted inspection (e.g. from browser automation).
     if (import.meta.env.DEV) (window as unknown as { __viewer: Ctx }).__viewer = ctxRef.current;
     return () => {
@@ -317,6 +355,7 @@ export function Viewer({
       clearModel(b);
       clearModel(lig);
       clearModel(reed);
+      clearModel(ghost);
       renderer.dispose();
       host.removeChild(renderer.domElement);
       ctxRef.current = null;
@@ -453,6 +492,12 @@ export function Viewer({
     if (section === "length") plane.current.set(new THREE.Vector3(-1, 0, 0), secPos);
     else plane.current.set(new THREE.Vector3(0, 0, -1), secPos);
     const planes = section === "off" ? [] : [plane.current];
+    ctx.ghost.traverse((o) => {
+      if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) {
+        (o.material as THREE.Material).clippingPlanes = planes;
+        (o.material as THREE.Material).needsUpdate = true;
+      }
+    });
     ctx.model.traverse((o) => {
       if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) {
         const m = o.material as THREE.Material;
@@ -507,10 +552,84 @@ export function Viewer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ligature?.beside]);
 
+  // The ghost: A's surface and edges move over (no new geometry), with ghost materials. Kept
+  // through a drag (the first shape of it), dropped by a different design or part.
+  const stopGhostFade = () => {
+    if (ghostTimer.current !== null) clearTimeout(ghostTimer.current);
+    if (ghostFade.current !== null) cancelAnimationFrame(ghostFade.current);
+    ghostTimer.current = ghostFade.current = null;
+  };
+  const setGhostStrength = (ctx: Ctx, k: number) =>
+    ctx.ghost.traverse((o) => {
+      if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments)
+        if (o.userData.opacity !== undefined) (o.material as THREE.Material).opacity = k * o.userData.opacity;
+    });
+  const keepAsGhost = (ctx: Ctx) => {
+    const body = ctx.a.getObjectByName("body") as THREE.Mesh | undefined;
+    if (!body) return;
+    const edgeLines = ctx.a.getObjectByName("edges") as THREE.LineSegments | undefined;
+    const cap = ctx.a.getObjectByName("cap") as THREE.Mesh | undefined;
+    for (const o of [body, edgeLines, cap]) {
+      if (!o) continue;
+      ctx.a.remove(o);
+      (o.material as THREE.Material).dispose();
+    }
+    const color = ghostColor.current;
+    // depth first (nothing drawn), so the tint and the edges keep to the nearest surface
+    const offset = { polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 };
+    const depth = new THREE.Mesh(body.geometry, new THREE.MeshBasicMaterial({ colorWrite: false, ...offset }));
+    const film = new THREE.Mesh(
+      body.geometry,
+      new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false, ...offset }),
+    );
+    film.userData.opacity = GHOST_FILM;
+    film.renderOrder = 1;
+    ctx.ghost.add(depth, film);
+    if (edgeLines) {
+      const lines = new THREE.LineSegments(
+        edgeLines.geometry,
+        new THREE.LineBasicMaterial({ color, transparent: true }),
+      );
+      lines.userData.opacity = GHOST_EDGES;
+      lines.renderOrder = 2;
+      ctx.ghost.add(lines);
+    }
+    setGhostStrength(ctx, 1);
+  };
+  const clearGhost = (ctx: Ctx) => {
+    stopGhostFade();
+    // the film and the edges share geometries: dispose each once
+    const geoms = new Set<THREE.BufferGeometry>();
+    for (const o of [...ctx.ghost.children]) {
+      ctx.ghost.remove(o);
+      if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) {
+        geoms.add(o.geometry);
+        (o.material as THREE.Material).dispose();
+      }
+    }
+    geoms.forEach((g) => g.dispose());
+  };
+
   // New model A.
   useEffect(() => {
     const ctx = ctxRef.current;
     if (!ctx) return;
+    const same = !!stl && shownKey.current === frameKey && ctx.a.children.length > 0 && !svg;
+    if (same) {
+      stopGhostFade();
+      // a change while the ghost still shows is the same change going on (a drag): keep its first shape
+      if (ghostModeRef.current === "showing" && ctx.ghost.children.length) setGhostStrength(ctx, 1);
+      else {
+        clearGhost(ctx);
+        keepAsGhost(ctx);
+      }
+      ctx.ghost.visible = ghostOn;
+      setGhostMode(ghostOn ? "showing" : "kept");
+    } else {
+      clearGhost(ctx);
+      setGhostMode("none");
+    }
+    shownKey.current = stl ? frameKey : null;
     fill(ctx.a, stl, modelColor.current);
     applyLook(ctx);
     placeB(ctx);
@@ -570,6 +689,55 @@ export function Viewer({
     ctx.draw();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [edges, wire, seeThrough, showA, showB, section, secPos]);
+
+  // Once rendering is quiet, the ghost stays a moment, then fades out (and is kept, hidden).
+  useEffect(() => {
+    const ctx = ctxRef.current;
+    if (!ctx || busy || ghostMode !== "showing" || !ctx.ghost.children.length) return;
+    stopGhostFade();
+    ghostTimer.current = window.setTimeout(() => {
+      const t0 = performance.now();
+      const step = () => {
+        const t = Math.min(1, (performance.now() - t0) / GHOST_FADE_MS);
+        if (t < 1) {
+          setGhostStrength(ctx, 1 - t);
+          ghostFade.current = requestAnimationFrame(step);
+        } else {
+          ghostFade.current = null;
+          ctx.ghost.visible = false;
+          setGhostStrength(ctx, 1);
+          setGhostMode("kept");
+        }
+        ctx.draw();
+      };
+      ghostFade.current = requestAnimationFrame(step);
+    }, GHOST_HOLD_MS);
+    return stopGhostFade;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busy, stl, ghostMode]);
+  // The automatic ghost turned off: one showing now is hidden (and kept for "Last shape").
+  useEffect(() => {
+    const ctx = ctxRef.current;
+    if (ctx && !ghostOn && ghostModeRef.current === "showing") {
+      stopGhostFade();
+      ctx.ghost.visible = false;
+      setGhostStrength(ctx, 1);
+      setGhostMode("kept");
+      ctx.draw();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ghostOn]);
+  // "Last shape": the shape before the last change, shown until turned off again.
+  const toggleLastShape = () => {
+    const ctx = ctxRef.current;
+    if (!ctx || !ctx.ghost.children.length) return;
+    stopGhostFade();
+    setGhostStrength(ctx, 1);
+    const hold = ghostModeRef.current !== "held";
+    ctx.ghost.visible = hold;
+    setGhostMode(hold ? "held" : "kept");
+    ctx.draw();
+  };
 
   // Appearance changes: recolour A (body, edges, cut) and the grid for the background; grid / axes on or off.
   useEffect(() => {
@@ -666,6 +834,13 @@ export function Viewer({
                 >
                   See-through
                 </Check>
+                <Check
+                  on={ghostOn}
+                  set={setGhostOn}
+                  title="After a change, the previous shape shows faintly over the new one for a few seconds"
+                >
+                  Ghost after a change
+                </Check>
                 {onLigature && (
                   <>
                     <Check
@@ -697,6 +872,15 @@ export function Viewer({
               </div>
             )}
           </Menu>
+          {ghostMode !== "none" && (
+            <Toggle
+              on={ghostMode === "held"}
+              set={toggleLastShape}
+              title="Show the shape from before your last change over the model (again)"
+            >
+              Last shape
+            </Toggle>
+          )}
           <select
             className={section !== "off" ? "on" : ""}
             value={section}
