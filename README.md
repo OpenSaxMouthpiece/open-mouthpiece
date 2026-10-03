@@ -41,8 +41,9 @@ limited so that no setting breaks the model.
 
 ## Status
 
-Early but usable. The alto and baritone presets have been printed and played; the tenor is being
-reworked after its first print, and the variants and the ligature haven't been printed yet.
+Early but usable. The alto and baritone presets have been printed and played; the tenor was
+reworked after its first print and is waiting for a reprint, and the variants and the ligature
+haven't been printed yet.
 [docs/PRINTING.md](docs/PRINTING.md) walks through printing, fitting and play-testing.
 Feedback and prints are welcome (open an issue).
 
@@ -98,5 +99,4 @@ License, or (at your option) any later version. See [LICENSE](LICENSE).
   full .scad download contains the generator's code, so sharing that file shares GPL code.)
 - **Name:** "Open Mouthpiece" and opensaxmouthpiece.org are not licensed under the GPL; a fork
   is welcome, under its own name.
-- Third-party parts keep their own licenses: fonts (SIL OFL), OpenSCAD (GPL-2.0-or-later, source
-  at https://github.com/openscad/openscad).
+- Third-party parts keep their own licenses (see Credits).

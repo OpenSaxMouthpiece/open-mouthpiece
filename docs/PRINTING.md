@@ -15,28 +15,22 @@ stop).
 
 ## 1. Check the cork fit (15 minutes)
 
-Print three shank test rings: set **What to print** to *Shank test ring*, then download one at
-each **Cork squeeze** (Fit on the horn) of 0.10, 0.20 and 0.30 mm. Each is the socket end of the
-mouthpiece, with a socket that much smaller than the cork diameter. **Mark each one with a pen as
-it comes off the plate**, since they look alike.
+Print three shank test rings (the print kit has them): set **What to print** to *Shank test ring*,
+then download one at each **Cork squeeze** (Fit on the horn) of 0.10, 0.20 and 0.30 mm. Each is the
+socket end of the mouthpiece, with a socket that much smaller than the cork, so a bigger number is
+a tighter fit. **Mark each one with a pen as it comes off the plate**, since they look alike.
 
 Try them on your neck cork (lightly greased, as usual):
 
-- Too tight to push on: that clearance squeezes the cork too much (try a smaller one).
-- Slides on with a firm, even push and doesn't wobble: that's your clearance.
+- Too tight to push on: too much squeeze (try a smaller one).
+- Slides on with a firm, even push and doesn't wobble: that's yours.
 - Wobbles or feels loose: not enough squeeze (try a bigger one).
 
-The clearance is how much *smaller* than the cork the socket is, so a bigger number is a tighter
-fit (in the app: Fit on the horn -> Cork squeeze).
+Set **Cork squeeze** to the one that fit. If none fits, measure your cork with calipers in two
+directions (corks are often slightly oval), set the cork diameter and print the rings again.
 
-Then set **Cork squeeze** to the one that fit. If none of the three fits, measure your cork with
-calipers in two directions (corks are often slightly oval), set the cork diameter (Fit on the
-horn) and print the rings again.
-
-The socket's opening has a bevel so it doesn't catch on the cork: **Shank entry bevel width** (how
-much wider the mouth is, 1 mm) and **Bevel depth** (how far in it goes, 1 mm; deeper is a longer,
-gentler lead-in). A bevel much wider than it is deep (a flat roof, steeper than about 60°) gets
-hard to print without supports.
+The socket's mouth has a bevel so it doesn't catch on the cork (**Shank entry bevel width** and
+**Bevel depth**, 1 mm each). A bevel much wider than it is deep gets hard to print without supports.
 
 ## 2. Print the mouthpiece
 
@@ -102,11 +96,10 @@ The app's readouts give the targets:
 ## 4b. A ligature made for it (optional)
 
 Store-bought ligatures fit only mouthpieces close to the one they were made for. The app can make
-one from your design: in the settings panel, **Ligature -> Make a ligature for this mouthpiece**. It shows
-in red on the mouthpiece (**Show a reed** adds a reed); **Download ligature STL** gives the print.
-It's a ring, round over the top and shaped to the reed underneath, with a longer side (the
-tongue) on top, toward the shank. It's made so the **reed** is the tight spot: it squeezes the reed
-0.2 mm (**Reed grip**) while keeping a hair of gap to the mouthpiece's body.
+one from your design: **Ligature -> Make a ligature for this mouthpiece**. It shows in red on the
+mouthpiece; **Download ligature STL** gives the print. It's a ring, round over the top and shaped
+to the reed underneath, with a longer side (the tongue) on top, toward the shank. The **reed** is
+the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of gap to the body.
 
 - **Print** it standing on its flat front edge, tongue up (as downloaded), no supports. PETG or another material
   that flexes a little is better than PLA, which can crack when it's pushed tight.
