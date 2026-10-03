@@ -156,7 +156,7 @@ beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
-shoulder_sweep = 0; // [0:0.5:12]
+shoulder_sweep = 0; // [0:0.5:20]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 underside_squareness = 1.2; // [1.2:0.1:8]
 // Pocket on the beak for a stick-on tooth patch (mm deep); 0 = none.
@@ -605,29 +605,37 @@ function ring_half_width_at_y(E, y) =
   let(rel = min(1, abs(y - E[E_CY]) / (up ? E[E_TOP] - E[E_CY] : E[E_CY] - E[E_BOT])))
   E[E_HW] * pow(1 - pow(rel, n), 1 / n);
 
-// shoulder_sweep: the sides keep the body's height a little past the shoulder, longer the lower
-// down (by shoulder_sweep x (1 - sin) of the point's angle above the ring's centre), so the
-// shoulder line runs diagonally down the flanks toward the tip. What is delayed is only the drop
-// below the body's own line (sweep_drop), so the body behind the shoulder is untouched, and it
-// fades out before the tip rounding. Applied to finished ring points (sweep_pt) along rays from
-// the ring's centre: a superellipse with a taller top half, so the section stays star-shaped
-// (no folds) and only ever grows (walls and clamps measured on exterior_ring_at stay safe).
+// shoulder_sweep: the shoulder line runs down the sides toward the tip, as on a beak whose flanks
+// are cut into the barrel. Behind a line slanting from the crest at the shoulder (SWEEP_Z0) to the
+// widest point shoulder_sweep mm further on, the upper half is fuller: the same ring (crest,
+// widest point and width unchanged) with a higher top exponent, + SWEEP_FULL once past the
+// shoulder's step (SWEEP_ZK). In front of the line it is the ring as before, so the line is a
+// ledge, largest mid-flank and fading out at the crest and at the widest point; blurred over
+// 0.4 x the sweep, at least 2.5mm (sharper, the line slanting across the ring points came out
+// jagged, the longer the sweep the more). Applied to finished
+// ring points (sweep_pt) along rays from the ring's centre: star-shaped (no folds) and only ever
+// larger, so everything measured on exterior_ring_at (interior clamps, window corners) stays safe.
+// (An earlier version delayed the top's drop instead: the crest then dipped below the flanks.)
+SWEEP_FULL = 1.6;
+SWEEP_BLUR = max(2.5, 0.4 * shoulder_sweep);
 SWEEP_Z0 = (USER_TOP ? shoulder_f([for (p = ext_top_points) [p[0] / L, p[1]]]) : SHOULDER_F2) * L;
-SWEEP_SLOPE = (exterior_top_at(SWEEP_Z0) - exterior_top_at(SWEEP_Z0 - 5)) / 5;
-function sweep_drop(z) = z <= SWEEP_Z0 ? 0
-  : max(0, exterior_top_at(SWEEP_Z0) + SWEEP_SLOPE * (z - SWEEP_Z0) - exterior_top_at(z));
-function sweep_lift(z, s) = shoulder_sweep <= 0 || s <= 0 || z <= SWEEP_Z0 ? 0
-  : let(z1 = SWEEP_Z0 + shoulder_sweep, f = 1 - smootherstep(clamp01((z - z1) / max(1, L - tip_curve - z1))))
-    let(sh = shoulder_sweep * (1 - s) * f, w = sh)
-    // The delayed drop is blurred over its delay: crisp on top, softer lower down (a sharp
-    // line slanting across the 1mm ring spacing came out jagged, and the bottom of the drop showed
-    // as a second ridge along the beak).
-    max(0, sweep_drop(z) - vsum([for (i = [-3 : 3]) sweep_drop(z - sh + w * i / 3) * (4 - abs(i))]) / 16);
+// The shoulder's step ends where the top's slope first eases to within 15% of the beak's own (the
+// mean over the beak's front half).
+SWEEP_BEAK_SLOPE = let(a = SWEEP_Z0 + 0.5 * (L - SWEEP_Z0), b = L - tip_curve - 2)
+  (exterior_top_at(b) - exterior_top_at(a)) / max(1, b - a);
+SWEEP_ZK = let(zs = [for (z = [SWEEP_Z0 + 1 : 0.5 : min(L - tip_curve - 2, SWEEP_Z0 + 25)])
+    if ((exterior_top_at(z + 0.25) - exterior_top_at(z - 0.25)) / 0.5 >= 1.15 * SWEEP_BEAK_SLOPE) z])
+  len(zs) > 0 ? zs[0] : min(L - tip_curve - 2, SWEEP_Z0 + 25);
+// Extra top exponent at z for a point whose ray from the ring centre has sine s (1 = the crest).
+function sweep_extra(z, s) = shoulder_sweep <= 0 || s <= 0 || z <= SWEEP_Z0 ? 0
+  : let(ramp = smootherstep(clamp01((z - SWEEP_Z0) / max(1, SWEEP_ZK - SWEEP_Z0))))
+    let(behind = 1 - smootherstep(clamp01((z - SWEEP_Z0 - shoulder_sweep * (1 - s)) / SWEEP_BLUR + 0.5)))
+    SWEEP_FULL * ramp * behind;
 // p: a point of the ring (hw, top, cy, n = top exponent) at z, [x, y] or [x, y, z].
 function sweep_pt(p, z, hw, top, cy, n) = shoulder_sweep <= 0 || p[1] <= cy ? p
   : let(v = [p[0], p[1] - cy], r = norm(v)) r < 1e-6 ? p
-  : let(u = v / r, lift = sweep_lift(z, u[1])) lift <= 0 ? p
-  : let(ht = top - cy + lift, rho = 1 / pow(pow(abs(u[0]) / hw, n) + pow(u[1] / ht, n), 1 / n))
+  : let(u = v / r, dn = sweep_extra(z, u[1])) dn <= 0 ? p
+  : let(m = n + dn, rho = 1 / pow(pow(abs(u[0]) / hw, m) + pow(u[1] / (top - cy), m), 1 / m))
     concat([u[0] * rho, cy + u[1] * rho], len(p) > 2 ? [p[2]] : []);
 function sweep_ring(pts, z, hw, top, cy, n) = shoulder_sweep <= 0 ? pts : [for (p = pts) sweep_pt(p, z, hw, top, cy, n)];
 
