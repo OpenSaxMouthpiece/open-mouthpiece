@@ -1692,6 +1692,10 @@ export default function App() {
           >
             ☰
           </button>
+          <span className="phone-brand" title="Open Mouthpiece">
+            <Logo height={14} />
+            <span className="name">Open Mouthpiece</span>
+          </span>
           {voicePicker}
           {coding && !auto ? (
             <button className="primary" onClick={render}>
@@ -1711,6 +1715,13 @@ export default function App() {
         {menuOpen && (
           <div className="phone-menu" onClick={(e) => e.target === e.currentTarget && setMenuOpen(false)}>
             <div className="phone-menu-body">
+              <div className="phone-menu-brand">
+                <Logo height={16} />
+                <b>Open Mouthpiece</b>
+                <button className="close" onClick={() => setMenuOpen(false)} aria-label="Close the menu">
+                  ✕
+                </button>
+              </div>
               <button onClick={act(() => downloadPart("model"))} disabled={downloadDisabled}>
                 Download {svg ? "SVG" : "STL"}
               </button>

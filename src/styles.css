@@ -2151,3 +2151,95 @@ button.link:hover {
 }
 
 /* Sound: the intro line and "How does it play?" */
+
+/* phone: the logo in the bar (the name too when there's room), a brand row atop the menu */
+.phone-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  color: var(--accent-fg);
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.phone-brand .name {
+  display: none;
+  color: var(--text);
+}
+@media (min-width: 600px) {
+  .phone-brand .name {
+    display: inline;
+  }
+}
+.phone-menu-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-fg);
+  padding: 0 0 4px;
+}
+.phone-menu-brand b {
+  flex: 1;
+  color: var(--text);
+}
+.phone-menu-brand .close {
+  min-width: 40px;
+  min-height: 40px;
+}
+/* phone: the finder on its own row; finger-sized controls */
+.phone .design-head {
+  flex-wrap: wrap;
+}
+.phone .design-head .design-find {
+  flex: 1 0 100%;
+  min-height: 38px;
+}
+.phone .design-head > button,
+.phone .undo-redo button {
+  min-height: 36px;
+}
+.phone .undo-redo button {
+  min-width: 36px;
+}
+.phone .panel-options {
+  font-size: 14px;
+}
+.phone .panel-options button.link {
+  font-size: 14px;
+  min-height: 32px;
+}
+.viewer-tools.compact > button,
+.viewer-tools.compact > select,
+.viewer-tools.compact .segmented button,
+.viewer-tools.compact .show-menu > button {
+  min-height: 34px;
+}
+.phone-menu-body > a.button {
+  font-size: 16px;
+}
+.phone-viewer .status {
+  font-size: 12px;
+}
+.phone .design-head .zoom-toggle {
+  white-space: nowrap;
+}
+.phone .design-head {
+  gap: 4px 5px;
+}
+.phone .design-head > button,
+.phone .design-head .zoom-toggle {
+  font-size: 14px;
+  padding-left: 9px;
+  padding-right: 9px;
+}
+.phone .design-head .zoom-toggle {
+  padding: 0 2px 0 0;
+}
+.phone-menu-brand .close {
+  color: var(--text);
+}
+.phone-look > summary {
+  font-size: 15px;
+  padding: 10px 2px;
+}
