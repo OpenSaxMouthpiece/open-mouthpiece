@@ -117,6 +117,14 @@ code {
 }
 .toolbar .brand {
   margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.toolbar .brand .logo {
+  color: var(--accent-fg);
+  flex: none;
 }
 .toolbar select {
   max-width: 280px;

@@ -71,6 +71,7 @@ import {
   type Values,
 } from "./app/files";
 import { loadSession, readFlag, saveSession, writeFlag, type LigatureView, type Quality } from "./app/session";
+import { Logo } from "./components/Logo";
 import { startDrag, useMediaQuery, useWindowWidth } from "./hooks/useMediaQuery";
 import { useValueHistory } from "./hooks/useValueHistory";
 import { useParamFocus } from "./hooks/useParamFocus";
@@ -1826,7 +1827,10 @@ export default function App() {
     <div className={appClass} {...dropProps}>
       {fileInputs}
       <header className="toolbar">
-        <strong className="brand">Open Mouthpiece</strong>
+        <strong className="brand">
+          <Logo />
+          Open Mouthpiece
+        </strong>
         {voicePicker}
         {fileActions}
         <span className="spacer" />

@@ -1,3 +1,10 @@
+<p>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-dark.svg">
+    <img src="docs/images/logo-light.svg" alt="" width="184">
+  </picture>
+</p>
+
 # Open Mouthpiece
 
 **Design your own saxophone mouthpiece in the browser, then 3D-print it.**
