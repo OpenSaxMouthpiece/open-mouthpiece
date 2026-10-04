@@ -10,8 +10,7 @@ the neck end.
 
 Or take everything at once: **Download print kit** (Printing section, or More) makes one zip with
 the mouthpiece, the three shank test rings below, the ligature if you made one, and a check card
-with the numbers to measure the print against (tip opening, facing, where each feeler gauge should
-stop).
+with the numbers to measure the print against (tip opening, facing stops).
 
 ## 1. Check the cork fit (15 minutes)
 
@@ -85,11 +84,9 @@ fairer test of the design.
 
 The app's readouts give the targets:
 
-- **Tip opening:** slide feeler gauges between a flat glass plate and the tip rail. The target is
-  the readout's tip opening, in mm and thousandths of an inch.
-- **Facing:** lay the table on the glass. Slide each feeler gauge along each rail toward the tip
-  until it stops, and measure how far that is from the tip. The table under the facing chart lists where
-  the .0015", .010", .024", .034" and .050" feelers should stop. Both rails should read the same (within ~0.5 mm).
+- **Tip opening:** the readout's tip opening, in mm and thousandths of an inch.
+- **Facing:** the facing chart lists where standard feeler gauges should stop along the facing, if
+  you want to check a print against it.
 - **Air volume:** if you know your current mouthpiece's chamber volume, a similar volume will sit
   at a similar spot on the cork to play in tune.
 

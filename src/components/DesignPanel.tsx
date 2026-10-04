@@ -160,7 +160,7 @@ export function DesignPanel({
                   <a href={PRINTING_GUIDE_URL} target="_blank" rel="noreferrer">
                     printing guide
                   </a>{" "}
-                  covers sanding the table and checking the facing with feeler gauges.
+                  covers the cork fit, sanding the table and checking the print.
                 </>
               )}
               {DONATE_URL && (
