@@ -71,7 +71,7 @@ const TABLES = [
     ['day', 'design', 'tip', 'facing', 'air', 'baffle', 'chamber', 'shape'],
     `SELECT date(ts / 1000, 'unixepoch') AS day, design, json_extract(data, '$.tip') AS tip, json_extract(data, '$.facing') AS facing,
        json_extract(data, '$.air') AS air, json_extract(data, '$.settings.baffle_type') AS baffle,
-       json_extract(data, '$.settings.chamber_width') AS chamber, json_extract(data, '$.settings.chamber_shape') AS shape
+       json_extract(data, '$.settings.chamber_width_extra') AS chamber, json_extract(data, '$.settings.chamber_shape') AS shape
      FROM events WHERE ${W} AND kind = 'download' AND name IN ('mouthpiece', 'print_kit') ORDER BY ts DESC LIMIT 200`,
   ],
   [

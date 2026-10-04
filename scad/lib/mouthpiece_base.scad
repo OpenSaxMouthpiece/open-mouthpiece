@@ -63,19 +63,19 @@ shank_depth = 22.0; // [10:0.5:70]
 bore_diameter = 15.6; // [8:0.1:24]
 // Angle between the bore and the reed table (degrees); typically about 4.
 bore_tilt = 4.4; // [-3:0.1:8]
-// Outside size of the shank end (1 = the preset's own outline).
-shank_scale = 1.0; // [0.85:0.01:1.3]
+// Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.
+shank_diameter = 22.0; // [14:0.1:32]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
 chamber_shape = "horseshoe"; // [round, square, horseshoe]
-// Inside width of the chamber (mm); never narrower than the window.
-chamber_width = 14.6; // [8:0.1:30]
+// Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.
+chamber_width_extra = 0.4; // [-1:0.1:12]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
 // How far the full width runs toward the tip (mm); 40 = as far as it can.
 chamber_full_length = 40; // [0:0.5:40]
-// Height before the window (mm); 0 = as tall as wide. Taller lowers the floor.
+// Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.
 chamber_height = 0; // [0:0.1:30]
 // Floor from throat to window: - drops early (deeper), + stays high (a ramp).
 floor_shape = 0; // [-1:0.05:1]
@@ -89,7 +89,7 @@ throat_taper = 6; // [1:0.5:80]
 throat_shape = "chamber"; // [chamber, round, square, horseshoe]
 
 /* [Baffle] */
-// Shape of the roof above the reed. Step = a ledge.
+// Roof above the reed: measured = the preset's own (Original); step = a ledge.
 baffle_type = "measured"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
 baffle_height = 0; // [-3:0.1:4]
@@ -119,7 +119,7 @@ tip_rail_thickness = 2.0; // [0.3:0.02:3]
 tip_curve = 3.5; // [0.5:0.1:12]
 
 /* [Table] */
-// Width of the reed seat toward the tip (mm). Match your reed.
+// Width of the reed seat at the tip (mm). Match your reed.
 table_width_tip = 16.8; // [8:0.1:30]
 // Width of the reed seat at the back (mm). Match your reed's heel.
 table_width_rear = 13.2; // [8:0.1:30]
@@ -141,10 +141,10 @@ facing_exponent = 1.8; // [1.5:0.05:3]
 /* [Exterior] */
 // Total length, neck end to tip (mm). Also changes the inside volume.
 overall_length = 89.3; // [55:0.1:160]
-// Body width (1 = the preset's own outline).
-body_width_scale = 1.0; // [0.8:0.01:1.25]
-// Body height (1 = the preset's own outline).
-body_height_scale = 1.0; // [0.8:0.01:1.25]
+// Widest outside width of the body, side to side (mm).
+body_width = 29.0; // [18:0.1:40]
+// Height of the body's top above the reed table, at its tallest (mm).
+body_height = 27.6; // [18:0.1:40]
 // Height of the beak at the tip (mm).
 beak_tip_height = 3.6; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
@@ -159,10 +159,6 @@ beak_length = 0; // [-15:0.5:15]
 shoulder_sweep = 0; // [0:0.5:20]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 underside_squareness = 1.2; // [1.2:0.1:8]
-// Pocket on the beak for a stick-on tooth patch (mm deep); 0 = none.
-tooth_plate_recess = 0; // [0:0.05:1]
-// Length of the tooth-patch pocket, back from the tip (mm).
-tooth_plate_length = 12; // [5:0.5:25]
 
 /* [Lettering] */
 // Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.
@@ -250,10 +246,11 @@ ligature_length = 12; // [6:0.5:30]
 ligature_position = 2; // [-10:0.5:25]
 // Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 ligature_wall = 2.0; // [1.2:0.1:5]
-// D: round on top, following the reed underneath. Round, or following the whole body.
+// D = round on top, flat under the reed; conform = follows the body.
 ligature_shape = "d"; // [d, round, conform]
 // Extra length on one side, running toward the shank (mm); 0 = a straight band.
 ligature_tongue = 7; // [0:0.5:15]
+// Which side the tongue runs along: the top, or under the reed.
 ligature_tongue_side = "top"; // [top, reed]
 // Gap between the band and the mouthpiece's body (mm); the reed is squeezed instead.
 ligature_fit = 0.1; // [-0.4:0.05:0.5]
@@ -321,7 +318,16 @@ tip_thickness = undef;
 tip_round = undef;
 side_text_height = undef;
 baffle_rollover = undef;
-RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
+// The size knobs before 2026-10-03 (scales of the outline): an older file or link that sets one
+// still renders as it did; each multiplies the scale its size above gives (src/migrate.ts turns
+// an old file's into sizes).
+body_width_scale = 1;
+body_height_scale = 1;
+shank_scale = 1;
+// chamber_width before 2026-10-03: an older file's or link's chamber width in mm; it wins over
+// chamber_width_extra.
+chamber_width = undef;
+RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width_extra (the width vs the throat's)"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
 // ===========================================================================================
 // 2. Curve math
@@ -408,17 +414,19 @@ win_front_z = L - tip_rail_thickness;     // front of the window, on the centerl
 eff_throat_z = max(8, min(max(throat_position, shank_depth + socket_cone + 1), win_z0 - 1));
 eff_throat_length = max(1, min(throat_taper, eff_throat_z - (shank_depth + socket_cone)));
 chamber_peak_z = eff_throat_z + (break_z - eff_throat_z) * chamber_flare;
-// The chamber: widens from the throat to chamber_width at chamber_peak_z, holds that width to
+// The chamber's width (mm): the throat's plus chamber_width_extra (or an older file's chamber_width).
+CHAMBER_W = is_undef(chamber_width) ? throat_width + chamber_width_extra : chamber_width;
+// The chamber: widens from the throat to CHAMBER_W at chamber_peak_z, holds that width to
 // chamber_end_z, then closes smoothly into the window width by chamber_close_z, just behind the
 // tip rounding (the measured references stay ~chamber-wide under the baffle to ~90% of L).
 chamber_close_z = L - tip_curve - 1;
 chamber_end_z = max(chamber_peak_z, chamber_full_length < 40 ? min(chamber_peak_z + chamber_full_length, chamber_close_z - 4) : chamber_close_z - max(4, 0.12 * L));
 function chamber_hw(z) =
   z <= eff_throat_z ? 0 :
-  z <= chamber_peak_z ? lerp(throat_width / 2, chamber_width / 2, ease(clamp01((z - eff_throat_z) / max(0.001, chamber_peak_z - eff_throat_z)))) :
-  lerp(chamber_width / 2, 0, smootherstep(clamp01((z - chamber_end_z) / max(1, chamber_close_z - chamber_end_z))));
+  z <= chamber_peak_z ? lerp(throat_width / 2, CHAMBER_W / 2, ease(clamp01((z - eff_throat_z) / max(0.001, chamber_peak_z - eff_throat_z)))) :
+  lerp(CHAMBER_W / 2, 0, smootherstep(clamp01((z - chamber_end_z) / max(1, chamber_close_z - chamber_end_z))));
 // chamber_height: extra half-height beyond round, applied with chamber_weight (before the window).
-chamber_extra = chamber_height > 0 ? (chamber_height - chamber_width) / 2 : 0;
+chamber_extra = chamber_height > 0 ? (chamber_height - CHAMBER_W) / 2 : 0;
 
 // The socket can't be deeper than the bore: it stops a cone length before the throat transition,
 // and 6mm before the window (a deeper socket ran into the chamber and holed it). The window,
@@ -463,13 +471,26 @@ SHAPE_TABLES_OK = assert(len(EMPTY_SHAPE_TABLES) == 0, str("empty shape table(s)
 
 // The body_*_scale knobs fade in across the flare, so the tenon keeps its size and stays round.
 function body_scale(f, k) = lerp(1, k, smootherstep(clamp01((f - 0.09) / 0.12)));
-// shank_scale is the other way round: the tenon's outside, fading back to 1 across the flare; its
-// heights scale about the bore axis (from the tables, before the socket guarantee), so the bore
-// stays centred.
-function shank_k(f) = lerp(shank_scale, 1, smootherstep(clamp01((f - 0.09) / 0.12)));
+// The shank's scale is the other way round: the tenon's outside, fading back to 1 across the flare
+// (SHANK_S makes the tables' neck-end width shank_diameter); its heights scale about the bore axis
+// (from the tables, before the socket guarantee), so the bore stays centred. At most 1.3x the
+// outline's own (the old knob's top; a soprano broke from ~1.4x; validate() warns).
+SHANK_S = min(1.3, shank_diameter / shape_width[0][1]) * shank_scale;
+function shank_k(f) = lerp(SHANK_S, 1, smootherstep(clamp01((f - 0.09) / 0.12)));
 shank_mid0 = (shape_top[0][1] + shape_bottom[0][1]) / 2;
-function shank_y(f, y) = shank_scale == 1 ? y : let(m = shank_mid0 - f * L * tan(bore_tilt)) m + (y - m) * shank_k(f);
-def_width = [for (p = shape_width) [p[0] * L, p[1] * body_scale(p[0], body_width_scale) * shank_k(p[0])]];
+function shank_y(f, y) = SHANK_S == 1 ? y : let(m = shank_mid0 - f * L * tan(bore_tilt)) m + (y - m) * shank_k(f);
+// body_width / body_height -> the body's scale k: the smallest k that takes one of the body's table
+// points to that size. Each point is linear in k ([a, b]: a + b k) and PCHIP doesn't overshoot its
+// points, so that point is the widest / tallest. The tenon's points don't scale (b = 0) and don't
+// count: the size is the body's, the shank end may be bigger. k stays within 0.5-2 (validate() warns).
+function size_k(ab, size) = let(c = [for (p = ab) if (p[1] > 1e-9) (size - p[0]) / p[1]])
+  len(c) == 0 ? 1 : let(k = max(0.5, min(2, min(c)))) abs(k - 1) < 1e-6 ? 1 : k;
+// the size k gives (the body's points only)
+function size_at(ab, k) = max([for (p = ab) if (p[1] > 1e-9) p[0] + p[1] * k]);
+function body_fade(f) = smootherstep(clamp01((f - 0.09) / 0.12));
+BODY_AB_W = [for (p = shape_width) let(s = body_fade(p[0]), w = p[1] * shank_k(p[0])) [w * (1 - s), w * s]];
+BODY_KW = size_k(BODY_AB_W, body_width) * body_width_scale;
+def_width = [for (p = shape_width) [p[0] * L, p[1] * body_scale(p[0], BODY_KW) * shank_k(p[0])]];
 // beak_length: the shoulder (where the top starts its steepest drop, from shape_top) moves along
 // the length; the top, widest-point and top-squareness tables are stretched to follow it between
 // an anchor 30% of L behind the shoulder and the tip. 0 leaves the tables exactly as they are.
@@ -483,7 +504,11 @@ function beak_remap(f) = beak_length == 0 || f <= BEAK_ANCHOR_F ? f
   : lerp(SHOULDER_F2, 1, (f - SHOULDER_F) / (1 - SHOULDER_F));
 function beak_remapped(t) = beak_length == 0 ? t : [for (p = t) [beak_remap(p[0]), p[1]]];
 shape_top_b = beak_remapped(shape_top);
-def_top0 = [for (p = shape_top_b) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], body_height_scale))]];
+// shank_y(f, h (1 - s + s k)) is a + b k too
+BODY_AB_H = [for (p = shape_top_b) let(s = body_fade(p[0]), c = shank_k(p[0]), m = shank_mid0 - p[0] * L * tan(bore_tilt))
+    SHANK_S == 1 ? [p[1] * (1 - s), p[1] * s] : [m * (1 - c) + p[1] * (1 - s) * c, p[1] * s * c]];
+BODY_KH = size_k(BODY_AB_H, body_height) * body_height_scale;
+def_top0 = [for (p = shape_top_b) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH))]];
 // The beak eases onto beak_tip_height over the last 40% (voice files set it to the table's own end).
 def_top = [for (p = def_top0) [p[0], p[1] + (beak_tip_height - def_top0[len(def_top0) - 1][1]) * smootherstep(clamp01((p[0] / L - 0.6) / 0.4))]];
 // beak_curve: from the shoulder to the tip the top dips below (+) or bulges above (-) its own line,
@@ -494,7 +519,7 @@ def_top_c = beak_curve == 0 ? def_top : let(C = pchip_prep(def_top), z0 = SHOULD
   concat([for (p = def_top) if (p[0] < z0 - 1e-6) p],
          [for (i = [0:n]) let(z = z0 + (L - z0) * i / n) [z, pchip_at(z, C) - A * sin(180 * i / n)]]);
 def_bottom = [for (p = shape_bottom) [p[0] * L, shank_y(p[0], p[1])]];
-def_widest = [for (p = beak_remapped(shape_widest)) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], body_height_scale))]];
+def_widest = [for (p = beak_remapped(shape_widest)) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH))]];
 
 // Effective outline curves. With a custom top but no underside/widest points, those follow the
 // top (mirrored about the bore axis / halfway) rather than the built-in table.
@@ -901,6 +926,15 @@ function air_volume() =
 module validate() {
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
     echo(str("WARNING: ", r[0], " was renamed ", r[2], " — this value is ignored; rename it in the file"));
+  // a body size past the scale's 0.5-2 limit can't be reached (the old scale knobs aside)
+  body_w_got = size_at(BODY_AB_W, BODY_KW);
+  body_h_got = size_at(BODY_AB_H, BODY_KH);
+  if (!has_pts(ext_width_points) && body_width_scale == 1 && abs(body_w_got - body_width) > 0.05)
+    echo(str("WARNING: body_width ", body_width, "mm can't be reached: the body is ", round(body_w_got * 10) / 10, "mm wide"));
+  if (shank_diameter > 1.3 * shape_width[0][1])
+    echo(str("WARNING: shank_diameter ", shank_diameter, "mm limited to ", 1.3 * shape_width[0][1], "mm (1.3x this outline's shank end)"));
+  if (!USER_TOP && body_height_scale == 1 && abs(body_h_got - body_height) > 0.05)
+    echo(str("WARNING: body_height ", body_height, "mm can't be reached: the body is ", round(body_h_got * 10) / 10, "mm tall"));
   if (tip_opening < tip_opening_range[0] || tip_opening > tip_opening_range[1])
     echo(str("WARNING: tip_opening ", tip_opening, "mm is outside the commercial range [",
               tip_opening_range[0], ", ", tip_opening_range[1], "]mm for this instrument"));
@@ -924,8 +958,8 @@ module validate() {
   // The chamber as built (the walls keep min_wall, so a chamber wider than the body allows is
   // narrowed): its widest point after the throat.
   chamber_built = 2 * max([0, for (r = AIR_RINGS) if (r[0] > eff_throat_z) r[1][0]]);
-  if (chamber_built < chamber_width - 0.3)
-    echo(str("WARNING: chamber_width ", chamber_width, "mm limited to ", round(chamber_built * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)"));
+  if (chamber_built < CHAMBER_W - 0.3)
+    echo(str("WARNING: the chamber (", CHAMBER_W, "mm wide) is limited to ", round(chamber_built * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)"));
   if (facing_model == "gauge" && len(GAUGE_PTS) <= 2)
     echo("WARNING: facing_model gauge has no facing_gauge_points yet — the power curve is used; add points in the Curves panel");
   if (L - reed_length < tenon_end_z + table_ramp - 0.01)
@@ -1172,7 +1206,7 @@ function fmt_inch(mm) = let(t = round(mm / 25.4 * 1000))
   t >= 1000 ? str(t / 1000) : str(".", t < 100 ? "0" : "", t < 10 ? "0" : "", t);
 function fmt1(x) = str(round(x * 10) / 10);
 LETTERING_TOKENS = [["{tip}", fmt_inch(tip_opening)], ["{tip_mm}", str(round(tip_opening * 100) / 100)],
-                    ["{facing}", fmt1(facing_length)], ["{chamber}", fmt1(chamber_width)], ["{length}", fmt1(L)]];
+                    ["{facing}", fmt1(facing_length)], ["{chamber}", fmt1(CHAMBER_W)], ["{length}", fmt1(L)]];
 function fill_tokens(s, i = 0, acc = "") =
   i >= len(s) ? acc
   : let(hit = [for (t = LETTERING_TOKENS) if (str_sub(s, i, min(len(s), i + len(t[0]))) == t[0]) t])
@@ -1353,26 +1387,6 @@ module lettering_cutter() {
   }
 }
 
-// Tooth-patch pocket: a shallow recess on top of the beak for a stick-on patch, from 1.5mm behind
-// the tip back tooth_plate_length, as wide as the top lettering zone (less 0.5mm a side). Its floor
-// follows the surface tooth_plate_recess down, but always leaves 0.8mm over the roof inside.
-tooth_z1 = L - 1.5;
-tooth_z0 = max(break_z - 5, tooth_z1 - tooth_plate_length);
-HAS_TOOTH_POCKET = tooth_plate_recess > 0 && tooth_z1 - tooth_z0 >= 2;
-function tooth_depth(z, E) = max(0.05, min(tooth_plate_recess, E[E_TOP] - interior_ring_at(z)[1] - 0.8));
-module tooth_pocket() {
-  n = max(2, ceil((tooth_z1 - tooth_z0) / 0.5));
-  zs = [for (i = [0 : n]) tooth_z0 + (tooth_z1 - tooth_z0) * i / n];
-  dirs = ring_dirs(EXT_RING_POINTS);
-  difference() {
-    ring_loft([for (z = zs) let(E = exterior_ring_at(z), ys = E[E_CY] + 0.55 * (E[E_TOP] - E[E_CY]))
-      let(w = max(0.05, ring_half_width_at_y(E, ys) - 0.7))
-      [[-w, ys, z], [w, ys, z], [w, E[E_TOP] + 5, z], [-w, E[E_TOP] + 5, z]]]);
-    ring_loft([for (z = [tooth_z0 - 1, each zs, tooth_z1 + 1]) let(zc = max(tooth_z0, min(tooth_z1, z)), E = exterior_ring_at(zc), d = tooth_depth(zc, E))
-      sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(zc)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
-  }
-}
-
 module lettering_raised_solid() {
   intersection() {
     lettering_prisms();
@@ -1424,22 +1438,22 @@ function param_focus() =
   [["frame", [print_orientation, bore_tilt, end_face_lift]],
    ["overall_length", whole, "iso", false], ["neck_cork_diameter", socket, "end", false], ["shank_clearance", socket, "end", false], ["shank_bevel", socket, "end", false], ["shank_bevel_depth", socket, "side", true],
    ["shank_depth", socket, "side", true], ["bore_diameter", bore, "side", true], ["bore_tilt", whole, "side", false],
-   ["chamber_shape", chamber, "side", true], ["chamber_width", chamber, "side", true], ["chamber_flare", chamber, "side", true],
+   ["chamber_shape", chamber, "side", true], ["chamber_width_extra", chamber, "side", true], ["chamber_flare", chamber, "side", true],
    ["chamber_full_length", chamber, "side", true], ["chamber_height", chamber, "side", true],
    ["throat_position", throat, "side", true], ["throat_width", throat, "side", true],
    ["throat_taper", throat, "side", true], ["throat_shape", throat, "side", true], ["floor_shape", chamber, "side", true],
    ["baffle_type", baffle, "side", true], ["baffle_height", baffle, "side", true], ["baffle_start", baffle, "side", true], ["baffle_hump", baffle, "side", true],
-   ["baffle_curve", baffle, "side", true], ["sidewall_angle", window, "table", false], ["shank_scale", socket, "side", false],
+   ["baffle_curve", baffle, "side", true], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
    ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],
    ["tip_rail_thickness", tip, "table", false], ["tip_curve", tip, "table", false],
    ["table_width_tip", table, "table", false], ["table_width_rear", table, "table", false], ["reed_length", table, "table", false],
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
-   ["body_width_scale", whole, "top", false], ["body_height_scale", whole, "side", false], ["beak_tip_height", beak, "side", false],
+   ["body_width", whole, "top", false], ["body_height", whole, "side", false], ["beak_tip_height", beak, "side", false],
    ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
    ["bore_axis_height", bore, "side", true], ["min_wall", whole, "side", true],
-   ["tooth_plate_recess", beak, "top", false], ["tooth_plate_length", beak, "top", false], ["table_concavity", table, "table", false],
+   ["table_concavity", table, "table", false],
    ["top_text", lettering_top, "top", false], ["top_text_size", lettering_top, "top", false],
    ["top_text_angle", lettering_top, "top", false], ["top_text_position", lettering_top, "top", false],
    ["top_image", lettering_image, "top", false], ["top_image_width", lettering_image, "top", false], ["top_image_aspect", lettering_image, "top", false],
@@ -1706,7 +1720,6 @@ module mouthpiece_body() {
     window_cutter();
     facing_cutter();
     if (HAS_LETTERING && !lettering_raised) lettering_cutter();
-    if (HAS_TOOTH_POCKET) tooth_pocket();
   }
 }
 

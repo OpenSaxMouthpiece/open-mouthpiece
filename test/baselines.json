@@ -49,27 +49,27 @@
   },
   "variants/alto_ash.scad": {
     "tris": 26672,
-    "volume": 16868.733,
+    "volume": 16869.889,
     "size": [
-      26.999,
-      26.999,
+      27,
+      27,
       88.09
     ],
-    "hash": "6bbd1aec14ae3c5b",
-    "ligHash": "7799d97269c428a3",
-    "ligVolume": 2573.457
+    "hash": "c015bb73363e9f83",
+    "ligHash": "05dbe731410cb253",
+    "ligVolume": 2573.49
   },
   "variants/alto_birch.scad": {
     "tris": 23738,
-    "volume": 24054.159,
+    "volume": 24052.964,
     "size": [
-      27.2,
+      27.199,
       26.2,
       94.166
     ],
-    "hash": "0994a9076f0f49ed",
-    "ligHash": "03851bbe505a8bba",
-    "ligVolume": 2669.546
+    "hash": "4e19bd46e08104f9",
+    "ligHash": "e725b16e57f9ab39",
+    "ligVolume": 2669.504
   },
   "variants/alto_cedar.scad": {
     "tris": 27408,
@@ -85,25 +85,25 @@
   },
   "variants/baritone_ash.scad": {
     "tris": 35726,
-    "volume": 33750.962,
+    "volume": 33753.624,
     "size": [
       29.494,
       29.797,
       139.105
     ],
-    "hash": "d56a3c65eb93e6fb",
+    "hash": "2a6d156400552795",
     "ligHash": "7ae9a874e6b2e0df",
     "ligVolume": 2724.171
   },
   "variants/baritone_birch.scad": {
     "tris": 33322,
-    "volume": 46636.732,
+    "volume": 46633.584,
     "size": [
       29.699,
-      29.656,
-      148.783
+      29.654,
+      148.782
     ],
-    "hash": "84f01f17ab4cbe5d",
+    "hash": "655656c49c19d941",
     "ligHash": "3ee4723949e0189f",
     "ligVolume": 2845.328
   },
@@ -121,27 +121,27 @@
   },
   "variants/soprano_ash.scad": {
     "tris": 23230,
-    "volume": 9411.407,
+    "volume": 9409.816,
     "size": [
       21.6,
-      21.671,
+      21.67,
       67.617
     ],
-    "hash": "86ba030bf29e7177",
-    "ligHash": "21dea1595f6f1d24",
-    "ligVolume": 1760.188
+    "hash": "0430a96bb624b9c4",
+    "ligHash": "a0d65db471f55f47",
+    "ligVolume": 1760.069
   },
   "variants/soprano_birch.scad": {
     "tris": 17528,
-    "volume": 12268.631,
+    "volume": 12267.133,
     "size": [
-      22.881,
+      22.878,
       21.627,
       69.826
     ],
-    "hash": "45ba5714784a7326",
-    "ligHash": "10cfceb6caa66af3",
-    "ligVolume": 1864.429
+    "hash": "7b3b7abd00281787",
+    "ligHash": "e26042d18e4fd7c7",
+    "ligVolume": 1864.41
   },
   "variants/soprano_cedar.scad": {
     "tris": 22334,
@@ -157,27 +157,27 @@
   },
   "variants/tenor_ash.scad": {
     "tris": 28802,
-    "volume": 21512.399,
+    "volume": 21520.391,
     "size": [
-      28.784,
-      28.748,
+      28.787,
+      28.751,
       95.17
     ],
-    "hash": "fe5db1d6d8995109",
-    "ligHash": "b36966b6ab5ef8b5",
-    "ligVolume": 2704.792
+    "hash": "cda84f2245921dfc",
+    "ligHash": "61987c2b36fa80cf",
+    "ligVolume": 2705.056
   },
   "variants/tenor_birch.scad": {
     "tris": 24034,
-    "volume": 30355.43,
+    "volume": 30353.62,
     "size": [
-      29.26,
-      28.132,
+      29.262,
+      28.129,
       101.801
     ],
-    "hash": "7535a664a30a697a",
-    "ligHash": "6c4b4abebf41f01c",
-    "ligVolume": 2837.522
+    "hash": "92a9f3309b1ee37c",
+    "ligHash": "0593a3f283e45b3b",
+    "ligVolume": 2837.439
   },
   "variants/tenor_cedar.scad": {
     "tris": 28474,

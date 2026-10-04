@@ -4,13 +4,22 @@
 //   node scripts/make_variants.mjs alto tenor baritone soprano
 //   node scripts/make_variants.mjs --derive alto    # print the alto's derived outline (to compare)
 // Guardrails: tips within ~.010" of the preset, facing follows the tip, inside air within ~±8% of
-// the preset (baffle height is the main lever: ~±10% per mm), beak height ±0.4mm, body scale
-// 1 (the outline tables set the size), genus 1, thinnest wall >= ~1.2mm.
+// the preset (baffle height is the main lever: ~±10% per mm), beak height ±0.4mm, the body's size
+// set by the outline tables, genus 1, thinnest wall >= ~1.2mm.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { transformSync } from 'esbuild';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+// src/migrate.ts's outlineSizes (TypeScript, so through esbuild, as scripts/check.mjs does)
+const { outlineSizes } = await import(
+  'data:text/javascript;base64,' +
+    Buffer.from(
+      transformSync(fs.readFileSync(path.join(ROOT, 'src', 'migrate.ts'), 'utf8'), { loader: 'ts', format: 'esm' })
+        .code,
+    ).toString('base64')
+);
 const inch = (x) => +(x * 0.0254).toFixed(2);
 
 // Per voice: sound values per family (absolute), plus base beak height for the look offsets.
@@ -407,7 +416,7 @@ const LOOKS = {
     body_squareness: 1.7,
     beak_squareness: 1.3,
     beak_tip_height: +(v.beak + 0.3).toFixed(1),
-    shank_scale: 0.95,
+    shank: 0.95, // the shank's outside, times the preset's
     lettering_style: 'engraved',
     lettering_depth: 0.5,
     lettering_font: 'Marcellus SC',
@@ -419,7 +428,7 @@ const LOOKS = {
     underside_squareness: 2.2,
     beak_squareness: 3.0,
     beak_tip_height: +(v.beak - 0.4).toFixed(1),
-    shank_scale: 1.04,
+    shank: 1.04,
     lettering_style: 'engraved',
     lettering_depth: 0.5,
     lettering_font: 'Bebas Neue',
@@ -468,13 +477,14 @@ for (const voice of process.argv.slice(2)) {
   for (const fam of ['ash', 'birch', 'cedar']) {
     // Shorter: never below what the reed needs (the table starts at >= 0.16 L: tenon + table ramp),
     // and the throat moves with the window (both are in mm from the tip end) so it stays before it.
-    const num = (k) => +new RegExp(`^${k} = ([0-9.]+);`, 'm').exec(src)[1];
+    const num = (k) => +new RegExp(`^${k} = (-?[0-9.]+);`, 'm').exec(src)[1];
     const L0 = num('overall_length'),
       Lmin = Math.min(L0, Math.ceil((num('reed_length') / 0.84 + 0.3) * 10) / 10);
     const L1 = r1(Math.max(L0 * (1 + LENGTH[fam]), Lmin));
+    const { shank = 1, ...looks } = LOOKS[fam](v);
     const vals = {
       ...v[fam],
-      ...LOOKS[fam](v),
+      ...looks,
       side_text_left: '{tip}',
       side_text_size: v.text,
       overall_length: L1,
@@ -485,12 +495,24 @@ for (const voice of process.argv.slice(2)) {
       const room = vals.throat_position - num('shank_depth') - 1.5;
       if (num('throat_taper') > room) vals.throat_taper = r1(room);
     }
+    // The chamber's width (a family's chamber_width, else the preset's) as the width vs the
+    // variant's throat, so a family that changes only the throat keeps the preset's chamber.
+    const throat = vals.throat_width ?? num('throat_width');
+    const width = vals.chamber_width ?? num('throat_width') + num('chamber_width_extra');
+    delete vals.chamber_width;
+    vals.chamber_width_extra = Math.round((width - throat) * 100) / 100;
     let out = src;
     for (const [k, val] of Object.entries(vals)) {
       const re = new RegExp(`^${k} = [^;]*;`, 'm');
       if (!re.test(out)) throw new Error(`${voice}: ${k} not found`);
       out = out.replace(re, `${k} = ${fmt(val)};`);
     }
+    // the sizes in mm its own outline gives (as an older file's scales would, src/migrate.ts)
+    const sizes = outlineSizes(`${out}
+shank_scale = ${shank};
+`);
+    for (const k of ['body_width', 'body_height', 'shank_diameter'])
+      out = out.replace(new RegExp(`^${k} = [^;]*;`, 'm'), `${k} = ${sizes[k]};`);
     out = out.replace(/include <lib\/mouthpiece_base\.scad>/, 'include <../lib/mouthpiece_base.scad>');
     // Header: replace the leading comment block.
     const body = out.replace(/^(\/\/[^\n]*\n)+/, '');

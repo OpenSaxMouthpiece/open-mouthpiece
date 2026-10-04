@@ -16,6 +16,7 @@ npm run sweep          # robustness sweep over the parameter space (a few minute
 npm run lint           # ESLint (TypeScript, React hooks); npm run typecheck for tsc alone
 npm run format         # Prettier (src/, scripts/); format:check only reports
 node scripts/sync_voice_files.mjs     # after changing parameters/descriptions in the base file
+npm run docs:params    # docs/PARAMETERS.md and its pictures, from the base file (~1 min)
 node scripts/make_variants.mjs alto   # regenerate a voice's Ash/Birch/Cedar variant files
 node scripts/bundle_scad.mjs scad/alto.scad -o alto_flat.scad   # one-file version for other tools
 ```
@@ -47,7 +48,7 @@ Read `docs/dev/GEOMETRY.md` before changing the generator and `docs/dev/APP.md` 
 
 1. **Edit parameters and their descriptions in `scad/lib/mouthpiece_base.scad` only, then run
    `node scripts/sync_voice_files.mjs`**; it rewrites every param file's Customizer block, keeping
-   each file's values.
+   each file's values. Then `npm run docs:params` (docs/PARAMETERS.md follows the base file).
 2. **Run `npm run check` before and after geometry changes.** It fails on any change; after an
    *intended* change run `npm run check -- --update` and commit the new `test/baselines.json`.
    Run `npm run sweep` after changing clamps or adding parameters (new Customizer params are swept

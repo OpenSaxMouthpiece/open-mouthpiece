@@ -12,6 +12,7 @@
     "typecheck": "tsc -b",
     "check": "node scripts/check.mjs",
     "sweep": "node scripts/sweep.mjs",
+    "docs:params": "node scripts/param_docs.mjs",
     "static:assets": "node scripts/fetch_openscad_wasm.mjs && node scripts/build_static_project.mjs",
     "lint": "eslint .",
     "format": "prettier --write .",

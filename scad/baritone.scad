@@ -20,19 +20,19 @@ shank_depth = 30.0; // [10:0.5:70]
 bore_diameter = 16.9; // [8:0.1:24]
 // Angle between the bore and the reed table (degrees); typically about 4.
 bore_tilt = 4.8; // [-3:0.1:8]
-// Outside size of the shank end (1 = the preset's own outline).
-shank_scale = 1.0; // [0.85:0.01:1.3]
+// Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.
+shank_diameter = 24.1; // [14:0.1:32]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
 chamber_shape = "round"; // [round, square, horseshoe]
-// Inside width of the chamber (mm); never narrower than the window.
-chamber_width = 15.4; // [8:0.1:30]
+// Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.
+chamber_width_extra = 0.6; // [-1:0.1:12]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
 // How far the full width runs toward the tip (mm); 40 = as far as it can.
 chamber_full_length = 40; // [0:0.5:40]
-// Height before the window (mm); 0 = as tall as wide. Taller lowers the floor.
+// Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.
 chamber_height = 0; // [0:0.1:30]
 // Floor from throat to window: - drops early (deeper), + stays high (a ramp).
 floor_shape = 0; // [-1:0.05:1]
@@ -46,7 +46,7 @@ throat_taper = 55; // [1:0.5:80]
 throat_shape = "chamber"; // [chamber, round, square, horseshoe]
 
 /* [Baffle] */
-// Shape of the roof above the reed. Step = a ledge.
+// Roof above the reed: measured = the preset's own (Original); step = a ledge.
 baffle_type = "measured"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
 baffle_height = 0; // [-3:0.1:4]
@@ -76,7 +76,7 @@ tip_rail_thickness = 1.8; // [0.3:0.02:3]
 tip_curve = 4.3; // [0.5:0.1:12]
 
 /* [Table] */
-// Width of the reed seat toward the tip (mm). Match your reed.
+// Width of the reed seat at the tip (mm). Match your reed.
 table_width_tip = 19.5; // [8:0.1:30]
 // Width of the reed seat at the back (mm). Match your reed's heel.
 table_width_rear = 13.9; // [8:0.1:30]
@@ -98,10 +98,10 @@ facing_exponent = 1.8; // [1.5:0.05:3]
 /* [Exterior] */
 // Total length, neck end to tip (mm). Also changes the inside volume.
 overall_length = 142.0; // [55:0.1:160]
-// Body width (1 = the preset's own outline).
-body_width_scale = 1.0; // [0.8:0.01:1.25]
-// Body height (1 = the preset's own outline).
-body_height_scale = 1.0; // [0.8:0.01:1.25]
+// Widest outside width of the body, side to side (mm).
+body_width = 31.7; // [18:0.1:40]
+// Height of the body's top above the reed table, at its tallest (mm).
+body_height = 30.5; // [18:0.1:40]
 // Height of the beak at the tip (mm).
 beak_tip_height = 4.8; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
@@ -116,10 +116,6 @@ beak_length = 0; // [-15:0.5:15]
 shoulder_sweep = 0; // [0:0.5:20]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 underside_squareness = 1.2; // [1.2:0.1:8]
-// Pocket on the beak for a stick-on tooth patch (mm deep); 0 = none.
-tooth_plate_recess = 0; // [0:0.05:1]
-// Length of the tooth-patch pocket, back from the tip (mm).
-tooth_plate_length = 12; // [5:0.5:25]
 
 /* [Lettering] */
 // Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.
@@ -207,10 +203,11 @@ ligature_length = 12; // [6:0.5:30]
 ligature_position = 2; // [-10:0.5:25]
 // Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 ligature_wall = 2.0; // [1.2:0.1:5]
-// D: round on top, following the reed underneath. Round, or following the whole body.
+// D = round on top, flat under the reed; conform = follows the body.
 ligature_shape = "d"; // [d, round, conform]
 // Extra length on one side, running toward the shank (mm); 0 = a straight band.
 ligature_tongue = 7; // [0:0.5:15]
+// Which side the tongue runs along: the top, or under the reed.
 ligature_tongue_side = "top"; // [top, reed]
 // Gap between the band and the mouthpiece's body (mm); the reed is squeezed instead.
 ligature_fit = 0.1; // [-0.4:0.05:0.5]

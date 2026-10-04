@@ -20,7 +20,8 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   table, `shape_widest`, `shape_top/bottom_squareness`, each `[[fraction of L, value]]`) joined by
   **PCHIP** (monotone cubic: C1, no overshoot); an `ext_*_points` override replaces a curve. An empty
   table stops with an assertion (`SHAPE_TABLES_OK`); there is no fallback. Knobs:
-  `body_width_scale`, `body_height_scale` (fade in across the flare so the tenon keeps its size),
+  `body_width`, `body_height` in mm (the body's widest / tallest table point; the scale that gives
+  it, `size_k`, fades in across the flare so the tenon keeps its size),
   `beak_tip_height` (the top eases onto it over the last 40%), the three squareness values.
 - **Tip.** Width x `tip_factor` (reed-tip quarter ellipse). The front edge rounds over (`tip_nose`
   1.2mm), since the rings close to a vertical line there. A ridged top (exponent < 2) eases to 2
@@ -46,12 +47,10 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 - **Bore axis** is centred in the table's tenon (`eff_bah`); `bore_axis_height` only applies with
   `ext_top_points`. The shank end face is square to the tilted bore, built into the loft's first
   ring (no trimming boolean).
-- **Shank outside**: `shank_scale` scales the tables' tenon (width, and heights about the bore
-  axis), fading back to 1 across the flare (`shank_k`); the socket guarantee still grows it if thin.
-- **Tooth-patch pocket** (`tooth_plate_recess` > 0): from 1.5mm behind the tip back
-  `tooth_plate_length` (not past the facing break - 5), as wide as the top lettering zone less 0.7mm
-  a side; its floor keeps 0.8mm over the roof (`tooth_depth`), so it gets shallow toward the tip.
-  Cut like engraving.
+- **Shank outside**: `shank_diameter` scales the tables' tenon to that width at the neck end (and
+  its heights about the bore axis), fading back to 1 across the flare (`shank_k`); the socket
+  guarantee still grows it if thin. The old `*_scale` knobs are hidden multipliers for older files
+  and links; src/migrate.ts turns an old file's into sizes (`outlineSizes`).
 
 ### Table, facing, window, socket
 

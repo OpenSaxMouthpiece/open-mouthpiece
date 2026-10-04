@@ -82,7 +82,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   {
     title: "Chamber & baffle",
     items: [
-      { name: "chamber_width", label: "Chamber width" },
+      { name: "chamber_width_extra", label: "Chamber width vs throat" },
       { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
       { name: "baffle_height", label: "Baffle height" },
       { name: "baffle_hump", label: "Baffle hump" },
@@ -108,8 +108,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "shoulder_sweep", label: "Shoulder sweep" },
       { name: "beak_tip_height", label: "Beak height at the tip" },
       { name: "beak_squareness", label: "Beak top" },
-      { name: "body_width_scale", label: "Body width" },
-      { name: "body_height_scale", label: "Body height" },
+      { name: "body_width", label: "Body width" },
+      { name: "body_height", label: "Body height" },
     ],
   },
   {
@@ -224,6 +224,14 @@ export const paramUnit = (name: string) => DESIGN_ITEMS.get(name)?.unit;
 type Getter = (name: string) => unknown;
 const filled = (v: unknown) => (typeof v === "string" && v !== "") || (Array.isArray(v) && v.length > 0);
 const anyText = (get: Getter, names: string[]) => names.some((n) => filled(get(n)));
+const noWidening = (get: Getter) =>
+  (
+    typeof get("chamber_width") === "number"
+      ? Number(get("chamber_width")) <= Number(get("throat_width"))
+      : Number(get("chamber_width_extra")) <= 0
+  )
+    ? "the chamber is no wider than the throat: no widening to shape"
+    : null;
 const INACTIVE: Record<string, (get: Getter) => string | null> = {
   // Gauge without points falls back to Power, so the exponent still counts then
   facing_exponent: (get) =>
@@ -231,9 +239,12 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
       ? "only the Power facing uses it"
       : null,
   facing_gauge_points: (get) => (get("facing_model") === "gauge" ? null : "only the Gauge facing uses them"),
+  // they shape the chamber's widening after the throat (an older link's chamber_width is in mm)
+  chamber_flare: (get) => noWidening(get),
+  chamber_full_length: (get) => noWidening(get),
+  body_width: (get) => (filled(get("ext_width_points")) ? "your own width outline (ext_width_points) sets it" : null),
+  body_height: (get) => (filled(get("ext_top_points")) ? "your own top outline (ext_top_points) sets it" : null),
   bore_axis_height: (get) => (filled(get("ext_top_points")) ? null : "only with your own top outline (ext_top_points)"),
-  tooth_plate_length: (get) =>
-    Number(get("tooth_plate_recess")) > 0 ? null : "the tooth-patch pocket is off (depth 0)",
 };
 // The lettering settings do nothing without something to letter (same rule as the sections' showIf).
 for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {
