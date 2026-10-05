@@ -952,6 +952,22 @@ button.toggle.on {
 .phone-viewer .status {
   font-size: 11px;
 }
+.phone-split {
+  flex: 0 0 14px;
+  touch-action: none;
+  cursor: row-resize;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+}
+.phone-split::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 4px;
+  margin: 5px auto 0;
+  border-radius: 2px;
+  background: var(--border);
+}
 .phone-viewer .status .backend {
   display: none;
 }

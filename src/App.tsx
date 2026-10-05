@@ -124,6 +124,7 @@ export default function App() {
   const [codeOpen, setCodeOpen] = usePref("codeOpen", false); // the code editor + console column (desktop)
   const winW = useWindowWidth();
   const isPhone = useMediaQuery("(max-width: 1024px)"); // phones and portrait tablets
+  const [phoneViewerH, setPhoneViewerH] = useState(46); // the phone view's height (dvh), dragged
   const [phonePanel, setPhonePanel] = useState<"design" | "readouts" | "code" | "console">("design");
   const [menuOpen, setMenuOpen] = useState(false);
   // "Deep" work (editing code): on a phone the Code tab, on a desktop the open code column. Without
@@ -1904,10 +1905,23 @@ export default function App() {
           </div>
         )}
         {shareBox}
-        <section className="phone-viewer">
+        <section className="phone-viewer" style={{ flexBasis: `${phoneViewerH}dvh` }}>
           {viewerEl}
           {statusBar}
         </section>
+        <div
+          className="phone-split"
+          role="separator"
+          aria-label="Drag to resize the view"
+          onPointerDown={(e) => {
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }}
+          onPointerMove={(e) => {
+            if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
+            setPhoneViewerH(Math.min(85, Math.max(20, (e.clientY / window.innerHeight) * 100)));
+          }}
+        />
+
         <nav className="phone-tabs">
           {panels.map(([k, label]) => (
             <button key={k} className={phonePanel === k ? "active" : ""} onClick={() => setPhonePanel(k)}>
