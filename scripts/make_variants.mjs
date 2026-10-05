@@ -79,6 +79,11 @@ const VOICES = {
         shape_top: [
           [0, 25.5],
           [0.125, 25.4],
+          [0.138, 25.43],
+          [0.152, 25.59],
+          [0.165, 25.92],
+          [0.178, 26.36],
+          [0.192, 26.79],
           [0.205, 27.0],
           [0.3, 25.8],
           [0.42, 24.2],
@@ -92,8 +97,11 @@ const VOICES = {
         shape_width: [
           [0, 22.0],
           [0.085, 22.0],
-          [0.125, 23.2],
-          [0.175, 25.8],
+          [0.105, 22.09],
+          [0.125, 22.59],
+          [0.145, 23.61],
+          [0.165, 25.0],
+          [0.185, 26.35],
           [0.205, 27.0],
           [0.29, 26.0],
           [0.46, 24.5],
@@ -112,6 +120,11 @@ const VOICES = {
         shape_top: [
           [0, 25.5],
           [0.125, 25.4],
+          [0.138, 25.42],
+          [0.152, 25.49],
+          [0.165, 25.66],
+          [0.178, 25.88],
+          [0.192, 26.1],
           [0.205, 26.2],
           [0.3, 25.0],
           [0.42, 23.6],
@@ -124,8 +137,11 @@ const VOICES = {
         shape_width: [
           [0, 22.0],
           [0.085, 22.0],
-          [0.125, 23.2],
-          [0.175, 26.0],
+          [0.105, 22.1],
+          [0.125, 22.62],
+          [0.145, 23.67],
+          [0.165, 25.12],
+          [0.185, 26.53],
           [0.205, 27.2],
           [0.29, 26.0],
           [0.46, 24.6],
@@ -145,6 +161,11 @@ const VOICES = {
         shape_top: [
           [0, 25.5],
           [0.125, 25.4],
+          [0.138, 25.43],
+          [0.152, 25.61],
+          [0.165, 25.98],
+          [0.178, 26.48],
+          [0.192, 26.97],
           [0.205, 27.2],
           [0.3, 26.0],
           [0.4, 24.6],
@@ -158,8 +179,11 @@ const VOICES = {
         shape_width: [
           [0, 22.0],
           [0.085, 22.0],
-          [0.125, 23.3],
-          [0.175, 26.4],
+          [0.105, 22.11],
+          [0.125, 22.71],
+          [0.145, 23.93],
+          [0.165, 25.6],
+          [0.185, 27.22],
           [0.205, 28.0],
           [0.29, 27.2],
           [0.46, 25.6],
@@ -373,6 +397,7 @@ const pw = (x, from, to) =>
     x,
   ); // piecewise-linear landmark map
 const r1 = (x) => Math.round(x * 10) / 10,
+  r2 = (x) => Math.round(x * 100) / 100,
   r3 = (x) => Math.round(x * 1000) / 1000;
 function deriveShapes(voice, src, altoSrc) {
   const A = VOICES.alto.landmarks,
@@ -394,13 +419,13 @@ function deriveShapes(voice, src, altoSrc) {
       TA = F.shape_top[F.shape_top.length - 1][1];
     const body = pre.shape_top
       .filter(([f]) => f < fsV - 0.01)
-      .map(([f, y]) => [f, f <= V[1] ? y : r1(y * ratio('shape_top', toA(f)))]);
+      .map(([f, y]) => [f, f <= V[1] ? y : r2(y * ratio('shape_top', toA(f)))]);
     const beak = F.shape_top
       .filter(([fa]) => fa > fs)
       .map(([fa, y]) => [r3(famV(fa)), r1(T + ((H - T) * (y - TA)) / (HA - TA))]);
     out[fam] = {
       shape_top: [...body, [r3(fsV), r1(H)], ...beak],
-      shape_width: pre.shape_width.map(([f, w]) => [f, r1(w * ratio('shape_width', toA(f)))]),
+      shape_width: pre.shape_width.map(([f, w]) => [f, r2(w * ratio('shape_width', toA(f)))]),
       shape_top_squareness: F.shape_top_squareness.map(([fa, n]) => [r3(famV(fa)), n]),
     };
   }
