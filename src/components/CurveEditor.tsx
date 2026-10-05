@@ -9,6 +9,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { api, type ParamValue, type RenderTarget } from "../api";
 import {
   axisLabel,
+  CURVE_GROUPS,
+  curveGroup,
+  curveLabel,
   CURVES_ECHO,
   findPointLists,
   isFractionList,
@@ -286,12 +289,19 @@ export function CurveEditor({ title, source, target, values, visible, compact, o
     <div className="curves">
       <div className="curves-head">
         <select value={list.name} onChange={(e) => setSelName(e.target.value)} title="Point lists in the rendered file">
-          {lists.map((l) => (
-            <option key={l.name} value={l.name}>
-              {l.name}
-              {l.pts.length ? ` (${l.pts.length})` : " — built-in"}
-            </option>
-          ))}
+          {[...CURVE_GROUPS.map(([g]) => g), "Other"].map((g) => {
+            const inGroup = lists.filter((l) => curveGroup(l.name) === g);
+            return inGroup.length ? (
+              <optgroup key={g} label={g}>
+                {inGroup.map((l) => (
+                  <option key={l.name} value={l.name}>
+                    {curveLabel(l.name)}
+                    {isFractionList(l.name) || !l.pts.length ? "" : ` (yours, ${l.pts.length} points)`}
+                  </option>
+                ))}
+              </optgroup>
+            ) : null;
+          })}
         </select>
         <button onClick={undo} disabled={!history.length} title="Undo the last curve edit">
           Undo

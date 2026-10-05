@@ -312,6 +312,34 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
   body_width: (get) => (filled(get("ext_width_points")) ? "your own width outline (ext_width_points) sets it" : null),
   body_height: (get) => (filled(get("ext_top_points")) ? "your own top outline (ext_top_points) sets it" : null),
   bore_axis_height: (get) => (filled(get("ext_top_points")) ? null : "only with your own top outline (ext_top_points)"),
+  // the size knobs of the built-in outline: your own curves replace what they act on
+  shank_diameter: (get) =>
+    filled(get("ext_width_points")) && filled(get("ext_top_points"))
+      ? "your own width and top outlines (ext_width_points, ext_top_points) set it"
+      : null,
+  beak_tip_height: (get) => (filled(get("ext_top_points")) ? "your own top outline (ext_top_points) sets it" : null),
+  beak_curve: (get) => (filled(get("ext_top_points")) ? "your own top outline (ext_top_points) sets it" : null),
+  beak_length: (get) =>
+    filled(get("ext_top_points")) && filled(get("ext_top_squareness_points"))
+      ? "your own top outline and squareness (ext_top_points, ext_top_squareness_points) set it"
+      : null,
+  body_squareness: (get) =>
+    filled(get("ext_top_squareness_points")) && filled(get("ext_bottom_squareness_points"))
+      ? "your own squareness curves (ext_top/bottom_squareness_points) set it"
+      : null,
+  beak_squareness: (get) =>
+    filled(get("ext_top_squareness_points")) ? "your own squareness curve (ext_top_squareness_points) sets it" : null,
+  underside_squareness: (get) =>
+    filled(get("ext_bottom_squareness_points"))
+      ? "your own squareness curve (ext_bottom_squareness_points) sets it"
+      : null,
+  table_width_tip: (get) =>
+    filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
+  table_width_rear: (get) =>
+    filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
+  floor_shape: (get) => (filled(get("floor_points")) ? "your own floor (floor_points) sets it" : null),
+  baffle_type: (get) => (filled(get("baffle_points_custom")) ? "your own baffle (baffle_points_custom) wins" : null),
+  shank_bevel_depth: (get) => (Number(get("shank_bevel")) > 0 ? null : "the socket has no bevel (Shank bevel is 0)"),
 };
 // The lettering settings do nothing without something to letter (same rule as the sections' showIf).
 for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {

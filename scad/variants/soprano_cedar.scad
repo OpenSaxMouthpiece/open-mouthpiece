@@ -188,8 +188,6 @@ facing_gauge_points = [];
 /* [Manufacturing] */
 // Thinnest wall allowed (mm). The inside shrinks to keep it.
 min_wall = 2.0; // [1.2:0.1:4]
-// Smallest baffle-to-reed gap near the throat (mm); only warns.
-min_airgap = 0.5; // [0.2:0.05:2]
 // Extra on the table and facing to sand flat after printing (mm); try 0.1-0.2.
 print_stock = 0; // [0:0.01:0.5]
 
@@ -309,3 +307,5 @@ shape_bottom_squareness = [[0, 2.0], [0.275, 1.9], [0.4, 1.7], [0.65, 1.6], [0.8
 shape_baffle = [[0.49, 15.4], [0.51, 14.5], [0.52, 13.6], [0.53, 12.1], [0.54, 10.6], [0.57, 10.0], [0.64, 8.6], [0.89, 3.2], [0.96, 2.0]];
 // Commercial tip-opening range for this instrument — only used for a validate() warning (mm).
 tip_opening_range = [0.90, 2.50];
+// Smallest baffle-to-reed gap near the throat (mm); only warns.
+min_airgap = 0.5;

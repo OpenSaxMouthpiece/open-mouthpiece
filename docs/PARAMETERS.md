@@ -917,14 +917,6 @@ Range: 1.2 to 4, step 0.1.
 
 Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 
-### Min airgap (`min_airgap`)
-
-Smallest baffle-to-reed gap near the throat (mm); only warns.
-
-Range: 0.2 to 2, step 0.05.
-
-Presets: Alto `0.5` · Tenor `0.5` · Bari `0.5` · Soprano `0.5`.
-
 ### Extra stock for finishing (`print_stock`)
 
 Extra on the table and facing to sand flat after printing (mm); try 0.1-0.2.
@@ -1160,6 +1152,14 @@ Follows the mouthpiece (smoothed), or round.
 Range: `conform`, `round`.
 
 Presets: Alto `conform` · Tenor `conform` · Bari `conform` · Soprano `conform`.
+
+### Extra length (toward the shank) (`cap_extend`)
+
+Lengthens the cap toward the shank (mm); the most covers the whole mouthpiece.
+
+Range: 0 to 120, step 1.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Space at the end (`cap_end_gap`)
 

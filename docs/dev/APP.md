@@ -124,7 +124,7 @@ static site (docs/HOSTING.md).
   works on presets, downloads and shares). The drag preview is the JS `pchip` through the same
   cleaned points as `GAUGE_PTS`.
 - **Curves panel** (`CurveEditor.tsx`, `curves.ts`): every single-line top-level `name = [[a, b],
-  ...];` in the rendered file. PCHIP drawn exactly as the generator evaluates it; drag knots, click
+  ...];` in the rendered file, named and grouped by part (`CURVE_GROUPS`; others under "Other"). PCHIP drawn exactly as the generator evaluates it; drag knots, click
   to add, Delete, typed values, Undo; edits are values (`setPointList`), so they work on presets,
   downloads and shares. Dashed = the model's curve from `curve_editor_curves()` (shows where a clamp
   holds a curve back). "Clear" only for overrides; "Reset" drops the value. The svg has

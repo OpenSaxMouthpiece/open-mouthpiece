@@ -37,6 +37,47 @@ export function findPointLists(source: string): PointList[] {
   return [...found.values()];
 }
 
+// The curve lists in words, grouped by part for the Curves picker. A file's other lists go under
+// "Other" by their name.
+export const CURVE_GROUPS: [string, Record<string, string>][] = [
+  [
+    "Outside",
+    {
+      ext_width_points: "Width",
+      ext_top_points: "Top",
+      ext_bottom_points: "Underside (behind the table)",
+      ext_widest_points: "Height of the widest point",
+      ext_top_squareness_points: "Squareness, upper",
+      ext_bottom_squareness_points: "Squareness, lower",
+    },
+  ],
+  [
+    "Inside",
+    {
+      interior_width_points: "Width",
+      interior_top_squareness_points: "Squareness, upper",
+      interior_bottom_squareness_points: "Squareness, lower",
+      floor_points: "Floor",
+      baffle_points_custom: "Baffle",
+    },
+  ],
+  ["Reed & facing", { table_width_points: "Reed seat width", facing_gauge_points: "Facing (gauge)" }],
+  [
+    "Built-in outline (follows the size sliders)",
+    {
+      shape_width: "Width",
+      shape_top: "Top",
+      shape_bottom: "Underside",
+      shape_widest: "Height of the widest point",
+      shape_top_squareness: "Squareness, upper",
+      shape_bottom_squareness: "Squareness, lower",
+      shape_baffle: "Baffle",
+    },
+  ],
+];
+export const curveLabel = (name: string) => CURVE_GROUPS.find(([, m]) => name in m)?.[1][name] ?? name;
+export const curveGroup = (name: string) => CURVE_GROUPS.find(([, m]) => name in m)?.[0] ?? "Other";
+
 // shape_* tables are indexed by fraction of the overall length; everything else by mm.
 export const isFractionList = (name: string) => name.startsWith("shape_");
 

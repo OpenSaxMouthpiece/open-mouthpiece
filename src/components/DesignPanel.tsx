@@ -7,6 +7,7 @@ import {
   DESIGN_OPTIONS,
   DESIGN_SECTIONS,
   PART_GROUPS,
+  paramInactive,
   paramLabel,
   type PartTab,
 } from "../design";
@@ -277,6 +278,7 @@ export function DesignPanel({
                     onFocus={() => onFocusParam(p.name)}
                     onChange={(v) => onChange(p.name, same(v, p.initial) ? undefined : v)}
                     setParam={setParam}
+                    inactive={paramInactive(p.name, get)}
                   />
                 );
               })}
