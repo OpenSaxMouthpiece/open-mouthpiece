@@ -29,10 +29,10 @@ shank](images/glossary-table.svg)
 
 | Part | What it is | Settings |
 |---|---|---|
-| **Baffle** | The roof over the reed, just behind the tip rail. Common shapes: flat, rollover (rounded down), step (a ledge), concave (scooped). | **Baffle shape**, **Baffle height**, **Baffle start**, **Baffle curve**, **Baffle hump** |
-| **Floor** / **ramp** | The bottom of the inside from the throat up to the window's back edge; a ramp is a floor that stays high and slopes up into the window. | **Floor shape**, **Chamber height** |
-| **Side walls** | The inside walls from the floor up to the rails; flat, leaning out (scooped) or leaning in. | **Sidewall angle** |
-| **Chamber** | The open space between the baffle and the throat. Its cross-section is round, square or horseshoe (flat floor, round roof). | **Chamber shape**, **Chamber width vs throat**, **Chamber flare**, **Chamber full length**, **Chamber height** |
+| **Baffle** | The roof over the reed, just behind the tip rail. Common shapes: flat, rollover (rounded), step (a ledge), concave (scooped). | **Baffle shape**, **Baffle height**, **Baffle start**, **Baffle curve**, **Baffle hump** |
+| **Floor** / **ramp** | The bottom of the inside, from the window's back edge to the throat. A ramp is a floor that slopes gradually away from the reed instead of dropping. | **Floor shape**, **Chamber height** |
+| **Side walls** | The inside walls on each side of the window, from the rails up to the roof: straight, leaning out (scooped) or leaning in. | **Sidewall angle** |
+| **Chamber** | The open space between the baffle and the throat. Its cross-section can be round, square or horseshoe. | **Chamber shape**, **Chamber width vs throat**, **Chamber flare**, **Chamber full length**, **Chamber height** |
 | **Throat** | The narrowest point inside, where the chamber meets the bore. | **Throat position**, **Throat width**, **Throat taper**, **Throat shape** |
 | **Bore** | The round tube from the throat back to the socket. | **Bore diameter**, **Bore tilt** |
 | **Socket** | The back of the bore, where the neck cork goes in. | **Neck cork diameter**, **Cork squeeze**, **Shank depth**, **Shank entry bevel width** |
