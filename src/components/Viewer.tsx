@@ -91,6 +91,7 @@ interface Ctx {
   b: THREE.Group;
   lig: THREE.Group;
   reed: THREE.Group;
+  capG: THREE.Group; // the cap made for A
   ghost: THREE.Group; // the previous shape of A, for a moment after a change
   grid: THREE.GridHelper;
   axes: THREE.AxesHelper;
@@ -122,6 +123,9 @@ interface Props {
     reed: ArrayBuffer | null;
   } | null;
   onLigature?(change: { on?: boolean; beside?: boolean; reed?: boolean }): void;
+  // The cap made for A, seated on it (see-through, so A and the ligature show), or beside it.
+  cap?: { on: boolean; beside: boolean; stl: ArrayBuffer | null } | null;
+  onCap?(change: { on?: boolean; beside?: boolean }): void;
 }
 
 // View settings outlive the viewer: the desktop and phone layouts each mount their own, and a
@@ -176,6 +180,9 @@ const LIG_COLOR = 0xd9564a;
 const LIG_CUT = 0x7a2a22;
 const REED_COLOR = 0xe6dcbc;
 const REED_CUT = 0x9a8f6c;
+const CAP_COLOR = 0x3fbfae;
+const CAP_CUT = 0x1d6b61;
+const CAP_SEATED_OPACITY = 0.38;
 // The ghost: how long it stays once rendering is quiet, how long it fades, and how strong it is.
 const GHOST_HOLD_MS = 2500;
 const GHOST_FADE_MS = 700;
@@ -199,6 +206,8 @@ export function Viewer({
   onClearB,
   ligature = null,
   onLigature,
+  cap = null,
+  onCap,
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   // Appearance (the ⚙ menu): model colour, background, grid, axes.
@@ -294,8 +303,9 @@ export function Viewer({
       b = new THREE.Group(),
       lig = new THREE.Group(),
       reed = new THREE.Group(),
+      capG = new THREE.Group(),
       ghost = new THREE.Group();
-    model.add(a, b, lig, reed);
+    model.add(a, b, lig, reed, capG);
     // the ghost has its own pass, drawn over everything else
     const ghostScene = new THREE.Scene();
     ghostScene.add(ghost);
@@ -345,7 +355,7 @@ export function Viewer({
       draw();
     });
     ro.observe(host);
-    ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, ghost, grid, axes, draw };
+    ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, capG, ghost, grid, axes, draw };
     // Dev-only handle for scripted inspection (e.g. from browser automation).
     if (import.meta.env.DEV) (window as unknown as { __viewer: Ctx }).__viewer = ctxRef.current;
     return () => {
@@ -355,6 +365,7 @@ export function Viewer({
       clearModel(b);
       clearModel(lig);
       clearModel(reed);
+      clearModel(capG);
       clearModel(ghost);
       renderer.dispose();
       host.removeChild(renderer.domElement);
@@ -471,6 +482,13 @@ export function Viewer({
     set(ctx.a, seeThrough);
     set(ctx.lig, seeThrough);
     set(ctx.reed, seeThrough);
+    // the cap on A is always see-through (it would hide the mouthpiece); beside it, as the others
+    const capSeated = !cap?.beside;
+    set(ctx.capG, seeThrough || capSeated);
+    if (capSeated && !seeThrough)
+      ctx.capG.traverse((o) => {
+        if (o.name === "body" && o instanceof THREE.Mesh) (o.material as THREE.Material).opacity = CAP_SEATED_OPACITY;
+      });
     set(ctx.b, seeThrough || layout === "overlay");
     const overlaid = layout === "overlay";
     ctx.b.traverse((o) => {
@@ -551,6 +569,26 @@ export function Viewer({
     ctx.draw();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ligature?.beside]);
+
+  // The cap: on A where it seats, or beside it, behind A (+Y; the ligature goes in front, B to +X).
+  const placeCap = (ctx: Ctx) => {
+    ctx.capG.position.set(0, 0, 0);
+    if (!cap?.beside || !ctx.a.children.length || !ctx.capG.children.length) return;
+    const ba = new THREE.Box3().setFromObject(ctx.a),
+      bc = new THREE.Box3().setFromObject(ctx.capG);
+    ctx.capG.position.y = ba.max.y + 0.4 * Math.max(bc.max.y - bc.min.y, 5) - bc.min.y;
+    ctx.capG.position.z = -bc.min.z;
+  };
+  useEffect(() => {
+    const ctx = ctxRef.current;
+    if (!ctx) return;
+    fill(ctx.capG, cap?.on ? cap.stl : null, CAP_COLOR, CAP_CUT);
+    applyLook(ctx);
+    placeCap(ctx);
+    applySection(ctx);
+    ctx.draw();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cap?.on, cap?.stl, cap?.beside]);
 
   // The ghost: A's surface and edges move over (no new geometry), with ghost materials. Kept
   // through a drag (the first shape of it), dropped by a different design or part.
@@ -867,6 +905,27 @@ export function Viewer({
                     >
                       Reed
                     </Check>
+                  </>
+                )}
+                {onCap && (
+                  <>
+                    <Check
+                      on={!!cap?.on}
+                      set={(on) => onCap({ on })}
+                      title="Show the cap made for this mouthpiece (teal, see-through) on it"
+                    >
+                      Cap
+                    </Check>
+                    {cap?.on && (
+                      <select
+                        value={cap.beside ? "beside" : "on"}
+                        onChange={(e) => onCap({ beside: e.target.value === "beside" })}
+                        title="Where the cap is shown"
+                      >
+                        <option value="on">On the mouthpiece</option>
+                        <option value="beside">Beside it</option>
+                      </select>
+                    )}
                   </>
                 )}
               </div>

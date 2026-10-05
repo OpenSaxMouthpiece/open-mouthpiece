@@ -8,6 +8,7 @@ export type SaveOpts = {
   settings: boolean;
   stl: boolean;
   ligature: boolean;
+  cap: boolean;
   zip: boolean;
 };
 export const SAVE_DEFAULTS: SaveOpts = {
@@ -16,11 +17,13 @@ export const SAVE_DEFAULTS: SaveOpts = {
   settings: false,
   stl: false,
   ligature: false,
+  cap: false,
   zip: false,
 };
 
-// Whether the choices download anything (the ligature only counts when the design has one).
-export const wantsFiles = (o: SaveOpts, ligature: boolean) => o.full || o.settings || o.stl || (o.ligature && ligature);
+// Whether the choices download anything (the ligature and the cap only count when the design has one).
+export const wantsFiles = (o: SaveOpts, ligature: boolean, cap = false) =>
+  o.full || o.settings || o.stl || (o.ligature && ligature) || (o.cap && cap);
 
 interface Props {
   name: string;
@@ -29,12 +32,23 @@ interface Props {
   onOpt: (k: keyof SaveOpts, v: boolean) => void;
   partLabel: string; // "Mouthpiece", "Shank test ring", …
   ligature: boolean; // offer the ligature's STL
+  cap?: boolean; // offer the cap's STL
   onSubmit: () => void;
   onCancel: () => void;
 }
 
-export function SaveAsPanel({ name, onName, opts, onOpt, partLabel, ligature, onSubmit, onCancel }: Props) {
-  const files = wantsFiles(opts, ligature);
+export function SaveAsPanel({
+  name,
+  onName,
+  opts,
+  onOpt,
+  partLabel,
+  ligature,
+  cap = false,
+  onSubmit,
+  onCancel,
+}: Props) {
+  const files = wantsFiles(opts, ligature, cap);
   const box = (k: keyof SaveOpts, disabled = false) => (
     <input type="checkbox" checked={opts[k]} disabled={disabled} onChange={(e) => onOpt(k, e.target.checked)} />
   );
@@ -68,6 +82,7 @@ export function SaveAsPanel({ name, onName, opts, onOpt, partLabel, ligature, on
           {box("ligature")} Ligature STL
         </label>
       )}
+      {cap && <label title="The cap on its own, standing on its rim, ready to print">{box("cap")} Cap STL</label>}
       <label title="One .zip with every file above, instead of separate downloads">
         {box("zip", !files)} Zip the files into one download
       </label>

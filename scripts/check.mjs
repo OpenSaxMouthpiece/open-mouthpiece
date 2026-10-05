@@ -9,7 +9,10 @@
 //   5. optional, local only: shape agreement with a reference, when test/references.json and the
 //      local measuring tools exist (skipped otherwise);
 //   6. the ligature made for it: genus 1, stands on z = 0, never touches the mouthpiece
-//      (part = ligature_clash is empty), fingerprinted like the mouthpiece.
+//      (part = ligature_clash is empty), fingerprinted like the mouthpiece;
+//   7. the cap made for it: the genus it announces (one per vent), stands on z = 0, clears the
+//      mouthpiece and the ligature (part = cap_clash with a slightly loose collar is empty: bar
+//      zero-thickness slivers), fingerprinted.
 //   npm run check                 # compare with the baselines (exit 1 on any failure/change)
 //   npm run check -- --update     # accept the current results as the new baselines
 //   npm run check -- scad/alto.scad ...   # only these files
@@ -219,6 +222,27 @@ async function checkFile(file) {
   );
   if (!/top level object is empty/i.test(crun.log))
     r.problems.push('ligature touches the mouthpiece (part = ligature_clash is not empty)');
+  // 7: cap (files that can make one)
+  if (!/^cap_wall\s*=/m.test(fs.readFileSync(file, 'utf8'))) return r;
+  const cstl = path.join(OUT, `${tag}_cap.stl`);
+  const cap = await runOpenscad(['-o', cstl, '-D', 'part="cap"', file], { cwd: path.dirname(file) });
+  const clog = parseLog(cap.log);
+  if (cap.code !== 0 || !clog.ok) r.problems.push('cap failed to render');
+  else {
+    const cg = expectedGenus(cap.log);
+    if (clog.genus !== null && clog.genus !== cg)
+      r.problems.push(`cap genus ${clog.genus} (expected ${cg}: one hole per vent, nothing loose)`);
+    for (const w of clog.designWarnings) r.notes.push(`cap: ${w}`);
+    const cm = meshInfo(cstl);
+    Object.assign(r, { capHash: cm.hash, capVolume: cm.volume });
+    if (Math.abs(cm.zmin) > 1e-3) r.problems.push(`cap: lowest point at z=${cm.zmin.toFixed(3)} (expected 0)`);
+  }
+  const kstl = path.join(OUT, `${tag}_cap_clash.stl`);
+  const kc = await runOpenscad(['-o', kstl, '-D', 'part="cap_clash"', '-D', 'cap_grip=-0.05', file], {
+    cwd: path.dirname(file),
+  });
+  if (!/top level object is empty/i.test(kc.log) && (!fs.existsSync(kstl) || meshInfo(kstl).volume > 1))
+    r.problems.push('cap touches the mouthpiece or the ligature (part = cap_clash is not empty)');
   return r;
 }
 
@@ -242,6 +266,8 @@ for (const r of results) {
         `geometry changed: volume ${b.volume} -> ${r.volume} mm³ (${dv >= 0 ? '+' : ''}${dv.toFixed(3)}%), triangles ${b.tris} -> ${r.tris}`,
       );
     }
+    if (b && r.capHash && b.capHash !== r.capHash)
+      r.problems.push(`cap changed: volume ${b.capVolume ?? '?'} -> ${r.capVolume} mm³`);
     if (b && r.ligHash && b.ligHash !== r.ligHash)
       r.problems.push(`ligature changed: volume ${b.ligVolume ?? '?'} -> ${r.ligVolume} mm³`);
     if (bIou !== undefined && r.iou !== undefined && r.iou < bIou - 0.002)
@@ -250,7 +276,7 @@ for (const r of results) {
   const status = r.problems.length ? 'FAIL' : 'ok  ';
   if (r.problems.length) failed++;
   const facts = r.hash
-    ? `genus ${r.genus}, ${r.tris} tris, ${r.volume} mm³, plate ${r.plate ?? '?'} mm²${r.iou !== undefined ? `, IoU ${r.iou}` : ''}${r.ligVolume !== undefined ? `, ligature ${r.ligVolume} mm³` : ''}`
+    ? `genus ${r.genus}, ${r.tris} tris, ${r.volume} mm³, plate ${r.plate ?? '?'} mm²${r.iou !== undefined ? `, IoU ${r.iou}` : ''}${r.ligVolume !== undefined ? `, ligature ${r.ligVolume} mm³` : ''}${r.capVolume !== undefined ? `, cap ${r.capVolume} mm³` : ''}`
     : '';
   console.log(`${status} ${r.file.padEnd(32)} ${facts}`);
   for (const p of r.problems) console.log(`       ✗ ${p}`);
@@ -267,6 +293,7 @@ if (UPDATE) {
       size: r.size,
       hash: r.hash,
       ...(r.ligHash ? { ligHash: r.ligHash, ligVolume: r.ligVolume } : {}),
+      ...(r.capHash ? { capHash: r.capHash, capVolume: r.capVolume } : {}),
     };
     if (r.iou !== undefined) scores[r.file] = r.iou;
   }

@@ -82,6 +82,26 @@ export function parseLigature(log: string): LigatureInfo | null {
   };
 }
 
+// The cap made for the mouthpiece (part = "cap"): "CAP <length> <rear edge z> <inside width, height at
+// the collar> <squeeze>", and its warnings.
+export interface CapInfo {
+  length: number;
+  inside: [number, number]; // inside width, height at the collar
+  squeeze: number; // how much smaller than what it sits on the collar is (mm)
+  notes: string[];
+}
+export function parseCap(log: string): CapInfo | null {
+  const m = /CAP ((?:[-\d.eE+]+ ?){5})/.exec(log);
+  if (!m) return null;
+  const n = m[1].trim().split(" ").map(Number);
+  const notes = [...log.matchAll(/ECHO: "WARNING: ((?:the cap|cap_)[^"]*)"/g)].map((w) => plainNote(w[1]));
+  return { length: n[0], inside: [n[2], n[3]], squeeze: n[4], notes };
+}
+export function capText(c: CapInfo | null): string {
+  if (!c) return "";
+  return ` ${c.length.toFixed(0)} mm long, inside ${c.inside[0].toFixed(1)} × ${c.inside[1].toFixed(1)} mm at the collar, which squeezes ${Math.max(0, c.squeeze).toFixed(2)} mm.`;
+}
+
 // Feeler-gauge stops for checking a facing (inches).
 export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05];
 

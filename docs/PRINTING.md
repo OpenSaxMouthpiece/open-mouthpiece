@@ -111,6 +111,31 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
   the font, style (engraved or raised) and depth set under Personalise. Keep it short: the band's
   top is only about as long as the band plus the tongue.
 
+## 4c. A cap made for it (optional)
+
+A cap keeps the tip and reed safe in a bag. **Cap -> Make a cap for this mouthpiece** builds one
+around your mouthpiece, reed and ligature, shown see-through (teal) on the mouthpiece; **Download
+cap STL** gives the print. Like a store-bought cap it is one smooth shell, tapering from its rim to
+a rounded tip, with a slot up from the rim and air holes in the end so the reed can dry; it slides
+on over the tip and the rim clips onto the ligature.
+
+- **Print** it standing on its rim, open end down (as downloaded), no supports; the closed end is a dome.
+- **Goes over:** the ligature made here (**Ligature -> Make a ligature**) or a metal one. As on
+  store-bought caps, a metal ligature's screws ride in the slot: it starts at the rim as a window as
+  wide as the screws, so the cap needn't be big enough to cover them. Give the band's length,
+  position and thickness and the screws' width and length, and set **Screws and slot** to the side
+  they're on: under the reed (a standard ligature) or on top (an inverted one).
+- **Air:** the **slot** (length and width) and the **air holes in the end** let air through, so a
+  wet reed dries instead of staying damp in a closed cap; add **Vents in the side** for more.
+- **Held by:** the collar squeezes the ligature (default) or the body behind it (only where the body
+  is wider than the ligature in front of it; the app says when it isn't). **Grip squeeze** sets how
+  hard; **Collar slits** (none by default) make it easier to push on. Too loose: raise the squeeze
+  (try 0.2-0.3); too tight: lower it. Printing 0.1, 0.2 and 0.3 side by side finds yours.
+- **Grip ribs**, **Shape**, **End shape**, **Wall** and **Room inside** change how it looks and how
+  it sits in the hand. **Text on the cap** and
+  **Picture on the cap** work like the ligature's.
+- The reed's thickness and width come from the ligature's settings.
+
 ## 5. Play-test and adjust
 
 Play it next to your usual mouthpiece, with the same reed. Notice where it sits on the cork to play

@@ -9,6 +9,9 @@
 // Failures get a repro param file in scad/_sweep/ (gitignored) — open it from the app.
 //   npm run sweep
 //   npm run sweep -- --random 100 --seed 7 --base scad/alto.scad --min-wall 0.6 --jobs 8
+//   npm run sweep -- --part cap       # the cap instead of the mouthpiece: extremes of the Cap and
+//                                     # Ligature groups, random mixes of 3 of them + up to 5 others;
+//                                     # checks the genus it announces, not the wall clearance
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -34,6 +37,8 @@ const MIN_WALL = Number(opt('--min-wall', 0.6));
 const JOBS = Number(opt('--jobs', 8));
 const SHRINK = Number(opt('--shrink', 12));
 const EXTREMES = !argv.includes('--no-extremes');
+const PART = opt('--part', null); // sweep this part (the cap) instead of the mouthpiece
+const PART_GROUPS = new Set(['Cap', 'Ligature']);
 
 // Not swept: output controls, informational or unimplemented parameters.
 const SKIP = new Set(['part', 'render_fn', 'print_orientation', 'shank_clearance', 'min_airgap']);
@@ -80,7 +85,10 @@ async function evaluate(base, overrides) {
   const id = `s${++counter}`;
   const defs = Object.entries(overrides).flatMap(([k, v]) => ['-D', `${k}=${literal(v)}`]);
   const stl = path.join(OUT, `${id}.stl`);
-  const r = await runOpenscad(['-o', stl, '-D', 'print_orientation=false', ...defs, base], { cwd: path.dirname(base) });
+  const partDef = PART ? ['-D', `part=${JSON.stringify(PART)}`] : [];
+  const r = await runOpenscad(['-o', stl, '-D', 'print_orientation=false', ...partDef, ...defs, base], {
+    cwd: path.dirname(base),
+  });
   fs.rmSync(stl, { force: true });
   const log = parseLog(r.log);
   const problems = [];
@@ -94,7 +102,7 @@ async function evaluate(base, overrides) {
       text: `genus ${log.genus} (${log.genus > genus ? 'holes' : 'loose piece / no through-bore'})`,
     });
   let clearance = null;
-  if (log.ok) {
+  if (log.ok && !PART) {
     const echo = path.join(OUT, `${id}.echo`);
     await runOpenscad(['-o', echo, '-D', 'part="clearance_report"', ...defs, base], { cwd: path.dirname(base) });
     const m = /CLEARANCE ([-\d.e]+) at z=([-\d.e]+) \(([^)]+)\)/.exec(
@@ -146,7 +154,7 @@ for (const base of BASES) {
   const vname = path.basename(base);
   const samples = [];
   if (EXTREMES) {
-    for (const p of params) {
+    for (const p of PART ? params.filter((q) => PART_GROUPS.has(q.group)) : params) {
       if (p.options)
         for (const o of p.options) {
           if (String(o.value) !== String(p.initial))
@@ -161,7 +169,13 @@ for (const base of BASES) {
   for (let i = 0; i < RANDOM; i++) {
     const k = 3 + Math.floor(rand() * 8),
       ov = {};
-    const pick = [...params].sort(() => rand() - 0.5).slice(0, k);
+    const shuffled = [...params].sort(() => rand() - 0.5);
+    const pick = PART
+      ? [
+          ...shuffled.filter((q) => q.group === 'Cap').slice(0, 3),
+          ...shuffled.filter((q) => q.group !== 'Cap').slice(0, Math.floor(rand() * 6)),
+        ]
+      : shuffled.slice(0, k);
     for (const p of pick) {
       ov[p.name] = p.options
         ? p.options[Math.floor(rand() * p.options.length)].value

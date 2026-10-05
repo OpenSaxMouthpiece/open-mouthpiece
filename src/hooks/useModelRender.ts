@@ -1,15 +1,23 @@
 // Rendering the design on screen: a quick draft after each change, then the chosen quality once
 // the user pauses (a newer change cancels it), so dragging only ever runs drafts. The full-quality
 // run also makes the readouts' reports and the zoom targets (one OpenSCAD run instead of three:
-// each run evaluates the whole generator again). After it: the ligature and a model reed, while shown.
+// each run evaluates the whole generator again). After it: the ligature, a model reed and the cap, while shown.
 import { useCallback, useRef, useState, type RefObject } from "react";
 import { api, base64ToBuffer, type RenderTarget, type ScadParam } from "../api";
 import { parseAirVolume } from "../compare";
 import { FOCUS_ECHO, parseFocusEcho, type FocusData } from "../focus";
-import { parseClearance, parseFacing, parseLigature, type LigatureInfo, type Wall } from "../readouts";
+import {
+  parseCap,
+  parseClearance,
+  parseFacing,
+  parseLigature,
+  type CapInfo,
+  type LigatureInfo,
+  type Wall,
+} from "../readouts";
 import { renderEnded, renderStarted, report } from "../report";
 import { reportDesign, type Values } from "../app/files";
-import { QUALITY_FN, type LigatureView, type Quality } from "../app/session";
+import { QUALITY_FN, type CapView, type LigatureView, type Quality } from "../app/session";
 
 export type Status = { text: string; short?: string; kind: "idle" | "busy" | "ok" | "error" };
 
@@ -22,6 +30,8 @@ export interface RenderState {
   zoom: boolean; // zoom to parameter is on
   lig: LigatureView; // what of the ligature is shown
   ligOK: boolean; // the file can make a ligature
+  cap: CapView; // whether the cap is shown
+  capOK: boolean; // the file can make a cap
 }
 
 interface Options {
@@ -59,9 +69,12 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const [ligStl, setLigStl] = useState<ArrayBuffer | null>(null);
   const [reedStl, setReedStl] = useState<ArrayBuffer | null>(null);
   const [ligInfo, setLigInfo] = useState<LigatureInfo | null>(null);
+  const [capStl, setCapStl] = useState<ArrayBuffer | null>(null);
+  const [capInfo, setCapInfo] = useState<CapInfo | null>(null);
 
   const renderAbort = useRef<AbortController | null>(null);
   const ligAbort = useRef<AbortController | null>(null);
+  const capAbort = useRef<AbortController | null>(null);
   const reportsAbort = useRef<AbortController | null>(null);
   const refineTimer = useRef<number | undefined>(undefined);
   const shownFn = useRef<number | null>(null); // render_fn of the model on screen (null: the file's own)
@@ -107,6 +120,19 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     },
     [state],
   );
+
+  // The cap for the model just rendered, seated on it (the model's frame), only while shown.
+  const loadCap = useCallback(async (t: RenderTarget, vals: Values, fn: number | null) => {
+    const ac = restart(capAbort);
+    try {
+      const r = await api.render(t, withFn({ ...vals, part: "cap_seated" }, fn), ac.signal);
+      if (ac.signal.aborted) return;
+      setCapInfo(parseCap(r.log));
+      setCapStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
+    } catch {
+      // superseded or failed: the last cap stays
+    }
+  }, []);
 
   // The readouts' reports on their own (facing curve, thinnest wall), for when the readouts come
   // into view after a render made without them.
@@ -206,6 +232,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
             kind: "ok",
           });
           if (!isDraft && (s.lig.on || s.lig.reed) && s.ligOK) loadLigature(t, vals, fn);
+          if (!isDraft && s.cap.on && s.capOK) loadCap(t, vals, fn);
           if (isDraft) refineTimer.current = window.setTimeout(() => renderPass(false), REFINE_DELAY);
           else if (!withReports && s.zoom) prefetchFocus(t, vals);
         } else if (r.kind === "2d" && r.svg) {
@@ -229,7 +256,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         setStatus({ text: `OpenSCAD error: ${(err as Error).message}`, kind: "error" });
       }
     },
-    [state, qualityFn, setStatus, setFocusData, prefetchFocus, loadLigature],
+    [state, qualityFn, setStatus, setFocusData, prefetchFocus, loadLigature, loadCap],
   );
 
   const render = useCallback(() => renderPass(true), [renderPass]);
@@ -278,6 +305,8 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     setLigStl(null);
     setReedStl(null);
     setLigInfo(null);
+    setCapStl(null);
+    setCapInfo(null);
   };
 
   return {
@@ -291,6 +320,9 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     ligStl,
     reedStl,
     ligInfo,
+    capStl,
+    capInfo,
+    loadCap,
     shownFn,
     render,
     renderPass,

@@ -205,6 +205,56 @@ tongue toward the shank (`ligature_tongue` +7mm; soprano 5), on top by default; 
   Two closed solids subtracted instead left a loose sliver. `art_2d(name, width, angle)` is the
   shared picture import. Without lettering the band is built exactly as before.
 
+### Cap
+
+`part = cap | cap_seated | cap_clash`; `cap_made` only records that the design has one (no geometry reads
+it; the app shows `cap_seated` see-through on the mouthpiece, like the ligature). A shell over the tip, reed and ligature, built like the
+ligature from **support functions**: per station (1mm, rear edge to tip) h(phi) = what the cap must clear:
+the whole body (behind the table; above it plus the table's edges on it), the full reed
+(`ligature_reed_thickness` / width), and the ligature: the printed one's outside (its own `lig_h_at` +
+fit + wall) or a metal one's band (+ `cap_metal_proud`) and screw block (two points above the top). A running
+max from the tip back (inclusive) makes each station contain everything in front of it, so the cap slides
+on; inside = that + `cap_clearance`, shaped by `cap_shape` (`lig_round` / `lig_d`), outside = inside + `cap_wall`.
+- **Hull** (what makes it look like a moulded cap): per direction, the least concave majorant along z
+  (`cap_majorant`, a monotone-chain upper hull over the stations and the dome's rings). That is the
+  cross-section of the 3D convex hull of everything inside, so it is a valid support at every station
+  and never grows toward the tip (the cap still slides on). Without it the running max stepped hard
+  at the ligature's front edge (a drum, then a shoulder) and followed the beak's hollow top slope
+  (a hooded look). The collar is inside only: the outside follows the hull (`pmax` of both + wall).
+- **Collar** (`cap_collar`, the rear of the band for `cap_fit = ligature`, the rear edge for `body`):
+  inside = max(strictly-ahead running max + 0.05 - `cap_flex`, own support - `cap_grip`), then
+  `cap_tighten` (a few passes; an inward move of support lines can leave lines not touching the shape).
+  The shell may be pushed out `cap_flex` (0.4mm) on its way over what is ahead, so the full grip is
+  reached (the readout's last number is the peak; a WARNING says when it is under half the request).
+  The body fit grips only where the body outgrows the ligature ahead of it (never on the alto's
+  printed ligature; metal bands work).
+- **Closed end**: a dome (`cap_end_dome` 0 = flat, 1 = full; `cap_end_gap` tall): the last ring scaled about
+  its smallest-circle centre (`s = 1 - 0.7 dome (1 - cos psi)`, z = gap sin psi), the outside the same
+  shifted by the wall (xy wall cos psi, z wall sin psi, so the wall turns with the dome and never thins).
+  Scaling a support function is always valid. An inward offset was tried first: lines that stop touching
+  the shape make neighbouring corners cross (genus -1 .. -5, "NotManifold"), worst on the thin tip rings.
+  The cap holds its ring `cap_hold` (6mm) behind the tip instead of following the beak's rounded tip
+  down to a pencil point. It prints standing on its rim, open end down: the tip end is thin and wide,
+  a poor base.
+- **Slot** (as on store-bought caps): from the rim on `cap_slot_side` (reed = under
+  the reed, where a standard ligature's screws are; top = an inverted one's), `cap_slot_length` long,
+  kept 3mm short of the dome; a prism from the table plane (y = 0 is inside the cap at every station,
+  unlike a centre that drops toward the tip) outward. Over a metal ligature it starts as a window
+  `cap_metal_screw_width` + 1.6 wide, straight to 1.5mm past the screws' front end, then rounded (a
+  rounder end clipped the screws' corners). The screws are NOT in the support (they come in at the
+  rim and ride in the window as the cap slides on), so the cap stays the size of the band.
+  `metal_ligature_model` is a stand-in (band + screw block + two screws) that `cap_clash` checks against.
+- **End vents** (`cap_end_vents`, `cap_end_vent_size`): a row along x on the dome's centre line, each a
+  cylinder along z from the dome's base (inside the cap) out through the dome, within 55% of the
+  ring's half-width; fewer fit = a WARNING.
+- **Vents** in the side: radial prisms from the cap's own mid-height. **EXPECTED GENUS** = side vents +
+  end vents; the slot and slits start at the rim, so they add no genus. Ribs: smooth sin² bumps on the outside rings (finer stations there).
+- **Lettering**: as the ligature's, on a skin between the outer rings at two offsets.
+- `cap_clash` = cap ∩ mouthpiece + cap ∩ printed ligature; `npm run check` runs it with
+  `cap_grip=-0.05` (a squeeze of 0 touches the ligature's face exactly and leaves zero-thickness
+  slivers) and accepts under 1mm³. `npm run sweep -- --part cap` sweeps the Cap and Ligature groups.
+- Everything lives inside `cap_part()` (module-level values), so mouthpiece renders don't pay for it.
+
 ## Parameters
 
 - **`*_points` overrides** are `[[z, value], ...]`, PCHIP-joined, prepared once (`pchip_prep`) and

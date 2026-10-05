@@ -277,9 +277,91 @@ ligature_image_angle = 0; // [0:15:345]
 // Moves the ligature's text and picture toward the tip (+) or the shank (-) (mm).
 ligature_lettering_position = 0; // [-15:0.5:15]
 
+/* [Cap] */
+// A cap is made for this design (the app shows it and offers its download).
+cap_made = false;
+// What the cap goes over: the ligature made for this design, or a metal one.
+cap_ligature = "printed"; // [printed, metal]
+// How the cap holds on: squeezing the ligature, or the body behind it.
+cap_fit = "ligature"; // [ligature, body]
+// How hard the collar squeezes (mm): bigger = tighter; 0 = no squeeze.
+cap_grip = 0.15; // [0:0.05:0.5]
+// Length of the squeezing collar at the cap's rear (mm).
+cap_collar = 8; // [3:0.5:25]
+// Body fit: how far the rear edge reaches behind the ligature (mm).
+cap_overlap = 10; // [2:0.5:30]
+// Side of the slot up from the rim, and of a metal ligature's screws: under the reed or on top.
+cap_slot_side = "reed"; // [reed, top]
+// Slot up from the rim, for air and so the rim clips on: length (mm); 0 = none.
+cap_slot_length = 30; // [0:1:80]
+// Slot width (mm).
+cap_slot_width = 3; // [1:0.5:8]
+// Air holes through the closed end, in a row (0 = none).
+cap_end_vents = 3; // [0:1:7]
+// End hole diameter (mm).
+cap_end_vent_size = 2; // [1:0.5:4]
+// Slits in the collar so it flexes on more easily, how many (0 = none).
+cap_slits = 0; // [0:1:12]
+// Where the first slit is, around the cap: 0 = top, 90 = a side (degrees).
+cap_slit_angle = 30; // [0:15:345]
+// Slit width (mm).
+cap_slit_width = 1.2; // [0.6:0.1:3]
+// Room around everything else inside the cap (mm).
+cap_clearance = 0.5; // [0.2:0.05:2]
+// Wall thickness (mm).
+cap_wall = 1.6; // [1.2:0.1:4]
+// Follows the mouthpiece (smoothed), D = round on top and flat under the reed, or round.
+cap_shape = "conform"; // [conform, d, round]
+// Space between the tip and the inside of the closed end (mm).
+cap_end_gap = 5; // [1:0.5:20]
+// Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
+cap_end_dome = 1; // [0:0.1:1]
+// Air vents in the wall: slots along the cap, round holes, or none.
+cap_vent_style = "none"; // [none, slots, round]
+// Number of vents, spaced evenly around the cap.
+cap_vent_count = 2; // [1:1:8]
+// Where the first vent is, around the cap: 0 = top, 90 = a side (degrees).
+cap_vent_angle = 90; // [0:15:345]
+// Slot length (mm).
+cap_vent_length = 14; // [4:0.5:40]
+// Vent width, or a round hole's diameter (mm).
+cap_vent_width = 3; // [1.5:0.5:10]
+// Vent position: mm behind the tip to the vent's front end.
+cap_vent_position = 8; // [0:0.5:60]
+// Grip ribs around the cap, evenly spaced (0 = smooth).
+cap_ribs = 0; // [0:1:16]
+// Rib height (mm).
+cap_rib_depth = 0.6; // [0.2:0.1:1.5]
+// Text on the cap's top (empty = none). Same fill-ins as the top text.
+cap_text = "";
+// Cap letter height (mm).
+cap_text_size = 5; // [2:0.5:14]
+// Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+cap_text_angle = 0; // [0:90:270]
+// SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.
+cap_image = "";
+// Cap picture width (mm).
+cap_image_width = 10; // [3:0.5:40]
+// Picture height / width, for spacing (the app fills it in).
+cap_image_aspect = 1; // [0.1:0.01:10]
+// Cap picture rotation (degrees).
+cap_image_angle = 0; // [0:15:345]
+// Moves the cap's text and picture toward the tip (+) or the shank (-) (mm).
+cap_lettering_position = 0; // [-30:0.5:30]
+// Metal ligature: band length along the mouthpiece (mm).
+cap_metal_length = 16; // [6:0.5:30]
+// Metal ligature: front edge, mm behind the window's back end.
+cap_metal_position = 2; // [-10:0.5:25]
+// Metal ligature: how far the band stands out of the body all round (mm).
+cap_metal_proud = 1.2; // [0:0.1:4]
+// Metal ligature: width of its screws and their posts, across (mm); the slot widens to clear it.
+cap_metal_screw_width = 14; // [4:0.5:30]
+// Metal ligature: length of the screw block along the mouthpiece (mm).
+cap_metal_screw_length = 12; // [4:0.5:30]
+
 /* [Output] */
-// What to make: the mouthpiece, a shank test ring, a ligature, or debug pieces.
-part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, ligature_seated, reed_model, ligature_clash, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
+// What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
+part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
 // Smoothness: higher is smoother but slower. 64 is fine for printing.
 render_fn = 64; // [16:8:128]
 // Stand it on its neck end, as printed. Off: lie it on the reed table.
@@ -1707,6 +1789,278 @@ module reed_model() {
 }
 
 // ===========================================================================================
+// 8c. Cap (part = "cap"): a shell that slides on over the tip, the reed and the ligature and holds
+// by a collar at its rear. Built like the ligature, by construction from SUPPORT FUNCTIONS: for
+// each station h(phi) = the farthest the body, the reed, and the ligature (the printed one's
+// outside, or a metal one's band and screw block) reach in direction phi. A running max from the
+// tip back makes every station contain everything in front of it, so the cap always slides on.
+// Inside = that + cap_clearance, shaped (cap_shape), then made the 3D convex hull of itself (a
+// concave majorant along the length, per direction): one smooth taper like a moulded cap, no steps.
+// Outside = that + cap_wall (+ ribs). The closed end is a dome: the last ring scaled down about its
+// centre (a scaled support function is always valid, unlike an inward offset) over cap_end_gap, the
+// outside shifted out by the wall. It stops narrowing cap_hold (6mm) behind the tip: the beak's
+// rounded tip would otherwise pinch it to a thin snout. The cap prints standing on its rim. In the
+// collar (cap_collar long, inside only) the inside is cap_grip smaller than what it sits on (the
+// ligature, or the body behind it). Vents are radial prisms through the wall; text and pictures
+// work as on the ligature.
+// ===========================================================================================
+
+CAP_PRINTED = cap_ligature == "printed";
+cap_m_len = max(4, min(cap_metal_length, lig_room));
+cap_m_z1 = min(L - 8, max(table_rear_z + 1 + cap_m_len, win_z0 - cap_metal_position));
+cap_m_z0 = cap_m_z1 - cap_m_len;
+cap_ref_z0 = CAP_PRINTED ? lig_zt : cap_m_z0;       // rear of the ligature (tongue included)
+cap_band_z0 = CAP_PRINTED ? lig_z0 : cap_m_z0;      // rear of its band
+cap_band_z1 = CAP_PRINTED ? lig_z1 : cap_m_z1;      // front of its band
+cap_z0 = max(6, cap_fit == "body" ? cap_ref_z0 - cap_overlap : cap_ref_z0 - 1);  // the cap's rear edge
+cap_cz0 = cap_fit == "body" ? cap_z0 : cap_band_z0;  // the collar's rear end
+cap_clen = cap_fit == "body" ? cap_collar : min(cap_collar, max(1, cap_band_z1 - cap_band_z0 - 0.5));
+cap_hold = 6;                                        // the cap stops narrowing this far behind the tip (mm): the beak's rounded tip would pinch it
+cap_flex = 0.4;                                      // how far a slotted collar's fingers can be pushed out (mm)
+cap_nst = max(4, ceil((L - 0.05 - cap_z0) / 1));       // stations, ~1mm apart
+cap_ring_z0 = cap_cz0 + cap_clen + 2;                 // ribs and vents stay in front of the collar
+cap_ring_n = min(cap_ribs, floor((L - 2 - cap_ring_z0) / 3.5));
+cap_art_depth = lettering_raised ? lettering_depth : max(0.1, min(lettering_depth, cap_wall - 0.8));
+CAP_HAS_ART = has_text(cap_text) || has_text(cap_image);
+
+function cap_sup(P, c = 0) = [for (u = LIG_U) max([for (p = P) p * u]) + c];
+function cap_add(h, c) = [for (v = h) v + c];
+// Support values moved inward can leave lines that no longer touch the shape (the corners between
+// neighbours then cross over): pull each such line in to the corner of its neighbours, a few times.
+function cap_tighten(h, it = 8) =
+  it <= 0 ? h
+  : cap_tighten([for (i = [0 : LIG_N - 1])
+      let(a = (i + LIG_N - 1) % LIG_N, b = (i + 1) % LIG_N, ua = LIG_U[a], ub = LIG_U[b], det = ua[0] * ub[1] - ua[1] * ub[0])
+      min(h[i], [(h[a] * ub[1] - h[b] * ua[1]) / det, (ua[0] * h[b] - ub[0] * h[a]) / det] * LIG_U[i])], it - 1);
+
+// The body's outline at z (behind the table: all of it; on the table: above it + the table's edges).
+function cap_body_pts(z) =
+  z >= table_rear_z ? lig_body_pts(z)
+  : let(E = exterior_ring_at(z)) [for (j = [0 : LIG_N - 1]) ext_ring_pt(E, j * 360 / LIG_N, z)];
+
+// Everything the cap has to clear at z: support values over LIG_U.
+function cap_S(z, env) =
+  let(P = concat(cap_body_pts(z), z >= table_rear_z ? lig_reed_pts(z, ligature_reed_thickness) : []))
+  let(h0 = cap_sup(P, lig_raise + LIG_MARGIN))
+  let(on_band = !CAP_PRINTED && z >= cap_m_z0 - 0.01 && z <= cap_m_z1 + 0.01)
+  let(hs = on_band ? cap_add(h0, cap_metal_proud) : h0)   // (its screws stick out through the slot's window)
+  CAP_PRINTED && z >= lig_zt - 0.01 && z <= lig_z1 + 0.01
+    ? pmax(hs, cap_add(lig_h_at(env, z), ligature_fit + ligature_wall + lig_raise))
+    : hs;
+
+// The least concave majorant of y over x (x ascending): the upper hull's indices (a monotone chain),
+// then each value on the hull's segment above it. Applied to each direction's support values along
+// the cap, it gives the cross-sections of the 3D convex hull of what the cap holds: a smooth taper
+// with no steps or hollows, as a moulded cap. A concave majorant of values that never grow toward
+// the tip never grows either, so the cap still slides on.
+function cap_hull_pop(x, y, st, i) =
+  let(m = len(st))
+  m >= 2 && (y[st[m - 1]] - y[st[m - 2]]) * (x[i] - x[st[m - 2]]) <= (y[i] - y[st[m - 2]]) * (x[st[m - 1]] - x[st[m - 2]])
+    ? cap_hull_pop(x, y, [for (j = [0 : m - 2]) st[j]], i) : st;
+function cap_hull_idx(x, y, i = 0, st = []) = i >= len(x) ? st : cap_hull_idx(x, y, i + 1, concat(cap_hull_pop(x, y, st, i), [i]));
+function cap_majorant(x, y) =
+  let(h = cap_hull_idx(x, y))
+  concat([for (s = [0 : len(h) - 2]) for (i = [h[s] : h[s + 1] - 1])
+           lerp(y[h[s]], y[h[s + 1]], (x[i] - x[h[s]]) / (x[h[s + 1]] - x[h[s]]))], [y[len(y) - 1]]);
+
+// Inside support values at any z (between the stations).
+function cap_h_at(H, z) =
+  let(f = clamp01((z - cap_z0) / (L - 0.05 - cap_z0)) * cap_nst, i = min(cap_nst - 1, floor(f)), t = f - i)
+  [for (k = [0 : LIG_N - 1]) lerp(H[i][k], H[i + 1][k], t)];
+
+// Raised ribs on the outside (0..1): cap_ring_n smooth bumps from cap_ring_z0 to the tip.
+function cap_rib(z) =
+  cap_ring_n <= 0 || z < cap_ring_z0 || z > L - 2 ? 0
+  : let(f = (z - cap_ring_z0) / ((L - 2 - cap_ring_z0) / cap_ring_n)) pow(sin(180 * (f - floor(f))), 2);
+
+// The vents' cutters.
+module cap_vent_2d() {
+  if (cap_vent_style == "round") circle(d = cap_vent_width, $fn = 24);
+  else hull() for (s = [-1, 1]) translate([0, s * max(0, cap_vent_length - cap_vent_width) / 2]) circle(d = cap_vent_width, $fn = 24);
+}
+module cap_vents(zc, yc) {
+  for (k = [0 : cap_vent_count - 1])
+    translate([0, yc, zc]) rotate([0, 0, 90 - cap_vent_angle - 360 * k / cap_vent_count]) rotate([90, 0, 90])
+      linear_extrude(height = 80) cap_vent_2d();
+}
+
+// The slot, as on store-bought caps: up from the rim on the screw side (under the reed for a standard
+// ligature, on top for an inverted one), for air and so the rim springs onto the ligature. Over a
+// metal ligature it starts as a window as wide as the screws (+ 0.8mm a side), straight to 1.5mm past
+// their front end, then rounded: the screws come in at the rim as the cap slides on and ride in it, so the cap needn't be
+// big enough to cover them. A prism from the table plane (y = 0, always inside the cap) outward.
+cap_win_w = CAP_PRINTED ? 0 : cap_metal_screw_width + 1.6;
+cap_win_z1 = CAP_PRINTED ? 0 : (cap_m_z0 + cap_m_z1) / 2 + cap_metal_screw_length / 2 + 1.5 + cap_win_w / 2;  // (its round end past that)
+module cap_slot_2d(z_slot1) {
+  module tab(w, z1) if (w > 0 && z1 - w / 2 > cap_z0) hull() {
+    translate([-w / 2, cap_z0 - 1]) square([w, 0.01]);
+    translate([0, z1 - w / 2]) circle(d = w, $fn = 24);
+  }
+  tab(cap_win_w, cap_win_z1);
+  if (cap_slot_length > 0) tab(cap_slot_width, z_slot1);
+}
+module cap_slot_cutter(z_slot1) {
+  if (cap_slot_length > 0 || cap_win_w > 0)
+    mirror([0, cap_slot_side == "top" ? 1 : 0, 0]) rotate([90, 0, 0]) linear_extrude(height = 80) cap_slot_2d(z_slot1);
+}
+// The end's air holes: a row across, straight along the axis through the dome, from inside the cap.
+module cap_end_vent_cutter(xs, y, z0, z1) {
+  for (x = xs) translate([x, y, z0]) cylinder(d = cap_end_vent_size, h = z1 - z0, $fn = 16);
+}
+
+// A stand-in metal ligature, to see the cap over it (part = metal_ligature_model; not for printing):
+// the band (cap_metal_proud thick, on the body and the reed) and, on the slot side, a screw block
+// as wide and long as the cap_metal_screw_ numbers with two screws across it.
+module metal_ligature_model() {
+  n = max(2, ceil(cap_m_len));
+  zs = [for (i = [0 : n]) lerp(cap_m_z0, cap_m_z1, i / n)];
+  hs = [for (z = zs) cap_sup(concat(cap_body_pts(z), lig_reed_pts(z, ligature_reed_thickness)))];
+  tube_loft([for (i = [0 : n]) lig_ring(hs[i], zs[i], cap_metal_proud)], [for (i = [0 : n]) lig_ring(hs[i], zs[i], 0.05)]);
+  zc = (cap_m_z0 + cap_m_z1) / 2;
+  top = cap_slot_side == "top";
+  y0 = top ? exterior_ring_at(zc)[E_TOP] + cap_metal_proud - 0.5 : -ligature_reed_thickness - cap_metal_proud + 0.5;
+  h = 3.5;
+  translate([-cap_metal_screw_width / 2 + 2, top ? y0 : y0 - h, zc - cap_metal_screw_length / 2]) cube([cap_metal_screw_width - 4, h, cap_metal_screw_length]);
+  for (dz = [-1, 1]) translate([0, top ? y0 + h : y0 - h, zc + dz * cap_metal_screw_length / 4])
+    rotate([0, 90, 0]) cylinder(d = 3.5, h = cap_metal_screw_width, center = true, $fn = 16);
+}
+
+// The collar's slits: thin radial cuts from the rear edge to the collar's front end.
+module cap_slit_cutters(yc) {
+  if (cap_slits > 0) for (k = [0 : cap_slits - 1])
+    translate([0, yc, cap_z0 - 1]) rotate([0, 0, 90 - cap_slit_angle - 360 * k / cap_slits])
+      translate([0, -cap_slit_width / 2, 0]) cube([80, cap_slit_width, cap_cz0 + cap_clen - cap_z0 + 1]);
+}
+
+module cap_part() {
+  env = CAP_PRINTED ? lig_env() : [];
+  n = cap_nst;
+  zs = [for (i = [0 : n]) lerp(cap_z0, L - 0.05, i / n)];
+  S = [for (z = zs) cap_S(z, env)];
+  // running max from the tip back (inclusive): B[i] holds everything at and ahead of station i
+  rev = [for (i = n, acc = S[n]; i >= 0; acc = i > 0 ? pmax(S[i - 1], acc) : acc, i = i - 1) acc];
+  n_h = max(1, min(n, floor((L - cap_hold - cap_z0) / ((L - 0.05 - cap_z0) / n))));
+  B = function(i) rev[n - min(i, n_h)];   // (held from station n_h to the tip)
+  flex = cap_flex;   // the collar may be pushed out by this much on its way over what is ahead of it
+  in_collar = function(z) z >= cap_cz0 - 0.01 && z <= cap_cz0 + cap_clen + 0.01;
+  shape = function(h) cap_shape == "conform" ? h : cap_shape == "round" ? lig_round(h) : lig_d(h, h);
+  // what the cap must clear at each station + the clearance, shaped; then the dome past the tip
+  Hs = [for (i = [0 : n]) shape(cap_add(B(i), cap_clearance))];
+  hl = Hs[n];
+  c0 = lig_circle_c(hl, -30, 40);                       // the end shrinks toward this point on the midline
+  dh = cap_end_dome * cap_end_gap;                      // the dome's height
+  zb = L + cap_end_gap - dh;                            // where it starts
+  s_end = 1 - 0.7 * cap_end_dome;                       // the end face's size (a fraction of the ring)
+  nd = cap_end_dome > 0.05 ? 6 : 0;
+  psis = [for (j = [1 : max(1, nd)]) 90 * j / max(1, nd)];
+  dome_h = function(psi) let(s = 1 - (1 - s_end) * (1 - cos(psi))) [for (k = [0 : LIG_N - 1]) s * (hl[k] - c0 * LIG_U[k][1]) + c0 * LIG_U[k][1]];
+  // The whole inside as one convex hull, direction by direction: [stations, the dome's base, the dome]
+  X = concat(zs, [zb], nd > 0 ? [for (p = psis) zb + dh * sin(p)] : []);
+  Y = concat(Hs, [hl], nd > 0 ? [for (p = psis) dome_h(p)] : []);
+  cols = [for (k = [0 : LIG_N - 1]) cap_majorant(X, [for (h = Y) h[k]])];
+  Hm = [for (i = [0 : len(X) - 1]) [for (k = [0 : LIG_N - 1]) cols[k][i]]];
+  // inside: the hull, but the collar's rings only cap_grip smaller than what they sit on
+  H = [for (i = [0 : n])
+    in_collar(zs[i])
+      ? shape(cap_tighten([for (k = [0 : LIG_N - 1]) max((i < n ? B(i + 1) : S[i])[k] + 0.05 - flex, S[i][k] - cap_grip)]))
+      : Hm[i]];
+  Ho = [for (i = [0 : n]) pmax(H[i], Hm[i])];          // the outside follows the hull (the collar is inside only)
+  // inside rings: from 1mm behind the rear edge to the closed end's face
+  in_rings = concat(
+    [lig_ring(H[0], cap_z0 - 1, 0)],
+    [for (i = [0 : n]) lig_ring(H[i], zs[i], 0)],
+    [lig_ring(Hm[n + 1], zb, 0)],
+    nd > 0 ? [for (j = [0 : nd - 1]) lig_ring(Hm[n + 2 + j], X[n + 2 + j], 0)] : []);
+  // outside rings: the hull + wall + ribs, then the dome pushed out by the wall (the wall turns from
+  // sideways to forwards as the dome curves, so it never thins)
+  zo = cap_ring_n <= 0 ? zs : let(nr = ceil((L - 2 - cap_ring_z0) / 0.5))
+    concat([for (z = zs) if (z < cap_ring_z0 - 0.01) z],
+           [for (j = [0 : nr]) lerp(cap_ring_z0, L - 2, j / nr)],
+           [for (z = zs) if (z > L - 2 + 0.01) z]);
+  outer_at = function(z, delta = 0) lig_ring(cap_h_at(Ho, z), z, cap_wall + cap_rib(z) * cap_rib_depth + delta);
+  out_rings = function(delta) concat(
+    [for (z = zo) outer_at(z, delta)],
+    [lig_ring(Hm[n + 1], zb, cap_wall + delta)],
+    nd > 0 ? [for (j = [0 : nd - 1]) let(psi = psis[j]) lig_ring(Hm[n + 2 + j], X[n + 2 + j] + cap_wall * sin(psi), cap_wall * cos(psi))]
+           : [lig_ring(Hm[n + 1], zb + cap_wall, cap_wall + delta)]);
+  z_end = zb + dh + cap_wall;
+  // vents (inside the straight wall, in front of the collar)
+  v_front = max(cap_ring_z0 + (cap_vent_style == "round" ? cap_vent_width : cap_vent_length), min(zb - 1, L - cap_vent_position));
+  v_len = cap_vent_style == "round" ? cap_vent_width : cap_vent_length;
+  v_zc = v_front - v_len / 2;
+  v_ok = cap_vent_style != "none" && v_front - v_len >= cap_ring_z0 - 0.01;
+  v_ring = lig_ring(cap_h_at(H, max(cap_z0, min(L - 0.05, v_zc))), v_zc, 0);
+  v_yc = (max([for (p = v_ring) p[1]]) + min([for (p = v_ring) p[1]])) / 2;
+  // the slot: to cap_slot_length from the rim, kept 3mm short of the dome (and past the window)
+  z_slot1 = min(zb - 3, max(cap_z0 + cap_slot_length, cap_win_w > 0 ? cap_win_z1 + 2 : 0));
+  // the end's holes: a row on the dome's centre line, within 55% of its half-width (so each starts
+  // inside the cap), cap_end_vent_size + 1.6mm apart
+  e_hw = 0.55 * min(hl[LIG_N / 4], hl[3 * LIG_N / 4]);
+  e_p = cap_end_vent_size + 1.6;
+  e_n = cap_end_vents <= 0 ? 0 : max(0, min(cap_end_vents, floor((2 * e_hw - cap_end_vent_size) / e_p) + 1));
+  e_xs = [for (i = [0 : e_n - 1]) (i - (e_n - 1) / 2) * e_p];
+  c_ring = lig_ring(H[0], cap_z0, 0);
+  c_yc = (max([for (p = c_ring) p[1]]) + min([for (p = c_ring) p[1]])) / 2;
+  // text and pictures on the top (as on the ligature)
+  t_zlo = cap_z0 + 3;
+  t_mid = max(t_zlo, min(L - 3, (cap_z0 + L) / 2 + cap_lettering_position));
+  t_n = len(fill_tokens(cap_text));
+  t_len = abs(sin(cap_text_angle)) * cap_text_size + abs(cos(cap_text_angle)) * 0.62 * cap_text_size * t_n;
+  i_len = cap_image_width * (abs(cos(cap_image_angle)) * cap_image_aspect + abs(sin(cap_image_angle)));
+  both = has_text(cap_text) && has_text(cap_image);
+  i_z = t_mid + (both ? (t_len + 2) / 2 : 0);
+  t_z = t_mid - (both ? (i_len + 2) / 2 : 0);
+  a_ring = lig_ring(cap_h_at(Ho, t_mid), t_mid, cap_wall);
+  y_lo = a_ring[LIG_N / 4][1];
+  y_hi = max([for (p = a_ring) p[1]]) + cap_art_depth + 5;
+  module prisms() {
+    if (has_text(cap_image))
+      translate([0, y_lo, i_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
+        art_2d(cap_image, cap_image_width, cap_image_angle);
+    if (has_text(cap_text))
+      translate([0, y_lo, t_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
+        rotate(-90 - cap_text_angle) lettering_text(cap_text, cap_text_size);
+  }
+  // the straight part of the shell, thicker/thinner by delta, for the lettering's skin
+  module skin_solid(delta) { ring_loft([for (z = zo) outer_at(z, delta)]); }
+  difference() {
+    union() {
+      difference() {
+        ring_loft(out_rings(0));
+        ring_loft(in_rings);
+      }
+      if (CAP_HAS_ART && lettering_raised)
+        intersection() { prisms(); difference() { skin_solid(cap_art_depth); skin_solid(-0.2); } }
+    }
+    if (v_ok) cap_vents(v_zc, v_yc);
+    cap_slit_cutters(c_yc);
+    cap_slot_cutter(z_slot1);
+    if (e_n > 0) cap_end_vent_cutter(e_xs, c0, zb, z_end + 2);
+    if (CAP_HAS_ART && !lettering_raised)
+      intersection() { prisms(); difference() { skin_solid(1); skin_solid(-cap_art_depth); } }
+  }
+  // readouts: "CAP <length> <rear edge z> <inside width, height at the collar> <squeeze>"
+  cmid = min(n, max(0, round((cap_cz0 + cap_clen / 2 - cap_z0) / ((L - 0.05 - cap_z0) / n))));
+  xs = function(R, k) [for (p = R) p[k]];
+  cr = lig_ring(H[cmid], zs[cmid], 0);
+  squeeze = max([for (i = [0 : n]) if (in_collar(zs[i])) max([for (k = [0 : LIG_N - 1]) S[i][k] - H[i][k]])]);
+  r2 = function(v) round(v * 100) / 100;
+  echo(str("CAP ", r2(z_end - cap_z0), " ", r2(cap_z0), " ", r2(max(xs(cr, 0)) - min(xs(cr, 0))), " ", r2(max(xs(cr, 1)) - min(xs(cr, 1))), " ", r2(squeeze)));
+  echo(str("EXPECTED GENUS ", (v_ok ? cap_vent_count : 0) + e_n));
+  if (e_n < cap_end_vents)
+    echo(str("WARNING: cap_end_vents ", cap_end_vents, " reduced to ", e_n, ": that many fit across the cap's end"));
+  if (cap_slot_length > 0 && z_slot1 < cap_z0 + cap_slot_length - 0.01)
+    echo(str("WARNING: cap_slot_length ", cap_slot_length, "mm shortened to ", r2(z_slot1 - cap_z0), "mm: it stops 3mm short of the closed end"));
+  if (cap_grip > 0.01 && squeeze < 0.5 * cap_grip)
+    echo(str("WARNING: the cap's collar only squeezes ", r2(max(0, squeeze)), "mm (cap_grip ", cap_grip, "mm): ",
+             cap_fit == "body" ? "the body there is no wider than the ligature ahead; raise the overlap" : "the ligature barely widens there; try the body fit"));
+  if (cap_vent_style != "none" && !v_ok)
+    echo("WARNING: no room for the vents between the collar and the tip: make them shorter or the cap longer");
+  if (CAP_HAS_ART && cap_art_depth < lettering_depth)
+    echo(str("WARNING: cap lettering depth ", lettering_depth, "mm limited to ", cap_art_depth, "mm: at least 0.8mm of the wall must remain"));
+}
+
+// ===========================================================================================
 // 9. Assembly and part selection
 // ===========================================================================================
 
@@ -1733,6 +2087,9 @@ module shank_test_ring() {
 module selected_part() {
 if      (part == "shank_test_ring")          shank_test_ring();
 else if (part == "ligature_seated")          ligature_band();
+else if (part == "cap_seated")               cap_part();
+else if (part == "metal_ligature_model")     metal_ligature_model();
+else if (part == "cap_clash")                { intersection() { cap_part(); mouthpiece_body(); } if (CAP_PRINTED) intersection() { cap_part(); ligature_band(); } else intersection() { cap_part(); metal_ligature_model(); } }
 else if (part == "reed_model")               reed_model();
 else if (part == "ligature_clash")           intersection() { ligature_band(); mouthpiece_body(); }
 else if (part == "clearance_report")         clearance_report();
@@ -1757,5 +2114,7 @@ else                                         mouthpiece_body();  // "mouthpiece"
 end_face_lift = bah_at(-1) * sin(bore_tilt) + cos(bore_tilt);
 // The ligature on its own is printed standing on its front edge (flat; the tongue points up).
 if (part == "ligature") { if (print_orientation) translate([0, 0, lig_z1]) rotate([180, 0, 0]) ligature_band(); else ligature_band(); }
+// The cap stands on its rim, open end down (the closed end is a dome: no supports needed).
+else if (part == "cap") { if (print_orientation) translate([0, 0, -cap_z0]) cap_part(); else cap_part(); }
 else if (print_orientation) translate([0, 0, end_face_lift]) rotate([-bore_tilt, 0, 0]) selected_part();
 else selected_part();

@@ -19,6 +19,7 @@ import { TabBar } from "./components/TabBar";
 import { CompareSelect, groupFiles, VoicePicker, type ComparePick } from "./components/FilePickers";
 import { SaveAsPanel, SAVE_DEFAULTS, wantsFiles, type SaveOpts } from "./components/SaveAsPanel";
 import { LigatureHead } from "./components/LigatureHead";
+import { CapHead } from "./components/CapHead";
 import { PartNote } from "./components/PartNote";
 import { Menu } from "./components/Menu";
 import { AppearanceMenu, AppearancePanel } from "./components/AppearanceMenu";
@@ -70,7 +71,15 @@ import {
   type Tab,
   type Values,
 } from "./app/files";
-import { loadSession, readFlag, saveSession, writeFlag, type LigatureView, type Quality } from "./app/session";
+import {
+  loadSession,
+  readFlag,
+  saveSession,
+  writeFlag,
+  type CapView,
+  type LigatureView,
+  type Quality,
+} from "./app/session";
 import { Logo } from "./components/Logo";
 import { startDrag, useMediaQuery, useWindowWidth } from "./hooks/useMediaQuery";
 import { useValueHistory } from "./hooks/useValueHistory";
@@ -86,7 +95,7 @@ const QUALITY_HINT =
 const MIN_EDITOR_W = 260;
 const MIN_PANEL_W = 320;
 
-type Download = { what: "model" | "ligature" | "kit"; state: "busy" | "done" | "error" };
+type Download = { what: "model" | "ligature" | "cap" | "kit"; state: "busy" | "done" | "error" };
 
 export default function App() {
   const saved = useRef(loadSession()).current;
@@ -148,6 +157,8 @@ export default function App() {
   const [dragging, setDragging] = useState(false); // a file dragged over the page
   // How the ligature is shown (a view setting); whether one is made is the design's ligature_made.
   const [lig, setLig] = useState<LigatureView>({ on: true, beside: false, reed: false, ...saved.ligature });
+  // How the cap is shown (a view setting); whether one is made is the design's cap_made.
+  const [capV, setCapV] = useState<CapView>({ on: true, beside: false, ...saved.cap });
   const [pinned, setPinned] = useState<Snapshot | null>(null); // model B
 
   // ---- the design on screen
@@ -185,6 +196,10 @@ export default function App() {
   const ligMade =
     ligOK && ("ligature_made" in values ? values.ligature_made : param("ligature_made")?.initial) === true;
   const ligView = { ...lig, on: ligMade && lig.on };
+  // The same for the cap (cap_made).
+  const capOK = !!param("cap_wall") && !otherPart;
+  const capMade = capOK && ("cap_made" in values ? values.cap_made : param("cap_made")?.initial) === true;
+  const capView = { ...capV, on: capMade && capV.on };
 
   // Latest state for async callbacks.
   const liveState = {
@@ -201,6 +216,8 @@ export default function App() {
     reportsOn,
     lig: ligView,
     ligOK,
+    cap: capView,
+    capOK,
   };
   const live = useRef(liveState);
   live.current = liveState;
@@ -259,8 +276,9 @@ export default function App() {
       pinned: pin,
       quality,
       ligature: lig,
+      cap: capV,
     });
-  }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig]);
+  }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig, capV]);
 
   // ---- tabs
   const refreshFiles = useCallback(async () => {
@@ -529,6 +547,12 @@ export default function App() {
     model.loadLigature(live.current.target, live.current.values, model.shownFn.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only when it's turned on
   }, [ligView.on, ligView.reed, ligOK]);
+  // The cap turned on: make it for the model on screen.
+  useEffect(() => {
+    if (!capView.on || !capOK || !ready || !stl || !live.current.target) return;
+    model.loadCap(live.current.target, live.current.values, model.shownFn.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when it's turned on
+  }, [capView.on, capOK]);
   // Another design: its own ligature comes with its first render.
   // eslint-disable-next-line react-hooks/exhaustive-deps -- clearLigature only sets state
   useEffect(() => model.clearLigature(), [mainKey]);
@@ -884,9 +908,9 @@ export default function App() {
   const labelB = pinned ? labelOf(pinned) : undefined;
 
   // ---- downloads
-  const downloadPart = async (what: "model" | "ligature") => {
+  const downloadPart = async (what: "model" | "ligature" | "cap") => {
     if (dl?.state === "busy") return;
-    const suffix = what === "ligature" ? "_ligature" : otherPart ? `_${otherPart}` : "";
+    const suffix = what !== "model" ? `_${what}` : otherPart ? `_${otherPart}` : "";
     const name = downloadName(mainTab, values, isRO(mainTab)) + suffix;
     if (what === "model" && svg && !stl) {
       download(svg, "image/svg+xml", `${name}.svg`);
@@ -896,8 +920,8 @@ export default function App() {
     setDl({ what, state: "busy" });
     notify({ text: `Making ${name}.stl for the download…`, short: "Preparing the download…", kind: "busy" });
     try {
-      download(await partStl(what === "ligature" ? "ligature" : null), "model/stl", `${name}.stl`);
-      track("download", what === "ligature" ? "ligature" : otherPart || "mouthpiece", {
+      download(await partStl(what !== "model" ? what : null), "model/stl", `${name}.stl`);
+      track("download", what !== "model" ? what : otherPart || "mouthpiece", {
         ...(what === "model" && !otherPart && summary
           ? { tip: summary.tip, facing: summary.facing, length: summary.length, air: summary.air }
           : {}),
@@ -932,6 +956,7 @@ export default function App() {
     const name = downloadName(mainTab, values, isRO(mainTab));
     const get = (n: string) => (n in values ? values[n] : param(n)?.initial);
     const withLigature = !!param("ligature_length") && get("ligature_made") === true;
+    const withCap = !!param("cap_wall") && get("cap_made") === true;
     setDl({ what: "kit", state: "busy" });
     notify({ text: `Making the print kit for ${labelA}…`, short: "Preparing the print kit…", kind: "busy" });
     try {
@@ -940,6 +965,7 @@ export default function App() {
       for (const c of kitSqueezes(Number(get("shank_clearance"))))
         out.push([ringFile(name, c), new Uint8Array(await partStl("shank_test_ring", { shank_clearance: c }))]);
       if (withLigature) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
+      if (withCap) out.push([`${name}_cap.stl`, new Uint8Array(await partStl("cap"))]);
       const r = await kitReports();
       const card = checkCard({
         name,
@@ -957,6 +983,7 @@ export default function App() {
         length: s.length,
         air: s.air,
         ligature: withLigature,
+        cap: withCap,
         settings: designNumbers(params, values),
       });
       download(zipSync(Object.fromEntries(out)), "application/zip", `${name}_print_kit.zip`);
@@ -1013,6 +1040,7 @@ export default function App() {
   // go with the tab once it is kept in the browser), then download them, then keep it.
   const opts = { ...SAVE_DEFAULTS, ...saveOpts };
   const ligatureFile = ligMade && values.part !== "ligature";
+  const capFile = capMade && values.part !== "cap";
   const saveDesignAs = async (typed: string) => {
     track("feature", "save_as", { ...opts });
     const p = scadFileName(typed);
@@ -1021,7 +1049,7 @@ export default function App() {
     const out: [string, Uint8Array<ArrayBuffer>][] = [];
     const enc = new TextEncoder();
     try {
-      if (wantsFiles(opts, ligMade))
+      if (wantsFiles(opts, ligMade, capMade))
         notify({ text: `Making the files for ${name}…`, short: "Preparing the files…", kind: "busy" });
       if (opts.full) out.push([`${name}.scad`, enc.encode(await fullScad())]);
       // settings-only: the voice file with these values; its include as the site resolves it
@@ -1032,6 +1060,7 @@ export default function App() {
         ]);
       if (opts.stl) out.push([`${name}${otherPart ? `_${otherPart}` : ""}.stl`, new Uint8Array(await partStl(null))]);
       if (opts.ligature && ligatureFile) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
+      if (opts.cap && capFile) out.push([`${name}_cap.stl`, new Uint8Array(await partStl("cap"))]);
     } catch (err) {
       return fail({ text: `Save as failed: ${(err as Error).message}`, kind: "error" });
     }
@@ -1085,6 +1114,12 @@ export default function App() {
     track("feature", "ligature");
     setValue("ligature_made", false, true);
     setLig((l) => ({ ...l, on: true, reed: true }));
+  };
+  // ---- the cap
+  const makeCap = () => {
+    track("feature", "cap");
+    setValue("cap_made", false, true);
+    setCapV((c) => ({ ...c, on: true }));
   };
 
   // ---- the facing chart shapes the facing: tip opening, facing length and the Gauge model's points
@@ -1325,6 +1360,7 @@ export default function App() {
           onOpt={(k, v) => setSaveOpts((o) => ({ ...SAVE_DEFAULTS, ...o, [k]: v }))}
           partLabel={partName(values.part)}
           ligature={ligatureFile}
+          cap={capFile}
           onSubmit={() => saveDesignAs(saveAs)}
           onCancel={() => setSaveAs(null)}
         />
@@ -1503,9 +1539,11 @@ export default function App() {
       busyLabel={
         dlBusy("ligature")
           ? "Making the ligature for download…"
-          : dlBusy("model")
-            ? "Making the STL for download…"
-            : undefined
+          : dlBusy("cap")
+            ? "Making the cap for download…"
+            : dlBusy("model")
+              ? "Making the STL for download…"
+              : undefined
       }
       overlay={hintEl}
       quality={isPhone ? undefined : qualityDropdown}
@@ -1519,6 +1557,15 @@ export default function App() {
           ? (c) => {
               if (c.on && !ligMade) makeLigature();
               setLig((l) => ({ ...l, ...c }));
+            }
+          : undefined
+      }
+      cap={capOK ? { on: capView.on, beside: capV.beside, stl: model.capStl } : null}
+      onCap={
+        capOK
+          ? (c) => {
+              if (c.on && !capMade) makeCap();
+              setCapV((v) => ({ ...v, ...c }));
             }
           : undefined
       }
@@ -1548,6 +1595,19 @@ export default function App() {
       compare={
         pinned ? { summary: pinned.summary ?? null, air: pinned.air ?? null, facing: pinned.facing ?? null } : null
       }
+    />
+  );
+  const capHead = (
+    <CapHead
+      made={capMade}
+      view={capV}
+      info={model.capInfo}
+      downloadLabel={dlLabel("cap", "Download cap STL")}
+      downloading={dlBusy("cap")}
+      onMake={makeCap}
+      onView={(c) => setCapV((v) => ({ ...v, ...c }))}
+      onDownload={() => downloadPart("cap")}
+      onRemove={() => setValue("cap_made", false, undefined)}
     />
   );
   const ligHead = (
@@ -1614,6 +1674,7 @@ export default function App() {
         ) : undefined
       }
       ligature={ligOK ? { on: ligMade, shown: lig.on, head: ligHead } : undefined}
+      cap={capOK ? { on: capMade, head: capHead } : undefined}
       printKit={kitOK ? printKitButton : undefined}
       showNames={coding}
       deeper={deeperEl}

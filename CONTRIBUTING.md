@@ -104,6 +104,9 @@ The generator clamps, so no parameter set can break the model:
    that, so don't raise the margin); the window starts >= max(0.3 L, 20mm) from the shank end.
 7. The exterior underside is floored at -40 (the table solve heads to -infinity where the tip
    pinches the width to 0, which once left a detached sliver).
+8. The cap (`part = cap`) clears the body, the reed and the ligature at every station, so it
+   slides on from the tip: a running max of support functions, like the ligature's. Only the
+   collar may squeeze (`cap_grip`); `npm run check` proves the rest empty (`cap_clash`).
 
 ## Lessons learned
 

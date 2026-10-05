@@ -10,6 +10,7 @@ export interface DesignItem {
   unit?: DesignUnit;
   options?: string[]; // only offer these of the parameter's dropdown values
   showIf?: string[]; // only shown once one of these (text / picture) parameters is filled in
+  when?: [string, string | string[]]; // only shown while that parameter has this value (or one of these)
   caption?: string; // instead of the file's description (when the control differs from the file's unit/options)
   optionLabels?: Record<string, string>; // dropdown values in words
 }
@@ -19,6 +20,7 @@ export interface DesignSection {
   items: DesignItem[];
   summary?: (get: (name: string) => unknown) => string; // one line on the section's header: only what the panel doesn't show elsewhere
   ligature?: boolean; // the ligature's section: its controls show once a ligature is made (App's slot heads it)
+  cap?: boolean; // the cap's section: App's slot heads it (show it / back to the mouthpiece)
 }
 
 // Facing curves to pick from (under the facing chart; the facing curve is chosen there, not in
@@ -61,6 +63,7 @@ const PARTS: Record<string, string> = {
   mouthpiece: "Mouthpiece",
   shank_test_ring: "Shank test ring",
   ligature: "Ligature",
+  cap: "Cap",
 };
 const num = (v: unknown, unit: string) => (typeof v === "number" ? `${+v.toFixed(2)} ${unit}` : null);
 const join = (parts: unknown[]) => parts.filter((p) => typeof p === "string" && p).join(" · ");
@@ -131,12 +134,21 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "lettering_font",
         label: "Font",
-        showIf: ["top_text", "side_text_right", "side_text_left", "ligature_text"],
+        showIf: ["top_text", "side_text_right", "side_text_left", "ligature_text", "cap_text"],
       },
       {
         name: "lettering_style",
         label: "Lettering style",
-        showIf: ["top_text", "top_image", "side_text_right", "side_text_left", "ligature_text", "ligature_image"],
+        showIf: [
+          "top_text",
+          "top_image",
+          "side_text_right",
+          "side_text_left",
+          "ligature_text",
+          "ligature_image",
+          "cap_text",
+          "cap_image",
+        ],
       },
     ],
   },
@@ -177,6 +189,78 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     ],
   },
   {
+    title: "Cap",
+    cap: true,
+    summary: (get) =>
+      join([
+        get("cap_ligature") === "metal" ? "Over a metal ligature" : "Over the printed ligature",
+        Number(get("cap_vent_count")) > 0 && get("cap_vent_style") !== "none" && `${get("cap_vent_count")} vents`,
+      ]),
+    items: [
+      {
+        name: "cap_ligature",
+        label: "Goes over",
+        optionLabels: { printed: "The printed ligature", metal: "A metal ligature" },
+      },
+      { name: "cap_metal_length", label: "Band length", when: ["cap_ligature", "metal"] },
+      { name: "cap_metal_position", label: "Band position", when: ["cap_ligature", "metal"] },
+      { name: "cap_metal_proud", label: "Band thickness", when: ["cap_ligature", "metal"] },
+      { name: "cap_metal_screw_width", label: "Screws, width across", when: ["cap_ligature", "metal"] },
+      { name: "cap_metal_screw_length", label: "Screws, length along", when: ["cap_ligature", "metal"] },
+      {
+        name: "cap_slot_side",
+        label: "Screws and slot",
+        optionLabels: { reed: "Under the reed (standard ligature)", top: "On top (inverted ligature)" },
+      },
+      { name: "cap_slot_length", label: "Slot length" },
+      { name: "cap_slot_width", label: "Slot width" },
+      { name: "cap_end_vents", label: "Air holes in the end" },
+      { name: "cap_end_vent_size", label: "End hole size" },
+      {
+        name: "cap_fit",
+        label: "Held by",
+        optionLabels: { ligature: "Squeezing the ligature", body: "Squeezing the body behind it" },
+      },
+      { name: "cap_overlap", label: "Reach behind the ligature", when: ["cap_fit", "body"] },
+      { name: "cap_grip", label: "Grip squeeze" },
+      { name: "cap_collar", label: "Collar length" },
+      { name: "cap_slits", label: "Collar slits" },
+      { name: "cap_clearance", label: "Room inside" },
+      { name: "cap_wall", label: "Wall" },
+      {
+        name: "cap_shape",
+        label: "Shape",
+        optionLabels: { d: "D: round top, flat under the reed", round: "Round", conform: "Follows the mouthpiece" },
+      },
+      { name: "cap_end_gap", label: "Space at the end" },
+      { name: "cap_end_dome", label: "End shape" },
+      {
+        name: "cap_vent_style",
+        label: "Vents in the side",
+        optionLabels: { none: "None", slots: "Slots", round: "Round holes" },
+      },
+      { name: "cap_vent_count", label: "Number of vents", when: ["cap_vent_style", ["slots", "round"]] },
+      { name: "cap_vent_angle", label: "First vent at", when: ["cap_vent_style", ["slots", "round"]] },
+      { name: "cap_vent_length", label: "Slot length", when: ["cap_vent_style", "slots"] },
+      { name: "cap_vent_width", label: "Vent width", when: ["cap_vent_style", ["slots", "round"]] },
+      { name: "cap_vent_position", label: "Vent position", when: ["cap_vent_style", ["slots", "round"]] },
+      { name: "cap_ribs", label: "Grip ribs" },
+      { name: "cap_rib_depth", label: "Rib height" },
+      {
+        name: "cap_text",
+        label: "Text on the cap",
+        caption:
+          "Text on the cap's top (empty = none); {tip} etc. fill in. Font, style and depth are set in Personalise.",
+      },
+      { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
+      { name: "cap_text_angle", label: "Text direction", showIf: ["cap_text"] },
+      { name: "cap_image", label: "Picture on the cap" },
+      { name: "cap_image_width", label: "Picture size", showIf: ["cap_image"] },
+      { name: "cap_image_angle", label: "Picture rotation", showIf: ["cap_image"] },
+      { name: "cap_lettering_position", label: "Text and picture position", showIf: ["cap_text", "cap_image"] },
+    ],
+  },
+  {
     title: "Printing",
     summary: (get) =>
       join([
@@ -187,8 +271,9 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "part",
         label: "What to print",
-        options: ["mouthpiece", "shank_test_ring", "ligature"],
-        caption: "The mouthpiece, a shank test ring (print it first to check the fit on your cork), or the ligature.",
+        options: ["mouthpiece", "shank_test_ring", "ligature", "cap"],
+        caption:
+          "The mouthpiece, a shank test ring (print it first to check the fit on your cork), the ligature, or the cap.",
         optionLabels: PARTS,
       },
       { name: "print_stock", label: "Extra stock for finishing" },
@@ -253,10 +338,34 @@ for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {
 }
 for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertical", "top_image_aspect"]) {
   const on = ["top_text", "top_image", "side_text_right", "side_text_left"];
-  if (n === "lettering_depth") on.push("ligature_text", "ligature_image");
+  if (n === "lettering_depth") on.push("ligature_text", "ligature_image", "cap_text", "cap_image");
   INACTIVE[n] = (get) => (anyText(get, on) ? null : "no text or picture to apply it to");
 }
 INACTIVE.ligature_image_aspect = (get) => (anyText(get, ["ligature_image"]) ? null : "no picture on the ligature");
+INACTIVE.cap_image_aspect = (get) => (anyText(get, ["cap_image"]) ? null : "no picture on the cap");
+// The cap's settings that only count for one choice of another.
+const capWhen = (names: string[], key: string, values: string[], why: string) => {
+  for (const n of names) INACTIVE[n] = (get) => (values.includes(String(get(key))) ? null : why);
+};
+capWhen(["cap_overlap"], "cap_fit", ["body"], "only with the body fit");
+capWhen(
+  ["cap_metal_length", "cap_metal_position", "cap_metal_proud", "cap_metal_screw_width", "cap_metal_screw_length"],
+  "cap_ligature",
+  ["metal"],
+  "only for a cap over a metal ligature",
+);
+capWhen(
+  ["cap_vent_count", "cap_vent_angle", "cap_vent_width", "cap_vent_position"],
+  "cap_vent_style",
+  ["slots", "round"],
+  "the cap has no vents",
+);
+capWhen(["cap_vent_length"], "cap_vent_style", ["slots"], "only for slot vents");
+INACTIVE.cap_slit_angle = INACTIVE.cap_slit_width = (get) =>
+  Number(get("cap_slits")) > 0 ? null : "the collar has no slits";
+INACTIVE.cap_rib_depth = (get) => (Number(get("cap_ribs")) > 0 ? null : "the cap has no ribs");
+INACTIVE.cap_slot_width = (get) => (Number(get("cap_slot_length")) > 0 ? null : "the cap has no slot");
+INACTIVE.cap_end_vent_size = (get) => (Number(get("cap_end_vents")) > 0 ? null : "the cap's end has no holes");
 export const paramInactive = (name: string, get: Getter) => INACTIVE[name]?.(get) ?? null;
 // A variant's one-line description, from its file's header ('// Alto "Ash": a variant of alto.scad ...'
 // then "// Ash: closer tip, ..."): "Ash, compared with the Alto preset: closer tip, ...".

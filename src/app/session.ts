@@ -17,6 +17,11 @@ export interface LigatureView {
   reed: boolean; // a model reed shown with it
 }
 
+export interface CapView {
+  on: boolean; // shown on (or beside) the model
+  beside: boolean;
+}
+
 export interface Session {
   tabs: Tab[];
   activeKey: string;
@@ -28,6 +33,7 @@ export interface Session {
   pinned: Omit<Snapshot, "stl" | "params"> | null; // re-rendered on load
   quality: Quality;
   ligature?: Partial<LigatureView>;
+  cap?: Partial<CapView>;
 }
 
 export function loadSession(): Partial<Session> {

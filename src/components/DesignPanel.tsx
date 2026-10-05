@@ -21,6 +21,7 @@ interface Props {
   facing?: ReactNode; // the facing chart, under "Tip & facing"
   printKit?: ReactNode; // the print kit download, under "Printing"
   ligature?: { on: boolean; shown?: boolean; head: ReactNode }; // the Ligature section: its head (make / show / download), controls once on
+  cap?: { on: boolean; head: ReactNode }; // the Cap section: its head (make / show / download), controls once made
   allParams?: boolean; // "All parameters" below the controls
   failed?: boolean; // the file didn't render, so it has no parameters to show
   loading?: boolean; // the file's parameters aren't known yet
@@ -48,6 +49,7 @@ export function DesignPanel({
   facing,
   printKit,
   ligature,
+  cap,
   allParams = true,
   failed = false,
   loading = false,
@@ -186,12 +188,16 @@ export function DesignPanel({
             (i) =>
               byName.has(i.name) &&
               (!i.showIf || i.showIf.some(filled)) &&
+              (!i.when || [i.when[1]].flat().includes(String(get(i.when[0])))) &&
               (!s.ligature || ligature?.on) &&
+              (!s.cap || cap?.on) &&
               matches(i.name, i.label, i.caption),
           );
           if (s.ligature && (!ligature || !s.items.some((i) => byName.has(i.name)))) return null;
+          if (s.cap && !cap) return null;
           if (!s.items.some((i) => byName.has(i.name))) return null;
-          if (q && !rows.length && !(s.ligature && matches("ligature", s.title))) return null;
+          if (q && !rows.length && !(s.ligature && matches("ligature", s.title)) && !(s.cap && matches("cap", s.title)))
+            return null;
           const summary = s.summary?.(get);
           return (
             <Fold
@@ -204,6 +210,7 @@ export function DesignPanel({
               changed={s.items.filter((i) => i.name in values).length}
             >
               {s.ligature && ligature!.head}
+              {s.cap && cap!.head}
               {rows.map((i) => {
                 const p = byName.get(i.name)!;
                 return (

@@ -234,9 +234,91 @@ ligature_image_angle = 0; // [0:15:345]
 // Moves the ligature's text and picture toward the tip (+) or the shank (-) (mm).
 ligature_lettering_position = 0; // [-15:0.5:15]
 
+/* [Cap] */
+// A cap is made for this design (the app shows it and offers its download).
+cap_made = false;
+// What the cap goes over: the ligature made for this design, or a metal one.
+cap_ligature = "printed"; // [printed, metal]
+// How the cap holds on: squeezing the ligature, or the body behind it.
+cap_fit = "ligature"; // [ligature, body]
+// How hard the collar squeezes (mm): bigger = tighter; 0 = no squeeze.
+cap_grip = 0.15; // [0:0.05:0.5]
+// Length of the squeezing collar at the cap's rear (mm).
+cap_collar = 8; // [3:0.5:25]
+// Body fit: how far the rear edge reaches behind the ligature (mm).
+cap_overlap = 10; // [2:0.5:30]
+// Side of the slot up from the rim, and of a metal ligature's screws: under the reed or on top.
+cap_slot_side = "reed"; // [reed, top]
+// Slot up from the rim, for air and so the rim clips on: length (mm); 0 = none.
+cap_slot_length = 30; // [0:1:80]
+// Slot width (mm).
+cap_slot_width = 3; // [1:0.5:8]
+// Air holes through the closed end, in a row (0 = none).
+cap_end_vents = 3; // [0:1:7]
+// End hole diameter (mm).
+cap_end_vent_size = 2; // [1:0.5:4]
+// Slits in the collar so it flexes on more easily, how many (0 = none).
+cap_slits = 0; // [0:1:12]
+// Where the first slit is, around the cap: 0 = top, 90 = a side (degrees).
+cap_slit_angle = 30; // [0:15:345]
+// Slit width (mm).
+cap_slit_width = 1.2; // [0.6:0.1:3]
+// Room around everything else inside the cap (mm).
+cap_clearance = 0.5; // [0.2:0.05:2]
+// Wall thickness (mm).
+cap_wall = 1.6; // [1.2:0.1:4]
+// Follows the mouthpiece (smoothed), D = round on top and flat under the reed, or round.
+cap_shape = "conform"; // [conform, d, round]
+// Space between the tip and the inside of the closed end (mm).
+cap_end_gap = 4; // [1:0.5:20]
+// Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
+cap_end_dome = 1; // [0:0.1:1]
+// Air vents in the wall: slots along the cap, round holes, or none.
+cap_vent_style = "none"; // [none, slots, round]
+// Number of vents, spaced evenly around the cap.
+cap_vent_count = 2; // [1:1:8]
+// Where the first vent is, around the cap: 0 = top, 90 = a side (degrees).
+cap_vent_angle = 90; // [0:15:345]
+// Slot length (mm).
+cap_vent_length = 14; // [4:0.5:40]
+// Vent width, or a round hole's diameter (mm).
+cap_vent_width = 3; // [1.5:0.5:10]
+// Vent position: mm behind the tip to the vent's front end.
+cap_vent_position = 8; // [0:0.5:60]
+// Grip ribs around the cap, evenly spaced (0 = smooth).
+cap_ribs = 0; // [0:1:16]
+// Rib height (mm).
+cap_rib_depth = 0.6; // [0.2:0.1:1.5]
+// Text on the cap's top (empty = none). Same fill-ins as the top text.
+cap_text = "";
+// Cap letter height (mm).
+cap_text_size = 5; // [2:0.5:14]
+// Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+cap_text_angle = 0; // [0:90:270]
+// SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.
+cap_image = "";
+// Cap picture width (mm).
+cap_image_width = 10; // [3:0.5:40]
+// Picture height / width, for spacing (the app fills it in).
+cap_image_aspect = 1; // [0.1:0.01:10]
+// Cap picture rotation (degrees).
+cap_image_angle = 0; // [0:15:345]
+// Moves the cap's text and picture toward the tip (+) or the shank (-) (mm).
+cap_lettering_position = 0; // [-30:0.5:30]
+// Metal ligature: band length along the mouthpiece (mm).
+cap_metal_length = 16; // [6:0.5:30]
+// Metal ligature: front edge, mm behind the window's back end.
+cap_metal_position = 2; // [-10:0.5:25]
+// Metal ligature: how far the band stands out of the body all round (mm).
+cap_metal_proud = 1.2; // [0:0.1:4]
+// Metal ligature: width of its screws and their posts, across (mm); the slot widens to clear it.
+cap_metal_screw_width = 14; // [4:0.5:30]
+// Metal ligature: length of the screw block along the mouthpiece (mm).
+cap_metal_screw_length = 12; // [4:0.5:30]
+
 /* [Output] */
-// What to make: the mouthpiece, a shank test ring, a ligature, or debug pieces.
-part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, ligature_seated, reed_model, ligature_clash, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
+// What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
+part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
 // Smoothness: higher is smoother but slower. 64 is fine for printing.
 render_fn = 64; // [16:8:128]
 // Stand it on its neck end, as printed. Off: lie it on the reed table.

@@ -99,7 +99,7 @@ static site (docs/HOSTING.md).
   (saved, link copied, delete prompts) is a *notice* shown in its place for 4s. Errors clear it.
 - **Settings**: `DesignPanel` = the curated controls in `src/design.ts` (labels, `caption`,
   `optionLabels`; `tip_opening` in thousandths via `ThouInput`, which takes mm too: a number under
-  10; `part` limited to mouthpiece / test ring / ligature unless the code is open; ranges and
+  10; `part` limited to mouthpiece / test ring / ligature / cap unless the code is open; ranges and
   descriptions from the `.param` export). Typed numbers are clamped to the slider range. Labels from
   `paramLabel()`. A parameter that does nothing now is dimmed with the reason (`paramInactive`).
   Descriptions hide behind ⓘ unless "Descriptions" is on. A variant shows its file's header line
@@ -167,6 +167,12 @@ static site (docs/HOSTING.md).
   the reed is its own toggle. After each non-draft render App runs `ligature_seated` and/or
   `reed_model`, whichever is shown (`loadLigature`); the viewer shows them in A's frame (`lig` red,
   `reed` pale; "beside" stands the band in front of A). Readout line from `parseLigature`.
+- **Cap**: as the ligature: "Make a cap for this mouthpiece" sets `cap_made`; `capV` (session `cap`) is
+  the view: on / beside. After each non-draft render App runs `cap_seated` (`loadCap`); the viewer shows
+  it see-through teal on A (`capG`) or opaque beside it (+Y). `CapHead`: readout (`parseCap`, warnings),
+  Hide / Beside / Download cap STL / Remove; the print kit and Save as take `<name>_cap.stl` when made.
+  The Cap section's controls show once made. `part = cap` (Printing) still shows it alone, with
+  `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
 - **A/B compare**: "Compare with…" (a device STL / .scad, presets, your designs, open files); "Pin
   as B" freezes the current model; dropping an .stl pins it. B snapshots carry the summary and a
   facing report, so the cards show "B …", the facing chart draws B dashed, and the Compare section
