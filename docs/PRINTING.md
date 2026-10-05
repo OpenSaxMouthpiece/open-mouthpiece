@@ -89,7 +89,9 @@ The app's readouts give the targets:
 - **Facing:** the facing chart lists where standard feeler gauges should stop along the facing, if
   you want to check a print against it.
 - **Air volume:** if you know your current mouthpiece's chamber volume, a similar volume will sit
-  at a similar spot on the cork to play in tune.
+  at a similar spot on the cork to play in tune. The air inside the mouthpiece stands in for the
+  missing tip of the horn's cone, so it also sets how wide the octaves are
+  ([saxophone acoustics, UNSW](https://www.phys.unsw.edu.au/jw/saxacoustics.html)).
 
 ## 4b. A ligature made for it (optional)
 
@@ -145,7 +147,7 @@ in tune (a tuner at A = 440). Then change one thing at a time:
 
 | What you hear or feel | Try |
 |---|---|
-| Too bright, harsh, edgy | lower `baffle_height` (negative), a positive `baffle_curve`, or a wider `chamber_width` / positive `sidewall_angle` |
+| Too bright, harsh, edgy | lower `baffle_height` (negative), a positive `baffle_curve`, or a wider `chamber_width_extra` / positive `sidewall_angle` |
 | Too dark, dull, doesn't project | raise `baffle_height`, add `baffle_hump`, or a negative `baffle_curve` |
 | Stuffy, resistant | wider `throat_width`; check the facing for leaks first |
 | Too free, spread, hard to control | a slightly smaller `tip_opening` or a shorter `facing_length` |
@@ -153,6 +155,8 @@ in tune (a tuner at A = 440). Then change one thing at a time:
 | Squeaks, reed chirps | the facing is uneven: check both rails; then `tip_rail_thickness` |
 | Plays flat: pushed far onto the cork | less inside air (smaller chamber, or raise the baffle) |
 | Plays sharp: pulled far out | more inside air (bigger chamber, or lower the baffle) |
+| Upper register sharp when the low one is in tune (octaves wide) | more inside air, or a softer reed |
+| Upper register flat when the low one is in tune (octaves narrow) | less inside air, or a harder reed |
 | Wobbles on the neck | re-do step 1 |
 
 After each change, compare the new version against the one you played: pin the old one as B in
