@@ -21,7 +21,8 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   **PCHIP** (monotone cubic: C1, no overshoot); an `ext_*_points` override replaces a curve. An empty
   table stops with an assertion (`SHAPE_TABLES_OK`); there is no fallback. Knobs:
   `body_width`, `body_height` in mm (the body's widest / tallest table point; the scale that gives
-  it, `size_k`, fades in across the flare so the tenon keeps its size),
+  it, `size_k`, fades in across the flare so the tenon keeps its size; the fade is the flare's own
+  progress, `flare_fade`, so a size change stretches the flare's curve instead of adding a hump),
   `beak_tip_height` (the top eases onto it over the last 40%), the three squareness values.
 - **Tip.** Width x `tip_factor` (reed-tip quarter ellipse). The front edge rounds over (`tip_nose`
   1.2mm), since the rings close to a vertical line there. A ridged top (exponent < 2) eases to 2

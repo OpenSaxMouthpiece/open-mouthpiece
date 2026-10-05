@@ -366,15 +366,15 @@ function reshape(shape, fs, lm, { height: k, beakShift }) {
   const [p, q] = body.slice(-2);
   const H2 = fs2 <= fs ? lin(top, fs2) : q[1] + ((q[1] - p[1]) / (q[0] - p[0])) * (fs2 - q[0]);
   const kAt = (f) => 1 + (k - 1) * smooth((f - lm[1]) / (lm[2] - lm[1]));
-  // Over the flare (tenon end to body peak) the top never drops below the tenon's top + 0.3mm: a
-  // lowered body, or a flat alto flare scaled onto a steep one (the bari Birch), left a dip there.
+  // Over the flare (tenon end to body peak) the top never drops below the tenon's top: a lowered
+  // body left a dip there. (+0.3mm here flattened the start of a gentle flare into a step.)
   const tenonTop = lin(top, lm[1]),
-    sc = (f, y) => (f > lm[1] && f <= lm[2] ? Math.max(y * kAt(f), tenonTop + 0.3) : y * kAt(f));
+    sc = (f, y) => (f > lm[1] && f <= lm[2] ? Math.max(y * kAt(f), tenonTop) : y * kAt(f));
   const beakAt = (f) => fs2 + ((f - fs) / (1 - fs)) * (1 - fs2);
   return {
     ...shape,
     shape_top: [
-      ...body.filter(([f]) => f < fs2 - 0.01).map(([f, y]) => [f, r1(sc(f, y))]),
+      ...body.filter(([f]) => f < fs2 - 0.01).map(([f, y]) => [f, r2(sc(f, y))]),
       [r3(fs2), r1(sc(fs2, H2))],
       ...beak.map(([f, y]) => [r3(beakAt(f)), r1(T + ((sc(fs2, H2) - T) * (y - T)) / (H - T))]),
     ],
@@ -399,6 +399,21 @@ const pw = (x, from, to) =>
 const r1 = (x) => Math.round(x * 10) / 10,
   r2 = (x) => Math.round(x * 100) / 100,
   r3 = (x) => Math.round(x * 1000) / 1000;
+// A voice's table times a family ratio (a function of the fraction), but the flare (from where it
+// starts rising to the crest, as the generator's flare_window) as a whole: its rise is stretched to
+// the scaled crest, so the voice's smooth S stays one (point-wise ratios added kinks and dips).
+function flareScaled(t, ratioAt) {
+  const ic0 = t.map((p, i) => i).filter((i) => t[i][0] <= 0.4),
+    ic = ic0.reduce((a, i) => (t[i][1] > t[a][1] ? i : a), ic0[0]),
+    lo = Math.min(...t.slice(0, ic + 1).map((p) => p[1])),
+    is = Math.max(...t.slice(0, ic + 1).map((p, i) => (p[1] <= lo + 1e-9 ? i : -1)));
+  const plain = t.map(([f, y]) => [f, r2(y * ratioAt(f))]);
+  if (is >= ic || t[ic][1] - t[is][1] < 0.5) return plain;
+  const [fs, ys] = t[is], [fc, yc] = t[ic],
+    ys2 = ys * ratioAt(fs),
+    yc2 = yc * ratioAt(fc);
+  return t.map(([f, y], i) => (i > is && i < ic ? [f, r2(ys2 + ((y - ys) * (yc2 - ys2)) / (yc - ys))] : plain[i]));
+}
 function deriveShapes(voice, src, altoSrc) {
   const A = VOICES.alto.landmarks,
     V = VOICES[voice].landmarks;
@@ -417,15 +432,14 @@ function deriveShapes(voice, src, altoSrc) {
       T = pre.shape_top[pre.shape_top.length - 1][1];
     const HA = lin(F.shape_top, fs),
       TA = F.shape_top[F.shape_top.length - 1][1];
-    const body = pre.shape_top
-      .filter(([f]) => f < fsV - 0.01)
-      .map(([f, y]) => [f, f <= V[1] ? y : r2(y * ratio('shape_top', toA(f)))]);
+    const topV = flareScaled(pre.shape_top, (f) => (f <= V[1] ? 1 : ratio('shape_top', toA(f))));
+    const body = topV.filter(([f]) => f < fsV - 0.01);
     const beak = F.shape_top
       .filter(([fa]) => fa > fs)
       .map(([fa, y]) => [r3(famV(fa)), r1(T + ((H - T) * (y - TA)) / (HA - TA))]);
     out[fam] = {
       shape_top: [...body, [r3(fsV), r1(H)], ...beak],
-      shape_width: pre.shape_width.map(([f, w]) => [f, r2(w * ratio('shape_width', toA(f)))]),
+      shape_width: flareScaled(pre.shape_width, (f) => ratio('shape_width', toA(f))),
       shape_top_squareness: F.shape_top_squareness.map(([fa, n]) => [r3(famV(fa)), n]),
     };
   }

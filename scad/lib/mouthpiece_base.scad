@@ -523,16 +523,34 @@ EMPTY_SHAPE_TABLES = [for (t = [["shape_width", shape_width], ["shape_top", shap
 SHAPE_TABLES_OK = assert(len(EMPTY_SHAPE_TABLES) == 0, str("empty shape table(s) ", EMPTY_SHAPE_TABLES,
   ": the shape tables are the built-in outline and need their points. In the app press Revert to reload the file.")) true;
 
-// The body_*_scale knobs fade in across the flare, so the tenon keeps its size and stays round.
-function body_scale(f, k) = lerp(1, k, smootherstep(clamp01((f - 0.09) / 0.12)));
+// The size knobs fade in across the flare, so the tenon keeps its size and stays round. The fade
+// follows each table's own flare (0 where it starts rising, 1 at the crest: the progress of its own
+// value), so a size change stretches the flare's curve; a fixed window fought it and left a second
+// hump. Widths follow shape_width's flare, heights shape_top's. A table without a clear flare (less
+// than 0.5 mm of rise before 0.4 L) falls back to the window 0.09-0.21.
+function flare_window(t) =
+  let(ic0 = [for (i = [0 : len(t) - 1]) if (t[i][0] <= 0.4) i],
+      ic = ic0[search(max([for (i = ic0) t[i][1]]), [for (i = ic0) t[i][1]])[0]],
+      lo = min([for (i = [0 : ic]) t[i][1]]),
+      is = max([for (i = [0 : ic]) if (t[i][1] <= lo + 1e-9) i]))
+  t[ic][1] - t[is][1] < 0.5 || is >= ic ? [] : [t[is][0], t[is][1], t[ic][0], t[ic][1]];
+FLARE_W = flare_window(shape_width);
+FLARE_H = flare_window(shape_top);
+FLARE_W_C = pchip_prep(shape_width);
+FLARE_H_C = pchip_prep(shape_top);
+function flare_fade(f, W, C) = len(W) == 0 ? smootherstep(clamp01((f - 0.09) / 0.12))
+  : f <= W[0] ? 0 : f >= W[2] ? 1 : clamp01((pchip_at(f, C) - W[1]) / (W[3] - W[1]));
+function fade_w(f) = flare_fade(f, FLARE_W, FLARE_W_C);
+function fade_h(f) = flare_fade(f, FLARE_H, FLARE_H_C);
+function body_scale(f, k, fade) = lerp(1, k, fade);
 // The shank's scale is the other way round: the tenon's outside, fading back to 1 across the flare
 // (SHANK_S makes the tables' neck-end width shank_diameter); its heights scale about the bore axis
 // (from the tables, before the socket guarantee), so the bore stays centred. At most 1.3x the
 // outline's own (the old knob's top; a soprano broke from ~1.4x; validate() warns).
 SHANK_S = min(1.3, shank_diameter / shape_width[0][1]) * shank_scale;
-function shank_k(f) = lerp(SHANK_S, 1, smootherstep(clamp01((f - 0.09) / 0.12)));
+function shank_k(fade) = lerp(SHANK_S, 1, fade);
 shank_mid0 = (shape_top[0][1] + shape_bottom[0][1]) / 2;
-function shank_y(f, y) = SHANK_S == 1 ? y : let(m = shank_mid0 - f * L * tan(bore_tilt)) m + (y - m) * shank_k(f);
+function shank_y(f, y) = SHANK_S == 1 ? y : let(m = shank_mid0 - f * L * tan(bore_tilt)) m + (y - m) * shank_k(fade_h(f));
 // body_width / body_height -> the body's scale k: the smallest k that takes one of the body's table
 // points to that size. Each point is linear in k ([a, b]: a + b k) and PCHIP doesn't overshoot its
 // points, so that point is the widest / tallest. The tenon's points don't scale (b = 0) and don't
@@ -541,10 +559,9 @@ function size_k(ab, size) = let(c = [for (p = ab) if (p[1] > 1e-9) (size - p[0])
   len(c) == 0 ? 1 : let(k = max(0.5, min(2, min(c)))) abs(k - 1) < 1e-6 ? 1 : k;
 // the size k gives (the body's points only)
 function size_at(ab, k) = max([for (p = ab) if (p[1] > 1e-9) p[0] + p[1] * k]);
-function body_fade(f) = smootherstep(clamp01((f - 0.09) / 0.12));
-BODY_AB_W = [for (p = shape_width) let(s = body_fade(p[0]), w = p[1] * shank_k(p[0])) [w * (1 - s), w * s]];
+BODY_AB_W = [for (p = shape_width) let(s = fade_w(p[0]), w = p[1] * shank_k(s)) [w * (1 - s), w * s]];
 BODY_KW = size_k(BODY_AB_W, body_width) * body_width_scale;
-def_width = [for (p = shape_width) [p[0] * L, p[1] * body_scale(p[0], BODY_KW) * shank_k(p[0])]];
+def_width = [for (p = shape_width) let(s = fade_w(p[0])) [p[0] * L, p[1] * body_scale(p[0], BODY_KW, s) * shank_k(s)]];
 // beak_length: the shoulder (where the top starts its steepest drop, from shape_top) moves along
 // the length; the top, widest-point and top-squareness tables are stretched to follow it between
 // an anchor 30% of L behind the shoulder and the tip. 0 leaves the tables exactly as they are.
@@ -559,10 +576,10 @@ function beak_remap(f) = beak_length == 0 || f <= BEAK_ANCHOR_F ? f
 function beak_remapped(t) = beak_length == 0 ? t : [for (p = t) [beak_remap(p[0]), p[1]]];
 shape_top_b = beak_remapped(shape_top);
 // shank_y(f, h (1 - s + s k)) is a + b k too
-BODY_AB_H = [for (p = shape_top_b) let(s = body_fade(p[0]), c = shank_k(p[0]), m = shank_mid0 - p[0] * L * tan(bore_tilt))
+BODY_AB_H = [for (p = shape_top_b) let(s = fade_h(p[0]), c = shank_k(s), m = shank_mid0 - p[0] * L * tan(bore_tilt))
     SHANK_S == 1 ? [p[1] * (1 - s), p[1] * s] : [m * (1 - c) + p[1] * (1 - s) * c, p[1] * s * c]];
 BODY_KH = size_k(BODY_AB_H, body_height) * body_height_scale;
-def_top0 = [for (p = shape_top_b) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH))]];
+def_top0 = [for (p = shape_top_b) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH, fade_h(p[0])))]];
 // The beak eases onto beak_tip_height over the last 40% (voice files set it to the table's own end).
 def_top = [for (p = def_top0) [p[0], p[1] + (beak_tip_height - def_top0[len(def_top0) - 1][1]) * smootherstep(clamp01((p[0] / L - 0.6) / 0.4))]];
 // beak_curve: from the shoulder to the tip the top dips below (+) or bulges above (-) its own line,
@@ -573,7 +590,7 @@ def_top_c = beak_curve == 0 ? def_top : let(C = pchip_prep(def_top), z0 = SHOULD
   concat([for (p = def_top) if (p[0] < z0 - 1e-6) p],
          [for (i = [0:n]) let(z = z0 + (L - z0) * i / n) [z, pchip_at(z, C) - A * sin(180 * i / n)]]);
 def_bottom = [for (p = shape_bottom) [p[0] * L, shank_y(p[0], p[1])]];
-def_widest = [for (p = beak_remapped(shape_widest)) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH))]];
+def_widest = [for (p = beak_remapped(shape_widest)) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH, fade_h(p[0])))]];
 
 // Effective outline curves. With a custom top but no underside/widest points, those follow the
 // top (mirrored about the bore axis / halfway) rather than the built-in table.
