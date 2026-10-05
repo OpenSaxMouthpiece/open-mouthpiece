@@ -62,7 +62,7 @@ const files = (
   listed.length
     ? listed.map((f) => path.resolve(f))
     : [
-        ...[SCAD, path.join(SCAD, 'variants')]
+        ...[SCAD, path.join(SCAD, 'variants'), path.join(SCAD, 'extras')]
           .flatMap((d) => (fs.existsSync(d) ? fs.readdirSync(d).map((f) => path.join(d, f)) : []))
           .filter((f) => f.endsWith('.scad') && isVoiceFile(fs.readFileSync(f, 'utf8'))),
         ...(fs.existsSync(path.join(SCAD, 'experiments'))

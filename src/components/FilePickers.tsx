@@ -1,18 +1,20 @@
 // The dropdowns that pick a mouthpiece: which one to design (the voice picker) and which one to
 // compare with. Both list presets, variants and the user's own designs.
-import { baseName, isVariant, voiceLabel, type Tab } from "../app/files";
+import { baseName, isExtra, isVariant, voiceLabel, type Tab } from "../app/files";
 
 // Files of the site, sorted for the pickers.
 export interface FileGroups {
-  presets: string[]; // read-only project files, variants excluded
+  presets: string[]; // read-only project files, variants and extras excluded
   variants: string[];
+  extras: string[];
   own: string[]; // kept in this browser
 }
 
-// Voices in pitch order (soprano, alto, tenor, baritone), the way players list them.
-const VOICES = ["soprano", "alto", "tenor", "baritone"];
+// Voices in pitch order (soprano, alto, C-melody, tenor, baritone), the way players list them.
+const VOICES = ["soprano", "alto", "c_melody", "tenor", "baritone"];
 const voiceRank = (p: string) => {
-  const i = VOICES.indexOf(baseName(p).split("_")[0]);
+  const b = baseName(p);
+  const i = VOICES.findIndex((v) => b === v || b.startsWith(v + "_"));
   return i < 0 ? VOICES.length : i;
 };
 const byVoice = (a: string, b: string) => voiceRank(a) - voiceRank(b) || a.localeCompare(b);
@@ -20,8 +22,9 @@ const byVoice = (a: string, b: string) => voiceRank(a) - voiceRank(b) || a.local
 export function groupFiles(files: string[], readOnly: Set<string>, own: Set<string>): FileGroups {
   const ro = files.filter((f) => readOnly.has(f)).sort(byVoice);
   return {
-    presets: ro.filter((f) => !isVariant(f)),
+    presets: ro.filter((f) => !isVariant(f) && !isExtra(f)),
     variants: ro.filter(isVariant),
+    extras: ro.filter(isExtra),
     own: files.filter((f) => own.has(f)),
   };
 }
@@ -39,6 +42,7 @@ function GroupOptions({ groups, prefix = "" }: { groups: FileGroups; prefix?: st
     <>
       <optgroup label="Presets">{options(groups.presets, prefix)}</optgroup>
       {groups.variants.length > 0 && <optgroup label="Variants">{options(groups.variants, prefix)}</optgroup>}
+      {groups.extras.length > 0 && <optgroup label="Extras">{options(groups.extras, prefix)}</optgroup>}
       {groups.own.length > 0 && <optgroup label="Your designs">{options(groups.own, prefix)}</optgroup>}
     </>
   );

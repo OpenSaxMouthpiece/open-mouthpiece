@@ -8,19 +8,23 @@ import { fileURLToPath } from 'node:url';
 
 export const SCAD_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'scad');
 // The measured presets can't be saved over (a user's "Save as…" copy goes into their browser).
-// The variants (scad/variants/, made by scripts/make_variants.mjs) are presets too.
+// The variants (scad/variants/, made by scripts/make_variants.mjs) and the extras (scad/extras/,
+// less common voices) are presets too.
+const folder = (d) =>
+  fs.existsSync(path.join(SCAD_DIR, d))
+    ? fs
+        .readdirSync(path.join(SCAD_DIR, d))
+        .filter((f) => f.endsWith('.scad'))
+        .sort()
+        .map((f) => `${d}/${f}`)
+    : [];
 export const READ_ONLY = [
   'alto.scad',
   'tenor.scad',
   'baritone.scad',
   'soprano.scad',
-  ...(fs.existsSync(path.join(SCAD_DIR, 'variants'))
-    ? fs
-        .readdirSync(path.join(SCAD_DIR, 'variants'))
-        .filter((f) => f.endsWith('.scad'))
-        .sort()
-        .map((f) => `variants/${f}`)
-    : []),
+  ...folder('variants'),
+  ...folder('extras'),
 ];
 const EXCLUDE_DIRS = new Set(['fits', '_sweep']);
 export const EXTS = ['.scad', '.ttf', '.otf', '.svg'];

@@ -232,5 +232,19 @@
       89.31
     ],
     "hash": "0e42a17df19c3004"
+  },
+  "extras/c_melody.scad": {
+    "tris": 19246,
+    "volume": 25531.267,
+    "size": [
+      29.996,
+      28.589,
+      95.517
+    ],
+    "hash": "0bb5685d7b01eb2c",
+    "ligHash": "cab5f53705447b23",
+    "ligVolume": 2720.628,
+    "capHash": "644bd40ec5c8e634",
+    "capVolume": 10272.869
   }
 }

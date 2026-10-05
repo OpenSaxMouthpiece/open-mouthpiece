@@ -59,6 +59,7 @@ import {
   includesGenerator,
   isDirty,
   isLibrary,
+  isExtra,
   isVariant,
   localTab,
   otherPartOf,
@@ -1252,6 +1253,7 @@ export default function App() {
         [
           ["Presets", files.filter((f) => PRESETS.includes(f))],
           ["Variants", files.filter(isVariant)],
+          ["Extras", files.filter(isExtra)],
           ["Your designs", files.filter((f) => ownFiles.has(f))],
           ["Generator", files.filter((f) => f === GENERATOR)],
         ] as [string, string[]][]

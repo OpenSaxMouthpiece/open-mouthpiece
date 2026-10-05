@@ -55,11 +55,14 @@ export function scadFileName(typed: string) {
 
 // The Ash/Birch/Cedar variants of the presets (scad/variants/<voice>_<family>.scad).
 export const isVariant = (p: string) => /^variants\/[^/]+\.scad$/.test(p);
+// Other voices, less common (scad/extras/: the C-melody).
+export const isExtra = (p: string) => /^extras\/[^/]+\.scad$/.test(p);
 const titleCase = (s: string) => s.replace(/^./, (c) => c.toUpperCase());
-// "alto.scad" -> "Alto", "variants/alto_ash.scad" -> "Alto Ash", "my_alto.scad" -> "my alto".
+// "alto.scad" -> "Alto", "extras/c_melody.scad" -> "C-melody", "variants/alto_ash.scad" -> "Alto Ash",
+// "my_alto.scad" -> "my alto".
 export const voiceLabel = (p: string) =>
-  PRESETS.includes(p)
-    ? titleCase(baseName(p))
+  PRESETS.includes(p) || isExtra(p)
+    ? titleCase(baseName(p).replace(/_/g, "-"))
     : isVariant(p)
       ? baseName(p).split("_").map(titleCase).join(" ")
       : baseName(p).replace(/_/g, " ");
@@ -67,8 +70,10 @@ export const voiceLabel = (p: string) =>
 // saxophone mouthpiece.", a variant's "// Tenor "Birch": ...", designs saved from them, also after a
 // downloaded .scad's own header); the default when it doesn't say.
 export const presetFor = (source: string) => {
-  const m = /^\s*\/\/\s*(soprano|alto|tenor|baritone)\b/im.exec(source.slice(0, 3000));
-  return m ? `${m[1].toLowerCase()}.scad` : DEFAULT_FILE;
+  const m = /^\s*\/\/\s*(soprano|alto|tenor|baritone|c-melody)\b/im.exec(source.slice(0, 3000));
+  if (!m) return DEFAULT_FILE;
+  const voice = m[1].toLowerCase();
+  return voice === "c-melody" ? "extras/c_melody.scad" : `${voice}.scad`;
 };
 // The generator every design includes: the geometry, with default values its settings files override.
 export const GENERATOR = "lib/mouthpiece_base.scad";
@@ -77,7 +82,8 @@ export const includesGenerator = (source: string) => /include\s*<[^>]*mouthpiece
 export const tabLabel = (t: Tab) =>
   t.path === GENERATOR ? "Generator" : isLibrary(t) ? t.path! : voiceLabel(t.path ?? t.name);
 // For error reports: a preset's or variant's path, or just "own design" (never the user's file name).
-export const reportDesign = (p: string | null) => (p && (PRESETS.includes(p) || isVariant(p)) ? p : "own design");
+export const reportDesign = (p: string | null) =>
+  p && (PRESETS.includes(p) || isVariant(p) || isExtra(p)) ? p : "own design";
 
 // The part a design makes (its `part` value), for labels: "Mouthpiece", "Shank test ring".
 export const partName = (part: unknown) =>
