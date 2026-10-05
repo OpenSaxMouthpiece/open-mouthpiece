@@ -17,6 +17,7 @@ npm run lint           # ESLint (TypeScript, React hooks); npm run typecheck for
 npm run format         # Prettier (src/, scripts/); format:check only reports
 node scripts/sync_voice_files.mjs     # after changing parameters/descriptions in the base file
 npm run docs:params    # docs/PARAMETERS.md and its pictures, from the base file (~1 min)
+node scripts/glossary_diagram.mjs     # the labelled pictures in docs/GLOSSARY.md (from the alto)
 node scripts/make_variants.mjs alto   # regenerate a voice's Ash/Birch/Cedar variant files
 node scripts/bundle_scad.mjs scad/alto.scad -o alto_flat.scad   # one-file version for other tools
 ```
@@ -37,7 +38,7 @@ src/                            the app (React + CodeMirror 6 + three.js); src/w
 scripts/                        check, sweep, sync, variants, bundle, static-site build helpers
 test/baselines.json             regression baselines for npm run check
 worker/index.js                 the site's only server code: anonymous usage + error reports
-docs/PRINTING.md, HOSTING.md    for players and for hosting a copy
+docs/PRINTING.md, GLOSSARY.md   for players (HOSTING.md: for hosting a copy)
 docs/dev/                       developer notes: GEOMETRY.md (the generator), APP.md (the app)
 ```
 
