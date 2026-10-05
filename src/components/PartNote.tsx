@@ -1,23 +1,44 @@
 // In place of the readouts when the design shows another part than the mouthpiece: how to print and
 // fit it.
-import { capText, ligatureText, parseCap, parseLigature } from "../readouts";
+import { capText, ligatureText, parseCap, parseLigature, type CapInfo, type LigatureInfo } from "../readouts";
 
-export function PartNote({ part, log }: { part: string; log: string }) {
+// made = false: a part tab whose part isn't made yet. ligInfo / capInfo: the numbers when the part is
+// shown on the mouthpiece (its own render), else they come from the log (the part alone).
+export function PartNote({
+  part,
+  log,
+  made = true,
+  ligInfo,
+  capInfo,
+}: {
+  part: string;
+  log: string;
+  made?: boolean;
+  ligInfo?: LigatureInfo | null;
+  capInfo?: CapInfo | null;
+}) {
+  const cap = capInfo ?? parseCap(log);
   return (
     <div className="readouts-note muted">
-      {part === "ligature" ? (
+      {!made ? (
+        <>
+          No {part} yet. <b>Make</b> one below: it is built from this mouthpiece's own shape and follows every change to
+          it.
+        </>
+      ) : part === "ligature" ? (
         <>
           Ligature, as printed: standing on its flat front edge (the tongue points up), no supports (PETG or similar
           flexes without cracking). Slide it on over the tip with the reed in place and push it back until snug. The
-          reed is the tight spot. Reed not held: raise <b>Reed grip</b>; it stops too far forward: lower it, or set{" "}
-          <b>Reed thickness</b> to your reed.{ligatureText(parseLigature(log))}
+          reed is the tight spot. Reed not held: raise <b>Reed grip</b>; it stops too far forward: lower it.
+          {ligatureText(ligInfo ?? parseLigature(log))}
         </>
       ) : part === "cap" ? (
         <>
           Cap, as printed: standing on its rim, open end down, no supports. Slide it on over the tip, reed and ligature
-          until the collar grips. Too loose: raise <b>Grip squeeze</b>; too tight: lower it, or add <b>Collar slits</b>.
-          {capText(parseCap(log))}
-          {parseCap(log)?.notes.map((n) => (
+          until the rim clips onto the ligature. Too loose: raise <b>Grip squeeze</b>; too tight: lower it, or make the{" "}
+          <b>Slot</b> longer.
+          {capText(cap)}
+          {cap?.notes.map((n) => (
             <div key={n}>{n}</div>
           ))}
         </>

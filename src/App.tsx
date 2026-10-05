@@ -35,7 +35,7 @@ import {
   writeStl,
   type PrintFrame,
 } from "./meshFrame";
-import { FACING_CHOICES, fileAbout, hasDesignParams } from "./design";
+import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
 import { parseFacing, parseSummary } from "./readouts";
 import { checkCard, kitSqueezes, ringFile } from "./printKit";
 import { designNumbers, track, trackSetting, trackVisit } from "./usage";
@@ -160,6 +160,11 @@ export default function App() {
   const [lig, setLig] = useState<LigatureView>({ on: true, beside: false, reed: false, ...saved.ligature });
   // How the cap is shown (a view setting); whether one is made is the design's cap_made.
   const [capV, setCapV] = useState<CapView>({ on: true, beside: false, ...saved.cap });
+  // The settings tab open: the mouthpiece, the ligature or the cap. It also picks what the view shows,
+  // what Download saves and what the readouts say.
+  const [partTab, setPartTab] = useState<PartTab>(saved.partTab ?? "mouthpiece");
+  // The mouthpiece shown in the view (off: the ligature or cap alone); the Mouthpiece tab brings it back.
+  const [showMp, setShowMp] = useState(true);
   const [pinned, setPinned] = useState<Snapshot | null>(null); // model B
 
   // ---- the design on screen
@@ -196,10 +201,21 @@ export default function App() {
   // A ligature is made when the design says so (ligature_made: kept in saves, downloads and links).
   const ligMade =
     ligOK && ("ligature_made" in values ? values.ligature_made : param("ligature_made")?.initial) === true;
-  const ligView = { ...lig, on: ligMade && lig.on };
   // The same for the cap (cap_made).
   const capOK = !!param("cap_wall") && !otherPart;
   const capMade = capOK && ("cap_made" in values ? values.cap_made : param("cap_made")?.initial) === true;
+  // The open part tab (the mouthpiece's when the file has no such part).
+  const tab: PartTab =
+    partTab === "ligature" && param("ligature_length")
+      ? "ligature"
+      : partTab === "cap" && param("cap_wall")
+        ? "cap"
+        : "mouthpiece";
+  // What the view shows follows the view toggles (opening a part tab sets them: see openPartTab). In
+  // the cap's tab the printed ligature it goes over shows even before one is made.
+  const capOverPrinted =
+    (("cap_ligature" in values ? values.cap_ligature : param("cap_ligature")?.initial) ?? "printed") === "printed";
+  const ligView = { ...lig, on: lig.on && (ligMade || (tab === "cap" && capMade && capOverPrinted)) };
   const capView = { ...capV, on: capMade && capV.on };
 
   // Latest state for async callbacks.
@@ -278,8 +294,9 @@ export default function App() {
       quality,
       ligature: lig,
       cap: capV,
+      partTab,
     });
-  }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig, capV]);
+  }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig, capV, partTab]);
 
   // ---- tabs
   const refreshFiles = useCallback(async () => {
@@ -1563,6 +1580,8 @@ export default function App() {
           : undefined
       }
       cap={capOK ? { on: capView.on, beside: capV.beside, stl: model.capStl } : null}
+      showModel={ligOK || capOK ? showMp : undefined}
+      onShowModel={ligOK || capOK ? setShowMp : undefined}
       onCap={
         capOK
           ? (c) => {
@@ -1587,6 +1606,14 @@ export default function App() {
   // Desktop: the readouts as a strip above the controls. Phone: the readouts are a tab of their own.
   const readoutsEl = otherPart ? (
     <PartNote part={otherPart} log={log} />
+  ) : tab !== "mouthpiece" ? (
+    <PartNote
+      part={tab}
+      log=""
+      made={tab === "ligature" ? ligMade : capMade}
+      ligInfo={model.ligInfo}
+      capInfo={model.capInfo}
+    />
   ) : (
     <Readouts
       summary={summary}
@@ -1599,11 +1626,41 @@ export default function App() {
       }
     />
   );
+  // The part tabs: the mouthpiece, and the ligature and cap made from it (a dot once made). A part tab
+  // shows the part on the mouthpiece, so it puts "What to print" back to the mouthpiece.
+  const partTabs: { id: PartTab; label: string; made?: boolean }[] | undefined =
+    param("ligature_length") || param("cap_wall")
+      ? [
+          { id: "mouthpiece", label: "Mouthpiece" },
+          ...(param("ligature_length") ? [{ id: "ligature" as const, label: "Ligature", made: ligMade }] : []),
+          ...(param("cap_wall") ? [{ id: "cap" as const, label: "Cap", made: capMade }] : []),
+        ]
+      : undefined;
+  // Opening a tab sets the view for it, as a start (the toggles change it from there): the ligature's
+  // tab shows the ligature without the cap; the cap's shows the cap and the printed ligature under it;
+  // the mouthpiece's brings the mouthpiece back if it was hidden.
+  const openPartTab = (t: PartTab) => {
+    if (t !== "mouthpiece" && otherPart) setValue("part", "mouthpiece", undefined);
+    if (t === "mouthpiece") setShowMp(true);
+    if (t === "ligature") {
+      setLig((l) => ({ ...l, on: true }));
+      setCapV((v) => ({ ...v, on: false }));
+    }
+    if (t === "cap") {
+      setCapV((v) => ({ ...v, on: true }));
+      if (capOverPrinted) setLig((l) => ({ ...l, on: true }));
+    }
+    setPartTab(t);
+    if (t !== "mouthpiece") track("feature", `tab_${t}`);
+  };
   const capHead = (
     <CapHead
       made={capMade}
       view={capV}
       info={model.capInfo}
+      numbers={isPhone}
+      alone={!showMp}
+      onAlone={(a) => setShowMp(!a)}
       downloadLabel={dlLabel("cap", "Download cap STL")}
       downloading={dlBusy("cap")}
       onMake={makeCap}
@@ -1617,6 +1674,9 @@ export default function App() {
       made={ligMade}
       view={lig}
       info={model.ligInfo}
+      numbers={isPhone}
+      alone={!showMp}
+      onAlone={(a) => setShowMp(!a)}
       downloadLabel={dlLabel("ligature", "Download ligature STL")}
       downloading={dlBusy("ligature")}
       onMake={makeLigature}
@@ -1677,6 +1737,9 @@ export default function App() {
       }
       ligature={ligOK ? { on: ligMade, shown: lig.on, head: ligHead } : undefined}
       cap={capOK ? { on: capMade, head: capHead } : undefined}
+      tab={tab}
+      tabs={partTabs}
+      onTab={openPartTab}
       printKit={kitOK ? printKitButton : undefined}
       showNames={coding}
       deeper={deeperEl}
@@ -1684,7 +1747,11 @@ export default function App() {
       printed={printed ? () => setPrinted(false) : undefined}
     />
   );
-  const downloadDisabled = (!stl && !svg) || dlBusy("model");
+  // The download follows the part tab: the ligature or the cap once made, else the model on screen.
+  const dlWhat: "model" | "ligature" | "cap" =
+    tab === "ligature" && ligMade ? "ligature" : tab === "cap" && capMade ? "cap" : "model";
+  const downloadDisabled = (!stl && !svg) || dlBusy(dlWhat);
+  const dlName = dlWhat === "model" ? (svg ? "SVG" : "STL") : `${dlWhat} STL`;
   const shareBox = shareLink && (
     <div className="share-box">
       <span>Copy this link to share the design:</span>
@@ -1767,11 +1834,12 @@ export default function App() {
           ) : (
             <button
               className="primary dl-button"
-              onClick={() => downloadPart("model")}
+              onClick={() => downloadPart(dlWhat)}
               disabled={downloadDisabled}
               aria-live="polite"
+              title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
             >
-              {dlLabel("model", svg ? "SVG" : "STL")}
+              {dlLabel(dlWhat, dlWhat === "model" ? dlName : dlWhat === "cap" ? "Cap" : "Ligature")}
             </button>
           )}
         </header>
@@ -1785,8 +1853,8 @@ export default function App() {
                   ✕
                 </button>
               </div>
-              <button onClick={act(() => downloadPart("model"))} disabled={downloadDisabled}>
-                Download {svg ? "SVG" : "STL"}
+              <button onClick={act(() => downloadPart(dlWhat))} disabled={downloadDisabled}>
+                Download {dlName}
               </button>
               {kitOK && (
                 <button onClick={act(downloadKit)} disabled={!stl || dlBusy("kit")}>
@@ -1951,11 +2019,11 @@ export default function App() {
         <button
           className="primary dl-button"
           disabled={downloadDisabled}
-          onClick={() => downloadPart("model")}
-          title="Download the model to print"
+          onClick={() => downloadPart(dlWhat)}
+          title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
           aria-live="polite"
         >
-          {dlLabel("model", `Download ${svg ? "SVG" : "STL"}`)}
+          {dlLabel(dlWhat, `Download ${dlName}`)}
         </button>
         {moreMenu}
         <AppearanceMenu />

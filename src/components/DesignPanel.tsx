@@ -2,7 +2,14 @@
 // file's own ranges and descriptions; everything else under "All parameters".
 import { useState, type ReactNode } from "react";
 import type { ParamValue, ScadParam } from "../api";
-import { DESIGN_HIDDEN_GROUPS, DESIGN_OPTIONS, DESIGN_SECTIONS, paramLabel } from "../design";
+import {
+  DESIGN_HIDDEN_GROUPS,
+  DESIGN_OPTIONS,
+  DESIGN_SECTIONS,
+  PART_GROUPS,
+  paramLabel,
+  type PartTab,
+} from "../design";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
 import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL, REPO_URL } from "../links";
@@ -22,6 +29,10 @@ interface Props {
   printKit?: ReactNode; // the print kit download, under "Printing"
   ligature?: { on: boolean; shown?: boolean; head: ReactNode }; // the Ligature section: its head (make / show / download), controls once on
   cap?: { on: boolean; head: ReactNode }; // the Cap section: its head (make / show / download), controls once made
+  // The part tabs (mouthpiece, ligature, cap): which is open, and the tabs offered (made = shows a dot).
+  tab?: PartTab;
+  tabs?: { id: PartTab; label: string; made?: boolean }[];
+  onTab?(tab: PartTab): void;
   allParams?: boolean; // "All parameters" below the controls
   failed?: boolean; // the file didn't render, so it has no parameters to show
   loading?: boolean; // the file's parameters aren't known yet
@@ -50,6 +61,9 @@ export function DesignPanel({
   printKit,
   ligature,
   cap,
+  tab = "mouthpiece",
+  tabs,
+  onTab,
   allParams = true,
   failed = false,
   loading = false,
@@ -98,10 +112,41 @@ export function DesignPanel({
     ? params.some((p) => !DESIGN_HIDDEN_GROUPS.includes(p.group) && matches(p.name, paramLabel(p.name)))
     : false;
   const ids = [...DESIGN_SECTIONS.map((s) => `d:${s.title}`), "d:all"];
+  // A search looks in every tab; otherwise only the open tab's sections and groups show.
+  const tabbed = !!tabs && tabs.length > 1 && !q;
+  const onTabNow = (s: (typeof DESIGN_SECTIONS)[number]) => !tabbed || (s.tab ?? "mouthpiece") === tab;
+  const partGroups = Object.values(PART_GROUPS);
+  const groups = [...new Set(params.map((p) => p.group))];
+  const tabHidden = !tabbed
+    ? []
+    : tab === "mouthpiece"
+      ? partGroups
+      : groups.filter((g) => g !== PART_GROUPS[tab as Exclude<PartTab, "mouthpiece">]);
 
   return (
     <div className="design-panel">
       {readouts}
+      {tabs && tabs.length > 1 && (
+        <div className="part-tabs" role="tablist" aria-label="Part">
+          {tabs.map((t) => (
+            <button
+              key={t.id}
+              role="tab"
+              aria-selected={t.id === tab}
+              className={t.id === tab ? "active" : ""}
+              onClick={() => onTab?.(t.id)}
+            >
+              {t.label}
+              {t.made && (
+                <span className="made-dot" title="Made for this design">
+                  {" "}
+                  •
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="design-head">
         <input
           type="search"
@@ -181,7 +226,7 @@ export function DesignPanel({
             </button>
           </div>
         )}
-        {about && !q && <p className="design-about muted">{about}</p>}
+        {about && !q && tab === "mouthpiece" && <p className="design-about muted">{about}</p>}
         {DESIGN_SECTIONS.map((s) => {
           const filled = (n: string) => String(values[n] ?? byName.get(n)?.initial ?? "").trim() !== "";
           const rows = s.items.filter(
@@ -195,6 +240,7 @@ export function DesignPanel({
           );
           if (s.ligature && (!ligature || !s.items.some((i) => byName.has(i.name)))) return null;
           if (s.cap && !cap) return null;
+          if (!onTabNow(s)) return null;
           if (!s.items.some((i) => byName.has(i.name))) return null;
           if (q && !rows.length && !(s.ligature && matches("ligature", s.title)) && !(s.cap && matches("cap", s.title)))
             return null;
@@ -205,7 +251,7 @@ export function DesignPanel({
               id={`d:${s.title}`}
               title={s.title}
               summary={summary}
-              forceOpen={!!q}
+              forceOpen={!!q || (tabbed && tab !== "mouthpiece")}
               className="design-section"
               changed={s.items.filter((i) => i.name in values).length}
             >
@@ -219,7 +265,11 @@ export function DesignPanel({
                     p={p}
                     label={i.label}
                     unit={i.unit}
-                    options={i.options}
+                    options={
+                      i.options && !i.options.includes(String(values[p.name] ?? p.initial))
+                        ? [...i.options, String(values[p.name] ?? p.initial)]
+                        : i.options
+                    }
                     caption={i.caption}
                     optionLabels={i.optionLabels}
                     value={values[p.name] ?? p.initial}
@@ -250,12 +300,12 @@ export function DesignPanel({
               zoom={zoom}
               onZoomChange={onZoomChange}
               onFocusParam={onFocusParam}
-              hideGroups={showNames ? [] : DESIGN_HIDDEN_GROUPS}
+              hideGroups={[...(showNames ? [] : DESIGN_HIDDEN_GROUPS), ...tabHidden]}
               allowedOptions={showNames ? undefined : DESIGN_OPTIONS}
             />
           </Fold>
         )}
-        {!q && deeper}
+        {!q && tab === "mouthpiece" && deeper}
         {q &&
           !allMatch &&
           !DESIGN_SECTIONS.some((s) =>

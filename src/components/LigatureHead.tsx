@@ -8,6 +8,9 @@ interface Props {
   made: boolean; // the design has a ligature (ligature_made)
   view: LigatureView;
   info: LigatureInfo | null;
+  numbers?: boolean; // its sizes in the text (off where the readouts above show them)
+  alone?: boolean; // the mouthpiece is hidden
+  onAlone?: (on: boolean) => void;
   downloadLabel: ReactNode; // the download button's text, or its progress
   downloading: boolean;
   onMake: () => void;
@@ -20,6 +23,9 @@ export function LigatureHead({
   made,
   view,
   info,
+  numbers = true,
+  alone = false,
+  onAlone = () => {},
   downloadLabel,
   downloading,
   onMake,
@@ -50,7 +56,7 @@ export function LigatureHead({
   if (!view.on)
     return (
       <div className="lig-head">
-        <p className="muted">Made for this design, hidden from the view.{ligatureText(info)}</p>
+        <p className="muted">Made for this design, hidden from the view.{numbers && ligatureText(info)}</p>
         <div className="lig-actions">
           <button onClick={() => onView({ on: true })}>Show it</button>
           {download}
@@ -60,16 +66,23 @@ export function LigatureHead({
     );
   return (
     <div className="lig-head">
-      <p className="muted">Shown in red on the mouthpiece.{ligatureText(info)}</p>
+      <p className="muted">
+        {alone ? "Shown alone." : view.beside ? "Shown beside the mouthpiece." : "Shown in red on the mouthpiece."}
+        {numbers && ligatureText(info)}
+      </p>
       {info?.notes.length ? <Notes notes={info.notes} /> : null}
       <div className="lig-actions">
         <select
-          value={view.beside ? "beside" : "on"}
-          onChange={(e) => onView({ beside: e.target.value === "beside" })}
+          value={alone ? "alone" : view.beside ? "beside" : "on"}
+          onChange={(e) => {
+            onView({ beside: e.target.value === "beside" });
+            onAlone(e.target.value === "alone");
+          }}
           aria-label="Where the ligature is shown"
         >
           <option value="on">On the mouthpiece</option>
           <option value="beside">Beside it</option>
+          <option value="alone">Alone (no mouthpiece)</option>
         </select>
         <label className="lig-reed">
           <input type="checkbox" checked={view.reed} onChange={(e) => onView({ reed: e.target.checked })} /> Show a reed

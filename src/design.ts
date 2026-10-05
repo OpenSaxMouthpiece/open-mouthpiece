@@ -4,6 +4,11 @@
 
 export type DesignUnit = "thou"; // shown in thousandths of an inch next to the mm value
 
+// The settings come in tabs, one per part: the mouthpiece, and what is made from it.
+export type PartTab = "mouthpiece" | "ligature" | "cap";
+// Each part tab's group in All parameters (the mouthpiece tab has every other group).
+export const PART_GROUPS: Record<Exclude<PartTab, "mouthpiece">, string> = { ligature: "Ligature", cap: "Cap" };
+
 export interface DesignItem {
   name: string;
   label: string;
@@ -21,6 +26,7 @@ export interface DesignSection {
   summary?: (get: (name: string) => unknown) => string; // one line on the section's header: only what the panel doesn't show elsewhere
   ligature?: boolean; // the ligature's section: its controls show once a ligature is made (App's slot heads it)
   cap?: boolean; // the cap's section: App's slot heads it (show it / back to the mouthpiece)
+  tab?: PartTab; // the part tab it is on (default: the mouthpiece)
 }
 
 // Facing curves to pick from (under the facing chart; the facing curve is chosen there, not in
@@ -155,6 +161,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   {
     title: "Ligature",
     ligature: true,
+    tab: "ligature",
     items: [
       { name: "ligature_length", label: "Band length" },
       { name: "ligature_position", label: "Position" },
@@ -168,8 +175,6 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "ligature_reed_grip", label: "Reed grip" },
       { name: "ligature_fit", label: "Gap to the body" },
       { name: "ligature_wall", label: "Wall" },
-      { name: "ligature_reed_thickness", label: "Reed thickness" },
-      { name: "ligature_reed_width", label: "Reed width" },
       {
         name: "ligature_text",
         label: "Text on the ligature",
@@ -191,10 +196,11 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   {
     title: "Cap",
     cap: true,
+    tab: "cap",
     summary: (get) =>
       join([
         get("cap_ligature") === "metal" ? "Over a metal ligature" : "Over the printed ligature",
-        Number(get("cap_vent_count")) > 0 && get("cap_vent_style") !== "none" && `${get("cap_vent_count")} vents`,
+        Number(get("cap_end_vents")) > 0 && `${get("cap_end_vents")} air holes`,
       ]),
     items: [
       {
@@ -212,40 +218,15 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         label: "Screws and slot",
         optionLabels: { reed: "Under the reed (standard ligature)", top: "On top (inverted ligature)" },
       },
+      { name: "cap_grip", label: "Grip squeeze" },
       { name: "cap_slot_length", label: "Slot length" },
       { name: "cap_slot_width", label: "Slot width" },
       { name: "cap_end_vents", label: "Air holes in the end" },
       { name: "cap_end_vent_size", label: "End hole size" },
-      {
-        name: "cap_fit",
-        label: "Held by",
-        optionLabels: { ligature: "Squeezing the ligature", body: "Squeezing the body behind it" },
-      },
-      { name: "cap_overlap", label: "Reach behind the ligature", when: ["cap_fit", "body"] },
-      { name: "cap_grip", label: "Grip squeeze" },
-      { name: "cap_collar", label: "Collar length" },
-      { name: "cap_slits", label: "Collar slits" },
-      { name: "cap_clearance", label: "Room inside" },
       { name: "cap_wall", label: "Wall" },
-      {
-        name: "cap_shape",
-        label: "Shape",
-        optionLabels: { d: "D: round top, flat under the reed", round: "Round", conform: "Follows the mouthpiece" },
-      },
+      { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
       { name: "cap_end_gap", label: "Space at the end" },
       { name: "cap_end_dome", label: "End shape" },
-      {
-        name: "cap_vent_style",
-        label: "Vents in the side",
-        optionLabels: { none: "None", slots: "Slots", round: "Round holes" },
-      },
-      { name: "cap_vent_count", label: "Number of vents", when: ["cap_vent_style", ["slots", "round"]] },
-      { name: "cap_vent_angle", label: "First vent at", when: ["cap_vent_style", ["slots", "round"]] },
-      { name: "cap_vent_length", label: "Slot length", when: ["cap_vent_style", "slots"] },
-      { name: "cap_vent_width", label: "Vent width", when: ["cap_vent_style", ["slots", "round"]] },
-      { name: "cap_vent_position", label: "Vent position", when: ["cap_vent_style", ["slots", "round"]] },
-      { name: "cap_ribs", label: "Grip ribs" },
-      { name: "cap_rib_depth", label: "Rib height" },
       {
         name: "cap_text",
         label: "Text on the cap",
@@ -271,9 +252,9 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "part",
         label: "What to print",
-        options: ["mouthpiece", "shank_test_ring", "ligature", "cap"],
+        options: ["mouthpiece", "shank_test_ring"],
         caption:
-          "The mouthpiece, a shank test ring (print it first to check the fit on your cork), the ligature, or the cap.",
+          "The mouthpiece, or a shank test ring (print it first to check the fit on your cork). The ligature and the cap download from their tabs.",
         optionLabels: PARTS,
       },
       { name: "print_stock", label: "Extra stock for finishing" },
@@ -343,27 +324,15 @@ for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertic
 }
 INACTIVE.ligature_image_aspect = (get) => (anyText(get, ["ligature_image"]) ? null : "no picture on the ligature");
 INACTIVE.cap_image_aspect = (get) => (anyText(get, ["cap_image"]) ? null : "no picture on the cap");
-// The cap's settings that only count for one choice of another.
-const capWhen = (names: string[], key: string, values: string[], why: string) => {
-  for (const n of names) INACTIVE[n] = (get) => (values.includes(String(get(key))) ? null : why);
-};
-capWhen(["cap_overlap"], "cap_fit", ["body"], "only with the body fit");
-capWhen(
-  ["cap_metal_length", "cap_metal_position", "cap_metal_proud", "cap_metal_screw_width", "cap_metal_screw_length"],
-  "cap_ligature",
-  ["metal"],
-  "only for a cap over a metal ligature",
-);
-capWhen(
-  ["cap_vent_count", "cap_vent_angle", "cap_vent_width", "cap_vent_position"],
-  "cap_vent_style",
-  ["slots", "round"],
-  "the cap has no vents",
-);
-capWhen(["cap_vent_length"], "cap_vent_style", ["slots"], "only for slot vents");
-INACTIVE.cap_slit_angle = INACTIVE.cap_slit_width = (get) =>
-  Number(get("cap_slits")) > 0 ? null : "the collar has no slits";
-INACTIVE.cap_rib_depth = (get) => (Number(get("cap_ribs")) > 0 ? null : "the cap has no ribs");
+// The metal ligature's numbers only count for a cap over a metal ligature.
+for (const n of [
+  "cap_metal_length",
+  "cap_metal_position",
+  "cap_metal_proud",
+  "cap_metal_screw_width",
+  "cap_metal_screw_length",
+])
+  INACTIVE[n] = (get) => (get("cap_ligature") === "metal" ? null : "only for a cap over a metal ligature");
 INACTIVE.cap_slot_width = (get) => (Number(get("cap_slot_length")) > 0 ? null : "the cap has no slot");
 INACTIVE.cap_end_vent_size = (get) => (Number(get("cap_end_vents")) > 0 ? null : "the cap's end has no holes");
 export const paramInactive = (name: string, get: Getter) => INACTIVE[name]?.(get) ?? null;

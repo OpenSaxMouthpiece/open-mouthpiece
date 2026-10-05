@@ -126,6 +126,9 @@ interface Props {
   // The cap made for A, seated on it (see-through, so A and the ligature show), or beside it.
   cap?: { on: boolean; beside: boolean; stl: ArrayBuffer | null } | null;
   onCap?(change: { on?: boolean; beside?: boolean }): void;
+  // Whether this design (A) is shown, when the app controls it (to look at the ligature or cap alone).
+  showModel?: boolean;
+  onShowModel?(on: boolean): void;
 }
 
 // View settings outlive the viewer: the desktop and phone layouts each mount their own, and a
@@ -208,6 +211,8 @@ export function Viewer({
   onLigature,
   cap = null,
   onCap,
+  showModel,
+  onShowModel,
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   // Appearance (the ⚙ menu): model colour, background, grid, axes.
@@ -220,15 +225,18 @@ export function Viewer({
   const [edges, setEdges] = useState(viewPrefs.edges);
   const [wire, setWire] = useState(viewPrefs.wire);
   const [seeThrough, setSeeThrough] = useState(viewPrefs.seeThrough);
-  const [showA, setShowA] = useState(viewPrefs.showA);
+  const [showAPref, setShowAPref] = useState(viewPrefs.showA);
+  // A's visibility: the app's when it controls it, else the A/B toggle's (kept with the view prefs)
+  const showA = showModel ?? showAPref;
+  const setShowA = onShowModel ?? setShowAPref;
   const [showB, setShowB] = useState(viewPrefs.showB);
   const [layout, setLayout] = useState<"overlay" | "side">(viewPrefs.layout);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [section, setSection] = useState<Section>(viewPrefs.section);
   const [ghostOn, setGhostOn] = useState(viewPrefs.ghost);
   useEffect(
-    () => keepPrefs({ edges, wire, seeThrough, layout, section, showA, showB, ghost: ghostOn }),
-    [edges, wire, seeThrough, layout, section, showA, showB, ghostOn],
+    () => keepPrefs({ edges, wire, seeThrough, layout, section, showA: showAPref, showB, ghost: ghostOn }),
+    [edges, wire, seeThrough, layout, section, showAPref, showB, ghostOn],
   );
   // The design and part of the model on screen: a ghost only compares shapes of the same one.
   const shownKey = useRef<string | null>(null);
@@ -330,7 +338,8 @@ export function Viewer({
     };
     const draw = () => {
       renderer.render(scene, camera);
-      if (ghost.visible && ghost.children.length) {
+      // (the ghost is A's previous shape: not while A is hidden)
+      if (ghost.visible && a.visible && ghost.children.length) {
         renderer.autoClear = false;
         renderer.clearDepth();
         renderer.render(ghostScene, camera);
@@ -483,7 +492,7 @@ export function Viewer({
     set(ctx.lig, seeThrough);
     set(ctx.reed, seeThrough);
     // the cap on A is always see-through (it would hide the mouthpiece); beside it, as the others
-    const capSeated = !cap?.beside;
+    const capSeated = !cap?.beside && showA; // see-through only over the mouthpiece
     set(ctx.capG, seeThrough || capSeated);
     if (capSeated && !seeThrough)
       ctx.capG.traverse((o) => {
@@ -879,6 +888,11 @@ export function Viewer({
                 >
                   Ghost after a change
                 </Check>
+                {(onLigature || onCap) && (
+                  <Check on={showA} set={setShowA} title="Show the mouthpiece (off: the ligature and cap alone)">
+                    Mouthpiece
+                  </Check>
+                )}
                 {onLigature && (
                   <>
                     <Check

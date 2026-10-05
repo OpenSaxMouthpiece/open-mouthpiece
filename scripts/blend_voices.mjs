@@ -1,6 +1,6 @@
 // Blend the alto and tenor presets into scad/extras/c_melody.scad by pitch. Fitted values as args:
 //   node scripts/blend_voices.mjs neck_cork_diameter:16.3 bore_diameter:16.1 table_width_tip:16.0
-//     table_width_rear:13.6 ligature_reed_thickness:3.2 chamber_width_extra:0.8
+//     table_width_rear:13.6 chamber_width_extra:0.8
 // Sounding pitch of written C: alto Eb (9 semitones down), C-melody C (12), tenor Bb (14).
 // t = (12 - 9) / (14 - 9) = 0.6 in log-frequency; sizes blend geometrically: a * (b/a)^t.
 import fs from 'fs';

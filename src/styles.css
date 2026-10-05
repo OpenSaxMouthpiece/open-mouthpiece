@@ -1352,6 +1352,32 @@ button.toggle.on {
   overflow-y: auto;
   padding-bottom: 24px;
 }
+/* The part tabs (mouthpiece, ligature, cap), over the settings. */
+.part-tabs {
+  display: flex;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+}
+.part-tabs button {
+  flex: 1;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  padding: 8px 4px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+}
+.part-tabs button:hover {
+  color: var(--text);
+}
+.part-tabs button.active {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+}
+.part-tabs .made-dot {
+  color: var(--accent);
+}
 .design-head {
   display: flex;
   gap: 8px;

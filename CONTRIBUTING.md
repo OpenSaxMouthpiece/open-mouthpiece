@@ -106,7 +106,8 @@ The generator clamps, so no parameter set can break the model:
    pinches the width to 0, which once left a detached sliver).
 8. The cap (`part = cap`) clears the body, the reed and the ligature at every station, so it
    slides on from the tip: a running max of support functions, like the ligature's. Only the
-   collar may squeeze (`cap_grip`); `npm run check` proves the rest empty (`cap_clash`).
+   collar may squeeze (`cap_grip`); `npm run check` proves the rest empty (`cap_clash`). The ligature
+   and the cap work with any reed (nominal 3mm for the band's taper fit; room for 4mm in the cap).
 
 ## Lessons learned
 

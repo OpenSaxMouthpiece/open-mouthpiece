@@ -1,4 +1,5 @@
 // The session kept in this browser between visits: open tabs, changed values, layout, model B.
+import type { PartTab } from "../design";
 import type { Snapshot } from "../compare";
 import { migrateScad, migrateValues } from "../migrate";
 import type { Tab, Values } from "./files";
@@ -34,6 +35,7 @@ export interface Session {
   quality: Quality;
   ligature?: Partial<LigatureView>;
   cap?: Partial<CapView>;
+  partTab?: PartTab; // the settings tab open
 }
 
 export function loadSession(): Partial<Session> {

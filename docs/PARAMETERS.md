@@ -13,7 +13,7 @@ setting acts (a section when it acts inside):
 
 This page is made by `node scripts/param_docs.mjs` from `scad/lib/mouthpiece_base.scad`.
 
-Sections: [Shank](#shank) · [Chamber](#chamber) · [Baffle](#baffle) · [Window](#window) · [Table](#table) · [Facing](#facing) · [Exterior](#exterior) · [Lettering](#lettering) · [Profile overrides](#profile-overrides) · [Manufacturing](#manufacturing) · [Ligature](#ligature) · [Output](#output)
+Sections: [Shank](#shank) · [Chamber](#chamber) · [Baffle](#baffle) · [Window](#window) · [Table](#table) · [Facing](#facing) · [Exterior](#exterior) · [Lettering](#lettering) · [Profile overrides](#profile-overrides) · [Manufacturing](#manufacturing) · [Ligature](#ligature) · [Cap](#cap) · [Output](#output)
 
 ## Shank
 
@@ -1015,22 +1015,6 @@ Range: 0 to 0.6, step 0.05.
 
 Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
 
-### Reed thickness (`ligature_reed_thickness`)
-
-Your reed's thickness at the heel (mm), usually about 3.
-
-Range: 2 to 4.5, step 0.05.
-
-Presets: Alto `3.0` · Tenor `3.0` · Bari `3.0` · Soprano `3.0`.
-
-### Reed width (`ligature_reed_width`)
-
-Reed width (mm); 0 = the table's width.
-
-Range: 0 to 24, step 0.1.
-
-Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
-
 ### Text on the ligature (`ligature_text`)
 
 Text on the ligature's top (empty = none). Same fill-ins as the top text.
@@ -1095,15 +1079,217 @@ Range: -15 to 15, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+## Cap
+
+### Cap made (`cap_made`)
+
+A cap is made for this design (the app shows it and offers its download).
+
+Range: on / off.
+
+Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
+
+### Goes over (`cap_ligature`)
+
+What the cap goes over: the ligature made for this design, or a metal one.
+
+Range: `printed`, `metal`.
+
+Presets: Alto `printed` · Tenor `printed` · Bari `printed` · Soprano `printed`.
+
+### Grip squeeze (`cap_grip`)
+
+How hard the rim squeezes the ligature (mm): bigger = tighter; 0 = no squeeze.
+
+Range: 0 to 0.5, step 0.05.
+
+Presets: Alto `0.15` · Tenor `0.15` · Bari `0.15` · Soprano `0.15`.
+
+### Screws and slot (`cap_slot_side`)
+
+Side of the slot up from the rim, and of a metal ligature's screws: under the reed or on top.
+
+Range: `reed`, `top`.
+
+Presets: Alto `reed` · Tenor `reed` · Bari `reed` · Soprano `reed`.
+
+### Slot length (`cap_slot_length`)
+
+Slot up from the rim, for air and so the rim clips on: length (mm); 0 = none.
+
+Range: 0 to 80, step 1.
+
+Presets: Alto `30` · Tenor `30` · Bari `30` · Soprano `30`.
+
+### Slot width (`cap_slot_width`)
+
+Slot width (mm).
+
+Range: 1 to 8, step 0.5.
+
+Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+### Air holes in the end (`cap_end_vents`)
+
+Air holes through the closed end, in a row (0 = none).
+
+Range: 0 to 7, step 1.
+
+Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+### End hole size (`cap_end_vent_size`)
+
+End hole diameter (mm).
+
+Range: 1 to 4, step 0.5.
+
+Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
+### Wall (`cap_wall`)
+
+Wall thickness (mm).
+
+Range: 1.2 to 4, step 0.1.
+
+Presets: Alto `1.6` · Tenor `1.6` · Bari `1.6` · Soprano `1.6`.
+
+### Shape (`cap_shape`)
+
+Follows the mouthpiece (smoothed), or round.
+
+Range: `conform`, `round`.
+
+Presets: Alto `conform` · Tenor `conform` · Bari `conform` · Soprano `conform`.
+
+### Space at the end (`cap_end_gap`)
+
+Space between the tip and the inside of the closed end (mm).
+
+Range: 1 to 20, step 0.5.
+
+Presets: Alto `4` · Tenor `4` · Bari `4` · Soprano `4`.
+
+### End shape (`cap_end_dome`)
+
+Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
+
+Range: 0 to 1, step 0.1.
+
+Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+### Text on the cap (`cap_text`)
+
+Text on the cap's top (empty = none). Same fill-ins as the top text.
+
+Range: text.
+
+Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+### Text size (`cap_text_size`)
+
+Cap letter height (mm).
+
+Range: 2 to 14, step 0.5.
+
+Presets: Alto `5` · Tenor `5` · Bari `5` · Soprano `5`.
+
+### Text direction (`cap_text_angle`)
+
+Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+
+Range: 0 to 270, step 90.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+### Picture on the cap (`cap_image`)
+
+SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.
+
+Range: text.
+
+Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+### Picture size (`cap_image_width`)
+
+Cap picture width (mm).
+
+Range: 3 to 40, step 0.5.
+
+Presets: Alto `10` · Tenor `10` · Bari `10` · Soprano `10`.
+
+### Cap image aspect (`cap_image_aspect`)
+
+Picture height / width, for spacing (the app fills it in).
+
+Range: 0.1 to 10, step 0.01.
+
+Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+### Picture rotation (`cap_image_angle`)
+
+Cap picture rotation (degrees).
+
+Range: 0 to 345, step 15.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+### Text and picture position (`cap_lettering_position`)
+
+Moves the cap's text and picture toward the tip (+) or the shank (-) (mm).
+
+Range: -30 to 30, step 0.5.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+### Band length (`cap_metal_length`)
+
+Metal ligature: band length along the mouthpiece (mm).
+
+Range: 6 to 30, step 0.5.
+
+Presets: Alto `16` · Tenor `16` · Bari `16` · Soprano `16`.
+
+### Band position (`cap_metal_position`)
+
+Metal ligature: front edge, mm behind the window's back end.
+
+Range: -10 to 25, step 0.5.
+
+Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
+### Band thickness (`cap_metal_proud`)
+
+Metal ligature: how far the band stands out of the body all round (mm).
+
+Range: 0 to 4, step 0.1.
+
+Presets: Alto `1.2` · Tenor `1.2` · Bari `1.2` · Soprano `1.2`.
+
+### Screws, width across (`cap_metal_screw_width`)
+
+Metal ligature: width of its screws and their posts, across (mm); the slot widens to clear it.
+
+Range: 4 to 30, step 0.5.
+
+Presets: Alto `14` · Tenor `14` · Bari `14` · Soprano `14`.
+
+### Screws, length along (`cap_metal_screw_length`)
+
+Metal ligature: length of the screw block along the mouthpiece (mm).
+
+Range: 4 to 30, step 0.5.
+
+Presets: Alto `12` · Tenor `12` · Bari `12` · Soprano `12`.
+
 ## Output
 
 What the file makes. The debug parts show the pieces the mouthpiece is built from.
 
 ### What to print (`part`)
 
-What to make: the mouthpiece, a shank test ring, a ligature, or debug pieces.
+What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
 
-Range: `mouthpiece`, `shank_test_ring`, `ligature`, `ligature_seated`, `reed_model`, `ligature_clash`, `interior_only`, `debug_exterior`, `debug_interior`, `debug_window_cutter`, `debug_window_only`, `debug_window_planform`, `debug_facing_cutter`, `debug_facing_only`, `debug_ext_minus_interior`, `debug_ext_minus_window`, `debug_ext_minus_facing`, `clearance_report`, `facing_report`.
+Range: `mouthpiece`, `shank_test_ring`, `ligature`, `cap`, `ligature_seated`, `cap_seated`, `reed_model`, `ligature_clash`, `cap_clash`, `metal_ligature_model`, `interior_only`, `debug_exterior`, `debug_interior`, `debug_window_cutter`, `debug_window_only`, `debug_window_planform`, `debug_facing_cutter`, `debug_facing_only`, `debug_ext_minus_interior`, `debug_ext_minus_window`, `debug_ext_minus_facing`, `clearance_report`, `facing_report`.
 
 Presets: Alto `mouthpiece` · Tenor `mouthpiece` · Bari `mouthpiece` · Soprano `mouthpiece`.
 

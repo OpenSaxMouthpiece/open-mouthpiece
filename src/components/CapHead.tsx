@@ -8,6 +8,9 @@ interface Props {
   made: boolean; // the design has a cap (cap_made)
   view: CapView;
   info: CapInfo | null;
+  numbers?: boolean; // its sizes in the text (off where the readouts above show them)
+  alone?: boolean; // the mouthpiece is hidden
+  onAlone?: (on: boolean) => void;
   downloadLabel: ReactNode; // the download button's text, or its progress
   downloading: boolean;
   onMake: () => void;
@@ -16,7 +19,20 @@ interface Props {
   onRemove: () => void;
 }
 
-export function CapHead({ made, view, info, downloadLabel, downloading, onMake, onView, onDownload, onRemove }: Props) {
+export function CapHead({
+  made,
+  view,
+  info,
+  numbers = true,
+  alone = false,
+  onAlone = () => {},
+  downloadLabel,
+  downloading,
+  onMake,
+  onView,
+  onDownload,
+  onRemove,
+}: Props) {
   if (!made)
     return (
       <div className="lig-head">
@@ -41,17 +57,28 @@ export function CapHead({ made, view, info, downloadLabel, downloading, onMake, 
     <div className="lig-head">
       <p className="muted">
         {view.on
-          ? "Shown see-through on the mouthpiece (teal). Prints standing on its rim, no supports."
+          ? alone || view.beside
+            ? "Prints standing on its rim, no supports."
+            : "Shown see-through on the mouthpiece (teal). Prints standing on its rim, no supports."
           : "Made for this design, hidden from the view."}
-        {capText(info)}
+        {numbers && capText(info)}
       </p>
       {info && info.notes.length > 0 && <Notes notes={info.notes} />}
       <div className="lig-actions">
         <button onClick={() => onView({ on: !view.on })}>{view.on ? "Hide" : "Show it"}</button>
         {view.on && (
-          <button onClick={() => onView({ beside: !view.beside })}>
-            {view.beside ? "On the mouthpiece" : "Beside it"}
-          </button>
+          <select
+            value={alone ? "alone" : view.beside ? "beside" : "on"}
+            onChange={(e) => {
+              onView({ beside: e.target.value === "beside" });
+              onAlone(e.target.value === "alone");
+            }}
+            aria-label="Where the cap is shown"
+          >
+            <option value="on">On the mouthpiece</option>
+            <option value="beside">Beside it</option>
+            <option value="alone">Alone (no mouthpiece)</option>
+          </select>
         )}
         {download}
         {remove}

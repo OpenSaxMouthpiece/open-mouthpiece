@@ -171,8 +171,19 @@ static site (docs/HOSTING.md).
   the view: on / beside. After each non-draft render App runs `cap_seated` (`loadCap`); the viewer shows
   it see-through teal on A (`capG`) or opaque beside it (+Y). `CapHead`: readout (`parseCap`, warnings),
   Hide / Beside / Download cap STL / Remove; the print kit and Save as take `<name>_cap.stl` when made.
-  The Cap section's controls show once made. `part = cap` (Printing) still shows it alone, with
+  The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
+- **Part tabs** (Mouthpiece | Ligature | Cap, over the settings; `partTab` in the session): each
+  `DesignSection` has a `tab` (default mouthpiece); All parameters hides the other tabs' groups
+  (`PART_GROUPS`: Ligature, Cap); a search looks in every tab. Opening a tab sets the view toggles as
+  a start (`openPartTab`: the ligature's shows the ligature, not the cap; the cap's shows the cap and the
+  printed ligature under it, even before one is made; the mouthpiece's brings the mouthpiece back);
+  the toggles change it from there. `showMp` (App) hides the mouthpiece: the view's Show menu
+  ("Mouthpiece") or the heads' "Alone"; the viewer's `showModel` then overrides its A/B `showA`, and the
+  ghost and the cap's see-through go with it. The tab also picks the Download button (`dlWhat`: the part
+  once made) and the readouts (`PartNote` with the part's numbers; the heads show them only on the
+  phone). Opening a part tab puts `part` back to the mouthpiece. "What to print" offers the mouthpiece
+  and the test ring (an old link's value stays listed).
 - **A/B compare**: "Compare with…" (a device STL / .scad, presets, your designs, open files); "Pin
   as B" freezes the current model; dropping an .stl pins it. B snapshots carry the summary and a
   facing report, so the cards show "B …", the facing chart draws B dashed, and the Compare section
