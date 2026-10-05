@@ -445,15 +445,15 @@ Presets: Alto `13.2` · Tenor `14.7` · Bari `13.9` · Soprano `11.3`.
 
 *8 → 18.7*
 
-### Reed length (`reed_length`)
+### Table length (`table_length`)
 
-Length of your reed (mm): the reed seat starts this far back from the tip.
+Length of the table, from the tip to its back end (mm), the facing included.
 
 Range: 50 to 120, step 0.5.
 
 Presets: Alto `71.8` · Tenor `77.7` · Bari `101.5` · Soprano `55.44`.
 
-![reed_length: 66 → 76](images/params/reed_length.png)
+![table_length: 66 → 76](images/params/table_length.png)
 
 *66 → 76*
 

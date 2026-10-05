@@ -159,7 +159,7 @@ const zw0 = Math.max(
       .map((q) => q[0]),
   ), // window: back edge
   zw1 = L - num('tip_rail_thickness'); // to the tip rail
-const zTable = L - num('reed_length'); // the table's rear
+const zTable = L - num('table_length'); // the table's rear
 const ztr = num('throat_position');
 picture(
   'side',

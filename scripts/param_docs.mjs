@@ -110,7 +110,7 @@ const PICS = {
   tip_curve: { view: 'plan', y: 2.4, values: [2, 6] },
   table_width_tip: { view: 'plan', y: 2.4 },
   table_width_rear: { view: 'plan', y: 0.3 },
-  reed_length: { view: 'plan', y: 0.3, whole: true, values: [66, 76] },
+  table_length: { view: 'plan', y: 0.3, whole: true, values: [66, 76] },
   tip_opening: { view: 'facing', values: [1.5, 2.6] },
   facing_length: { view: 'facing', values: [20, 28] },
   facing_model: { view: 'facing', skipOptions: ['gauge'] },

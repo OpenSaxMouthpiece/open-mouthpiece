@@ -123,8 +123,8 @@ tip_curve = 3.5; // [0.5:0.1:12]
 table_width_tip = 16.8; // [8:0.1:30]
 // Width of the reed seat at the back (mm). Match your reed's heel.
 table_width_rear = 13.2; // [8:0.1:30]
-// Length of your reed (mm): the reed seat starts this far back from the tip.
-reed_length = 71.8; // [50:0.5:120]
+// Length of the table, from the tip to its back end (mm), the facing included.
+table_length = 71.8; // [50:0.5:120]
 // A slight hollow along the reed seat (mm) so the reed seals at both ends.
 table_concavity = 0; // [0:0.005:0.1]
 
@@ -377,6 +377,9 @@ shank_scale = 1;
 // chamber_width before 2026-10-03: an older file's or link's chamber width in mm; it wins over
 // chamber_width_extra.
 chamber_width = undef;
+// reed_length before 2026-10-05 (renamed table_length, the same length): an older file's value
+// still applies.
+reed_length = undef;
 RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width_extra (the width vs the throat's)"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
 // ===========================================================================================
@@ -508,7 +511,8 @@ function facing_at_z(z) = facing_height(max(0, z - break_z));
 
 tenon_end_z = L * 0.07;
 table_ramp = L * 0.09;
-table_rear_z = max(L - reed_length, tenon_end_z + table_ramp);
+TABLE_LEN = is_undef(reed_length) ? table_length : reed_length;
+table_rear_z = max(L - TABLE_LEN, tenon_end_z + table_ramp);
 table_start_z = table_rear_z - table_ramp;  // where the underside first reaches the table plane (roughly)
 
 // The shape tables ARE the built-in outline (there is nothing behind them): an empty one used to
@@ -1012,8 +1016,8 @@ module validate() {
     echo(str("WARNING: the chamber (", CHAMBER_W, "mm wide) is limited to ", round(chamber_built * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)"));
   if (facing_model == "gauge" && len(GAUGE_PTS) <= 2)
     echo("WARNING: facing_model gauge has no facing_gauge_points yet — the power curve is used; add points in the Curves panel");
-  if (L - reed_length < tenon_end_z + table_ramp - 0.01)
-    echo(str("WARNING: reed_length ", reed_length, "mm is longer than this body's table allows: the table starts at ", round(table_rear_z * 10) / 10, "mm from the shank end"));
+  if (L - TABLE_LEN < tenon_end_z + table_ramp - 0.01)
+    echo(str("WARNING: table_length ", TABLE_LEN, "mm is longer than this body's table allows: the table starts at ", round(table_rear_z * 10) / 10, "mm from the shank end"));
   if (has_text(top_text) && top_text_width > top_text_room + 0.01)
     echo(str("WARNING: top_text is about ", round(top_text_width), "mm wide but the top is about ", round(top_text_room), "mm wide there — the ends are cut off; make it smaller, shorter or run it along the body"));
   if ((has_text(side_text_right) || has_text(side_text_left)) && side_text_long > lettering_z1 - lettering_z0 + 0.01)
@@ -1497,7 +1501,7 @@ function param_focus() =
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
    ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],
    ["tip_rail_thickness", tip, "table", false], ["tip_curve", tip, "table", false],
-   ["table_width_tip", table, "table", false], ["table_width_rear", table, "table", false], ["reed_length", table, "table", false],
+   ["table_width_tip", table, "table", false], ["table_width_rear", table, "table", false], ["table_length", table, "table", false],
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
    ["body_width", whole, "top", false], ["body_height", whole, "side", false], ["beak_tip_height", beak, "side", false],

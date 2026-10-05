@@ -54,7 +54,7 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 
 ### Table, facing, window, socket
 
-- **Table**: a flat reed seat from the reed heel (`L - reed_length`) to the facing break, width set
+- **Table**: a flat reed seat from the table's back end (`L - table_length`) to the facing break, width set
   directly (`table_width_rear` -> `table_width_tip`): `table_bot_line` solves each ring's underside
   so the y = 0 chord is exactly that wide; a short scoop (`table_ramp`, 0.09 L) blends the underside
   from the tenon. `table_concavity` adds a half-sine hollow (reed heel to break) in the facing cutter.

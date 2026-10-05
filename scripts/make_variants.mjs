@@ -479,7 +479,7 @@ for (const voice of process.argv.slice(2)) {
     // and the throat moves with the window (both are in mm from the tip end) so it stays before it.
     const num = (k) => +new RegExp(`^${k} = (-?[0-9.]+);`, 'm').exec(src)[1];
     const L0 = num('overall_length'),
-      Lmin = Math.min(L0, Math.ceil((num('reed_length') / 0.84 + 0.3) * 10) / 10);
+      Lmin = Math.min(L0, Math.ceil((num('table_length') / 0.84 + 0.3) * 10) / 10);
     const L1 = r1(Math.max(L0 * (1 + LENGTH[fam]), Lmin));
     const { shank = 1, ...looks } = LOOKS[fam](v);
     const vals = {

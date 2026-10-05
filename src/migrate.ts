@@ -1,6 +1,6 @@
-// Designs saved before the parameter renames of 2026-09-26 (in this browser, in downloaded .scad
-// files and in share links) still open as they were: their old parameter names are rewritten to
-// the new ones, in the file's text and in the changed values.
+// Designs saved before a parameter rename (2026-09-26, 2026-10-05), in this browser, in downloaded
+// .scad files and in share links, still open as they were: their old parameter names are rewritten
+// to the new ones, in the file's text and in the changed values.
 import type { ParamValue } from "./api";
 
 export const RENAMED: Record<string, string> = {
@@ -14,6 +14,7 @@ export const RENAMED: Record<string, string> = {
   tip_round: "tip_curve",
   side_text_height: "side_text_vertical",
   baffle_rollover: "baffle_hump",
+  reed_length: "table_length", // 2026-10-05, the same length
 };
 const OLD = new RegExp(`\\b(${Object.keys(RENAMED).join("|")})\\b`, "g");
 

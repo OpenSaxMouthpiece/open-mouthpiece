@@ -79,8 +79,8 @@ tip_curve = 3.7; // [0.5:0.1:12]
 table_width_tip = 16.0; // [8:0.1:30]
 // Width of the reed seat at the back (mm). Match your reed's heel.
 table_width_rear = 13.6; // [8:0.1:30]
-// Length of your reed (mm): the reed seat starts this far back from the tip.
-reed_length = 75.5; // [50:0.5:120]
+// Length of the table, from the tip to its back end (mm), the facing included.
+table_length = 75.5; // [50:0.5:120]
 // A slight hollow along the reed seat (mm) so the reed seals at both ends.
 table_concavity = 0; // [0:0.005:0.1]
 
