@@ -1,12 +1,12 @@
-// Page-side handle on the OpenSCAD workers. Two lanes, each one worker running one job at a time
-// in order: "render" for geometry (seconds), "quick" for parameter lists, echo readouts and
+// Page-side handle on the OpenSCAD workers. Three lanes, each one worker running one job at a time
+// in order: "render" for geometry (seconds), "parts" for the ligature, reed and cap beside it, "quick" for parameter lists, echo readouts and
 // picture measurements (well under a second), so the Customizer, zoom-to-parameter and the Curves
 // panel don't wait behind a render. Aborting a job terminates its worker (the only way to stop a
 // running OpenSCAD) and the lane's next job starts a fresh one, like the local server killing its
 // OpenSCAD process.
 import type { WasmJob, WasmResult } from "./types";
 
-export type Lane = "render" | "quick";
+export type Lane = "render" | "quick" | "parts";
 type Pending = { job: WasmJob; resolve(r: WasmResult): void; reject(e: unknown): void; signal?: AbortSignal };
 interface LaneState {
   worker: Worker | null;
@@ -18,6 +18,7 @@ const BASE = new URL(import.meta.env.BASE_URL, location.href).href;
 const lanes: Record<Lane, LaneState> = {
   render: { worker: null, running: null, queue: [] },
   quick: { worker: null, running: null, queue: [] },
+  parts: { worker: null, running: null, queue: [] },
 };
 let nextId = 1;
 

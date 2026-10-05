@@ -382,7 +382,23 @@ export function Viewer({
     };
   }, []);
 
-  const frame = (view: ViewName) => {
+  // size of the framed box last time, to refit the view when the model grows or shrinks a lot
+  const fitSize = useRef<THREE.Vector3 | null>(null);
+  const sizeChanged = (box: THREE.Box3) => {
+    const size = box.getSize(new THREE.Vector3());
+    const old = fitSize.current;
+    fitSize.current = size;
+    return (
+      !!old &&
+      [0, 1, 2].some((i) => {
+        const a = old.getComponent(i),
+          b = size.getComponent(i);
+        return Math.max(a, b) > 1.25 * Math.max(Math.min(a, b), 1e-6);
+      })
+    );
+  };
+
+  const frame = (view: ViewName, keepDir = false) => {
     const ctx = ctxRef.current;
     if (!ctx) return;
     // side by side: B goes to the screen's right, so from the side it stands beside A, not behind it
@@ -392,8 +408,11 @@ export function Viewer({
     if (box.isEmpty()) return;
     const sphere = box.getBoundingSphere(new THREE.Sphere());
     const dist = (sphere.radius / Math.sin(THREE.MathUtils.degToRad(ctx.camera.fov / 2))) * 1.05;
-    const dir = new THREE.Vector3(...VIEW_DIRS[view]).normalize();
+    const dir = keepDir
+      ? ctx.camera.position.clone().sub(ctx.controls.target).normalize()
+      : new THREE.Vector3(...VIEW_DIRS[view]).normalize();
     ctx.camera.position.copy(sphere.center).addScaledVector(dir, dist);
+    fitSize.current = box.getSize(new THREE.Vector3());
     ctx.camera.near = dist / 100;
     ctx.camera.far = dist * 100;
     ctx.camera.updateProjectionMatrix();
@@ -689,7 +708,7 @@ export function Viewer({
     if (stl && framedFor.current !== frameKey) {
       framedFor.current = frameKey;
       frame("iso");
-    }
+    } else if (stl && !svg && sizeChanged(new THREE.Box3().setFromObject(ctx.model))) frame("iso", true);
     ctx.draw();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stl]);
@@ -703,9 +722,9 @@ export function Viewer({
     placeB(ctx);
     applySection(ctx);
     // a different B: frame both (a re-aligned STL of the same B keeps the camera)
-    if (compare && compareKey !== framedB.current) {
+    if (compare && (compareKey !== framedB.current || sizeChanged(new THREE.Box3().setFromObject(ctx.model)))) {
       framedB.current = compareKey;
-      frame("iso");
+      frame("iso", compareKey === framedB.current);
     } else ctx.draw();
     if (!compare) framedB.current = undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps

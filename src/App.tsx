@@ -1489,9 +1489,12 @@ export default function App() {
       onClose={closeTab}
     />
   );
+  const shownStatus = notice ?? status;
+  const partsNote =
+    !notice && status.kind === "ok" && model.partsBusy.length ? ` · updating ${model.partsBusy.join(" + ")}…` : "";
   const statusBar = (
-    <div className={`status ${(notice ?? status).kind}`}>
-      <span>{coding ? (notice ?? status).text : ((notice ?? status).short ?? (notice ?? status).text)}</span>
+    <div className={`status ${shownStatus.kind}`}>
+      <span>{(coding ? shownStatus.text : (shownStatus.short ?? shownStatus.text)) + partsNote}</span>
       {coding && <span className="backend">{backend && `OpenSCAD · ${backend}`}</span>}
     </div>
   );
@@ -1651,7 +1654,10 @@ export default function App() {
   // the mouthpiece's brings the mouthpiece back if it was hidden.
   const openPartTab = (t: PartTab) => {
     if (t !== "mouthpiece" && otherPart) setValue("part", "mouthpiece", undefined);
-    if (t === "mouthpiece") setShowMp(true);
+    if (t === "mouthpiece") {
+      setShowMp(true);
+      setCapV((v) => ({ ...v, on: false })); // its renders stop while the mouthpiece is edited
+    }
     if (t === "ligature") {
       setLig((l) => ({ ...l, on: true }));
       setCapV((v) => ({ ...v, on: false }));
@@ -1849,7 +1855,7 @@ export default function App() {
               aria-live="polite"
               title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
             >
-              {dlLabel(dlWhat, dlWhat === "model" ? dlName : dlWhat === "cap" ? "Cap" : "Ligature")}
+              {dlLabel(dlWhat, dlName)}
             </button>
           )}
         </header>

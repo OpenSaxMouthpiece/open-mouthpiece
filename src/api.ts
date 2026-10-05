@@ -44,7 +44,12 @@ export interface Api {
   save(path: string, source: string): Promise<{ ok: boolean }>;
   remove(path: string): Promise<{ ok: boolean }>; // one of the user's saved files
   params(t: RenderTarget, signal?: AbortSignal): Promise<{ parameters: ScadParam[]; log: string }>;
-  render(t: RenderTarget, values: Record<string, ParamValue>, signal?: AbortSignal): Promise<RenderResult>;
+  render(
+    t: RenderTarget,
+    values: Record<string, ParamValue>,
+    signal?: AbortSignal,
+    lane?: "render" | "parts",
+  ): Promise<RenderResult>;
   // Evaluate without geometry; the log holds the ECHO lines.
   echo(
     t: RenderTarget,

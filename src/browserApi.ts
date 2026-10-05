@@ -200,7 +200,12 @@ export const browserApi: Api = {
     return { parameters, log: w.clean(r.log) };
   },
 
-  render: async (t: RenderTarget, values: Record<string, ParamValue>, signal?: AbortSignal): Promise<RenderResult> => {
+  render: async (
+    t: RenderTarget,
+    values: Record<string, ParamValue>,
+    signal?: AbortSignal,
+    lane: "render" | "parts" = "render",
+  ): Promise<RenderResult> => {
     const t0 = performance.now();
     const w = await workspace(t);
     const defs = defineArgs(values);
@@ -212,6 +217,7 @@ export const browserApi: Api = {
         outputs: ["/tmp/out.stl"],
       },
       signal,
+      lane,
     );
     const ms = () => Math.round(performance.now() - t0);
     const stl = r3.outputs["/tmp/out.stl"];
@@ -226,6 +232,7 @@ export const browserApi: Api = {
           outputs: ["/tmp/out.svg"],
         },
         signal,
+        lane,
       );
       const svg = r2.outputs["/tmp/out.svg"];
       if (r2.code === 0 && svg)

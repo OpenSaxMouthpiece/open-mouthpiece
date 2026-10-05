@@ -21,6 +21,7 @@ export function useParamFocus(state: RefObject<FocusState>) {
   const pending = useRef<{ sig: string; data: Promise<FocusData | null> } | null>(null);
   const latest = useRef<{ file: string; data: FocusData } | null>(null);
   const last = useRef({ name: "", at: 0, n: 0 });
+  const prefetchAbort = useRef<AbortController | null>(null);
 
   // The focus data for this model state is on its way (from a run made anyway, or its own).
   const setFocusData = useCallback((t: RenderTarget, vals: Values, data: Promise<FocusData | null>) => {
@@ -30,16 +31,20 @@ export function useParamFocus(state: RefObject<FocusState>) {
     });
   }, []);
 
+  // A newer prefetch cancels the older one (which then resolves to null).
   const prefetchFocus = useCallback(
-    (t: RenderTarget, vals: Values) =>
+    (t: RenderTarget, vals: Values) => {
+      prefetchAbort.current?.abort();
+      const ac = (prefetchAbort.current = new AbortController());
       setFocusData(
         t,
         vals,
         api
-          .echo({ ...t, source: t.source + FOCUS_ECHO }, vals)
+          .echo({ ...t, source: t.source + FOCUS_ECHO }, vals, ac.signal)
           .then((r) => parseFocusEcho(r.log))
           .catch(() => null),
-      ),
+      );
+    },
     [setFocusData],
   );
 

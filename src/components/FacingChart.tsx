@@ -118,7 +118,8 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
   const path = curve.map(([d, h], i) => `${i ? "L" : "M"}${x(d).toFixed(1)},${y(mmToThou(h)).toFixed(1)}`).join("");
   const stops = gaugeStops(curve);
   const dTicks = Array.from({ length: Math.floor(dom.maxD / 5) + 1 }, (_, i) => i * 5);
-  const tTicks = Array.from({ length: dom.maxT / 20 + 1 }, (_, i) => i * 20);
+  const tStep = [10, 20, 50, 100].find((s) => dom.maxT / s <= 7) ?? 100;
+  const tTicks = Array.from({ length: Math.floor(dom.maxT / tStep) + 1 }, (_, i) => i * tStep);
 
   // ---- editing
   const commitInner = (pts: Pt[]) => edit?.onGauge(pts.map(([d, g]) => [round(d, 10), round(g, 1000)] as Pt));

@@ -3,7 +3,7 @@
 // run also makes the readouts' reports and the zoom targets (one OpenSCAD run instead of three:
 // each run evaluates the whole generator again). After it: the ligature, a model reed and the cap, while shown.
 import { useCallback, useRef, useState, type RefObject } from "react";
-import { api, base64ToBuffer, type RenderTarget, type ScadParam } from "../api";
+import { api, base64ToBuffer, type RenderResult, type RenderTarget, type ScadParam } from "../api";
 import { parseAirVolume } from "../compare";
 import { FOCUS_ECHO, parseFocusEcho, type FocusData } from "../focus";
 import {
@@ -44,6 +44,7 @@ interface Options {
 const REFINE_DELAY = 700; // ms of quiet after a draft before the full-quality render
 const SLOW_RENDER_S = 45; // reported to the site's log when a render takes longer
 const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n";
+const FACING_ECHO = "\nfacing_report();\n";
 // The reports' lines stay out of the console, and so do the WebAssembly build's harmless startup
 // complaints (no locale files, no fontconfig file: the generator registers its fonts itself).
 const NOISE = /^(Could not initialize localization|Fontconfig error: Cannot load default config file)/;
@@ -57,6 +58,27 @@ const withoutReports = (log: string) =>
     .split("\n")
     .filter((l) => !/^ECHO: (PARAM_FOCUS|"(FACING|CLEARANCE))/.test(l))
     .join("\n");
+// Settings that only the accessories read: changing them leaves the mouthpiece as it is (checked by
+// rendering the alto with ligature_made, cap_made and several ligature_* / cap_* values changed: the
+// mouthpiece STL was byte-identical).
+const ACCESSORY_KEY = /^(ligature_|cap_)/;
+// Mouthpiece-interior settings the ligature and cap don't read (checked by rendering ligature_seated
+// and cap_seated with baffle_, chamber_, throat_ and floor_ settings changed: byte-identical).
+export const INTERIOR_PREFIXES = ["baffle_", "chamber_", "throat_", "floor_"];
+const withoutKeys = (vals: Values, drop: (k: string) => boolean) =>
+  Object.fromEntries(Object.entries(vals).filter(([k]) => !drop(k)));
+const targetSig = (t: RenderTarget) =>
+  JSON.stringify([t.path, t.name, t.source, Object.entries(t.files).map(([k, v]) => [k, v.length, v])]);
+// The other accessories' settings each part ignores (checked the same way: the ligature with cap_*
+// changed, the reed with ligature_* and cap_* changed, byte-identical). The cap reads ligature_*.
+const IGNORES: Record<string, RegExp> = { ligature_seated: /^cap_/, reed_model: ACCESSORY_KEY };
+const partSignature = (t: RenderTarget, vals: Values, fn: number | null, part: string) =>
+  JSON.stringify([
+    targetSig(t),
+    part,
+    fn,
+    withoutKeys(vals, (k) => INTERIOR_PREFIXES.some((p) => k.startsWith(p)) || !!IGNORES[part]?.test(k)),
+  ]);
 const withFn = (vals: Values, fn: number | null): Values => (fn === null ? vals : { ...vals, render_fn: fn });
 
 export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }: Options) {
@@ -73,14 +95,15 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const [capInfo, setCapInfo] = useState<CapInfo | null>(null);
 
   const renderAbort = useRef<AbortController | null>(null);
-  const ligAbort = useRef<AbortController | null>(null);
-  const capAbort = useRef<AbortController | null>(null);
   const reportsAbort = useRef<AbortController | null>(null);
   const refineTimer = useRef<number | undefined>(undefined);
   const shownFn = useRef<number | null>(null); // render_fn of the model on screen (null: the file's own)
   // The model on screen is a draft / has its readouts' reports (or they are on their way).
   const shownDraft = useRef(false);
   const shownReports = useRef(false);
+  // What the mouthpiece on screen was last rendered from, and whether a render of it is running.
+  const lastMain = useRef<{ tsig: string; vals: Values } | null>(null);
+  const mainBusy = useRef(false);
 
   // The render_fn the quality selector puts in, or null when the file has no render_fn parameter
   // or the user set it themselves.
@@ -96,46 +119,95 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     return ref.current;
   };
 
-  // The ligature for the model just rendered (seated, in the model's frame) and/or a reed: small
-  // renders (the band and the reed are simple lofts), each only while shown.
-  const loadLigature = useCallback(
-    async (t: RenderTarget, vals: Values, fn: number | null) => {
-      const ac = restart(ligAbort);
-      const { on, reed } = state.current!.lig;
+  // Accessory renders (ligature, reed, cap) run on their own worker lane beside the mouthpiece's, each
+  // with its own abort and a signature of what it was made from: asked again for the same thing it
+  // does nothing (it's running, or done). A cleared signature (aborted, failed, new design) re-runs.
+  const sigs = useRef<Record<string, string>>({});
+  const aborts = useRef<Record<string, AbortController | null>>({});
+  const [partsBusy, setPartsBusy] = useState<string[]>([]);
+  const busyOf = (name: string, on: boolean) =>
+    setPartsBusy((b) => (on ? (b.includes(name) ? b : [...b, name]) : b.filter((x) => x !== name)));
+  // Stops the accessory renders still running (they re-run when asked again); finished ones keep
+  // their signature, so a later pass for the same thing (e.g. after an interior change) skips them.
+  const stopParts = () => {
+    for (const [k, ac] of Object.entries(aborts.current)) {
+      if (!ac) continue;
+      ac.abort();
+      delete sigs.current[k];
+    }
+    aborts.current = {};
+    setPartsBusy([]);
+  };
+  const runPart = useCallback(
+    async (
+      name: string,
+      part: string,
+      t: RenderTarget,
+      vals: Values,
+      fn: number | null,
+      apply: (r: RenderResult) => void,
+    ) => {
+      const sig = partSignature(t, vals, fn, part);
+      if (sigs.current[name] === sig) return;
+      sigs.current[name] = sig;
+      aborts.current[name]?.abort();
+      const ac = (aborts.current[name] = new AbortController());
+      busyOf(name, true);
       try {
-        if (on) {
-          const r = await api.render(t, withFn({ ...vals, part: "ligature_seated" }, fn), ac.signal);
-          if (ac.signal.aborted) return;
-          setLigInfo(parseLigature(r.log));
-          setLigStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
-        }
-        if (reed) {
-          const r = await api.render(t, withFn({ ...vals, part: "reed_model" }, fn), ac.signal);
-          if (ac.signal.aborted) return;
-          setReedStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
-        }
+        const r = await api.render(t, withFn({ ...vals, part }, fn), ac.signal, "parts");
+        if (ac.signal.aborted) return;
+        if (!r.ok) delete sigs.current[name];
+        apply(r);
       } catch {
-        // superseded or failed: the last ligature stays
+        // superseded or failed: the last one stays
+        if (!ac.signal.aborted) delete sigs.current[name];
+      } finally {
+        if (aborts.current[name] === ac) {
+          aborts.current[name] = null; // done: nothing to stop
+          busyOf(name, false);
+        }
       }
     },
-    [state],
+    [],
   );
 
-  // The cap for the model just rendered, seated on it (the model's frame), only while shown.
-  const loadCap = useCallback(async (t: RenderTarget, vals: Values, fn: number | null) => {
-    const ac = restart(capAbort);
-    try {
-      const r = await api.render(t, withFn({ ...vals, part: "cap_seated" }, fn), ac.signal);
-      if (ac.signal.aborted) return;
-      setCapInfo(parseCap(r.log));
-      setCapStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
-    } catch {
-      // superseded or failed: the last cap stays
-    }
-  }, []);
+  // The ligature for the model (seated, in the model's frame) and/or a reed: small renders (the band
+  // and the reed are simple lofts), each only while shown.
+  const loadLigature = useCallback(
+    async (t: RenderTarget, vals: Values, fn: number | null) => {
+      const { on, reed } = state.current!.lig;
+      await Promise.all([
+        on &&
+          runPart("ligature", "ligature_seated", t, vals, fn, (r) => {
+            setLigInfo(parseLigature(r.log));
+            setLigStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
+          }),
+        reed &&
+          runPart("reed", "reed_model", t, vals, fn, (r) => setReedStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null)),
+      ]);
+    },
+    [state, runPart],
+  );
+
+  // The cap for the model, seated on it (the model's frame), only while shown.
+  const loadCap = useCallback(
+    (t: RenderTarget, vals: Values, fn: number | null) =>
+      runPart("cap", "cap_seated", t, vals, fn, (r) => {
+        setCapInfo(parseCap(r.log));
+        setCapStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
+      }),
+    [runPart],
+  );
+
+  // The accessories that are shown, for these values.
+  const loadParts = (t: RenderTarget, vals: Values, fn: number | null) => {
+    const s = state.current!;
+    if ((s.lig.on || s.lig.reed) && s.ligOK) loadLigature(t, vals, fn);
+    if (s.cap.on && s.capOK) loadCap(t, vals, fn);
+  };
 
   // The readouts' reports on their own (facing curve, thinnest wall), for when the readouts come
-  // into view after a render made without them.
+  // into view after a render made without them: one echo run.
   const loadReports = useCallback(
     async (t: RenderTarget, vals: Values) => {
       const ac = restart(reportsAbort);
@@ -145,8 +217,8 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         // the zoom targets ride along (param_focus() doesn't depend on part): no extra run
         const zoomToo = state.current!.zoom;
         const fp = api.echo(
-          zoomToo ? { ...t, source: t.source + FOCUS_ECHO } : t,
-          { ...vals, part: "facing_report" },
+          { ...t, source: t.source + FACING_ECHO + (zoomToo ? FOCUS_ECHO : "") },
+          { ...vals, part: "clearance_report" },
           ac.signal,
         );
         if (zoomToo)
@@ -158,9 +230,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         const f = await fp;
         if (ac.signal.aborted) return;
         setFacing(parseFacing(f.log));
-        const c = await api.echo(t, { ...vals, part: "clearance_report" }, ac.signal);
-        if (ac.signal.aborted) return;
-        setWall(parseClearance(c.log));
+        setWall(parseClearance(f.log));
       } catch {
         // superseded or failed: the cards keep their last values
       }
@@ -176,8 +246,14 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
       if (!t) return;
       clearTimeout(refineTimer.current);
       const ac = restart(renderAbort);
+      mainBusy.current = true;
+      lastMain.current = null;
       const fn = qualityFn(draft ? "draft" : q, vals);
       const isDraft = draft && fn !== null && q !== "draft";
+      // The accessories start with the final render, on their own lane (not behind it); a draft
+      // pass stops them, so dragging only runs drafts.
+      if (isDraft) stopParts();
+      else if (s.ligOK || s.capOK) loadParts(t, vals, fn);
       setStatus({ text: `Rendering ${t.name}${isDraft ? " (draft)" : ""}…`, short: "Rendering…", kind: "busy" });
       renderStarted(reportDesign(t.path));
       const slow = window.setTimeout(
@@ -231,8 +307,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
             short: `${isDraft ? "Draft" : "Ready"} · ${secs}${isDraft ? " · refining…" : ""}`,
             kind: "ok",
           });
-          if (!isDraft && (s.lig.on || s.lig.reed) && s.ligOK) loadLigature(t, vals, fn);
-          if (!isDraft && s.cap.on && s.capOK) loadCap(t, vals, fn);
+          lastMain.current = { tsig: targetSig(t), vals };
           if (isDraft) refineTimer.current = window.setTimeout(() => renderPass(false), REFINE_DELAY);
           else if (!withReports && s.zoom) prefetchFocus(t, vals);
         } else if (r.kind === "2d" && r.svg) {
@@ -254,12 +329,37 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
       } catch (err) {
         if (ac.signal.aborted) return;
         setStatus({ text: `OpenSCAD error: ${(err as Error).message}`, kind: "error" });
+      } finally {
+        if (renderAbort.current === ac) mainBusy.current = false;
       }
     },
-    [state, qualityFn, setStatus, setFocusData, prefetchFocus, loadLigature, loadCap],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- stopParts / loadParts only use refs and state setters
+    [state, qualityFn, setStatus, setFocusData, prefetchFocus],
   );
 
-  const render = useCallback(() => renderPass(true), [renderPass]);
+  // A change: a draft pass then the chosen quality. When only accessory settings changed since the
+  // mouthpiece on screen was rendered, the mouthpiece stays and just the accessories re-run.
+  const render = useCallback(() => {
+    const s = state.current!;
+    const last = lastMain.current;
+    if (last && s.target && !mainBusy.current && !shownDraft.current && last.tsig === targetSig(s.target)) {
+      const keys = new Set([...Object.keys(last.vals), ...Object.keys(s.values)]);
+      const part = (v: Values) => v.part ?? "mouthpiece";
+      const same =
+        part(last.vals) === "mouthpiece" &&
+        part(s.values) === "mouthpiece" &&
+        [...keys].every(
+          (k) => ACCESSORY_KEY.test(k) || k === "part" || JSON.stringify(last.vals[k]) === JSON.stringify(s.values[k]),
+        );
+      if (same) {
+        clearTimeout(refineTimer.current);
+        loadParts(s.target, s.values, shownFn.current);
+        return;
+      }
+    }
+    return renderPass(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadParts only uses refs and state setters
+  }, [state, renderPass]);
 
   // The model on screen (part null) or another part, for a download: at the chosen quality, Normal
   // at least (never a draft); the model on screen when it already is that. extra: settings on top
@@ -302,11 +402,14 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     setSvg(null);
   };
   const clearLigature = () => {
+    stopParts();
+    sigs.current = {};
     setLigStl(null);
     setReedStl(null);
     setLigInfo(null);
     setCapStl(null);
     setCapInfo(null);
+    stopParts();
   };
 
   return {
@@ -322,6 +425,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     ligInfo,
     capStl,
     capInfo,
+    partsBusy,
     loadCap,
     shownFn,
     render,

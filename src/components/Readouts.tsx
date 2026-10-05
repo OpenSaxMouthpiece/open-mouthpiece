@@ -111,7 +111,7 @@ export function Notes({ notes }: { notes: string[] }) {
       )}
       {auto.length > 0 && (
         <details className="readout-adjusted">
-          <summary>Adjusted automatically ({auto.length}): nothing to do</summary>
+          <summary>Adjusted automatically ({auto.length})</summary>
           <ul>
             {auto.map((n) => (
               <li key={n}>{n}</li>

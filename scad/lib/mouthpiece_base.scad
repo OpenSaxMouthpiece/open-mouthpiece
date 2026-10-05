@@ -1146,7 +1146,8 @@ Z_STEP = 64 / render_fn;
 
 // The interior's rings, computed ONCE and shared by the interior loft, the air-volume readout and
 // the clearance report: [[z, ring, points], ...] from the end of the socket to the window front.
-AIR_RINGS = [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
+// Not needed by the ligature, cap and reed parts: skipped there (each run evaluates the whole file).
+AIR_RINGS = (part == "ligature_seated" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap") ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
   let(I = interior_ring_at(z)) [z, I, interior_points(ring_dirs(INT_RING_POINTS), z, I)]];
 
 // ---- Exterior: tenon -> flare -> tapered body -> beak -> wide rounded tip, as one loft. The
