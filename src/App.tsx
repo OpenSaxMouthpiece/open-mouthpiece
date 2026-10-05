@@ -88,6 +88,7 @@ import { useParamFocus } from "./hooks/useParamFocus";
 import { useModelRender, type RenderState, type Status } from "./hooks/useModelRender";
 
 const HINT_KEY = "open-mouthpiece-hint-v1";
+const PHONE_VIEW_KEY = "open-mouthpiece-phone-view-v1";
 // Point lists set as values (the Customizer can't show them), kept while the parameter that uses
 // them is there: the facing chart's gauge points (facing_model = "gauge").
 const POINT_VALUES: Record<string, string> = { facing_gauge_points: "facing_model" };
@@ -124,7 +125,15 @@ export default function App() {
   const [codeOpen, setCodeOpen] = usePref("codeOpen", false); // the code editor + console column (desktop)
   const winW = useWindowWidth();
   const isPhone = useMediaQuery("(max-width: 1024px)"); // phones and portrait tablets
-  const [phoneViewerH, setPhoneViewerH] = useState(46); // the phone view's height (dvh), dragged
+  // the phone view's height (dvh), dragged; remembered in this browser
+  const [phoneViewerH, setPhoneViewerH] = useState(() => {
+    try {
+      const v = Number(localStorage.getItem(PHONE_VIEW_KEY));
+      return v >= 20 && v <= 85 ? v : 46;
+    } catch {
+      return 46;
+    }
+  });
   const [phonePanel, setPhonePanel] = useState<"design" | "readouts" | "code" | "console">("design");
   const [menuOpen, setMenuOpen] = useState(false);
   // "Deep" work (editing code): on a phone the Code tab, on a desktop the open code column. Without
@@ -1919,6 +1928,13 @@ export default function App() {
           onPointerMove={(e) => {
             if (!e.currentTarget.hasPointerCapture(e.pointerId)) return;
             setPhoneViewerH(Math.min(85, Math.max(20, (e.clientY / window.innerHeight) * 100)));
+          }}
+          onPointerUp={() => {
+            try {
+              localStorage.setItem(PHONE_VIEW_KEY, String(Math.round(phoneViewerH)));
+            } catch {
+              // storage unavailable: the height just isn't remembered
+            }
           }}
         />
 

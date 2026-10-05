@@ -190,7 +190,8 @@ static site (docs/HOSTING.md).
   lists the numbers then the parameter diff. A legend chip (✕ clears B), "A"/"B" labels; a new B
   switches to side by side (+X; +Y in left/right views or with a lengthwise cut). View settings
   live in a module-level store (both layouts mount their own viewers), toggles in
-  `open-mouthpiece-view-v1`.
+  `open-mouthpiece-view-v1`. Phone: a drag bar under the view sets its height (20-85dvh, kept in
+  `open-mouthpiece-phone-view-v1`).
 - **An STL as B**: `meshFrame.ts` (the browser port of `mesh_frame.mjs`'s `toFrame`: reed table =
   largest flat face with the mesh on one side, long axis, thin end = tip) into the design frame,
   then the model's print rotation (`FRAME_ECHO`), stood on its lowest point. No table found: shown
