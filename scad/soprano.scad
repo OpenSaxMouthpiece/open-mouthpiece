@@ -250,6 +250,8 @@ cap_end_vent_size = 2; // [1:0.5:4]
 cap_wall = 1.6; // [1.2:0.1:4]
 // Follows the mouthpiece (smoothed), or round.
 cap_shape = "conform"; // [conform, round]
+// Lengthens the cap toward the shank (mm); the most covers the whole mouthpiece.
+cap_extend = 0; // [0:1:120]
 // Space between the tip and the inside of the closed end (mm).
 cap_end_gap = 4; // [1:0.5:20]
 // Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.

@@ -225,6 +225,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "cap_end_vent_size", label: "End hole size" },
       { name: "cap_wall", label: "Wall" },
       { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
+      { name: "cap_extend", label: "Extra length (toward the shank)" },
       { name: "cap_end_gap", label: "Space at the end" },
       { name: "cap_end_dome", label: "End shape" },
       {

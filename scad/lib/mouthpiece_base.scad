@@ -294,6 +294,8 @@ cap_end_vent_size = 2; // [1:0.5:4]
 cap_wall = 1.6; // [1.2:0.1:4]
 // Follows the mouthpiece (smoothed), or round.
 cap_shape = "conform"; // [conform, round]
+// Lengthens the cap toward the shank (mm); the most covers the whole mouthpiece.
+cap_extend = 0; // [0:1:120]
 // Space between the tip and the inside of the closed end (mm).
 cap_end_gap = 5; // [1:0.5:20]
 // Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
@@ -1780,7 +1782,8 @@ CAP_FLEX = 0.4;              // how far the collar may be pushed out on its way 
 cap_m_len = max(4, min(cap_metal_length, lig_room));
 cap_m_z1 = min(L - 8, max(table_rear_z + 1 + cap_m_len, win_z0 - cap_metal_position));
 cap_m_z0 = cap_m_z1 - cap_m_len;
-cap_z0 = max(6, (CAP_PRINTED ? lig_zt : cap_m_z0) - 1);   // the rim: 1mm behind the ligature (tongue included)
+cap_zr = max(6, (CAP_PRINTED ? lig_zt : cap_m_z0) - 1);   // the short cap's rim: 1mm behind the ligature (tongue included)
+cap_z0 = max(0, cap_zr - cap_extend);                      // the rim, cap_extend further back (0 = the shank end)
 cap_cz0 = CAP_PRINTED ? lig_z0 : cap_m_z0;                 // the collar: over the band
 cap_cz1 = (CAP_PRINTED ? lig_z1 : cap_m_z1) - 0.5;
 cap_nst = max(4, ceil((L - 0.05 - cap_z0) / 1));           // stations, ~1mm apart
@@ -1922,8 +1925,9 @@ module cap_part() {
     nd > 0 ? [for (j = [0 : nd - 1]) let(psi = psis[j]) lig_ring(Hm[n + 2 + j], X[n + 2 + j] + cap_wall * sin(psi), cap_wall * cos(psi))]
            : [lig_ring(Hm[n + 1], zb + cap_wall, cap_wall)]);
   z_end = zb + dh + cap_wall;
-  // the slot: cap_slot_length from the rim (past the window), kept 3mm short of the dome
-  z_slot1 = min(zb - 3, max(cap_z0 + cap_slot_length, cap_win_w > 0 ? cap_win_z1 + 2 : 0));
+  // the slot: from the rim to cap_slot_length past the short cap's rim (so a longer cap's collar
+  // still springs), past the window, kept 3mm short of the dome
+  z_slot1 = min(zb - 3, max(cap_zr + cap_slot_length, cap_win_w > 0 ? cap_win_z1 + 2 : 0));
   // the end's holes: a row on the dome's centre line, within 55% of its half-width (so each starts
   // inside the cap), cap_end_vent_size + 1.6mm apart
   e_hw = 0.55 * min(hl[LIG_N / 4], hl[3 * LIG_N / 4]);
@@ -1975,8 +1979,8 @@ module cap_part() {
   echo(str("EXPECTED GENUS ", e_n));
   if (e_n < cap_end_vents)
     echo(str("WARNING: cap_end_vents ", cap_end_vents, " reduced to ", e_n, ": that many fit across the cap's end"));
-  if (cap_slot_length > 0 && z_slot1 < cap_z0 + cap_slot_length - 0.01)
-    echo(str("WARNING: cap_slot_length ", cap_slot_length, "mm shortened to ", r2(z_slot1 - cap_z0), "mm: it stops 3mm short of the closed end"));
+  if (cap_slot_length > 0 && z_slot1 < cap_zr + cap_slot_length - 0.01)
+    echo(str("WARNING: cap_slot_length ", cap_slot_length, "mm shortened to ", r2(z_slot1 - cap_zr), "mm: it stops 3mm short of the closed end"));
   if (cap_grip > 0.01 && squeeze < 0.5 * cap_grip)
     echo(str("WARNING: the cap's collar only squeezes ", r2(max(0, squeeze)), "mm (cap_grip ", cap_grip, "mm)"));
   if (CAP_HAS_ART && cap_art_depth < lettering_depth)
