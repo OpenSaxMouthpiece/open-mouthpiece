@@ -670,13 +670,15 @@ function exterior_bottom_from(z, hw, top, n_bot) =
 //   [half_width, top, bottom, widest_y, top_exponent, bottom_exponent]  (indices E_*)
 E_HW = 0; E_TOP = 1; E_BOT = 2; E_CY = 3; E_NT = 4; E_NB = 5;
 // A top exponent below 2 makes a ridge along the top center. Fine on the body, but where the beak
-// thins out toward the tip it becomes a spike, so it eases up to 2 (round) before the tip curve.
+// thins out toward the tip it becomes a spike, so it eases up to TIP_TOP_EXP before the tip curve:
+// 1.8, nearly round (2 made the top near the tip flatter and wider than real beaks; 1.8 shows no spike).
 // The ease runs over a quarter of the length: over only 6mm the section changed shape fast enough
 // to show as a crease across the beak (worst with a low beak_squareness).
+TIP_TOP_EXP = 1.8;
 tip_round_ease = max(6, 0.25 * L);
 function exterior_top_exp_final(z) =
   let(n = exterior_top_exp(z), t = smootherstep(clamp01((z - (L - tip_curve - tip_round_ease)) / tip_round_ease)))
-  n < 2 ? lerp(n, 2, t) : n;
+  n < TIP_TOP_EXP ? lerp(n, TIP_TOP_EXP, t) : n;
 
 tip_nose = 1.2;  // mm: how far back the front edge of the tip rounds over (see exterior_ring_at)
 
