@@ -71,7 +71,7 @@ export function ComparePanel({ a, b, labelA, labelB, onUseB, onSwap, onClear }: 
       unit: " mm",
     },
     {
-      label: "Facing curve length",
+      label: "Facing length",
       a: A?.facing,
       b: B?.facing,
       show: (v) => `${fmt(v, 1)} mm`,

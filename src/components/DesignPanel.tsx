@@ -27,6 +27,7 @@ interface Props {
   onFocusParam(name: string): void;
   readouts?: ReactNode; // shown above the controls, not scrolling (desktop)
   facing?: ReactNode; // the facing chart, under "Tip & facing"
+  profile?: ReactNode; // the side section, under "Chamber & baffle" and "Body & beak"
   printKit?: ReactNode; // the print kit download, under "Printing"
   ligature?: { on: boolean; shown?: boolean; head: ReactNode }; // the Ligature section: its head (make / show / download), controls once on
   cap?: { on: boolean; head: ReactNode }; // the Cap section: its head (make / show / download), controls once made
@@ -59,6 +60,7 @@ export function DesignPanel({
   onFocusParam,
   readouts,
   facing,
+  profile,
   printKit,
   ligature,
   cap,
@@ -283,6 +285,7 @@ export function DesignPanel({
                 );
               })}
               {s.title === "Tip & facing" && !q && facing}
+              {(s.title === "Chamber & baffle" || s.title === "Body & beak") && !q && profile}
               {s.title === "Printing" && !q && printKit}
             </Fold>
           );

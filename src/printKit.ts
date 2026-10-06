@@ -51,7 +51,7 @@ export function checkCard({ name, title, log, facing, wall, get, files, date }: 
     "",
     "CHECK THE PRINT AGAINST",
     `  Tip opening (tip rail to a straightedge on the table): ${s.tip === null ? "?" : `${n(s.tip)} mm (${formatThou(s.tip)})`}`,
-    `  Facing curve length (to the break, as designed): ${s.facing === null ? "?" : `${n(s.facing, 1)} mm from the tip`}`,
+    `  Facing length (tip to the break, where the rails leave the flat table): ${s.facing === null ? "?" : `${n(s.facing, 1)} mm from the tip`}`,
     `  Overall length: ${s.length === null ? "?" : `${n(s.length, 1)} mm`}`,
     `  Inside air volume (neck end to tip, reed on): ${s.air === null ? "?" : `${s.air.toFixed(1)} cm³`}`,
     `  Thinnest wall: ${wall ? `${wall.wall.toFixed(2)} mm (${wall.where}, ${wall.z.toFixed(1)} mm from the shank end)` : "?"}`,
@@ -68,7 +68,7 @@ export function checkCard({ name, title, log, facing, wall, get, files, date }: 
             `  ${g.gauge.toFixed(g.gauge < 0.01 ? 4 : 3).replace(/^0/, "")}" (${(g.gauge * 25.4).toFixed(2)} mm): ${g.at.toFixed(1)} mm`,
         )
       : ["  ?"]),
-    '  The .0015" stop is the facing length as refacers quote it.',
+    '  The .0015" feeler stops a little short of the break: there the gap is too small to measure.',
   ];
   if (s.notes.length) L.push("", "NOTES FROM THE GENERATOR", ...s.notes.map((t) => `  ${t}`));
   L.push("", `Files are named after the design: ${name}.`, "");

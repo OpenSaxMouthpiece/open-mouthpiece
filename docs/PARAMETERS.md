@@ -479,7 +479,7 @@ Presets: Alto `1.93` · Tenor `2.41` · Bari `2.79` · Soprano `1.65`.
 
 *1.5 → 2.6 (heights stretched 6x)*
 
-### Facing curve length (`facing_length`)
+### Facing length (`facing_length`)
 
 From the tip back to the break, where the rails leave the flat table (mm).
 

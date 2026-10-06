@@ -2,15 +2,14 @@
 // volume, thinnest wall) and the generator's notes when a guarantee changed a value. While comparing, each
 // card also shows B's number.
 import { formatThou } from "../design";
-import { gaugeFacingLength, isAdjustment, type Summary, type Wall } from "../readouts";
+import { isAdjustment, type Summary, type Wall } from "../readouts";
 
 interface Props {
   summary: Summary | null;
   wall: Wall | null;
-  facing?: [number, number][] | null; // the facing curve: the facing length a feeler gauge reads
   busy: boolean;
   compact?: boolean; // desktop: one strip of small cards, the fine print in tooltips
-  compare?: { summary: Summary | null; air: number | null; facing?: [number, number][] | null } | null; // B (A/B compare)
+  compare?: { summary: Summary | null; air: number | null } | null; // B (A/B compare)
 }
 
 // The wall's place in words: "side wall beside the window, 3.4 mm from the tip".
@@ -23,7 +22,7 @@ function wallText(w: Wall, length: number | null) {
   return `${w.where}${at}${rails}`;
 }
 
-export function Readouts({ summary, wall, facing, busy, compact = false, compare }: Props) {
+export function Readouts({ summary, wall, busy, compact = false, compare }: Props) {
   if (!summary)
     return (
       <div className={`readouts empty muted${compact ? " compact" : ""}`}>
@@ -31,9 +30,6 @@ export function Readouts({ summary, wall, facing, busy, compact = false, compare
       </div>
     );
   const b = compare?.summary;
-  // Facing length as a .0015" feeler reads it; the slider sets where the curve leaves the table.
-  const gauge = gaugeFacingLength(facing ?? null);
-  const bGauge = gaugeFacingLength(compare?.facing ?? null) ?? b?.facing ?? null;
   const atRails = !!wall && /beside the window/.test(wall.where);
   // [label, value, fine print, B's value, a short note shown under the value on desktop too]
   const cards: [string, string, string?, string?, string?][] = [
@@ -45,12 +41,10 @@ export function Readouts({ summary, wall, facing, busy, compact = false, compare
     ],
     [
       compact ? "Facing" : "Facing length",
-      gauge !== null ? `${gauge.toFixed(1)} mm` : summary.facing !== null ? `${summary.facing} mm` : "–",
-      gauge !== null
-        ? `where a .0015" feeler stops, from the tip (the curve leaves the table at ${summary.facing} mm)`
-        : undefined,
-      bGauge != null ? `${bGauge.toFixed(1)} mm` : undefined,
-      gauge !== null ? '.0015" stop' : undefined,
+      summary.facing !== null ? `${summary.facing} mm` : "–",
+      "from the tip to the break, where the rails leave the flat table (the Facing length setting)",
+      b?.facing != null ? `${b.facing} mm` : undefined,
+      "to the break",
     ],
     [
       "Length",
@@ -120,5 +114,38 @@ export function Notes({ notes }: { notes: string[] }) {
         </details>
       )}
     </>
+  );
+}
+
+// Phone: the readouts in one line over the view; a tap opens the cards (and their fine print).
+export function ReadoutLine({
+  summary,
+  wall,
+  busy,
+  open,
+  onToggle,
+}: {
+  summary: Summary | null;
+  wall: Wall | null;
+  busy: boolean;
+  open: boolean;
+  onToggle: () => void;
+}) {
+  if (!summary) return null;
+  const parts = [
+    summary.tip !== null ? `Tip ${formatThou(summary.tip)}` : null,
+    summary.facing !== null ? `Facing ${summary.facing} mm` : null,
+    summary.air !== null ? `Air ${summary.air.toFixed(1)} cm³` : null,
+    wall ? `Wall ${wall.wall.toFixed(2)}` : null,
+  ].filter(Boolean);
+  return (
+    <button
+      className={`readout-line${busy ? " stale" : ""}${open ? " open" : ""}`}
+      onClick={onToggle}
+      aria-expanded={open}
+      title="The readouts: tap for details"
+    >
+      {parts.join(" · ")} {open ? "▴" : "▾"}
+    </button>
   );
 }

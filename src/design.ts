@@ -85,7 +85,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         caption:
           'Gap at the tip, from the tip rail to a straightedge on the table, in thousandths (76 = .076"; mm works too).',
       },
-      { name: "facing_length", label: "Facing curve length" },
+      { name: "facing_length", label: "Facing length" },
     ],
   },
   {

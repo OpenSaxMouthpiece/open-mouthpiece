@@ -115,10 +115,6 @@ export function capText(c: CapInfo | null): string {
 // Feeler-gauge stops for checking a facing (inches).
 export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05];
 
-// Facing length as players and refacers quote it: where a .0015" feeler stops, from the tip (mm).
-export const gaugeFacingLength = (facing: [number, number][] | null) =>
-  facing && facing.length > 1 ? (gaugeStops(facing)[0]?.at ?? null) : null;
-
 // Where the facing gap equals a gauge's thickness (distance from the tip, mm), by interpolation.
 export function gaugeStops(facing: [number, number][]): { gauge: number; at: number }[] {
   const out: { gauge: number; at: number }[] = [];

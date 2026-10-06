@@ -290,7 +290,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
                 {i === 0
                   ? "Tip opening: drag up or down"
                   : i === shown.length - 1
-                    ? "Facing curve length (the break): drag left or right"
+                    ? "Facing length (to the break): drag left or right"
                     : "Drag to shape the facing; double-click to remove"}
               </title>
             </g>
@@ -300,7 +300,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
             {drag.current.i === 0
               ? `tip ${mmToThou(sT).toFixed(0)} thou (${sT.toFixed(2)} mm)`
               : drag.current.i === shown.length - 1
-                ? `facing curve ${sF.toFixed(1)} mm`
+                ? `facing length ${sF.toFixed(1)} mm`
                 : `${shown[drag.current.i][0].toFixed(1)} mm: ${mmToThou(shown[drag.current.i][1]).toFixed(1)} thou`}
           </text>
         )}
@@ -318,8 +318,8 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
       {edit && (
         <div className="facing-edit muted">
           <span>
-            Drag the points: the tip end sets the tip opening, the flat end (the break) the facing curve length. Tap the
-            curve to add a point, double-click one to remove it.
+            Drag the points: the tip end sets the tip opening, the flat end (the break) the facing length. Tap the curve
+            to add a point, double-click one to remove it.
           </span>
           {edit.gauge && (
             <button
@@ -336,26 +336,29 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
         </div>
       )}
       {stops.length > 0 && (
-        <table className="gauge-table">
-          <thead>
-            <tr>
-              <th>Feeler</th>
-              {stops.map((s) => (
-                <th key={s.gauge}>
-                  {s.gauge < 0.01 ? s.gauge.toFixed(4).replace(/^0/, "") : s.gauge.toFixed(3).replace(/^0/, "")}"
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>stops at</td>
-              {stops.map((s) => (
-                <td key={s.gauge}>{s.at.toFixed(1)} mm</td>
-              ))}
-            </tr>
-          </tbody>
-        </table>
+        <details className="gauge-check">
+          <summary>Feeler gauge stops (to check a print)</summary>
+          <table className="gauge-table">
+            <thead>
+              <tr>
+                <th>Feeler</th>
+                {stops.map((s) => (
+                  <th key={s.gauge}>
+                    {s.gauge < 0.01 ? s.gauge.toFixed(4).replace(/^0/, "") : s.gauge.toFixed(3).replace(/^0/, "")}"
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>stops at</td>
+                {stops.map((s) => (
+                  <td key={s.gauge}>{s.at.toFixed(1)} mm</td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </details>
       )}
     </div>
   );

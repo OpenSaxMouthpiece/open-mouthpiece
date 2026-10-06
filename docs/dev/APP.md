@@ -71,7 +71,11 @@ static site (docs/HOSTING.md).
 - **Open .scad…** (or drop) loads .scad files as tabs, listed under "Open files" in the voice
   picker; an opened file gets Save (to Your designs) and Close. "Download tab" = the editor text as
   is.
-- **Print kit** (`downloadKit` in App.tsx, src/printKit.ts; Printing section, More ▾, phone ☰):
+- **Download ▾** (`downloadItems` in App.tsx; desktop: the ▾ joined to Download, phone: the ☰ menu):
+  everything to download in one list: the mouthpiece, a shank test ring at the design's squeeze
+  (`downloadPart("ring")`), the ligature / cap once made, the print kit, the design file (.scad). The
+  main button still downloads the part tab's part (and shows any download's progress).
+- **Print kit** (`downloadKit` in App.tsx, src/printKit.ts; Printing section, Download ▾, phone ☰):
   one zip with the mouthpiece, shank test rings at squeeze 0.10 / 0.20 / 0.30 (plus the design's own),
   the ligature if made, and `<name>_check_card.txt` (tip, facing, length, air, thinnest wall, cork /
   socket, feeler-gauge stops) from one echo-only run (`kitReports`).
@@ -84,8 +88,9 @@ static site (docs/HOSTING.md).
 
 ## The screen
 
-- **One screen**: you go as deep as you open. Top bar = logo, voice picker, file actions | Share,
-  Download STL, More ▾ (`components/Menu.tsx`), ⚙ (`AppearanceMenu.tsx`). Right panel
+- **One screen**: you go as deep as you open. Top bar = logo, voice picker (a design with unsaved
+  settings shows "(edited)", so a changed preset isn't mistaken for the published one), file
+  actions | Share, Download STL ▾, More ▾ (`components/Menu.tsx`), ⚙ (`AppearanceMenu.tsx`). Right panel
   (`DesignPanel`): readouts strip, "Find a setting" (opens matching sections, also searches All
   parameters), Undo/Redo, Auto-zoom, Reset, Expand/Collapse all, Descriptions, then folds (`Fold`,
   closed by default, summary from `DesignSection.summary`, ● count of changed settings): the
@@ -119,8 +124,9 @@ static site (docs/HOSTING.md).
   picking one also sets `<name>_aspect`.
 - **Readouts**: cards from the render log (`parseSummary`: length/tip/facing/air) and two echo-only
   reports (`facing_report()` -> facing chart + feeler-gauge stops, `clearance_report()` -> thinnest
-  wall). The Facing card is where a .0015" feeler stops (`gaugeFacingLength`); the slider is "Facing
-  curve length" (to the break). The Wall card says "at the rails" beside the window and shows "…"
+  wall). Facing has one meaning everywhere: the facing length, tip to the break (the Facing length
+  setting, the Facing card, Compare, the check card); the feeler-gauge stops fold under the facing
+  chart and are on the check card. The Wall card says "at the rails" beside the window and shows "…"
   until the new model is measured. The full-quality render appends the reports and zoom targets to
   its source (`REPORTS_ECHO`, +~40ms instead of two more runs; their lines are kept out of the
   console); separate runs only when the model on screen came without them (`ensureReports`).
@@ -132,6 +138,10 @@ static site (docs/HOSTING.md).
   `facing_gauge_points` as a *value* (`POINT_VALUES`: kept though not a Customizer param, so it
   works on presets, downloads and shares). The drag preview is the JS `pchip` through the same
   cleaned points as `GAUGE_PTS`.
+- **Side section** (`ProfileChart.tsx`, `src/profile.ts`; under "Chamber & baffle" and "Body &
+  beak"): the STL on screen cut at x = 0 (segments chained into loops, even-odd fill), true to
+  scale, the tip right and the reed side down. "Before the last change" (dashed) is the previous
+  final render with other settings (`sig`), reset per design; B dashed blue when its STL is in frame.
 - **Curves panel** (`CurveEditor.tsx`, `curves.ts`): every single-line top-level `name = [[a, b],
   ...];` in the rendered file, named and grouped by part (`CURVE_GROUPS`; others under "Other"). PCHIP drawn exactly as the generator evaluates it; drag knots, click
   to add, Delete, typed values, Undo; edits are values (`setPointList`), so they work on presets,
@@ -155,7 +165,9 @@ static site (docs/HOSTING.md).
   colour, viewer background (the WebGL canvas is transparent over the container's CSS background),
   grid, axes.
 - **Phone/tablet** below 1024px (`useMediaQuery`): ☰ menu for file/compare/download actions, viewer
-  on top with its tools behind ⋯, tabs Design / Readouts / Code / Console. All panels stay mounted
+  on top with its tools behind ⋯ and the readouts as one line over it (`ReadoutLine`; a tap opens
+  the cards; the generator's notes show at the top of the settings), then the settings. The code
+  and the console open from ☰ > Code files, over the settings, with "← Design" back. All panels stay mounted
   (`display: none !important`) so editor state survives; `EditorHandle.refresh()` re-measures
   CodeMirror when shown; 16px inputs (no iOS zoom).
 
@@ -164,7 +176,8 @@ static site (docs/HOSTING.md).
 - Z-up, camera kept across re-renders. Floating tools: views 3D / Table / Top / Left / Right / Tip
   (left from +X, right from -X: the player's sides as the lettering names them), Quality, Show ▾
   (Edges, Wireframe, See-through, Ligature, Reed), A/B, a camera icon (PNG of the view).
-- **Section view**: lengthwise clips x <= pos, across clips z <= pos; a BackSide flat-coloured cap
+- **Section view**: lengthwise clips x <= pos (x >= pos after the Right view, `secFlip`, so both
+  side views look at the cut), across clips z <= pos; a BackSide flat-coloured cap
   mesh makes cut walls read solid. **See-through** (`applyLook`). Dev-only `window.__viewer` for
   scripted cameras.
 - **Zoom to parameter** ("Auto-zoom", persisted): touching a parameter row or picking a Curves list

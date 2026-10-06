@@ -428,6 +428,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     partsBusy,
     loadCap,
     shownFn,
+    shownDraft,
     render,
     renderPass,
     loadLigature,

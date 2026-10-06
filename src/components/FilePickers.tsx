@@ -29,21 +29,29 @@ export function groupFiles(files: string[], readOnly: Set<string>, own: Set<stri
   };
 }
 
-// value: the path, after `prefix`
-const options = (paths: string[], prefix: string) =>
+// value: the path, after `prefix`; `note`: what follows the name (" (edited)")
+const options = (paths: string[], prefix: string, note: (path: string) => string) =>
   paths.map((f) => (
     <option key={f} value={prefix + f}>
-      {voiceLabel(f)}
+      {voiceLabel(f) + note(f)}
     </option>
   ));
 
-function GroupOptions({ groups, prefix = "" }: { groups: FileGroups; prefix?: string }) {
+function GroupOptions({
+  groups,
+  prefix = "",
+  note = () => "",
+}: {
+  groups: FileGroups;
+  prefix?: string;
+  note?: (path: string) => string;
+}) {
   return (
     <>
-      <optgroup label="Presets">{options(groups.presets, prefix)}</optgroup>
-      {groups.variants.length > 0 && <optgroup label="Variants">{options(groups.variants, prefix)}</optgroup>}
-      {groups.extras.length > 0 && <optgroup label="Extras">{options(groups.extras, prefix)}</optgroup>}
-      {groups.own.length > 0 && <optgroup label="Your designs">{options(groups.own, prefix)}</optgroup>}
+      <optgroup label="Presets">{options(groups.presets, prefix, note)}</optgroup>
+      {groups.variants.length > 0 && <optgroup label="Variants">{options(groups.variants, prefix, note)}</optgroup>}
+      {groups.extras.length > 0 && <optgroup label="Extras">{options(groups.extras, prefix, note)}</optgroup>}
+      {groups.own.length > 0 && <optgroup label="Your designs">{options(groups.own, prefix, note)}</optgroup>}
     </>
   );
 }
@@ -54,7 +62,9 @@ export function VoicePicker(props: {
   groups: FileGroups;
   others: Tab[];
   onPick: (key: string) => void;
+  edited?: (key: string) => boolean; // settings changed and not saved: a preset is no longer as published
 }) {
+  const note = (key: string) => (props.edited?.(key) ? " (edited)" : "");
   return (
     <select
       className="voice-picker"
@@ -62,12 +72,12 @@ export function VoicePicker(props: {
       title="Which mouthpiece to design (the file that is rendered)"
       onChange={(e) => props.onPick(e.target.value)}
     >
-      <GroupOptions groups={props.groups} />
+      <GroupOptions groups={props.groups} note={note} />
       {props.others.length > 0 && (
         <optgroup label="Open files">
           {props.others.map((t) => (
             <option key={t.key} value={t.key}>
-              {voiceLabel(t.path ?? t.name)}
+              {voiceLabel(t.path ?? t.name) + note(t.key)}
             </option>
           ))}
         </optgroup>

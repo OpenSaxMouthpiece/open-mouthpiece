@@ -269,6 +269,9 @@ export function Viewer({
   const labelsOn = useRef(false);
   labelsOn.current = layout === "side" && !!compare && !svg;
   const [secPos, setSecPos] = useState(0);
+  // A lengthwise cut keeps the half away from the camera's side: x <= pos (cut face toward +X, the
+  // Left view), or x >= pos after the Right view, so both side views look at the cut.
+  const [secFlip, setSecFlip] = useState(false);
   const [bounds, setBounds] = useState<{ x: [number, number]; z: [number, number] }>({ x: [-20, 20], z: [0, 100] });
   const plane = useRef(new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0));
   const autoCut = useRef(false); // the section was turned on by a focus (so a later one may turn it off)
@@ -405,6 +408,7 @@ export function Viewer({
     setZoomedIn(false);
     // side by side: B goes to the screen's right, so from the side it stands beside A, not behind it
     sideAxis.current = view === "left" || view === "right" ? "y" : "x";
+    if (view === "left" || view === "right" || view === "iso") setSecFlip(view === "right");
     placeB(ctx);
     const box = new THREE.Box3().setFromObject(ctx.model);
     if (box.isEmpty()) return;
@@ -538,7 +542,7 @@ export function Viewer({
 
   // Point the clipping plane and turn it on/off on every material.
   const applySection = (ctx: Ctx) => {
-    if (section === "length") plane.current.set(new THREE.Vector3(-1, 0, 0), secPos);
+    if (section === "length") plane.current.set(new THREE.Vector3(secFlip ? 1 : -1, 0, 0), secFlip ? -secPos : secPos);
     else plane.current.set(new THREE.Vector3(0, 0, -1), secPos);
     const planes = section === "off" ? [] : [plane.current];
     ctx.ghost.traverse((o) => {
@@ -757,7 +761,7 @@ export function Viewer({
     applySection(ctx);
     ctx.draw();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [edges, wire, seeThrough, showA, showB, section, secPos]);
+  }, [edges, wire, seeThrough, showA, showB, section, secPos, secFlip]);
 
   // Once rendering is quiet, the ghost stays a moment, then fades out (and is kept, hidden).
   useEffect(() => {

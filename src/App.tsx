@@ -14,7 +14,8 @@ import { ComparePanel } from "./components/ComparePanel";
 import { CurveEditor } from "./components/CurveEditor";
 import { DesignPanel } from "./components/DesignPanel";
 import { FacingChart } from "./components/FacingChart";
-import { Readouts } from "./components/Readouts";
+import { ProfileChart } from "./components/ProfileChart";
+import { Notes, ReadoutLine, Readouts } from "./components/Readouts";
 import { TabBar } from "./components/TabBar";
 import { CompareSelect, groupFiles, VoicePicker, type ComparePick } from "./components/FilePickers";
 import { SaveAsPanel, SAVE_DEFAULTS, wantsFiles, type SaveOpts } from "./components/SaveAsPanel";
@@ -98,7 +99,9 @@ const QUALITY_HINT =
 const MIN_EDITOR_W = 260;
 const MIN_PANEL_W = 320;
 
-type Download = { what: "model" | "ligature" | "cap" | "kit"; state: "busy" | "done" | "error" };
+// "model" = whatever is on screen; "mouthpiece" = the mouthpiece even while a test ring is shown.
+type PartWhat = "model" | "mouthpiece" | "ring" | "ligature" | "cap";
+type Download = { what: PartWhat | "kit"; state: "busy" | "done" | "error" };
 
 export default function App() {
   const saved = useRef(loadSession()).current;
@@ -137,7 +140,9 @@ export default function App() {
       return 46;
     }
   });
-  const [phonePanel, setPhonePanel] = useState<"design" | "readouts" | "code" | "console">("design");
+  // The phone shows the design; the code and its console open from the ☰ menu, over it.
+  const [phonePanel, setPhonePanel] = useState<"design" | "code" | "console">("design");
+  const [phoneReadouts, setPhoneReadouts] = useState(false); // the readout cards open over the view
   const [menuOpen, setMenuOpen] = useState(false);
   // "Deep" work (editing code): on a phone the Code tab, on a desktop the open code column. Without
   // it the app keeps to the design on screen: always re-renders, saves that design.
@@ -205,7 +210,7 @@ export default function App() {
   const valuesSig = JSON.stringify(values);
   // A file without the settings panel's parameters (a scratch file) gets the plain Customizer instead.
   const designOK = useMemo(() => hasDesignParams(params.map((p) => p.name)), [params]);
-  const reportsOn = designOK && (!isPhone || phonePanel === "design" || phonePanel === "readouts");
+  const reportsOn = designOK && (!isPhone || phonePanel === "design");
   // Not a mouthpiece: no readouts (while the params load they're assumed, so the layout doesn't jump).
   const noReadouts = !designOK && !!mainTab && paramsKey === mainTab.key;
   const param = (n: string) => params.find((p) => p.name === n);
@@ -262,7 +267,7 @@ export default function App() {
   // ---- rendering (hooks/useModelRender.ts) and zoom to parameter (hooks/useParamFocus.ts)
   const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
-  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports } = model;
+  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports, shownDraft } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
   const textVars = useMemo(() => (log ? parseTextVariables(log) : []), [log]);
 
@@ -949,10 +954,19 @@ export default function App() {
   const labelB = pinned ? labelOf(pinned) : undefined;
 
   // ---- downloads
-  const downloadPart = async (what: "model" | "ligature" | "cap") => {
+  const downloadPart = async (what: PartWhat) => {
     if (dl?.state === "busy") return;
-    const suffix = what !== "model" ? `_${what}` : otherPart ? `_${otherPart}` : "";
-    const name = downloadName(mainTab, values, isRO(mainTab)) + suffix;
+    const base = downloadName(mainTab, values, isRO(mainTab));
+    const squeeze = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
+    const name =
+      what === "ring"
+        ? ringFile(base, squeeze).replace(/\.stl$/, "")
+        : what === "ligature" || what === "cap"
+          ? `${base}_${what}`
+          : what === "model" && otherPart
+            ? `${base}_${otherPart}`
+            : base;
+    const mouthpiece = what === "mouthpiece" || (what === "model" && !otherPart);
     if (what === "model" && svg && !stl) {
       download(svg, "image/svg+xml", `${name}.svg`);
       setDl({ what, state: "done" });
@@ -961,16 +975,32 @@ export default function App() {
     setDl({ what, state: "busy" });
     notify({ text: `Making ${name}.stl for the download…`, short: "Preparing the download…", kind: "busy" });
     try {
-      download(await partStl(what !== "model" ? what : null), "model/stl", `${name}.stl`);
-      track("download", what !== "model" ? what : otherPart || "mouthpiece", {
-        ...(what === "model" && !otherPart && summary
-          ? { tip: summary.tip, facing: summary.facing, length: summary.length, air: summary.air }
-          : {}),
-        settings: designNumbers(params, values),
-      });
+      const stlData =
+        what === "ring"
+          ? await partStl("shank_test_ring", { shank_clearance: squeeze })
+          : what === "ligature" || what === "cap"
+            ? await partStl(what)
+            : await partStl(what === "mouthpiece" && otherPart ? "mouthpiece" : null);
+      download(stlData, "model/stl", `${name}.stl`);
+      track(
+        "download",
+        mouthpiece
+          ? "mouthpiece"
+          : what === "ring"
+            ? "shank_test_ring"
+            : what === "model"
+              ? (otherPart ?? "model")
+              : what,
+        {
+          ...(mouthpiece && summary
+            ? { tip: summary.tip, facing: summary.facing, length: summary.length, air: summary.air }
+            : {}),
+          settings: designNumbers(params, values),
+        },
+      );
       notify({ text: `Downloaded ${name}.stl`, short: "Downloaded", kind: "ok" });
       setDl({ what, state: "done" });
-      if (what === "model" && !otherPart) setPrinted(true);
+      if (mouthpiece) setPrinted(true);
     } catch (err) {
       fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
       setDl({ what, state: "error" });
@@ -1255,6 +1285,7 @@ export default function App() {
     <VoicePicker
       value={mainTab.key}
       groups={groups}
+      edited={(k) => Object.keys(valuesByKey[k] ?? {}).some((n) => n !== "part")}
       // unsaved, library and other open files
       others={tabs.filter(
         (t) => (!isLibrary(t) || t.key === mainTab.key) && !(t.path && (readOnly.has(t.path) || ownFiles.has(t.path))),
@@ -1537,37 +1568,45 @@ export default function App() {
     />
   );
   const consoleEl = <Console log={log} onGoto={goto} onClear={() => model.setLog("")} />;
-  const hintEl = !hintSeen && (
-    <div className="hint-card">
-      <b>Design your own saxophone mouthpiece</b>
-      <ol>
-        <li>Pick a voice (soprano, alto, tenor, baritone).</li>
-        <li>Adjust the tip, facing, chamber and baffle; the model and the readouts follow.</li>
-        <li>
-          Download the STL and print it
-          {PRINTING_GUIDE_URL && (
-            <>
-              {" "}
-              (see the{" "}
-              <a href={PRINTING_GUIDE_URL} target="_blank" rel="noreferrer">
-                printing guide
-              </a>
-              )
-            </>
-          )}
-          . Share sends the design as a link.
-        </li>
-      </ol>
-      <button
-        onClick={() => {
-          setHintSeen(true);
-          writeFlag(HINT_KEY);
-        }}
-      >
-        Got it
-      </button>
-    </div>
-  );
+  const gotIt = () => {
+    setHintSeen(true);
+    writeFlag(HINT_KEY);
+  };
+  // Phone: one short line, so the model stays in view.
+  const hintEl =
+    !hintSeen && isPhone ? (
+      <div className="hint-card short">
+        <span>
+          <b>Design your own mouthpiece:</b> pick a voice, change the settings below, then download the STL.
+        </span>
+        <button onClick={gotIt}>Got it</button>
+      </div>
+    ) : (
+      !hintSeen && (
+        <div className="hint-card">
+          <b>Design your own saxophone mouthpiece</b>
+          <ol>
+            <li>Pick a voice (soprano, alto, tenor, baritone).</li>
+            <li>Adjust the tip, facing, chamber and baffle; the model and the readouts follow.</li>
+            <li>
+              Download the STL and print it
+              {PRINTING_GUIDE_URL && (
+                <>
+                  {" "}
+                  (see the{" "}
+                  <a href={PRINTING_GUIDE_URL} target="_blank" rel="noreferrer">
+                    printing guide
+                  </a>
+                  )
+                </>
+              )}
+              . Share sends the design as a link.
+            </li>
+          </ol>
+          <button onClick={gotIt}>Got it</button>
+        </div>
+      )
+    );
   const viewerEl = (
     <Viewer
       stl={stl}
@@ -1629,6 +1668,21 @@ export default function App() {
         compare={pinned?.facing ? { facing: pinned.facing, label: labelB ?? "" } : undefined}
       />
     ) : null;
+  // The side section (Chamber & baffle, Body & beak): the generator's mouthpiece only.
+  const profileEl =
+    !otherPart && stl && param("shank_clearance") ? (
+      <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>
+        <ProfileChart
+          stl={stl}
+          final={!shownDraft.current}
+          design={mainTab.key}
+          sig={valuesSig}
+          compare={
+            pinned?.stl && (!pinned.mesh || pinned.mesh.aligned) ? { stl: pinned.stl, label: labelB ?? "" } : null
+          }
+        />
+      </div>
+    ) : undefined;
   // Desktop: the readouts as a strip above the controls. Phone: the readouts are a tab of their own.
   const readoutsEl = otherPart ? (
     <PartNote part={otherPart} log={log} />
@@ -1644,12 +1698,9 @@ export default function App() {
     <Readouts
       summary={summary}
       wall={wall}
-      facing={facing}
       busy={status.kind === "busy"}
       compact={!isPhone}
-      compare={
-        pinned ? { summary: pinned.summary ?? null, air: pinned.air ?? null, facing: pinned.facing ?? null } : null
-      }
+      compare={pinned ? { summary: pinned.summary ?? null, air: pinned.air ?? null } : null}
     />
   );
   // The part tabs: the mouthpiece, and the ligature and cap made from it (a dot once made). A part tab
@@ -1744,7 +1795,7 @@ export default function App() {
       )}
     </>
   );
-  const designEl = (withReadouts: boolean) => (
+  const designEl = (withReadouts: boolean, other?: React.ReactNode) => (
     <DesignPanel
       params={params}
       values={values}
@@ -1757,13 +1808,14 @@ export default function App() {
       zoom={zoom}
       onZoomChange={setZoom}
       onFocusParam={focusOn}
-      readouts={withReadouts && !noReadouts ? readoutsEl : undefined}
+      readouts={withReadouts && !noReadouts ? readoutsEl : other}
       history={history}
       facing={
         facingEl ? (
           <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>{facingEl}</div>
         ) : undefined
       }
+      profile={profileEl}
       ligature={ligOK ? { on: ligMade, shown: lig.on, head: ligHead } : undefined}
       cap={capOK ? { on: capMade, head: capHead } : undefined}
       tab={tab}
@@ -1781,6 +1833,69 @@ export default function App() {
     tab === "ligature" && ligMade ? "ligature" : tab === "cap" && capMade ? "cap" : "model";
   const downloadDisabled = (!stl && !svg) || dlBusy(dlWhat);
   const dlName = dlWhat === "model" ? (svg ? "SVG" : "STL") : `${dlWhat} STL`;
+  // The main button shows any download in progress (the menu closes when one starts).
+  const dlMain = (label: string) =>
+    dl?.state === "busy" && dl.what !== dlWhat ? dlLabel(dl.what, label) : dlLabel(dlWhat, label);
+  // Everything there is to download, in one list (desktop: Download's ▾; phone: the ☰ menu).
+  const squeezeNow = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
+  const downloadItems = (close: () => void) => {
+    const go = (fn: () => void) => () => {
+      close();
+      fn();
+    };
+    const item = (what: Download["what"], label: string, sub: string, fn: () => void, off = !stl) => (
+      <button key={what} className="dl-item" onClick={go(fn)} disabled={off || dl?.state === "busy"}>
+        <span>{label}</span>
+        <small>{sub}</small>
+      </button>
+    );
+    if (!kitOK)
+      return [
+        item(
+          "model",
+          `Model (.${svg && !stl ? "svg" : "stl"})`,
+          "the model on screen",
+          () => downloadPart("model"),
+          !stl && !svg,
+        ),
+      ];
+    return [
+      item("mouthpiece", "Mouthpiece (.stl)", "placed standing on its shank end, as printed", () =>
+        downloadPart("mouthpiece"),
+      ),
+      item(
+        "ring",
+        "Shank test ring (.stl)",
+        `print it first to check the fit on your cork (squeeze ${squeezeNow.toFixed(2)} mm)`,
+        () => downloadPart("ring"),
+      ),
+      ligMade &&
+        item("ligature", "Ligature (.stl)", "the ring ligature made for this mouthpiece", () =>
+          downloadPart("ligature"),
+        ),
+      capMade && item("cap", "Cap (.stl)", "the cap made for this mouthpiece", () => downloadPart("cap")),
+      item(
+        "kit",
+        "Print kit (.zip)",
+        "all of these, test rings at 0.10 / 0.20 / 0.30 squeeze, and a check card",
+        downloadKit,
+      ),
+      <hr key="hr" />,
+      <button key="scad" className="dl-item" onClick={go(downloadScad)}>
+        <span>Design file (.scad)</span>
+        <small>opens here again with Open…, or in OpenSCAD</small>
+      </button>,
+    ];
+  };
+  const downloadMenu = (
+    <Menu
+      label="▾"
+      title="Everything to download: the test ring, the print kit, the ligature, the cap, the design file"
+      className="dl-menu"
+    >
+      {(close) => <div className="menu-list">{downloadItems(close)}</div>}
+    </Menu>
+  );
   const shareBox = shareLink && (
     <div className="share-box">
       <span>Copy this link to share the design:</span>
@@ -1826,12 +1941,12 @@ export default function App() {
   // ---- phone: viewer on top, one panel below (Design goes as deep as you open it; the code has its
   // own tabs), everything else in the ☰ menu
   if (isPhone) {
+    // the code and the console: opened from the ☰ menu, with a way back to the design
     const panels: [typeof phonePanel, string][] = [
-      ["design", "Design"],
-      ...(designOK ? [["readouts", "Readouts"] as [typeof phonePanel, string]] : []),
       ["code", "Code"],
       ["console", "Console"],
     ];
+    const mpReadouts = designOK && tab === "mouthpiece" && !otherPart;
     const act = (fn: () => void) => () => {
       fn();
       setMenuOpen(false);
@@ -1868,7 +1983,7 @@ export default function App() {
               aria-live="polite"
               title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
             >
-              {dlLabel(dlWhat, dlName)}
+              {dlMain(dlName)}
             </button>
           )}
         </header>
@@ -1882,14 +1997,9 @@ export default function App() {
                   ✕
                 </button>
               </div>
-              <button onClick={act(() => downloadPart(dlWhat))} disabled={downloadDisabled}>
-                Download {dlName}
-              </button>
-              {kitOK && (
-                <button onClick={act(downloadKit)} disabled={!stl || dlBusy("kit")}>
-                  Download print kit (.zip)
-                </button>
-              )}
+              <div className="menu-heading">Download</div>
+              {downloadItems(() => setMenuOpen(false))}
+              <hr />
               {qualitySelect}
               {fileActions}
               <button onClick={act(share)}>Share this design (copy link)</button>
@@ -1916,6 +2026,7 @@ export default function App() {
               <details className="phone-look">
                 <summary>Code files</summary>
                 <div className="phone-code-actions">
+                  <button onClick={act(() => setPhonePanel("code"))}>Code editor (OpenSCAD) and console</button>
                   {openProjectSelect}
                   {saveButton}
                   {coding && saveAsControl}
@@ -1935,6 +2046,18 @@ export default function App() {
         {shareBox}
         <section className="phone-viewer" style={{ flexBasis: `${phoneViewerH}dvh` }}>
           {viewerEl}
+          {mpReadouts && (
+            <div className="phone-readouts">
+              <ReadoutLine
+                summary={summary}
+                wall={wall}
+                busy={status.kind === "busy"}
+                open={phoneReadouts}
+                onToggle={() => setPhoneReadouts((o) => !o)}
+              />
+              {phoneReadouts && <div className="phone-readout-cards">{readoutsEl}</div>}
+            </div>
+          )}
           {statusBar}
         </section>
         <div
@@ -1957,16 +2080,23 @@ export default function App() {
           }}
         />
 
-        <nav className="phone-tabs">
-          {panels.map(([k, label]) => (
-            <button key={k} className={phonePanel === k ? "active" : ""} onClick={() => setPhonePanel(k)}>
-              {label}
+        {phonePanel !== "design" && (
+          <nav className="phone-tabs">
+            <button className="back" onClick={() => setPhonePanel("design")}>
+              ← Design
             </button>
-          ))}
-        </nav>
+            {panels.map(([k, label]) => (
+              <button key={k} className={phonePanel === k ? "active" : ""} onClick={() => setPhonePanel(k)}>
+                {label}
+              </button>
+            ))}
+          </nav>
+        )}
         <section className="phone-panel">
-          {pane("design", designEl(false))}
-          {designOK && pane("readouts", readoutsEl)}
+          {pane(
+            "design",
+            designEl(false, mpReadouts && summary?.notes.length ? <Notes notes={summary.notes} /> : undefined),
+          )}
           {pane(
             "code",
             <>
@@ -2013,23 +2143,6 @@ export default function App() {
           {coding && (
             <button onClick={menuAction(close, () => fileInput.current?.click())}>Open .scad from this device…</button>
           )}
-          {coding && (
-            <button
-              onClick={menuAction(close, downloadScad)}
-              title="One self-contained .scad file (your settings + the generator): opens in any OpenSCAD, and here again with Open"
-            >
-              Download the design as .scad
-            </button>
-          )}
-          {kitOK && (
-            <button
-              onClick={menuAction(close, downloadKit)}
-              disabled={!stl || dlBusy("kit")}
-              title="One zip: the mouthpiece, shank test rings at three cork squeezes, the ligature if made, and a check card"
-            >
-              Download print kit (.zip)
-            </button>
-          )}
           <button onClick={menuAction(close, () => setCodeOpen(!codeOpen))}>
             {codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console"}
           </button>
@@ -2066,15 +2179,18 @@ export default function App() {
           <button onClick={share} title="Copy a link that opens this design">
             Share
           </button>
-          <button
-            className="primary dl-button"
-            disabled={downloadDisabled}
-            onClick={() => downloadPart(dlWhat)}
-            title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
-            aria-live="polite"
-          >
-            {dlLabel(dlWhat, `Download ${dlName}`)}
-          </button>
+          <div className="dl-split">
+            <button
+              className="primary dl-button"
+              disabled={downloadDisabled}
+              onClick={() => downloadPart(dlWhat)}
+              title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
+              aria-live="polite"
+            >
+              {dlMain(`Download ${dlName}`)}
+            </button>
+            {downloadMenu}
+          </div>
           {moreMenu}
           <AppearanceMenu />
         </header>
