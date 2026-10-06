@@ -16,7 +16,6 @@ import {
   type PartTab,
 } from "../design";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
-import { FitChart } from "./FitChart";
 import { Fold } from "./Fold";
 import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL, REPO_URL } from "../links";
 
@@ -321,7 +320,6 @@ export function DesignPanel({
               {s.cap && cap!.head}
               {rows.map((i) => row(byName.get(i.name)!, i))}
               {s.title === "Tip & facing" && !q && facing}
-              {s.title === "Fit on the horn" && !q && <FitChart get={get} />}
               {s.title === "Chamber & baffle" && !q && profile?.("chamber")}
               {s.title === "Body & beak" && !q && profile?.("body")}
               {s.title === "Printing" && !q && printKit}

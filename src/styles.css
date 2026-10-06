@@ -2507,21 +2507,6 @@ button.link:hover {
   fill: var(--muted);
   font-size: 10px;
 }
-/* Fit on the horn: the shank end with the neck cork in it */
-.fit-chart {
-  padding: 4px 10px 2px;
-}
-.fit-chart .cork {
-  fill: color-mix(in srgb, #b98a5a 55%, transparent);
-}
-.fit-chart .squeeze {
-  fill: var(--error);
-  opacity: 0.75;
-}
-.fit-chart-note {
-  margin: 2px 0 0;
-  font-size: 12px;
-}
 /* "Edit shape": the section's lines with a few dots to drag, landmarks, and the view from above */
 .profile-head {
   display: flex;
