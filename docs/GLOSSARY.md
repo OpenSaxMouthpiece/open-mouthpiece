@@ -16,10 +16,10 @@ shank](images/glossary-table.svg)
 | Part | What it is | Settings |
 |---|---|---|
 | **Table** (reed seat) | The flat where the reed's back lies and the ligature holds it. | **Reed length**, **Table width tip**, **Table width rear**, **Table concavity** |
-| **Window** | The opening in the table under the reed, between the rails. | **Window length**, **Window width**, **Window taper**, **Window rear radius** |
+| **Window** | The opening in the table under the reed, between the rails. | **Window length**, **Window width**, **Window narrows at the back**, **Window rear radius** |
 | **Side rails** | The two edges along the window that the reed seals on. | **Side rail width** |
-| **Tip rail** (front rail) | The edge across the front that the reed closes against. | **Tip rail thickness**, **Tip curve** |
-| **Facing** (lay) | The rails' gentle curve away from the reed, from the break point to the tip. Both rails need the same curve. | **Facing model**, **Facing exponent** (or your own **Facing points**) |
+| **Tip rail** (front rail) | The edge across the front that the reed closes against. | **Tip rail thickness**, **Tip roundness** |
+| **Facing** (lay) | The rails' gentle curve away from the reed, from the break point to the tip. Both rails need the same curve. | **Facing model**, **Where the curve opens** (or your own **Facing points**) |
 | **Break point** | Where the rails leave the flat table: the start of the facing. | **Facing curve length** sets how far it is from the tip |
 | **Facing length** | From the break point to the tip, in mm. | **Facing curve length** |
 | **Tip opening** | The gap between the reed and the tip rail, measured with a straightedge on the table. Often given in thousandths of an inch. | **Tip opening** |
@@ -29,13 +29,13 @@ shank](images/glossary-table.svg)
 
 | Part | What it is | Settings |
 |---|---|---|
-| **Baffle** | The roof over the reed, just behind the tip rail. Common shapes: flat, rollover (rounded), step (a ledge), concave (scooped). | **Baffle shape**, **Baffle height**, **Baffle start**, **Baffle curve**, **Baffle hump** |
-| **Floor** / **ramp** | The bottom of the inside, from the window's back edge to the throat. A ramp is a floor that slopes gradually away from the reed instead of dropping. | **Floor shape**, **Chamber height** |
-| **Side walls** | The inside walls on each side of the window, from the rails up to the roof: straight, leaning out (scooped) or leaning in. | **Sidewall angle** |
-| **Chamber** | The open space between the baffle and the throat. Its cross-section can be round, square or horseshoe. | **Chamber shape**, **Chamber width vs throat**, **Chamber flare**, **Chamber full length**, **Chamber height** |
-| **Throat** | The narrowest point inside, where the chamber meets the bore. | **Throat position**, **Throat width**, **Throat taper**, **Throat shape** |
-| **Bore** | The round tube from the throat back to the socket. | **Bore diameter**, **Bore tilt** |
-| **Socket** | The back of the bore, where the neck cork goes in. | **Neck cork diameter**, **Cork squeeze**, **Shank depth**, **Shank entry bevel width** |
+| **Baffle** | The roof over the reed, just behind the tip rail. Common shapes: flat, rollover (rounded), step (a ledge), concave (scooped). | **Baffle shape**, **Baffle height**, **Where the baffle begins**, **Baffle curve**, **Baffle hump** |
+| **Floor** / **ramp** | The bottom of the inside, from the window's back edge to the throat. A ramp is a floor that slopes gradually away from the reed instead of dropping. | **Chamber floor**, **Chamber height** |
+| **Side walls** | The inside walls on each side of the window, from the rails up to the roof: straight, leaning out (scooped) or leaning in. | **Chamber side walls** |
+| **Chamber** | The open space between the baffle and the throat. Its cross-section can be round, square or horseshoe. | **Chamber shape**, **Chamber width**, **Widening after the throat**, **How far the full width runs**, **Chamber height** |
+| **Throat** | The narrowest point inside, where the chamber meets the bore. | **Throat position**, **Throat width**, **Narrowing into the throat**, **Throat shape** |
+| **Bore** | The round tube from the throat back to the socket. | **Bore (behind the cork)**, **Table angle to the neck** |
+| **Socket** | The back of the bore, where the neck cork goes in. | **Neck cork diameter**, **Cork squeeze**, **How far the cork goes in**, **Lead-in at the opening** |
 | **Inside air volume** | All the air from the neck's end to the tip, with the reed closed. Shown in the readouts. | the chamber, baffle and length settings together |
 
 ## Outside

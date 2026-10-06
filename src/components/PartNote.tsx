@@ -28,7 +28,7 @@ export function PartNote({
         </>
       ) : part === "ligature" ? (
         <HowItFits line="Ligature: prints standing on its flat front edge, no supports.">
-          The tongue points up; PETG or similar flexes without cracking. Slide it on over the tip with the reed in place
+          The tab points up; PETG or similar flexes without cracking. Slide it on over the tip with the reed in place
           and push it back until snug. The reed is the tight spot. Reed not held: raise <b>Reed grip</b>; it stops too
           far forward: lower it.
           {ligatureText(ligInfo ?? parseLigature(log))}

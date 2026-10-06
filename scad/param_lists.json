@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "bc72f377-17121",
+  "hash": "1b81ea7e-17137",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -908,7 +908,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -1411,7 +1411,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "e8a5e948-17358",
+  "hash": "d15f1ed3-17374",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2319,7 +2319,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -4212,7 +4212,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "d819d13b-17323",
+  "hash": "39934aaa-17339",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5120,7 +5120,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -5623,7 +5623,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "a755d67c-17500",
+  "hash": "1d9cbaed-17516",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6531,7 +6531,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -7034,7 +7034,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "15a31b41-17067",
+  "hash": "17671464-17083",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7942,7 +7942,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -8445,7 +8445,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "8bc975e4-17119",
+  "hash": "2c11eaef-17135",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9353,7 +9353,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -9856,7 +9856,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "912d335d-17083",
+  "hash": "e81fe426-17099",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10764,7 +10764,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -11267,7 +11267,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "a42a5a92-17292",
+  "hash": "b2f0c0cb-17308",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12175,7 +12175,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -12678,7 +12678,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "d10ea548-17358",
+  "hash": "bb0f01a9-17374",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13586,7 +13586,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -14089,7 +14089,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "162d78e0-17310",
+  "hash": "93dfbb1b-17326",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14997,7 +14997,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -15500,7 +15500,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "d2ea8d14-17328",
+  "hash": "5f03c2eb-17344",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16408,7 +16408,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -16911,7 +16911,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "a1897579-17378",
+  "hash": "d45c460a-17394",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17819,7 +17819,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -18322,7 +18322,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "5ef5181c-17343",
+  "hash": "1d437843-17359",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19230,7 +19230,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -19733,7 +19733,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "5f68d868-17450",
+  "hash": "3e433a99-17466",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20641,7 +20641,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -21144,7 +21144,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "8ec92fc6-17493",
+  "hash": "a8d9f2fb-17509",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22052,7 +22052,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -22555,7 +22555,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "983ff8f2-17462",
+  "hash": "3d7ac225-17478",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23463,7 +23463,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",

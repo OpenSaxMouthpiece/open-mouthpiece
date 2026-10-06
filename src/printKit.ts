@@ -57,9 +57,7 @@ export function checkCard({ name, title, log, facing, wall, get, files, date }: 
     `  Thinnest wall: ${wall ? `${wall.wall.toFixed(2)} mm (${wall.where}, ${wall.z.toFixed(1)} mm from the shank end)` : "?"}`,
     `  Neck cork it was designed for: ${n(cork)} mm; cork squeeze ${n(squeeze)} mm, so the socket is ${n(cork - squeeze)} mm`,
     `  Socket depth: ${n(Number(get("shank_depth")), 1)} mm`,
-    ...(stock > 0
-      ? [`  Extra stock for finishing: ${stock} mm on the table and facing (sand it off, then check)`]
-      : []),
+    ...(stock > 0 ? [`  Extra to sand off: ${stock} mm on the table and facing (check after sanding)`] : []),
     "",
     "FACING GAUGE (glass plate + feelers): where each feeler should stop, back from the tip",
     ...(stops.length

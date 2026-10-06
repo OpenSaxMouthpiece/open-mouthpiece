@@ -217,7 +217,7 @@ ligature_wall = 2.0; // [1.2:0.1:5]
 ligature_shape = "d"; // [d, round, conform]
 // Extra length on one side, running toward the shank (mm); 0 = a straight band.
 ligature_tongue = 7; // [0:0.5:15]
-// Which side the tongue runs along: the top, or under the reed.
+// Which side the tab (the extra length) runs along: the top, or under the reed.
 ligature_tongue_side = "top"; // [top, reed]
 // Gap between the band and the mouthpiece's body (mm); the reed is squeezed instead.
 ligature_fit = 0.1; // [-0.4:0.05:0.5]

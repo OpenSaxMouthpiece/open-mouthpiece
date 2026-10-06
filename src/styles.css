@@ -1634,15 +1634,49 @@ button.link:hover {
 .fold .fold > .fold-head {
   padding-left: 22px;
 }
-/* a section's "More": its smaller settings, a step quieter than the main ones */
+/* a section's "More": its smaller settings, behind a button-like chip (clearly clickable, not dimmed) */
+.fold.design-more {
+  border-top: none;
+}
 .fold.design-more > .fold-head {
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding: 6px 10px 8px 22px;
+  align-items: center;
+}
+.fold.design-more > .fold-head:hover:not(:disabled) {
+  background: transparent;
 }
 .fold.design-more > .fold-head .fold-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--text);
   font-weight: 500;
   font-size: 12.5px;
+}
+.fold.design-more > .fold-head:hover:not(:disabled) .fold-title {
+  border-color: var(--accent-fg);
+}
+.fold.design-more > .fold-head .fold-chevron {
+  display: none;
+}
+.fold.design-more > .fold-head .more-chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid var(--text);
+  border-bottom: 1.5px solid var(--text);
+  transform: rotate(45deg) translate(-1px, -1px);
+  transition: transform 0.15s;
+}
+.fold.design-more.open > .fold-head .more-chevron {
+  transform: rotate(-135deg) translate(-1px, -1px);
+}
+.more-count {
   color: var(--muted);
+  font-weight: 400;
 }
 .design-more .param-label span {
   font-weight: 400;
@@ -2472,6 +2506,21 @@ button.link:hover {
 .profile-chart .tick {
   fill: var(--muted);
   font-size: 10px;
+}
+/* Fit on the horn: the shank end with the neck cork in it */
+.fit-chart {
+  padding: 4px 10px 2px;
+}
+.fit-chart .cork {
+  fill: color-mix(in srgb, #b98a5a 55%, transparent);
+}
+.fit-chart .squeeze {
+  fill: var(--error);
+  opacity: 0.75;
+}
+.fit-chart-note {
+  margin: 2px 0 0;
+  font-size: 12px;
 }
 /* "Edit shape": the section's lines with a few dots to drag, landmarks, and the view from above */
 .profile-head {

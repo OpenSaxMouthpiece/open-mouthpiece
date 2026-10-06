@@ -98,10 +98,10 @@ The app's readouts give the targets:
 Store-bought ligatures fit only mouthpieces close to the one they were made for. The app can make
 one from your design: the **Ligature** tab -> **Make a ligature for this mouthpiece**. It shows in grey on the
 mouthpiece; **Download ligature STL** gives the print. It's a ring, round over the top and shaped
-to the reed underneath, with a longer side (the tongue) on top, toward the shank. The **reed** is
+to the reed underneath, with a longer side (the tab) on top, toward the shank. The **reed** is
 the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of gap to the body.
 
-- **Print** it standing on its flat front edge, tongue up (as downloaded), no supports. PETG or another material
+- **Print** it standing on its flat front edge, tab up (as downloaded), no supports. PETG or another material
   that flexes a little is better than PLA, which can crack when it's pushed tight.
 - **Fit:** put the reed on, slide the ligature on over the tip until it touches the reed, then push
   it back the last mm or so (the app says how far) so it grips. It's a taper fit, like a cork.
@@ -110,11 +110,11 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
 - **Reed not held** (it moves or buzzes): raise **Reed grip** (try 0.3). **Stops too far forward**
   (over the window): lower it. Printing grips of 0.1, 0.2 and 0.3 side by side is a quick way to
   find yours.
-- **Band length**, **Tongue**, **Position** and **Wall** change how much of the reed it holds,
+- **Band length**, **Tab toward the shank**, **Position** and **Wall thickness** change how much of the reed it holds,
   where, and how stiff it is; **Shape** can also be fully round or follow the whole mouthpiece.
 - **Text on the ligature** / **Picture on the ligature** put lettering or a picture on its top, in
   the font, style (engraved or raised) and depth set under Personalise. Keep it short: the band's
-  top is only about as long as the band plus the tongue.
+  top is only about as long as the band plus the tab.
 
 ## 4c. A cap made for it (optional)
 

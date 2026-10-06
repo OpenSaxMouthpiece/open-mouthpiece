@@ -41,7 +41,7 @@ Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
 
 *0 → 0.5*
 
-### Entry bevel width (`shank_bevel`)
+### Lead-in at the opening (`shank_bevel`)
 
 How much wider the socket's mouth is, per side (mm), to ease it onto the cork.
 
@@ -53,7 +53,7 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 *0.3 → 1.8*
 
-### Entry bevel depth (`shank_bevel_depth`)
+### Lead-in length (`shank_bevel_depth`)
 
 How far in the socket's bevel goes (mm); equal to its width = 45°.
 
@@ -65,7 +65,7 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 *0.2 → 6*
 
-### Shank depth (`shank_depth`)
+### How far the cork goes in (`shank_depth`)
 
 How far the cork goes in (mm). Other settings give way to keep it.
 
@@ -77,7 +77,7 @@ Presets: Alto `22.0` · Tenor `26.0` · Bari `30.0` · Soprano `25.5`.
 
 *10 → 37*
 
-### Bore diameter (`bore_diameter`)
+### Bore (behind the cork) (`bore_diameter`)
 
 Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.
 
@@ -89,7 +89,7 @@ Presets: Alto `16.0` · Tenor `17.0` · Bari `16.9` · Soprano `13.6`.
 
 *12 → 20*
 
-### Bore angle to the table (`bore_tilt`)
+### Table angle to the neck (`bore_tilt`)
 
 Angle between the bore and the reed table (degrees); typically about 4.
 
@@ -131,7 +131,7 @@ Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 
 *`horseshoe` (the alto's) → `square`*
 
-### Chamber width vs throat (`chamber_width_extra`)
+### Chamber width (`chamber_width_extra`)
 
 Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.
 
@@ -143,7 +143,7 @@ Presets: Alto `-0.4` · Tenor `-0.4` · Bari `0.6` · Soprano `0.2`.
 
 *-1 → 4*
 
-### Chamber flare (`chamber_flare`)
+### Widening after the throat (`chamber_flare`)
 
 How gradually the chamber widens after the throat: low = quickly, high = slowly.
 
@@ -155,7 +155,7 @@ Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
 
 *0.15 → 0.8*
 
-### Chamber full-width length (`chamber_full_length`)
+### How far the full width runs (`chamber_full_length`)
 
 How far the full width runs toward the tip (mm); 40 = as far as it can.
 
@@ -179,7 +179,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *0 → 18*
 
-### Floor shape (`floor_shape`)
+### Chamber floor (`floor_shape`)
 
 Floor from throat to window: - drops early (deeper), + stays high (a ramp).
 
@@ -215,7 +215,7 @@ Presets: Alto `14.2` · Tenor `14.9` · Bari `14.8` · Soprano `9.3`.
 
 *9.4 → 18.9*
 
-### Throat taper (`throat_taper`)
+### Narrowing into the throat (`throat_taper`)
 
 Length of the bore's narrowing into the throat (mm). Short = an abrupt step.
 
@@ -285,7 +285,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-1 → 1.5*
 
-### Baffle start (`baffle_start`)
+### Where the baffle begins (`baffle_start`)
 
 Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
 
@@ -347,7 +347,7 @@ Presets: Alto `15.1` · Tenor `16.2` · Bari `17.2` · Soprano `12.5`.
 
 *11.1 → 19.1*
 
-### Window taper (`window_taper`)
+### Window narrows at the back (`window_taper`)
 
 How much narrower the window is at the back (mm).
 
@@ -371,7 +371,7 @@ Presets: Alto `5.5` · Tenor `5.3` · Bari `6.3` · Soprano `4.8`.
 
 *1 → 8*
 
-### Side wall angle (`sidewall_angle`)
+### Chamber side walls (`sidewall_angle`)
 
 Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
 
@@ -407,7 +407,7 @@ Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
 
 *1 → 3*
 
-### Tip curve length (`tip_curve`)
+### Tip roundness (`tip_curve`)
 
 How far back the tip's curve reaches (mm), outside and window. Match your reed.
 
@@ -503,7 +503,7 @@ Presets: Alto `power` · Tenor `power` · Bari `power` · Soprano `power`.
 
 *`power` (the alto's) → `arc` (heights stretched 6x)*
 
-### Curve exponent (`facing_exponent`)
+### Where the curve opens (`facing_exponent`)
 
 Power curve shape: 2 is an even curve; lower opens sooner, higher later.
 
@@ -981,7 +981,7 @@ Range: 1.2 to 4, step 0.1.
 
 Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 
-### Extra stock for finishing (`print_stock`)
+### Extra to sand off (`print_stock`)
 
 Extra on the table and facing to sand flat after printing (mm); try 0.1-0.2.
 
@@ -1023,7 +1023,7 @@ Range: -10 to 40, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
-### Wall (`ligature_wall`)
+### Wall thickness (`ligature_wall`)
 
 Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 
@@ -1039,7 +1039,7 @@ Range: `d`, `round`, `conform`.
 
 Presets: Alto `d` · Tenor `d` · Bari `d` · Soprano `d`.
 
-### Tongue (`ligature_tongue`)
+### Tab toward the shank (`ligature_tongue`)
 
 Extra length on one side, running toward the shank (mm); 0 = a straight band.
 
@@ -1047,9 +1047,9 @@ Range: 0 to 15, step 0.5.
 
 Presets: Alto `7` · Tenor `7` · Bari `7` · Soprano `5`.
 
-### Tongue side (`ligature_tongue_side`)
+### Tab side (`ligature_tongue_side`)
 
-Which side the tongue runs along: the top, or under the reed.
+Which side the tab (the extra length) runs along: the top, or under the reed.
 
 Range: `top`, `reed`.
 
@@ -1201,7 +1201,7 @@ Range: 1 to 4, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
-### Wall (`cap_wall`)
+### Wall thickness (`cap_wall`)
 
 Wall thickness (mm).
 

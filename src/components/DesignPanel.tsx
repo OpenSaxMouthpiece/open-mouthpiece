@@ -16,6 +16,7 @@ import {
   type PartTab,
 } from "../design";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
+import { FitChart } from "./FitChart";
 import { Fold } from "./Fold";
 import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL, REPO_URL } from "../links";
 
@@ -320,13 +321,19 @@ export function DesignPanel({
               {s.cap && cap!.head}
               {rows.map((i) => row(byName.get(i.name)!, i))}
               {s.title === "Tip & facing" && !q && facing}
+              {s.title === "Fit on the horn" && !q && <FitChart get={get} />}
               {s.title === "Chamber & baffle" && !q && profile?.("chamber")}
               {s.title === "Body & beak" && !q && profile?.("body")}
               {s.title === "Printing" && !q && printKit}
               {more.length > 0 && (
                 <Fold
                   id={`m:${s.title}`}
-                  title="More"
+                  title={
+                    <>
+                      More settings <span className="more-count">{more.length}</span>
+                      <span className="more-chevron" aria-hidden="true" />
+                    </>
+                  }
                   summary={q ? undefined : more.map((p) => paramLabel(p.name).toLowerCase()).join(", ")}
                   forceOpen={!!q}
                   className="design-more"
