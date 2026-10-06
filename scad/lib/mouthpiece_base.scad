@@ -1642,7 +1642,8 @@ function shape_edit_lines() =
 
 // Where each parameter acts, for the app's "zoom to parameter": [name, [[x0, y0, z0],
 // [x1, y1, z1]] (design frame), view, cut] — view is the side to look from ("table", "top",
-// "side" (from +x, the left side text's side), "side_right" (from -x), "end", "iso"), cut asks for a lengthwise section (the part is inside). Followed by
+// "side" (from +x, the left side text's side), "side_right" (from -x), "end" (from the shank end), "tip"
+// (from the tip end, a little above), "iso"), cut asks for a lengthwise section (the part is inside). Followed by
 // ["frame", [print_orientation, bore_tilt, end_face_lift]] so the viewer can map boxes into the
 // print orientation it shows. Only evaluated when echoed (echo(PARAM_FOCUS = param_focus())).
 function param_focus() =
@@ -1674,7 +1675,7 @@ function param_focus() =
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
    ["body_width", whole, "top", false], ["body_height", whole, "side", false], ["beak_tip_height", beak, "side", false],
-   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["shoulder_smoothness", shoulder, "iso", false], ["beak_top_width", beak, "end", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
+   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["shoulder_smoothness", shoulder, "iso", false], ["beak_top_width", beak, "tip", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
    ["bore_axis_height", bore, "side", true], ["min_wall", whole, "side", true],
    ["table_concavity", table, "table", false],
    ["top_text", lettering_top, "top", false], ["top_text_size", lettering_top, "top", false],

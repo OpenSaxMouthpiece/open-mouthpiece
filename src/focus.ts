@@ -5,7 +5,7 @@ type V3 = [number, number, number];
 
 export interface FocusItem {
   box: [V3, V3]; // design frame
-  view: string; // "table" | "top" | "side" | "side_right" | "end" | "iso"
+  view: string; // "table" | "top" | "side" | "side_right" | "end" | "tip" | "iso"
   cut: boolean; // inside the part: show a lengthwise section
 }
 
@@ -32,7 +32,8 @@ const VIEW_DIRS: Record<string, V3> = {
   top: [0.35, 1, 0.5],
   side: [1, -0.2, 0.15], // from +X: the left side (side_text_left)
   side_right: [-1, -0.2, 0.15], // from -X: the right side (side_text_right)
-  end: [0.5, -0.6, -1],
+  end: [0.5, -0.6, -1], // from the shank end, below
+  tip: [0.45, 0.6, 1], // from the tip end, a little above and to the side: the beak's cross-section
   iso: [1, -1.2, 0.9],
 };
 
