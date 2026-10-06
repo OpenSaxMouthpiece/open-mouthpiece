@@ -17,4 +17,15 @@
       "database_id": "2fd50e4d-47dd-4445-bba4-bb819ee8c09f",
     },
   ],
+  "env": {
+    // The dev site (the `dev` branch, `npx wrangler deploy --env dev`): its own Worker at
+    // dev.opensaxmouthpiece.org. No USAGE database, so its visits never reach the usage numbers;
+    // error reports still go to its own Logs.
+    "dev": {
+      "name": "open-mouthpiece-dev",
+      "workers_dev": false,
+      "routes": [{ "pattern": "dev.opensaxmouthpiece.org", "custom_domain": true }],
+      "d1_databases": [],
+    },
+  },
 }
