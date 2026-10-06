@@ -648,12 +648,12 @@ function table_half_w(z) = has_pts(TABLE_WIDTH_C) ? pchip_at(z, TABLE_WIDTH_C) /
 // fast over the last few mm and showed as a crease across the beak just behind the tip.
 function widest_table_at(z) = let(c = EXT_WIDEST_C, e = c[len(c) - 1])
   z > e[0] ? e[1] + min(0, e[2]) * (z - e[0]) : pchip_at(z, c);
-// beak_curve dips (or lifts) the crest; the widest point follows by the same ratio (the ring scales
-// about the table plane), so the flanks swoop with it rather than only the top centre.
-BEAK_CURVE_SIDES = beak_curve != 0 && !USER_TOP && !has_pts(ext_widest_points);
-DEF_TOP_C = BEAK_CURVE_SIDES ? pchip_prep(def_top) : [];
-function beak_curve_k(z) = BEAK_CURVE_SIDES ? exterior_top_at(z) / max(0.01, pchip_at(z, DEF_TOP_C)) : 1;
-function widest_raw(z, top) = max(0.5, min(top - 0.3, widest_table_at(z) * beak_curve_k(z)));
+// beak_tip_height and beak_curve move the crest; the widest point follows by the same ratio (the
+// ring scales about the table plane), so the flanks move with it rather than only the top centre.
+BEAK_SIDES = def_top_c != def_top0 && !USER_TOP && !has_pts(ext_widest_points);
+DEF_TOP0_C = BEAK_SIDES ? pchip_prep(def_top0) : [];
+function beak_sides_k(z) = BEAK_SIDES ? exterior_top_at(z) / max(0.01, pchip_at(z, DEF_TOP0_C)) : 1;
+function widest_raw(z, top) = max(0.5, min(top - 0.3, widest_table_at(z) * beak_sides_k(z)));
 
 // Underside depth that makes the ring's y=0 chord exactly table_half_w wide. For a superellipse
 // |x/hw|^n + |(y-cy)/hh|^n = 1, the chord at y=0 is hw*(1-rel^n)^(1/n) with rel = cy/hh; solve for

@@ -57,17 +57,17 @@
   },
   "variants/alto_ash.scad": {
     "tris": 26658,
-    "volume": 16743.444,
+    "volume": 16746.455,
     "size": [
       27,
       27,
       88.09
     ],
-    "hash": "abcf2ab7f2c91698",
-    "ligHash": "4a754c03e2cb707b",
+    "hash": "f2e57a6810777727",
+    "ligHash": "701951ab822a29c9",
     "ligVolume": 2573.467,
-    "capHash": "47225d2a34291b94",
-    "capVolume": 9834.853
+    "capHash": "b980f86c3072f3b9",
+    "capVolume": 9842.628
   },
   "variants/alto_birch.scad": {
     "tris": 23690,
@@ -98,32 +98,32 @@
     "capVolume": 9889.17
   },
   "variants/baritone_ash.scad": {
-    "tris": 35720,
-    "volume": 33229.716,
+    "tris": 35728,
+    "volume": 33251.85,
     "size": [
       29.507,
       29.837,
       139.105
     ],
-    "hash": "db29fb2fa56b806d",
+    "hash": "813e8ebe0f0c4baa",
     "ligHash": "07f8188207ba273d",
     "ligVolume": 2718.582,
-    "capHash": "bcdefe57b2cf4d92",
-    "capVolume": 12571.734
+    "capHash": "8e33c2df9a93a316",
+    "capVolume": 12582.793
   },
   "variants/baritone_birch.scad": {
-    "tris": 33344,
-    "volume": 47038.965,
+    "tris": 33304,
+    "volume": 47029.208,
     "size": [
       29.729,
       29.654,
       148.782
     ],
-    "hash": "68da2f7e20958300",
-    "ligHash": "8c5892cc865ee155",
-    "ligVolume": 2844.493,
-    "capHash": "1c123c72ccc49adb",
-    "capVolume": 13011.973
+    "hash": "fe28f6aa81c2c0ca",
+    "ligHash": "8b784d1c16a92c04",
+    "ligVolume": 2844.561,
+    "capHash": "bc48855e20a94e16",
+    "capVolume": 13001.615
   },
   "variants/baritone_cedar.scad": {
     "tris": 36298,
@@ -141,31 +141,31 @@
   },
   "variants/soprano_ash.scad": {
     "tris": 23178,
-    "volume": 8944.735,
+    "volume": 8954.622,
     "size": [
       21.567,
       21.68,
       67.617
     ],
-    "hash": "09d6475ba7c759d1",
-    "ligHash": "4f8fc36c43feed71",
-    "ligVolume": 1737.445,
-    "capHash": "f7649fb3e6890493",
-    "capVolume": 6711.701
+    "hash": "a6877555dda98893",
+    "ligHash": "d1aa50d8a2ec2129",
+    "ligVolume": 1737.253,
+    "capHash": "185ac6ea13e3856e",
+    "capVolume": 6719.862
   },
   "variants/soprano_birch.scad": {
-    "tris": 17536,
-    "volume": 12742.497,
+    "tris": 17528,
+    "volume": 12739.399,
     "size": [
       22.758,
       21.596,
       69.826
     ],
-    "hash": "951d7456a2aded6f",
-    "ligHash": "e617553942b188f5",
-    "ligVolume": 1892.741,
-    "capHash": "cb7a2bd8fafb7625",
-    "capVolume": 7132.503
+    "hash": "0e84a8884f3d8db0",
+    "ligHash": "e3500e3de96d13af",
+    "ligVolume": 1893.947,
+    "capHash": "3da444edd4357b21",
+    "capVolume": 7127.706
   },
   "variants/soprano_cedar.scad": {
     "tris": 22298,
@@ -182,32 +182,32 @@
     "capVolume": 6913.83
   },
   "variants/tenor_ash.scad": {
-    "tris": 28762,
-    "volume": 21402.853,
+    "tris": 28842,
+    "volume": 21448.832,
     "size": [
       28.565,
       28.721,
       95.17
     ],
-    "hash": "cd52718753d7510f",
+    "hash": "140403dc164c2be9",
     "ligHash": "4f600db76e2733b5",
     "ligVolume": 2702.04,
-    "capHash": "c72d937aa668ffeb",
-    "capVolume": 10675.754
+    "capHash": "e058594fa177de32",
+    "capVolume": 10701.718
   },
   "variants/tenor_birch.scad": {
-    "tris": 23950,
-    "volume": 30351.059,
+    "tris": 23990,
+    "volume": 30355.482,
     "size": [
       28.78,
       28.099,
-      101.804
+      101.826
     ],
-    "hash": "ab89e92a1bb620db",
-    "ligHash": "09e6c69ad20a0747",
-    "ligVolume": 2840.09,
-    "capHash": "f5940b8b7798e852",
-    "capVolume": 11090.595
+    "hash": "d9a31893a3fd4afb",
+    "ligHash": "af6b8ef206a9533d",
+    "ligVolume": 2840.089,
+    "capHash": "1847376126876f12",
+    "capVolume": 11095.568
   },
   "variants/tenor_cedar.scad": {
     "tris": 28426,
@@ -234,17 +234,17 @@
     "hash": "0e42a17df19c3004"
   },
   "extras/c_melody.scad": {
-    "tris": 19266,
-    "volume": 25457.578,
+    "tris": 19274,
+    "volume": 25457.055,
     "size": [
       29.994,
       28.593,
       95.517
     ],
-    "hash": "2ea743905f02f1b1",
+    "hash": "1257cce157676d38",
     "ligHash": "008572ab17b301d3",
     "ligVolume": 2714.143,
-    "capHash": "f461ce7129a0848b",
-    "capVolume": 10522.139
+    "capHash": "29463eee3abfb7af",
+    "capVolume": 10521.773
   }
 }

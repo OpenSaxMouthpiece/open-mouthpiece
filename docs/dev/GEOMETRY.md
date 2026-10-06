@@ -35,7 +35,9 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   (`beak_remap`: piecewise linear between an anchor 0.3 L behind the shoulder and the tip; 0.2 L
   bunched the body into a bump). `beak_curve` (-1..1, + = scooped) resamples the top from
   `SHOULDER_F2` to the tip (17 knots) and subtracts a half sine of 12% of the beak's drop, so
-  shoulder and tip stay put; the roof cap (guarantee 4) keeps the wall.
+  shoulder and tip stay put; the roof cap (guarantee 4) keeps the wall. With it and
+  `beak_tip_height`, the widest point scales by the same ratio as the crest (`beak_sides_k`, vs
+  `def_top0`), so the flanks follow the top (moving the crest alone left a groove / crease).
 - **`shoulder_sweep`** (mm, 0..20): the shoulder line runs down the flanks toward the tip. Behind a
   line slanting from the crest at the shoulder (`SWEEP_Z0`) to the widest point `shoulder_sweep` mm
   further on, the upper half is the same ring with a higher top exponent (+1.6 once past the
