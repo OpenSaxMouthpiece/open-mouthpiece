@@ -3,8 +3,9 @@
 // top width, Sides near the table) show what they did. Where it cuts moves from the shoulder to the
 // tip, at one scale for the whole slider (so the beak visibly thins toward the tip), each outline
 // standing on its reed side. The shape before the last change shows dashed, and B while comparing,
-// as in the side views.
-import { useEffect, useMemo, useRef, useState } from "react";
+// as in the side views. It opens as a floating card (a view, not a setting), so the sliders stay
+// usable beside it; closed, it only keeps track of the shape before the last change.
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { crossOutline, loopsBox, zRange, type Loop } from "../profile";
 
 interface Props {
@@ -44,10 +45,13 @@ const pathOf = (l: Loop, X: (x: number) => number, Y: (y: number) => number) =>
 
 export function TipChart({ stl, final, design, sig, compare }: Props) {
   const [f, setF] = useState(0.8);
-  const now = useMemo(() => seat(cut(stl, f)), [stl, f]);
-  const b = useMemo(() => seat(cut(compare?.stl ?? null, f)), [compare?.stl, f]);
+  const [open, setOpen] = useState(false);
+  const [place, setPlace] = useState<CSSProperties>({});
+  const opener = useRef<HTMLButtonElement>(null);
+  const now = useMemo(() => (open ? seat(cut(stl, f)) : []), [open, stl, f]);
+  const b = useMemo(() => (open ? seat(cut(compare?.stl ?? null, f)) : []), [open, compare?.stl, f]);
   // the frame: the biggest cut of the range (near the shoulder), so the scale doesn't follow the slider
-  const widest = useMemo(() => seat(cut(stl, CUT_MIN)), [stl]);
+  const widest = useMemo(() => (open ? seat(cut(stl, CUT_MIN)) : []), [open, stl]);
   // "before" is the last final model with other settings, cut where "now" is cut
   const [beforeStl, setBeforeStl] = useState<ArrayBuffer | null>(null);
   const last = useRef<{ design: string; sig: string; stl: ArrayBuffer } | null>(null);
@@ -58,11 +62,38 @@ export function TipChart({ stl, final, design, sig, compare }: Props) {
     else if (l.sig !== sig) setBeforeStl(l.stl);
     last.current = { design, sig, stl };
   }, [stl, final, design, sig]);
-  const before = useMemo(() => seat(cut(beforeStl, f)), [beforeStl, f]);
+  const before = useMemo(() => (open ? seat(cut(beforeStl, f)) : []), [open, beforeStl, f]);
   const mm = fromTip(stl, f);
+  useEffect(() => {
+    if (!open) return;
+    const key = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", key);
+    return () => window.removeEventListener("keydown", key);
+  }, [open]);
+  // beside the settings panel, over the 3D view; on a phone, along the bottom of the screen
+  const show = () => {
+    const panel = opener.current?.closest(".design-section")?.getBoundingClientRect();
+    setPlace(
+      panel && panel.left > 400
+        ? {
+            right: window.innerWidth - panel.left + 12,
+            top: Math.max(60, Math.min(panel.top, window.innerHeight - 380)),
+          }
+        : { left: 8, right: 8, bottom: 8, width: "auto" },
+    );
+    setOpen(true);
+  };
 
   const box = loopsBox([...widest, ...now, ...before, ...b]);
-  if (!box) return null;
+  if (!open || !box)
+    return (
+      <div className="tip-open">
+        <button ref={opener} className="link" onClick={show} disabled={!stl}>
+          See it from the tip ▸
+        </button>
+        <span className="muted"> a slice across the beak</span>
+      </div>
+    );
   const [x0, y0, x1, y1] = box;
   const s = Math.min((W - 2 * PAD) / (x1 - x0), MAX_H / (y1 - y0));
   const H = (y1 - y0) * s + 2 * PAD;
@@ -70,10 +101,12 @@ export function TipChart({ stl, final, design, sig, compare }: Props) {
   const X = (x: number) => ox + (x - x0) * s,
     Y = (y: number) => PAD + (y1 - y) * s;
   return (
-    <div className="profile-chart tip-chart">
+    <div className="profile-chart tip-chart" style={place} role="dialog" aria-label="From the tip">
       <div className="profile-head">
         <span className="readout-label">From the tip, across the beak</span>
-        {mm != null && <span className="muted">cut {Math.round(mm)} mm from the tip</span>}
+        <button className="link tip-close" onClick={() => setOpen(false)} aria-label="Close" title="Close (Esc)">
+          ✕
+        </button>
       </div>
       <svg viewBox={`0 0 ${W} ${H.toFixed(1)}`} role="img" aria-label="The beak cut across, seen from the tip">
         {before.map((l, i) => (
@@ -86,6 +119,7 @@ export function TipChart({ stl, final, design, sig, compare }: Props) {
           <path key={`n${i}`} className="now" d={pathOf(l, X, Y)} />
         ))}
       </svg>
+      <div className="tip-cut-label muted">Where to slice{mm != null && `: ${Math.round(mm)} mm from the tip`}</div>
       <div className="param tip-cut">
         <div className="number">
           <div className="slider">
@@ -95,7 +129,7 @@ export function TipChart({ stl, final, design, sig, compare }: Props) {
               max={CUT_MAX}
               step={0.01}
               value={f}
-              aria-label="Where it cuts"
+              aria-label="Where to slice"
               onChange={(e) => setF(Number(e.target.value))}
             />
             <div className="slider-ends" aria-hidden="true">

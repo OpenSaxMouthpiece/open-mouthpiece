@@ -2569,8 +2569,30 @@ button.link:hover {
   margin-top: 2px;
 }
 /* "From the tip" (TipChart): under the side view, with its own small "where it cuts" slider */
+.tip-open {
+  margin-top: 8px;
+  font-size: 12.5px;
+}
+/* From the tip: a floating card beside the settings (a view, not a setting) */
 .tip-chart {
-  margin-top: 10px;
+  position: fixed;
+  z-index: 40;
+  width: 340px;
+  max-width: calc(100vw - 16px);
+  box-sizing: border-box;
+  padding: 8px 10px 6px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.tip-close {
+  font-size: 13px;
+  text-decoration: none;
+}
+.tip-cut-label {
+  margin-top: 6px;
+  font-size: 12px;
 }
 .tip-chart .tip-cut {
   padding: 2px 0 0;
