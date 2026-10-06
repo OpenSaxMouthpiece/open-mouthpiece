@@ -159,6 +159,26 @@ lettering_depth = 0.5; // [0.2:0.05:1.5]
 lettering_font = "Bebas Neue"; // [Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Keeps lettering this far back from the tip (mm).
 lettering_tip_clearance = 22; // [5:0.5:60]
+// The top text's own typeface; same = the Font above.
+top_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
+// The side texts' own typeface; same = the Font above.
+side_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
+// Text around the shank's round band at the neck end (empty = none); variables as on top.
+shank_text = "";
+// Shank letter height (mm); the band is short, so keep it small.
+shank_text_size = 3; // [1.5:0.5:8]
+// Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.
+shank_text_around = 0; // [-180:15:180]
+// The shank text's own typeface; same = the Font above.
+shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
+// Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.
+shank_detail = "none"; // [none, ring, rings, flutes]
+// How many rings or flutes (rings: as many as fit).
+shank_detail_count = 3; // [2:1:40]
+// Where the single ring sits: 0 = by the neck end, 1 = by the flare.
+shank_detail_position = 0.25; // [0:0.05:1]
+// How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.
+shank_detail_depth = 0.6; // [0.3:0.05:1.2]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
@@ -225,6 +245,8 @@ ligature_fit = 0.1; // [-0.4:0.05:0.5]
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
+// The ligature text's own typeface; same = the Font in Personalise.
+ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
 // Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
@@ -269,6 +291,8 @@ cap_end_gap = 4; // [1:0.5:20]
 cap_end_dome = 1; // [0:0.1:1]
 // Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
+// The cap text's own typeface; same = the Font in Personalise.
+cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]
 // Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.

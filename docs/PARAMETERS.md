@@ -817,6 +817,86 @@ Range: 5 to 60, step 0.5.
 
 Presets: Alto `22` · Tenor `22` · Bari `22` · Soprano `22`.
 
+### Top text font (`top_text_font`)
+
+The top text's own typeface; same = the Font above.
+
+Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
+
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+### Side text font (`side_text_font`)
+
+The side texts' own typeface; same = the Font above.
+
+Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
+
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+### Text around the shank (`shank_text`)
+
+Text around the shank's round band at the neck end (empty = none); variables as on top.
+
+Range: text.
+
+Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+### Shank text size (`shank_text_size`)
+
+Shank letter height (mm); the band is short, so keep it small.
+
+Range: 1.5 to 8, step 0.5.
+
+Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+### Shank text around (`shank_text_around`)
+
+Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.
+
+Range: -180 to 180, step 15.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+### Shank text font (`shank_text_font`)
+
+The shank text's own typeface; same = the Font above.
+
+Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
+
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+### Shank decoration (`shank_detail`)
+
+Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.
+
+Range: `none`, `ring`, `rings`, `flutes`.
+
+Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
+
+### How many (`shank_detail_count`)
+
+How many rings or flutes (rings: as many as fit).
+
+Range: 2 to 40, step 1.
+
+Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+### Ring position (`shank_detail_position`)
+
+Where the single ring sits: 0 = by the neck end, 1 = by the flare.
+
+Range: 0 to 1, step 0.05.
+
+Presets: Alto `0.25` · Tenor `0.25` · Bari `0.25` · Soprano `0.25`.
+
+### Shank decoration depth (`shank_detail_depth`)
+
+How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.
+
+Range: 0.3 to 1.2, step 0.05.
+
+Presets: Alto `0.6` · Tenor `0.6` · Bari `0.6` · Soprano `0.6`.
+
 ## Profile overrides
 
 Point lists that replace a built-in curve: `[[distance from the shank end, value], ...]`, `[]` = the built-in one. Edit them in the app's **Curves** panel (OpenSCAD's Customizer can't edit lists).
@@ -1079,6 +1159,14 @@ Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
 
+### Ligature text font (`ligature_text_font`)
+
+The ligature text's own typeface; same = the Font in Personalise.
+
+Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
+
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
 ### Text size (`ligature_text_size`)
 
 Ligature letter height (mm).
@@ -1248,6 +1336,14 @@ Text on the cap's top (empty = none). Lines, variables as on the top text.
 Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+### Cap text font (`cap_text_font`)
+
+The cap text's own typeface; same = the Font in Personalise.
+
+Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
+
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
 ### Text size (`cap_text_size`)
 

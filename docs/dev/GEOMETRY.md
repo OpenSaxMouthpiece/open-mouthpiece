@@ -179,6 +179,18 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
   font, and some font files (Cinzel, Abril Fatface, Righteous, Titan One, Bungee, Russo One, Passion
   One, Monoton, Bowlby One), crash the render ("null function"): test every new font there.
   `bundle_scad.mjs` drops the font `use`s.
+  Each text can have its own (`top_text_font`, `side_text_font`, `shank_text_font`,
+  `ligature_text_font`, `cap_text_font`; "same" = `lettering_font`, via `font_name()`).
+- **Shank band** (`SHANK_BAND`): the round stretch at the neck end, from 1mm past the socket's
+  lead-in to where the width starts to flare (at least 7mm: the bari's and soprano's shanks flare
+  from the end, so they get that much of the flare), short of the reed's heel. `shank_detail` cuts
+  grooves into it (`ring`: one, at `shank_detail_position`; `rings`: as many as fit, up to
+  `shank_detail_count`; `flutes`: V grooves along it, following the flare in 1mm hulls) and
+  `shank_text` runs around it (2mm strips wedged out along the radius, as the wrapped picture; read
+  with the tip up; `shank_text_around` turns it, + toward the right side). Both cut a skin
+  (`exterior_relief`: `exterior_offset` with its own depth per station; grooves have 45-degree
+  sides, so they print standing on the shank end) at most `SHANK_WALL - 1.2` deep. With text and a
+  detail, the text takes the flare end of the band.
 - **Braces in strings**: OpenSCAD's parameter export stops at a string containing `{`, dropping
   every later parameter from the Customizer. Files write it `"{tip}"` (`make_variants.mjs`'s
   `fmt`, the app's `scadLiteral`); OpenSCAD reads the same string.

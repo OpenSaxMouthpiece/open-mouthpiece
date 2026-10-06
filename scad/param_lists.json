@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "1b81ea7e-17137",
+  "hash": "3456d02c-19293",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -810,6 +810,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -949,6 +1250,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -1171,6 +1545,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -1411,7 +1858,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "d15f1ed3-17374",
+  "hash": "af9c9fa5-19530",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2221,6 +2668,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -2360,6 +3108,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -2582,6 +3403,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -4212,7 +5106,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "39934aaa-17339",
+  "hash": "c0447218-19495",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5022,6 +5916,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -5161,6 +6356,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -5383,6 +6651,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -5623,7 +6964,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "1d9cbaed-17516",
+  "hash": "9dbdf603-19672",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6433,6 +7774,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -6572,6 +8214,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -6794,6 +8509,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -7034,7 +8822,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "17671464-17083",
+  "hash": "a52da256-19239",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7844,6 +9632,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -7983,6 +10072,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -8205,6 +10367,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -8445,7 +10680,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "2c11eaef-17135",
+  "hash": "8cda1ecd-19291",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9255,6 +11490,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -9394,6 +11930,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -9616,6 +12225,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -9856,7 +12538,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "e81fe426-17099",
+  "hash": "d24a2e20-19255",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10666,6 +13348,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -10805,6 +13788,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -11027,6 +14083,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -11267,7 +14396,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "b2f0c0cb-17308",
+  "hash": "c2501f5-19464",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12077,6 +15206,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -12216,6 +15646,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -12438,6 +15941,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -12678,7 +16254,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "bb0f01a9-17374",
+  "hash": "2352417-19530",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13488,6 +17064,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -13627,6 +17504,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -13849,6 +17799,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -14089,7 +18112,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "93dfbb1b-17326",
+  "hash": "59dbcf01-19482",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14899,6 +18922,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -15038,6 +19362,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -15260,6 +19657,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -15500,7 +19970,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "5f03c2eb-17344",
+  "hash": "3bf88555-19500",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16310,6 +20780,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -16449,6 +21220,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -16671,6 +21515,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -16911,7 +21828,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "d45c460a-17394",
+  "hash": "94a4dda0-19550",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17721,6 +22638,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -17860,6 +23078,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -18082,6 +23373,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -18322,7 +23686,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "1d437843-17359",
+  "hash": "ed569af9-19515",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19132,6 +24496,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -19271,6 +24936,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -19493,6 +25231,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -19733,7 +25544,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "3e433a99-17466",
+  "hash": "1c135837-19622",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20543,6 +26354,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -20682,6 +26794,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -20904,6 +27089,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -21144,7 +27402,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "a8d9f2fb-17509",
+  "hash": "f78b5a8d-19665",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21954,6 +28212,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -22093,6 +28652,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -22315,6 +28947,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -22555,7 +29260,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "3d7ac225-17478",
+  "hash": "b56b0be3-19634",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23365,6 +30070,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -23504,6 +30510,79 @@
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -23726,6 +30805,79 @@
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {

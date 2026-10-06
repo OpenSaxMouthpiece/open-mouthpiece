@@ -203,6 +203,26 @@ lettering_depth = 0.5; // [0.2:0.05:1.5]
 lettering_font = "Sans Bold"; // [Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Keeps lettering this far back from the tip (mm).
 lettering_tip_clearance = 22; // [5:0.5:60]
+// The top text's own typeface; same = the Font above.
+top_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
+// The side texts' own typeface; same = the Font above.
+side_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
+// Text around the shank's round band at the neck end (empty = none); variables as on top.
+shank_text = "";
+// Shank letter height (mm); the band is short, so keep it small.
+shank_text_size = 3; // [1.5:0.5:8]
+// Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.
+shank_text_around = 0; // [-180:15:180]
+// The shank text's own typeface; same = the Font above.
+shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
+// Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.
+shank_detail = "none"; // [none, ring, rings, flutes]
+// How many rings or flutes (rings: as many as fit).
+shank_detail_count = 3; // [2:1:40]
+// Where the single ring sits: 0 = by the neck end, 1 = by the flare.
+shank_detail_position = 0.25; // [0:0.05:1]
+// How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.
+shank_detail_depth = 0.6; // [0.3:0.05:1.2]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
@@ -269,6 +289,8 @@ ligature_fit = 0.1; // [-0.4:0.05:0.5]
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
+// The ligature text's own typeface; same = the Font in Personalise.
+ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
 // Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
@@ -313,6 +335,8 @@ cap_end_gap = 5; // [1:0.5:20]
 cap_end_dome = 1; // [0:0.1:1]
 // Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
+// The cap text's own typeface; same = the Font in Personalise.
+cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]
 // Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
@@ -1095,6 +1119,12 @@ function air_volume() =
 module validate() {
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
     echo(str("WARNING: ", r[0], " was renamed ", r[2], " — this value is ignored; rename it in the file"));
+  if (shank_detail == "rings" && SD_RINGS < shank_detail_count)
+    echo(str("WARNING: shank_detail_count ", shank_detail_count, " rings don't fit on the shank's band: ", SD_RINGS, " made"));
+  if (has_text(shank_text) && shank_text_h > SHANK_BAND[1] - SHANK_BAND[0] + 0.5)
+    echo(str("WARNING: shank_text ", round(shank_text_h * 10) / 10, "mm tall runs past the shank's ", round((SHANK_BAND[1] - SHANK_BAND[0]) * 10) / 10, "mm band onto the flare: try a smaller shank_text_size"));
+  if (has_text(shank_text) && text_block(shank_text, shank_text_size)[0] > 2 * PI * (exterior_ring_at(shank_text_z)[E_HW]) - 3)
+    echo("WARNING: shank_text is longer than the way around the shank: its ends overlap");
   // a body size past the scale's 0.5-2 limit can't be reached (the old scale knobs aside)
   body_w_got = size_at(BODY_AB_W, BODY_KW);
   body_h_got = size_at(BODY_AB_H, BODY_KH);
@@ -1452,19 +1482,26 @@ LETTERING_FONTS = [["Sans Bold", "Liberation Sans:style=Bold"], ["Sans", "Libera
   ["Lobster", "Lobster"], ["Pacifico", "Pacifico"], ["Kaushan Script", "Kaushan Script"]];
 // A name not in the list is used as a font name as is (a font installed on this computer; desktop only).
 lettering_font_name = let(hit = [for (f = LETTERING_FONTS) if (f[0] == lettering_font) f[1]]) len(hit) > 0 ? hit[0] : lettering_font;
+// Each text's own typeface (top_text_font, ...): "same" = lettering_font.
+function font_name(choice) = !is_string(choice) || choice == "same" ? lettering_font_name
+  : let(hit = [for (f = LETTERING_FONTS) if (f[0] == choice) f[1]]) len(hit) > 0 ? hit[0] : choice;
 
 // The exterior over [z0, z1] with every ring moved inward (d > 0) or outward (d < 0) by d.
 module exterior_offset(z0, z1, d) {
-  dirs = ring_dirs(EXT_RING_POINTS);
   n = max(2, ceil((z1 - z0) / Z_STEP));
-  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, zc = max(0, min(L, z)), E = exterior_ring_at(zc))
+  exterior_relief([for (i = [0 : n]) [z0 + (z1 - z0) * i / n, d]]);
+}
+// The same with its own offset per station: st = [[z, d], ...], z increasing.
+module exterior_relief(st) {
+  dirs = ring_dirs(EXT_RING_POINTS);
+  ring_loft([for (s = st) let(z = s[0], d = s[1], zc = max(0, min(L, z)), E = exterior_ring_at(zc))
     sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
 }
 
-module lettering_text(s, size) {
+module lettering_text(s, size, font = undef) {
   ls = text_lines(s);
   for (i = [0 : len(ls) - 1]) translate([0, ((len(ls) - 1) / 2 - i) * LINE_SPACING * size])
-    text(ls[i], size = size, font = lettering_font_name, halign = "center", valign = "center");
+    text(ls[i], size = size, font = is_undef(font) ? lettering_font_name : font, halign = "center", valign = "center");
 }
 
 // Where each design may go, per station, as a loft of rectangles: top lettering above a split
@@ -1572,7 +1609,7 @@ module lettering_prisms() {
       // Readable from above: across the body with the tip pointing away (90), or along it reading
       // toward the tip (0).
       translate([0, 0, top_text_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi)
-        rotate(-90 - top_text_angle) lettering_text(top_text, top_text_size);
+        rotate(-90 - top_text_angle) lettering_text(top_text, top_text_size, font_name(top_text_font));
     }
   // In from each side, upright as seen from that side.
   for (side = [[-1, side_text_right], [1, side_text_left]]) if (has_text(side[1]))
@@ -1580,7 +1617,7 @@ module lettering_prisms() {
       lettering_zone(false, hw_hi, y_hi);
       translate([0, side_text_y, side_text_z])
         multmatrix([[0, 0, side[0], 0], [0, 1, 0, 0], [-side[0], 0, 0, 0], [0, 0, 0, 1]])
-          linear_extrude(height = hw_hi) lettering_text(side[1], side_text_size);
+          linear_extrude(height = hw_hi) lettering_text(side[1], side_text_size, font_name(side_text_font));
     }
 }
 
@@ -1588,6 +1625,96 @@ module lettering_cutter() {
   difference() {
     lettering_prisms();
     exterior_offset(LETTERING_SPAN[0] - 1, LETTERING_SPAN[1] + 1, eff_lettering_depth);
+  }
+}
+
+// ---- The shank band: the round stretch at the neck end, before the flare into the body (at least
+// 7mm: a shank that flares from the end (bari, soprano) gets that much of its flare).
+// shank_detail cuts grooves into it (one ring, rings, or flutes along it) and shank_text runs
+// around it, both like the lettering: a cut through a skin that follows the surface. They start
+// 1mm past the socket's lead-in (the opening keeps its wall) and leave the shank 1.2mm of wall.
+// Grooves have 45-degree sides, so they print standing on the shank end without supports.
+SHANK_BAND = let(f = len(FLARE_W) > 0 ? FLARE_W[0] * L : 0.09 * L, z0 = max(1.5, shank_bevel_depth_eff() + 1))
+  [z0, max(z0 + 2, min(max(f, z0 + 7), table_rear_z - 2))];   // short of the reed's heel
+function shank_wall_at(z) = let(E = exterior_ring_at(z), c = bah_at(z))
+  min(E[E_HW] - socket_d / 2, E[E_TOP] - (c + socket_ry), (c - socket_ry) - max(0, E[E_BOT]));   // the table plane cuts the underside
+SHANK_WALL = min([for (i = [0 : 4]) shank_wall_at(SHANK_BAND[0] + (SHANK_BAND[1] - SHANK_BAND[0]) * i / 4)]);
+SHANK_CUT = max(0.1, min(shank_detail_depth, SHANK_WALL - 1.2));
+SHANK_TEXT_CUT = max(0.1, min(lettering_depth, SHANK_WALL - 1.2));
+HAS_SHANK_DETAIL = shank_detail == "ring" || shank_detail == "rings" || shank_detail == "flutes";
+HAS_SHANK_ART = HAS_SHANK_DETAIL || has_text(shank_text);
+// The text sits in the band's middle; with a detail too, at the flare end (the detail gets the rest).
+shank_text_h = text_block(shank_text, shank_text_size)[1];
+shank_text_z = !has_text(shank_text) ? SHANK_BAND[1]
+  : HAS_SHANK_DETAIL ? max(SHANK_BAND[0] + shank_text_h / 2, SHANK_BAND[1] - shank_text_h / 2 - 0.3)
+  : (SHANK_BAND[0] + SHANK_BAND[1]) / 2;
+SD_SPAN = [SHANK_BAND[0], has_text(shank_text) ? max(SHANK_BAND[0] + 1, shank_text_z - shank_text_h / 2 - 0.8) : SHANK_BAND[1]];
+SD_GW = 2 * SHANK_CUT + 0.4;   // a groove's width at the surface (45-degree sides, a flat bottom)
+SD_RINGS = shank_detail == "ring" ? 1 : max(1, min(shank_detail_count, floor((SD_SPAN[1] - SD_SPAN[0]) / (SD_GW + 0.6))));
+SD_CENTRES = shank_detail == "ring" ? [lerp(SD_SPAN[0] + SD_GW / 2, SD_SPAN[1] - SD_GW / 2, clamp01(shank_detail_position))]
+  : let(p = (SD_SPAN[1] - SD_SPAN[0]) / SD_RINGS) [for (i = [0 : SD_RINGS - 1]) SD_SPAN[0] + (i + 0.5) * p];
+// Stations for the grooves' relief: -0.05 (just outside the surface) between grooves, the depth
+// across each groove's bottom, every 0.5mm or so (so the relief follows a flaring surface).
+function groove_stations(cs, gw, d, z0, z1) =
+  let(h = gw / 2, ends = concat([z0], [for (c = cs) c + h]), starts = concat([for (c = cs) c - h], [z1]))
+  concat([[z0, -0.05]], [for (i = [0 : len(cs)]) each concat(
+    let(a = ends[i], b = starts[i], m = max(1, ceil((b - a) / 0.5))) [for (k = [1 : m - 1]) [a + (b - a) * k / m, -0.05]],
+    i < len(cs) ? let(p = cs[i] - h + d, q = cs[i] + h - d, m = max(1, ceil((q - p) / 0.5)))
+      concat([[cs[i] - h, -0.05]], [for (k = [0 : m]) [p + (q - p) * k / m, d]], [[cs[i] + h, -0.05]]) : [])], [[z1, -0.05]]);
+
+module shank_cutter() {
+  if (shank_detail == "ring" || shank_detail == "rings")
+    difference() {
+      exterior_offset(SD_SPAN[0] - 0.4, SD_SPAN[1] + 0.4, -1);
+      exterior_relief(groove_stations(SD_CENTRES, SD_GW, SHANK_CUT, SD_SPAN[0] - 0.5, SD_SPAN[1] + 0.5));
+    }
+  if (shank_detail == "flutes") {
+    E = exterior_ring_at((SD_SPAN[0] + SD_SPAN[1]) / 2);
+    n = max(2, shank_detail_count);
+    fw = min(PI * 2 * E[E_HW] / n * 0.6, SD_GW);   // across at the surface: a V with 45-degree sides
+    intersection() {
+      // the skin they cut: SHANK_CUT deep, ramping out at 45 degrees at both ends (no ledge to print)
+      difference() {
+        exterior_offset(SD_SPAN[0] - 0.4, SD_SPAN[1] + 0.4, -1);
+        exterior_relief(groove_stations([(SD_SPAN[0] + SD_SPAN[1]) / 2], SD_SPAN[1] - SD_SPAN[0], SHANK_CUT, SD_SPAN[0] - 0.5, SD_SPAN[1] + 0.5));
+      }
+      // each flute a V (45-degree sides) whose point sits fw/2 under the surface all along (it
+      // follows the flare in 1mm pieces); the skin flattens its bottom
+      for (i = [0 : n - 1]) let(ang = 90 + i * 360 / n)
+        for (z = [SD_SPAN[0] - 1 : 1 : SD_SPAN[1] + 0.99]) hull() for (zz = [z, z + 1])
+          let(Ez = exterior_ring_at(max(0, zz)), r = (Ez[E_HW] + (Ez[E_TOP] - Ez[E_BOT]) / 2) / 2)
+          translate([0, Ez[E_CY], zz]) rotate([0, 0, ang]) linear_extrude(0.01)
+            polygon([[r - fw / 2, 0], [r + 6, 6 + fw / 2], [r + 6, -6 - fw / 2]]);
+    }
+  }
+  if (has_text(shank_text)) shank_text_cutter();
+}
+
+// The shank text, wrapped around the band: the flat text's x becomes the distance around from the
+// top (shank_text_around turns it; + toward the right side, -x), cut into 2mm strips, each a wedge
+// standing out along that point's radius. Read with the tip up, letters upright.
+module shank_text_cutter() {
+  E = exterior_ring_at(shank_text_z);
+  R = (E[E_HW] + (E[E_TOP] - E[E_BOT]) / 2) / 2;
+  cy = E[E_CY];
+  sw = 2; inw = SHANK_TEXT_CUT + 2; out = 20;  // far out: where the band flares, a strip must still start outside
+  half = min(text_block(shank_text, shank_text_size, 1)[0] / 2 + 1, PI * R);
+  n = ceil(half / sw);
+  z0 = SHANK_BAND[0]; z1 = shank_text_z + shank_text_h / 2 + 1.5;
+  difference() {
+    intersection() {
+      translate([-50, -50, z0]) cube([100, 100, z1 - z0]);
+      for (k = [-n : n - 1])
+        let(u = (k + 0.5) * sw, a = 90 + shank_text_around + u / R * 180 / PI, nr = [cos(a), sin(a)], t = [-sin(a), cos(a)])
+        multmatrix([[t[0], 0, nr[0], nr[0] * (R - inw)], [t[1], 0, nr[1], cy + nr[1] * (R - inw)],
+                    [0, 1, 0, shank_text_z], [0, 0, 0, 1]])
+          linear_extrude(height = inw + out, scale = [(R + out) / (R - inw), 1])
+            scale([(R - inw) / R, 1]) translate([-u, 0]) intersection() {
+              lettering_text(shank_text, shank_text_size, font_name(shank_text_font));
+              translate([u - sw / 2 - 0.05, -50]) square([sw + 0.1, 100]);
+            }
+    }
+    exterior_offset(z0 - 1, z1 + 1, SHANK_TEXT_CUT);
   }
 }
 
@@ -1656,7 +1783,7 @@ function param_focus() =
       shoulder = box(SHOULDER_F2 * L - 8, L), table = box(table_start_z, L), facing = box(break_z - 3, L), rear = box(0, table_rear_z + 3), body = box(0.1 * L, 0.6 * L),
       lettering = box(lettering_z0, lettering_z1), ligature = box(lig_zt - 3, lig_z1 + 3), lettering_top = box(top_text_z - 12, top_text_z + 12),
       lettering_image = box(top_image_z - 15, top_image_z + 15),
-      lettering_side = box(side_text_z - 15, side_text_z + 15),
+      lettering_side = box(side_text_z - 15, side_text_z + 15), shank = box(0, SHANK_BAND[1] + 4),
       // the side text's shared settings look at the side that has text (the right one is on -x)
       side_view = has_text(side_text_right) && !has_text(side_text_left) ? "side_right" : "side")
   [["frame", [print_orientation, bore_tilt, end_face_lift]],
@@ -1686,7 +1813,11 @@ function param_focus() =
    ["side_text_size", lettering_side, side_view, false], ["side_text_position", lettering_side, side_view, false],
    ["side_text_vertical", lettering_side, side_view, false], ["lettering_style", lettering, "iso", false],
    ["lettering_depth", lettering, "iso", false], ["lettering_font", lettering, "iso", false],
-   ["lettering_tip_clearance", lettering, "top", false],
+   ["lettering_tip_clearance", lettering, "top", false], ["top_text_font", lettering_top, "top", false],
+   ["side_text_font", lettering_side, side_view, false], ["shank_text", shank, "iso", false], ["shank_text_size", shank, "iso", false],
+   ["shank_text_around", shank, "iso", false], ["shank_text_font", shank, "iso", false], ["shank_detail", shank, "iso", false],
+   ["shank_detail_count", shank, "iso", false], ["shank_detail_position", shank, "side", false], ["shank_detail_depth", shank, "side", false],
+   ["ligature_text_font", ligature, "top", false],
    ["ligature_length", ligature, "side", false], ["ligature_position", ligature, "side", false],
    ["ligature_wall", ligature, "end", false], ["ligature_fit", ligature, "end", false],
    ["ligature_shape", ligature, "end", false], ["ligature_reed_grip", ligature, "end", false], ["ligature_tongue", ligature, "side", false], ["ligature_tongue_side", ligature, "side", false],
@@ -1873,7 +2004,7 @@ module lig_art_prisms(env, y_lo, y_hi) {
       art_2d(ligature_image, ligature_image_width, ligature_image_angle);
   if (has_text(ligature_text))
     translate([0, y_lo, lig_text_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
-      rotate(-90 - ligature_text_angle) lettering_text(ligature_text, ligature_text_size);
+      rotate(-90 - ligature_text_angle) lettering_text(ligature_text, ligature_text_size, font_name(ligature_text_font));
 }
 
 // Engraved: what to cut from the band; raised: what to add to it. The skin is a tube between the
@@ -2139,7 +2270,7 @@ module cap_part() {
         art_2d(cap_image, cap_image_width, cap_image_angle);
     if (has_text(cap_text))
       translate([0, y_lo, t_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
-        rotate(-90 - cap_text_angle) lettering_text(cap_text, cap_text_size);
+        rotate(-90 - cap_text_angle) lettering_text(cap_text, cap_text_size, font_name(cap_text_font));
   }
   // the straight part of the shell, thicker/thinner by delta, for the lettering's skin
   module skin_solid(delta) { ring_loft([for (z = zs) outer_at(z, delta)]); }
@@ -2197,6 +2328,7 @@ module mouthpiece_body() {
     window_cutter();
     facing_cutter();
     if (HAS_LETTERING) lettering_cutter();
+    if (HAS_SHANK_ART) shank_cutter();
   }
 }
 

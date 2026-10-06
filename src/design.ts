@@ -176,9 +176,23 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "side_text_size", label: "Side text size", showIf: ["side_text_right", "side_text_left"] },
       { name: "side_text_position", label: "Side text position", showIf: ["side_text_right", "side_text_left"] },
       {
+        name: "shank_text",
+        label: "Text around the shank",
+        caption: "Runs around the round band at the neck end; {tip} etc. are variables.",
+      },
+      { name: "shank_text_size", label: "Shank text size", showIf: ["shank_text"] },
+      {
+        name: "shank_detail",
+        label: "Shank decoration",
+        optionLabels: { none: "None", ring: "One ring", rings: "Rings (ribbed)", flutes: "Flutes (grooves along it)" },
+      },
+      { name: "shank_detail_count", label: "How many", when: ["shank_detail", ["rings", "flutes"]] },
+      { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "ring"] },
+      {
         name: "lettering_font",
         label: "Font",
-        showIf: ["top_text", "side_text_right", "side_text_left", "ligature_text", "cap_text"],
+        showIf: ["top_text", "side_text_right", "side_text_left", "shank_text", "ligature_text", "cap_text"],
+        caption: "For all the lettering. Each text can have its own font under More.",
       },
       {
         name: "lettering_style",
@@ -195,7 +209,17 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         ],
       },
     ],
-    more: ["lettering_depth", "side_text_vertical", "lettering_tip_clearance", "top_image_aspect"],
+    more: [
+      "top_text_font",
+      "side_text_font",
+      "shank_text_font",
+      "shank_text_around",
+      "shank_detail_depth",
+      "lettering_depth",
+      "side_text_vertical",
+      "lettering_tip_clearance",
+      "top_image_aspect",
+    ],
   },
   {
     title: "Ligature",
@@ -229,7 +253,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         showIf: ["ligature_text", "ligature_image"],
       },
     ],
-    more: ["ligature_fit", "ligature_wall", "ligature_image_aspect"],
+    more: ["ligature_text_font", "ligature_fit", "ligature_wall", "ligature_image_aspect"],
   },
   {
     title: "Cap",
@@ -274,7 +298,15 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "cap_image_angle", label: "Picture rotation", showIf: ["cap_image"] },
       { name: "cap_lettering_position", label: "Text and picture position", showIf: ["cap_text", "cap_image"] },
     ],
-    more: ["cap_end_vent_size", "cap_slot_length", "cap_slot_width", "cap_end_gap", "cap_wall", "cap_image_aspect"],
+    more: [
+      "cap_text_font",
+      "cap_end_vent_size",
+      "cap_slot_length",
+      "cap_slot_width",
+      "cap_end_gap",
+      "cap_wall",
+      "cap_image_aspect",
+    ],
   },
   {
     title: "Printing",
@@ -350,6 +382,13 @@ const LABELS: Record<string, string> = {
   shoulder_sweep: "Shoulder sweep",
   body_squareness: "Body cross-section",
   side_text_vertical: "Side text up / down",
+  top_text_font: "Top text font",
+  side_text_font: "Side text font",
+  shank_text_font: "Shank text font",
+  shank_text_around: "Shank text around",
+  shank_detail_depth: "Shank decoration depth",
+  ligature_text_font: "Ligature text font",
+  cap_text_font: "Cap text font",
   lettering_tip_clearance: "Lettering distance from the tip",
   top_image_aspect: "Picture height / width",
   ligature_fit: "Gap to the body",
@@ -437,6 +476,11 @@ const ENDS: Record<string, [string, string]> = {
   side_text_size: SMALL_LARGE,
   side_text_position: ALONG,
   side_text_vertical: ["Down", "Up"],
+  shank_text_size: SMALL_LARGE,
+  shank_text_around: ["Left side", "Right side"],
+  shank_detail_count: ["Few", "Many"],
+  shank_detail_position: ["By the neck end", "By the flare"],
+  shank_detail_depth: SHALLOW_DEEP,
   lettering_depth: SHALLOW_DEEP,
   lettering_tip_clearance: ["Near the tip", "Far back"],
   // Ligature
@@ -477,6 +521,12 @@ export const paramEnds = (name: string) => ENDS[name];
 const OPTION_LABELS: Record<string, Record<string, string>> = {
   facing_model: { power: "Power curve", arc: "Radius", gauge: "Gauge points" },
   throat_shape: { chamber: "Same as the chamber" },
+  ...Object.fromEntries(
+    ["top_text_font", "side_text_font", "shank_text_font", "ligature_text_font", "cap_text_font"].map((n) => [
+      n,
+      { same: "Same as Font" },
+    ]),
+  ),
 };
 export const optionLabel = (name: string, value: string, fileName = value) => {
   const words = fileName.replace(/_/g, " ");
@@ -549,10 +599,22 @@ for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {
 }
 for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertical", "top_image_aspect"]) {
   const on = ["top_text", "top_image", "side_text_right", "side_text_left"];
-  if (n === "lettering_depth") on.push("ligature_text", "ligature_image", "cap_text", "cap_image");
+  if (n === "lettering_depth") on.push("shank_text", "ligature_text", "ligature_image", "cap_text", "cap_image");
   INACTIVE[n] = (get) => (anyText(get, on) ? null : "no text or picture to apply it to");
 }
 INACTIVE.ligature_image_aspect = (get) => (anyText(get, ["ligature_image"]) ? null : "no picture on the ligature");
+// Each text's own font only counts with that text.
+for (const [n, texts] of [
+  ["top_text_font", ["top_text"]],
+  ["side_text_font", ["side_text_right", "side_text_left"]],
+  ["shank_text_font", ["shank_text"]],
+  ["shank_text_around", ["shank_text"]],
+  ["ligature_text_font", ["ligature_text"]],
+  ["cap_text_font", ["cap_text"]],
+] as [string, string[]][])
+  INACTIVE[n] = (get) => (anyText(get, texts) ? null : "no text to apply it to");
+INACTIVE.shank_detail_depth = (get) =>
+  get("shank_detail") && get("shank_detail") !== "none" ? null : "no shank decoration";
 INACTIVE.cap_image_aspect = (get) => (anyText(get, ["cap_image"]) ? null : "no picture on the cap");
 // The metal ligature's numbers only count for a cap over a metal ligature.
 for (const n of [
