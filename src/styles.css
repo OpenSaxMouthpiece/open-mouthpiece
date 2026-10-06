@@ -2607,10 +2607,16 @@ button.link:hover {
   color: var(--accent-fg);
 }
 
-/* The dev site (main.tsx): a small tag by the name, so it is never mistaken for the live one */
-.site-dev .brand::after,
+/* The dev site (main.tsx): a small tag by the name, so it is never mistaken for the live one; on
+   the desktop it says which commit it was built from, and when */
+.site-dev .brand::after {
+  content: var(--build, "dev");
+}
 .site-dev .phone-brand .name::after {
   content: "dev";
+}
+.site-dev .brand::after,
+.site-dev .phone-brand .name::after {
   margin-left: 6px;
   padding: 1px 6px;
   border-radius: 8px;

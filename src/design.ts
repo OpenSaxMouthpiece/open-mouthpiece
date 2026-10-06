@@ -149,9 +149,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "beak_squareness", label: "Beak top" },
       { name: "body_width", label: "Body width" },
       { name: "body_height", label: "Body height" },
-      { name: "shoulder_sweep", label: "Shoulder sweep" },
     ],
-    more: ["body_squareness", "underside_squareness", "shank_diameter", "bore_axis_height"],
+    more: ["body_squareness", "underside_squareness", "shoulder_sweep", "shank_diameter", "bore_axis_height"],
   },
   {
     title: "Personalise",
@@ -334,6 +333,7 @@ const LABELS: Record<string, string> = {
   shank_bevel_depth: "Entry bevel depth",
   bore_tilt: "Bore angle to the table",
   shank_diameter: "Shank outside diameter",
+  shoulder_sweep: "Shoulder sweep",
   side_text_vertical: "Side text up / down",
   lettering_tip_clearance: "Lettering distance from the tip",
   top_image_aspect: "Picture height / width",

@@ -47,9 +47,18 @@ const BUILD = (() => {
   }
 })();
 
+// When that commit was made (ISO), shown on the dev site so it's clear which version is up.
+const BUILD_TIME = (() => {
+  try {
+    return execSync("git log -1 --format=%cI").toString().trim();
+  } catch {
+    return new Date().toISOString();
+  }
+})();
+
 export default defineConfig({
   base: "./",
-  define: { __BUILD__: JSON.stringify(BUILD) },
+  define: { __BUILD__: JSON.stringify(BUILD), __BUILD_TIME__: JSON.stringify(BUILD_TIME) },
   plugins: [react(), liveProject()],
   worker: { format: "es" },
 });

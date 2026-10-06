@@ -7,7 +7,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ParamValue } from "../api";
 import type { Pt } from "../curves";
-import { loopsBox, midSection, type Loop } from "../profile";
+import { loopsBox, midSection, sideSilhouette, type Loop } from "../profile";
 import {
   draggable,
   handleFs,
@@ -29,6 +29,7 @@ interface Props {
   design: string; // the design and part on screen: a new one starts without a "before"
   sig: string; // its settings: a final render with other settings moves "now" to "before"
   compare?: { stl: ArrayBuffer; label: string } | null; // B, dashed blue
+  outside?: boolean; // Body & beak: the outside seen from the side, not the cut
   edit?: {
     section: ShapeSection;
     shape: ShapeLines | null; // the lines of the model on screen (null until a full render)
@@ -45,7 +46,8 @@ const LANDMARKS = ["throat", "window", "break"]; // the ones drawn while editing
 // Small loops are slivers where the plane grazes a facet, not walls.
 const area = (l: Loop) =>
   Math.abs(l.reduce((a, [z, y], i) => a + z * l[(i + 1) % l.length][1] - l[(i + 1) % l.length][0] * y, 0) / 2);
-const section = (stl: ArrayBuffer | null) => (stl ? midSection(stl).filter((l) => area(l) > 0.5) : []);
+const section = (stl: ArrayBuffer | null, outside = false) =>
+  !stl ? [] : outside ? sideSilhouette(stl) : midSection(stl).filter((l) => area(l) > 0.5);
 const pathOf = (pts: [number, number][]) => "M" + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join("L");
 
 // A drag in progress: which line and handle, where it started (svg units), and how far (mm).
@@ -57,9 +59,9 @@ interface Drag {
   k: number; // mm per svg unit, along the drag (x2 for a width's edge)
 }
 
-export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) {
-  const now = useMemo(() => section(stl), [stl]);
-  const b = useMemo(() => section(compare?.stl ?? null), [compare?.stl]);
+export function ProfileChart({ stl, final, design, sig, compare, outside = false, edit }: Props) {
+  const now = useMemo(() => section(stl, outside), [stl, outside]);
+  const b = useMemo(() => section(compare?.stl ?? null, outside), [compare?.stl, outside]);
   const [before, setBefore] = useState<Loop[] | null>(null);
   const last = useRef<{ design: string; sig: string; loops: Loop[] } | null>(null);
   const [editing, setEditing] = useState(false);
@@ -74,7 +76,6 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
 
   const shape = edit?.shape ?? null;
   const on = editing && !!edit && !!shape;
-  const outside = on && edit!.section === "body"; // the outside's lines: no cut, no inside landmarks
   const box = loopsBox([...now, ...(before ?? []), ...b]);
   if (!box) return null;
   const [z0, y0, z1, y1] = box;
@@ -180,27 +181,9 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
         onPointerCancel={() => setDrag(null)}
       >
         {/* "now" last: where nothing changed its line covers the dashed ones */}
-        {outside ? (
-          // Body & beak: the outside only, as a solid silhouette (top, then the reed side back)
-          <path
-            className="now"
-            d={
-              pathOf(
-                [
-                  ...lineNow("top"),
-                  ...[...(shape!.lines.rails ?? [])].reverse(),
-                  ...[...lineNow("underside")].reverse(),
-                ].map(([z, v]) => sideXY(z, v)),
-              ) + "Z"
-            }
-          />
-        ) : (
-          <>
-            {before && <path className="before" d={path(before)} />}
-            {b.length > 0 && <path className="b" d={path(b)} />}
-            <path className="now" d={path(now)} fillRule="evenodd" />
-          </>
-        )}
+        {before && <path className="before" d={path(before)} />}
+        {b.length > 0 && <path className="b" d={path(b)} />}
+        <path className="now" d={path(now)} fillRule="evenodd" />
         {on &&
           shape!.landmarks
             .filter(([n]) => (outside ? n === "break" : LANDMARKS.includes(n)))

@@ -1687,6 +1687,7 @@ export default function App() {
           compare={
             pinned?.stl && (!pinned.mesh || pinned.mesh.aligned) ? { stl: pinned.stl, label: labelB ?? "" } : null
           }
+          outside={section === "body"}
           edit={filePoints(LINES.top.param) ? { section, shape: model.shape, values, onSet: setPointList } : undefined}
         />
       </div>

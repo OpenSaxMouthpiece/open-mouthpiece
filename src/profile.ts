@@ -83,3 +83,45 @@ export function loopsBox(loops: Loop[]): [number, number, number, number] | null
     }
   return z0 < z1 ? [z0, y0, z1, y1] : null;
 }
+
+// The side view's outline (Body & beak): the model cut across every 0.5 mm along z, the highest and
+// the lowest point of each cut, as one loop (top toward the tip, then the underside back). Same (z, y)
+// frame as midSection. (Cuts, not vertices: the outside's rings don't share the inside's stations.)
+export function sideSilhouette(stl: ArrayBuffer, step = 0.5): Loop[] {
+  const dv = new DataView(stl);
+  if (stl.byteLength < 84) return [];
+  const n = dv.getUint32(80, true);
+  if (stl.byteLength < 84 + n * 50) return [];
+  const hi = new Map<number, number>(),
+    lo = new Map<number, number>();
+  const ys = new Float64Array(3),
+    zs = new Float64Array(3);
+  for (let i = 0; i < n; i++) {
+    for (let k = 0; k < 3; k++) {
+      const o = 84 + i * 50 + 12 + k * 12;
+      ys[k] = dv.getFloat32(o + 4, true);
+      zs[k] = dv.getFloat32(o + 8, true);
+    }
+    const b0 = Math.ceil(Math.min(zs[0], zs[1], zs[2]) / step),
+      b1 = Math.floor(Math.max(zs[0], zs[1], zs[2]) / step);
+    for (let b = b0; b <= b1; b++) {
+      const z = b * step;
+      for (let e = 0; e < 3; e++) {
+        const a = e,
+          c = (e + 1) % 3;
+        if ((zs[a] - z) * (zs[c] - z) > 0 || zs[a] === zs[c]) continue;
+        const y = ys[a] + ((z - zs[a]) / (zs[c] - zs[a])) * (ys[c] - ys[a]);
+        hi.set(b, Math.max(hi.get(b) ?? -Infinity, y));
+        lo.set(b, Math.min(lo.get(b) ?? Infinity, y));
+      }
+    }
+  }
+  const bins = [...hi.keys()].sort((a, b) => a - b);
+  if (bins.length < 2) return [];
+  return [
+    [
+      ...bins.map((b) => [b * step, hi.get(b)!] as [number, number]),
+      ...bins.reverse().map((b) => [b * step, lo.get(b)!] as [number, number]),
+    ],
+  ];
+}

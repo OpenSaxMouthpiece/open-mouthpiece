@@ -5,9 +5,20 @@ import "./styles.css";
 import "./appearance"; // applies the light/dark theme before the first paint
 import { reportUnfinishedRender, watchPageErrors } from "./report";
 
-// The dev site (dev.<domain>, the `dev` branch): marked as such, and kept out of search engines.
-if (location.hostname.startsWith("dev.")) {
+declare const __BUILD__: string;
+declare const __BUILD_TIME__: string;
+
+// The dev site (dev.<domain>, the `dev` branch): marked as such, with the commit it was built from
+// (so it's clear whether the latest is up), and kept out of search engines.
+if (location.hostname.startsWith("dev.") || location.search.includes("devtag")) {
   document.documentElement.classList.add("site-dev");
+  const when = new Date(__BUILD_TIME__).toLocaleString(undefined, {
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  document.documentElement.style.setProperty("--build", JSON.stringify(`dev · ${when} · ${__BUILD__}`));
   document.title = `[dev] ${document.title}`;
   const robots = document.createElement("meta");
   robots.name = "robots";
