@@ -409,7 +409,8 @@ function flareScaled(t, ratioAt) {
     is = Math.max(...t.slice(0, ic + 1).map((p, i) => (p[1] <= lo + 1e-9 ? i : -1)));
   const plain = t.map(([f, y]) => [f, r2(y * ratioAt(f))]);
   if (is >= ic || t[ic][1] - t[is][1] < 0.5) return plain;
-  const [fs, ys] = t[is], [fc, yc] = t[ic],
+  const [fs, ys] = t[is],
+    [fc, yc] = t[ic],
     ys2 = ys * ratioAt(fs),
     yc2 = yc * ratioAt(fc);
   return t.map(([f, y], i) => (i > is && i < ic ? [f, r2(ys2 + ((y - ys) * (yc2 - ys2)) / (yc - ys))] : plain[i]));
