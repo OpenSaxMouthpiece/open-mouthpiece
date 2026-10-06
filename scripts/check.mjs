@@ -48,15 +48,17 @@ const REFERENCES = Object.fromEntries(
   ]),
 );
 
-// The app's migrateScad (TypeScript), compiled on the fly: a downloaded design must open unchanged
-// (renaming the generator's own RENAMED_PARAMS block once set real settings to undef: a hang).
-const { migrateScad } = await import(
-  'data:text/javascript;base64,' +
-    Buffer.from(
-      transformSync(fs.readFileSync(path.join(ROOT, 'src', 'migrate.ts'), 'utf8'), { loader: 'ts', format: 'esm' })
-        .code,
-    ).toString('base64')
-);
+// The app's TypeScript (no imports of its own), compiled on the fly.
+const importTs = (file) =>
+  import(
+    'data:text/javascript;base64,' +
+      Buffer.from(
+        transformSync(fs.readFileSync(path.join(ROOT, 'src', file), 'utf8'), { loader: 'ts', format: 'esm' }).code,
+      ).toString('base64')
+  );
+// migrateScad: a downloaded design must open unchanged (renaming the generator's own RENAMED_PARAMS
+// block once set real settings to undef: a hang).
+const { migrateScad } = await importTs('migrate.ts');
 
 const rel = (f) => path.relative(SCAD, f).split(path.sep).join('/');
 const listed = args.filter((a) => !a.startsWith('--'));
@@ -311,5 +313,17 @@ const lists = await updateParamLists(results.map((r) => r.file)).catch((e) => {
   return [];
 });
 if (lists.length) console.log(`settings lists refreshed (scad/param_lists.json): ${lists.join(', ')}`);
+// Every setting of the generator has a place in the app's settings panel (a section or its More),
+// and every name the sections list is one of the generator's.
+{
+  const { PLACED } = await importTs('design.ts');
+  const base = JSON.parse(fs.readFileSync(path.join(SCAD, 'param_lists.json'), 'utf8'))['alto.scad'];
+  const names = new Set((base?.parameters ?? []).map((p) => p.name));
+  const unplaced = [...names].filter((n) => !PLACED.has(n));
+  const unknown = names.size ? [...PLACED].filter((n) => !names.has(n)) : [];
+  if (unplaced.length) console.log(`FAIL settings panel: no section for ${unplaced.join(', ')} (src/design.ts)`);
+  if (unknown.length) console.log(`FAIL settings panel: not the generator's: ${unknown.join(', ')} (src/design.ts)`);
+  if (unplaced.length || unknown.length) failed++;
+}
 console.log(`${results.length - failed}/${results.length} passed in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
 process.exit(failed && !UPDATE ? 1 : 0);

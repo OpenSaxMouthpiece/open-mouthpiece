@@ -1,12 +1,16 @@
-// The settings panel: the curated controls from design.ts, in sax terms, with the
-// file's own ranges and descriptions; everything else under "All parameters".
+// The settings panel: the sections from design.ts, in sax terms, with the file's own ranges and
+// descriptions: each section's main settings, then the rest under its "More". A file that isn't the
+// generator's shows its settings by its own groups.
 import { useState, type ReactNode } from "react";
 import type { ParamValue, ScadParam } from "../api";
 import {
+  DESIGN_ELSEWHERE,
   DESIGN_HIDDEN_GROUPS,
   DESIGN_OPTIONS,
   DESIGN_SECTIONS,
+  isPlaced,
   PART_GROUPS,
+  paramCaption,
   paramInactive,
   paramLabel,
   type PartTab,
@@ -35,13 +39,11 @@ interface Props {
   tab?: PartTab;
   tabs?: { id: PartTab; label: string; made?: boolean }[];
   onTab?(tab: PartTab): void;
-  allParams?: boolean; // "All parameters" below the controls
   failed?: boolean; // the file didn't render, so it has no parameters to show
   loading?: boolean; // the file's parameters aren't known yet
   history?: { canUndo: boolean; canRedo: boolean; step(redo: boolean): void }; // undo / redo of setting changes
-  showNames?: boolean; // while the code is open: All parameters shows each one's name in the file, every group and option
-  notes?: string[]; // the generator's notes, over All parameters
-  deeper?: ReactNode; // sections for going further, after All parameters (Curves, Compare)
+  showNames?: boolean; // while the code is open: each setting's name in the file, the point lists and every option
+  deeper?: ReactNode; // sections for going further, after the settings (Curves, Compare)
   about?: string; // a variant's one-line description, over the settings
   printed?: () => void; // a mouthpiece STL was just downloaded: the note on printing it (closes with this)
 }
@@ -67,12 +69,10 @@ export function DesignPanel({
   tab = "mouthpiece",
   tabs,
   onTab,
-  allParams = true,
   failed = false,
   loading = false,
   history,
   showNames = false,
-  notes,
   deeper,
   about,
   printed,
@@ -111,10 +111,8 @@ export function DesignPanel({
   const q = query.trim().toLowerCase();
   const matches = (name: string, label: string, caption?: string) =>
     !q || [name, label, caption ?? byName.get(name)?.caption ?? ""].some((t) => t.toLowerCase().includes(q));
-  const allMatch = q
-    ? params.some((p) => !DESIGN_HIDDEN_GROUPS.includes(p.group) && matches(p.name, paramLabel(p.name)))
-    : false;
-  const ids = [...DESIGN_SECTIONS.map((s) => `d:${s.title}`), "d:all"];
+  // Point lists show only while the code is open (the Curves section edits them).
+  const hidden = (p: ScadParam) => !showNames && DESIGN_HIDDEN_GROUPS.includes(p.group);
   // A search looks in every tab; otherwise only the open tab's sections and groups show.
   const tabbed = !!tabs && tabs.length > 1 && !q;
   const onTabNow = (s: (typeof DESIGN_SECTIONS)[number]) => !tabbed || (s.tab ?? "mouthpiece") === tab;
@@ -125,6 +123,48 @@ export function DesignPanel({
     : tab === "mouthpiece"
       ? partGroups
       : groups.filter((g) => g !== PART_GROUPS[tab as Exclude<PartTab, "mouthpiece">]);
+  // Settings without a section (a file that isn't the generator's): by the file's own groups.
+  const others = params.filter((p) => !isPlaced(p.name) && !hidden(p));
+  const otherGroups = [...new Set(others.filter((p) => !tabHidden.includes(p.group)).map((p) => p.group))];
+  const ids = [...DESIGN_SECTIONS.map((s) => `d:${s.title}`), ...otherGroups.map((g) => `p:${g}`)];
+  const row = (p: ScadParam, i?: (typeof DESIGN_SECTIONS)[number]["items"][number]) => (
+    <ParamRow
+      key={p.name}
+      p={p}
+      label={
+        i?.side ? (
+          <>
+            {i.label} <SideIcon side={i.side} />
+          </>
+        ) : (
+          i?.label
+        )
+      }
+      unit={i?.unit}
+      options={
+        showNames
+          ? undefined
+          : i?.options && !i.options.includes(String(values[p.name] ?? p.initial))
+            ? [...i.options, String(values[p.name] ?? p.initial)]
+            : (i?.options ?? DESIGN_OPTIONS[p.name])
+      }
+      caption={i?.caption}
+      optionLabels={i?.optionLabels}
+      showName={showNames}
+      value={values[p.name] ?? p.initial}
+      changed={p.name in values}
+      onFocus={() => onFocusParam(p.name)}
+      onChange={(v) => onChange(p.name, same(v, p.initial) ? undefined : v)}
+      setParam={setParam}
+      inactive={paramInactive(p.name, get)}
+    />
+  );
+  const noMatch =
+    q &&
+    !params.some(
+      (p) =>
+        !hidden(p) && !DESIGN_ELSEWHERE.includes(p.name) && matches(p.name, paramLabel(p.name), paramCaption(p.name)),
+    );
 
   return (
     <div className="design-panel">
@@ -245,9 +285,27 @@ export function DesignPanel({
           if (s.cap && !cap) return null;
           if (!onTabNow(s)) return null;
           if (!s.items.some((i) => byName.has(i.name))) return null;
-          if (q && !rows.length && !(s.ligature && matches("ligature", s.title)) && !(s.cap && matches("cap", s.title)))
+          // The rest of the section, under More (the ligature's and cap's once made, like their rows).
+          const more = (s.more ?? [])
+            .map((n) => byName.get(n))
+            .filter(
+              (p): p is ScadParam =>
+                !!p &&
+                !hidden(p) &&
+                (!s.ligature || !!ligature?.on) &&
+                (!s.cap || !!cap?.on) &&
+                matches(p.name, paramLabel(p.name)),
+            );
+          if (
+            q &&
+            !rows.length &&
+            !more.length &&
+            !(s.ligature && matches("ligature", s.title)) &&
+            !(s.cap && matches("cap", s.title))
+          )
             return null;
           const summary = s.cap && !cap?.on ? undefined : s.summary?.(get); // the cap's only once made
+          const moreChanged = more.filter((p) => p.name in values).length;
           return (
             <Fold
               key={s.title}
@@ -256,74 +314,47 @@ export function DesignPanel({
               summary={summary}
               forceOpen={!!q || (tabbed && tab !== "mouthpiece")}
               className="design-section"
-              changed={s.items.filter((i) => i.name in values).length}
+              changed={s.items.filter((i) => i.name in values).length + moreChanged}
             >
               {s.ligature && ligature!.head}
               {s.cap && cap!.head}
-              {rows.map((i) => {
-                const p = byName.get(i.name)!;
-                return (
-                  <ParamRow
-                    key={p.name}
-                    p={p}
-                    label={
-                      i.side ? (
-                        <>
-                          {i.label} <SideIcon side={i.side} />
-                        </>
-                      ) : (
-                        i.label
-                      )
-                    }
-                    unit={i.unit}
-                    options={
-                      i.options && !i.options.includes(String(values[p.name] ?? p.initial))
-                        ? [...i.options, String(values[p.name] ?? p.initial)]
-                        : i.options
-                    }
-                    caption={i.caption}
-                    optionLabels={i.optionLabels}
-                    value={values[p.name] ?? p.initial}
-                    changed={p.name in values}
-                    onFocus={() => onFocusParam(p.name)}
-                    onChange={(v) => onChange(p.name, same(v, p.initial) ? undefined : v)}
-                    setParam={setParam}
-                    inactive={paramInactive(p.name, get)}
-                  />
-                );
-              })}
+              {rows.map((i) => row(byName.get(i.name)!, i))}
               {s.title === "Tip & facing" && !q && facing}
               {(s.title === "Chamber & baffle" || s.title === "Body & beak") && !q && profile}
               {s.title === "Printing" && !q && printKit}
+              {more.length > 0 && (
+                <Fold
+                  id={`m:${s.title}`}
+                  title="More"
+                  summary={q ? undefined : more.map((p) => paramLabel(p.name).toLowerCase()).join(", ")}
+                  forceOpen={!!q}
+                  className="design-more"
+                  changed={moreChanged}
+                >
+                  {more.map((p) => row(p))}
+                </Fold>
+              )}
             </Fold>
           );
         })}
-        {allParams && (!q || allMatch) && (
-          <Fold id="d:all" title="All parameters" forceOpen={allMatch} className="design-all" changed={changed}>
-            <Customizer
-              embedded
-              filter={query}
-              showNames={showNames}
-              notes={notes}
-              title={title}
-              params={params}
-              values={values}
-              onChange={onChange}
-              onResetAll={onResetAll}
-              zoom={zoom}
-              onZoomChange={onZoomChange}
-              onFocusParam={onFocusParam}
-              hideGroups={[...(showNames ? [] : DESIGN_HIDDEN_GROUPS), ...tabHidden]}
-              allowedOptions={showNames ? undefined : DESIGN_OPTIONS}
-            />
-          </Fold>
+        {others.length > 0 && (
+          <Customizer
+            embedded
+            filter={query}
+            showNames={showNames}
+            title={title}
+            params={others}
+            values={values}
+            onChange={onChange}
+            onResetAll={onResetAll}
+            zoom={zoom}
+            onZoomChange={onZoomChange}
+            onFocusParam={onFocusParam}
+            hideGroups={tabHidden}
+          />
         )}
         {!q && tab === "mouthpiece" && deeper}
-        {q &&
-          !allMatch &&
-          !DESIGN_SECTIONS.some((s) =>
-            s.items.some((i) => byName.has(i.name) && matches(i.name, i.label, i.caption)),
-          ) && <p className="design-nomatch muted">No setting matches “{query}”.</p>}
+        {noMatch && <p className="design-nomatch muted">No setting matches “{query}”.</p>}
         <p className="preset-credit muted">
           The presets are measured from Windy City Woodwinds' mouthpieces on Thingiverse:{" "}
           {PRESET_SOURCES.map((s, i) => (

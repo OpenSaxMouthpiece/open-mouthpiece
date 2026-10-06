@@ -1,8 +1,8 @@
 # Parameters
 
-Every setting of the generator, as the app lists them under **All parameters** (and OpenSCAD's
-Customizer shows them). The app's main panel shows a handful of these under friendlier names;
-the name in brackets is the one in the `.scad` file. Lengths are in mm, angles in degrees.
+Every setting of the generator, as OpenSCAD's Customizer shows them. The app shows each one in a
+section of its settings panel (the main ones first, the rest under the section's More), under
+friendlier names; the name in brackets is the one in the `.scad` file. Lengths are in mm, angles in degrees.
 
 Each picture is the alto preset at two values of one setting, the rest unchanged, seen where the
 setting acts (a section when it acts inside):

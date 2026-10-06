@@ -1,12 +1,12 @@
-// The curated settings: the handful of parameters a player or maker starts with, in sax terms. Ranges and
-// descriptions come from the rendered file's own Customizer export (so they follow
+// The settings panel's sections, in sax terms: the settings a player or maker starts with, most useful
+// first, and the rest of each section under its More. Ranges and descriptions come from the rendered file's own Customizer export (so they follow
 // scad/lib/mouthpiece_base.scad); a name the file doesn't declare is simply skipped.
 
 export type DesignUnit = "thou"; // shown in thousandths of an inch next to the mm value
 
 // The settings come in tabs, one per part: the mouthpiece, and what is made from it.
 export type PartTab = "mouthpiece" | "ligature" | "cap";
-// Each part tab's group in All parameters (the mouthpiece tab has every other group).
+// Each part tab's group in the file (the mouthpiece tab has every other group).
 export const PART_GROUPS: Record<Exclude<PartTab, "mouthpiece">, string> = { ligature: "Ligature", cap: "Cap" };
 
 export interface DesignItem {
@@ -24,6 +24,7 @@ export interface DesignItem {
 export interface DesignSection {
   title: string;
   items: DesignItem[];
+  more?: string[]; // the rest of the section's settings, under its "More" (the small, nuanced ones)
   summary?: (get: (name: string) => unknown) => string; // one line on the section's header: only what the panel doesn't show elsewhere
   ligature?: boolean; // the ligature's section: its controls show once a ligature is made (App's slot heads it)
   cap?: boolean; // the cap's section: App's slot heads it (show it / back to the mouthpiece)
@@ -88,16 +89,17 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           'Gap at the tip, from the tip rail to a straightedge on the table, in thousandths (76 = .076"; mm works too).',
       },
       { name: "facing_length", label: "Facing length" },
+      { name: "tip_rail_thickness", label: "Tip rail thickness" },
+      { name: "side_rail_width", label: "Side rail width" },
     ],
-  },
-  {
-    title: "Chamber & baffle",
-    items: [
-      { name: "chamber_width_extra", label: "Chamber width vs throat" },
-      { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
-      { name: "baffle_height", label: "Baffle height" },
-      { name: "baffle_hump", label: "Baffle hump" },
-      { name: "window_width", label: "Window width" },
+    more: [
+      "facing_model",
+      "facing_exponent",
+      "tip_curve",
+      "table_length",
+      "table_width_tip",
+      "table_width_rear",
+      "table_concavity",
     ],
   },
   {
@@ -106,22 +108,50 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     items: [
       { name: "neck_cork_diameter", label: "Neck cork diameter" },
       { name: "shank_clearance", label: "Cork squeeze" },
-      { name: "shank_bevel", label: "Shank entry bevel width" },
-      { name: "shank_bevel_depth", label: "Bevel depth" },
+      { name: "shank_depth", label: "Shank depth" },
+    ],
+    more: ["shank_bevel", "shank_bevel_depth", "bore_diameter", "bore_tilt"],
+  },
+  {
+    title: "Chamber & baffle",
+    items: [
+      { name: "chamber_shape", label: "Chamber shape" },
+      { name: "chamber_width_extra", label: "Chamber width vs throat" },
+      { name: "throat_width", label: "Throat width" },
+      { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
+      { name: "baffle_height", label: "Baffle height" },
+      { name: "baffle_hump", label: "Baffle hump" },
+      { name: "window_width", label: "Window width" },
+    ],
+    more: [
+      "chamber_height",
+      "chamber_flare",
+      "chamber_full_length",
+      "floor_shape",
+      "throat_position",
+      "throat_taper",
+      "throat_shape",
+      "baffle_start",
+      "baffle_curve",
+      "window_length",
+      "window_taper",
+      "window_rear_radius",
+      "sidewall_angle",
     ],
   },
   {
     title: "Body & beak",
     items: [
       { name: "overall_length", label: "Length" },
+      { name: "beak_tip_height", label: "Beak height at the tip" },
       { name: "beak_curve", label: "Beak curve" },
       { name: "beak_length", label: "Beak length" },
-      { name: "shoulder_sweep", label: "Shoulder sweep" },
-      { name: "beak_tip_height", label: "Beak height at the tip" },
       { name: "beak_squareness", label: "Beak top" },
       { name: "body_width", label: "Body width" },
       { name: "body_height", label: "Body height" },
+      { name: "shoulder_sweep", label: "Shoulder sweep" },
     ],
+    more: ["body_squareness", "underside_squareness", "shank_diameter", "bore_axis_height"],
   },
   {
     title: "Personalise",
@@ -159,24 +189,23 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         ],
       },
     ],
+    more: ["lettering_depth", "side_text_vertical", "lettering_tip_clearance", "top_image_aspect"],
   },
   {
     title: "Ligature",
     ligature: true,
     tab: "ligature",
     items: [
-      { name: "ligature_length", label: "Band length" },
-      { name: "ligature_position", label: "Position" },
-      { name: "ligature_tongue", label: "Tongue" },
-      { name: "ligature_tongue_side", label: "Tongue side", optionLabels: { top: "On top", reed: "Under the reed" } },
       {
         name: "ligature_shape",
         label: "Shape",
         optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" },
       },
       { name: "ligature_reed_grip", label: "Reed grip" },
-      { name: "ligature_fit", label: "Gap to the body" },
-      { name: "ligature_wall", label: "Wall" },
+      { name: "ligature_length", label: "Band length" },
+      { name: "ligature_position", label: "Position" },
+      { name: "ligature_tongue", label: "Tongue" },
+      { name: "ligature_tongue_side", label: "Tongue side", optionLabels: { top: "On top", reed: "Under the reed" } },
       {
         name: "ligature_text",
         label: "Text on the ligature",
@@ -194,6 +223,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         showIf: ["ligature_text", "ligature_image"],
       },
     ],
+    more: ["ligature_fit", "ligature_wall", "ligature_image_aspect"],
   },
   {
     title: "Cap",
@@ -221,15 +251,10 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         optionLabels: { reed: "Under the reed (standard ligature)", top: "On top (inverted ligature)" },
       },
       { name: "cap_grip", label: "Grip squeeze" },
-      { name: "cap_slot_length", label: "Slot length" },
-      { name: "cap_slot_width", label: "Slot width" },
-      { name: "cap_end_vents", label: "Air holes in the end" },
-      { name: "cap_end_vent_size", label: "End hole size" },
-      { name: "cap_wall", label: "Wall" },
       { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
-      { name: "cap_extend", label: "Extra length (toward the shank)" },
-      { name: "cap_end_gap", label: "Space at the end" },
       { name: "cap_end_dome", label: "End shape" },
+      { name: "cap_extend", label: "Extra length (toward the shank)" },
+      { name: "cap_end_vents", label: "Air holes in the end" },
       {
         name: "cap_text",
         label: "Text on the cap",
@@ -243,6 +268,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "cap_image_angle", label: "Picture rotation", showIf: ["cap_image"] },
       { name: "cap_lettering_position", label: "Text and picture position", showIf: ["cap_text", "cap_image"] },
     ],
+    more: ["cap_end_vent_size", "cap_slot_length", "cap_slot_width", "cap_end_gap", "cap_wall", "cap_image_aspect"],
   },
   {
     title: "Printing",
@@ -262,12 +288,22 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       },
       { name: "print_stock", label: "Extra stock for finishing" },
     ],
+    more: ["min_wall", "render_fn", "print_orientation"],
   },
 ];
+// Set by the part tabs' heads (make the ligature / the cap), so they have no row.
+export const DESIGN_ELSEWHERE = ["ligature_made", "cap_made"];
+// Whether a setting has a place in the sections (curated or under a More); the others show by the
+// file's own groups (a file that isn't the generator's).
+export const PLACED = new Set([
+  ...DESIGN_SECTIONS.flatMap((s) => [...s.items.map((i) => i.name), ...(s.more ?? [])]),
+  ...DESIGN_ELSEWHERE,
+]);
+export const isPlaced = (name: string) => PLACED.has(name);
 
-// Hidden from All parameters unless the code is open: point lists (the Curves section edits them).
+// Hidden from the sections' More unless the code is open: point lists (the Curves section edits them).
 export const DESIGN_HIDDEN_GROUPS = ["Profile overrides"];
-// Dropdown values offered in the settings panel, where a parameter's full list is for debugging.
+// Dropdown values offered in the settings panel (every value while the code is open, for debugging).
 export const DESIGN_OPTIONS: Record<string, string[]> = Object.fromEntries(
   DESIGN_SECTIONS.flatMap((s) => s.items)
     .filter((i) => i.options)
@@ -280,16 +316,47 @@ export const thouToMm = (thou: number) => thou * MM_PER_THOU;
 // 1.93 -> '.076"' (players quote tip openings in thousandths of an inch)
 export const formatThou = (mm: number) => `.${String(Math.round(mmToThou(mm))).padStart(3, "0")}"`;
 
-// One name per parameter on both screens: the Design label where there is one, else the
+// One name per parameter: the section's label where there is one, then LABELS, else the
 // parameter's own name in words ("bore_diameter" -> "Bore d").
 const DESIGN_ITEMS = new Map(DESIGN_SECTIONS.flatMap((s) => s.items).map((i) => [i.name, i]));
+// Names for settings under More whose own name reads poorly.
+const LABELS: Record<string, string> = {
+  facing_model: "Facing curve",
+  facing_exponent: "Curve exponent",
+  tip_curve: "Tip curve length",
+  table_width_tip: "Table width at the tip",
+  table_width_rear: "Table width at the back",
+  table_concavity: "Table hollow",
+  chamber_full_length: "Chamber full-width length",
+  sidewall_angle: "Side wall angle",
+  window_rear_radius: "Window corner rounding",
+  shank_bevel: "Entry bevel width",
+  shank_bevel_depth: "Entry bevel depth",
+  bore_tilt: "Bore angle to the table",
+  shank_diameter: "Shank outside diameter",
+  side_text_vertical: "Side text up / down",
+  lettering_tip_clearance: "Lettering distance from the tip",
+  top_image_aspect: "Picture height / width",
+  ligature_fit: "Gap to the body",
+  ligature_wall: "Wall",
+  ligature_image_aspect: "Picture height / width",
+  cap_end_vent_size: "End hole size",
+  cap_slot_length: "Slot length",
+  cap_slot_width: "Slot width",
+  cap_end_gap: "Space at the end",
+  cap_wall: "Wall",
+  cap_image_aspect: "Picture height / width",
+  min_wall: "Thinnest wall",
+  render_fn: "Smoothness",
+  print_orientation: "Stand it on the neck end",
+};
 export const paramLabel = (name: string) => {
   const words = name.replace(/_/g, " ");
-  return DESIGN_ITEMS.get(name)?.label ?? words.charAt(0).toUpperCase() + words.slice(1);
+  return DESIGN_ITEMS.get(name)?.label ?? LABELS[name] ?? words.charAt(0).toUpperCase() + words.slice(1);
 };
 export const paramUnit = (name: string) => DESIGN_ITEMS.get(name)?.unit;
-// Dropdown values in words, the same on both screens: the curated rows' labels, then these for the
-// settings only All parameters shows, else the value itself, capitalised ("shank_test_ring" -> "Shank test ring").
+// Dropdown values in words, the same everywhere: the curated rows' labels, then these for the
+// settings under More, else the value itself, capitalised ("shank_test_ring" -> "Shank test ring").
 const OPTION_LABELS: Record<string, Record<string, string>> = {
   facing_model: { power: "Power curve", arc: "Radius", gauge: "Gauge points" },
   throat_shape: { chamber: "Same as the chamber" },
@@ -302,7 +369,7 @@ export const optionLabel = (name: string, value: string, fileName = value) => {
     words.charAt(0).toUpperCase() + words.slice(1)
   );
 };
-// Parameters that do nothing with the current settings, and why (All parameters shows them dimmed).
+// Parameters that do nothing with the current settings, and why (shown dimmed).
 // get(name) = the parameter's current value (undefined if the file doesn't declare it).
 type Getter = (name: string) => unknown;
 const filled = (v: unknown) => (typeof v === "string" && v !== "") || (Array.isArray(v) && v.length > 0);
@@ -387,7 +454,7 @@ export const fileAbout = (source: string) => {
   const m = /^\/\/ (\w+) "(\w+)": a variant of [^\n]*\n\/\/ \w+: ([^\n]+)/.exec(source);
   return m ? `${m[2]}, compared with the ${m[1]} preset: ${m[3].trim()}` : undefined;
 };
-// A description for both screens where the control differs from the file's (tip in thousandths).
+// A description where the control differs from the file's (tip in thousandths).
 export const paramCaption = (name: string) => DESIGN_ITEMS.get(name)?.caption;
-// Whether a file has any of the Design screen's parameters (a mouthpiece file, not a scratch file).
+// Whether a file has any of the curated parameters (a mouthpiece file, not a scratch file).
 export const hasDesignParams = (names: string[]) => names.some((n) => DESIGN_ITEMS.has(n));

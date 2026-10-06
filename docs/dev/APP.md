@@ -94,11 +94,13 @@ static site (docs/HOSTING.md).
   (`DesignPanel`): readouts strip, "Find a setting" (opens matching sections, also searches All
   parameters), Undo/Redo, Auto-zoom, Reset, Expand/Collapse all, Descriptions, then folds (`Fold`,
   closed by default, summary from `DesignSection.summary`, ● count of changed settings): the
-  curated sections, All parameters, Curves, Compare A/B (while a B is pinned). The panel's left
+  sections (`DESIGN_SECTIONS`: the main settings, most useful first, then a nested "More" fold
+  with the rest of the section, `DesignSection.more`; every generator setting has exactly one place,
+  checked by `npm run check`), Curves, Compare A/B (while a B is pinned). The panel's left
   edge drags (`panelW`). UI prefs in `src/uiPrefs.ts` (`open-mouthpiece-ui-v1`).
 - **Code column** (left, closed by default): editor + console. Opening it (`coding`) brings back
-  the Render button and Auto, the full status line, parameter names, every group and dropdown value
-  in All parameters, and Save as acting on the editor's tab. Tabs are named by role (`tabLabel`):
+  the Render button and Auto, the full status line, parameter names, the point-list group and every
+  dropdown value, and Save as acting on the editor's tab. Tabs are named by role (`tabLabel`):
   the design's name, or "Generator" for `lib/mouthpiece_base.scad`. One quiet line above the editor
   (`fileNote`) says which it is; keep such hints to one short line. Open project file… is grouped
   Presets / Variants / Your designs / Generator. A preset or variant on screen has no × (`canClose`:
@@ -118,7 +120,8 @@ static site (docs/HOSTING.md).
 " in the value) plus Variables (`{tip}`, `{title}`, `{voice}`, ...) with live
   values from the generator's `Text variables:` echo (`parseTextVariables`). `{title}` comes from
   `design_title`, which App sets from the design's name for renders and downloads (not in share links).
-- **Customizer** (All parameters): from OpenSCAD's `.param` export (the rendered file's params
+- **Customizer**: settings without a section (a file that isn't the generator's) by the file's own
+  groups. From OpenSCAD's `.param` export (the rendered file's params
   only); the filter also searches descriptions; hides the "Not yet implemented" group. A string
   param named `*_image` gets `ImagePicker` (scad/art/ SVGs plus the user's own, "Upload SVG…");
   picking one also sets `<name>_aspect`.
@@ -196,7 +199,7 @@ static site (docs/HOSTING.md).
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
 - **Part tabs** (Mouthpiece | Ligature | Cap, over the settings; `partTab` in the session): each
-  `DesignSection` has a `tab` (default mouthpiece); All parameters hides the other tabs' groups
+  `DesignSection` has a `tab` (default mouthpiece); other settings hide the other tabs' groups
   (`PART_GROUPS`: Ligature, Cap); a search looks in every tab. Opening a tab sets the view toggles as
   a start (`openPartTab`: the ligature's shows the ligature, not the cap; the cap's shows the cap and the
   printed ligature under it, even before one is made; the mouthpiece's brings the mouthpiece back);
