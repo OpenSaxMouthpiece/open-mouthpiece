@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "c9595efe-16992",
+  "hash": "bc72f377-17121",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -535,6 +535,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -1401,7 +1411,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "bba12087-17229",
+  "hash": "e8a5e948-17358",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1936,6 +1946,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -4192,7 +4212,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "1b65bce0-17194",
+  "hash": "d819d13b-17323",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4727,6 +4747,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -5593,7 +5623,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "26ceff43-17371",
+  "hash": "a755d67c-17500",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6128,6 +6158,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -6994,7 +7034,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "37f131e4-16938",
+  "hash": "15a31b41-17067",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7529,6 +7569,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -8395,7 +8445,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "696aed89-16990",
+  "hash": "8bc975e4-17119",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8930,6 +8980,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -9796,7 +9856,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "8b86cb28-16954",
+  "hash": "912d335d-17083",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10331,6 +10391,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -11197,7 +11267,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "2952313d-17163",
+  "hash": "a42a5a92-17292",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11732,6 +11802,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -12598,7 +12678,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "f892fb75-17229",
+  "hash": "d10ea548-17358",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13133,6 +13213,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -13999,7 +14089,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "add532a5-17181",
+  "hash": "162d78e0-17310",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14534,6 +14624,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -15400,7 +15500,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "edf96a03-17199",
+  "hash": "d2ea8d14-17328",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15935,6 +16035,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -16801,7 +16911,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "fb4f7482-17249",
+  "hash": "a1897579-17378",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17336,6 +17446,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -18202,7 +18322,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "2cde2c2d-17214",
+  "hash": "5ef5181c-17343",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18737,6 +18857,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -19603,7 +19733,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "ebcc9713-17321",
+  "hash": "5f68d868-17450",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20138,6 +20268,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -21004,7 +21144,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "8563ed53-17364",
+  "hash": "8ec92fc6-17493",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21539,6 +21679,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },
@@ -22405,7 +22555,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "1c1300ef-17333",
+  "hash": "983ff8f2-17462",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22940,6 +23090,16 @@
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
     "step": 0.05,
     "type": "number"
    },

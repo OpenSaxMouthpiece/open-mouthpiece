@@ -10,6 +10,7 @@ import {
   mmToThou,
   optionLabel,
   paramCaption,
+  paramEnds,
   paramInactive,
   paramLabel,
   paramUnit,
@@ -319,14 +320,16 @@ function ParamInput({
   return (
     <div className="number">
       {slider && (
-        <input
-          type="range"
-          min={p.min}
-          max={p.max}
-          step={p.step ?? "any"}
-          value={n}
-          onChange={(e) => onChange(Number(e.target.value))}
-        />
+        <SliderEnds name={p.name}>
+          <input
+            type="range"
+            min={p.min}
+            max={p.max}
+            step={p.step ?? "any"}
+            value={n}
+            onChange={(e) => onChange(Number(e.target.value))}
+          />
+        </SliderEnds>
       )}
       <NumberField p={p} value={n} onChange={onChange} />
     </div>
@@ -421,6 +424,21 @@ export function ImagePicker({
   );
 }
 
+// A slider with what each end does written under it (paramEnds), when the setting has a direction.
+function SliderEnds({ name, children }: { name: string; children: ReactNode }) {
+  const ends = paramEnds(name);
+  if (!ends) return <>{children}</>;
+  return (
+    <div className="slider">
+      {children}
+      <div className="slider-ends" aria-hidden="true">
+        <span>{ends[0]}</span>
+        <span>{ends[1]}</span>
+      </div>
+    </div>
+  );
+}
+
 // A picture's file name as a label: "happy_face.svg" -> "Happy face".
 const artLabel = (f: string) =>
   f
@@ -466,14 +484,16 @@ function ThouInput({ p, value, onChange }: { p: ScadParam; value: number; onChan
   return (
     <div className="number thou">
       {p.min !== undefined && p.max !== undefined && (
-        <input
-          type="range"
-          min={p.min}
-          max={p.max}
-          step={p.step ?? "any"}
-          value={value}
-          onChange={(e) => onChange(Number(e.target.value))}
-        />
+        <SliderEnds name={p.name}>
+          <input
+            type="range"
+            min={p.min}
+            max={p.max}
+            step={p.step ?? "any"}
+            value={value}
+            onChange={(e) => onChange(Number(e.target.value))}
+          />
+        </SliderEnds>
       )}
       <span className="unit-box">
         <span className="unit">.</span>

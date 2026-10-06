@@ -572,6 +572,25 @@ button.toggle.on {
 .param .number input[type="number"] {
   width: 76px;
 }
+/* the words under a slider: what its low and high ends do */
+.param .number .slider {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.param .number .slider input[type="range"] {
+  width: 100%;
+}
+.param .slider-ends {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: -2px;
+  font-size: 10.5px;
+  line-height: 1.2;
+  color: var(--muted);
+}
 .param .vector {
   display: flex;
   gap: 4px;
@@ -2514,6 +2533,13 @@ button.link:hover {
 }
 .profile-chart .readout-label + svg {
   margin-top: 2px;
+}
+/* "From the tip" (TipChart): under the side view, with its own small "where it cuts" slider */
+.tip-chart {
+  margin-top: 10px;
+}
+.tip-chart .tip-cut {
+  padding: 2px 0 0;
 }
 .profile-legend {
   display: flex;

@@ -125,3 +125,80 @@ export function sideSilhouette(stl: ArrayBuffer, step = 0.5): Loop[] {
     ],
   ];
 }
+
+// The model's length along z (min, max): where a cut across it can go.
+export function zRange(stl: ArrayBuffer): [number, number] | null {
+  const dv = new DataView(stl);
+  if (stl.byteLength < 84) return null;
+  const n = dv.getUint32(80, true);
+  if (stl.byteLength < 84 + n * 50) return null;
+  let z0 = Infinity,
+    z1 = -Infinity;
+  for (let i = 0; i < n; i++)
+    for (let k = 0; k < 3; k++) {
+      const z = dv.getFloat32(84 + i * 50 + 12 + k * 12 + 8, true);
+      if (z < z0) z0 = z;
+      if (z > z1) z1 = z;
+    }
+  return z1 > z0 ? [z0, z1] : null;
+}
+
+// The outside of a cut across the model at height z (Body & beak's "From the tip"), in (x, y): along
+// each direction from the cut's middle, the farthest edge it crosses, so the window's opening and the
+// bore don't show; the outline seen from the tip at that point.
+export function crossOutline(stl: ArrayBuffer, z: number, rays = 240): Loop[] {
+  const dv = new DataView(stl);
+  if (stl.byteLength < 84) return [];
+  const n = dv.getUint32(80, true);
+  if (stl.byteLength < 84 + n * 50) return [];
+  const segs: [number, number, number, number][] = [];
+  const v = new Float64Array(9);
+  for (let i = 0; i < n; i++) {
+    for (let k = 0; k < 9; k++) v[k] = dv.getFloat32(84 + i * 50 + 12 + k * 4, true);
+    const p: number[] = [];
+    for (let e = 0; e < 3; e++) {
+      const a = e * 3,
+        b = ((e + 1) % 3) * 3;
+      const da = v[a + 2] - z,
+        db = v[b + 2] - z;
+      if (da < 0 === db < 0) continue;
+      const t = da / (da - db);
+      p.push(v[a] + t * (v[b] - v[a]), v[a + 1] + t * (v[b + 1] - v[a + 1]));
+    }
+    if (p.length === 4) segs.push([p[0], p[1], p[2], p[3]]);
+  }
+  if (segs.length < 3) return [];
+  let x0 = Infinity,
+    x1 = -Infinity,
+    y0 = Infinity,
+    y1 = -Infinity;
+  for (const [ax, ay, bx, by] of segs) {
+    x0 = Math.min(x0, ax, bx);
+    x1 = Math.max(x1, ax, bx);
+    y0 = Math.min(y0, ay, by);
+    y1 = Math.max(y1, ay, by);
+  }
+  const cx = (x0 + x1) / 2,
+    cy = (y0 + y1) / 2;
+  const loop: [number, number][] = [];
+  for (let k = 0; k < rays; k++) {
+    const a = (2 * Math.PI * k) / rays,
+      dx = Math.cos(a),
+      dy = Math.sin(a);
+    let best = -1;
+    for (const [ax, ay, bx, by] of segs) {
+      // ray (cx, cy) + t (dx, dy) against the segment a + u (b - a)
+      const ex = bx - ax,
+        ey = by - ay,
+        den = dx * ey - dy * ex;
+      if (Math.abs(den) < 1e-12) continue;
+      const qx = ax - cx,
+        qy = ay - cy,
+        t = (qx * ey - qy * ex) / den,
+        u = (qx * dy - qy * dx) / den;
+      if (t > best && u >= 0 && u <= 1) best = t;
+    }
+    if (best > 0) loop.push([cx + best * dx, cy + best * dy]);
+  }
+  return loop.length > 2 ? [loop] : [];
+}

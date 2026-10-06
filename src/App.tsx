@@ -13,6 +13,7 @@ import { Console } from "./components/Console";
 import { ComparePanel } from "./components/ComparePanel";
 import { CurveEditor } from "./components/CurveEditor";
 import { DesignPanel } from "./components/DesignPanel";
+import { TipChart } from "./components/TipChart";
 import { FacingChart } from "./components/FacingChart";
 import { ProfileChart } from "./components/ProfileChart";
 import { Notes, ReadoutLine, Readouts } from "./components/Readouts";
@@ -1690,6 +1691,17 @@ export default function App() {
           outside={section === "body"}
           edit={filePoints(LINES.top.param) ? { section, shape: model.shape, values, onSet: setPointList } : undefined}
         />
+        {section === "body" && (
+          <TipChart
+            stl={stl}
+            final={!shownDraft.current}
+            design={mainTab.key}
+            sig={valuesSig}
+            compare={
+              pinned?.stl && (!pinned.mesh || pinned.mesh.aligned) ? { stl: pinned.stl, label: labelB ?? "" } : null
+            }
+          />
+        )}
       </div>
     ) : undefined;
   // Desktop: the readouts as a strip above the controls. Phone: the readouts are a tab of their own.

@@ -157,6 +157,8 @@ beak_curve = 0; // [-1:0.05:1]
 beak_length = 0; // [-15:0.5:15]
 // 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
 shoulder_smoothness = 0; // [0:0.05:1]
+// How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.
+beak_top_width = 0; // [-1:0.05:1]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
 shoulder_sweep = 0; // [0:0.5:20]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
@@ -632,7 +634,13 @@ def_top_c = beak_curve == 0 ? def_top : let(C = pchip_prep(def_top), z0 = SHOULD
   concat([for (p = def_top) if (p[0] < z0 - 1e-6) p],
          [for (i = [0:n]) let(z = z0 + (L - z0) * i / n) [z, pchip_at(z, C) - A * sin(180 * i / n)]]);
 def_bottom = [for (p = shape_bottom) [p[0] * L, shank_y(p[0], p[1])]];
-def_widest = [for (p = beak_remapped(shape_widest)) [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH, fade_h(p[0])))]];
+// beak_top_width: the height where the beak's sides are fullest, scaled (x0.55 at -1, x1.2 at +1):
+// lower pulls the upper flanks in (a narrower, rounder top), higher fills them out. Faded in across
+// the shoulder, so the barrel keeps its shape.
+BEAK_TOP_K = beak_top_width < 0 ? 1 + 0.45 * beak_top_width : 1 + 0.2 * beak_top_width;
+function beak_top_k(f) = beak_top_width == 0 ? 1 : lerp(1, BEAK_TOP_K, smootherstep(clamp01((f - SHOULDER_F2 + 0.04) / 0.08)));
+def_widest = [for (p = beak_remapped(shape_widest))
+  [p[0] * L, shank_y(p[0], p[1] * body_scale(p[0], BODY_KH, fade_h(p[0])) * beak_top_k(p[0]))]];
 
 // Effective outline curves. With a custom top but no underside/widest points, those follow the
 // top (mirrored about the bore axis / halfway) rather than the built-in table.
@@ -1666,7 +1674,7 @@ function param_focus() =
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
    ["body_width", whole, "top", false], ["body_height", whole, "side", false], ["beak_tip_height", beak, "side", false],
-   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["shoulder_smoothness", shoulder, "iso", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
+   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["shoulder_smoothness", shoulder, "iso", false], ["beak_top_width", beak, "end", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
    ["bore_axis_height", bore, "side", true], ["min_wall", whole, "side", true],
    ["table_concavity", table, "table", false],
    ["top_text", lettering_top, "top", false], ["top_text_size", lettering_top, "top", false],

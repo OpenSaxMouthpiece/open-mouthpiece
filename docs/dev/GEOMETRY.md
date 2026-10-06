@@ -50,6 +50,9 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   in front at 1; `shoulder_smoothed()`), so 1 is a long even drop with nothing left on the flanks.
   A shape edit pushing the shoulder's corner down (`top_adjust`) raises it by the share of the drop
   taken away (`SHOULDER_SMOOTH`): a smooth pull over a sharp step left a double edge (a groove).
+- **`beak_top_width`** (-1..1): scales the widest-point table over the beak (x0.55 at -1, x1.2 at
+  +1; `beak_top_k()`, faded in across the shoulder): lower pulls the upper flanks in for a narrower,
+  rounder top, higher fills them out. 0 = as designed.
 - **`shoulder_sweep`** (mm, 0..20): the shoulder line runs down the flanks toward the tip. Behind a
   line slanting from the crest at the shoulder (`SWEEP_Z0`) to the widest point `shoulder_sweep` mm
   further on, the upper half is the same ring with a higher top exponent (+1.6 once past the

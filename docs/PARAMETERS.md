@@ -565,7 +565,7 @@ Presets: Alto `3.6` · Tenor `3.6` · Bari `4.8` · Soprano `3.0`.
 
 *2.8 → 5*
 
-### Body squareness (`body_squareness`)
+### Body cross-section (`body_squareness`)
 
 Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
 
@@ -625,6 +625,18 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *0 → 1*
 
+### Beak top width (`beak_top_width`)
+
+How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.
+
+Range: -1 to 1, step 0.05.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+![beak_top_width: -1 → 1](images/params/beak_top_width.png)
+
+*-1 → 1*
+
 ### Shoulder sweep (`shoulder_sweep`)
 
 How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
@@ -637,7 +649,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *0 → 12*
 
-### Underside squareness (`underside_squareness`)
+### Sides near the table (`underside_squareness`)
 
 Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
 
