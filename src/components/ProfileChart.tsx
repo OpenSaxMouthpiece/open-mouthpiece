@@ -74,6 +74,7 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
 
   const shape = edit?.shape ?? null;
   const on = editing && !!edit && !!shape;
+  const outside = on && edit!.section === "body"; // the outside's lines: no cut, no inside landmarks
   const box = loopsBox([...now, ...(before ?? []), ...b]);
   if (!box) return null;
   const [z0, y0, z1, y1] = box;
@@ -91,12 +92,17 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
     return Array.isArray(v) ? (v as Pt[]) : undefined;
   };
   const edited = names ? [...names.side, ...names.top].filter((n) => adjOf(n)?.length) : [];
-  // A line as drawn: the model's, or (while its handle is dragged) the preview.
+  // A line as drawn: the model's, moved by whatever offsets changed since it was rendered (a drag
+  // in progress, or one let go of while the model catches up, an undo), so nothing snaps back.
   const lineNow = (n: LineName): Pt[] => {
     const line = shape?.lines[n] ?? [];
-    if (!drag || drag.line !== n || !shape) return line;
-    const fs = handleFs(line, adjOf(n), shape.L, LINES[n].points);
-    return previewLine(line, adjOf(n), moved(adjOf(n), fs, drag.i, drag.d), shape.L);
+    if (!shape) return line;
+    const rendered = shape.values[LINES[n].param] as Pt[] | undefined;
+    const now =
+      drag?.line === n ? moved(adjOf(n), handleFs(line, adjOf(n), shape.L, LINES[n].points), drag.i, drag.d) : adjOf(n);
+    return JSON.stringify(rendered ?? []) === JSON.stringify(now ?? [])
+      ? line
+      : previewLine(line, rendered, now ?? [], shape.L);
   };
   const svgPt = (e: React.PointerEvent) => {
     const svg = (e.currentTarget as SVGElement).ownerSVGElement ?? (e.currentTarget as SVGSVGElement);
@@ -153,7 +159,7 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
   return (
     <div className="profile-chart">
       <div className="profile-head">
-        <span className="readout-label">Side section, through the middle</span>
+        <span className="readout-label">{outside ? "From the side" : "Side section, through the middle"}</span>
         {edit && shape && (
           <button
             className={`link${on ? " on" : ""}`}
@@ -174,12 +180,30 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
         onPointerCancel={() => setDrag(null)}
       >
         {/* "now" last: where nothing changed its line covers the dashed ones */}
-        {before && <path className="before" d={path(before)} />}
-        {b.length > 0 && <path className="b" d={path(b)} />}
-        <path className="now" d={path(now)} fillRule="evenodd" />
+        {outside ? (
+          // Body & beak: the outside only, as a solid silhouette (top, then the reed side back)
+          <path
+            className="now"
+            d={
+              pathOf(
+                [
+                  ...lineNow("top"),
+                  ...[...(shape!.lines.rails ?? [])].reverse(),
+                  ...[...lineNow("underside")].reverse(),
+                ].map(([z, v]) => sideXY(z, v)),
+              ) + "Z"
+            }
+          />
+        ) : (
+          <>
+            {before && <path className="before" d={path(before)} />}
+            {b.length > 0 && <path className="b" d={path(b)} />}
+            <path className="now" d={path(now)} fillRule="evenodd" />
+          </>
+        )}
         {on &&
           shape!.landmarks
-            .filter(([n]) => LANDMARKS.includes(n))
+            .filter(([n]) => (outside ? n === "break" : LANDMARKS.includes(n)))
             .map(([n, z], i) => {
               const [xa, ya] = sideXY(z, 0),
                 [xb, yb] = sideXY(z, lineAt(shape!.lines.top ?? [], z));
@@ -228,6 +252,7 @@ export function ProfileChart({ stl, final, design, sig, compare, edit }: Props) 
           shape={shape!}
           lineNow={lineNow}
           names={names!.top}
+          inside={!outside}
           handles={handles}
           onMove={move}
           onEnd={end}
@@ -274,6 +299,7 @@ function TopView({
   shape,
   lineNow,
   names,
+  inside,
   handles,
   onMove,
   onEnd,
@@ -282,6 +308,7 @@ function TopView({
   shape: ShapeLines;
   lineNow(n: LineName): Pt[];
   names: LineName[];
+  inside: boolean; // show the inside width (the chamber's view), or the outside alone
   handles(n: LineName, at: (z: number, v: number) => [number, number], k: number): React.ReactNode;
   onMove(e: React.PointerEvent): void;
   onEnd(): void;
@@ -314,7 +341,7 @@ function TopView({
         onPointerUp={onEnd}
         onPointerCancel={onCancel}
       >
-        <path className="now" d={band(outer) + (inner.length > 1 ? band(inner) : "")} fillRule="evenodd" />
+        <path className="now" d={band(outer) + (inside && inner.length > 1 ? band(inner) : "")} fillRule="evenodd" />
         {names.map((n) => {
           const pts = lineNow(n);
           return pts.length > 1 ? (

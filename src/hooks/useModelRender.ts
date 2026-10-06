@@ -234,7 +234,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         if (ac.signal.aborted) return;
         setFacing(parseFacing(f.log));
         setWall(parseClearance(f.log));
-        setShape(parseShapeEcho(f.log));
+        setShape(parseShapeEcho(f.log, vals));
       } catch {
         // superseded or failed: the cards keep their last values
       }
@@ -285,7 +285,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
           reportsAbort.current?.abort(); // an older separate run must not overwrite these
           setFacing(parseFacing(r.log));
           setWall(parseClearance(r.log));
-          setShape(parseShapeEcho(r.log));
+          setShape(parseShapeEcho(r.log, vals));
         }
         const airCm3 = r.ok ? parseAirVolume(r.log) : null;
         setAir(airCm3);

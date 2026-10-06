@@ -8,18 +8,19 @@ export const SHAPE_ECHO = "\necho(SHAPE_EDIT = shape_edit_lines());\n";
 
 export type LineName = "top" | "underside" | "width" | "baffle" | "floor" | "chamber_width";
 export interface ShapeLines {
-  lines: Partial<Record<LineName, Pt[]>>; // design frame: z from the shank end; height above the table, or full width
+  lines: Partial<Record<LineName | "rails", Pt[]>>; // design frame: z from the shank end; height above the table, or full width
   landmarks: [string, number][];
   L: number;
   frame: { print: boolean; tilt: number; lift: number };
+  values: Record<string, unknown>; // the settings these lines were rendered with (their offsets)
 }
 
-export function parseShapeEcho(log: string): ShapeLines | null {
+export function parseShapeEcho(log: string, values: Record<string, unknown> = {}): ShapeLines | null {
   const m = /ECHO: SHAPE_EDIT = (.*)$/m.exec(log);
   if (!m) return null;
   try {
     const raw = JSON.parse(m[1].replace(/\bundef\b|-?\binf\b|\bnan\b/g, "null")) as [string, unknown][];
-    const out: ShapeLines = { lines: {}, landmarks: [], L: 0, frame: { print: false, tilt: 0, lift: 0 } };
+    const out: ShapeLines = { lines: {}, landmarks: [], L: 0, frame: { print: false, tilt: 0, lift: 0 }, values };
     for (const [name, v] of raw) {
       if (name === "L") out.L = Number(v);
       else if (name === "frame") {

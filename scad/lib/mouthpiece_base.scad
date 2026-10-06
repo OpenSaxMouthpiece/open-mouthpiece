@@ -1585,6 +1585,9 @@ function shape_edit_lines() =
    ["baffle", [for (r = rings(baffle_start_z, L)) [r[0], r[1][1]]]],
    ["floor", [for (r = rings(eff_throat_z, win_z0)) [r[0], r[1][2]]]],
    ["chamber_width", [for (r = rings(shank_taper_end_z, L)) [r[0], 2 * r[1][0]]]],
+   // the reed side's edge from the table's back to the tip (flat, then the facing): with "top" and
+   // "underside" it closes the outside silhouette
+   ["rails", [for (z = [table_rear_z : max(0.5, (L - table_rear_z) / 40) : L]) [z, facing_at_z(z)]]],
    ["landmarks", [["socket", eff_shank_depth], ["throat", eff_throat_z], ["window", win_z0],
                   ["table", table_rear_z], ["break", break_z], ["tip", L]]],
    ["L", L],
