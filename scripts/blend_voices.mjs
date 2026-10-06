@@ -12,6 +12,7 @@ const alto = norm(fs.readFileSync(dir + 'alto.scad', 'utf8'));
 const tenor = norm(fs.readFileSync(dir + 'tenor.scad', 'utf8'));
 const argv = process.argv.slice(2);
 const overrides = Object.fromEntries(argv.map((a) => a.split(':')));
+overrides.voice ??= '"C-melody"'; // its own name for the {voice} lettering variable
 
 const params = (src) => {
   const m = {};

@@ -643,7 +643,7 @@ Text and pictures on the outside. The app's **Personalise** section has the main
 
 ### Text on top (`top_text`)
 
-Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.
+Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.
 
 Range: text.
 
@@ -723,7 +723,7 @@ Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
 
 ### Text, right side (`side_text_right`)
 
-Text on the right side (seen from above, tip away). Same fill-ins as the top text.
+Text on the right side (seen from above, tip away). Lines, variables as on top.
 
 Range: text.
 
@@ -735,7 +735,7 @@ Text on the left side.
 
 Range: text.
 
-Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+Presets: Alto `\u007Btip}` · Tenor `\u007Btip}` · Bari `\u007Btip}` · Soprano `\u007Btip}`.
 
 ### Side text size (`side_text_size`)
 
@@ -743,11 +743,11 @@ Side letter height (mm).
 
 Range: 1.5 to 10, step 0.5.
 
-Presets: Alto `3.5` · Tenor `3.5` · Bari `3.5` · Soprano `3.5`.
+Presets: Alto `5` · Tenor `5.5` · Bari `6.5` · Soprano `4`.
 
 ### Side text position (`side_text_position`)
 
-Moves the side text toward the tip (+) or the shank (-) (mm).
+Side text from just behind the ligature: + toward the tip, - toward the shank (mm).
 
 Range: -50 to 50, step 0.5.
 
@@ -955,7 +955,7 @@ Presets: Alto `12` · Tenor `12` · Bari `12` · Soprano `10`.
 
 Band's front edge, mm behind the window's back end; negative is over the window.
 
-Range: -10 to 25, step 0.5.
+Range: -10 to 40, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
@@ -1009,7 +1009,7 @@ Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
 
 ### Text on the ligature (`ligature_text`)
 
-Text on the ligature's top (empty = none). Same fill-ins as the top text.
+Text on the ligature's top (empty = none). Lines, variables as on the top text.
 
 Range: text.
 
@@ -1179,7 +1179,7 @@ Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
 
 ### Text on the cap (`cap_text`)
 
-Text on the cap's top (empty = none). Same fill-ins as the top text.
+Text on the cap's top (empty = none). Lines, variables as on the top text.
 
 Range: text.
 

@@ -36,7 +36,8 @@ import {
   type PrintFrame,
 } from "./meshFrame";
 import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
-import { parseFacing, parseSummary } from "./readouts";
+import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
+import { TextVariables } from "./components/TextField";
 import { checkCard, kitSqueezes, ringFile } from "./printKit";
 import { designNumbers, track, trackSetting, trackVisit } from "./usage";
 import { findPointLists, type Pt } from "./curves";
@@ -230,10 +231,17 @@ export default function App() {
   const ligView = { ...lig, on: lig.on && (ligMade || (tab === "cap" && capMade && capOverPrinted)) };
   const capView = { ...capV, on: capMade && capV.on };
 
+  // {title} in the lettering: the design's name goes along as design_title (a hidden setting of
+  // the generator's files), in renders and in downloaded .scad files.
+  const titled: Record<string, ParamValue> =
+    mainTab && /\bdesign_title\s*=/.test(mainTab.source)
+      ? { ...values, design_title: mainTab.path ? voiceLabel(mainTab.path) : mainTab.name }
+      : values;
+
   // Latest state for async callbacks.
   const liveState = {
     target,
-    values,
+    values: titled,
     valuesByKey,
     tabs,
     files,
@@ -256,6 +264,7 @@ export default function App() {
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
   const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
+  const textVars = useMemo(() => (log ? parseTextVariables(log) : []), [log]);
 
   // Errors go to the site's log (src/report.ts), with the render's first OpenSCAD error line.
   useEffect(() => {
@@ -482,6 +491,7 @@ export default function App() {
     if (!t) return;
     const src = isRO(t) ? undefined : t.source;
     const vals = { ...live.current.values };
+    delete vals.design_title; // the opening app sets it from the design's name
     const art = shareArt ? sharedArt(vals, src) : {};
     if (!shareArt) for (const [k, v] of Object.entries(imageRefs(vals, src))) if (isUserArt(v)) vals[k] = "";
     try {
@@ -1045,7 +1055,7 @@ export default function App() {
     bundleDesign({
       source: mainTab.source,
       path: mainTab.path,
-      values,
+      values: titled,
       // an open tab's unsaved text is what the model on screen uses
       readFile: async (p) => tabs.find((t) => t.path === p)?.source ?? (await api.file(p)).source,
       date: new Date().toLocaleDateString("sv-SE"), // YYYY-MM-DD, local
@@ -1087,7 +1097,7 @@ export default function App() {
       if (opts.settings)
         out.push([
           `${name}_settings.scad`,
-          enc.encode(withValues(mainTab.source, values).replace(/include\s*<(\.\.\/)+lib\//, "include <lib/")),
+          enc.encode(withValues(mainTab.source, titled).replace(/include\s*<(\.\.\/)+lib\//, "include <lib/")),
         ]);
       if (opts.stl) out.push([`${name}${otherPart ? `_${otherPart}` : ""}.stl`, new Uint8Array(await partStl(null))]);
       if (opts.ligature && ligatureFile) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
@@ -2030,116 +2040,118 @@ export default function App() {
     </Menu>
   );
   return (
-    <div className={appClass} {...dropProps}>
-      {fileInputs}
-      <header className="toolbar">
-        <strong className="brand">
-          <Logo />
-          Open Mouthpiece
-        </strong>
-        {voicePicker}
-        {fileActions}
-        <span className="spacer" />
-        {DONATE_URL && (
-          <a
-            className="donate-link"
-            href={DONATE_URL}
-            target="_blank"
-            rel="noreferrer"
-            title="Open Mouthpiece is free, with no ads or accounts. A donation helps keep it that way."
-          >
-            ♥ Support
-          </a>
-        )}
-        {shareArtToggle}
-        <button onClick={share} title="Copy a link that opens this design">
-          Share
-        </button>
-        <button
-          className="primary dl-button"
-          disabled={downloadDisabled}
-          onClick={() => downloadPart(dlWhat)}
-          title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
-          aria-live="polite"
-        >
-          {dlLabel(dlWhat, `Download ${dlName}`)}
-        </button>
-        {moreMenu}
-        <AppearanceMenu />
-      </header>
-      {shareBox}
-      <main
-        className="workspace"
-        style={{ gridTemplateColumns: `${codeOpen ? `${editorWShown}px 6px` : "30px"} 1fr 5px ${panelWShown}px` }}
-      >
-        {!codeOpen && (
-          <button
-            className="editor-strip"
-            onClick={() => setCodeOpen(true)}
-            title="Show the code editor (OpenSCAD) and console"
-          >
-            ›<span>Code</span>
+    <TextVariables.Provider value={textVars}>
+      <div className={appClass} {...dropProps}>
+        {fileInputs}
+        <header className="toolbar">
+          <strong className="brand">
+            <Logo />
+            Open Mouthpiece
+          </strong>
+          {voicePicker}
+          {fileActions}
+          <span className="spacer" />
+          {DONATE_URL && (
+            <a
+              className="donate-link"
+              href={DONATE_URL}
+              target="_blank"
+              rel="noreferrer"
+              title="Open Mouthpiece is free, with no ads or accounts. A donation helps keep it that way."
+            >
+              ♥ Support
+            </a>
+          )}
+          {shareArtToggle}
+          <button onClick={share} title="Copy a link that opens this design">
+            Share
           </button>
-        )}
-        <section className="left" style={codeOpen ? undefined : { display: "none" }}>
-          <div className="filebar">
+          <button
+            className="primary dl-button"
+            disabled={downloadDisabled}
+            onClick={() => downloadPart(dlWhat)}
+            title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
+            aria-live="polite"
+          >
+            {dlLabel(dlWhat, `Download ${dlName}`)}
+          </button>
+          {moreMenu}
+          <AppearanceMenu />
+        </header>
+        {shareBox}
+        <main
+          className="workspace"
+          style={{ gridTemplateColumns: `${codeOpen ? `${editorWShown}px 6px` : "30px"} 1fr 5px ${panelWShown}px` }}
+        >
+          {!codeOpen && (
             <button
-              className="hide-code"
-              onClick={() => setCodeOpen(false)}
-              title="Hide the code editor and console (more room for the model)"
-              aria-label="Hide the code editor"
+              className="editor-strip"
+              onClick={() => setCodeOpen(true)}
+              title="Show the code editor (OpenSCAD) and console"
             >
-              ‹
+              ›<span>Code</span>
             </button>
-            {openProjectSelect}
-            {saveButton}
-            {saveAsControl}
-            {revertButton}
-            <button
-              onClick={() => download(activeTab.source, "text/plain", activeTab.name)}
-              title="Download this tab's text as it is in the editor"
-            >
-              Download tab
-            </button>
-            <span className="spacer" />
-            <label className="auto" title="Re-render automatically after edits">
-              <input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} /> Auto
-            </label>
-            <button className={auto ? "" : "primary"} onClick={render} title="Render (F6 / Ctrl+Enter)">
-              Render
-            </button>
-          </div>
-          {tabBar}
-          {fileNote}
-          {editorEl}
-          {consoleEl}
-        </section>
-        {codeOpen && (
+          )}
+          <section className="left" style={codeOpen ? undefined : { display: "none" }}>
+            <div className="filebar">
+              <button
+                className="hide-code"
+                onClick={() => setCodeOpen(false)}
+                title="Hide the code editor and console (more room for the model)"
+                aria-label="Hide the code editor"
+              >
+                ‹
+              </button>
+              {openProjectSelect}
+              {saveButton}
+              {saveAsControl}
+              {revertButton}
+              <button
+                onClick={() => download(activeTab.source, "text/plain", activeTab.name)}
+                title="Download this tab's text as it is in the editor"
+              >
+                Download tab
+              </button>
+              <span className="spacer" />
+              <label className="auto" title="Re-render automatically after edits">
+                <input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} /> Auto
+              </label>
+              <button className={auto ? "" : "primary"} onClick={render} title="Render (F6 / Ctrl+Enter)">
+                Render
+              </button>
+            </div>
+            {tabBar}
+            {fileNote}
+            {editorEl}
+            {consoleEl}
+          </section>
+          {codeOpen && (
+            <div
+              className="splitter"
+              onPointerDown={(e) => {
+                const w0 = editorWShown;
+                startDrag(e, (dx) => setEditorW(Math.max(MIN_EDITOR_W, Math.min(window.innerWidth - 500, w0 + dx))));
+              }}
+            />
+          )}
+          <section className="center">
+            {viewerEl}
+            {statusBar}
+          </section>
           <div
-            className="splitter"
+            className="splitter panel-edge"
+            title="Drag to resize the panel"
             onPointerDown={(e) => {
-              const w0 = editorWShown;
-              startDrag(e, (dx) => setEditorW(Math.max(MIN_EDITOR_W, Math.min(window.innerWidth - 500, w0 + dx))));
+              const w0 = panelWShown;
+              startDrag(e, (dx) =>
+                setPanelW(Math.round(Math.max(MIN_PANEL_W, Math.min(window.innerWidth * 0.5, w0 - dx)))),
+              );
             }}
           />
-        )}
-        <section className="center">
-          {viewerEl}
-          {statusBar}
-        </section>
-        <div
-          className="splitter panel-edge"
-          title="Drag to resize the panel"
-          onPointerDown={(e) => {
-            const w0 = panelWShown;
-            startDrag(e, (dx) =>
-              setPanelW(Math.round(Math.max(MIN_PANEL_W, Math.min(window.innerWidth * 0.5, w0 - dx)))),
-            );
-          }}
-        />
-        <aside className="right">{designEl(true)}</aside>
-      </main>
-      {dropHint}
-    </div>
+          <aside className="right">{designEl(true)}</aside>
+        </main>
+        {dropHint}
+      </div>
+    </TextVariables.Provider>
   );
 }

@@ -179,7 +179,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "ligature_text",
         label: "Text on the ligature",
         caption:
-          "Text on the band's top (empty = none); {tip} etc. fill in. Font, style and depth are set in Personalise.",
+          "Text on the band's top (empty = none); several lines OK; {tip} etc. are variables. Font, style and depth are set in Personalise.",
       },
       { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
       { name: "ligature_text_angle", label: "Text direction", showIf: ["ligature_text"] },
@@ -232,7 +232,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "cap_text",
         label: "Text on the cap",
         caption:
-          "Text on the cap's top (empty = none); {tip} etc. fill in. Font, style and depth are set in Personalise.",
+          "Text on the cap's top (empty = none); several lines OK; {tip} etc. are variables. Font, style and depth are set in Personalise.",
       },
       { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
       { name: "cap_text_angle", label: "Text direction", showIf: ["cap_text"] },

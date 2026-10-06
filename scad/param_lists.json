@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "5a6e288d-16253",
+  "hash": "aecd2c26-16483",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -549,7 +549,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -640,7 +640,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "",
     "name": "side_text_right",
@@ -649,14 +649,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "{tip}",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 3.5,
+    "initial": 5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -664,7 +664,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -839,7 +839,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -924,7 +924,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -1146,7 +1146,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -1390,7 +1390,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "33147660-16487",
+  "hash": "46835777-16723",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1939,7 +1939,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -2030,7 +2030,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "",
     "name": "side_text_right",
@@ -2039,14 +2039,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "{tip}",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 3.5,
+    "initial": 6.5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -2054,7 +2054,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -2229,7 +2229,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -2314,7 +2314,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -2536,7 +2536,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -2780,7 +2780,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "97c00325-17174",
+  "hash": "f749cdcb-17373",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4170,7 +4170,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "14492f6a-16445",
+  "hash": "c68895e8-16678",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4719,7 +4719,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -4810,7 +4810,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "",
     "name": "side_text_right",
@@ -4819,14 +4819,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "{tip}",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 3.5,
+    "initial": 4,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -4834,7 +4834,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -5009,7 +5009,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -5094,7 +5094,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -5316,7 +5316,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -5560,7 +5560,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "b70cbbcc-16633",
+  "hash": "476712fa-16866",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6109,7 +6109,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -6200,7 +6200,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "",
     "name": "side_text_right",
@@ -6209,14 +6209,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "{tip}",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 3.5,
+    "initial": 5.5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -6224,7 +6224,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -6399,7 +6399,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -6484,7 +6484,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -6706,7 +6706,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -6950,7 +6950,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "4cb1b8b9-16199",
+  "hash": "7d7089f-16421",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7499,7 +7499,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -7590,7 +7590,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Ash",
     "name": "side_text_right",
@@ -7614,7 +7614,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -7789,7 +7789,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -7874,7 +7874,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -8096,7 +8096,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -8340,7 +8340,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "d4e0b726-16251",
+  "hash": "6acb92f4-16473",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8889,7 +8889,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -8980,7 +8980,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "BIRCH",
     "name": "side_text_right",
@@ -9004,7 +9004,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -9179,7 +9179,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -9264,7 +9264,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -9486,7 +9486,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -9730,7 +9730,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "75cf1971-16215",
+  "hash": "8eacc7f3-16437",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10279,7 +10279,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -10370,7 +10370,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Cedar",
     "name": "side_text_right",
@@ -10394,7 +10394,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -10569,7 +10569,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -10654,7 +10654,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -10876,7 +10876,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -11120,7 +11120,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "3d79d8d0-16421",
+  "hash": "d86c4e4a-16647",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11669,7 +11669,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -11760,7 +11760,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Ash",
     "name": "side_text_right",
@@ -11784,7 +11784,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -11959,7 +11959,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -12044,7 +12044,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -12266,7 +12266,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -12510,7 +12510,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "21699ef6-16487",
+  "hash": "d3fee6ec-16713",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13059,7 +13059,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -13150,7 +13150,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "BIRCH",
     "name": "side_text_right",
@@ -13174,7 +13174,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -13349,7 +13349,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -13434,7 +13434,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -13656,7 +13656,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -13900,7 +13900,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "cdbee444-16439",
+  "hash": "686c1b1a-16665",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14449,7 +14449,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -14540,7 +14540,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Cedar",
     "name": "side_text_right",
@@ -14564,7 +14564,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -14739,7 +14739,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -14824,7 +14824,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -15046,7 +15046,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -15290,7 +15290,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "d6adf443-16450",
+  "hash": "ecc2c897-16675",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15839,7 +15839,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -15930,7 +15930,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Ash",
     "name": "side_text_right",
@@ -15954,7 +15954,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -16129,7 +16129,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -16214,7 +16214,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -16436,7 +16436,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -16680,7 +16680,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "982ef354-16500",
+  "hash": "f9b5a19a-16725",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17229,7 +17229,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -17320,7 +17320,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "BIRCH",
     "name": "side_text_right",
@@ -17344,7 +17344,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -17519,7 +17519,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -17604,7 +17604,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -17826,7 +17826,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -18070,7 +18070,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "96fbd0ff-16465",
+  "hash": "d9e0f7e1-16690",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18619,7 +18619,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -18710,7 +18710,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Cedar",
     "name": "side_text_right",
@@ -18734,7 +18734,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -18909,7 +18909,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -18994,7 +18994,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -19216,7 +19216,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -19460,7 +19460,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "f0533092-16583",
+  "hash": "40ecddc2-16806",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20009,7 +20009,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -20100,7 +20100,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Ash",
     "name": "side_text_right",
@@ -20124,7 +20124,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -20299,7 +20299,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -20384,7 +20384,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -20606,7 +20606,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -20850,7 +20850,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "372fe412-16626",
+  "hash": "a8fa12f6-16849",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21399,7 +21399,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -21490,7 +21490,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "BIRCH",
     "name": "side_text_right",
@@ -21514,7 +21514,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -21689,7 +21689,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -21774,7 +21774,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -21996,7 +21996,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
@@ -22240,7 +22240,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "d59c7a3e-16595",
+  "hash": "101d46ea-16818",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22789,7 +22789,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -22880,7 +22880,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "Cedar",
     "name": "side_text_right",
@@ -22904,7 +22904,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -23079,7 +23079,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -23164,7 +23164,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
@@ -23386,7 +23386,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",

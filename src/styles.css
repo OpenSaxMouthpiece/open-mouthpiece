@@ -528,6 +528,37 @@ button.toggle.on {
 .param input[type="text"] {
   width: 100%;
 }
+.text-field textarea {
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  white-space: pre;
+  overflow-x: auto;
+}
+.text-vars-toggle {
+  font-size: 11.5px;
+  padding: 1px 8px;
+  margin-top: 2px;
+}
+.text-vars-toggle.on {
+  border-color: var(--accent);
+}
+.text-vars {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+.text-vars button {
+  text-align: left;
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+.text-vars p {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+}
 .param .number {
   display: flex;
   gap: 6px;

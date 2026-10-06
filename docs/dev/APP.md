@@ -108,6 +108,11 @@ static site (docs/HOSTING.md).
   `paramLabel()`. A parameter that does nothing now is dimmed with the reason (`paramInactive`).
   Descriptions hide behind ⓘ unless "Descriptions" is on. A variant shows its file's header line
   (`fileAbout`; factual, no sound claims).
+- **Lettering texts** (`*_text`, `side_text_*`): `components/TextField.tsx`, a box that takes
+  several lines ("
+" in the value) plus Variables (`{tip}`, `{title}`, `{voice}`, ...) with live
+  values from the generator's `Text variables:` echo (`parseTextVariables`). `{title}` comes from
+  `design_title`, which App sets from the design's name for renders and downloads (not in share links).
 - **Customizer** (All parameters): from OpenSCAD's `.param` export (the rendered file's params
   only); the filter also searches descriptions; hides the "Not yet implemented" group. A string
   param named `*_image` gets `ImagePicker` (scad/art/ SVGs plus the user's own, "Upload SVG…");

@@ -161,7 +161,7 @@ shoulder_sweep = 0; // [0:0.5:20]
 underside_squareness = 1.2; // [1.2:0.1:8]
 
 /* [Lettering] */
-// Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.
+// Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.
 top_text = "";
 // Letter height (mm).
 top_text_size = 5; // [2:0.5:20]
@@ -181,13 +181,13 @@ top_image_angle = 0; // [0:15:345]
 top_image_position = 0; // [-50:0.5:50]
 // Wrap the picture around the body like a label.
 top_image_wrap = false;
-// Text on the right side (seen from above, tip away). Same fill-ins as the top text.
+// Text on the right side (seen from above, tip away). Lines, variables as on top.
 side_text_right = "";
 // Text on the left side.
 side_text_left = "";
 // Side letter height (mm).
 side_text_size = 3.5; // [1.5:0.5:10]
-// Moves the side text toward the tip (+) or the shank (-) (mm).
+// Side text from just behind the ligature: + toward the tip, - toward the shank (mm).
 side_text_position = 0; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
@@ -241,7 +241,7 @@ ligature_made = false;
 // Length of the ligature band along the mouthpiece (mm), on its short side.
 ligature_length = 12; // [6:0.5:30]
 // Band's front edge, mm behind the window's back end; negative is over the window.
-ligature_position = 2; // [-10:0.5:25]
+ligature_position = 2; // [-10:0.5:40]
 // Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 ligature_wall = 2.0; // [1.2:0.1:5]
 // D = round on top, flat under the reed; conform = follows the body.
@@ -254,7 +254,7 @@ ligature_tongue_side = "top"; // [top, reed]
 ligature_fit = 0.1; // [-0.4:0.05:0.5]
 // How much it squeezes the reed against the table (mm): the reed is the tight spot.
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
-// Text on the ligature's top (empty = none). Same fill-ins as the top text.
+// Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
@@ -298,7 +298,7 @@ cap_extend = 0; // [0:1:120]
 cap_end_gap = 5; // [1:0.5:20]
 // Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
 cap_end_dome = 1; // [0:0.1:1]
-// Text on the cap's top (empty = none). Same fill-ins as the top text.
+// Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]
@@ -334,6 +334,11 @@ render_fn = 64; // [16:8:128]
 print_orientation = true;
 
 /* [Hidden] */
+
+// The design's name and its voice, for the lettering variables {title}, {voice} and
+// {voice_letter} (the app fills design_title in from the design's name).
+design_title = "";
+voice = "Alto";
 
 // Built-in outline, [[fraction of L, value], ...] joined by PCHIP (rounded, hand-smoothed caliper-
 // style stations measured from a real mouthpiece; the base file's are the alto's): full width,
@@ -1038,7 +1043,7 @@ module validate() {
   // The chamber as built (the walls keep min_wall, so a chamber wider than the body allows is
   // narrowed): its widest point after the throat.
   chamber_built = 2 * max([0, for (r = AIR_RINGS) if (r[0] > eff_throat_z) r[1][0]]);
-  if (chamber_built < CHAMBER_W - 0.3)
+  if (len(AIR_RINGS) > 0 && chamber_built < CHAMBER_W - 0.3)  // (no rings: a ligature/cap-only run)
     echo(str("WARNING: the chamber (", CHAMBER_W, "mm wide) is limited to ", round(chamber_built * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)"));
   if (facing_model == "gauge" && len(GAUGE_PTS) <= 2)
     echo("WARNING: facing_model gauge has no facing_gauge_points yet — the power curve is used; add points in the Curves panel");
@@ -1048,9 +1053,13 @@ module validate() {
     echo(str("WARNING: top_text is about ", round(top_text_width), "mm wide but the top is about ", round(top_text_room), "mm wide there — the ends are cut off; make it smaller, shorter or run it along the body"));
   if ((has_text(side_text_right) || has_text(side_text_left)) && side_text_long > lettering_z1 - lettering_z0 + 0.01)
     echo(str("WARNING: side text is about ", round(side_text_long), "mm long but there is room for about ", round(lettering_z1 - lettering_z0), "mm — the ends are cut off"));
+  if ((ligature_made || part == "ligature" || part == "ligature_seated") && win_z0 - lig_z1 < ligature_position - 0.01)
+    echo(str("WARNING: ligature_position ", ligature_position, "mm limited to ", round((win_z0 - lig_z1) * 10) / 10, "mm — the band has to stay on the reed (behind its heel it holds nothing)"));
   if (HAS_LETTERING && eff_lettering_depth < lettering_depth)
     echo(str("WARNING: lettering_depth ", lettering_depth, "mm limited to ", eff_lettering_depth, "mm — at least 0.8mm of the ", lettering_wall, "mm wall there must remain"));
   echo(str("Overall length: ", L, "mm, tip_opening: ", T, "mm, facing_length: ", F, "mm"));
+  // the lettering variables and their values now (the app lists them by the text fields)
+  echo(str("Text variables: ", join_str([for (t = LETTERING_TOKENS) str(t[0], " ", t[1])], "; ")));
   echo(str("Inside air volume: ", round(air_volume() / 100) / 10, " cm3 (from where the neck ends to the tip, with the reed closing the window)"));
 }
 validate();
@@ -1282,17 +1291,33 @@ module window_planform() {
 // nothing lands where the lip and teeth go. Engraving is capped to leave 0.8mm of wall, and side
 // text stays 3.5mm above the table, clear of the thin rails beside the window.
 
-// {token} fill-ins for the lettering texts.
+// Variables for the lettering texts: {tip} (inches, .105), {tip_mm}, {facing}, {chamber} and
+// {length} (mm) become the design's values; {title} its name, {voice} "Alto", {voice_letter} "A".
 function str_sub(s, a, b) = b <= a ? "" : chr([for (i = [a : b - 1]) ord(s[i])]);
 function fmt_inch(mm) = let(t = round(mm / 25.4 * 1000))
   t >= 1000 ? str(t / 1000) : str(".", t < 100 ? "0" : "", t < 10 ? "0" : "", t);
 function fmt1(x) = str(round(x * 10) / 10);
+function join_str(v, sep, i = 0, acc = "") = i >= len(v) ? acc : join_str(v, sep, i + 1, i == 0 ? v[0] : str(acc, sep, v[i]));
 LETTERING_TOKENS = [["{tip}", fmt_inch(tip_opening)], ["{tip_mm}", str(round(tip_opening * 100) / 100)],
-                    ["{facing}", fmt1(facing_length)], ["{chamber}", fmt1(CHAMBER_W)], ["{length}", fmt1(L)]];
+                    ["{facing}", fmt1(facing_length)], ["{chamber}", fmt1(CHAMBER_W)], ["{length}", fmt1(L)],
+                    ["{title}", design_title], ["{voice_letter}", len(voice) > 0 ? voice[0] : ""], ["{voice}", voice]];
 function fill_tokens(s, i = 0, acc = "") =
   i >= len(s) ? acc
   : let(hit = [for (t = LETTERING_TOKENS) if (str_sub(s, i, min(len(s), i + len(t[0]))) == t[0]) t])
     len(hit) > 0 ? fill_tokens(s, i + len(hit[0][0]), str(acc, hit[0][1])) : fill_tokens(s, i + 1, str(acc, s[i]));
+
+// Multi-line texts: a line break ("\n" in the file) starts a new line; the lines are centred
+// on each other, LINE_SPACING x the letter size apart.
+LINE_SPACING = 1.4;
+function split_lines(s) = let(br = [for (i = [0 : len(s) - 1]) if (s[i] == "\n") i])
+  [for (k = [0 : len(br)]) str_sub(s, k == 0 ? 0 : br[k - 1] + 1, k == len(br) ? len(s) : br[k])];
+function text_lines(s) = has_text(s) ? [for (l = split_lines(s)) fill_tokens(l)] : [];
+// A text's rough block, [width, height] as written: ~k x size per letter of the longest line.
+function text_block(s, size, k = 0.62) = let(ls = text_lines(s))
+  len(ls) == 0 ? [0, 0] : [k * size * max([for (l = ls) len(l)]), size * (1 + (len(ls) - 1) * LINE_SPACING)];
+// Its length along the body and its width across, turned by angle (0 = along, reading to the tip).
+function text_len(s, size, angle, k = 0.62) = let(b = text_block(s, size, k)) abs(sin(angle)) * b[1] + abs(cos(angle)) * b[0];
+function text_wide(s, size, angle, k = 0.62) = let(b = text_block(s, size, k)) abs(cos(angle)) * b[1] + abs(sin(angle)) * b[0];
 
 lettering_z0 = 2;
 lettering_z1 = max(lettering_z0 + 2, L - lettering_tip_clearance);
@@ -1301,24 +1326,23 @@ lettering_z1 = max(lettering_z0 + 2, L - lettering_tip_clearance);
 lettering_wall = min(min_wall, interior_wall(lettering_z1));
 eff_lettering_depth = lettering_style == "raised" ? lettering_depth : max(0.1, min(lettering_depth, lettering_wall - 0.8));
 lettering_raised = lettering_style == "raised";
-// Default spots: the middle of the lettering area, along the body; side text on the widest line.
+// Default spots: the middle of the lettering area, along the body; side text on the widest line,
+// just behind the ligature (see side_text_z, after the ligature's numbers).
 // With both a top picture and top text, the pair is centred there: picture toward the tip, text
 // toward the shank, 2mm apart. Their lengths along the body: the picture's from its width and
 // top_image_aspect, the text's from its size (~0.62 x size per letter when it runs along).
 lettering_mid_z = (0.1 * L + lettering_z1) / 2;
-top_text_len = abs(sin(top_text_angle)) * top_text_size + abs(cos(top_text_angle)) * 0.62 * top_text_size * len(fill_tokens(top_text));
+top_text_len = text_len(top_text, top_text_size, top_text_angle);
 top_image_len = top_image_width * (abs(cos(top_image_angle)) * top_image_aspect + abs(sin(top_image_angle)));
 top_both = has_text(top_text) && has_text(top_image);
 top_image_z = max(lettering_z0, min(lettering_z1, lettering_mid_z + (top_both ? (top_text_len + 2) / 2 : 0) + top_image_position));
 top_text_z = max(lettering_z0, min(lettering_z1, lettering_mid_z - (top_both ? (top_image_len + 2) / 2 : 0) + top_text_position));
-side_text_z = max(lettering_z0, min(lettering_z1, lettering_mid_z + side_text_position));
-side_text_y = exterior_ring_at(side_text_z)[E_CY] + side_text_vertical;
 // For validate(): the top text's rough width across the body (same ~0.62 x size per letter) against
 // the top zone's width (lettering_zone) over its length, and the side texts' length.
-top_text_width = abs(cos(top_text_angle)) * top_text_size + abs(sin(top_text_angle)) * 0.62 * top_text_size * len(fill_tokens(top_text));
+top_text_width = text_wide(top_text, top_text_size, top_text_angle);
 function top_zone_w(z) = let(E = exterior_ring_at(max(0, min(L, z)))) 2 * max(0.05, ring_half_width_at_y(E, E[E_CY] + 0.55 * (E[E_TOP] - E[E_CY])) - 0.2);
 top_text_room = min([for (k = [-1 : 1]) top_zone_w(max(lettering_z0, min(lettering_z1, top_text_z + k * top_text_len / 2)))]);
-side_text_long = 0.62 * side_text_size * max(len(fill_tokens(side_text_right)), len(fill_tokens(side_text_left)));
+side_text_long = max(text_block(side_text_right, side_text_size)[0], text_block(side_text_left, side_text_size)[0]);
 function has_text(s) = is_string(s) && len(s) > 0;
 HAS_LETTERING = has_text(top_text) || has_text(top_image) || has_text(side_text_right) || has_text(side_text_left);
 
@@ -1344,7 +1368,9 @@ module exterior_offset(z0, z1, d) {
 }
 
 module lettering_text(s, size) {
-  text(fill_tokens(s), size = size, font = lettering_font_name, halign = "center", valign = "center");
+  ls = text_lines(s);
+  for (i = [0 : len(ls) - 1]) translate([0, ((len(ls) - 1) / 2 - i) * LINE_SPACING * size])
+    text(ls[i], size = size, font = lettering_font_name, halign = "center", valign = "center");
 }
 
 // Where each design may go, per station, as a loft of rectangles: top lettering above a split
@@ -1353,8 +1379,9 @@ module lettering_text(s, size) {
 // holes). The top zone is only as wide as the body at the split, so every column of it meets the
 // surface from inside: a raised letter over the bulge below used to float free of the body.
 module lettering_zone(top, hw, y_hi) {
-  n = max(2, ceil((lettering_z1 - lettering_z0) / Z_STEP));
-  ring_loft([for (i = [0 : n]) let(z = lettering_z0 + (lettering_z1 - lettering_z0) * i / n, E = exterior_ring_at(max(0, min(L, z))))
+  z0 = LETTERING_SPAN[0]; z1 = LETTERING_SPAN[1];
+  n = max(2, ceil((z1 - z0) / Z_STEP));
+  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, E = exterior_ring_at(max(0, min(L, z))))
     let(ys = E[E_CY] + 0.55 * (E[E_TOP] - E[E_CY]))
     let(w = top ? max(0.05, ring_half_width_at_y(E, ys) - 0.2) : hw)
     let(lo = top ? ys : max(3.5, E[E_BOT] + 1), hi = top ? y_hi : max(lo + 0.01, ys - 0.5))
@@ -1423,14 +1450,15 @@ module top_image_wrapped() {
 
 // Where a wrapped picture may go: over the top and down both sides to wrap_floor, in the lettering area.
 module wrap_zone(hw, y_hi) {
-  n = max(2, ceil((lettering_z1 - lettering_z0) / Z_STEP));
-  ring_loft([for (i = [0 : n]) let(z = lettering_z0 + (lettering_z1 - lettering_z0) * i / n, E = exterior_ring_at(max(0, min(L, z))))
+  z0 = LETTERING_SPAN[0]; z1 = LETTERING_SPAN[1];
+  n = max(2, ceil((z1 - z0) / Z_STEP));
+  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, E = exterior_ring_at(max(0, min(L, z))))
     let(lo = wrap_floor(z, E)) [[-hw, lo, z], [hw, lo, z], [hw, y_hi, z], [-hw, y_hi, z]]]);
 }
 
 // The design prisms, clipped to their zones (in the design frame).
 module lettering_prisms() {
-  Es = [for (i = [0 : 16]) exterior_ring_at(lettering_z0 + (lettering_z1 - lettering_z0) * i / 16)];
+  Es = [for (i = [0 : 16]) exterior_ring_at(LETTERING_SPAN[0] + (LETTERING_SPAN[1] - LETTERING_SPAN[0]) * i / 16)];
   y_hi = max([for (E = Es) E[E_TOP]]) + 5;
   hw_hi = max([for (E = Es) E[E_HW]]) + 5;
   if (has_text(top_image) && !top_image_wrap)
@@ -1465,14 +1493,14 @@ module lettering_prisms() {
 module lettering_cutter() {
   difference() {
     lettering_prisms();
-    exterior_offset(lettering_z0 - 1, lettering_z1 + 1, eff_lettering_depth);
+    exterior_offset(LETTERING_SPAN[0] - 1, LETTERING_SPAN[1] + 1, eff_lettering_depth);
   }
 }
 
 module lettering_raised_solid() {
   intersection() {
     lettering_prisms();
-    exterior_offset(lettering_z0 - 1, lettering_z1 + 1, -eff_lettering_depth);
+    exterior_offset(LETTERING_SPAN[0] - 1, LETTERING_SPAN[1] + 1, -eff_lettering_depth);
   }
 }
 
@@ -1587,6 +1615,22 @@ lig_tongue = max(0, min(ligature_tongue, lig_room - lig_len));
 lig_z1 = min(L - 8, max(table_rear_z + 1 + lig_len + lig_tongue, win_z0 - ligature_position));  // front edge
 lig_z0 = lig_z1 - lig_len;          // rear edge (the short side)
 lig_zt = lig_z0 - lig_tongue;       // rear end of the tongue
+
+// The side text's default spot: 2.5mm behind the band's rear edge on the sides (a metal ligature
+// sits there too), where the band doesn't cover it; side_text_position moves it from there.
+// (On the sides, 90 degrees from the tongue's middle, the tongue reaches 1/8 of its length: lig_tongue_w.)
+side_text_home = lig_z0 - lig_tongue / 8 - 2.5 - side_text_long / 2;
+side_text_z = max(lettering_z0, min(lettering_z1, max(lettering_z0 + side_text_long / 2, side_text_home) + side_text_position));
+side_text_y = exterior_ring_at(side_text_z)[E_CY] + side_text_vertical;
+// The stretch of the body the designs can reach (lettering_z0..z1 at most): the zones and the skin
+// are lofted over just this, not the whole lettering area (that was most of lettering's cost).
+// Generous: ~1 x size per letter (wide faces), the length either way for any angle, plus 2mm.
+LETTERING_SPAN = let(ext = concat(
+    has_text(top_text) ? [[top_text_z, max(text_len(top_text, top_text_size, top_text_angle, 1), text_wide(top_text, top_text_size, top_text_angle, 1))]] : [],
+    has_text(top_image) ? [[top_image_z, top_image_wrap ? 2 * top_image_len + top_image_width : max(top_image_len, top_image_width * max(1, top_image_aspect))]] : [],
+    has_text(side_text_right) || has_text(side_text_left) ? [[side_text_z, max(text_block(side_text_right, side_text_size, 1)[0], text_block(side_text_left, side_text_size, 1)[0])]] : []))
+  len(ext) == 0 ? [lettering_z0, lettering_z1]
+  : [max(lettering_z0, min([for (e = ext) e[0] - e[1] / 2]) - 2), min(lettering_z1, max([for (e = ext) e[0] + e[1] / 2]) + 2)];
 // Raised lettering stands out of the body: leave room for it all round.
 lig_raise = HAS_LETTERING && lettering_raised ? lettering_depth : 0;
 // Covers the sampled outline's chords (the true curve bulges a few hundredths between samples).
@@ -1696,9 +1740,8 @@ LIG_HAS_ART = has_text(ligature_text) || has_text(ligature_image);
 LIG_ART_INSET = 0.8;
 lig_art_depth = lettering_raised ? lettering_depth : max(0.1, min(lettering_depth, ligature_wall - 0.8));
 lig_top_z0 = lig_z0 - lig_tongue * lig_tongue_w(90);   // the top's rear edge
-lig_text_n = len(fill_tokens(ligature_text));
-lig_text_len = abs(sin(ligature_text_angle)) * ligature_text_size + abs(cos(ligature_text_angle)) * 0.62 * ligature_text_size * lig_text_n;
-lig_text_wide = abs(cos(ligature_text_angle)) * ligature_text_size + abs(sin(ligature_text_angle)) * 0.62 * ligature_text_size * lig_text_n;
+lig_text_len = text_len(ligature_text, ligature_text_size, ligature_text_angle);
+lig_text_wide = text_wide(ligature_text, ligature_text_size, ligature_text_angle);
 lig_image_len = ligature_image_width * (abs(cos(ligature_image_angle)) * ligature_image_aspect + abs(sin(ligature_image_angle)));
 lig_image_wide = ligature_image_width * (abs(sin(ligature_image_angle)) * ligature_image_aspect + abs(cos(ligature_image_angle)));
 lig_art_both = has_text(ligature_text) && has_text(ligature_image);
@@ -1968,8 +2011,7 @@ module cap_part() {
   e_xs = [for (i = [0 : e_n - 1]) (i - (e_n - 1) / 2) * e_p];
   // text and pictures on the top (as on the ligature)
   t_mid = max(cap_z0 + 3, min(L - 3, (cap_z0 + L) / 2 + cap_lettering_position));
-  t_n = len(fill_tokens(cap_text));
-  t_len = abs(sin(cap_text_angle)) * cap_text_size + abs(cos(cap_text_angle)) * 0.62 * cap_text_size * t_n;
+  t_len = text_len(cap_text, cap_text_size, cap_text_angle);
   i_len = cap_image_width * (abs(cos(cap_image_angle)) * cap_image_aspect + abs(sin(cap_image_angle)));
   both = has_text(cap_text) && has_text(cap_image);
   i_z = t_mid + (both ? (t_len + 2) / 2 : 0);

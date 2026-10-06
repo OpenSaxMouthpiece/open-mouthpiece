@@ -117,7 +117,7 @@ shoulder_sweep = 0; // [0:0.5:20]
 underside_squareness = 1.2; // [1.2:0.1:8]
 
 /* [Lettering] */
-// Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.
+// Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.
 top_text = "";
 // Letter height (mm).
 top_text_size = 5; // [2:0.5:20]
@@ -137,13 +137,13 @@ top_image_angle = 0; // [0:15:345]
 top_image_position = 0; // [-50:0.5:50]
 // Wrap the picture around the body like a label.
 top_image_wrap = false;
-// Text on the right side (seen from above, tip away). Same fill-ins as the top text.
+// Text on the right side (seen from above, tip away). Lines, variables as on top.
 side_text_right = "Cedar";
 // Text on the left side.
 side_text_left = "\u007Btip}";
 // Side letter height (mm).
 side_text_size = 6.5; // [1.5:0.5:10]
-// Moves the side text toward the tip (+) or the shank (-) (mm).
+// Side text from just behind the ligature: + toward the tip, - toward the shank (mm).
 side_text_position = 0; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
@@ -197,7 +197,7 @@ ligature_made = false;
 // Length of the ligature band along the mouthpiece (mm), on its short side.
 ligature_length = 12; // [6:0.5:30]
 // Band's front edge, mm behind the window's back end; negative is over the window.
-ligature_position = 2; // [-10:0.5:25]
+ligature_position = 2; // [-10:0.5:40]
 // Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 ligature_wall = 2.0; // [1.2:0.1:5]
 // D = round on top, flat under the reed; conform = follows the body.
@@ -210,7 +210,7 @@ ligature_tongue_side = "top"; // [top, reed]
 ligature_fit = 0.1; // [-0.4:0.05:0.5]
 // How much it squeezes the reed against the table (mm): the reed is the tight spot.
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
-// Text on the ligature's top (empty = none). Same fill-ins as the top text.
+// Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
@@ -254,7 +254,7 @@ cap_extend = 0; // [0:1:120]
 cap_end_gap = 4; // [1:0.5:20]
 // Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
 cap_end_dome = 1; // [0:0.1:1]
-// Text on the cap's top (empty = none). Same fill-ins as the top text.
+// Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]
@@ -290,6 +290,11 @@ render_fn = 64; // [16:8:128]
 print_orientation = true;
 
 /* [Hidden] */
+
+// The design's name and its voice, for the lettering variables {title}, {voice} and
+// {voice_letter} (the app fills design_title in from the design's name).
+design_title = "";
+voice = "Baritone";
 
 // Built-in outline, [[fraction of L, value], ...] joined by PCHIP (rounded, hand-smoothed caliper-
 // style stations measured from a real mouthpiece; the base file's are the alto's): full width,

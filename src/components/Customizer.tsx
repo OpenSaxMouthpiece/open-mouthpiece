@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { api, type ParamValue, type ScadParam } from "../api";
 import { setSectionsOpen, usePref } from "../uiPrefs";
 import { Fold } from "./Fold";
+import { isLetteringText, TextField } from "./TextField";
 import { mmToThou, paramCaption, paramInactive, paramLabel, paramUnit, thouToMm, type DesignUnit } from "../design";
 
 interface Props {
@@ -290,6 +291,7 @@ function ParamInput({
   if (p.type === "string" && p.name.endsWith("_image")) {
     return <ImagePicker value={String(value)} onChange={onChange} onAspect={(a) => setParam(`${p.name}_aspect`, a)} />;
   }
+  if (p.type === "string" && isLetteringText(p.name)) return <TextField value={String(value)} onChange={onChange} />;
   if (p.type === "string") {
     return <input type="text" value={String(value)} onChange={(e) => onChange(e.target.value)} />;
   }

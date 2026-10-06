@@ -22,6 +22,16 @@ export function parseSummary(log: string): Summary {
   };
 }
 
+// The lettering variables and their values: "Text variables: {tip} .076; {tip_mm} 1.93; ..."
+export function parseTextVariables(log: string): [string, string][] {
+  const m = /Text variables: ([^"\n]*)/.exec(log);
+  if (!m) return [];
+  return m[1].split("; ").flatMap((part) => {
+    const i = part.indexOf(" ");
+    return i > 0 ? [[part.slice(0, i), part.slice(i + 1)] as [string, string]] : [];
+  });
+}
+
 // A note about a value the generator adjusted by itself (a guarantee kept): "... shortened to /
 // moved to / limited to ...". The others ask the player to do something (text cut off, reed too
 // long, a renamed setting, ...).

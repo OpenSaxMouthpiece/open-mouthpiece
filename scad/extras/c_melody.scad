@@ -291,6 +291,11 @@ print_orientation = true;
 
 /* [Hidden] */
 
+// The design's name and its voice, for the lettering variables {title}, {voice} and
+// {voice_letter} (the app fills design_title in from the design's name).
+design_title = "";
+voice = "C-melody";
+
 // Built-in outline, [[fraction of L, value], ...] joined by PCHIP (rounded, hand-smoothed caliper-
 // style stations measured from a real mouthpiece; the base file's are the alto's): full width,
 // top, underside behind the table (the table cut takes over after it), height of the section's
