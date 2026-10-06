@@ -24,6 +24,11 @@ function liveProject(): Plugin {
           res.setHeader("Cache-Control", "no-cache");
           return res.end(JSON.stringify({ files, readOnly: READ_ONLY.filter((f: string) => files.includes(f)) }));
         }
+        if (m[1] === "param_lists.json" && fs.existsSync(path.join(SCAD_DIR, m[1]))) {
+          res.setHeader("Content-Type", "application/json");
+          res.setHeader("Cache-Control", "no-cache");
+          return res.end(fs.readFileSync(path.join(SCAD_DIR, m[1])));
+        }
         if (!files.includes(m[1])) return next();
         res.setHeader("Content-Type", TYPES[path.extname(m[1]).toLowerCase()] ?? "text/plain; charset=utf-8");
         res.setHeader("Cache-Control", "no-cache");

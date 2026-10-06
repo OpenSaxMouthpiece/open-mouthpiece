@@ -45,6 +45,9 @@ for (const rel of files.filter((f) => f.startsWith('art/') && f.endsWith('.svg')
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 }
+// the presets' settings lists (scripts/param_lists.mjs), made locally and committed
+if (fs.existsSync(path.join(SCAD, 'param_lists.json')))
+  fs.copyFileSync(path.join(SCAD, 'param_lists.json'), path.join(OUT, 'param_lists.json'));
 fs.writeFileSync(
   path.join(OUT, 'manifest.json'),
   JSON.stringify({ files, readOnly: READ_ONLY.filter((f) => files.includes(f)), aspect }, null, 1),

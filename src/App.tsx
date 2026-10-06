@@ -115,6 +115,8 @@ export default function App() {
   const [backend, setBackend] = useState("");
   const [params, setParams] = useState<ScadParam[]>([]);
   const [paramsKey, setParamsKey] = useState(""); // the tab the params are of
+  const paramsKeyRef = useRef(paramsKey);
+  paramsKeyRef.current = paramsKey;
 
   // ---- settings and layout
   const [auto, setAuto] = useState(saved.auto ?? true);
@@ -511,6 +513,7 @@ export default function App() {
     const ac = new AbortController();
     const key = mainTab.key;
     const source = mainTab.source;
+    const wait = paramsKeyRef.current === key ? 400 : 0; // no wait for a newly opened file, only while typing
     const t = setTimeout(async () => {
       try {
         const r = await api.params(target, ac.signal);
@@ -528,7 +531,7 @@ export default function App() {
       } catch {
         // syntax errors etc. surface in the render log; keep the old panel meanwhile
       }
-    }, 400);
+    }, wait);
     return () => {
       clearTimeout(t);
       ac.abort();

@@ -13,6 +13,7 @@
 //   7. the cap made for it: the genus it announces (one per vent), stands on z = 0, clears the
 //      mouthpiece and the ligature (part = cap_clash with a slightly loose collar is empty: bar
 //      zero-thickness slivers), fingerprinted.
+//   Then the presets' settings lists for the app are refreshed (scripts/param_lists.mjs).
 //   npm run check                 # compare with the baselines (exit 1 on any failure/change)
 //   npm run check -- --update     # accept the current results as the new baselines
 //   npm run check -- scad/alto.scad ...   # only these files
@@ -24,6 +25,7 @@ import { fileURLToPath } from 'node:url';
 import { runOpenscad, parseLog, pool, OPENSCAD } from './openscad.mjs';
 import { loadTris } from './mesh_frame.mjs';
 import { isVoiceFile } from './voice_file.mjs';
+import { updateParamLists } from './param_lists.mjs';
 import { transformSync } from 'esbuild';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -301,5 +303,13 @@ if (UPDATE) {
   if (Object.keys(scores).length) fs.writeFileSync(REF_SCORES, JSON.stringify(scores, null, 2) + '\n');
   console.log(`baselines updated: ${path.relative(ROOT, BASELINES)}`);
 }
+// The presets' settings lists for the app (scripts/param_lists.mjs): always refreshed, they only
+// follow the files' text.
+const lists = await updateParamLists(results.map((r) => r.file)).catch((e) => {
+  failed++;
+  console.log(`FAIL settings lists: ${e.message}`);
+  return [];
+});
+if (lists.length) console.log(`settings lists refreshed (scad/param_lists.json): ${lists.join(', ')}`);
 console.log(`${results.length - failed}/${results.length} passed in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
 process.exit(failed && !UPDATE ? 1 : 0);

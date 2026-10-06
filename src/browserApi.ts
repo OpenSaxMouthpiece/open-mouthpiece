@@ -74,6 +74,21 @@ function saveStore(s: Record<string, Stored>) {
 
 const decoder = new TextDecoder();
 
+// The presets' settings lists, made ahead (scripts/param_lists.mjs): a list is used only while the
+// file's text still matches its hash, else OpenSCAD makes it as for any file.
+type ParamLists = Record<string, { hash: string; parameters: ScadParam[] } | undefined>;
+let paramLists: Promise<ParamLists> | null = null;
+const getParamLists = () =>
+  (paramLists ??= fetch(`${BASE}project/param_lists.json`)
+    .then((r): Promise<ParamLists> | ParamLists => (r.ok ? r.json() : {}))
+    .catch((): ParamLists => ({})));
+// FNV-1a over the UTF-16 code units, plus the length (as in scripts/param_lists.mjs).
+function textHash(s: string) {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 0x01000193) >>> 0;
+  return `${h.toString(16)}-${s.length}`;
+}
+
 // Every file OpenSCAD may need: the project, the user's saved files over it, then unsaved buffers.
 async function workspace(t: RenderTarget) {
   const m = await getManifest();
@@ -184,6 +199,8 @@ export const browserApi: Api = {
   },
 
   params: async (t: RenderTarget, signal?: AbortSignal) => {
+    const made = t.path ? (await getParamLists())[t.path] : undefined;
+    if (made && made.hash === textHash(t.source ?? "")) return { parameters: made.parameters, log: "" };
     const w = await workspace(t);
     const r = await runOpenscad(
       { files: w.files, cwd: ROOT, args: ["-o", "/tmp/out.param", w.main], outputs: ["/tmp/out.param"] },

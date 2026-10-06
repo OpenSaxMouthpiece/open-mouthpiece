@@ -29,6 +29,10 @@ static site (docs/HOSTING.md).
   from scad/ at `project/` (manifest per request, so generator edits show on the next render).
   Build: `scripts/build_static_project.mjs` copies them to `public/project/` + `manifest.json` (+
   picture aspects measured natively when OpenSCAD is installed).
+- **Settings lists made ahead**: `scad/param_lists.json` (committed; `npm run check` or
+  `node scripts/param_lists.mjs` refreshes it) holds each preset's `.param` export with a hash of its
+  text; `browserApi.params` uses it while the text matches (saves ~3s in the browser before the
+  settings show), else asks OpenSCAD. A stale entry is just slower, never wrong.
 - **Speed**: the browser takes ~2.5-3x native (alto ~2.5s, bari ~4.5s; a 4x-throttled CPU, like a
   phone, ~13s).
 
