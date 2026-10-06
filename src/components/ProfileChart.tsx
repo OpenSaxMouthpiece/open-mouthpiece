@@ -99,8 +99,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     const line = shape?.lines[n] ?? [];
     if (!shape) return line;
     const rendered = shape.values[LINES[n].param] as Pt[] | undefined;
-    const now =
-      drag?.line === n ? moved(adjOf(n), handleFs(line, adjOf(n), shape.L, LINES[n].points), drag.i, drag.d) : adjOf(n);
+    const now = drag?.line === n ? moved(adjOf(n), handleFs(n, shape, adjOf(n)), drag.i, drag.d) : adjOf(n);
     return JSON.stringify(rendered ?? []) === JSON.stringify(now ?? [])
       ? line
       : previewLine(line, rendered, now ?? [], shape.L);
@@ -128,7 +127,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     if (!drag || !edit || !shape) return setDrag(null);
     if (drag.d !== 0) {
       const n = drag.line,
-        fs = handleFs(shape.lines[n] ?? [], adjOf(n), shape.L, LINES[n].points),
+        fs = handleFs(n, shape, adjOf(n)),
         next = tidy(moved(adjOf(n), fs, drag.i, drag.d));
       edit.onSet(LINES[n].param, next.length ? next : undefined);
     }
@@ -137,9 +136,8 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   const cos = shape ? Math.cos((shape.frame.tilt * Math.PI) / 180) : 1;
   const handles = (n: LineName, at: (z: number, v: number) => [number, number], k: number) => {
     if (!shape) return null;
-    const line = shape.lines[n] ?? [],
-      shown = lineNow(n);
-    const fs = handleFs(line, adjOf(n), shape.L, LINES[n].points);
+    const shown = lineNow(n);
+    const fs = handleFs(n, shape, adjOf(n));
     return fs.map((f, i) => {
       if (!draggable(n, i, fs.length)) return null;
       const [x, y] = at(f * shape.L, lineAt(shown, f * shape.L));
@@ -186,7 +184,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
         <path className="now" d={path(now)} fillRule="evenodd" />
         {on &&
           shape!.landmarks
-            .filter(([n]) => (outside ? n === "break" : LANDMARKS.includes(n)))
+            .filter(([n]) => (outside ? n === "shoulder" || n === "break" : LANDMARKS.includes(n)))
             .map(([n, z], i) => {
               const [xa, ya] = sideXY(z, 0),
                 [xb, yb] = sideXY(z, lineAt(shape!.lines.top ?? [], z));

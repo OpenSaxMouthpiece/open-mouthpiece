@@ -72,13 +72,25 @@ export function offsetAt(adj: Pt[] | undefined, f: number): number {
 }
 
 // Where a line's handles are (fractions of the length): its own points once edited, else evenly
-// along the line.
-export function handleFs(line: Pt[], adj: Pt[] | undefined, L: number, n: number): number[] {
+// along the line; the top's sit on the shoulder (its corner and where the drop ends), with the
+// barrel and the beak shared out evenly around them.
+export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined): number[] {
   if (adj?.length) return adj.map((p) => p[0]);
+  const line = shape.lines[n] ?? [],
+    L = shape.L,
+    count = LINES[n].points;
   if (line.length < 2 || L <= 0) return [];
+  const mark = (name: string) => shape.landmarks.find(([m]) => m === name)?.[1];
+  const sh = mark("shoulder"),
+    ke = mark("shoulder_end");
+  if (n === "top" && sh !== undefined && ke !== undefined && 0 < sh && sh < ke && ke < L) {
+    const a = sh / L,
+      b = ke / L;
+    return [0, a / 2, a, b, b + (1 - b) / 3, b + (2 * (1 - b)) / 3, 1];
+  }
   const f0 = line[0][0] / L,
     f1 = line[line.length - 1][0] / L;
-  return Array.from({ length: n }, (_, i) => f0 + ((f1 - f0) * i) / (n - 1));
+  return Array.from({ length: count }, (_, i) => f0 + ((f1 - f0) * i) / (count - 1));
 }
 
 // The offsets after moving handle i by d mm (the other handles keep theirs).

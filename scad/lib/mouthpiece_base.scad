@@ -1588,7 +1588,8 @@ function shape_edit_lines() =
    // the reed side's edge from the table's back to the tip (flat, then the facing): with "top" and
    // "underside" it closes the outside silhouette
    ["rails", [for (z = [table_rear_z : max(0.5, (L - table_rear_z) / 40) : L]) [z, facing_at_z(z)]]],
-   ["landmarks", [["socket", eff_shank_depth], ["throat", eff_throat_z], ["window", win_z0],
+   ["landmarks", [["socket", eff_shank_depth], ["shoulder", SWEEP_Z0], ["shoulder_end", SWEEP_ZK],
+                  ["throat", eff_throat_z], ["window", win_z0],
                   ["table", table_rear_z], ["break", break_z], ["tip", L]]],
    ["L", L],
    ["frame", [print_orientation, bore_tilt, end_face_lift]]];
