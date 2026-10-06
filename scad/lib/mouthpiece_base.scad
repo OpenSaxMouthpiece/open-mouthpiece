@@ -918,7 +918,10 @@ function interior_exps(z) =
 // (A bari fit exposed the old rule "roof = max(floor + 1.2, ...)": near the tip, where the baffle
 // comes down onto the facing, it pushed the roof up — a ledge seen through the window, and holes
 // through the beak corners.)
-function interior_ring_at(z) =
+function interior_ring_at(z) = interior_ring_pts_at(z)[0];
+
+// [ring, its points]: the points come free with the last fit pass.
+function interior_ring_pts_at(z) =
   let(E = exterior_ring_at(z), hw0 = interior_half_w(z, E), bot0 = interior_bottom_y(z, E, hw0), ne = interior_exps(z))
   let(cap = E[E_TOP] - interior_wall(z))
   // the roof blends from the round bore/chamber into the baffle over 4mm (no step when the
@@ -943,24 +946,30 @@ function interior_ring_at(z) =
   // is scaled, so one pass is exact. In the window, points at or below the reed plane are inside
   // the window cut and don't count.
   let(lo = in_win ? facing_at_z(z) + 0.1 : -1e9)
-  // Two passes: the window-width limit on the lower walls moves as the width scales.
-  let(s1 = interior_fit(z, E, [hw1, top, bot, ne[0], ne[1], narrow, narrow_top], in_win, lo))
-  let(s2 = interior_fit(z, E, [hw1 * s1, top, bot, ne[0], ne[1], narrow, narrow_top], in_win, lo))
+  // Two passes: the window-width limit on the lower walls moves as the width scales. A pass that
+  // changes nothing (scale 1) makes the next one the same, so it is skipped, and when the final
+  // ring equals the last pass's input its points are reused.
+  let(I1 = [hw1, top, bot, ne[0], ne[1], narrow, narrow_top])
+  let(f1 = interior_fit(z, E, I1, in_win, lo), s1 = f1[0])
+  let(I2 = [hw1 * s1, top, bot, ne[0], ne[1], narrow, narrow_top])
+  let(f2 = s1 == 1 ? f1 : interior_fit(z, E, I2, in_win, lo), s2 = f2[0])
   let(hw = hw1 * s1 * s2)
-  [max(0.05, hw), top, bot, ne[0], ne[1], min(narrow, max(0.05, hw)), narrow_top];
+  let(I = [max(0.05, hw), top, bot, ne[0], ne[1], min(narrow, max(0.05, hw)), narrow_top])
+  [I, I == I2 ? f2[1] : interior_points(INT_DIRS, z, I)];
 
 // Width scale (<= 1) that makes every ring point keep its wall at its own height: min_wall before
 // the window; under the window 0.6 x side_rail_width for the part within the window width (the
 // rails) but the full min_wall for a chamber scooped out wider than the window above them.
+// Returns [scale, the points of ring I].
 function interior_fit(z, E, I, in_win, lo) =
-  let(pts = interior_points(ring_dirs(INT_RING_POINTS), z, I))
+  let(pts = interior_points(INT_DIRS, z, I))
   let(ratios = [for (p = pts) if (abs(p[0]) > 0.05 && p[1] > lo && p[1] > E[E_BOT] && p[1] < E[E_TOP])
                   let(ext = ring_half_width_at_y(E, p[1]))
                   let(limit = !in_win ? ext - min_wall
                             : abs(p[0]) <= I[5] + 0.01 ? ext - side_rail_width * 0.6
                             : max(min(I[5], ext - side_rail_width * 0.6), ext - min_wall))
                   limit / abs(p[0])])
-  len(ratios) ? max(0.05, min(1, min(ratios))) : 1;
+  [len(ratios) ? max(0.05, min(1, min(ratios))) : 1, pts];
 
 // The interior ring's points: the superellipse, with x held within the window width below
 // narrow_top and blending out to the full width over the next 1.5mm (I[5] = 1e3 before the window).
@@ -1159,13 +1168,14 @@ function drop_first(v) = [for (i = [1 : len(v) - 1]) v[i]];
 // at the default 64 — the profiles are smooth enough that finer only costs CGAL time).
 EXT_RING_POINTS = render_fn;
 INT_RING_POINTS = 4 * round(render_fn * 0.75 / 4);
+INT_DIRS = ring_dirs(INT_RING_POINTS);  // built once (interior_ring_at needs them for every ring)
 Z_STEP = 64 / render_fn;
 
 // The interior's rings, computed ONCE and shared by the interior loft, the air-volume readout and
 // the clearance report: [[z, ring, points], ...] from the end of the socket to the window front.
 // Not needed by the ligature, cap and reed parts: skipped there (each run evaluates the whole file).
 AIR_RINGS = (part == "ligature_seated" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap") ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
-  let(I = interior_ring_at(z)) [z, I, interior_points(ring_dirs(INT_RING_POINTS), z, I)]];
+  let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 
 // ---- Exterior: tenon -> flare -> tapered body -> beak -> wide rounded tip, as one loft. The
 // table and facing are NOT part of it — facing_cutter slices them in afterward.
