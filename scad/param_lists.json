@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "aecd2c26-16483",
+  "hash": "9894319a-16581",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -684,6 +684,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -1390,7 +1391,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "46835777-16723",
+  "hash": "3c907abb-16821",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2074,6 +2075,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -4170,7 +4172,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "c68895e8-16678",
+  "hash": "c8f1f564-16776",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4854,6 +4856,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -5560,7 +5563,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "476712fa-16866",
+  "hash": "8cafb7fe-16964",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6244,6 +6247,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -6950,7 +6954,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "7d7089f-16421",
+  "hash": "4f5c59b-16519",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7634,6 +7638,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -8340,7 +8345,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "6acb92f4-16473",
+  "hash": "1525a7d8-16571",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9024,6 +9029,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -9730,7 +9736,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "8eacc7f3-16437",
+  "hash": "cc6f2417-16535",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10414,6 +10420,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -11120,7 +11127,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "d86c4e4a-16647",
+  "hash": "17d7188e-16745",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11804,6 +11811,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -12510,7 +12518,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "d3fee6ec-16713",
+  "hash": "826361f8-16811",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13194,6 +13202,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -13900,7 +13909,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "686c1b1a-16665",
+  "hash": "90a645be-16763",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14584,6 +14593,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -15290,7 +15300,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "ecc2c897-16675",
+  "hash": "17e94d9b-16773",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15974,6 +15984,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -16680,7 +16691,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "f9b5a19a-16725",
+  "hash": "d670d67e-16823",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17364,6 +17375,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -18070,7 +18082,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "d9e0f7e1-16690",
+  "hash": "c506d2ed-16788",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18754,6 +18766,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -19460,7 +19473,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "40ecddc2-16806",
+  "hash": "4871174e-16904",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20144,6 +20157,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -20850,7 +20864,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "a8fa12f6-16849",
+  "hash": "26efb51a-16947",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21534,6 +21548,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -22240,7 +22255,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "101d46ea-16818",
+  "hash": "db4ea996-16916",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22924,6 +22939,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",

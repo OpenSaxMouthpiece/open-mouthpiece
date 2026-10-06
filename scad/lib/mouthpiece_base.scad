@@ -191,6 +191,7 @@ side_text_size = 3.5; // [1.5:0.5:10]
 side_text_position = 0; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
+// Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).
 lettering_style = "engraved"; // [engraved, raised]
 // How deep the letters go, or how far they stand out (mm).
 lettering_depth = 0.5; // [0.2:0.05:1.5]
@@ -1324,8 +1325,9 @@ lettering_z1 = max(lettering_z0 + 2, L - lettering_tip_clearance);
 // Engraving leaves >= 0.8mm: the interior keeps interior_wall() to the outside (min_wall, thinning
 // toward the tip past the facing break).
 lettering_wall = min(min_wall, interior_wall(lettering_z1));
-eff_lettering_depth = lettering_style == "raised" ? lettering_depth : max(0.1, min(lettering_depth, lettering_wall - 0.8));
-lettering_raised = lettering_style == "raised";
+// The mouthpiece's lettering is always engraved: raised letters would catch the ligature.
+eff_lettering_depth = max(0.1, min(lettering_depth, lettering_wall - 0.8));
+lettering_raised = lettering_style == "raised";  // the ligature's and the cap's art only
 // Default spots: the middle of the lettering area, along the body; side text on the widest line,
 // just behind the ligature (see side_text_z, after the ligature's numbers).
 // With both a top picture and top text, the pair is centred there: picture toward the tip, text
@@ -1497,12 +1499,6 @@ module lettering_cutter() {
   }
 }
 
-module lettering_raised_solid() {
-  intersection() {
-    lettering_prisms();
-    exterior_offset(LETTERING_SPAN[0] - 1, LETTERING_SPAN[1] + 1, -eff_lettering_depth);
-  }
-}
 
 // The curve each profile override controls, as the model currently has it: the override itself
 // or the built-in shape, and for the interior after the wall clamps (so a dragged curve shows
@@ -1631,8 +1627,8 @@ LETTERING_SPAN = let(ext = concat(
     has_text(side_text_right) || has_text(side_text_left) ? [[side_text_z, max(text_block(side_text_right, side_text_size, 1)[0], text_block(side_text_left, side_text_size, 1)[0])]] : []))
   len(ext) == 0 ? [lettering_z0, lettering_z1]
   : [max(lettering_z0, min([for (e = ext) e[0] - e[1] / 2]) - 2), min(lettering_z1, max([for (e = ext) e[0] + e[1] / 2]) + 2)];
-// Raised lettering stands out of the body: leave room for it all round.
-lig_raise = HAS_LETTERING && lettering_raised ? lettering_depth : 0;
+// (Room for raised lettering on the body: none, the mouthpiece's lettering is always engraved.)
+lig_raise = 0;
 // Covers the sampled outline's chords (the true curve bulges a few hundredths between samples).
 LIG_MARGIN = 0.03;
 LIG_N = 4 * round(render_fn * 1.5 / 4);                 // support directions per ring
@@ -2067,14 +2063,11 @@ module cap_part() {
 
 module mouthpiece_body() {
   difference() {
-    union() {
-      exterior_solid();
-      if (HAS_LETTERING && lettering_raised) lettering_raised_solid();
-    }
+    exterior_solid();
     interior_solid();
     window_cutter();
     facing_cutter();
-    if (HAS_LETTERING && !lettering_raised) lettering_cutter();
+    if (HAS_LETTERING) lettering_cutter();
   }
 }
 

@@ -147,6 +147,7 @@ side_text_size = 5.5; // [1.5:0.5:10]
 side_text_position = 0; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
+// Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).
 lettering_style = "engraved"; // [engraved, raised]
 // How deep the letters go, or how far they stand out (mm).
 lettering_depth = 0.6; // [0.2:0.05:1.5]

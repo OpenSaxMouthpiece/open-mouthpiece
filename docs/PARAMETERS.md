@@ -763,6 +763,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Lettering style (`lettering_style`)
 
+Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).
+
 Range: `engraved`, `raised`.
 
 Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
