@@ -247,7 +247,7 @@ export function DesignPanel({
           if (!s.items.some((i) => byName.has(i.name))) return null;
           if (q && !rows.length && !(s.ligature && matches("ligature", s.title)) && !(s.cap && matches("cap", s.title)))
             return null;
-          const summary = s.summary?.(get);
+          const summary = s.cap && !cap?.on ? undefined : s.summary?.(get); // the cap's only once made
           return (
             <Fold
               key={s.title}
@@ -266,7 +266,15 @@ export function DesignPanel({
                   <ParamRow
                     key={p.name}
                     p={p}
-                    label={i.label}
+                    label={
+                      i.side ? (
+                        <>
+                          {i.label} <SideIcon side={i.side} />
+                        </>
+                      ) : (
+                        i.label
+                      )
+                    }
                     unit={i.unit}
                     options={
                       i.options && !i.options.includes(String(values[p.name] ?? p.initial))
@@ -362,5 +370,22 @@ export function DesignPanel({
         )}
       </div>
     </div>
+  );
+}
+
+// The mouthpiece from above, tip away, with one side marked: which side "right" / "left" means.
+function SideIcon({ side }: { side: "left" | "right" }) {
+  const edge = side === "right" ? "M12.5 9 L11.5 20" : "M3.5 9 L4.5 20";
+  return (
+    <svg className="side-icon" width="16" height="22" viewBox="0 0 16 22" role="img">
+      <title>{`The ${side} side, seen from above with the tip pointing away`}</title>
+      <path
+        d="M4.5 20 L3.5 9 Q3.5 2 8 1.5 Q12.5 2 12.5 9 L11.5 20 Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+      />
+      <path d={edge} stroke="var(--accent-fg)" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
   );
 }

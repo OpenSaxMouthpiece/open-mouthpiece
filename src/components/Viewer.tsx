@@ -179,8 +179,8 @@ function keepPrefs(p: ViewPrefs) {
 
 const B_COLOR = 0x4ea3f2;
 const B_CUT = 0x1d4f80;
-const LIG_COLOR = 0xd9564a;
-const LIG_CUT = 0x7a2a22;
+const LIG_COLOR = 0x7d848f; // graphite: neutral on any mouthpiece colour (blue is B, teal the cap)
+const LIG_CUT = 0x33373d;
 const REED_COLOR = 0xe6dcbc;
 const REED_CUT = 0x9a8f6c;
 const CAP_COLOR = 0x3fbfae;
@@ -932,7 +932,7 @@ export function Viewer({
                     <Check
                       on={!!ligature?.on}
                       set={(on) => onLigature({ on })}
-                      title="Show the ligature made for this mouthpiece (red) on it"
+                      title="Show the ligature made for this mouthpiece (grey) on it"
                     >
                       Ligature
                     </Check>

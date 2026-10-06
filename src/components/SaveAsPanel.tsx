@@ -1,5 +1,6 @@
-// Save as, for a design: keep a copy in this browser and/or download files (full .scad,
-// settings-only .scad, STLs), zipped or not. The choices are remembered.
+// Save as, for a design: keep a copy in this browser and/or download files (the design file =
+// the full .scad; a settings-only .scad under "More formats"; STLs), zipped or not. The choices are remembered.
+import { useState } from "react";
 import { scadFileName } from "../app/files";
 
 export type SaveOpts = {
@@ -49,6 +50,7 @@ export function SaveAsPanel({
   onCancel,
 }: Props) {
   const files = wantsFiles(opts, ligature, cap);
+  const [moreOpen, setMoreOpen] = useState(opts.settings); // open while it is ticked
   const box = (k: keyof SaveOpts, disabled = false) => (
     <input type="checkbox" checked={opts[k]} disabled={disabled} onChange={(e) => onOpt(k, e.target.checked)} />
   );
@@ -69,11 +71,14 @@ export function SaveAsPanel({
       </label>
       <div className="save-group">Download</div>
       <label title="Your settings + the generator in one plain OpenSCAD file: opens in any OpenSCAD, and here with Open…">
-        {box("full")} Full .scad <span className="muted">works anywhere</span>
+        {box("full")} Design file (.scad) <span className="muted">opens anywhere</span>
       </label>
-      <label title="Just your settings (a few KB); the geometry comes from this site when you open it here">
-        {box("settings")} Settings-only .scad <span className="muted">for this site</span>
-      </label>
+      <details className="save-more" open={moreOpen} onToggle={(e) => setMoreOpen(e.currentTarget.open)}>
+        <summary>More formats</summary>
+        <label title="Just your settings (a few KB); the geometry comes from this site when you open it here">
+          {box("settings")} Settings-only .scad <span className="muted">opens only on this site</span>
+        </label>
+      </details>
       <label title="The model to print, at full quality">
         {box("stl")} {partLabel} STL
       </label>

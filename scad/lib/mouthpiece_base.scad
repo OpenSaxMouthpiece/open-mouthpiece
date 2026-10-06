@@ -1061,6 +1061,12 @@ module validate() {
     echo(str("WARNING: table_length ", TABLE_LEN, "mm is longer than this body's table allows: the table starts at ", round(table_rear_z * 10) / 10, "mm from the shank end"));
   if (has_text(top_text) && top_text_width > top_text_room + 0.01)
     echo(str("WARNING: top_text is about ", round(top_text_width), "mm wide but the top is about ", round(top_text_room), "mm wide there — the ends are cut off; make it smaller, shorter or run it along the body"));
+  if (has_text(top_image) && !top_image_wrap && top_image_across > top_image_room + 0.5)
+    echo(str("WARNING: the top picture is about ", round(top_image_across), "mm wide but the top is about ", round(top_image_room), "mm wide there — its sides are cut off; make it smaller or wrap it"));
+  if (has_text(top_image) && top_image_wrap && top_image_width / 2 > WRAP_MAX + 0.5)
+    echo(str("WARNING: the wrapped top picture is ", top_image_width, "mm wide but reaches only about ", round(2 * WRAP_MAX), "mm around the body — its sides are cut off"));
+  if (has_text(top_image) && (top_image_z - top_image_len / 2 < lettering_z0 - 0.5 || top_image_z + top_image_len / 2 > lettering_z1 + 0.5))
+    echo(str("WARNING: the top picture is about ", round(top_image_len), "mm long and runs past the lettering area — its ends are cut off; make it smaller or move it"));
   if ((has_text(side_text_right) || has_text(side_text_left)) && side_text_long > lettering_z1 - lettering_z0 + 0.01)
     echo(str("WARNING: side text is about ", round(side_text_long), "mm long but there is room for about ", round(lettering_z1 - lettering_z0), "mm — the ends are cut off"));
   if ((ligature_made || part == "ligature" || part == "ligature_seated") && win_z0 - lig_z1 < ligature_position - 0.01)
@@ -1353,6 +1359,9 @@ top_text_z = max(lettering_z0, min(lettering_z1, lettering_mid_z - (top_both ? (
 top_text_width = text_wide(top_text, top_text_size, top_text_angle);
 function top_zone_w(z) = let(E = exterior_ring_at(max(0, min(L, z)))) 2 * max(0.05, ring_half_width_at_y(E, E[E_CY] + 0.55 * (E[E_TOP] - E[E_CY])) - 0.2);
 top_text_room = min([for (k = [-1 : 1]) top_zone_w(max(lettering_z0, min(lettering_z1, top_text_z + k * top_text_len / 2)))]);
+// The same for the top picture (flat: its width across the top; wrapped: the distance around).
+top_image_across = top_image_width * (abs(cos(top_image_angle)) + abs(sin(top_image_angle)) * top_image_aspect);
+top_image_room = min([for (k = [-1 : 1]) top_zone_w(max(lettering_z0, min(lettering_z1, top_image_z + k * top_image_len / 2)))]);
 side_text_long = max(text_block(side_text_right, side_text_size)[0], text_block(side_text_left, side_text_size)[0]);
 function has_text(s) = is_string(s) && len(s) > 0;
 HAS_LETTERING = has_text(top_text) || has_text(top_image) || has_text(side_text_right) || has_text(side_text_left);
@@ -2062,6 +2071,17 @@ module cap_part() {
     echo(str("WARNING: cap_slot_length ", cap_slot_length, "mm shortened to ", r2(z_slot1 - cap_zr), "mm: it stops 3mm short of the closed end"));
   if (cap_grip > 0.01 && squeeze < 0.5 * cap_grip)
     echo(str("WARNING: the cap's collar only squeezes ", r2(max(0, squeeze)), "mm (cap_grip ", cap_grip, "mm)"));
+  // the art's reach across the top (it runs down the sides past ~3/4 of the half-width) and along
+  // the cap (past its ends it is cut off)
+  a_wide = max(has_text(cap_text) ? text_wide(cap_text, cap_text_size, cap_text_angle) : 0,
+               has_text(cap_image) ? cap_image_width * (abs(sin(cap_image_angle)) * cap_image_aspect + abs(cos(cap_image_angle))) : 0);
+  a_room = 2 * 0.75 * max([for (p = a_ring) p[0]]);
+  a_z0 = min(has_text(cap_text) ? t_z - t_len / 2 : L, has_text(cap_image) ? i_z - i_len / 2 : L);
+  a_z1 = max(has_text(cap_text) ? t_z + t_len / 2 : 0, has_text(cap_image) ? i_z + i_len / 2 : 0);
+  if (CAP_HAS_ART && a_wide > a_room + 0.5)
+    echo(str("WARNING: the cap's lettering is about ", round(a_wide), "mm wide but its top is about ", round(a_room), "mm wide: it runs down the sides; make it smaller or turn it"));
+  if (CAP_HAS_ART && (a_z0 < cap_z0 - 0.5 || a_z1 > L + 0.5))
+    echo(str("WARNING: the cap's lettering is about ", round(a_z1 - a_z0), "mm long but the cap is about ", round(L - cap_z0), "mm long: the ends are cut off; make it smaller or turn it across"));
   if (CAP_HAS_ART && cap_art_depth < lettering_depth)
     echo(str("WARNING: cap lettering depth ", lettering_depth, "mm limited to ", cap_art_depth, "mm: at least 0.8mm of the wall must remain"));
 }

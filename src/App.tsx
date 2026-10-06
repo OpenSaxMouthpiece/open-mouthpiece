@@ -169,6 +169,8 @@ export default function App() {
   const [hintSeen, setHintSeen] = useState(() => readFlag(HINT_KEY)); // the first-visit hint card
   const [shareLink, setShareLink] = useState<string | null>(null); // shown when the clipboard refuses
   const [shareArt, setShareArt] = useState(false); // put the user's own picture in the share link
+  const [copied, setCopied] = useState(false); // the Share button says "Copied ✓" for a moment
+  const copiedTimer = useRef<ReturnType<typeof setTimeout>>();
   const [saveAs, setSaveAs] = useState<string | null>(null); // the Save as name while it's open
   const [saveOpts, setSaveOpts] = usePref<SaveOpts>("saveAs", SAVE_DEFAULTS);
   const [armedClose, setArmedClose] = useState<string | null>(null); // close clicked once on an unsaved tab
@@ -509,6 +511,9 @@ export default function App() {
       try {
         await navigator.clipboard.writeText(link);
         setShareLink(null);
+        setCopied(true);
+        clearTimeout(copiedTimer.current);
+        copiedTimer.current = setTimeout(() => setCopied(false), 2000);
         notify({
           text: `Link copied (${link.length} characters)`,
           short: "Link copied: paste it anywhere to share this design",
@@ -2176,8 +2181,8 @@ export default function App() {
             </a>
           )}
           {shareArtToggle}
-          <button onClick={share} title="Copy a link that opens this design">
-            Share
+          <button onClick={share} title="Copy a link that opens this design" aria-live="polite">
+            {copied ? "Copied ✓" : "Share"}
           </button>
           <div className="dl-split">
             <button

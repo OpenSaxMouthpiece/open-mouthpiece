@@ -96,7 +96,7 @@ The app's readouts give the targets:
 ## 4b. A ligature made for it (optional)
 
 Store-bought ligatures fit only mouthpieces close to the one they were made for. The app can make
-one from your design: the **Ligature** tab -> **Make a ligature for this mouthpiece**. It shows in red on the
+one from your design: the **Ligature** tab -> **Make a ligature for this mouthpiece**. It shows in grey on the
 mouthpiece; **Download ligature STL** gives the print. It's a ring, round over the top and shaped
 to the reed underneath, with a longer side (the tongue) on top, toward the shank. The **reed** is
 the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of gap to the body.

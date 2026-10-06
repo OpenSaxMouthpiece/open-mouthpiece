@@ -18,6 +18,7 @@ export interface DesignItem {
   when?: [string, string | string[]]; // only shown while that parameter has this value (or one of these)
   caption?: string; // instead of the file's description (when the control differs from the file's unit/options)
   optionLabels?: Record<string, string>; // dropdown values in words
+  side?: "left" | "right"; // drawn by the label: that side on a small top view (tip away)
 }
 
 export interface DesignSection {
@@ -71,6 +72,7 @@ const PARTS: Record<string, string> = {
   ligature: "Ligature",
   cap: "Cap",
 };
+const SIDE_TEXT = "Several lines OK; {tip} etc. are variables (as on top).";
 const num = (v: unknown, unit: string) => (typeof v === "number" ? `${+v.toFixed(2)} ${unit}` : null);
 const join = (parts: unknown[]) => parts.filter((p) => typeof p === "string" && p).join(" · ");
 
@@ -133,8 +135,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "top_image_angle", label: "Picture rotation", showIf: ["top_image"] },
       { name: "top_image_position", label: "Picture position", showIf: ["top_image"] },
       { name: "top_image_wrap", label: "Wrap picture around to the table", showIf: ["top_image"] },
-      { name: "side_text_right", label: "Text, right side" },
-      { name: "side_text_left", label: "Text, left side" },
+      { name: "side_text_right", label: "Text, right side", side: "right", caption: SIDE_TEXT },
+      { name: "side_text_left", label: "Text, left side", side: "left", caption: SIDE_TEXT },
       { name: "side_text_size", label: "Side text size", showIf: ["side_text_right", "side_text_left"] },
       { name: "side_text_position", label: "Side text position", showIf: ["side_text_right", "side_text_left"] },
       {
@@ -286,6 +288,20 @@ export const paramLabel = (name: string) => {
   return DESIGN_ITEMS.get(name)?.label ?? words.charAt(0).toUpperCase() + words.slice(1);
 };
 export const paramUnit = (name: string) => DESIGN_ITEMS.get(name)?.unit;
+// Dropdown values in words, the same on both screens: the curated rows' labels, then these for the
+// settings only All parameters shows, else the value itself, capitalised ("shank_test_ring" -> "Shank test ring").
+const OPTION_LABELS: Record<string, Record<string, string>> = {
+  facing_model: { power: "Power curve", arc: "Radius", gauge: "Gauge points" },
+  throat_shape: { chamber: "Same as the chamber" },
+};
+export const optionLabel = (name: string, value: string, fileName = value) => {
+  const words = fileName.replace(/_/g, " ");
+  return (
+    DESIGN_ITEMS.get(name)?.optionLabels?.[value] ??
+    OPTION_LABELS[name]?.[value] ??
+    words.charAt(0).toUpperCase() + words.slice(1)
+  );
+};
 // Parameters that do nothing with the current settings, and why (All parameters shows them dimmed).
 // get(name) = the parameter's current value (undefined if the file doesn't declare it).
 type Getter = (name: string) => unknown;

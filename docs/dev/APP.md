@@ -56,8 +56,8 @@ static site (docs/HOSTING.md).
   with a preset also uses it as published); your own design keeps its unsaved changes. Typed names
   are made file-safe (`scadFileName`); own designs show with spaces for `_`.
 - **Save as panel** (`saveDesignAs`; the code column's Save as keeps a plain name box): any of a
-  copy in this browser ("quick, not a backup"), the full .scad (`bundleDesign`), a settings-only
-  .scad (`<name>_settings.scad`: the voice file with the values, `include <../lib/` rewritten to
+  copy in this browser ("quick, not a backup"), the design file = the full .scad (`bundleDesign`), a settings-only
+  .scad under "More formats" (`<name>_settings.scad`: the voice file with the values, `include <../lib/` rewritten to
   `include <lib/`), the part's STL and the ligature's (`partStl`, download quality), downloaded or
   zipped (fflate). The choices persist (`saveAs` pref).
 - **Download .scad** writes one self-contained file that opens in any OpenSCAD (`bundleDesign`,
@@ -187,7 +187,7 @@ static site (docs/HOSTING.md).
 - **Ligature**: "Make a ligature for this mouthpiece" sets `ligature_made` (so saves, downloads and
   links keep it). `lig` in the session is only the view: on / beside / hidden ("made · hidden");
   the reed is its own toggle. After each non-draft render App runs `ligature_seated` and/or
-  `reed_model`, whichever is shown (`loadLigature`); the viewer shows them in A's frame (`lig` red,
+  `reed_model`, whichever is shown (`loadLigature`); the viewer shows them in A's frame (`lig` graphite,
   `reed` pale; "beside" stands the band in front of A). Readout line from `parseLigature`.
 - **Cap**: as the ligature: "Make a cap for this mouthpiece" sets `cap_made`; `capV` (session `cap`) is
   the view: on / beside. After each non-draft render App runs `cap_seated` (`loadCap`); the viewer shows

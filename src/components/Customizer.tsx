@@ -1,12 +1,21 @@
 // Customizer panel built from OpenSCAD's own .param export, so it works for any file that uses
 // Customizer annotations (/* [Group] */ tabs, // [min:step:max] sliders, // [a, b, c] dropdowns).
 // Only values that differ from the file's defaults are sent to OpenSCAD (as -D overrides).
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { api, type ParamValue, type ScadParam } from "../api";
 import { setSectionsOpen, usePref } from "../uiPrefs";
 import { Fold } from "./Fold";
 import { isLetteringText, TextField } from "./TextField";
-import { mmToThou, paramCaption, paramInactive, paramLabel, paramUnit, thouToMm, type DesignUnit } from "../design";
+import {
+  mmToThou,
+  optionLabel,
+  paramCaption,
+  paramInactive,
+  paramLabel,
+  paramUnit,
+  thouToMm,
+  type DesignUnit,
+} from "../design";
 
 interface Props {
   title: string; // the file whose parameters these are
@@ -174,7 +183,7 @@ export interface RowProps {
   onChange(v: ParamValue): void;
   onFocus(): void;
   setParam(name: string, v: ParamValue): void;
-  label?: string; // shown instead of paramLabel(name)
+  label?: ReactNode; // shown instead of paramLabel(name)
   showName?: boolean; // also show the parameter's name in the file
   unit?: DesignUnit;
   options?: string[]; // offer only these of a dropdown's values
@@ -278,7 +287,7 @@ function ParamInput({
         {idx < 0 && <option value={-1}>{String(value)}</option>}
         {shown.map(({ o, i }) => (
           <option key={i} value={i}>
-            {optionLabels?.[String(o.value)] ?? o.name.replace(/_/g, " ")}
+            {optionLabels?.[String(o.value)] ?? optionLabel(p.name, String(o.value), o.name)}
           </option>
         ))}
       </select>
