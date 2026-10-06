@@ -23,7 +23,8 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   `floor_adjust`, `chamber_width_adjust`: `[[fraction of L, mm]]`, 0 at both ends unless given)
   add to the outline after every slider (`adjusted()`, resampled) or to the inside's own lines,
   always before the clamps, so every guarantee still holds (the baffle's printable-slope hold
-  applies to them). An empty
+  applies to them). A top or underside edit also stretches the section between them (`widest_followed()`:
+  the widest point moves in proportion), so the flanks follow the crest instead of being squashed. An empty
   table stops with an assertion (`SHAPE_TABLES_OK`); there is no fallback. Knobs:
   `body_width`, `body_height` in mm (the body's widest / tallest table point; the scale that gives
   it, `size_k`, fades in across the flare so the tenon keeps its size; the fade is the flare's own

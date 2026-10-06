@@ -650,7 +650,18 @@ USER_TOP = has_pts(ext_top_points);
 EXT_WIDTH_C  = pchip_prep(has_pts(ext_width_points) ? ext_width_points : adjusted(def_width, width_adjust, 8));
 EXT_TOP_C    = pchip_prep(USER_TOP ? ext_top_points : adjusted(def_top_c, top_adjust, 1));
 EXT_BOTTOM_C = pchip_prep(has_pts(ext_bottom_points) ? ext_bottom_points : USER_TOP ? [] : adjusted(def_bottom, underside_adjust, 0));
-EXT_WIDEST_C = pchip_prep(has_pts(ext_widest_points) ? ext_widest_points : USER_TOP ? [] : def_widest);
+// A top edit (top_adjust) or underside edit stretches the whole cross-section between them, so the
+// widest point (the sides' fullest line) moves in proportion and the flanks follow the crest: moving
+// the crest alone squashed the section's top into a flat channel with ridges left on the sides.
+function widest_followed(t) = !has_pts(top_adjust) && !has_pts(underside_adjust) ? t :
+  let(T0 = pchip_prep(def_top_c), T1 = EXT_TOP_C, B0 = pchip_prep(def_bottom), B1 = EXT_BOTTOM_C,
+      bz = function(C, z) has_pts(C) && z <= C[len(C) - 1][0] ? max(0, pchip_at(z, C)) : 0,
+      C = pchip_prep(t), z0 = t[0][0], z1 = t[len(t) - 1][0],
+      zs = thin_nums(sort_nums(concat([for (p = t) p[0]], [for (p = concat(T1, B1)) if (p[0] > z0 && p[0] < z1) p[0]])), 0.05))
+  [for (z = zs) let(t0 = pchip_at(z, T0), t1 = pchip_at(z, T1), b0 = bz(B0, z), b1 = bz(B1, z), h = pchip_at(z, C),
+                    u = clamp01((h - b0) / max(0.5, t0 - b0)))
+     [z, min(t1 - 0.5, lerp(b1, t1, u))]];
+EXT_WIDEST_C = pchip_prep(has_pts(ext_widest_points) ? ext_widest_points : USER_TOP ? [] : widest_followed(def_widest));
 max_body_w = max([for (c = EXT_WIDTH_C) c[1]]);
 TOP_SQ_TABLE_C = pchip_prep(shoulder_smoothed(beak_remapped(shape_top_squareness), SHOULDER_SMOOTH));     // indexed by fraction of L
 BOTTOM_SQ_TABLE_C = pchip_prep(shape_bottom_squareness);
