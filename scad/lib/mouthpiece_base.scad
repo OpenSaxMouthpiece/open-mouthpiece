@@ -967,7 +967,9 @@ function interior_ring_pts_at(z) =
   let(I2 = [hw1 * s1, top, bot, ne[0], ne[1], narrow, narrow_top])
   let(f2 = s1 == 1 ? f1 : interior_fit(z, E, I2, in_win, lo), s2 = f2[0])
   let(hw = hw1 * s1 * s2)
-  let(I = [max(0.05, hw), top, bot, ne[0], ne[1], min(narrow, max(0.05, hw)), narrow_top])
+  // I[5] stays 1e3 before the window (it marks "no window here" for interior_points; clamped to
+  // the width, the leaning sidewalls reached back into the throat and bore)
+  let(I = [max(0.05, hw), top, bot, ne[0], ne[1], in_win ? min(narrow, max(0.05, hw)) : 1e3, narrow_top])
   [I, I == I2 ? f2[1] : interior_points(INT_DIRS, z, I)];
 
 // Width scale (<= 1) that makes every ring point keep its wall at its own height: min_wall before
