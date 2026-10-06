@@ -123,6 +123,7 @@ const PICS = {
   beak_squareness: { view: 'xsec', z: 0.8 * L_ALTO, values: [1.2, 4] },
   beak_curve: { view: 'side', values: [-0.8, 0.8] },
   beak_length: { view: 'side', values: [-8, 8] },
+  shoulder_smoothness: { view: 'side', values: [0, 1] },
   shoulder_sweep: { view: 'xsec', z: 0.68 * L_ALTO, values: [0, 12] },
   underside_squareness: { view: 'xsec', z: 0.88 * L_ALTO, values: [1.2, 4] },
   print_stock: { view: 'facing', values: [0, 0.3] },

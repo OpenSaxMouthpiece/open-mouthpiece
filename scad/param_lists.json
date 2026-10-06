@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "fceaa6b5-16876",
+  "hash": "c9595efe-16992",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -526,6 +526,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -1391,7 +1401,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "eea7be-17113",
+  "hash": "bba12087-17229",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1917,6 +1927,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -4172,7 +4192,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "bca21da1-17078",
+  "hash": "1b65bce0-17194",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4698,6 +4718,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -5563,7 +5593,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "27123c70-17255",
+  "hash": "26ceff43-17371",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6089,6 +6119,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -6954,7 +6994,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "d6a7912b-16822",
+  "hash": "37f131e4-16938",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7480,6 +7520,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -8345,7 +8395,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "8d69dca0-16874",
+  "hash": "696aed89-16990",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8871,6 +8921,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -9736,7 +9796,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "5a154f05-16838",
+  "hash": "8b86cb28-16954",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10262,6 +10322,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -11127,7 +11197,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "b4fdfa76-17047",
+  "hash": "2952313d-17163",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11653,6 +11723,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -12518,7 +12598,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "6eb6474e-17113",
+  "hash": "f892fb75-17229",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13044,6 +13124,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -13909,7 +13999,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "6d92b628-17065",
+  "hash": "add532a5-17181",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14435,6 +14525,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -15300,7 +15400,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "12c90a34-17083",
+  "hash": "edf96a03-17199",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15826,6 +15926,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -16691,7 +16801,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "41c06261-17133",
+  "hash": "fb4f7482-17249",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17217,6 +17327,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -18082,7 +18202,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "330142aa-17098",
+  "hash": "2cde2c2d-17214",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18608,6 +18728,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -19473,7 +19603,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "b80db104-17205",
+  "hash": "ebcc9713-17321",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19999,6 +20129,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -20864,7 +21004,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "34378940-17248",
+  "hash": "8563ed53-17364",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21390,6 +21530,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -22255,7 +22405,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "2e984b9e-17217",
+  "hash": "1c1300ef-17333",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22781,6 +22931,16 @@
     "min": -15,
     "name": "beak_length",
     "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
     "type": "number"
    },
    {

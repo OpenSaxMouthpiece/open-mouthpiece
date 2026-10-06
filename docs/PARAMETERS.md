@@ -41,7 +41,7 @@ Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
 
 *0 → 0.5*
 
-### Shank entry bevel width (`shank_bevel`)
+### Entry bevel width (`shank_bevel`)
 
 How much wider the socket's mouth is, per side (mm), to ease it onto the cork.
 
@@ -53,7 +53,7 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 *0.3 → 1.8*
 
-### Bevel depth (`shank_bevel_depth`)
+### Entry bevel depth (`shank_bevel_depth`)
 
 How far in the socket's bevel goes (mm); equal to its width = 45°.
 
@@ -89,7 +89,7 @@ Presets: Alto `16.0` · Tenor `17.0` · Bari `16.9` · Soprano `13.6`.
 
 *12 → 20*
 
-### Bore tilt (`bore_tilt`)
+### Bore angle to the table (`bore_tilt`)
 
 Angle between the bore and the reed table (degrees); typically about 4.
 
@@ -101,7 +101,7 @@ Presets: Alto `4.4` · Tenor `4.1` · Bari `4.8` · Soprano `4.1`.
 
 *1.7 → 7.2*
 
-### Shank diameter (`shank_diameter`)
+### Shank outside diameter (`shank_diameter`)
 
 Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.
 
@@ -155,7 +155,7 @@ Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
 
 *0.15 → 0.8*
 
-### Chamber full length (`chamber_full_length`)
+### Chamber full-width length (`chamber_full_length`)
 
 How far the full width runs toward the tip (mm); 40 = as far as it can.
 
@@ -359,7 +359,7 @@ Presets: Alto `3.3` · Tenor `4.3` · Bari `4.3` · Soprano `2.7`.
 
 *0.3 → 6.3*
 
-### Window rear radius (`window_rear_radius`)
+### Window corner rounding (`window_rear_radius`)
 
 Rounding of the window's back corners (mm).
 
@@ -371,7 +371,7 @@ Presets: Alto `5.5` · Tenor `5.3` · Bari `6.3` · Soprano `4.8`.
 
 *1 → 8*
 
-### Sidewall angle (`sidewall_angle`)
+### Side wall angle (`sidewall_angle`)
 
 Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
 
@@ -407,7 +407,7 @@ Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
 
 *1 → 3*
 
-### Tip curve (`tip_curve`)
+### Tip curve length (`tip_curve`)
 
 How far back the tip's curve reaches (mm), outside and window. Match your reed.
 
@@ -421,7 +421,7 @@ Presets: Alto `3.5` · Tenor `3.8` · Bari `4.3` · Soprano `3.5`.
 
 ## Table
 
-### Table width tip (`table_width_tip`)
+### Table width at the tip (`table_width_tip`)
 
 Width of the reed seat at the tip (mm). Match your reed.
 
@@ -433,7 +433,7 @@ Presets: Alto `16.8` · Tenor `17.6` · Bari `19.5` · Soprano `14.9`.
 
 *11.3 → 22.3*
 
-### Table width rear (`table_width_rear`)
+### Table width at the back (`table_width_rear`)
 
 Width of the reed seat at the back (mm). Match your reed's heel.
 
@@ -457,7 +457,7 @@ Presets: Alto `71.8` · Tenor `77.7` · Bari `101.5` · Soprano `55.44`.
 
 *66 → 76*
 
-### Table concavity (`table_concavity`)
+### Table hollow (`table_concavity`)
 
 A slight hollow along the reed seat (mm) so the reed seals at both ends.
 
@@ -491,7 +491,7 @@ Presets: Alto `23.8` · Tenor `25.2` · Bari `28.0` · Soprano `20.0`.
 
 *20 → 28 (heights stretched 6x)*
 
-### Facing model (`facing_model`)
+### Facing curve (`facing_model`)
 
 Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).
 
@@ -503,7 +503,7 @@ Presets: Alto `power` · Tenor `power` · Bari `power` · Soprano `power`.
 
 *`power` (the alto's) → `arc` (heights stretched 6x)*
 
-### Facing exponent (`facing_exponent`)
+### Curve exponent (`facing_exponent`)
 
 Power curve shape: 2 is an even curve; lower opens sooner, higher later.
 
@@ -613,6 +613,18 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-8 → 8*
 
+### Shoulder smoothness (`shoulder_smoothness`)
+
+0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
+
+Range: 0 to 1, step 0.05.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+![shoulder_smoothness: 0 → 1](images/params/shoulder_smoothness.png)
+
+*0 → 1*
+
 ### Shoulder sweep (`shoulder_sweep`)
 
 How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
@@ -689,7 +701,7 @@ Range: 4 to 90, step 0.5.
 
 Presets: Alto `14` · Tenor `14` · Bari `14` · Soprano `14`.
 
-### Top image aspect (`top_image_aspect`)
+### Picture height / width (`top_image_aspect`)
 
 Picture height / width, for spacing (the app fills it in).
 
@@ -753,7 +765,7 @@ Range: -50 to 50, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
-### Side text vertical (`side_text_vertical`)
+### Side text up / down (`side_text_vertical`)
 
 Moves the side text up (+) or down (-) (mm).
 
@@ -785,7 +797,7 @@ Range: `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, 
 
 Presets: Alto `Sans Bold` · Tenor `Sans Bold` · Bari `Sans Bold` · Soprano `Sans Bold`.
 
-### Lettering tip clearance (`lettering_tip_clearance`)
+### Lettering distance from the tip (`lettering_tip_clearance`)
 
 Keeps lettering this far back from the tip (mm).
 
@@ -909,9 +921,47 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+### Top adjust (`top_adjust`)
+
+Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there.
+
+Range: text.
+
+Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+### Underside adjust (`underside_adjust`)
+
+Range: text.
+
+Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+### Width adjust (`width_adjust`)
+
+Range: text.
+
+Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+### Baffle adjust (`baffle_adjust`)
+
+Range: text.
+
+Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+### Floor adjust (`floor_adjust`)
+
+Range: text.
+
+Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+### Chamber width adjust (`chamber_width_adjust`)
+
+Range: text.
+
+Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
 ## Manufacturing
 
-### Min wall (`min_wall`)
+### Thinnest wall (`min_wall`)
 
 Thinnest wall allowed (mm). The inside shrinks to keep it.
 
@@ -1049,7 +1099,7 @@ Range: 3 to 30, step 0.5.
 
 Presets: Alto `8` · Tenor `8` · Bari `8` · Soprano `8`.
 
-### Ligature image aspect (`ligature_image_aspect`)
+### Picture height / width (`ligature_image_aspect`)
 
 Picture height / width, for spacing (the app fills it in).
 
@@ -1219,7 +1269,7 @@ Range: 3 to 40, step 0.5.
 
 Presets: Alto `10` · Tenor `10` · Bari `10` · Soprano `10`.
 
-### Cap image aspect (`cap_image_aspect`)
+### Picture height / width (`cap_image_aspect`)
 
 Picture height / width, for spacing (the app fills it in).
 
@@ -1295,7 +1345,7 @@ Range: `mouthpiece`, `shank_test_ring`, `ligature`, `cap`, `ligature_seated`, `c
 
 Presets: Alto `mouthpiece` · Tenor `mouthpiece` · Bari `mouthpiece` · Soprano `mouthpiece`.
 
-### Render fn (`render_fn`)
+### Smoothness (`render_fn`)
 
 Smoothness: higher is smoother but slower. 64 is fine for printing.
 
@@ -1303,7 +1353,7 @@ Range: 16 to 128, step 8.
 
 Presets: Alto `64` · Tenor `64` · Bari `64` · Soprano `64`.
 
-### Print orientation (`print_orientation`)
+### Stand it on the neck end (`print_orientation`)
 
 Stand it on its neck end, as printed. Off: lie it on the reed table.
 

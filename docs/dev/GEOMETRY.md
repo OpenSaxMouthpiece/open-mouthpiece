@@ -43,6 +43,12 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   shoulder and tip stay put; the roof cap (guarantee 4) keeps the wall. With it and
   `beak_tip_height`, the widest point scales by the same ratio as the crest (`beak_sides_k`, vs
   `def_top0`), so the flanks follow the top (moving the crest alone left a groove / crease).
+- **`shoulder_smoothness`** (0..1): the shoulder is the top table's steep drop plus the
+  top-squareness table's boxier band behind it; both are replaced around the shoulder by a cubic
+  matching value and slope at the ends of a window growing with the setting (10% of L behind, 22%
+  in front at 1; `shoulder_smoothed()`), so 1 is a long even drop with nothing left on the flanks.
+  A shape edit pushing the shoulder's corner down (`top_adjust`) raises it by the share of the drop
+  taken away (`SHOULDER_SMOOTH`): a smooth pull over a sharp step left a double edge (a groove).
 - **`shoulder_sweep`** (mm, 0..20): the shoulder line runs down the flanks toward the tip. Behind a
   line slanting from the crest at the shoulder (`SWEEP_Z0`) to the widest point `shoulder_sweep` mm
   further on, the upper half is the same ring with a higher top exponent (+1.6 once past the

@@ -155,6 +155,8 @@ beak_squareness = 1.6; // [1.2:0.1:8]
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
+// 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
+shoulder_smoothness = 0; // [0:0.05:1]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
 shoulder_sweep = 0; // [0:0.5:20]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
@@ -592,7 +594,29 @@ function beak_remap(f) = beak_length == 0 || f <= BEAK_ANCHOR_F ? f
   : f <= SHOULDER_F ? lerp(BEAK_ANCHOR_F, SHOULDER_F2, (f - BEAK_ANCHOR_F) / (SHOULDER_F - BEAK_ANCHOR_F))
   : lerp(SHOULDER_F2, 1, (f - SHOULDER_F) / (1 - SHOULDER_F));
 function beak_remapped(t) = beak_length == 0 ? t : [for (p = t) [beak_remap(p[0]), p[1]]];
-shape_top_b = beak_remapped(shape_top);
+// shoulder_smoothness: around the shoulder the top table (and the top-squareness table, whose boxier
+// band behind the shoulder is the rest of the ledge) is replaced by a cubic matching the table's
+// value and slope at both ends of a window that grows with the setting (from 10% of L behind the
+// shoulder to 22% in front at 1), so the step becomes a long, even drop with nothing left on the
+// sides. Kept between its end values (no overshoot); 0 leaves the tables exactly as they are.
+// A shape edit pushing the shoulder's corner down (top_adjust) smooths it by as much (the share of
+// the drop it takes away), so the shoulder gets lower and softer: a smooth pull on a sharp step
+// would leave a double edge.
+function shoulder_win(sm) = [SHOULDER_F2 - 0.10 * sm, min(0.9, SHOULDER_F2 + 0.22 * sm)];
+function shoulder_smoothed(t, sm = shoulder_smoothness) = sm <= 0 ? t :
+  let(C = pchip_prep(t), w = shoulder_win(sm), fa = w[0], fb = w[1], h = fb - fa, e = 0.002)
+  let(va = pchip_at(fa, C), vb = pchip_at(fb, C),
+      ma = (pchip_at(fa, C) - pchip_at(fa - e, C)) / e, mb = (pchip_at(fb + e, C) - pchip_at(fb, C)) / e)
+  concat([for (p = t) if (p[0] < fa - 1e-4) p],
+         [for (k = [0 : 12]) let(u = k / 12, u2 = u * u, u3 = u2 * u)
+           [fa + h * u, max(min(va, vb), min(max(va, vb),
+             (2 * u3 - 3 * u2 + 1) * va + (u3 - 2 * u2 + u) * h * ma + (-2 * u3 + 3 * u2) * vb + (u3 - u2) * h * mb))]],
+         [for (p = t) if (p[0] > fb + 1e-4) p]);
+SHOULDER_DROP = let(C = pchip_prep(beak_remapped(shape_top)))
+  max(0.5, pchip_at(SHOULDER_F2, C) - pchip_at(min(0.95, SHOULDER_F2 + 0.12), C));
+SHOULDER_SMOOTH = has_pts(ext_top_points) ? shoulder_smoothness
+  : max(shoulder_smoothness, clamp01(-adjust_at(SHOULDER_F2 * L, adjust_prep(top_adjust)) / SHOULDER_DROP));
+shape_top_b = shoulder_smoothed(beak_remapped(shape_top), SHOULDER_SMOOTH);
 // shank_y(f, h (1 - s + s k)) is a + b k too
 BODY_AB_H = [for (p = shape_top_b) let(s = fade_h(p[0]), c = shank_k(s), m = shank_mid0 - p[0] * L * tan(bore_tilt))
     SHANK_S == 1 ? [p[1] * (1 - s), p[1] * s] : [m * (1 - c) + p[1] * (1 - s) * c, p[1] * s * c]];
@@ -628,7 +652,7 @@ EXT_TOP_C    = pchip_prep(USER_TOP ? ext_top_points : adjusted(def_top_c, top_ad
 EXT_BOTTOM_C = pchip_prep(has_pts(ext_bottom_points) ? ext_bottom_points : USER_TOP ? [] : adjusted(def_bottom, underside_adjust, 0));
 EXT_WIDEST_C = pchip_prep(has_pts(ext_widest_points) ? ext_widest_points : USER_TOP ? [] : def_widest);
 max_body_w = max([for (c = EXT_WIDTH_C) c[1]]);
-TOP_SQ_TABLE_C = pchip_prep(beak_remapped(shape_top_squareness));     // indexed by fraction of L
+TOP_SQ_TABLE_C = pchip_prep(shoulder_smoothed(beak_remapped(shape_top_squareness), SHOULDER_SMOOTH));     // indexed by fraction of L
 BOTTOM_SQ_TABLE_C = pchip_prep(shape_bottom_squareness);
 
 // Exterior width where the tip rounding starts.
@@ -1628,7 +1652,7 @@ function param_focus() =
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
    ["body_width", whole, "top", false], ["body_height", whole, "side", false], ["beak_tip_height", beak, "side", false],
-   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
+   ["body_squareness", body, "iso", false], ["beak_squareness", beak, "top", false], ["beak_curve", shoulder, "side", false], ["beak_length", shoulder, "side", false], ["shoulder_sweep", shoulder, "iso", false], ["shoulder_smoothness", shoulder, "iso", false], ["ligature_made", ligature, "iso", false], ["underside_squareness", table, "table", false],
    ["bore_axis_height", bore, "side", true], ["min_wall", whole, "side", true],
    ["table_concavity", table, "table", false],
    ["top_text", lettering_top, "top", false], ["top_text_size", lettering_top, "top", false],

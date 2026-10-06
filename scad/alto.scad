@@ -111,6 +111,8 @@ beak_squareness = 1.6; // [1.2:0.1:8]
 beak_curve = 0; // [-1:0.05:1]
 // Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
 beak_length = 0; // [-15:0.5:15]
+// 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
+shoulder_smoothness = 0; // [0:0.05:1]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
 shoulder_sweep = 0; // [0:0.5:20]
 // Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
