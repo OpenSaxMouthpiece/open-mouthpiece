@@ -71,26 +71,43 @@ export function offsetAt(adj: Pt[] | undefined, f: number): number {
   return pchip(f, a);
 }
 
-// Where a line's handles are (fractions of the length): its own points once edited, else evenly
-// along the line; the top's sit on the shoulder (its corner and where the drop ends), with the
-// barrel and the beak shared out evenly around them.
+// Where a line's handles are (fractions of the length): its own points once edited, else on the
+// outline's corners (where the shank flares into the body, the shoulder) with the stretches between
+// shared out evenly; the inside's lines evenly along themselves.
 export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined): number[] {
   if (adj?.length) return adj.map((p) => p[0]);
   const line = shape.lines[n] ?? [],
-    L = shape.L,
-    count = LINES[n].points;
+    L = shape.L;
   if (line.length < 2 || L <= 0) return [];
-  const mark = (name: string) => shape.landmarks.find(([m]) => m === name)?.[1];
-  const sh = mark("shoulder"),
-    ke = mark("shoulder_end");
-  if (n === "top" && sh !== undefined && ke !== undefined && 0 < sh && sh < ke && ke < L) {
-    const a = sh / L,
-      b = ke / L;
-    return [0, a / 2, a, b, b + (1 - b) / 3, b + (2 * (1 - b)) / 3, 1];
-  }
   const f0 = line[0][0] / L,
     f1 = line[line.length - 1][0] / L;
-  return Array.from({ length: count }, (_, i) => f0 + ((f1 - f0) * i) / (count - 1));
+  const mark = (name: string) => {
+    const z = shape.landmarks.find(([m]) => m === name)?.[1];
+    return z !== undefined && z > 0 && z < L ? z / L : undefined;
+  };
+  const between = (a: number, b: number, k: number) =>
+    Array.from({ length: k }, (_, i) => a + ((b - a) * (i + 1)) / (k + 1));
+  const [w0, w1, h0, h1, sh, ke] = ["flare_w0", "flare_w1", "flare_h0", "flare_h1", "shoulder", "shoulder_end"].map(
+    mark,
+  );
+  let fs: (number | undefined)[];
+  if (n === "top" && h1 !== undefined && sh !== undefined && ke !== undefined && h1 < sh && sh < ke)
+    fs = [0, h0, h1, ...between(h1, sh, 1), sh, ke, ...between(ke, 1, 2), 1];
+  else if (n === "width" && w1 !== undefined) fs = [0, w0, w1, ...between(w1, 1, 3), 1];
+  else if (n === "underside" && (w0 ?? h0) !== undefined && (w0 ?? h0)! < f1)
+    fs = [f0, w0 ?? h0, ...between((w0 ?? h0)!, f1, 1), f1];
+  else {
+    const count = LINES[n].points;
+    return Array.from({ length: count }, (_, i) => f0 + ((f1 - f0) * i) / (count - 1));
+  }
+  // in order, inside the line, without near-repeats (a flare starting at the shank end, say)
+  const out: number[] = [];
+  for (const f of fs
+    .filter((x): x is number => x !== undefined && x >= f0 - 1e-6 && x <= f1 + 1e-6)
+    .sort((a, b) => a - b))
+    if (!out.length || f - out[out.length - 1] > 0.02) out.push(f);
+    else if (f === fs[fs.length - 1]) out[out.length - 1] = f; // the line's end wins (it may be pinned)
+  return out;
 }
 
 // The offsets after moving handle i by d mm (the other handles keep theirs).

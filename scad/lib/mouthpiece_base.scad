@@ -1613,6 +1613,9 @@ function shape_edit_lines() =
    // "underside" it closes the outside silhouette
    ["rails", [for (z = [table_rear_z : max(0.5, (L - table_rear_z) / 40) : L]) [z, facing_at_z(z)]]],
    ["landmarks", [["socket", eff_shank_depth], ["shoulder", SWEEP_Z0], ["shoulder_end", SWEEP_ZK],
+                  // where the shank flares into the body: the width's and the top's own flare
+                  ["flare_w0", (len(FLARE_W) ? FLARE_W[0] : 0.09) * L], ["flare_w1", (len(FLARE_W) ? FLARE_W[2] : 0.21) * L],
+                  ["flare_h0", (len(FLARE_H) ? FLARE_H[0] : 0.09) * L], ["flare_h1", (len(FLARE_H) ? FLARE_H[2] : 0.21) * L],
                   ["throat", eff_throat_z], ["window", win_z0],
                   ["table", table_rear_z], ["break", break_z], ["tip", L]]],
    ["L", L],
