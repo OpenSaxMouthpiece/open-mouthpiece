@@ -1293,6 +1293,17 @@ button.toggle.on {
   color: var(--text);
   pointer-events: none;
 }
+.whole-model {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  padding: 5px 12px;
+  border-radius: 16px;
+  background: var(--overlay);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+}
 .render-progress.first {
   bottom: auto;
   top: 50%;

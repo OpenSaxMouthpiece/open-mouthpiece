@@ -272,6 +272,7 @@ export function Viewer({
   const [bounds, setBounds] = useState<{ x: [number, number]; z: [number, number] }>({ x: [-20, 20], z: [0, 100] });
   const plane = useRef(new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0));
   const autoCut = useRef(false); // the section was turned on by a focus (so a later one may turn it off)
+  const [zoomedIn, setZoomedIn] = useState(false); // flown to a part by a focus: "Whole model" goes back
   const flight = useRef<number | null>(null);
   const [elapsed, setElapsed] = useState(0);
 
@@ -401,6 +402,7 @@ export function Viewer({
   const frame = (view: ViewName, keepDir = false) => {
     const ctx = ctxRef.current;
     if (!ctx) return;
+    setZoomedIn(false);
     // side by side: B goes to the screen's right, so from the side it stands beside A, not behind it
     sideAxis.current = view === "left" || view === "right" ? "y" : "x";
     placeB(ctx);
@@ -463,6 +465,7 @@ export function Viewer({
     }
     const box = new THREE.Box3(new THREE.Vector3(...focus.box[0]), new THREE.Vector3(...focus.box[1]));
     flyTo(box, new THREE.Vector3(...focus.dir));
+    setZoomedIn(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [focus?.nonce]);
 
@@ -855,6 +858,14 @@ export function Viewer({
       setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     }, "image/png");
   };
+  // Back out of an auto-zoom: the cut it made goes, the whole model in view from the same side.
+  const wholeModel = () => {
+    if (autoCut.current) {
+      autoCut.current = false;
+      setSection("off");
+    }
+    frame("iso", true);
+  };
   const chooseSection = (s: Section) => {
     autoCut.current = false;
     setSection(s);
@@ -1071,6 +1082,15 @@ export function Viewer({
         </div>
       )}
       {overlay}
+      {(zoomedIn || (autoCut.current && section !== "off")) && !svg && (
+        <button
+          className="whole-model"
+          onClick={wholeModel}
+          title="Zoom out to the whole model (and close the cut auto-zoom made)"
+        >
+          Whole model
+        </button>
+      )}
       {!svg && compact && (
         <div className="viewer-tools-toggle">
           {!toolsOpen && section !== "off" && (
