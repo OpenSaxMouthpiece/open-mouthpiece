@@ -185,6 +185,14 @@ floor_points = [[29, 2.3], [31, 2.2], [33, 2.9], [35, 2.7], [37, 2.0]];
 baffle_points_custom = [];
 // Advanced: your own facing (Gauge), [[mm from the tip, gap], ...].
 facing_gauge_points = [];
+// Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders
+// keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there.
+top_adjust = [];
+underside_adjust = [];
+width_adjust = [];
+baffle_adjust = [];
+floor_adjust = [];
+chamber_width_adjust = [];
 
 /* [Manufacturing] */
 // Thinnest wall allowed (mm). The inside shrinks to keep it.

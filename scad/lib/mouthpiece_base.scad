@@ -229,6 +229,14 @@ floor_points = [];
 baffle_points_custom = [];
 // Advanced: your own facing (Gauge), [[mm from the tip, gap], ...].
 facing_gauge_points = [];
+// Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders
+// keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there.
+top_adjust = [];
+underside_adjust = [];
+width_adjust = [];
+baffle_adjust = [];
+floor_adjust = [];
+chamber_width_adjust = [];
 
 /* [Manufacturing] */
 // Thinnest wall allowed (mm). The inside shrinks to keep it.
@@ -399,6 +407,10 @@ function smootherstep(t) = t * t * t * (t * (6 * t - 15) + 10);  // C2: zero slo
 // Polynomial smooth-min: equals min(a, b) away from the crossover, rounds the corner within k.
 function smin(a, b, k) = let(h = max(k - abs(a - b), 0) / k) min(a, b) - h * h * k / 4;
 function has_pts(pts) = is_list(pts) && len(pts) > 0;
+// Numbers in order (a small list: quicksort), and without near-repeats (closer than eps).
+function sort_nums(v) = len(v) <= 1 ? v : let(p = v[floor(len(v) / 2)])
+  concat(sort_nums([for (x = v) if (x < p) x]), [for (x = v) if (x == p) x], sort_nums([for (x = v) if (x > p) x]));
+function thin_nums(s, eps) = [for (i = [0 : len(s) - 1]) if (i == 0 || s[i] - s[i - 1] > eps) s[i]];
 
 // Monotone piecewise-cubic (PCHIP, Fritsch-Carlson) interpolation through [[x, y], ...] sorted by
 // x — smooth (C1) like a spline, but never overshoots, so a flat run stays flat and a step stays a
@@ -600,10 +612,20 @@ def_widest = [for (p = beak_remapped(shape_widest)) [p[0] * L, shank_y(p[0], p[1
 
 // Effective outline curves. With a custom top but no underside/widest points, those follow the
 // top (mirrored about the bore axis / halfway) rather than the built-in table.
+// The shape edits (*_adjust): a curve of mm by z (0 at both ends unless given there), added to the
+// built-in outline (resampled where either has a point) or to the inside's own lines.
+function adjust_prep(adj) = !has_pts(adj) ? [] :
+  let(a = concat(adj[0][0] > 0 ? [[0, 0]] : [], adj, adj[len(adj) - 1][0] < 1 ? [[1, 0]] : []))
+  pchip_prep([for (p = a) [p[0] * L, p[1]]]);
+function adjust_at(z, A) = has_pts(A) ? pchip_at(z, A) : 0;
+function adjusted(t, adj, lo = -1e9) = !has_pts(adj) || !has_pts(t) ? t :
+  let(A = adjust_prep(adj), C = pchip_prep(t), z0 = t[0][0], z1 = t[len(t) - 1][0],
+      zs = thin_nums(sort_nums(concat([for (p = t) p[0]], [for (p = A) if (p[0] > z0 && p[0] < z1) p[0]])), 0.05))
+  [for (z = zs) [z, max(lo, pchip_at(z, C) + pchip_at(z, A))]];
 USER_TOP = has_pts(ext_top_points);
-EXT_WIDTH_C  = pchip_prep(has_pts(ext_width_points) ? ext_width_points : def_width);
-EXT_TOP_C    = pchip_prep(USER_TOP ? ext_top_points : def_top_c);
-EXT_BOTTOM_C = pchip_prep(has_pts(ext_bottom_points) ? ext_bottom_points : USER_TOP ? [] : def_bottom);
+EXT_WIDTH_C  = pchip_prep(has_pts(ext_width_points) ? ext_width_points : adjusted(def_width, width_adjust, 8));
+EXT_TOP_C    = pchip_prep(USER_TOP ? ext_top_points : adjusted(def_top_c, top_adjust, 1));
+EXT_BOTTOM_C = pchip_prep(has_pts(ext_bottom_points) ? ext_bottom_points : USER_TOP ? [] : adjusted(def_bottom, underside_adjust, 0));
 EXT_WIDEST_C = pchip_prep(has_pts(ext_widest_points) ? ext_widest_points : USER_TOP ? [] : def_widest);
 max_body_w = max([for (c = EXT_WIDTH_C) c[1]]);
 TOP_SQ_TABLE_C = pchip_prep(beak_remapped(shape_top_squareness));     // indexed by fraction of L
@@ -815,8 +837,11 @@ function bell(u, c, w) = let(t = 1 - abs(u - c) / w) t > 0 ? smootherstep(t) : 0
 // A bent baffle (baffle_curve != 0) can come down steeper than the shapes above allow for printing
 // (a sqrt-like start is vertical), so it is held above a 0.85 descent from every point behind it
 // (sampled every 0.5mm over 16mm): the steepest it can get is the same as the step's face.
-function baffle_shape_at(z) = baffle_curve == 0 ? baffle_type_at(z)
-  : max([for (k = [0 : 32]) baffle_type_at(z - 0.5 * k) - 0.85 * 0.5 * k]);
+// Shape edits (baffle_adjust) are held the same way.
+BAFFLE_ADJ_C = adjust_prep(baffle_adjust);
+function baffle_edited_at(z) = baffle_type_at(z) + adjust_at(z, BAFFLE_ADJ_C);
+function baffle_shape_at(z) = baffle_curve == 0 && !has_pts(BAFFLE_ADJ_C) ? baffle_type_at(z)
+  : max([for (k = [0 : 32]) baffle_edited_at(z - 0.5 * k) - 0.85 * 0.5 * k]);
 function baffle_roof(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
   let(raw = baffle_shape_at(z) - baffle_height * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
@@ -849,9 +874,10 @@ function roof_cap_y(z, E) =
   z >= baffle_start_z ? min(cap, baffle_roof(z)) : cap;
 
 // Mid-height half-width. E = exterior_ring_at(z).
+CHAMBER_W_ADJ_C = adjust_prep(chamber_width_adjust);
 function interior_half_w(z, E) =
   let(throat_start = eff_throat_z - eff_throat_length, custom_w = has_pts(INT_WIDTH_C))
-  let(raw =
+  let(raw0 =
     z <= eff_shank_depth ? socket_d / 2 :
     z <= shank_taper_end_z ? lerp(socket_d / 2, bore_diameter / 2, ease((z - eff_shank_depth) / (shank_taper_end_z - eff_shank_depth))) :
     (custom_w && z <= win_z0) ? pchip_at(z, INT_WIDTH_C) / 2 :
@@ -865,6 +891,9 @@ function interior_half_w(z, E) =
     max(window_side_hw(z) + 0.3, chamber_hw(z),
         (custom_w && z <= INT_WIDTH_C[len(INT_WIDTH_C) - 1][0]) ? pchip_at(z, INT_WIDTH_C) / 2 : 0)
   )
+  // the shape edit (chamber_width_adjust), after the socket's cone; never narrower than the window
+  let(raw = !has_pts(CHAMBER_W_ADJ_C) || z <= shank_taper_end_z ? raw0
+    : max(z > win_z0 ? window_side_hw(z) + 0.3 : 1, raw0 + adjust_at(z, CHAMBER_W_ADJ_C) / 2))
   z <= win_z0
     ? min(raw, E[E_HW] - min_wall)
     : min(raw, E[E_HW] - side_rail_width * 0.6, ring_half_width_at_y(E, roof_cap_y(z, E)) - 0.8);
@@ -885,11 +914,13 @@ function chamber_roof_share(z) = 1 - smootherstep(clamp01((z - baffle_start_z) /
 // throat and the window: below 0 it drops toward the window floor early (a deeper chamber), above
 // 0 it stays up longer (a longer ramp).
 function floor_t(t) = floor_shape == 0 ? t : pow(t, pow(2, floor_shape * 1.5));
+FLOOR_ADJ_C = adjust_prep(floor_adjust);
 function interior_bottom_y(z, E, hw) =
   z <= eff_throat_z && !(has_pts(FLOOR_C) && z >= FLOOR_C[0][0]) ? max(bah_at(z) - hw, max(E[E_BOT], 0) + min_wall) :
   let(t = floor_t(ease(clamp01((z - eff_throat_z) / max(0.001, win_z0 + window_rear_radius - eff_throat_z)))))
   let(raw = (has_pts(FLOOR_C) ? (z < win_z0 ? pchip_at(z, FLOOR_C) : window_floor_y(z))
-          : lerp(bah_at(eff_throat_z) - throat_width / 2, window_floor_y(z), t)) - chamber_extra * chamber_weight(z) * (2 - chamber_roof_share(z)))
+          : lerp(bah_at(eff_throat_z) - throat_width / 2, window_floor_y(z), t)) - chamber_extra * chamber_weight(z) * (2 - chamber_roof_share(z))
+          + (z < win_z0 ? adjust_at(z, FLOOR_ADJ_C) : 0))
   let(guard = z < win_z0 ? max(E[E_BOT], 0) + min_wall : window_floor_y(z))
   max(raw, guard);
 
