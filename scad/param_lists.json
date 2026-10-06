@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "cb4968f7-16571",
+  "hash": "ca81e416-16563",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -649,14 +649,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 5,
+    "initial": 3.5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -1391,7 +1391,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "eddb8324-16810",
+  "hash": "524fb387-16800",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2040,14 +2040,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 6.5,
+    "initial": 3.5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -4172,7 +4172,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "16f45bd4-16773",
+  "hash": "f3d8e532-16765",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4821,14 +4821,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 4,
+    "initial": 3.5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",
@@ -5563,7 +5563,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "637e2b0d-16952",
+  "hash": "6b1c5899-16942",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6212,14 +6212,14 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "",
     "name": "side_text_left",
     "type": "string"
    },
    {
     "caption": "Side letter height (mm).",
     "group": "Lettering",
-    "initial": 5.5,
+    "initial": 3.5,
     "max": 10,
     "min": 1.5,
     "name": "side_text_size",

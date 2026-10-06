@@ -735,7 +735,7 @@ Text on the left side.
 
 Range: text.
 
-Presets: Alto `\u007Btip}` · Tenor `\u007Btip}` · Bari `\u007Btip}` · Soprano `\u007Btip}`.
+Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
 
 ### Side text size (`side_text_size`)
 
@@ -743,7 +743,7 @@ Side letter height (mm).
 
 Range: 1.5 to 10, step 0.5.
 
-Presets: Alto `5` · Tenor `5.5` · Bari `6.5` · Soprano `4`.
+Presets: Alto `3.5` · Tenor `3.5` · Bari `3.5` · Soprano `3.5`.
 
 ### Side text position (`side_text_position`)
 
