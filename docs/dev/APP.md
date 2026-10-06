@@ -96,7 +96,7 @@ static site (docs/HOSTING.md).
   closed by default, summary from `DesignSection.summary`, ● count of changed settings): the
   sections (`DESIGN_SECTIONS`: the main settings, most useful first, then a nested "More" fold
   with the rest of the section, `DesignSection.more`; every generator setting has exactly one place,
-  checked by `npm run check`), Curves, Compare A/B (while a B is pinned). The panel's left
+  checked by `npm run check`), Exact points, Compare A/B (while a B is pinned). The panel's left
   edge drags (`panelW`). UI prefs in `src/uiPrefs.ts` (`open-mouthpiece-ui-v1`).
 - **Code column** (left, closed by default): editor + console. Opening it (`coding`) brings back
   the Render button and Auto, the full status line, parameter names, the point-list group and every
@@ -145,7 +145,13 @@ static site (docs/HOSTING.md).
   beak"): the STL on screen cut at x = 0 (segments chained into loops, even-odd fill), true to
   scale, the tip right and the reed side down. "Before the last change" (dashed) is the previous
   final render with other settings (`sig`), reset per design; B dashed blue when its STL is in frame.
-- **Curves panel** (`CurveEditor.tsx`, `curves.ts`): every single-line top-level `name = [[a, b],
+  **Edit shape** (`src/shapeEdit.ts`): the section's lines (Body & beak: top, underside, width;
+  Chamber & baffle: baffle, floor, inside width) from `shape_edit_lines()`, which rides along with
+  every full render's reports (`SHAPE_ECHO`, no measurable cost), mapped into the print frame; a few
+  dots per line (`LINES`; ends where a line meets another part are pinned) drag up/down and set the
+  generator's `*_adjust` offsets (`setPointList`, so undo, shares and downloads carry them). A top
+  view for the widths shows while editing. The line previews during a drag; the model follows.
+- **Exact points** (was Curves; `CurveEditor.tsx`, `curves.ts`; the `*_adjust` lists are left out): every single-line top-level `name = [[a, b],
   ...];` in the rendered file, named and grouped by part (`CURVE_GROUPS`; others under "Other"). PCHIP drawn exactly as the generator evaluates it; drag knots, click
   to add, Delete, typed values, Undo; edits are values (`setPointList`), so they work on presets,
   downloads and shares. Dashed = the model's curve from `curve_editor_curves()` (shows where a clamp

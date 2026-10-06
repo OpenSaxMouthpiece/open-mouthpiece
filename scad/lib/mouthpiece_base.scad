@@ -1572,6 +1572,24 @@ function curve_editor_curves() =
    ["baffle_points_custom", baffle_base_pts],
    ["facing_gauge_points", sample(0, F, function(d) facing_height(F - d))]];
 
+// The lines the app's "Edit shape" draws and drags, in the design frame (mm, z from the shank end,
+// y above the table), after every slider and shape edit: [name, [[z, value], ...]] (value: height,
+// or the full width for "width" / "chamber_width"), then the landmarks and the print frame. Only
+// evaluated when echoed (echo(SHAPE_EDIT = shape_edit_lines())).
+function shape_edit_lines() =
+  let(sample = function(z0, z1, C) [for (z = [z0 : max(0.5, (z1 - z0) / 60) : z1]) [z, pchip_at(z, C)]])
+  let(rings = function(z0, z1) [for (r = AIR_RINGS) if (r[0] >= z0 && r[0] <= z1) r])
+  [["top", sample(0, L, EXT_TOP_C)],
+   ["underside", has_pts(EXT_BOTTOM_C) ? sample(0, min(L, EXT_BOTTOM_C[len(EXT_BOTTOM_C) - 1][0]), EXT_BOTTOM_C) : []],
+   ["width", sample(0, L, EXT_WIDTH_C)],
+   ["baffle", [for (r = rings(baffle_start_z, L)) [r[0], r[1][1]]]],
+   ["floor", [for (r = rings(eff_throat_z, win_z0)) [r[0], r[1][2]]]],
+   ["chamber_width", [for (r = rings(shank_taper_end_z, L)) [r[0], 2 * r[1][0]]]],
+   ["landmarks", [["socket", eff_shank_depth], ["throat", eff_throat_z], ["window", win_z0],
+                  ["table", table_rear_z], ["break", break_z], ["tip", L]]],
+   ["L", L],
+   ["frame", [print_orientation, bore_tilt, end_face_lift]]];
+
 // Where each parameter acts, for the app's "zoom to parameter": [name, [[x0, y0, z0],
 // [x1, y1, z1]] (design frame), view, cut] — view is the side to look from ("table", "top",
 // "side" (from +x, the left side text's side), "side_right" (from -x), "end", "iso"), cut asks for a lengthwise section (the part is inside). Followed by

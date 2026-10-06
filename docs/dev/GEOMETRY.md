@@ -18,7 +18,12 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   per interior ring, spacing `Z_STEP = 64 / render_fn` (1mm at 64), plus 16 dense rings over the tip.
 - **Outline** = the file's **shape tables** (`shape_width`, `shape_top`, `shape_bottom` behind the
   table, `shape_widest`, `shape_top/bottom_squareness`, each `[[fraction of L, value]]`) joined by
-  **PCHIP** (monotone cubic: C1, no overshoot); an `ext_*_points` override replaces a curve. An empty
+  **PCHIP** (monotone cubic: C1, no overshoot); an `ext_*_points` override replaces a curve. The
+  app's shape edits (`top_adjust`, `underside_adjust`, `width_adjust`, and inside `baffle_adjust`,
+  `floor_adjust`, `chamber_width_adjust`: `[[fraction of L, mm]]`, 0 at both ends unless given)
+  add to the outline after every slider (`adjusted()`, resampled) or to the inside's own lines,
+  always before the clamps, so every guarantee still holds (the baffle's printable-slope hold
+  applies to them). An empty
   table stops with an assertion (`SHAPE_TABLES_OK`); there is no fallback. Knobs:
   `body_width`, `body_height` in mm (the body's widest / tallest table point; the scale that gives
   it, `size_k`, fades in across the flare so the tenon keeps its size; the fade is the flare's own

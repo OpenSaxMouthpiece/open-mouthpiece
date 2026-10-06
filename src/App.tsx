@@ -37,6 +37,7 @@ import {
   type PrintFrame,
 } from "./meshFrame";
 import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
+import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
 import { TextVariables } from "./components/TextField";
 import { checkCard, kitSqueezes, ringFile } from "./printKit";
@@ -1673,8 +1674,9 @@ export default function App() {
         compare={pinned?.facing ? { facing: pinned.facing, label: labelB ?? "" } : undefined}
       />
     ) : null;
-  // The side section (Chamber & baffle, Body & beak): the generator's mouthpiece only.
-  const profileEl =
+  // The side section (Chamber & baffle, Body & beak): the generator's mouthpiece only. Each
+  // section's "Edit shape" drags its own lines (the generator's *_adjust offsets).
+  const profileEl = (section: ShapeSection) =>
     !otherPart && stl && param("shank_clearance") ? (
       <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>
         <ProfileChart
@@ -1685,6 +1687,7 @@ export default function App() {
           compare={
             pinned?.stl && (!pinned.mesh || pinned.mesh.aligned) ? { stl: pinned.stl, label: labelB ?? "" } : null
           }
+          edit={filePoints(LINES.top.param) ? { section, shape: model.shape, values, onSet: setPointList } : undefined}
         />
       </div>
     ) : undefined;
@@ -1770,10 +1773,11 @@ export default function App() {
       onRemove={() => setValue("ligature_made", false, undefined)}
     />
   );
-  // Going deeper, after All parameters: the file's curves, and A/B compare while a B is pinned.
+  // Going deeper, after the settings: the file's point lists, and A/B compare while a B is pinned.
+  // Most shape changes are "Edit shape" on the side section (Body & beak, Chamber & baffle).
   const deeperEl = (
     <>
-      <Fold id="d:curves" title="Curves">
+      <Fold id="d:curves" title="Exact points" summary={designOK ? "advanced: Edit shape is easier" : undefined}>
         <CurveEditor
           title={mainTab.path ?? mainTab.name}
           source={mainTab.source}

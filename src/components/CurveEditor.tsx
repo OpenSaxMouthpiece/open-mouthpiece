@@ -58,7 +58,8 @@ function niceTicks(a: number, b: number, n = 6): number[] {
 const increasing = (pts: Pt[]) => pts.filter((p, i) => i === 0 || p[0] > pts[i - 1][0]);
 
 export function CurveEditor({ title, source, target, values, visible, compact, onSetList, onFocusList }: Props) {
-  const fileLists = useMemo(() => findPointLists(source), [source]);
+  // the shape edits' offsets (*_adjust) are dragged on the side and top views, not here
+  const fileLists = useMemo(() => findPointLists(source).filter((l) => !l.name.endsWith("_adjust")), [source]);
   // each list as the model gets it: the value set here, else the file's points
   const lists = useMemo<PointList[]>(
     () => fileLists.map((l) => (l.name in values ? { ...l, pts: values[l.name] as Pt[] } : l)),

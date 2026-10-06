@@ -6,6 +6,7 @@ import { useCallback, useRef, useState, type RefObject } from "react";
 import { api, base64ToBuffer, type RenderResult, type RenderTarget, type ScadParam } from "../api";
 import { parseAirVolume } from "../compare";
 import { FOCUS_ECHO, parseFocusEcho, type FocusData } from "../focus";
+import { parseShapeEcho, SHAPE_ECHO, type ShapeLines } from "../shapeEdit";
 import {
   parseCap,
   parseClearance,
@@ -43,8 +44,9 @@ interface Options {
 
 const REFINE_DELAY = 700; // ms of quiet after a draft before the full-quality render
 const SLOW_RENDER_S = 45; // reported to the site's log when a render takes longer
-const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n";
-const FACING_ECHO = "\nfacing_report();\n";
+// The "Edit shape" lines ride along with the reports (no measurable cost).
+const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n" + SHAPE_ECHO;
+const FACING_ECHO = "\nfacing_report();\n" + SHAPE_ECHO;
 // The reports' lines stay out of the console, and so do the WebAssembly build's harmless startup
 // complaints (no locale files, no fontconfig file: the generator registers its fonts itself).
 const NOISE = /^(Could not initialize localization|Fontconfig error: Cannot load default config file)/;
@@ -56,7 +58,7 @@ const withoutNoise = (log: string) =>
 const withoutReports = (log: string) =>
   withoutNoise(log)
     .split("\n")
-    .filter((l) => !/^ECHO: (PARAM_FOCUS|"(FACING|CLEARANCE))/.test(l))
+    .filter((l) => !/^ECHO: (PARAM_FOCUS|SHAPE_EDIT|"(FACING|CLEARANCE))/.test(l))
     .join("\n");
 // Settings that only the accessories read: changing them leaves the mouthpiece as it is (checked by
 // rendering the alto with ligature_made, cap_made and several ligature_* / cap_* values changed: the
@@ -87,6 +89,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const [log, setLog] = useState("");
   const [facing, setFacing] = useState<[number, number][] | null>(null);
   const [wall, setWall] = useState<Wall | null>(null);
+  const [shape, setShape] = useState<ShapeLines | null>(null);
   const [air, setAir] = useState<number | null>(null); // inside air volume of the last render
   const [ligStl, setLigStl] = useState<ArrayBuffer | null>(null);
   const [reedStl, setReedStl] = useState<ArrayBuffer | null>(null);
@@ -231,6 +234,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         if (ac.signal.aborted) return;
         setFacing(parseFacing(f.log));
         setWall(parseClearance(f.log));
+        setShape(parseShapeEcho(f.log));
       } catch {
         // superseded or failed: the cards keep their last values
       }
@@ -281,6 +285,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
           reportsAbort.current?.abort(); // an older separate run must not overwrite these
           setFacing(parseFacing(r.log));
           setWall(parseClearance(r.log));
+          setShape(parseShapeEcho(r.log));
         }
         const airCm3 = r.ok ? parseAirVolume(r.log) : null;
         setAir(airCm3);
@@ -419,6 +424,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     setLog,
     facing,
     wall,
+    shape,
     air,
     ligStl,
     reedStl,

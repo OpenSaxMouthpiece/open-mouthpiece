@@ -2454,6 +2454,67 @@ button.link:hover {
   fill: var(--muted);
   font-size: 10px;
 }
+/* "Edit shape": the section's lines with a few dots to drag, landmarks, and the view from above */
+.profile-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.profile-head .link.on {
+  font-weight: 600;
+}
+.profile-chart svg.editing {
+  touch-action: none;
+}
+.profile-chart svg.editing .now {
+  fill: color-mix(in srgb, var(--accent-fg) 22%, transparent);
+  stroke-width: 1;
+}
+.profile-chart .edit-line {
+  fill: none;
+  stroke: var(--text);
+  stroke-width: 2;
+}
+.profile-chart .edit-line.mirror {
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.6;
+}
+.profile-chart .edit-label {
+  fill: var(--text);
+  font-size: 10px;
+  font-weight: 600;
+}
+.profile-chart .edit-handle {
+  cursor: ns-resize;
+}
+.profile-chart .edit-handle circle {
+  fill: var(--panel);
+  stroke: var(--text);
+  stroke-width: 1.5;
+}
+.profile-chart .edit-handle circle.hit {
+  fill: transparent;
+  stroke: none;
+}
+.profile-chart .edit-handle:hover circle:not(.hit),
+.profile-chart .edit-handle.active circle:not(.hit) {
+  fill: var(--accent-fg);
+  stroke: var(--accent-fg);
+}
+.profile-chart .landmark line {
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+.profile-chart .landmark text {
+  fill: var(--muted);
+  font-size: 9px;
+}
+.profile-chart .readout-label + svg {
+  margin-top: 2px;
+}
 .profile-legend {
   display: flex;
   flex-wrap: wrap;
