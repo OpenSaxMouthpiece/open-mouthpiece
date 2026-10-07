@@ -160,16 +160,21 @@ export function Customizer({
 }
 
 // Under a panel's head: open or close every section, and show every description (or each on its ⓘ).
-export function PanelOptions({ ids }: { ids: string[] }) {
+// `single`: one section shown (the desktop's rail), so nothing to expand or collapse.
+export function PanelOptions({ ids, single = false }: { ids: string[]; single?: boolean }) {
   const [captions, setCaptions] = usePref("captions", true);
   return (
     <div className="panel-options">
-      <button className="link" onClick={() => setSectionsOpen(ids, true)}>
-        Expand all
-      </button>
-      <button className="link" onClick={() => setSectionsOpen(ids, false)}>
-        Collapse all
-      </button>
+      {!single && (
+        <>
+          <button className="link" onClick={() => setSectionsOpen(ids, true)}>
+            Expand all
+          </button>
+          <button className="link" onClick={() => setSectionsOpen(ids, false)}>
+            Collapse all
+          </button>
+        </>
+      )}
       <label title="Show what each setting does under it (or tap its i)">
         <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Descriptions
       </label>

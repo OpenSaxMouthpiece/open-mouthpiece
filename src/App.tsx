@@ -12,7 +12,9 @@ import { Viewer } from "./components/Viewer";
 import { Console } from "./components/Console";
 import { ComparePanel } from "./components/ComparePanel";
 import { CurveEditor } from "./components/CurveEditor";
-import { DesignPanel } from "./components/DesignPanel";
+import { Credits, DesignPanel } from "./components/DesignPanel";
+import { Rail, type RailItem } from "./components/Rail";
+import { ShapeDock, type DockTab } from "./components/ShapeDock";
 import { TipChart } from "./components/TipChart";
 import { FacingChart } from "./components/FacingChart";
 import { ProfileChart } from "./components/ProfileChart";
@@ -37,7 +39,7 @@ import {
   writeStl,
   type PrintFrame,
 } from "./meshFrame";
-import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
+import { DESIGN_SECTIONS, FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
 import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
 import { TextVariables } from "./components/TextField";
@@ -131,6 +133,10 @@ export default function App() {
   const [editorW, setEditorW] = useState(saved.editorW ?? Math.round(window.innerWidth * 0.36));
   const [panelW, setPanelW] = usePref("panelW", 380); // the right panel (drag its edge)
   const [codeOpen, setCodeOpen] = usePref("codeOpen", false); // the code editor + console column (desktop)
+  // Desktop: the place open from the rail (a section's title, or a tool), and the shape dock under the view.
+  const [railSel, setRailSel] = usePref("rail", "Tip & facing");
+  const [dockOpen, setDockOpen] = usePref("dockOpen", false);
+  const [dockTab, setDockTab] = usePref("dockTab", "body");
   const winW = useWindowWidth();
   const isPhone = useMediaQuery("(max-width: 1024px)"); // phones and portrait tablets
   // the phone view's height (dvh), dragged; remembered in this browser
@@ -1788,36 +1794,44 @@ export default function App() {
   );
   // Going deeper, after the settings: the file's point lists, and A/B compare while a B is pinned.
   // Most shape changes are "Edit shape" on the side section (Body & beak, Chamber & baffle).
+  const curvesEl = (
+    <CurveEditor
+      title={mainTab.path ?? mainTab.name}
+      source={mainTab.source}
+      target={target}
+      values={values}
+      visible
+      compact={isPhone}
+      onSetList={setPointList}
+      onFocusList={focusOn}
+    />
+  );
+  const compareEl = pinned && current && (
+    <ComparePanel
+      a={current}
+      b={pinned}
+      labelA={labelA}
+      labelB={labelB ?? pinned.name}
+      onSwap={swap}
+      onClear={clearB}
+      onUseB={(n, v) => setValue(n, param(n)?.initial, v)}
+    />
+  );
   const deeperEl = (
     <>
       <Fold id="d:curves" title="Exact points" summary={designOK ? "advanced: Edit shape is easier" : undefined}>
-        <CurveEditor
-          title={mainTab.path ?? mainTab.name}
-          source={mainTab.source}
-          target={target}
-          values={values}
-          visible
-          compact={isPhone}
-          onSetList={setPointList}
-          onFocusList={focusOn}
-        />
+        {curvesEl}
       </Fold>
-      {pinned && current && (
-        <Fold id="d:compare" title="Compare A/B" summary={`with ${labelB ?? pinned.name}`}>
-          <ComparePanel
-            a={current}
-            b={pinned}
-            labelA={labelA}
-            labelB={labelB ?? pinned.name}
-            onSwap={swap}
-            onClear={clearB}
-            onUseB={(n, v) => setValue(n, param(n)?.initial, v)}
-          />
+      {compareEl && (
+        <Fold id="d:compare" title="Compare A/B" summary={`with ${labelB ?? pinned!.name}`}>
+          {compareEl}
         </Fold>
       )}
     </>
   );
-  const designEl = (withReadouts: boolean, other?: React.ReactNode) => (
+  // `only`: the desktop rail's pick (a section's title; "" = every setting, for a file that isn't the
+  // generator's): no part tabs or deeper sections there, the rail has them.
+  const designEl = (withReadouts: boolean, other?: React.ReactNode, only?: string) => (
     <DesignPanel
       params={params}
       values={values}
@@ -1841,11 +1855,12 @@ export default function App() {
       ligature={ligOK ? { on: ligMade, shown: lig.on, head: ligHead } : undefined}
       cap={capOK ? { on: capMade, head: capHead } : undefined}
       tab={tab}
-      tabs={partTabs}
+      tabs={only === undefined ? partTabs : undefined}
       onTab={openPartTab}
+      only={only || undefined}
       printKit={kitOK ? printKitButton : undefined}
       showNames={coding}
-      deeper={deeperEl}
+      deeper={only === undefined ? deeperEl : undefined}
       about={fileAbout(mainTab.source)}
       printed={printed ? () => setPrinted(false) : undefined}
     />
@@ -2174,6 +2189,158 @@ export default function App() {
       )}
     </Menu>
   );
+  // ---- the rail: the generator's sections (the parts made from it after a line, then printing), the
+  // tools at the bottom. A file that isn't the generator's has one place: its settings.
+  const RAIL: Record<string, [label: string, icon: RailItem["icon"]]> = {
+    "Tip & facing": ["Tip", "tip"],
+    "Fit on the horn": ["Fit", "fit"],
+    "Chamber & baffle": ["Chamber", "chamber"],
+    "Body & beak": ["Body", "body"],
+    Personalise: ["Personalise", "text"],
+    Ligature: ["Ligature", "ligature"],
+    Cap: ["Cap", "cap"],
+    Printing: ["Print", "print"],
+  };
+  const railSections = designOK
+    ? DESIGN_SECTIONS.filter(
+        (s) => (!s.ligature || ligOK) && (!s.cap || capOK) && s.items.some((i) => param(i.name)) && RAIL[s.title],
+      )
+    : [];
+  const TOOLS = ["compare", "points", "about"];
+  const railNow =
+    !TOOLS.includes(railSel) && !railSections.some((s) => s.title === railSel)
+      ? (railSections[0]?.title ?? "settings")
+      : railSel;
+  const sectionOfNow = railSections.find((s) => s.title === railNow);
+  // A section's dock chart: the facing for the tip, the outside for the body, the inside for the chamber.
+  const DOCK_OF: Record<string, string> = {
+    "Tip & facing": "facing",
+    "Body & beak": "body",
+    "Chamber & baffle": "chamber",
+  };
+  const pickRail = (id: string) => {
+    if (id === "code") return setCodeOpen(!codeOpen);
+    setRailSel(id);
+    const s = railSections.find((x) => x.title === id);
+    if (!s) return;
+    const part: PartTab = s.ligature ? "ligature" : s.cap ? "cap" : "mouthpiece";
+    if (part !== tab) openPartTab(part);
+    if (DOCK_OF[id]) setDockTab(DOCK_OF[id]);
+    // the view flies to the part the section shapes (Auto-zoom)
+    const first = s.items.find((i) => param(i.name));
+    if (first && part === "mouthpiece") focusOn(first.name);
+  };
+  const changedIn = (s: (typeof DESIGN_SECTIONS)[number]) =>
+    [...s.items.map((i) => i.name), ...(s.more ?? [])].filter((n) => n in values).length;
+  const railItems: RailItem[] = [
+    ...(railSections.length
+      ? railSections.map((s, i): RailItem => ({
+          id: s.title,
+          label: RAIL[s.title][0],
+          title: s.title,
+          icon: RAIL[s.title][1],
+          active: railNow === s.title,
+          dot: s.ligature ? ligMade : s.cap ? capMade : undefined,
+          changed: changedIn(s) || undefined,
+          sep: i > 0 && (!!s.ligature || s.title === "Printing" || (!!s.cap && !railSections[i - 1].ligature)),
+        }))
+      : [{ id: "settings", label: "Settings", title: "Settings", icon: "settings" as const, active: true }]),
+    {
+      id: "compare",
+      label: "Compare",
+      title: "Compare two designs (A/B)",
+      icon: "compare",
+      active: railNow === "compare",
+      dot: !!pinned,
+      group: "tools",
+    },
+    {
+      id: "points",
+      label: "Points",
+      title: "Exact points (advanced: Edit shape in the charts is easier)",
+      icon: "points",
+      active: railNow === "points",
+      group: "tools",
+    },
+    {
+      id: "code",
+      label: "Code",
+      title: codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console",
+      icon: "code",
+      active: codeOpen,
+      group: "tools",
+    },
+    {
+      id: "about",
+      label: "About",
+      title: "About Open Mouthpiece",
+      icon: "about",
+      active: railNow === "about",
+      group: "tools",
+    },
+  ];
+  const toolPanel = (title: string, body: React.ReactNode) => (
+    <div className="design-panel">
+      <div className="tool-head">{title}</div>
+      <div className="design-scroll tool-body">{body}</div>
+    </div>
+  );
+  const railPanel =
+    railNow === "compare"
+      ? toolPanel(
+          "Compare A/B",
+          <>
+            {compareEl || (
+              <p className="muted">
+                Pin a design as B to compare it with the one you're changing: the view, the charts and the readouts show
+                both.
+              </p>
+            )}
+            <div className="tool-actions">
+              <button onClick={pinCurrent} disabled={!stl} title="Freeze the current model and its settings as B">
+                Pin this model as B
+              </button>
+              <button
+                onClick={compareOriginal}
+                disabled={!stl}
+                title="The design as it was: a preset as published, your design as saved"
+              >
+                Compare with the original
+              </button>
+              <div className="menu-item">{compareSelect}</div>
+            </div>
+          </>,
+        )
+      : railNow === "points"
+        ? toolPanel("Exact points", curvesEl)
+        : railNow === "about"
+          ? toolPanel(
+              "About",
+              <>
+                <Credits />
+                <div className="tool-actions">
+                  {printingGuideLink}
+                  {sourceLink}
+                </div>
+              </>,
+            )
+          : designEl(true, undefined, sectionOfNow?.title ?? "");
+  // The dock's charts, while the mouthpiece is on screen.
+  const bodyChart = tab === "mouthpiece" ? profileEl("body") : undefined,
+    chamberChart = tab === "mouthpiece" ? profileEl("chamber") : undefined;
+  const dockTabs = (
+    [
+      tab === "mouthpiece" &&
+        facingEl && {
+          id: "facing",
+          label: "Facing curve",
+          content: <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>{facingEl}</div>,
+        },
+      bodyChart && { id: "body", label: "Outside", content: bodyChart },
+      chamberChart && { id: "chamber", label: "Inside", content: chamberChart },
+    ] as (DockTab | false | null | undefined)[]
+  ).filter((t): t is DockTab => !!t);
+  const railColumns = `64px ${codeOpen ? `${editorWShown}px 6px ` : ""}${panelWShown}px 5px 1fr`;
   return (
     <TextVariables.Provider value={textVars}>
       <div className={appClass} {...dropProps}>
@@ -2217,19 +2384,8 @@ export default function App() {
           <AppearanceMenu />
         </header>
         {shareBox}
-        <main
-          className="workspace"
-          style={{ gridTemplateColumns: `${codeOpen ? `${editorWShown}px 6px` : "30px"} 1fr 5px ${panelWShown}px` }}
-        >
-          {!codeOpen && (
-            <button
-              className="editor-strip"
-              onClick={() => setCodeOpen(true)}
-              title="Show the code editor (OpenSCAD) and console"
-            >
-              ›<span>Code</span>
-            </button>
-          )}
+        <main className="workspace rail-mode" style={{ gridTemplateColumns: railColumns }}>
+          <Rail items={railItems} onPick={pickRail} />
           <section className="left" style={codeOpen ? undefined : { display: "none" }}>
             <div className="filebar">
               <button
@@ -2272,21 +2428,24 @@ export default function App() {
               }}
             />
           )}
-          <section className="center">
-            {viewerEl}
-            {statusBar}
-          </section>
+          <aside className="right">{railPanel}</aside>
           <div
             className="splitter panel-edge"
             title="Drag to resize the panel"
             onPointerDown={(e) => {
               const w0 = panelWShown;
               startDrag(e, (dx) =>
-                setPanelW(Math.round(Math.max(MIN_PANEL_W, Math.min(window.innerWidth * 0.5, w0 - dx)))),
+                setPanelW(Math.round(Math.max(MIN_PANEL_W, Math.min(window.innerWidth * 0.5, w0 + dx)))),
               );
             }}
           />
-          <aside className="right">{designEl(true)}</aside>
+          <section className="center">
+            <div className="view-area">
+              {viewerEl}
+              {statusBar}
+            </div>
+            <ShapeDock tabs={dockTabs} active={dockTab} open={dockOpen} onActive={setDockTab} onOpen={setDockOpen} />
+          </section>
         </main>
         {dropHint}
       </div>

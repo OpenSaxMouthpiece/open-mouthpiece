@@ -46,6 +46,9 @@ interface Props {
   deeper?: ReactNode; // sections for going further, after the settings (Curves, Compare)
   about?: string; // a variant's one-line description, over the settings
   printed?: () => void; // a mouthpiece STL was just downloaded: the note on printing it (closes with this)
+  // The desktop's rail picks one section to show (its title), open; its charts are in the dock, and
+  // the credits under About. A search still looks everywhere.
+  only?: string;
 }
 
 const same = (a: ParamValue, b: ParamValue) => JSON.stringify(a) === JSON.stringify(b);
@@ -76,6 +79,7 @@ export function DesignPanel({
   deeper,
   about,
   printed,
+  only,
 }: Props) {
   const byName = new Map(params.map((p) => [p.name, p]));
   const setParam = (name: string, v: ParamValue) => {
@@ -238,7 +242,7 @@ export function DesignPanel({
           </button>
         )}
       </div>
-      <PanelOptions ids={ids} />
+      <PanelOptions ids={ids} single={!!only} />
       <div className="design-scroll">
         {printed && (
           <div className="printed-note">
@@ -284,6 +288,7 @@ export function DesignPanel({
           if (s.ligature && (!ligature || !s.items.some((i) => byName.has(i.name)))) return null;
           if (s.cap && !cap) return null;
           if (!onTabNow(s)) return null;
+          if (only && !q && s.title !== only) return null;
           if (!s.items.some((i) => byName.has(i.name))) return null;
           // The rest of the section, under More (the ligature's and cap's once made, like their rows).
           const more = (s.more ?? [])
@@ -312,16 +317,16 @@ export function DesignPanel({
               id={`d:${s.title}`}
               title={s.title}
               summary={summary}
-              forceOpen={!!q || (tabbed && tab !== "mouthpiece")}
+              forceOpen={!!q || !!only || (tabbed && tab !== "mouthpiece")}
               className="design-section"
               changed={s.items.filter((i) => i.name in values).length + moreChanged}
             >
               {s.ligature && ligature!.head}
               {s.cap && cap!.head}
               {rows.map((i) => row(byName.get(i.name)!, i))}
-              {s.title === "Tip & facing" && !q && facing}
-              {s.title === "Chamber & baffle" && !q && profile?.("chamber")}
-              {s.title === "Body & beak" && !q && profile?.("body")}
+              {s.title === "Tip & facing" && !q && !only && facing}
+              {s.title === "Chamber & baffle" && !q && !only && profile?.("chamber")}
+              {s.title === "Body & beak" && !q && !only && profile?.("body")}
               {s.title === "Printing" && !q && printKit}
               {more.length > 0 && (
                 <Fold
@@ -343,7 +348,7 @@ export function DesignPanel({
             </Fold>
           );
         })}
-        {others.length > 0 && (
+        {others.length > 0 && (!only || !!q) && (
           <Customizer
             embedded
             filter={query}
@@ -361,52 +366,61 @@ export function DesignPanel({
         )}
         {!q && tab === "mouthpiece" && deeper}
         {noMatch && <p className="design-nomatch muted">No setting matches “{query}”.</p>}
-        <p className="preset-credit muted">
-          The presets are measured from Windy City Woodwinds' mouthpieces on Thingiverse:{" "}
-          {PRESET_SOURCES.map((s, i) => (
-            <span key={s.url}>
-              {i ? ", " : ""}
-              <a href={s.url} target="_blank" rel="noreferrer">
-                {s.label}
-              </a>
-            </span>
-          ))}
-          . What this adds: a socket fitted to your own neck cork, your tip opening and facing curve, a matching
-          ligature, and extra stock to sand the table flat.
-        </p>
-        <p className="preset-credit muted">
-          The geometry is made by{" "}
-          <a href="https://openscad.org" target="_blank" rel="noreferrer">
-            OpenSCAD
-          </a>{" "}
-          (GPL-2.0-or-later,{" "}
-          <a href="https://github.com/openscad/openscad" target="_blank" rel="noreferrer">
-            source
-          </a>
-          ), running in your browser.
-          {REPO_URL && (
-            <>
-              {" "}
-              Open Mouthpiece is free software (GPL-3.0-or-later):{" "}
-              <a href={REPO_URL} target="_blank" rel="noreferrer">
-                source code
-              </a>
-              .
-            </>
-          )}
-        </p>
-        {DONATE_URL && (
-          <p className="donate-note muted">
-            Open Mouthpiece is free: no ads, no accounts, your designs stay in your browser (anonymous usage helps
-            improve it; ⚙ turns it off). If it made you a mouthpiece you like,{" "}
-            <a href={DONATE_URL} target="_blank" rel="noreferrer">
-              you can support it
-            </a>{" "}
-            ♥
-          </p>
-        )}
+        {!only && <Credits />}
       </div>
     </div>
+  );
+}
+
+// Where the presets and the geometry come from, and the donation note.
+export function Credits() {
+  return (
+    <>
+      <p className="preset-credit muted">
+        The presets are measured from Windy City Woodwinds' mouthpieces on Thingiverse:{" "}
+        {PRESET_SOURCES.map((s, i) => (
+          <span key={s.url}>
+            {i ? ", " : ""}
+            <a href={s.url} target="_blank" rel="noreferrer">
+              {s.label}
+            </a>
+          </span>
+        ))}
+        . What this adds: a socket fitted to your own neck cork, your tip opening and facing curve, a matching ligature,
+        and extra stock to sand the table flat.
+      </p>
+      <p className="preset-credit muted">
+        The geometry is made by{" "}
+        <a href="https://openscad.org" target="_blank" rel="noreferrer">
+          OpenSCAD
+        </a>{" "}
+        (GPL-2.0-or-later,{" "}
+        <a href="https://github.com/openscad/openscad" target="_blank" rel="noreferrer">
+          source
+        </a>
+        ), running in your browser.
+        {REPO_URL && (
+          <>
+            {" "}
+            Open Mouthpiece is free software (GPL-3.0-or-later):{" "}
+            <a href={REPO_URL} target="_blank" rel="noreferrer">
+              source code
+            </a>
+            .
+          </>
+        )}
+      </p>
+      {DONATE_URL && (
+        <p className="donate-note muted">
+          Open Mouthpiece is free: no ads, no accounts, your designs stay in your browser (anonymous usage helps improve
+          it; ⚙ turns it off). If it made you a mouthpiece you like,{" "}
+          <a href={DONATE_URL} target="_blank" rel="noreferrer">
+            you can support it
+          </a>{" "}
+          ♥
+        </p>
+      )}
+    </>
   );
 }
 
