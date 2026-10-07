@@ -43,11 +43,14 @@ interface LineSpec {
   label: string;
   points: number;
   pin?: "start" | "end" | "both";
+  // the landmark where the last handle sits (the line runs on, rounding over to the tip); an edit
+  // there holds on to the end of the length
+  end?: string;
 }
 export const LINES: Record<LineName, LineSpec> = {
-  top: { param: "top_adjust", label: "top", points: 7 },
+  top: { param: "top_adjust", label: "top", points: 7, end: "top_end" },
   underside: { param: "underside_adjust", label: "underside", points: 3, pin: "end" }, // meets the table
-  width: { param: "width_adjust", label: "width", points: 7 },
+  width: { param: "width_adjust", label: "width", points: 7, end: "width_end" },
   baffle: { param: "baffle_adjust", label: "baffle", points: 5, pin: "start" }, // leaves the chamber's roof
   floor: { param: "floor_adjust", label: "floor", points: 3, pin: "both" }, // throat to window
   chamber_width: { param: "chamber_width_adjust", label: "inside width", points: 6, pin: "start" }, // the bore
@@ -75,16 +78,18 @@ export function offsetAt(adj: Pt[] | undefined, f: number): number {
 // outline's corners (where the shank flares into the body, the shoulder) with the stretches between
 // shared out evenly; the inside's lines evenly along themselves.
 export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined): number[] {
-  if (adj?.length) return adj.map((p) => p[0]);
   const line = shape.lines[n] ?? [],
     L = shape.L;
-  if (line.length < 2 || L <= 0) return [];
-  const f0 = line[0][0] / L,
-    f1 = line[line.length - 1][0] / L;
   const mark = (name: string) => {
     const z = shape.landmarks.find(([m]) => m === name)?.[1];
     return z !== undefined && z > 0 && z < L ? z / L : undefined;
   };
+  const endMark = LINES[n].end,
+    end = endMark ? mark(endMark) : undefined;
+  if (adj?.length) return adj.map((p) => p[0]).filter((f) => end === undefined || f <= end + 1e-6);
+  if (line.length < 2 || L <= 0) return [];
+  const f0 = line[0][0] / L,
+    f1 = Math.min(line[line.length - 1][0] / L, end ?? 1);
   const between = (a: number, b: number, k: number) =>
     Array.from({ length: k }, (_, i) => a + ((b - a) * (i + 1)) / (k + 1));
   const [w0, w1, h0, h1, sh, ke] = ["flare_w0", "flare_w1", "flare_h0", "flare_h1", "shoulder", "shoulder_end"].map(
@@ -92,8 +97,8 @@ export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined):
   );
   let fs: (number | undefined)[];
   if (n === "top" && h1 !== undefined && sh !== undefined && ke !== undefined && h1 < sh && sh < ke)
-    fs = [0, h0, h1, ...between(h1, sh, 1), sh, ke, ...between(ke, 1, 2), 1];
-  else if (n === "width" && w1 !== undefined) fs = [0, w0, w1, ...between(w1, 1, 3), 1];
+    fs = [0, h0, h1, ...between(h1, sh, 1), sh, ke, ...between(ke, f1, 2), f1];
+  else if (n === "width" && w1 !== undefined) fs = [0, w0, w1, ...between(w1, f1, 3), f1];
   else if (n === "underside" && (w0 ?? h0) !== undefined && (w0 ?? h0)! < f1)
     fs = [f0, w0 ?? h0, ...between((w0 ?? h0)!, f1, 1), f1];
   else {
@@ -110,11 +115,14 @@ export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined):
   return out;
 }
 
-// The offsets after moving handle i by d mm (the other handles keep theirs).
+// The offsets after moving handle i by d mm (the other handles keep theirs); on a line with an
+// `end`, the last handle's offset holds on to the end of the length.
 const r3 = (x: number) => Math.round(x * 1000) / 1000;
 const r2 = (x: number) => Math.round(x * 100) / 100;
-export function moved(adj: Pt[] | undefined, fs: number[], i: number, d: number): Pt[] {
-  return fs.map((f, j) => [r3(f), r2(offsetAt(adj, f) + (j === i ? d : 0))] as Pt);
+export function moved(adj: Pt[] | undefined, fs: number[], i: number, d: number, hold = false): Pt[] {
+  const out = fs.map((f, j) => [r3(f), r2(offsetAt(adj, f) + (j === i ? d : 0))] as Pt);
+  const last = out[out.length - 1];
+  return hold && last && last[0] < 1 ? [...out, [1, last[1]] as Pt] : out;
 }
 // No edit left (every offset 0): the empty list, so the design shows unchanged.
 export const tidy = (adj: Pt[]) => (adj.every((p) => Math.abs(p[1]) < 0.005) ? [] : adj);

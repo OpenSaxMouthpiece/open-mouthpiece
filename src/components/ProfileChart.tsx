@@ -99,7 +99,8 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     const line = shape?.lines[n] ?? [];
     if (!shape) return line;
     const rendered = shape.values[LINES[n].param] as Pt[] | undefined;
-    const now = drag?.line === n ? moved(adjOf(n), handleFs(n, shape, adjOf(n)), drag.i, drag.d) : adjOf(n);
+    const now =
+      drag?.line === n ? moved(adjOf(n), handleFs(n, shape, adjOf(n)), drag.i, drag.d, !!LINES[n].end) : adjOf(n);
     return JSON.stringify(rendered ?? []) === JSON.stringify(now ?? [])
       ? line
       : previewLine(line, rendered, now ?? [], shape.L);
@@ -128,7 +129,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     if (drag.d !== 0) {
       const n = drag.line,
         fs = handleFs(n, shape, adjOf(n)),
-        next = tidy(moved(adjOf(n), fs, drag.i, drag.d));
+        next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end));
       edit.onSet(LINES[n].param, next.length ? next : undefined);
     }
     setDrag(null);

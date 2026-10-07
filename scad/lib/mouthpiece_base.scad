@@ -1749,9 +1749,11 @@ function shape_edit_lines() =
   let(k = len(cut) ? cut[0] : len(bot) - 1)
   let(cross = k > 0 && bot[k][1] <= 0
     ? [lerp(bot[k - 1][0], bot[k][0], bot[k - 1][1] / (bot[k - 1][1] - bot[k][1])), 0] : bot[k])
-  [["top", sample(0, L, EXT_TOP_C)],
+  // the top and width as built too (the socket's wall, the nose and the tip rounding over)
+  let(ext = [for (z = [0 : max(0.5, L / 60) : L]) [z, exterior_ring_at(z)]])
+  [["top", [for (e = ext) [e[0], e[1][E_TOP]]]],
    ["underside", has_pts(EXT_BOTTOM_C) ? [for (i = [0 : k - 1]) bot[i], cross] : []],
-   ["width", sample(0, L, EXT_WIDTH_C)],
+   ["width", [for (e = ext) [e[0], 2 * e[1][E_HW]]]],
    ["baffle", [for (r = rings(baffle_start_z, L)) [r[0], r[1][1]]]],
    ["floor", [for (r = rings(eff_throat_z, win_z0)) [r[0], r[1][2]]]],
    ["chamber_width", [for (r = rings(shank_taper_end_z, L)) [r[0], 2 * r[1][0]]]],
@@ -1763,6 +1765,9 @@ function shape_edit_lines() =
                   ["flare_w0", (len(FLARE_W) ? FLARE_W[0] : 0.09) * L], ["flare_w1", (len(FLARE_W) ? FLARE_W[2] : 0.21) * L],
                   ["flare_h0", (len(FLARE_H) ? FLARE_H[0] : 0.09) * L], ["flare_h1", (len(FLARE_H) ? FLARE_H[2] : 0.21) * L],
                   ["throat", eff_throat_z], ["window", win_z0],
+                  // where the tip starts rounding over: the top's and width's last handle (an edit
+                  // there holds on to the tip)
+                  ["top_end", L - tip_nose], ["width_end", L - tip_curve],
                   ["table", table_rear_z], ["break", break_z], ["tip", L]]],
    ["L", L],
    ["frame", [print_orientation, bore_tilt, end_face_lift]]];
