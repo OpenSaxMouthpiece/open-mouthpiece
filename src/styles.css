@@ -2969,3 +2969,10 @@ button.link:hover {
   top: 2px;
   left: calc((100% - 20px) * 0.5556 + 20px);
 }
+/* a thin wall, worth a look before printing */
+.readout-value.warn {
+  color: var(--warning);
+}
+.held-note {
+  color: var(--warning);
+}

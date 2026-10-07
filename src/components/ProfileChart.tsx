@@ -65,7 +65,30 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   const [before, setBefore] = useState<Loop[] | null>(null);
   const last = useRef<{ design: string; sig: string; loops: Loop[] } | null>(null);
   const [editing, setEditing] = useState(false);
-  const [drag, setDrag] = useState<Drag | null>(null);
+  const [drag, setDragState] = useState<Drag | null>(null);
+  // the drag as of the last event, not the last render: a quick flick's first move can come before
+  // React has drawn the press, and was lost
+  const dragRef = useRef<Drag | null>(null);
+  const setDrag = (d: Drag | null) => {
+    dragRef.current = d;
+    setDragState(d);
+  };
+  // A drag the model couldn't follow (a wall, the socket, the table holds that spot): said once its
+  // render is in, so a dot that settles back isn't a mystery.
+  const pending = useRef<{ n: LineName; z: number; was: number; d: number; adj: string } | null>(null);
+  const [held, setHeld] = useState(false);
+  useEffect(() => {
+    const p = pending.current,
+      sh = edit?.shape;
+    if (!p || !sh || JSON.stringify(sh.values[LINES[p.n].param] ?? []) !== p.adj) return;
+    pending.current = null;
+    const got = lineAt(sh.lines[p.n] ?? [], p.z) - p.was;
+    if (Math.abs(p.d) >= 0.3 && got / p.d < 0.4) {
+      setHeld(true);
+      const t = setTimeout(() => setHeld(false), 6000);
+      return () => clearTimeout(t);
+    }
+  }, [edit?.shape]);
   useEffect(() => {
     if (!stl || !final || !now.length) return;
     const l = last.current;
@@ -120,16 +143,21 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     setDrag({ line, i, y0: svgPt(e).y, d: 0, k });
   };
   const move = (e: React.PointerEvent) => {
+    const drag = dragRef.current;
     if (!drag) return;
     const d = Math.round((drag.y0 - svgPt(e).y) * drag.k * 20) / 20; // up = + (higher / wider), 0.05mm steps
     if (d !== drag.d) setDrag({ ...drag, d });
   };
   const end = () => {
+    const drag = dragRef.current;
     if (!drag || !edit || !shape) return setDrag(null);
     if (drag.d !== 0) {
       const n = drag.line,
         fs = handleFs(n, shape, adjOf(n)),
         next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end));
+      const z = fs[drag.i] * shape.L;
+      pending.current = { n, z, was: lineAt(lineNow(n), z), d: drag.d, adj: JSON.stringify(next) };
+      setHeld(false);
       edit.onSet(LINES[n].param, next.length ? next : undefined);
     }
     setDrag(null);
@@ -243,14 +271,18 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
       )}
       {on ? (
         <div className="profile-legend muted">
-          <span>Drag a dot up or down to pull the line there; the sliders still work.</span>
+          {held ? (
+            <span className="held-note">Held there: a wall, the socket or the reed table limits that spot.</span>
+          ) : (
+            <span>Drag a dot up or down to pull the line there; the sliders still work.</span>
+          )}
           {edited.length > 0 && (
             <button
               className="link"
               onClick={() => edited.forEach((n) => edit!.onSet(LINES[n].param, undefined))}
               title="Remove this section's shape edits"
             >
-              Undo shape edits ({edited.map((n) => LINES[n].label).join(", ")})
+              Remove shape edits ({edited.map((n) => LINES[n].label).join(", ")})
             </button>
           )}
         </div>

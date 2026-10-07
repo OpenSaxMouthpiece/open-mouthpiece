@@ -2445,7 +2445,17 @@ export default function App() {
               {viewerEl}
               {statusBar}
             </div>
-            <ShapeDock tabs={dockTabs} active={dockTab} open={dockOpen} onActive={setDockTab} onOpen={setDockOpen} />
+            <ShapeDock
+              tabs={dockTabs}
+              active={dockTab}
+              open={dockOpen}
+              onActive={(t) => {
+                setDockTab(t);
+                // the inside can't be seen from outside: fly there, cut open (Auto-zoom)
+                if (t === "chamber" && param("baffle_height")) focusOn("baffle_height");
+              }}
+              onOpen={setDockOpen}
+            />
           </section>
         </main>
         {dropHint}

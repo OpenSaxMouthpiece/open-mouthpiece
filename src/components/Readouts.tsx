@@ -31,6 +31,8 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     );
   const b = compare?.summary;
   const atRails = !!wall && /beside the window/.test(wall.where);
+  // under 1 mm a printer lays only a line or two there: worth a look before printing
+  const thin = !!wall && wall.wall < 1;
   // [label, value, fine print, B's value, a short note shown under the value on desktop too]
   const cards: [string, string, string?, string?, string?][] = [
     [
@@ -61,9 +63,11 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     [
       compact ? "Wall" : "Thinnest wall",
       wall ? `${wall.wall.toFixed(2)} mm` : "…",
-      wall ? wallText(wall, summary.length) : "measuring the thinnest wall…",
+      wall
+        ? wallText(wall, summary.length) + (thin ? " Under 1 mm: it may print weak or with gaps there." : "")
+        : "measuring the thinnest wall…",
       undefined,
-      atRails ? "at the rails" : undefined,
+      thin ? "thin to print" : atRails ? "at the rails" : undefined,
     ],
   ];
   return (
@@ -72,7 +76,9 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
         {cards.map(([k, v, sub, bv, short]) => (
           <div key={k} className="readout-card" title={compact && sub ? `${k}: ${sub}` : undefined}>
             <div className="readout-label">{k}</div>
-            <div className={`readout-value${v === "…" ? " pending" : ""}`}>{v}</div>
+            <div className={`readout-value${v === "…" ? " pending" : ""}${k.endsWith("all") && thin ? " warn" : ""}`}>
+              {v}
+            </div>
             {bv && (
               <div className="readout-b" title="B, the model you're comparing with">
                 B {bv}
