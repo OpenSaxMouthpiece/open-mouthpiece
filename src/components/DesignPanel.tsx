@@ -17,6 +17,8 @@ import {
 } from "../design";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
+import { Menu } from "./Menu";
+import { usePref } from "../uiPrefs";
 import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL, REPO_URL } from "../links";
 
 interface Props {
@@ -87,6 +89,9 @@ export function DesignPanel({
     if (q) onChange(name, same(v, q.initial) ? undefined : v);
   };
   const changed = Object.keys(values).length;
+  const [captions, setCaptions] = usePref("captions", true);
+  // the rail on the ligature or cap before it is made: only its "make" button
+  const unmade = (only === "Ligature" && !ligature?.on) || (only === "Cap" && !cap?.on);
   const [query, setQuery] = useState("");
 
   if (params.length === 0)
@@ -194,55 +199,121 @@ export function DesignPanel({
           ))}
         </div>
       )}
-      <div className="design-head">
-        <input
-          type="search"
-          className="design-find"
-          placeholder={`Find a setting in ${title}`}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Find a setting"
-        />
-        <label
-          className="zoom-toggle"
-          title="Auto-zoom: when you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
-        >
-          <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
-        </label>
-        {history && (
-          <span className="undo-redo">
-            <button
-              disabled={!history.canUndo}
-              onClick={() => history.step(false)}
-              title="Undo the last change (Ctrl+Z)"
-              aria-label="Undo"
-            >
-              ↶
+      {only ? (
+        !unmade && (
+          <div className="design-head single">
+            <input
+              type="search"
+              className="design-find"
+              placeholder="Find a setting"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Find a setting"
+            />
+            {history && (
+              <span className="undo-redo">
+                <button
+                  disabled={!history.canUndo}
+                  onClick={() => history.step(false)}
+                  title="Undo the last change (Ctrl+Z)"
+                  aria-label="Undo"
+                >
+                  ↶
+                </button>
+                <button
+                  disabled={!history.canRedo}
+                  onClick={() => history.step(true)}
+                  title="Redo (Ctrl+Y)"
+                  aria-label="Redo"
+                >
+                  ↷
+                </button>
+              </span>
+            )}
+            <button disabled={!changed} onClick={onResetAll} title="Back to the values in the file">
+              Reset{changed ? ` (${changed})` : ""}
             </button>
-            <button
-              disabled={!history.canRedo}
-              onClick={() => history.step(true)}
-              title="Redo (Ctrl+Y)"
-              aria-label="Redo"
+            <Menu label="⋯" title="Auto-zoom, compare with the original, descriptions" className="head-more">
+              {(close) => (
+                <div className="menu-list">
+                  <label title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)">
+                    <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
+                    to the part a setting shapes
+                  </label>
+                  <label title="Show what each setting does under it">
+                    <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
+                    descriptions
+                  </label>
+                  {onCompareOriginal && (
+                    <button
+                      disabled={!changed}
+                      onClick={() => {
+                        close();
+                        onCompareOriginal();
+                      }}
+                      title="The design as it was (a preset as published, yours as saved), as B"
+                    >
+                      Compare with the original
+                    </button>
+                  )}
+                </div>
+              )}
+            </Menu>
+          </div>
+        )
+      ) : (
+        <>
+          <div className="design-head">
+            <input
+              type="search"
+              className="design-find"
+              placeholder={`Find a setting in ${title}`}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Find a setting"
+            />
+            <label
+              className="zoom-toggle"
+              title="Auto-zoom: when you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
             >
-              ↷
+              <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
+            </label>
+            {history && (
+              <span className="undo-redo">
+                <button
+                  disabled={!history.canUndo}
+                  onClick={() => history.step(false)}
+                  title="Undo the last change (Ctrl+Z)"
+                  aria-label="Undo"
+                >
+                  ↶
+                </button>
+                <button
+                  disabled={!history.canRedo}
+                  onClick={() => history.step(true)}
+                  title="Redo (Ctrl+Y)"
+                  aria-label="Redo"
+                >
+                  ↷
+                </button>
+              </span>
+            )}
+            <button disabled={!changed} onClick={onResetAll} title="Back to the values in the file">
+              Reset{changed ? ` (${changed})` : ""}
             </button>
-          </span>
-        )}
-        <button disabled={!changed} onClick={onResetAll} title="Back to the values in the file">
-          Reset{changed ? ` (${changed})` : ""}
-        </button>
-        {onCompareOriginal && (
-          <button
-            disabled={!changed}
-            onClick={onCompareOriginal}
-            title="Compare with the original: the design as it was (a preset as published, yours as saved), as B"
-          >
-            vs original
-          </button>
-        )}
-      </div>
-      <PanelOptions ids={ids} single={!!only} />
+            {onCompareOriginal && (
+              <button
+                disabled={!changed}
+                onClick={onCompareOriginal}
+                title="Compare with the original: the design as it was (a preset as published, yours as saved), as B"
+              >
+                vs original
+              </button>
+            )}
+          </div>
+          <PanelOptions ids={ids} />
+        </>
+      )}
       <div className="design-scroll">
         {printed && (
           <div className="printed-note">

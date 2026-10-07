@@ -103,6 +103,7 @@ interface Props {
   svg: string | null;
   compare: ArrayBuffer | null; // pinned model B, blue (see-through when overlaid on A)
   frameKey: string; // changes when a different file is loaded -> reframe on the next model
+  fitKey?: string; // changes when the view's room or content changes (the dock, the part): fit it again
   compact?: boolean; // phone layout: the tool strip folds behind a ⋯ button
   focus?: FocusRequest | null; // fly to the part a parameter shapes (cut open when it's inside)
   busy?: boolean; // a render is running: show progress over the current model
@@ -197,6 +198,7 @@ export function Viewer({
   svg,
   compare,
   frameKey,
+  fitKey,
   compact = false,
   focus = null,
   busy = false,
@@ -863,6 +865,16 @@ export function Viewer({
     }, "image/png");
   };
   // Back out of an auto-zoom: the cut it made goes, the whole model in view from the same side.
+  // The dock opened or closed, another part came in: fit the whole model again once the canvas has
+  // its new size (the ResizeObserver runs first).
+  const fitSeen = useRef(fitKey);
+  useEffect(() => {
+    if (fitSeen.current === fitKey) return;
+    fitSeen.current = fitKey;
+    const t = setTimeout(() => stl && frame("iso", true), 60);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fitKey]);
   const wholeModel = () => {
     if (autoCut.current) {
       autoCut.current = false;
@@ -1092,7 +1104,7 @@ export function Viewer({
           onClick={wholeModel}
           title="Zoom out to the whole model (and close the cut auto-zoom made)"
         >
-          Whole model
+          ⤢ Whole model
         </button>
       )}
       {!svg && compact && (

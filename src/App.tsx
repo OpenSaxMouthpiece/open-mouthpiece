@@ -1626,6 +1626,7 @@ export default function App() {
       svg={svg}
       compare={pinned?.stl ?? null}
       frameKey={`${mainTab.key}|${otherPart ?? ""}`}
+      fitKey={`${!isPhone && dockOpen}|${tab}|${tab === "ligature" ? !!model.ligStl : tab === "cap" ? !!model.capStl : ""}`}
       compact={isPhone}
       focus={focus}
       labelA={labelA}
@@ -2281,6 +2282,7 @@ export default function App() {
   ];
   const toolPanel = (title: string, body: React.ReactNode) => (
     <div className="design-panel">
+      {!noReadouts && readoutsEl}
       <div className="tool-head">{title}</div>
       <div className="design-scroll tool-body">{body}</div>
     </div>
@@ -2325,17 +2327,16 @@ export default function App() {
               </>,
             )
           : designEl(true, undefined, sectionOfNow?.title ?? "");
-  // The dock's charts, while the mouthpiece is on screen.
-  const bodyChart = tab === "mouthpiece" ? profileEl("body") : undefined,
-    chamberChart = tab === "mouthpiece" ? profileEl("chamber") : undefined;
+  // The dock's charts (the mouthpiece's, on every part's tab: the layout stays put).
+  const bodyChart = profileEl("body"),
+    chamberChart = profileEl("chamber");
   const dockTabs = (
     [
-      tab === "mouthpiece" &&
-        facingEl && {
-          id: "facing",
-          label: "Facing curve",
-          content: <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>{facingEl}</div>,
-        },
+      facingEl && {
+        id: "facing",
+        label: "Facing curve",
+        content: <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>{facingEl}</div>,
+      },
       bodyChart && { id: "body", label: "Outside", content: bodyChart },
       chamberChart && { id: "chamber", label: "Inside", content: chamberChart },
     ] as (DockTab | false | null | undefined)[]

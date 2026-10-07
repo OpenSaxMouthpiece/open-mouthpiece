@@ -70,16 +70,21 @@ export function TipChart({ stl, final, design, sig, compare }: Props) {
     window.addEventListener("keydown", key);
     return () => window.removeEventListener("keydown", key);
   }, [open]);
-  // beside the settings panel, over the 3D view; on a phone, along the bottom of the screen
+  // in the dock: just above it, by its link; beside the settings panel, over the 3D view; on a phone,
+  // along the bottom of the screen
   const show = () => {
+    const dock = opener.current?.closest(".dock")?.getBoundingClientRect(),
+      link = opener.current?.getBoundingClientRect();
     const panel = opener.current?.closest(".design-section")?.getBoundingClientRect();
     setPlace(
-      panel && panel.left > 400
-        ? {
-            right: window.innerWidth - panel.left + 12,
-            top: Math.max(60, Math.min(panel.top, window.innerHeight - 380)),
-          }
-        : { left: 8, right: 8, bottom: 8, width: "auto" },
+      dock && link
+        ? { right: Math.max(8, window.innerWidth - link.right), bottom: window.innerHeight - dock.top + 8 }
+        : panel && panel.left > 400
+          ? {
+              right: window.innerWidth - panel.left + 12,
+              top: Math.max(60, Math.min(panel.top, window.innerHeight - 380)),
+            }
+          : { left: 8, right: 8, bottom: 8, width: "auto" },
     );
     setOpen(true);
   };

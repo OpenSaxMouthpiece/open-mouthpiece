@@ -67,7 +67,7 @@ export function LigatureHead({
   return (
     <div className="lig-head">
       <p className="muted">
-        {alone ? "Shown alone." : view.beside ? "Shown beside the mouthpiece." : "Shown in red on the mouthpiece."}
+        {alone ? "Shown alone." : view.beside ? "Shown beside the mouthpiece." : "Shown on the mouthpiece."}
         {numbers && ligatureText(info)}
       </p>
       {info?.notes.length ? <Notes notes={info.notes} /> : null}
