@@ -1488,13 +1488,9 @@ function font_name(choice) = !is_string(choice) || choice == "same" ? lettering_
 
 // The exterior over [z0, z1] with every ring moved inward (d > 0) or outward (d < 0) by d.
 module exterior_offset(z0, z1, d) {
-  n = max(2, ceil((z1 - z0) / Z_STEP));
-  exterior_relief([for (i = [0 : n]) [z0 + (z1 - z0) * i / n, d]]);
-}
-// The same with its own offset per station: st = [[z, d], ...], z increasing.
-module exterior_relief(st) {
   dirs = ring_dirs(EXT_RING_POINTS);
-  ring_loft([for (s = st) let(z = s[0], d = s[1], zc = max(0, min(L, z)), E = exterior_ring_at(zc))
+  n = max(2, ceil((z1 - z0) / Z_STEP));
+  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, zc = max(0, min(L, z)), E = exterior_ring_at(zc))
     sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
 }
 
@@ -1653,38 +1649,37 @@ SD_GW = 2 * SHANK_CUT + 0.4;   // a groove's width at the surface (45-degree sid
 SD_RINGS = shank_detail == "ring" ? 1 : max(1, min(shank_detail_count, floor((SD_SPAN[1] - SD_SPAN[0]) / (SD_GW + 0.6))));
 SD_CENTRES = shank_detail == "ring" ? [lerp(SD_SPAN[0] + SD_GW / 2, SD_SPAN[1] - SD_GW / 2, clamp01(shank_detail_position))]
   : let(p = (SD_SPAN[1] - SD_SPAN[0]) / SD_RINGS) [for (i = [0 : SD_RINGS - 1]) SD_SPAN[0] + (i + 0.5) * p];
-// Stations for the grooves' relief: -0.05 (just outside the surface) between grooves, the depth
-// across each groove's bottom, every 0.5mm or so (so the relief follows a flaring surface).
-function groove_stations(cs, gw, d, z0, z1) =
-  let(h = gw / 2, ends = concat([z0], [for (c = cs) c + h]), starts = concat([for (c = cs) c - h], [z1]))
-  concat([[z0, -0.05]], [for (i = [0 : len(cs)]) each concat(
-    let(a = ends[i], b = starts[i], m = max(1, ceil((b - a) / 0.5))) [for (k = [1 : m - 1]) [a + (b - a) * k / m, -0.05]],
-    i < len(cs) ? let(p = cs[i] - h + d, q = cs[i] + h - d, m = max(1, ceil((q - p) / 0.5)))
-      concat([[cs[i] - h, -0.05]], [for (k = [0 : m]) [p + (q - p) * k / m, d]], [[cs[i] + h, -0.05]]) : [])], [[z1, -0.05]]);
+// The shank's details go square to the bore, like the end face (not to the table, which the bore
+// is tilted from): built in the bore's frame, origin on its axis at the end face, z along it. A
+// design z is about z + 1 there (the end face is at z = -1 on the axis).
+module bore_frame() { translate([0, bah_at(-1), -1]) rotate([bore_tilt, 0, 0]) children(); }
+// The surface's smallest distance from the bore axis at z (the table plane cuts the underside).
+function shank_r_at(z) = let(E = exterior_ring_at(max(0, z)), c = bah_at(z)) min(E[E_HW], E[E_TOP] - c, c - max(0, E[E_BOT]));
 
 module shank_cutter() {
+  // Rings: each a groove turned around the bore (45-degree sides); the skin flattens its bottom.
   if (shank_detail == "ring" || shank_detail == "rings")
     difference() {
-      exterior_offset(SD_SPAN[0] - 0.4, SD_SPAN[1] + 0.4, -1);
-      exterior_relief(groove_stations(SD_CENTRES, SD_GW, SHANK_CUT, SD_SPAN[0] - 0.5, SD_SPAN[1] + 0.5));
+      bore_frame() for (c = SD_CENTRES) let(r = shank_r_at(c), hb = max(0.05, SD_GW / 2 - SHANK_CUT))
+        translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS)
+          polygon([[r - SHANK_CUT - 1, -hb], [r - SHANK_CUT, -hb], [r + 6, -hb - SHANK_CUT - 6],
+                   [r + 6, hb + SHANK_CUT + 6], [r - SHANK_CUT, hb], [r - SHANK_CUT - 1, hb]]);
+      exterior_offset(SD_SPAN[0] - 2, SD_SPAN[1] + 2, SHANK_CUT);
     }
+  // Flutes: each a V (45-degree sides) along the bore, its point fw/2 under the surface (following
+  // the flare in 0.5mm pieces) and rising at 45 degrees at both ends, so no ledge to print.
   if (shank_detail == "flutes") {
-    E = exterior_ring_at((SD_SPAN[0] + SD_SPAN[1]) / 2);
     n = max(2, shank_detail_count);
-    fw = min(PI * 2 * E[E_HW] / n * 0.6, SD_GW);   // across at the surface: a V with 45-degree sides
-    intersection() {
-      // the skin they cut: SHANK_CUT deep, ramping out at 45 degrees at both ends (no ledge to print)
-      difference() {
-        exterior_offset(SD_SPAN[0] - 0.4, SD_SPAN[1] + 0.4, -1);
-        exterior_relief(groove_stations([(SD_SPAN[0] + SD_SPAN[1]) / 2], SD_SPAN[1] - SD_SPAN[0], SHANK_CUT, SD_SPAN[0] - 0.5, SD_SPAN[1] + 0.5));
-      }
-      // each flute a V (45-degree sides) whose point sits fw/2 under the surface all along (it
-      // follows the flare in 1mm pieces); the skin flattens its bottom
-      for (i = [0 : n - 1]) let(ang = 90 + i * 360 / n)
-        for (z = [SD_SPAN[0] - 1 : 1 : SD_SPAN[1] + 0.99]) hull() for (zz = [z, z + 1])
-          let(Ez = exterior_ring_at(max(0, zz)), r = (Ez[E_HW] + (Ez[E_TOP] - Ez[E_BOT]) / 2) / 2)
-          translate([0, Ez[E_CY], zz]) rotate([0, 0, ang]) linear_extrude(0.01)
-            polygon([[r - fw / 2, 0], [r + 6, 6 + fw / 2], [r + 6, -6 - fw / 2]]);
+    fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, SD_GW);
+    m = max(2, ceil((SD_SPAN[1] - SD_SPAN[0]) / 0.5));
+    tip = function(k) let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * k / m)
+      [z + 1, shank_r_at(z), min(fw / 2, z - SD_SPAN[0], SD_SPAN[1] - z)];
+    difference() {
+      bore_frame() for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
+        for (k = [0 : m - 1]) hull() for (p = [tip(k), tip(k + 1)])
+          translate([0, 0, p[0]]) linear_extrude(0.01)
+            polygon([[p[1] - p[2], 0], [p[1] + 6, 6 + p[2]], [p[1] + 6, -6 - p[2]]]);
+      exterior_offset(SD_SPAN[0] - 2, SD_SPAN[1] + 2, SHANK_CUT);
     }
   }
   if (has_text(shank_text)) shank_text_cutter();
@@ -1692,29 +1687,27 @@ module shank_cutter() {
 
 // The shank text, wrapped around the band: the flat text's x becomes the distance around from the
 // top (shank_text_around turns it; + toward the right side, -x), cut into 2mm strips, each a wedge
-// standing out along that point's radius. Read with the tip up, letters upright.
+// standing out along that point's radius from the bore. Read with the tip up, letters upright.
 module shank_text_cutter() {
-  E = exterior_ring_at(shank_text_z);
-  R = (E[E_HW] + (E[E_TOP] - E[E_BOT]) / 2) / 2;
-  cy = E[E_CY];
+  R = shank_r_at(shank_text_z);
   sw = 2; inw = SHANK_TEXT_CUT + 2; out = 20;  // far out: where the band flares, a strip must still start outside
   half = min(text_block(shank_text, shank_text_size, 1)[0] / 2 + 1, PI * R);
   n = ceil(half / sw);
   z0 = SHANK_BAND[0]; z1 = shank_text_z + shank_text_h / 2 + 1.5;
   difference() {
-    intersection() {
-      translate([-50, -50, z0]) cube([100, 100, z1 - z0]);
+    bore_frame() intersection() {
+      translate([-50, -50, z0 + 1]) cube([100, 100, z1 - z0]);
       for (k = [-n : n - 1])
         let(u = (k + 0.5) * sw, a = 90 + shank_text_around + u / R * 180 / PI, nr = [cos(a), sin(a)], t = [-sin(a), cos(a)])
-        multmatrix([[t[0], 0, nr[0], nr[0] * (R - inw)], [t[1], 0, nr[1], cy + nr[1] * (R - inw)],
-                    [0, 1, 0, shank_text_z], [0, 0, 0, 1]])
+        multmatrix([[t[0], 0, nr[0], nr[0] * (R - inw)], [t[1], 0, nr[1], nr[1] * (R - inw)],
+                    [0, 1, 0, shank_text_z + 1], [0, 0, 0, 1]])
           linear_extrude(height = inw + out, scale = [(R + out) / (R - inw), 1])
             scale([(R - inw) / R, 1]) translate([-u, 0]) intersection() {
               lettering_text(shank_text, shank_text_size, font_name(shank_text_font));
               translate([u - sw / 2 - 0.05, -50]) square([sw + 0.1, 100]);
             }
     }
-    exterior_offset(z0 - 1, z1 + 1, SHANK_TEXT_CUT);
+    exterior_offset(z0 - 2, z1 + 2, SHANK_TEXT_CUT);
   }
 }
 
