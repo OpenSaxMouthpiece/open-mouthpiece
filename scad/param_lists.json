@@ -3716,7 +3716,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "aa8d54ed-17347",
+  "hash": "f4dfc79f-20202",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4245,6 +4245,26 @@
     "type": "number"
    },
    {
+    "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": 0,
+    "name": "shoulder_smoothness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
+    "group": "Exterior",
+    "initial": 0,
+    "max": 1,
+    "min": -1,
+    "name": "beak_top_width",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.",
     "group": "Exterior",
     "initial": 0,
@@ -4265,7 +4285,7 @@
     "type": "number"
    },
    {
-    "caption": "Text on top (empty = none). {tip}, {tip_mm}, {facing}, {chamber}, {length} fill in.",
+    "caption": "Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.",
     "group": "Lettering",
     "initial": "",
     "name": "top_text",
@@ -4356,7 +4376,7 @@
     "type": "boolean"
    },
    {
-    "caption": "Text on the right side (seen from above, tip away). Same fill-ins as the top text.",
+    "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
     "initial": "",
     "name": "side_text_right",
@@ -4380,7 +4400,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the side text toward the tip (+) or the shank (-) (mm).",
+    "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
     "initial": 0,
     "max": 50,
@@ -4400,6 +4420,7 @@
     "type": "number"
    },
    {
+    "caption": "Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).",
     "group": "Lettering",
     "initial": "engraved",
     "name": "lettering_style",
@@ -4505,6 +4526,307 @@
     "type": "number"
    },
    {
+    "caption": "The top text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "top_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "The side texts' own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "side_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Text around the shank's round band at the neck end (empty = none); variables as on top.",
+    "group": "Lettering",
+    "initial": "",
+    "name": "shank_text",
+    "type": "string"
+   },
+   {
+    "caption": "Shank letter height (mm); the band is short, so keep it small.",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "shank_text_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 180,
+    "min": -180,
+    "name": "shank_text_around",
+    "step": 15,
+    "type": "number"
+   },
+   {
+    "caption": "The shank text's own typeface; same = the Font above.",
+    "group": "Lettering",
+    "initial": "same",
+    "name": "shank_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "group": "Lettering",
+    "initial": "none",
+    "name": "shank_detail",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "ring",
+      "value": "ring"
+     },
+     {
+      "name": "rings",
+      "value": "rings"
+     },
+     {
+      "name": "flutes",
+      "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many rings or flutes (rings: as many as fit).",
+    "group": "Lettering",
+    "initial": 3,
+    "max": 40,
+    "min": 2,
+    "name": "shank_detail_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "group": "Lettering",
+    "initial": 0.25,
+    "max": 1,
+    "min": 0,
+    "name": "shank_detail_position",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "group": "Lettering",
+    "initial": 0.6,
+    "max": 1.2,
+    "min": 0.3,
+    "name": "shank_detail_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -4555,7 +4877,7 @@
     "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
     "group": "Ligature",
     "initial": 2,
-    "max": 25,
+    "max": 40,
     "min": -10,
     "name": "ligature_position",
     "step": 0.5,
@@ -4603,7 +4925,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tongue runs along: the top, or under the reed.",
+    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -4640,10 +4962,83 @@
     "type": "number"
    },
    {
-    "caption": "Text on the ligature's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_text",
+    "type": "string"
+   },
+   {
+    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "group": "Ligature",
+    "initial": "same",
+    "name": "ligature_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {
@@ -4862,10 +5257,83 @@
     "type": "number"
    },
    {
-    "caption": "Text on the cap's top (empty = none). Same fill-ins as the top text.",
+    "caption": "Text on the cap's top (empty = none). Lines, variables as on the top text.",
     "group": "Cap",
     "initial": "",
     "name": "cap_text",
+    "type": "string"
+   },
+   {
+    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "group": "Cap",
+    "initial": "same",
+    "name": "cap_text_font",
+    "options": [
+     {
+      "name": "same",
+      "value": "same"
+     },
+     {
+      "name": "Sans Bold",
+      "value": "Sans Bold"
+     },
+     {
+      "name": "Sans",
+      "value": "Sans"
+     },
+     {
+      "name": "Serif Bold",
+      "value": "Serif Bold"
+     },
+     {
+      "name": "Serif",
+      "value": "Serif"
+     },
+     {
+      "name": "Serif Italic",
+      "value": "Serif Italic"
+     },
+     {
+      "name": "Mono Bold",
+      "value": "Mono Bold"
+     },
+     {
+      "name": "Bebas Neue",
+      "value": "Bebas Neue"
+     },
+     {
+      "name": "Marcellus SC",
+      "value": "Marcellus SC"
+     },
+     {
+      "name": "Rozha One",
+      "value": "Rozha One"
+     },
+     {
+      "name": "Alfa Slab One",
+      "value": "Alfa Slab One"
+     },
+     {
+      "name": "Audiowide",
+      "value": "Audiowide"
+     },
+     {
+      "name": "Black Ops One",
+      "value": "Black Ops One"
+     },
+     {
+      "name": "Lobster",
+      "value": "Lobster"
+     },
+     {
+      "name": "Pacifico",
+      "value": "Pacifico"
+     },
+     {
+      "name": "Kaushan Script",
+      "value": "Kaushan Script"
+     }
+    ],
     "type": "string"
    },
    {

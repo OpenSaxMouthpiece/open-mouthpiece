@@ -1,4 +1,4 @@
-// Regenerate voice/param files (scad/*.scad and scad/fits/*.scad that include the base) from the
+// Regenerate voice/param files (scad/*.scad, fits/, variants/, extras/ that include the base) from the
 // base's annotated parameter block, keeping each file's own values and header comment. Run it
 // after changing parameters or annotations in scad/lib/mouthpiece_base.scad.
 //   node scripts/sync_voice_files.mjs            (all voice files)
@@ -10,7 +10,7 @@ import { SCAD_DIR, buildVoiceFile, readAssignments, readHeader, isVoiceFile } fr
 const listed = process.argv.slice(2);
 const files = listed.length
   ? listed
-  : [SCAD_DIR, path.join(SCAD_DIR, 'fits'), path.join(SCAD_DIR, 'variants')]
+  : [SCAD_DIR, ...['fits', 'variants', 'extras'].map((d) => path.join(SCAD_DIR, d))]
       .flatMap((d) => (fs.existsSync(d) ? fs.readdirSync(d).map((f) => path.join(d, f)) : []))
       .filter((f) => f.endsWith('.scad'));
 
