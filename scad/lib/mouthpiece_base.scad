@@ -1742,8 +1742,15 @@ function curve_editor_curves() =
 function shape_edit_lines() =
   let(sample = function(z0, z1, C) [for (z = [z0 : max(0.5, (z1 - z0) / 60) : z1]) [z, pchip_at(z, C)]])
   let(rings = function(z0, z1) [for (r = AIR_RINGS) if (r[0] >= z0 && r[0] <= z1) r])
+  // the underside as built (the socket's wall, the scoop's blend into the table), up to where the
+  // table plane cuts it: the outline table alone runs on past the scoop, off the silhouette
+  let(bot = [for (z = [0 : 0.5 : table_rear_z]) [z, exterior_ring_at(z)[E_BOT]]])
+  let(cut = [for (i = [0 : len(bot) - 1]) if (bot[i][1] <= 0) i])
+  let(k = len(cut) ? cut[0] : len(bot) - 1)
+  let(cross = k > 0 && bot[k][1] <= 0
+    ? [lerp(bot[k - 1][0], bot[k][0], bot[k - 1][1] / (bot[k - 1][1] - bot[k][1])), 0] : bot[k])
   [["top", sample(0, L, EXT_TOP_C)],
-   ["underside", has_pts(EXT_BOTTOM_C) ? sample(0, min(L, EXT_BOTTOM_C[len(EXT_BOTTOM_C) - 1][0]), EXT_BOTTOM_C) : []],
+   ["underside", has_pts(EXT_BOTTOM_C) ? [for (i = [0 : k - 1]) bot[i], cross] : []],
    ["width", sample(0, L, EXT_WIDTH_C)],
    ["baffle", [for (r = rings(baffle_start_z, L)) [r[0], r[1][1]]]],
    ["floor", [for (r = rings(eff_throat_z, win_z0)) [r[0], r[1][2]]]],
