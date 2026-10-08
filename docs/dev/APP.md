@@ -145,9 +145,10 @@ static site (docs/HOSTING.md).
   beak"): the STL on screen cut at x = 0 (segments chained into loops, even-odd fill), true to
   scale, the tip right and the reed side down. "Before the last change" (dashed) is the previous
   final render with other settings (`sig`), reset per design; B dashed blue when its STL is in frame.
-  Body & beak also shows **From the tip** (`TipChart.tsx`, `crossOutline()`: rays cast against a cut
-  across the beak, so the window and bore don't show), with its own "where it cuts" slider, before
-  dashed and B. **Slider ends:** every directional slider has words under its ends (`paramEnds`,
+  Each also shows a **slice across** it where the slice line is (drag the line, or "Where to slice"):
+  the Outside's outline (`crossOutline()`: rays up from the cut's bottom middle, closed along the
+  reed side, so the window and bore don't show), the Inside's cut (`crossSection()`), before dashed
+  and B; Edit shape dots there add an offset point at the slice. **Slider ends:** every directional slider has words under its ends (`paramEnds`,
   `ENDS` in design.ts, e.g. Crisp / Smooth); measurements (cork diameter) have none.
   **Edit shape** (`src/shapeEdit.ts`): the section's lines (Body & beak: top, underside, width;
   Chamber & baffle: baffle, floor, inside width) from `shape_edit_lines()`, which rides along with
