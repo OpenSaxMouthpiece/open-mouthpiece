@@ -1,3 +1,4 @@
+import "./fresh"; // must run before anything reads storage
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";

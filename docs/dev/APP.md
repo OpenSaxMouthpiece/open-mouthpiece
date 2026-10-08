@@ -249,7 +249,13 @@ static site (docs/HOSTING.md).
 - `npm run dev:lan` runs Vite with `--host` (open the machine's Wi-Fi address; ignore virtual and
   link-local adapters). Other devices only get the page; OpenSCAD runs on them.
 - A second Vite on another port (`npx vite --port 5190 --strictPort`) is a separate origin with
-  fresh storage; it listens on `localhost`, which may be IPv6, not 127.0.0.1.
+  its own storage; it listens on `localhost`, which may be IPv6, not 127.0.0.1. `?fresh` (dev
+  server and the dev site only, `src/fresh.ts`) clears the site's storage before the app starts,
+  as on a first visit, then drops itself from the address.
+- `npm test`: Vitest unit tests for pure logic (`src/*.test.ts`; CI runs them). `npm run check`
+  covers the geometry.
+- Layout: `src/app/rail.ts` (the rail's places and what a pick does; also the phone's bottom bar),
+  `src/app/Workspace.tsx` (the desktop grid: rail, code column, panel, view + dock, splitters).
 - Screenshots from a script: headless Chrome over CDP (`--headless=new --remote-debugging-port`,
   `node --experimental-websocket`), `Runtime.evaluate` a click script, `Page.captureScreenshot` (a
   hidden tab stalls rAF/ResizeObserver). Keep such tools out of scad/_sweep/: `npm run sweep`

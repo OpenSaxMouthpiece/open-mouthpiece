@@ -11,6 +11,7 @@ npm install
 npm run dev            # the app (Vite, first free port from 5173); scad/ is served live
 npm run dev:lan        # the same, reachable from phones/tablets on your network
 npm run build          # the site -> dist/ (docs/HOSTING.md); npm run preview to try it
+npm test               # unit tests (Vitest) for the app's pure logic, src/*.test.ts
 npm run check          # regression check of every param file; -- --update to accept changes
 npm run sweep          # robustness sweep over the parameter space (a few minutes)
 npm run lint           # ESLint (TypeScript, React hooks); npm run typecheck for tsc alone

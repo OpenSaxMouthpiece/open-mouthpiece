@@ -13,7 +13,9 @@ import { Console } from "./components/Console";
 import { ComparePanel } from "./components/ComparePanel";
 import { CurveEditor } from "./components/CurveEditor";
 import { Credits, DesignPanel } from "./components/DesignPanel";
-import { Rail, type RailItem } from "./components/Rail";
+import { Rail } from "./components/Rail";
+import { buildRail } from "./app/rail";
+import { MIN_EDITOR_W, MIN_PANEL_W, Workspace } from "./app/Workspace";
 import { ShapeDock, type DockTab } from "./components/ShapeDock";
 import { TipChart } from "./components/TipChart";
 import { FacingChart } from "./components/FacingChart";
@@ -39,7 +41,7 @@ import {
   writeStl,
   type PrintFrame,
 } from "./meshFrame";
-import { DESIGN_SECTIONS, FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
+import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
 import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
 import { TextVariables } from "./components/TextField";
@@ -88,7 +90,7 @@ import {
   type Quality,
 } from "./app/session";
 import { Logo } from "./components/Logo";
-import { startDrag, useMediaQuery, useWindowWidth } from "./hooks/useMediaQuery";
+import { useMediaQuery, useWindowWidth } from "./hooks/useMediaQuery";
 import { useValueHistory } from "./hooks/useValueHistory";
 import { useParamFocus } from "./hooks/useParamFocus";
 import { useModelRender, type RenderState, type Status } from "./hooks/useModelRender";
@@ -100,8 +102,6 @@ const PHONE_VIEW_KEY = "open-mouthpiece-phone-view-v1";
 const POINT_VALUES: Record<string, string> = { facing_gauge_points: "facing_model" };
 const QUALITY_HINT =
   "Model detail: Draft is fastest, Fine slowest. Changes show a quick draft first, then this quality once you pause. Downloads are always at least Normal.";
-const MIN_EDITOR_W = 260;
-const MIN_PANEL_W = 320;
 
 // "model" = whatever is on screen; "mouthpiece" = the mouthpiece even while a test ring is shown.
 type PartWhat = "model" | "mouthpiece" | "ring" | "ligature" | "cap";
@@ -1989,96 +1989,24 @@ export default function App() {
     </a>
   );
 
-  // ---- the rail: the generator's sections (the parts made from it after a line, then printing), the
-  // tools at the bottom. A file that isn't the generator's has one place: its settings.
-  const RAIL: Record<string, [label: string, icon: RailItem["icon"]]> = {
-    "Tip & facing": ["Tip", "tip"],
-    "Fit on the horn": ["Fit", "fit"],
-    "Chamber & baffle": ["Chamber", "chamber"],
-    "Body & beak": ["Body", "body"],
-    Personalise: ["Engrave", "text"],
-    Ligature: ["Ligature", "ligature"],
-    Cap: ["Cap", "cap"],
-    Printing: ["Print", "print"],
-  };
-  const railSections = designOK
-    ? DESIGN_SECTIONS.filter(
-        (s) => (!s.ligature || ligOK) && (!s.cap || capOK) && s.items.some((i) => param(i.name)) && RAIL[s.title],
-      )
-    : [];
-  const TOOLS = ["compare", "points", "about"];
-  const railNow =
-    !TOOLS.includes(railSel) && !railSections.some((s) => s.title === railSel)
-      ? (railSections[0]?.title ?? "settings")
-      : railSel;
-  const sectionOfNow = railSections.find((s) => s.title === railNow);
-  // A section's dock chart: the facing for the tip, the outside for the body, the inside for the chamber.
-  const DOCK_OF: Record<string, string> = {
-    "Tip & facing": "facing",
-    "Body & beak": "body",
-    "Chamber & baffle": "chamber",
-  };
-  const pickRail = (id: string) => {
-    if (id === "code") return setCodeOpen(!codeOpen);
-    setRailSel(id);
-    const s = railSections.find((x) => x.title === id);
-    if (!s) return;
-    const part: PartTab = s.ligature ? "ligature" : s.cap ? "cap" : "mouthpiece";
-    if (part !== tab) openPartTab(part);
-    if (DOCK_OF[id]) setDockTab(DOCK_OF[id]);
-    // the view flies to the part the section shapes (Auto-zoom)
-    const first = s.items.find((i) => param(i.name));
-    if (first && part === "mouthpiece") focusOn(first.name);
-  };
-  const changedIn = (s: (typeof DESIGN_SECTIONS)[number]) =>
-    [...s.items.map((i) => i.name), ...(s.more ?? [])].filter((n) => n in values).length;
-  const railItems: RailItem[] = [
-    ...(railSections.length
-      ? railSections.map((s, i): RailItem => ({
-          id: s.title,
-          label: RAIL[s.title][0],
-          title: s.title,
-          icon: RAIL[s.title][1],
-          active: railNow === s.title,
-          dot: s.ligature ? ligMade : s.cap ? capMade : undefined,
-          changed: changedIn(s) || undefined,
-          sep: i > 0 && (!!s.ligature || s.title === "Printing" || (!!s.cap && !railSections[i - 1].ligature)),
-        }))
-      : [{ id: "settings", label: "Settings", title: "Settings", icon: "settings" as const, active: true }]),
-    {
-      id: "compare",
-      label: "Compare",
-      title: "Compare two designs (A/B)",
-      icon: "compare",
-      active: railNow === "compare",
-      dot: !!pinned,
-      group: "tools",
-    },
-    {
-      id: "points",
-      label: "Points",
-      title: "Exact points (advanced: Edit shape in the charts is easier)",
-      icon: "points",
-      active: railNow === "points",
-      group: "tools",
-    },
-    {
-      id: "code",
-      label: "Code",
-      title: codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console",
-      icon: "code",
-      active: codeOpen,
-      group: "tools",
-    },
-    {
-      id: "about",
-      label: "About",
-      title: "About Open Mouthpiece",
-      icon: "about",
-      active: railNow === "about",
-      group: "tools",
-    },
-  ];
+  const rail = buildRail({
+    selected: railSel,
+    designOK,
+    ligOK,
+    capOK,
+    has: (n) => !!param(n),
+    changed: (n) => n in values,
+    ligMade,
+    capMade,
+    pinned: !!pinned,
+    codeOpen,
+    tab,
+    select: setRailSel,
+    toggleCode: () => setCodeOpen(!codeOpen),
+    openPart: openPartTab,
+    showDock: setDockTab,
+    focusOn,
+  });
   // ---- phone: viewer on top, one panel below (Design goes as deep as you open it; the code has its
   // own tabs), everything else in the ☰ menu
   if (isPhone) {
@@ -2239,7 +2167,7 @@ export default function App() {
             designEl(
               false,
               mpReadouts && summary?.notes.length ? <Notes notes={summary.notes} /> : undefined,
-              railSections.length ? (sectionOfNow?.title ?? "") : undefined,
+              rail.sections.length ? (rail.section?.title ?? "") : undefined,
               true,
             ),
           )}
@@ -2254,8 +2182,8 @@ export default function App() {
           )}
           {pane("console", consoleEl)}
         </section>
-        {phonePanel === "design" && railSections.length > 0 && (
-          <Rail items={railItems.filter((i) => !i.group)} onPick={pickRail} horizontal />
+        {phonePanel === "design" && rail.sections.length > 0 && (
+          <Rail items={rail.items.filter((i) => !i.group)} onPick={rail.pick} horizontal />
         )}
         {dropHint}
       </div>
@@ -2309,7 +2237,7 @@ export default function App() {
     </div>
   );
   const railPanel =
-    railNow === "compare"
+    rail.now === "compare"
       ? toolPanel(
           "Compare A/B",
           <>
@@ -2334,9 +2262,9 @@ export default function App() {
             </div>
           </>,
         )
-      : railNow === "points"
+      : rail.now === "points"
         ? toolPanel("Exact points", curvesEl)
-        : railNow === "about"
+        : rail.now === "about"
           ? toolPanel(
               "About",
               <>
@@ -2347,7 +2275,7 @@ export default function App() {
                 </div>
               </>,
             )
-          : designEl(true, undefined, sectionOfNow?.title ?? "");
+          : designEl(true, undefined, rail.section?.title ?? "");
   // The dock's charts (the mouthpiece's, on every part's tab: the layout stays put).
   const bodyChart = profileEl("body"),
     chamberChart = profileEl("chamber");
@@ -2362,7 +2290,6 @@ export default function App() {
       chamberChart && { id: "chamber", label: "Inside", content: chamberChart },
     ] as (DockTab | false | null | undefined)[]
   ).filter((t): t is DockTab => !!t);
-  const railColumns = `64px ${codeOpen ? `${editorWShown}px 6px ` : ""}${panelWShown}px 5px 1fr`;
   return (
     <TextVariables.Provider value={textVars}>
       <div className={appClass} {...dropProps}>
@@ -2406,66 +2333,57 @@ export default function App() {
           <AppearanceMenu />
         </header>
         {shareBox}
-        <main className="workspace rail-mode" style={{ gridTemplateColumns: railColumns }}>
-          <Rail items={railItems} onPick={pickRail} />
-          <section className="left" style={codeOpen ? undefined : { display: "none" }}>
-            <div className="filebar">
-              <button
-                className="hide-code"
-                onClick={() => setCodeOpen(false)}
-                title="Hide the code editor and console (more room for the model)"
-                aria-label="Hide the code editor"
-              >
-                ‹
-              </button>
-              {openProjectSelect}
-              {saveButton}
-              {saveAsControl}
-              {revertButton}
-              <button
-                onClick={() => download(activeTab.source, "text/plain", activeTab.name)}
-                title="Download this tab's text as it is in the editor"
-              >
-                Download tab
-              </button>
-              <span className="spacer" />
-              <label className="auto" title="Re-render automatically after edits">
-                <input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} /> Auto
-              </label>
-              <button className={auto ? "" : "primary"} onClick={render} title="Render (F6 / Ctrl+Enter)">
-                Render
-              </button>
-            </div>
-            {tabBar}
-            {fileNote}
-            {editorEl}
-            {consoleEl}
-          </section>
-          {codeOpen && (
-            <div
-              className="splitter"
-              onPointerDown={(e) => {
-                const w0 = editorWShown;
-                startDrag(e, (dx) => setEditorW(Math.max(MIN_EDITOR_W, Math.min(window.innerWidth - 500, w0 + dx))));
-              }}
-            />
-          )}
-          <aside className="right">{railPanel}</aside>
-          <div
-            className="splitter panel-edge"
-            title="Drag to resize the panel"
-            onPointerDown={(e) => {
-              const w0 = panelWShown;
-              startDrag(e, (dx) =>
-                setPanelW(Math.round(Math.max(MIN_PANEL_W, Math.min(window.innerWidth * 0.5, w0 + dx)))),
-              );
-            }}
-          />
-          <section className="center">
-            <div className="view-area">
+        <Workspace
+          rail={rail.items}
+          onPick={rail.pick}
+          codeOpen={codeOpen}
+          code={
+            <>
+              <div className="filebar">
+                <button
+                  className="hide-code"
+                  onClick={() => setCodeOpen(false)}
+                  title="Hide the code editor and console (more room for the model)"
+                  aria-label="Hide the code editor"
+                >
+                  ‹
+                </button>
+                {openProjectSelect}
+                {saveButton}
+                {saveAsControl}
+                {revertButton}
+                <button
+                  onClick={() => download(activeTab.source, "text/plain", activeTab.name)}
+                  title="Download this tab's text as it is in the editor"
+                >
+                  Download tab
+                </button>
+                <span className="spacer" />
+                <label className="auto" title="Re-render automatically after edits">
+                  <input type="checkbox" checked={auto} onChange={(e) => setAuto(e.target.checked)} /> Auto
+                </label>
+                <button className={auto ? "" : "primary"} onClick={render} title="Render (F6 / Ctrl+Enter)">
+                  Render
+                </button>
+              </div>
+              {tabBar}
+              {fileNote}
+              {editorEl}
+              {consoleEl}
+            </>
+          }
+          editorW={editorWShown}
+          panelW={panelWShown}
+          setEditorW={setEditorW}
+          setPanelW={setPanelW}
+          panel={railPanel}
+          view={
+            <>
               {viewerEl}
               {statusBar}
-            </div>
+            </>
+          }
+          dock={
             <ShapeDock
               tabs={dockTabs}
               active={dockTab}
@@ -2481,8 +2399,8 @@ export default function App() {
               }
               onOpen={setDockOpen}
             />
-          </section>
-        </main>
+          }
+        />
         {dropHint}
       </div>
     </TextVariables.Provider>

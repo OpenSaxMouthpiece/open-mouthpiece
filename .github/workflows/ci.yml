@@ -1,4 +1,4 @@
-# Lint, type-check, format check and build on every push and pull request. The geometry checks
+# Lint, type-check, format check, unit tests and build on every push and pull request. The geometry checks
 # (npm run check / sweep) need a native OpenSCAD nightly and run locally (CONTRIBUTING.md).
 name: CI
 
@@ -22,4 +22,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run format:check
+      - run: npm test
       - run: npm run build
