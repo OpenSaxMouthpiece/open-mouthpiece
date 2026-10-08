@@ -225,14 +225,6 @@ shank_detail_count = 3; // [1:1:40]
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]
-// A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).
-body_texture = "none"; // [none, ribs, rings, knurled, dimples]
-// Distance between the texture's lines or dimples (mm).
-body_texture_spacing = 3; // [1.5:0.25:8]
-// How deep the texture goes (mm); at most min_wall - 1.2.
-body_texture_depth = 0.4; // [0.2:0.05:1]
-// How far back from the tip the beak stays smooth (mm).
-body_texture_beak = 25; // [10:1:60]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
@@ -1767,61 +1759,6 @@ module shank_raised() {
   }
 }
 
-// ---- Body texture: ribs, rings, knurling or dimples all round the body, from just past the shank's
-// band to body_texture_beak short of the tip (at most up to the shoulder). A pattern cut down to a skin body_texture_depth under
-// the surface (as the shank decoration), the skin fading to the surface over BT_RAMP at both ends
-// and, its underside pushed out below the table, down the sides: the table and the beak stay smooth.
-// The depth is clamped to min_wall - 1.2, so 1.2mm of wall stays.
-BT_ON = body_texture == "ribs" || body_texture == "rings" || body_texture == "knurled" || body_texture == "dimples";
-BT_D = max(0.1, min(body_texture_depth, min_wall - 1.2));
-BT_Z = [SHANK_BAND[1] + 1, min(L - body_texture_beak, SHOULDER_F2 * L - 2)];   // and short of the shoulder (the beak starts there)
-BT_RAMP = 3;
-BT_OK = BT_ON && BT_Z[1] - BT_Z[0] > 2 * BT_RAMP;
-BT_EM = exterior_ring_at((BT_Z[0] + BT_Z[1]) / 2);
-BT_CY = BT_EM[E_CY];
-BT_PERIM = let(p = [for (a = [0 : 5 : 360]) ext_ring_pt(BT_EM, a)]) let(d = [for (i = [0 : len(p) - 2]) norm(p[i + 1] - p[i])]) d * [for (x = d) 1];
-BT_N = max(6, round(BT_PERIM / body_texture_spacing));    // lines or dimples around
-BT_W = max(0.6, body_texture_spacing * 0.4);               // a groove's width
-function bt_depth(z) = -0.3 + (BT_D + 0.3) * clamp01(min(z - BT_Z[0], BT_Z[1] - z) / BT_RAMP);   // starts outside: it crosses the surface
-module bt_skin() {
-  dirs = ring_dirs(EXT_RING_POINTS);
-  n = max(2, ceil((BT_Z[1] - BT_Z[0] + 2) / Z_STEP));
-  ring_loft([for (i = [0 : n]) let(z = BT_Z[0] - 1 + (BT_Z[1] - BT_Z[0] + 2) * i / n, E = exterior_ring_at(z), d = bt_depth(z))
-    sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] - 3, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
-}
-module bt_pattern() {
-  h = BT_Z[1] - BT_Z[0];
-  translate([0, BT_CY, BT_Z[0]]) {
-    if (body_texture == "ribs")
-      for (i = [0 : BT_N - 1]) rotate([0, 0, i * 360 / BT_N]) translate([0, -BT_W / 2, 0]) cube([60, BT_W, h]);
-    if (body_texture == "knurled")
-      for (s = [-1, 1])   // all the lines one way as one twisted star (much faster than one each)
-        linear_extrude(h, twist = s * 360 * h / (BT_PERIM * 1.2), slices = max(4, ceil(360 * h / (BT_PERIM * 1.2) / 6)))
-          for (i = [0 : BT_N - 1]) rotate(90 + (i + 0.5) * 360 / BT_N) translate([5, -BT_W / 2]) square([55, BT_W]);
-    if (body_texture == "rings")
-      for (k = [0 : floor(h / body_texture_spacing) - 1])
-        translate([-60, -60, (h - (floor(h / body_texture_spacing) - 1) * body_texture_spacing - BT_W) / 2 + k * body_texture_spacing]) cube([120, 120, BT_W]);
-  }
-  // Dimples: rows staggered by half a step (a honeycomb), each a sphere cap BT_D deep, ~0.8 spacing across.
-  if (body_texture == "dimples") {
-    s = body_texture_spacing; rho = s * 0.4; R = (rho * rho + BT_D * BT_D) / (2 * BT_D);
-    rows = floor((BT_Z[1] - BT_Z[0]) / (s * 0.866));
-    for (k = [0 : rows - 1]) let(z = BT_Z[0] + (BT_Z[1] - BT_Z[0] - (rows - 1) * s * 0.866) / 2 + k * s * 0.866, E = exterior_ring_at(z))
-      for (i = [0 : BT_N - 1]) let(th = (i + (k % 2) / 2) * 360 / BT_N, p = ext_ring_pt(E, th, z)) if (p[1] > 1)
-        let(u = [p[0], p[1] - BT_CY] / max(1e-6, norm([p[0], p[1] - BT_CY])))
-        translate([p[0] + u[0] * (R - BT_D), p[1] + u[1] * (R - BT_D), z]) sphere(R, $fn = 16);
-  }
-}
-module body_texture_cutter() {
-  difference() {
-    intersection() {
-      bt_pattern();
-      translate([-60, -60, BT_Z[0]]) cube([120, 120, BT_Z[1] - BT_Z[0]]);
-    }
-    bt_skin();
-  }
-}
-
 // The shank text, wrapped around the band: the flat text's x becomes the distance around from the
 // top (shank_text_around turns it; + toward the right side, -x), cut into 2mm strips, each a wedge
 // standing out along that point's radius from the bore. Read with the tip up, letters upright.
@@ -2474,7 +2411,6 @@ module mouthpiece_body() {
     facing_cutter();
     if (HAS_LETTERING) lettering_cutter();
     if (HAS_SHANK_ART) shank_cutter();
-    if (BT_OK) body_texture_cutter();
   }
 }
 

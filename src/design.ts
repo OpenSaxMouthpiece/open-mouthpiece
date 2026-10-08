@@ -205,13 +205,6 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "shank_detail_count", label: "How many", when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]] },
       { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "rings"] },
       {
-        name: "body_texture",
-        label: "Body texture",
-        caption: "All round the body; the table and the beak stay smooth.",
-        optionLabels: { none: "None", ribs: "Ribs (lines along it)", rings: "Rings", knurled: "Knurled (diamonds)", dimples: "Dimples" },
-      },
-      { name: "body_texture_spacing", label: "Texture size", when: ["body_texture", ["ribs", "rings", "knurled", "dimples"]] },
-      {
         name: "lettering_font",
         label: "Font",
         showIf: ["top_text", "side_text_right", "side_text_left", "shank_text", "ligature_text", "cap_text"],
@@ -238,8 +231,6 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       "shank_text_font",
       "shank_text_around",
       "shank_detail_depth",
-      "body_texture_depth",
-      "body_texture_beak",
       "lettering_depth",
       "side_text_vertical",
       "lettering_tip_clearance",
@@ -418,8 +409,6 @@ const LABELS: Record<string, string> = {
   shank_text_font: "Shank text font",
   shank_text_around: "Shank text around",
   shank_detail_depth: "Shank decoration depth",
-  body_texture_depth: "Body texture depth",
-  body_texture_beak: "Smooth beak length",
   ligature_text_font: "Ligature text font",
   cap_text_font: "Cap text font",
   lettering_tip_clearance: "Lettering distance from the tip",
@@ -514,9 +503,6 @@ const ENDS: Record<string, [string, string]> = {
   shank_detail_count: ["Few", "Many"],
   shank_detail_position: ["By the neck end", "By the flare"],
   shank_detail_depth: SHALLOW_DEEP,
-  body_texture_spacing: ["Fine", "Coarse"],
-  body_texture_depth: SHALLOW_DEEP,
-  body_texture_beak: ["Short", "Long"],
   lettering_depth: SHALLOW_DEEP,
   lettering_tip_clearance: ["Near the tip", "Far back"],
   // Ligature
@@ -654,8 +640,6 @@ for (const [n, texts] of [
 ] as [string, string[]][])
   INACTIVE[n] = (get) => (anyText(get, texts) ? null : "no text to apply it to");
 INACTIVE.shank_detail_position = (get) => (Number(get("shank_detail_count")) === 1 ? null : "only with one ring");
-for (const n of ["body_texture_depth", "body_texture_beak"])
-  INACTIVE[n] = (get) => (get("body_texture") && get("body_texture") !== "none" ? null : "no body texture");
 INACTIVE.shank_detail_depth = (get) =>
   get("shank_detail") && get("shank_detail") !== "none" ? null : "no shank decoration";
 INACTIVE.cap_image_aspect = (get) => (anyText(get, ["cap_image"]) ? null : "no picture on the cap");

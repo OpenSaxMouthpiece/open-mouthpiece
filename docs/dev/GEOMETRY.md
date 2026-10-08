@@ -181,13 +181,6 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
   `bundle_scad.mjs` drops the font `use`s.
   Each text can have its own (`top_text_font`, `side_text_font`, `shank_text_font`,
   `ligature_text_font`, `cap_text_font`; "same" = `lettering_font`, via `font_name()`).
-- **Body texture** (`body_texture`: ribs, rings, knurled, dimples; `body_texture_cutter`): from 1mm
-  past the shank band to `body_texture_beak` short of the tip, never past the shoulder - 2 (the
-  shoulder's step made loose specks). A pattern cut down to a skin (`bt_skin`, rings moved in by
-  `bt_depth`, clamped to `min_wall` - 1.2) whose ends start 0.3mm outside the surface (it crosses
-  in over 3mm: a fade, no slivers) and whose underside sits 3mm below the table (fades out down the
-  sides; table and window untouched). Knurling = one twisted star per direction (one extrude each
-  was 3x slower); dimples = sphere caps on staggered rows.
 - **Shank band** (`SHANK_BAND`): the round stretch at the neck end, from 1mm past the socket's
   lead-in to where the width starts to flare (at least 7mm: the bari's and soprano's shanks flare
   from the end, so they get that much of the flare), short of the reed's heel. `shank_detail` cuts

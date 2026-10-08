@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "294b05c3-19978",
+  "hash": "ea973618-19515",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1132,65 +1132,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -1938,7 +1879,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "dd520356-20215",
+  "hash": "5d9d4e57-19752",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3070,65 +3011,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -3876,7 +3758,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "d25dc2f4-20887",
+  "hash": "6cc90f85-20424",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5008,65 +4890,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -5814,7 +5637,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "cae5d039-20180",
+  "hash": "c5f0d00-19717",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6946,65 +6769,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -7752,7 +7516,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "fe748394-20357",
+  "hash": "3077ce45-19894",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8884,65 +8648,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -9690,7 +9395,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "a643e347-19927",
+  "hash": "48b16242-19464",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10822,65 +10527,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -11628,7 +11274,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "de88c712-19976",
+  "hash": "a2fafb31-19513",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12760,65 +12406,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -13566,7 +13153,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "4d333e8b-19940",
+  "hash": "73fec7aa-19477",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14698,65 +14285,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -15504,7 +15032,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "55803308-20152",
+  "hash": "47475ed3-19689",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16636,65 +16164,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -17442,7 +16911,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "86544c50-20215",
+  "hash": "3753e9a3-19752",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18574,65 +18043,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -19380,7 +18790,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "dcd55852-20167",
+  "hash": "2bde2397-19704",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20512,65 +19922,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -21318,7 +20669,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "a40bc49e-20188",
+  "hash": "23c99007-19725",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22450,65 +21801,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -23256,7 +22548,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "6d77bd9b-20235",
+  "hash": "f9f98d5c-19772",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24388,65 +23680,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -25194,7 +24427,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "6580e338-20200",
+  "hash": "8d96379b-19737",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26326,65 +25559,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -27132,7 +26306,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "85d8bc94-20310",
+  "hash": "19d81495-19847",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28264,65 +27438,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -29070,7 +28185,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "c27a8122-20350",
+  "hash": "33b2bd97-19887",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30202,65 +29317,6 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
-    "type": "number"
-   },
-   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -31008,7 +30064,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "f65d9ebc-20319",
+  "hash": "384f9597-19856",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32137,65 +31193,6 @@
     "min": 0.3,
     "name": "shank_detail_depth",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).",
-    "group": "Lettering",
-    "initial": "none",
-    "name": "body_texture",
-    "options": [
-     {
-      "name": "none",
-      "value": "none"
-     },
-     {
-      "name": "ribs",
-      "value": "ribs"
-     },
-     {
-      "name": "rings",
-      "value": "rings"
-     },
-     {
-      "name": "knurled",
-      "value": "knurled"
-     },
-     {
-      "name": "dimples",
-      "value": "dimples"
-     }
-    ],
-    "type": "string"
-   },
-   {
-    "caption": "Distance between the texture's lines or dimples (mm).",
-    "group": "Lettering",
-    "initial": 3,
-    "max": 8,
-    "min": 1.5,
-    "name": "body_texture_spacing",
-    "step": 0.25,
-    "type": "number"
-   },
-   {
-    "caption": "How deep the texture goes (mm); at most min_wall - 1.2.",
-    "group": "Lettering",
-    "initial": 0.4,
-    "max": 1,
-    "min": 0.2,
-    "name": "body_texture_depth",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How far back from the tip the beak stays smooth (mm).",
-    "group": "Lettering",
-    "initial": 25,
-    "max": 60,
-    "min": 10,
-    "name": "body_texture_beak",
-    "step": 1,
     "type": "number"
    },
    {
