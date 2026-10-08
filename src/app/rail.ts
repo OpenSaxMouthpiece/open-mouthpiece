@@ -23,6 +23,9 @@ const DOCK_OF: Record<string, string> = {
   "Body & beak": "body",
   "Chamber & baffle": "chamber",
 };
+// Where a pick flies when it isn't the section's first setting: Personalize shows the whole model
+// (its first setting is the top text, a blank close-up while there's none).
+const FLY_OF: Record<string, string> = { Personalize: "overall_length" };
 
 export interface RailInput {
   selected: string; // the remembered place (a section's title or a tool)
@@ -71,8 +74,8 @@ export function buildRail(r: RailInput): Rail {
     const part: PartTab = s.ligature ? "ligature" : s.cap ? "cap" : "mouthpiece";
     if (part !== r.tab) r.openPart(part);
     if (DOCK_OF[id]) r.showDock(DOCK_OF[id]);
-    const first = s.items.find((i) => r.has(i.name));
-    if (first && part === "mouthpiece") r.focusOn(first.name);
+    const first = r.has(FLY_OF[id] ?? "") ? FLY_OF[id] : s.items.find((i) => r.has(i.name))?.name;
+    if (first && part === "mouthpiece") r.focusOn(first);
   };
   const changedIn = (s: DesignSection) => [...s.items.map((i) => i.name), ...(s.more ?? [])].filter(r.changed).length;
   const tool = (id: string, label: string, title: string, icon: RailItem["icon"], extra: Partial<RailItem> = {}) =>

@@ -65,7 +65,7 @@ export function CapHead({
       </p>
       {info && info.notes.length > 0 && <Notes notes={info.notes} />}
       <div className="lig-actions">
-        <button onClick={() => onView({ on: !view.on })}>{view.on ? "Hide" : "Show it"}</button>
+        {!view.on && <button onClick={() => onView({ on: true })}>Show it</button>}
         {view.on && (
           <select
             value={alone ? "alone" : view.beside ? "beside" : "on"}
@@ -81,6 +81,7 @@ export function CapHead({
           </select>
         )}
         {download}
+        {view.on && <button onClick={() => onView({ on: false })}>Hide</button>}
         {remove}
       </div>
     </div>

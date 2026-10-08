@@ -1,6 +1,6 @@
 // The dropdowns that pick a mouthpiece: which one to design (the voice picker) and which one to
 // compare with. Both list presets, variants and the user's own designs.
-import { baseName, isExtra, isVariant, voiceLabel, type Tab } from "../app/files";
+import { baseName, isExtra, isVariant, variantBlurb, voiceLabel, type Tab } from "../app/files";
 
 // Files of the site, sorted for the pickers.
 export interface FileGroups {
@@ -32,7 +32,7 @@ export function groupFiles(files: string[], readOnly: Set<string>, own: Set<stri
 // value: the path, after `prefix`; `note`: what follows the name (" (edited)")
 const options = (paths: string[], prefix: string, note: (path: string) => string) =>
   paths.map((f) => (
-    <option key={f} value={prefix + f}>
+    <option key={f} value={prefix + f} title={variantBlurb(f) && `${voiceLabel(f)}: ${variantBlurb(f)}`}>
       {voiceLabel(f) + note(f)}
     </option>
   ));
@@ -50,7 +50,11 @@ function GroupOptions({
     <>
       {groups.own.length > 0 && <optgroup label="Your designs">{options(groups.own, prefix, note)}</optgroup>}
       <optgroup label="Presets">{options(groups.presets, prefix, note)}</optgroup>
-      {groups.variants.length > 0 && <optgroup label="Variants">{options(groups.variants, prefix, note)}</optgroup>}
+      {groups.variants.length > 0 && (
+        <optgroup label="Variants (Ash, Birch, Cedar: other shapes of each voice)">
+          {options(groups.variants, prefix, note)}
+        </optgroup>
+      )}
       {groups.extras.length > 0 && <optgroup label="Extras">{options(groups.extras, prefix, note)}</optgroup>}
     </>
   );
@@ -69,7 +73,11 @@ export function VoicePicker(props: {
     <select
       className="voice-picker"
       value={props.value}
-      title="Which mouthpiece to design (the file that is rendered)"
+      title={
+        variantBlurb(props.value)
+          ? `${voiceLabel(props.value)}: ${variantBlurb(props.value)}`
+          : "Which mouthpiece to design (the file that is rendered)"
+      }
       onChange={(e) => props.onPick(e.target.value)}
     >
       <GroupOptions groups={props.groups} note={note} />

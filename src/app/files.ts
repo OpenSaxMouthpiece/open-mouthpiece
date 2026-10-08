@@ -55,6 +55,15 @@ export function scadFileName(typed: string) {
 
 // The Ash/Birch/Cedar variants of the presets (scad/variants/<voice>_<family>.scad).
 export const isVariant = (p: string) => /^variants\/[^/]+\.scad$/.test(p);
+// What each variant family changes, for the pickers' tooltips (the same lines as the variant files'
+// headers: scripts/make_variants.mjs BLURB).
+const VARIANT_BLURB: Record<string, string> = {
+  ash: "closer tip, radius facing, round chamber, concave baffle; slim round body, smooth convex beak",
+  birch: "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, straight beak",
+  cedar: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak",
+};
+export const variantBlurb = (p: string) =>
+  isVariant(p) ? VARIANT_BLURB[baseName(p).split("_").pop() ?? ""] : undefined;
 // Other voices, less common (scad/extras/: the C-melody).
 export const isExtra = (p: string) => /^extras\/[^/]+\.scad$/.test(p);
 const titleCase = (s: string) => s.replace(/^./, (c) => c.toUpperCase());

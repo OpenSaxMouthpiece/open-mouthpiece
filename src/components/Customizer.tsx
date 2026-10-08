@@ -301,6 +301,7 @@ function ParamInput({
     );
   }
   if (unit === "thou" && typeof value === "number") return <ThouInput p={p} value={value} onChange={onChange} />;
+  if (unit === "turn") return <TurnInput value={Number(value)} onChange={onChange} />;
   if (p.type === "boolean") {
     return <input type="checkbox" checked={Boolean(value)} onChange={(e) => onChange(e.target.checked)} />;
   }
@@ -552,5 +553,25 @@ function NumberField({ p, value, onChange }: { p: ScadParam; value: number; onCh
       onFocus={onFocus}
       onBlur={onBlur}
     />
+  );
+}
+
+// A text's direction (0, 90, 180, 270 degrees) as four buttons in words, not a slider over numbers.
+const TURNS: [number, string][] = [
+  [0, "Along"],
+  [90, "Across"],
+  [180, "Along, flipped"],
+  [270, "Across, flipped"],
+];
+function TurnInput({ value, onChange }: { value: number; onChange(v: ParamValue): void }) {
+  const now = (((Math.round(value / 90) * 90) % 360) + 360) % 360;
+  return (
+    <div className="segmented turns" role="group" aria-label="Text direction">
+      {TURNS.map(([v, text]) => (
+        <button key={v} className={v === now ? "active" : ""} aria-pressed={v === now} onClick={() => onChange(v)}>
+          {text}
+        </button>
+      ))}
+    </div>
   );
 }

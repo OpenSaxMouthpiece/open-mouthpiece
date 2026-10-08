@@ -55,7 +55,7 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 ### Lead-in length (`shank_bevel_depth`)
 
-How far in the socket's bevel goes (mm); equal to its width = 45°.
+How far in the socket's lead-in goes (mm).
 
 Range: 0.2 to 20, step 0.1.
 
@@ -91,7 +91,7 @@ Presets: Alto `16.0` · Tenor `17.0` · Bari `16.9` · Soprano `13.6`.
 
 ### Table angle to the neck (`bore_tilt`)
 
-Angle between the bore and the reed table (degrees); typically about 4.
+Angle between the neck's line and the reed table (degrees); about 4 is typical.
 
 Range: -3 to 8, step 0.1.
 
@@ -169,7 +169,7 @@ Presets: Alto `40` · Tenor `40` · Bari `40` · Soprano `40`.
 
 ### Chamber height (`chamber_height`)
 
-Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.
+Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.
 
 Range: 0 to 30, step 0.1.
 
@@ -251,7 +251,7 @@ Presets: Alto `chamber` · Tenor `chamber` · Bari `chamber` · Soprano `chamber
 
 ### Baffle shape (`baffle_type`)
 
-Roof above the reed: measured = the preset's own (Original); step = a ledge.
+The roof's shape over the reed (see the picture); Original = the preset's own.
 
 Range: `measured`, `flat`, `rollover`, `step`, `concave`.
 
@@ -409,7 +409,7 @@ Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
 
 ### Tip roundness (`tip_curve`)
 
-How far back the tip's curve reaches (mm), outside and window. Match your reed.
+How round the tip is, seen from above: how far back its curve reaches (mm).
 
 Range: 0.5 to 12, step 0.1.
 
@@ -447,7 +447,7 @@ Presets: Alto `13.2` · Tenor `14.7` · Bari `13.9` · Soprano `11.3`.
 
 ### Table length (`table_length`)
 
-Length of the table, from the tip to its back end (mm), the facing included.
+From the tip to the table's back end (mm), facing included; longer than the reed is normal.
 
 Range: 50 to 120, step 0.5.
 
@@ -493,7 +493,7 @@ Presets: Alto `23.8` · Tenor `25.2` · Bari `28.0` · Soprano `20.0`.
 
 ### Facing curve (`facing_model`)
 
-Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).
+How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.
 
 Range: `power`, `arc`, `gauge`.
 
@@ -505,7 +505,7 @@ Presets: Alto `power` · Tenor `power` · Bari `power` · Soprano `power`.
 
 ### Where the curve opens (`facing_exponent`)
 
-Power curve shape: 2 is an even curve; lower opens sooner, higher later.
+For the Power curve: 2 opens evenly; lower opens sooner, higher later.
 
 Range: 1.5 to 3, step 0.05.
 
@@ -579,7 +579,7 @@ Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 
 ### Beak top (`beak_squareness`)
 
-Top of the beak: lower = ridged, higher = flat.
+The beak's top, seen from the tip: ridged (a peak along it) or flat.
 
 Range: 1.2 to 8, step 0.1.
 
@@ -591,7 +591,7 @@ Presets: Alto `1.6` · Tenor `1.5` · Bari `1.4` · Soprano `1.5`.
 
 ### Beak curve (`beak_curve`)
 
-Beak profile from the side: + concave (scooped), - convex (fuller).
+The beak's line from the side: full (bulging) or scooped (hollowed).
 
 Range: -1 to 1, step 0.05.
 
@@ -603,7 +603,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Beak length (`beak_length`)
 
-Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
+Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).
 
 Range: -15 to 15, step 0.5.
 
@@ -651,7 +651,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Sides near the table (`underside_squareness`)
 
-Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
+The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.
 
 Range: 1.2 to 8, step 0.1.
 
@@ -683,7 +683,7 @@ Presets: Alto `5` · Tenor `5` · Bari `5` · Soprano `5`.
 
 ### Text direction (`top_text_angle`)
 
-Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+Which way the text reads: along the mouthpiece or across it (flipped = upside down).
 
 Range: 0 to 270, step 90.
 
@@ -699,7 +699,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Picture on top (`top_image`)
 
-SVG picture on top (empty = none). Use filled shapes, not strokes.
+A picture (SVG file) on top; solid shapes work, thin line drawings don't.
 
 Range: text.
 
@@ -1105,7 +1105,7 @@ Presets: Alto `12` · Tenor `12` · Bari `12` · Soprano `10`.
 
 ### Position (`ligature_position`)
 
-Band's front edge, mm behind the window's back end; negative is over the window.
+Band's front edge (mm): 0 = just behind the window, minus = over the window.
 
 Range: -10 to 40, step 0.5.
 
@@ -1121,23 +1121,23 @@ Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 
 ### Shape (`ligature_shape`)
 
-D = round on top, flat under the reed; conform = follows the body.
+D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.
 
 Range: `d`, `round`, `conform`.
 
 Presets: Alto `d` · Tenor `d` · Bari `d` · Soprano `d`.
 
-### Tab toward the shank (`ligature_tongue`)
+### Tail toward the shank (`ligature_tongue`)
 
-Extra length on one side, running toward the shank (mm); 0 = a straight band.
+A tail on one side, running toward the shank (mm); 0 = a straight band.
 
 Range: 0 to 15, step 0.5.
 
 Presets: Alto `7` · Tenor `7` · Bari `7` · Soprano `5`.
 
-### Tab side (`ligature_tongue_side`)
+### Tail side (`ligature_tongue_side`)
 
-Which side the tab (the extra length) runs along: the top, or under the reed.
+Which side the tail runs along: the top, or under the reed.
 
 Range: `top`, `reed`.
 
@@ -1153,7 +1153,7 @@ Presets: Alto `0.1` · Tenor `0.1` · Bari `0.1` · Soprano `0.1`.
 
 ### Reed grip (`ligature_reed_grip`)
 
-How much it squeezes the reed against the table (mm): the reed is the tight spot.
+How hard the band presses the reed onto the table (mm): bigger = tighter.
 
 Range: 0 to 0.6, step 0.05.
 
@@ -1185,7 +1185,7 @@ Presets: Alto `4` · Tenor `4` · Bari `4` · Soprano `4`.
 
 ### Text direction (`ligature_text_angle`)
 
-Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+Which way the ligature's text reads: along or across (flipped = upside down).
 
 Range: 0 to 270, step 90.
 
@@ -1193,7 +1193,7 @@ Presets: Alto `90` · Tenor `90` · Bari `90` · Soprano `90`.
 
 ### Picture on the ligature (`ligature_image`)
 
-SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.
+A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.
 
 Range: text.
 
@@ -1257,7 +1257,7 @@ Range: 0 to 0.5, step 0.05.
 
 Presets: Alto `0.15` · Tenor `0.15` · Bari `0.15` · Soprano `0.15`.
 
-### Screws and slot (`cap_slot_side`)
+### Slot side (`cap_slot_side`)
 
 Side of the slot up from the rim, and of a metal ligature's screws: under the reed or on top.
 
@@ -1363,7 +1363,7 @@ Presets: Alto `5` · Tenor `5` · Bari `5` · Soprano `5`.
 
 ### Text direction (`cap_text_angle`)
 
-Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+Which way the cap's text reads: along or across (flipped = upside down).
 
 Range: 0 to 270, step 90.
 
@@ -1371,7 +1371,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Picture on the cap (`cap_image`)
 
-SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.
+A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.
 
 Range: text.
 
@@ -1463,13 +1463,13 @@ Presets: Alto `mouthpiece` · Tenor `mouthpiece` · Bari `mouthpiece` · Soprano
 
 ### Smoothness (`render_fn`)
 
-Smoothness: higher is smoother but slower. 64 is fine for printing.
+Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.
 
 Range: 16 to 128, step 8.
 
 Presets: Alto `64` · Tenor `64` · Bari `64` · Soprano `64`.
 
-### Stand it on the neck end (`print_orientation`)
+### Download standing on its neck end (`print_orientation`)
 
 Stand it on its neck end, as printed. Off: lie it on the reed table.
 

@@ -1,7 +1,7 @@
 // The settings panel: the sections from design.ts, in sax terms, with the file's own ranges and
 // descriptions: each section's main settings, then the rest under its "More". A file that isn't the
 // generator's shows its settings by its own groups.
-import { useState, type ReactNode } from "react";
+import { Fragment, useState, type ReactNode } from "react";
 import type { ParamValue, ScadParam } from "../api";
 import {
   DESIGN_ELSEWHERE,
@@ -13,9 +13,11 @@ import {
   paramCaption,
   changedCount,
   paramInactive,
+  paramEnds,
   paramLabel,
   type PartTab,
 } from "../design";
+import { BaffleSketches } from "./BaffleSketches";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
 import { Menu } from "./Menu";
@@ -124,7 +126,10 @@ export function DesignPanel({
   const get = (n: string) => values[n] ?? byName.get(n)?.initial;
   const q = query.trim().toLowerCase();
   const matches = (name: string, label: string, caption?: string) =>
-    !q || [name, label, caption ?? byName.get(name)?.caption ?? ""].some((t) => t.toLowerCase().includes(q));
+    !q ||
+    [name, label, caption ?? "", byName.get(name)?.caption ?? "", ...(paramEnds(name) ?? [])].some((t) =>
+      t.toLowerCase().includes(q),
+    );
   // Point lists show only while the code is open (the Curves section edits them).
   const hidden = (p: ScadParam) => !showNames && DESIGN_HIDDEN_GROUPS.includes(p.group);
   // A search looks in every tab; otherwise only the open tab's sections and groups show.
@@ -235,10 +240,14 @@ export function DesignPanel({
                 </button>
               </span>
             )}
-            <button disabled={!changed} onClick={onResetAll} title="Back to the values in the file">
+            <button
+              disabled={!changed}
+              onClick={onResetAll}
+              title="Back to the values in the file (a ligature or cap made here goes too)"
+            >
               Reset{changed ? ` (${changed})` : ""}
             </button>
-            <Menu label="⋯" title="Auto-zoom, compare with the original, descriptions" className="head-more">
+            <Menu label="Options ▾" title="Auto-zoom, descriptions, compare with the original" className="head-more">
               {(close) => (
                 <div className="menu-list">
                   <label title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)">
@@ -303,7 +312,11 @@ export function DesignPanel({
                 </button>
               </span>
             )}
-            <button disabled={!changed} onClick={onResetAll} title="Back to the values in the file">
+            <button
+              disabled={!changed}
+              onClick={onResetAll}
+              title="Back to the values in the file (a ligature or cap made here goes too)"
+            >
               Reset{changed ? ` (${changed})` : ""}
             </button>
             {onCompareOriginal && (
@@ -408,10 +421,28 @@ export function DesignPanel({
             >
               {s.ligature && ligature!.head}
               {s.cap && cap!.head}
-              {rows.map((i) => row(byName.get(i.name)!, i))}
+              {rows.map((i) =>
+                i.name === "baffle_type" ? (
+                  <Fragment key={i.name}>
+                    {row(byName.get(i.name)!, i)}
+                    <BaffleSketches value={String(get(i.name))} onPick={(v) => setParam(i.name, v)} />
+                  </Fragment>
+                ) : (
+                  row(byName.get(i.name)!, i)
+                ),
+              )}
               {s.title === "Tip & facing" && !q && (!only || charts) && facing}
               {s.title === "Chamber & baffle" && !q && (!only || charts) && profile?.("chamber")}
               {s.title === "Body & beak" && !q && (!only || charts) && profile?.("body")}
+              {s.title === "Printing" && !q && PRINTING_GUIDE_URL && (
+                <p className="fit-note muted">
+                  First print? The{" "}
+                  <a href={PRINTING_GUIDE_URL} target="_blank" rel="noreferrer">
+                    printing guide
+                  </a>{" "}
+                  covers material, layer height, supports and finishing.
+                </p>
+              )}
               {s.title === "Printing" && !q && printKit}
               {s.title === "Fit on the horn" && !q && fitNote}
               {more.length > 0 && (
@@ -514,7 +545,7 @@ export function Credits() {
 function SideIcon({ side }: { side: "left" | "right" }) {
   const edge = side === "right" ? "M12.5 9 L11.5 20" : "M3.5 9 L4.5 20";
   return (
-    <svg className="side-icon" width="16" height="22" viewBox="0 0 16 22" role="img">
+    <svg className="side-icon" width="20" height="28" viewBox="0 0 16 22" role="img">
       <title>{`The ${side} side, seen from above with the tip pointing away`}</title>
       <path
         d="M4.5 20 L3.5 9 Q3.5 2 8 1.5 Q12.5 2 12.5 9 L11.5 20 Z"

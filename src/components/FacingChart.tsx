@@ -205,7 +205,12 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
     <div className="facing-chart">
       <div className="readout-label">Facing curve{edit?.gauge ? " (your points)" : ""}</div>
       {pick && (
-        <div className="facing-picks" role="group" aria-label="Facing curve">
+        <div
+          className="facing-picks"
+          role="group"
+          aria-label="Facing curve"
+          title="The same as Facing curve and Where the curve opens, under More"
+        >
           {FACING_CHOICES.map((c) => (
             <button
               key={c.id}

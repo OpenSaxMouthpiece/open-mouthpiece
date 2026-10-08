@@ -110,7 +110,7 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
 - **Reed not held** (it moves or buzzes): raise **Reed grip** (try 0.3). **Stops too far forward**
   (over the window): lower it. Printing grips of 0.1, 0.2 and 0.3 side by side is a quick way to
   find yours.
-- **Band length**, **Tab toward the shank**, **Position** and **Wall thickness** change how much of the reed it holds,
+- **Band length**, **Tail toward the shank**, **Position** and **Wall thickness** change how much of the reed it holds,
   where, and how stiff it is; **Shape** can also be fully round or follow the whole mouthpiece.
 - **Text on the ligature** / **Picture on the ligature** put lettering or a picture on its top, in
   the font, style (engraved or raised) and depth set under Personalize. Keep it short: the band's
@@ -128,7 +128,7 @@ on over the tip and the rim clips onto the ligature.
 - **Goes over:** the ligature made here (the **Ligature** tab) or a metal one. As on
   store-bought caps, a metal ligature's screws ride in the slot: it starts at the rim as a window as
   wide as the screws, so the cap needn't be big enough to cover them. Give the band's length,
-  position and thickness and the screws' width and length, and set **Screws and slot** to the side
+  position and thickness and the screws' width and length, and set **Slot side** to the side
   they're on: under the reed (a standard ligature) or on top (an inverted one).
 - **Air:** the **slot** (length and width) and the **air holes in the end** let air through, so a
   wet reed dries instead of staying damp in a closed cap.

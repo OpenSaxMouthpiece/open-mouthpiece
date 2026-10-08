@@ -1418,7 +1418,8 @@ button.toggle.on {
 .hint-card {
   position: absolute;
   left: 12px;
-  bottom: 44px;
+  bottom: 80px; /* above the shape charts' button */
+  z-index: 4;
   box-shadow: var(--shadow);
   max-width: min(380px, calc(100% - 24px));
   padding: 12px 14px;
@@ -1748,7 +1749,7 @@ button.link:hover {
 }
 .side-icon {
   vertical-align: middle;
-  margin: -4px 0 -4px 4px;
+  margin: -8px 0 -8px 4px;
   color: var(--muted);
 }
 .part-note-more {
@@ -2564,6 +2565,15 @@ button.link:hover {
   font-size: 10px;
   font-weight: 600;
 }
+.profile-chart .drag-mm {
+  fill: var(--accent-fg);
+  font-size: 10px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--panel);
+  stroke-width: 3px;
+  pointer-events: none;
+}
 .profile-chart .edit-handle {
   cursor: ns-resize;
 }
@@ -2772,9 +2782,9 @@ button.link:hover {
   box-shadow: inset 3px 0 0 var(--accent);
 }
 .rail-label {
-  max-width: 62px;
+  max-width: 72px;
   overflow: hidden;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.1;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -3013,6 +3023,9 @@ button.link:hover {
   margin: 4px 0 8px;
   font-size: 12px;
 }
+.fit-note p {
+  margin: 0 0 6px;
+}
 /* keyboard focus, visible everywhere */
 button:focus-visible,
 input:focus-visible,
@@ -3067,4 +3080,67 @@ a:focus-visible,
 .rail.horizontal .rail-sep,
 .rail.horizontal .rail-spacer {
   display: none;
+}
+
+/* a text's direction: four buttons, two by two */
+.segmented.turns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.segmented.turns button + button {
+  border-left: none;
+}
+.segmented.turns button:nth-child(even) {
+  border-left: 1px solid var(--border);
+}
+.segmented.turns button:nth-child(n + 3) {
+  border-top: 1px solid var(--border);
+}
+
+/* Baffle shape's pictures, under its dropdown */
+.baffle-sketches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: -2px 0 10px;
+}
+.baffle-sketches button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: 3px 4px 2px;
+  font-size: 11px;
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.baffle-sketches button:hover {
+  color: var(--text);
+}
+.baffle-sketches button.on {
+  color: var(--text);
+  border-color: var(--accent);
+  background: var(--panel-2);
+}
+.baffle-sketches path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.baffle-sketches .reed {
+  stroke: var(--muted);
+  stroke-width: 2.5;
+}
+.baffle-sketches .rail {
+  stroke: var(--muted);
+  stroke-width: 1.5;
+}
+.baffle-sketches .roof {
+  stroke: currentColor;
+  stroke-width: 2;
+}
+.baffle-sketches button.on .roof {
+  stroke: var(--accent-fg);
 }

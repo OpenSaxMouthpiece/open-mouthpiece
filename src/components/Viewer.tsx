@@ -104,6 +104,7 @@ interface Props {
   compare: ArrayBuffer | null; // pinned model B, blue (see-through when overlaid on A)
   frameKey: string; // changes when a different file is loaded -> reframe on the next model
   fitKey?: string; // changes when the view's room or content changes (the dock, the part): fit it again
+  onCut?: (cut: boolean) => void; // the view is cut open (or not)
   part?: string; // the part being edited: another one closes a cut auto-zoom made
   compact?: boolean; // phone layout: the tool strip folds behind a ⋯ button
   focus?: FocusRequest | null; // fly to the part a parameter shapes (cut open when it's inside)
@@ -200,6 +201,7 @@ export function Viewer({
   compare,
   frameKey,
   fitKey,
+  onCut,
   part,
   compact = false,
   focus = null,
@@ -237,6 +239,7 @@ export function Viewer({
   const [layout, setLayout] = useState<"overlay" | "side">(viewPrefs.layout);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [section, setSection] = useState<Section>(viewPrefs.section);
+  useEffect(() => onCut?.(section !== "off"), [section, onCut]);
   const [ghostOn, setGhostOn] = useState(viewPrefs.ghost);
   useEffect(
     () => keepPrefs({ edges, wire, seeThrough, layout, section, showA: showAPref, showB, ghost: ghostOn }),

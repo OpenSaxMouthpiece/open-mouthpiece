@@ -2,7 +2,7 @@
 // first, and the rest of each section under its More. Ranges and descriptions come from the rendered file's own Customizer export (so they follow
 // scad/lib/mouthpiece_base.scad); a name the file doesn't declare is simply skipped.
 
-export type DesignUnit = "thou"; // shown in thousandths of an inch next to the mm value
+export type DesignUnit = "thou" | "turn"; // thou: in thousandths of an inch next to the mm value; turn: four buttons (0/90/180/270)
 
 // The settings come in tabs, one per part: the mouthpiece, and what is made from it.
 export type PartTab = "mouthpiece" | "ligature" | "cap";
@@ -124,7 +124,11 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     plain: "The space inside, from the reed to the shank",
     items: [
       { name: "chamber_shape", label: "Chamber shape" },
-      { name: "chamber_width_extra", label: "Chamber width" },
+      {
+        name: "chamber_width_extra",
+        label: "Chamber width",
+        caption: "In mm, against the throat's width: 0 = as wide, minus = narrower, plus = wider.",
+      },
       { name: "throat_width", label: "Throat width" },
       { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
       { name: "baffle_height", label: "Baffle height" },
@@ -170,7 +174,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     items: [
       { name: "top_text", label: "Text on top" },
       { name: "top_text_size", label: "Text size", showIf: ["top_text"] },
-      { name: "top_text_angle", label: "Text direction", showIf: ["top_text"] },
+      { name: "top_text_angle", label: "Text direction", unit: "turn", showIf: ["top_text"] },
       { name: "top_text_position", label: "Text position", showIf: ["top_text"] },
       { name: "top_image", label: "Picture on top" },
       { name: "top_image_width", label: "Picture size", showIf: ["top_image"] },
@@ -247,8 +251,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "ligature_reed_grip", label: "Reed grip" },
       { name: "ligature_length", label: "Band length" },
       { name: "ligature_position", label: "Position" },
-      { name: "ligature_tongue", label: "Tab toward the shank" },
-      { name: "ligature_tongue_side", label: "Tab side", optionLabels: { top: "On top", reed: "Under the reed" } },
+      { name: "ligature_tongue", label: "Tail toward the shank" },
+      { name: "ligature_tongue_side", label: "Tail side", optionLabels: { top: "On top", reed: "Under the reed" } },
       {
         name: "ligature_text",
         label: "Text on the ligature",
@@ -256,7 +260,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           "Text on the band's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
       },
       { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
-      { name: "ligature_text_angle", label: "Text direction", showIf: ["ligature_text"] },
+      { name: "ligature_text_angle", label: "Text direction", unit: "turn", showIf: ["ligature_text"] },
       { name: "ligature_image", label: "Picture on the ligature" },
       { name: "ligature_image_width", label: "Picture size", showIf: ["ligature_image"] },
       { name: "ligature_image_angle", label: "Picture rotation", showIf: ["ligature_image"] },
@@ -275,7 +279,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     tab: "cap",
     summary: (get) =>
       join([
-        get("cap_ligature") === "metal" ? "Over a metal ligature" : "Over the printed ligature",
+        get("cap_ligature") === "metal" && "Over a metal ligature",
         Number(get("cap_end_vents")) > 0 && `${get("cap_end_vents")} air holes`,
       ]),
     items: [
@@ -291,8 +295,11 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "cap_metal_screw_length", label: "Screws, length along", when: ["cap_ligature", "metal"] },
       {
         name: "cap_slot_side",
-        label: "Screws and slot",
-        optionLabels: { reed: "Under the reed (standard ligature)", top: "On top (inverted ligature)" },
+        label: "Slot side",
+        optionLabels: {
+          reed: "Under the reed (a standard ligature's screws)",
+          top: "On top (an inverted ligature's screws)",
+        },
       },
       { name: "cap_grip", label: "Grip squeeze" },
       { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
@@ -306,7 +313,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           "Text on the cap's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
       },
       { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
-      { name: "cap_text_angle", label: "Text direction", showIf: ["cap_text"] },
+      { name: "cap_text_angle", label: "Text direction", unit: "turn", showIf: ["cap_text"] },
       { name: "cap_image", label: "Picture on the cap" },
       { name: "cap_image_width", label: "Picture size", showIf: ["cap_image"] },
       { name: "cap_image_angle", label: "Picture rotation", showIf: ["cap_image"] },
@@ -417,7 +424,7 @@ const LABELS: Record<string, string> = {
   cap_image_aspect: "Picture height / width",
   min_wall: "Thinnest wall",
   render_fn: "Smoothness",
-  print_orientation: "Stand it on the neck end",
+  print_orientation: "Download standing on its neck end",
 };
 export const paramLabel = (name: string) => {
   const words = name.replace(/_/g, " ");
@@ -434,7 +441,7 @@ const SHORT_LONG: [string, string] = ["Short", "Long"],
   ALONG: [string, string] = ["Toward the shank", "Toward the tip"];
 const ENDS: Record<string, [string, string]> = {
   // Tip & facing
-  tip_opening: ["Close", "Open"],
+  tip_opening: ["Closed", "Open"],
   facing_length: SHORT_LONG,
   tip_rail_thickness: THIN_THICK,
   side_rail_width: NARROW_WIDE,
@@ -454,10 +461,10 @@ const ENDS: Record<string, [string, string]> = {
   // Chamber & baffle
   chamber_width_extra: ["Narrower", "Wider"],
   throat_width: NARROW_WIDE,
-  baffle_height: ["Low", "High"],
+  baffle_height: ["Away from the reed", "Toward the reed"],
   baffle_hump: ["None", "Big"],
   window_width: NARROW_WIDE,
-  chamber_height: ["Round", "Tall"],
+  chamber_height: ["Low (0 = round)", "Tall"],
   chamber_flare: ["Quickly", "Slowly"],
   chamber_full_length: SHORT_LONG,
   floor_shape: ["Drops early (deeper)", "Stays high (ramp)"],

@@ -2,7 +2,7 @@
 // cut through the middle, walls solid and the air empty), the tip to the right and the reed table
 // down, and a slice across it where the slice line is (drag it, or "Where to slice"), seen from the
 // tip: the outside's outline, or the cut with the walls and the air. True to scale. The shape before
-// the last change shows dashed (kept until the next change), and B while comparing, so a change reads
+// the last change shows dashed (kept until the next change, gone after an undo), and B while comparing, so a change reads
 // at a glance without cutting the 3D view. "Edit shape" puts a few dots on the section's lines in
 // both views (shapeEdit.ts) and adds a view from above for the widths: dragging one pulls the line
 // there, as an offset after the sliders (a slice's dot adds a point there).
@@ -42,10 +42,12 @@ interface Props {
 }
 
 const W = 320,
-  PAD = 6,
+  PAD = 12, // room for a dot's touch area at the ends
   FOOT = 16, // room under the plot for the scale and the labels
   SLICE_H = 190; // the slice's tallest drawing (svg units)
 const LANDMARKS = ["throat", "window", "break"]; // the ones drawn while editing
+// Landmarks' names as shown ("break" alone reads as the beak's drop on the outside)
+const LANDMARK_LABEL: Record<string, string> = { break: "facing break" };
 // The slice's range, as a share of the model's length from the shank end.
 const SLICE_MIN = 0.02,
   SLICE_MAX = 0.98;
@@ -79,6 +81,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   const b = useMemo(() => section(compare?.stl ?? null, outside), [compare?.stl, outside]);
   const [before, setBefore] = useState<{ loops: Loop[]; stl: ArrayBuffer } | null>(null);
   const last = useRef<{ design: string; sig: string; loops: Loop[]; stl: ArrayBuffer } | null>(null);
+  const beforeSig = useRef<string | null>(null); // the settings "before" was made from
   const [editing, setEditing] = useState(false);
   const [drag, setDragState] = useState<Drag | null>(null);
   // the drag as of the last event, not the last render: a quick flick's first move can come before
@@ -118,8 +121,15 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   useEffect(() => {
     if (!stl || !final || !now.length) return;
     const l = last.current;
-    if (!l || l.design !== design) setBefore(null);
-    else if (l.sig !== sig) setBefore({ loops: l.loops, stl: l.stl });
+    if (!l || l.design !== design) {
+      setBefore(null);
+      beforeSig.current = null;
+    } else if (l.sig !== sig) {
+      // back to the shape before (an undo): nothing to show as "before"
+      const back = beforeSig.current === sig;
+      beforeSig.current = back ? null : l.sig;
+      setBefore(back ? null : { loops: l.loops, stl: l.stl });
+    }
     last.current = { design, sig, loops: now, stl };
   }, [stl, final, design, sig, now]);
 
@@ -246,6 +256,12 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
         <g key={`${n}${i}`} className={`edit-handle${active ? " active" : ""}`} onPointerDown={start(n, i, k)}>
           <circle className="hit" cx={x} cy={y} r={11} />
           <circle cx={x} cy={y} r={4.5} />
+          {/* how far this drag pulls, while it goes */}
+          {active && drag.d !== 0 && (
+            <text className="drag-mm" x={x} y={y - 9} textAnchor="middle">
+              {`${drag.d > 0 ? "+" : "−"}${Math.abs(drag.d).toFixed(1)} mm`}
+            </text>
+          )}
         </g>
       );
     });
@@ -419,7 +435,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
                     <g key={n} className="landmark">
                       <line x1={xa} y1={ya} x2={xb} y2={yb} />
                       <text x={xb} y={yb - 3 - (i % 2) * 10} textAnchor="middle">
-                        {n}
+                        {LANDMARK_LABEL[n] ?? n}
                       </text>
                     </g>
                   );
@@ -438,7 +454,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
                     <text
                       className="edit-label"
                       x={lx + (under ? 6 : 0)}
-                      y={ly + (under ? 4 : -8)}
+                      y={ly - 8}
                       textAnchor={under ? "start" : "middle"}
                     >
                       {LINES[n].label}
@@ -450,6 +466,9 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
             <line className="scale" x1={PAD} x2={PAD + 10 * s} y1={base - 4} y2={base - 4} />
             <text className="tick" x={PAD + 10 * s + 4} y={base - 1}>
               10 mm
+            </text>
+            <text className="tick" x={W / 2} y={base - 1} textAnchor="middle">
+              ↓ reed side
             </text>
             <text className="tick" x={W - PAD} y={base - 1} textAnchor="end">
               tip →
@@ -496,7 +515,10 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
           {held ? (
             <span className="held-note">{held}</span>
           ) : (
-            <span>Drag a dot to pull the line there (on the slice too); a pull adds to what the sliders make.</span>
+            <span>
+              Drag a dot to reshape the line (on the slice too; widths mirror to the other side). The sliders still work
+              on top.
+            </span>
           )}
           {edited.length > 0 && (
             <button
@@ -511,7 +533,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
       ) : (
         <div className="profile-legend muted">
           <span>
-            <span className="swatch now" /> now (the reed side is down)
+            <span className="swatch now" /> this design
           </span>
           {before && (
             <span>

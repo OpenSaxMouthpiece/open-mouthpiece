@@ -11,13 +11,13 @@ neck_cork_diameter = 13.8; // [10:0.05:27]
 shank_clearance = 0.2; // [0:0.01:0.6]
 // How much wider the socket's mouth is, per side (mm), to ease it onto the cork.
 shank_bevel = 1.0; // [0:0.1:3]
-// How far in the socket's bevel goes (mm); equal to its width = 45°.
+// How far in the socket's lead-in goes (mm).
 shank_bevel_depth = 1.0; // [0.2:0.1:20]
 // How far the cork goes in (mm). Other settings give way to keep it.
 shank_depth = 25.5; // [10:0.5:70]
 // Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.
 bore_diameter = 13.6; // [8:0.1:24]
-// Angle between the bore and the reed table (degrees); typically about 4.
+// Angle between the neck's line and the reed table (degrees); about 4 is typical.
 bore_tilt = 4.1; // [-3:0.1:8]
 // Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.
 shank_diameter = 18.51; // [14:0.1:32]
@@ -31,7 +31,7 @@ chamber_width_extra = -0.4; // [-1:0.1:12]
 chamber_flare = 0.4; // [0.1:0.05:0.9]
 // How far the full width runs toward the tip (mm); 40 = as far as it can.
 chamber_full_length = 40; // [0:0.5:40]
-// Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.
+// Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.
 chamber_height = 11.7; // [0:0.1:30]
 // Floor from throat to window: - drops early (deeper), + stays high (a ramp).
 floor_shape = 0; // [-1:0.05:1]
@@ -45,7 +45,7 @@ throat_taper = 3; // [1:0.5:80]
 throat_shape = "square"; // [chamber, round, square, horseshoe]
 
 /* [Baffle] */
-// Roof above the reed: measured = the preset's own (Original); step = a ledge.
+// The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "rollover"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
 baffle_height = 0.1; // [-3:0.1:4]
@@ -71,7 +71,7 @@ sidewall_angle = -4; // [-20:1:30]
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 1.5; // [0.3:0.02:3]
-// How far back the tip's curve reaches (mm), outside and window. Match your reed.
+// How round the tip is, seen from above: how far back its curve reaches (mm).
 tip_curve = 3.5; // [0.5:0.1:12]
 
 /* [Table] */
@@ -79,7 +79,7 @@ tip_curve = 3.5; // [0.5:0.1:12]
 table_width_tip = 14.9; // [8:0.1:30]
 // Width of the reed seat at the back (mm). Match your reed's heel.
 table_width_rear = 11.3; // [8:0.1:30]
-// Length of the table, from the tip to its back end (mm), the facing included.
+// From the tip to the table's back end (mm), facing included; longer than the reed is normal.
 table_length = 55.44; // [50:0.5:120]
 // A slight hollow along the reed seat (mm) so the reed seals at both ends.
 table_concavity = 0; // [0:0.005:0.1]
@@ -89,9 +89,9 @@ table_concavity = 0; // [0:0.005:0.1]
 tip_opening = 1.78; // [0.5:0.01:4.5]
 // From the tip back to the break, where the rails leave the flat table (mm).
 facing_length = 20.5; // [10:0.1:45]
-// Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).
+// How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.
 facing_model = "power"; // [power, arc, gauge]
-// Power curve shape: 2 is an even curve; lower opens sooner, higher later.
+// For the Power curve: 2 opens evenly; lower opens sooner, higher later.
 facing_exponent = 1.8; // [1.5:0.05:3]
 
 /* [Exterior] */
@@ -105,11 +105,11 @@ body_height = 21.61; // [18:0.1:40]
 beak_tip_height = 2.6; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
 body_squareness = 3.2; // [1.2:0.1:8]
-// Top of the beak: lower = ridged, higher = flat.
+// The beak's top, seen from the tip: ridged (a peak along it) or flat.
 beak_squareness = 3; // [1.2:0.1:8]
-// Beak profile from the side: + concave (scooped), - convex (fuller).
+// The beak's line from the side: full (bulging) or scooped (hollowed).
 beak_curve = 0; // [-1:0.05:1]
-// Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.
+// Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).
 beak_length = 0; // [-15:0.5:15]
 // 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
 shoulder_smoothness = 0; // [0:0.05:1]
@@ -117,7 +117,7 @@ shoulder_smoothness = 0; // [0:0.05:1]
 beak_top_width = 0; // [-1:0.05:1]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
 shoulder_sweep = 0; // [0:0.5:20]
-// Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.
+// The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.
 underside_squareness = 2.2; // [1.2:0.1:8]
 
 /* [Lettering] */
@@ -125,11 +125,11 @@ underside_squareness = 2.2; // [1.2:0.1:8]
 top_text = "";
 // Letter height (mm).
 top_text_size = 5; // [2:0.5:20]
-// Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+// Which way the text reads: along the mouthpiece or across it (flipped = upside down).
 top_text_angle = 90; // [0:90:270]
 // Moves the top text toward the tip (+) or the shank (-) (mm).
 top_text_position = 0; // [-50:0.5:50]
-// SVG picture on top (empty = none). Use filled shapes, not strokes.
+// A picture (SVG file) on top; solid shapes work, thin line drawings don't.
 top_image = "";
 // Picture width (mm).
 top_image_width = 14; // [4:0.5:90]
@@ -231,19 +231,19 @@ print_stock = 0; // [0:0.01:0.5]
 ligature_made = false;
 // Length of the ligature band along the mouthpiece (mm), on its short side.
 ligature_length = 10; // [6:0.5:30]
-// Band's front edge, mm behind the window's back end; negative is over the window.
+// Band's front edge (mm): 0 = just behind the window, minus = over the window.
 ligature_position = 2; // [-10:0.5:40]
 // Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 ligature_wall = 2.0; // [1.2:0.1:5]
-// D = round on top, flat under the reed; conform = follows the body.
+// D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.
 ligature_shape = "d"; // [d, round, conform]
-// Extra length on one side, running toward the shank (mm); 0 = a straight band.
+// A tail on one side, running toward the shank (mm); 0 = a straight band.
 ligature_tongue = 5; // [0:0.5:15]
-// Which side the tab (the extra length) runs along: the top, or under the reed.
+// Which side the tail runs along: the top, or under the reed.
 ligature_tongue_side = "top"; // [top, reed]
 // Gap between the band and the mouthpiece's body (mm); the reed is squeezed instead.
 ligature_fit = 0.1; // [-0.4:0.05:0.5]
-// How much it squeezes the reed against the table (mm): the reed is the tight spot.
+// How hard the band presses the reed onto the table (mm): bigger = tighter.
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
@@ -251,9 +251,9 @@ ligature_text = "";
 ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
-// Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+// Which way the ligature's text reads: along or across (flipped = upside down).
 ligature_text_angle = 90; // [0:90:270]
-// SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.
+// A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.
 ligature_image = "";
 // Ligature picture width (mm).
 ligature_image_width = 8; // [3:0.5:30]
@@ -297,9 +297,9 @@ cap_text = "";
 cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]
-// Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.
+// Which way the cap's text reads: along or across (flipped = upside down).
 cap_text_angle = 0; // [0:90:270]
-// SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.
+// A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.
 cap_image = "";
 // Cap picture width (mm).
 cap_image_width = 10; // [3:0.5:40]
@@ -323,7 +323,7 @@ cap_metal_screw_length = 12; // [4:0.5:30]
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
 part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
-// Smoothness: higher is smoother but slower. 64 is fine for printing.
+// Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.
 render_fn = 64; // [16:8:128]
 // Stand it on its neck end, as printed. Off: lie it on the reed table.
 print_orientation = true;

@@ -19,18 +19,15 @@ export function PartNote({
   capInfo?: CapInfo | null;
 }) {
   const cap = capInfo ?? parseCap(log);
+  // not made yet: the panel's own head says how to make it
+  if (!made) return null;
   return (
     <div className="readouts-note muted">
-      {!made ? (
-        <>
-          No {part} yet. <b>Make</b> one below: it is built from this mouthpiece's own shape and follows every change to
-          it.
-        </>
-      ) : part === "ligature" ? (
+      {part === "ligature" ? (
         <HowItFits line="Ligature: prints standing on its flat front edge, no supports.">
-          The tab points up; PETG or similar flexes without cracking. Slide it on over the tip with the reed in place
-          and push it back until snug. The reed is the tight spot. Reed not held: raise <b>Reed grip</b>; it stops too
-          far forward: lower it.
+          The tail points up; PETG or similar flexes without cracking. Slide it on over the tip with the reed in place
+          and push it back until snug: it tightens on the reed. Reed not held: raise <b>Reed grip</b>; it stops too far
+          forward: lower it.
           {ligatureText(ligInfo ?? parseLigature(log))}
         </HowItFits>
       ) : part === "cap" ? (

@@ -136,6 +136,7 @@ export default function App() {
   const [railSel, setRailSel] = usePref("rail", "Tip & facing");
   const [dockOpen, setDockOpen] = usePref("shapeCard", false);
   const [dockTab, setDockTab] = usePref("dockTab", "body");
+  const [viewCut, setViewCut] = useState(false); // the 3D view is cut open
   const [dockBig, setDockBig] = usePref("dockBig", false);
   const winW = useWindowWidth();
   const isPhone = useMediaQuery("(max-width: 1024px)"); // phones and portrait tablets
@@ -600,18 +601,12 @@ export default function App() {
     if (ready && (stl || svg)) renderPass(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only on a change of quality
   }, [quality]);
-  // The ligature turned on (or back to the mouthpiece): make it for the model on screen.
+  // The ligature, reed or cap turned on, or a model in (the first one after a reload too): make the
+  // ones shown for the model on screen (a part already made for it isn't made again).
   useEffect(() => {
-    if (!(ligView.on || ligView.reed) || !ligOK || !ready || !stl || !live.current.target) return;
-    model.loadLigature(live.current.target, live.current.values, model.shownFn.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when it's turned on
-  }, [ligView.on, ligView.reed, ligOK]);
-  // The cap turned on: make it for the model on screen.
-  useEffect(() => {
-    if (!capView.on || !capOK || !ready || !stl || !live.current.target) return;
-    model.loadCap(live.current.target, live.current.values, model.shownFn.current);
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- only when it's turned on
-  }, [capView.on, capOK]);
+    if (ready && stl) model.ensureParts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- ensureParts reads the latest state itself
+  }, [ready, stl, ligView.on, ligView.reed, capView.on, ligOK, capOK]);
   // Another design: its own ligature comes with its first render.
   // eslint-disable-next-line react-hooks/exhaustive-deps -- clearLigature only sets state
   useEffect(() => model.clearLigature(), [mainKey]);
@@ -1649,6 +1644,7 @@ export default function App() {
       compare={pinned?.stl ?? null}
       frameKey={`${mainTab.key}|${otherPart ?? ""}`}
       part={tab}
+      onCut={setViewCut}
       fitKey={`${tab}|${tab === "ligature" ? !!model.ligStl : tab === "cap" ? !!model.capStl : ""}`}
       compact={isPhone}
       focus={focus}
@@ -1879,14 +1875,15 @@ export default function App() {
       printed={printed ? () => setPrinted(false) : undefined}
       fitNote={
         kitOK && (
-          <p className="fit-note muted">
-            Check the fit first: a{" "}
-            <button className="link" onClick={() => downloadPart("ring")} disabled={!stl || dlBusy("ring")}>
-              shank test ring
-            </button>{" "}
-            prints in minutes and slides on your cork like the mouthpiece will. No calipers? The value here suits a
-            typical neck; the ring shows if yours differs.
-          </p>
+          <div className="fit-note muted">
+            <p>
+              Check the fit first: a shank test ring prints in minutes and slides on your cork like the mouthpiece will.
+              No calipers? The value here suits a typical neck; the ring shows if yours differs.
+            </p>
+            <button onClick={() => downloadPart("ring")} disabled={!stl || dlBusy("ring")}>
+              Download a shank test ring
+            </button>
+          </div>
         )
       }
     />
@@ -2420,9 +2417,12 @@ export default function App() {
               onActive={setDockTab}
               actions={
                 dockTab === "chamber" &&
-                param("baffle_height") && (
+                param("baffle_height") &&
+                !viewCut && (
                   <button className="link" onClick={() => focusOn("baffle_height")} disabled={!zoom}>
-                    {zoom ? "Cut the view open to see the inside" : "Turn on Auto-zoom (⋯) to cut the view open"}
+                    {zoom
+                      ? "Cut the view open to see the inside"
+                      : "Turn on Auto-zoom (Options ▾) to cut the view open"}
                   </button>
                 )
               }

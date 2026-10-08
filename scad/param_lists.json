@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "8072baed-19416",
+  "hash": "7045d314-19455",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33,7 +33,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -63,7 +63,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.4,
     "max": 8,
@@ -134,7 +134,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -209,7 +209,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "measured",
     "name": "baffle_type",
@@ -348,7 +348,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -378,7 +378,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 71.8,
     "max": 120,
@@ -418,7 +418,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -439,7 +439,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -499,7 +499,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.6,
     "max": 8,
@@ -509,7 +509,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -519,7 +519,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -559,7 +559,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -586,7 +586,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -606,7 +606,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -1175,7 +1175,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -1195,7 +1195,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -1216,7 +1216,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -1226,7 +1226,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -1253,7 +1253,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -1353,7 +1353,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -1363,7 +1363,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -1648,7 +1648,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -1658,7 +1658,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -1856,7 +1856,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -1875,7 +1875,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "31f095b4-19653",
+  "hash": "dc829343-19692",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1908,7 +1908,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -1938,7 +1938,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.8,
     "max": 8,
@@ -2009,7 +2009,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -2084,7 +2084,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "measured",
     "name": "baffle_type",
@@ -2223,7 +2223,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 4.3,
     "max": 12,
@@ -2253,7 +2253,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 101.5,
     "max": 120,
@@ -2293,7 +2293,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -2314,7 +2314,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -2374,7 +2374,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.4,
     "max": 8,
@@ -2384,7 +2384,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -2394,7 +2394,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -2434,7 +2434,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -2461,7 +2461,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -2481,7 +2481,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -3050,7 +3050,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -3070,7 +3070,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -3091,7 +3091,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -3101,7 +3101,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -3128,7 +3128,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -3228,7 +3228,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -3238,7 +3238,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -3523,7 +3523,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -3533,7 +3533,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -3731,7 +3731,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -3750,7 +3750,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "88114ee-20325",
+  "hash": "e23f7621-20364",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3783,7 +3783,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -3813,7 +3813,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.2,
     "max": 8,
@@ -3884,7 +3884,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -3959,7 +3959,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "measured",
     "name": "baffle_type",
@@ -4098,7 +4098,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.7,
     "max": 12,
@@ -4128,7 +4128,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 75.5,
     "max": 120,
@@ -4168,7 +4168,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -4189,7 +4189,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -4249,7 +4249,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.5,
     "max": 8,
@@ -4259,7 +4259,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -4269,7 +4269,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -4309,7 +4309,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -4336,7 +4336,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -4356,7 +4356,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -4925,7 +4925,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -4945,7 +4945,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -4966,7 +4966,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -4976,7 +4976,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -5003,7 +5003,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -5103,7 +5103,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -5113,7 +5113,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -5398,7 +5398,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -5408,7 +5408,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -5606,7 +5606,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -5625,7 +5625,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "d45df421-19618",
+  "hash": "e28453e4-19657",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5658,7 +5658,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -5688,7 +5688,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -5759,7 +5759,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -5834,7 +5834,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "measured",
     "name": "baffle_type",
@@ -5973,7 +5973,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -6003,7 +6003,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 55.44,
     "max": 120,
@@ -6043,7 +6043,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -6064,7 +6064,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -6124,7 +6124,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.5,
     "max": 8,
@@ -6134,7 +6134,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -6144,7 +6144,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -6184,7 +6184,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -6211,7 +6211,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -6231,7 +6231,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -6800,7 +6800,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -6820,7 +6820,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -6841,7 +6841,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 5,
     "max": 15,
@@ -6851,7 +6851,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -6878,7 +6878,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -6978,7 +6978,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -6988,7 +6988,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -7273,7 +7273,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -7283,7 +7283,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -7481,7 +7481,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -7500,7 +7500,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "b434d5a6-19795",
+  "hash": "f3965105-19834",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7533,7 +7533,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -7563,7 +7563,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -7634,7 +7634,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -7709,7 +7709,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "measured",
     "name": "baffle_type",
@@ -7848,7 +7848,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.8,
     "max": 12,
@@ -7878,7 +7878,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 77.7,
     "max": 120,
@@ -7918,7 +7918,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -7939,7 +7939,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -7999,7 +7999,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.5,
     "max": 8,
@@ -8009,7 +8009,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -8019,7 +8019,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -8059,7 +8059,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -8086,7 +8086,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -8106,7 +8106,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -8675,7 +8675,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -8695,7 +8695,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -8716,7 +8716,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -8726,7 +8726,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -8753,7 +8753,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -8853,7 +8853,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -8863,7 +8863,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -9148,7 +9148,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -9158,7 +9158,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -9356,7 +9356,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -9375,7 +9375,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "b6906e23-19362",
+  "hash": "ed03b082-19404",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9408,7 +9408,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -9438,7 +9438,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.4,
     "max": 8,
@@ -9509,7 +9509,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -9584,7 +9584,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "concave",
     "name": "baffle_type",
@@ -9723,7 +9723,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -9753,7 +9753,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 71.8,
     "max": 120,
@@ -9793,7 +9793,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -9814,7 +9814,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -9874,7 +9874,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.3,
     "max": 8,
@@ -9884,7 +9884,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -9894,7 +9894,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -9934,7 +9934,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -9961,7 +9961,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -9981,7 +9981,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -10550,7 +10550,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -10570,7 +10570,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -10591,7 +10591,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -10601,7 +10601,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -10628,7 +10628,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -10728,7 +10728,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -10738,7 +10738,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -11023,7 +11023,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -11033,7 +11033,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -11231,7 +11231,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -11250,7 +11250,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "3c34866c-19414",
+  "hash": "ea405739-19453",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11283,7 +11283,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -11313,7 +11313,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.4,
     "max": 8,
@@ -11384,7 +11384,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 16,
     "max": 30,
@@ -11459,7 +11459,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "rollover",
     "name": "baffle_type",
@@ -11598,7 +11598,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -11628,7 +11628,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 71.8,
     "max": 120,
@@ -11668,7 +11668,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -11689,7 +11689,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -11749,7 +11749,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 3,
     "max": 8,
@@ -11759,7 +11759,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -11769,7 +11769,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -11809,7 +11809,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 2.2,
     "max": 8,
@@ -11836,7 +11836,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -11856,7 +11856,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -12425,7 +12425,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -12445,7 +12445,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -12466,7 +12466,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -12476,7 +12476,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -12503,7 +12503,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -12603,7 +12603,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -12613,7 +12613,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -12898,7 +12898,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -12908,7 +12908,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -13106,7 +13106,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -13125,7 +13125,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "c73a169-19378",
+  "hash": "5f1a5876-19417",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13158,7 +13158,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -13188,7 +13188,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.4,
     "max": 8,
@@ -13259,7 +13259,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -13334,7 +13334,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "flat",
     "name": "baffle_type",
@@ -13473,7 +13473,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -13503,7 +13503,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 71.8,
     "max": 120,
@@ -13543,7 +13543,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -13564,7 +13564,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -13624,7 +13624,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 2,
     "max": 8,
@@ -13634,7 +13634,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -13644,7 +13644,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -13684,7 +13684,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -13711,7 +13711,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -13731,7 +13731,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -14300,7 +14300,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -14320,7 +14320,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -14341,7 +14341,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -14351,7 +14351,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -14378,7 +14378,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -14478,7 +14478,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -14488,7 +14488,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -14773,7 +14773,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -14783,7 +14783,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -14981,7 +14981,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -15000,7 +15000,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "eae2e05e-19587",
+  "hash": "8b48ba47-19629",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15033,7 +15033,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -15063,7 +15063,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.8,
     "max": 8,
@@ -15134,7 +15134,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -15209,7 +15209,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "concave",
     "name": "baffle_type",
@@ -15348,7 +15348,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 4.3,
     "max": 12,
@@ -15378,7 +15378,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 101.5,
     "max": 120,
@@ -15418,7 +15418,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -15439,7 +15439,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -15499,7 +15499,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.3,
     "max": 8,
@@ -15509,7 +15509,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -15519,7 +15519,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -15559,7 +15559,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -15586,7 +15586,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -15606,7 +15606,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -16175,7 +16175,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -16195,7 +16195,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -16216,7 +16216,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -16226,7 +16226,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -16253,7 +16253,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -16353,7 +16353,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -16363,7 +16363,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -16648,7 +16648,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -16658,7 +16658,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -16856,7 +16856,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -16875,7 +16875,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "2a9c45d2-19653",
+  "hash": "694d861f-19692",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16908,7 +16908,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -16938,7 +16938,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.8,
     "max": 8,
@@ -17009,7 +17009,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 17.6,
     "max": 30,
@@ -17084,7 +17084,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "rollover",
     "name": "baffle_type",
@@ -17223,7 +17223,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 4.3,
     "max": 12,
@@ -17253,7 +17253,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 101.5,
     "max": 120,
@@ -17293,7 +17293,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -17314,7 +17314,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -17374,7 +17374,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 3,
     "max": 8,
@@ -17384,7 +17384,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -17394,7 +17394,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -17434,7 +17434,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 2.2,
     "max": 8,
@@ -17461,7 +17461,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -17481,7 +17481,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -18050,7 +18050,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -18070,7 +18070,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -18091,7 +18091,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -18101,7 +18101,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -18128,7 +18128,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -18228,7 +18228,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -18238,7 +18238,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -18523,7 +18523,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -18533,7 +18533,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -18731,7 +18731,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -18750,7 +18750,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "d8c4d900-19605",
+  "hash": "e234361b-19644",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18783,7 +18783,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -18813,7 +18813,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.8,
     "max": 8,
@@ -18884,7 +18884,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -18959,7 +18959,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "flat",
     "name": "baffle_type",
@@ -19098,7 +19098,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 4.3,
     "max": 12,
@@ -19128,7 +19128,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 101.5,
     "max": 120,
@@ -19168,7 +19168,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -19189,7 +19189,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -19249,7 +19249,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 2,
     "max": 8,
@@ -19259,7 +19259,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -19269,7 +19269,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -19309,7 +19309,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -19336,7 +19336,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -19356,7 +19356,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -19925,7 +19925,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -19945,7 +19945,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -19966,7 +19966,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -19976,7 +19976,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -20003,7 +20003,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -20103,7 +20103,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -20113,7 +20113,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -20398,7 +20398,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -20408,7 +20408,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -20606,7 +20606,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -20625,7 +20625,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "193ccc1c-19623",
+  "hash": "14e541f-19665",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20658,7 +20658,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -20688,7 +20688,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -20759,7 +20759,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -20834,7 +20834,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "concave",
     "name": "baffle_type",
@@ -20973,7 +20973,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -21003,7 +21003,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 55.44,
     "max": 120,
@@ -21043,7 +21043,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -21064,7 +21064,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -21124,7 +21124,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.3,
     "max": 8,
@@ -21134,7 +21134,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -21144,7 +21144,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -21184,7 +21184,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -21211,7 +21211,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -21231,7 +21231,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -21800,7 +21800,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -21820,7 +21820,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -21841,7 +21841,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 5,
     "max": 15,
@@ -21851,7 +21851,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -21878,7 +21878,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -21978,7 +21978,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -21988,7 +21988,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -22273,7 +22273,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -22283,7 +22283,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -22481,7 +22481,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -22500,7 +22500,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "3da067e9-19673",
+  "hash": "49806bd8-19712",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22533,7 +22533,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -22563,7 +22563,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -22634,7 +22634,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 11.7,
     "max": 30,
@@ -22709,7 +22709,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "rollover",
     "name": "baffle_type",
@@ -22848,7 +22848,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -22878,7 +22878,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 55.44,
     "max": 120,
@@ -22918,7 +22918,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -22939,7 +22939,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -22999,7 +22999,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 3,
     "max": 8,
@@ -23009,7 +23009,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -23019,7 +23019,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -23059,7 +23059,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 2.2,
     "max": 8,
@@ -23086,7 +23086,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -23106,7 +23106,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -23675,7 +23675,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -23695,7 +23695,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -23716,7 +23716,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 5,
     "max": 15,
@@ -23726,7 +23726,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -23753,7 +23753,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -23853,7 +23853,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -23863,7 +23863,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -24148,7 +24148,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -24158,7 +24158,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -24356,7 +24356,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -24375,7 +24375,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "1e3a43f8-19638",
+  "hash": "b56abb2f-19677",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24408,7 +24408,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -24438,7 +24438,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -24509,7 +24509,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -24584,7 +24584,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "flat",
     "name": "baffle_type",
@@ -24723,7 +24723,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.5,
     "max": 12,
@@ -24753,7 +24753,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 55.44,
     "max": 120,
@@ -24793,7 +24793,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -24814,7 +24814,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -24874,7 +24874,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 2,
     "max": 8,
@@ -24884,7 +24884,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -24894,7 +24894,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -24934,7 +24934,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -24961,7 +24961,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -24981,7 +24981,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -25550,7 +25550,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -25570,7 +25570,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -25591,7 +25591,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 5,
     "max": 15,
@@ -25601,7 +25601,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -25628,7 +25628,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -25728,7 +25728,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -25738,7 +25738,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -26023,7 +26023,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -26033,7 +26033,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -26231,7 +26231,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -26250,7 +26250,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "3c7c6ae6-19745",
+  "hash": "fabcb50d-19787",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26283,7 +26283,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -26313,7 +26313,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -26384,7 +26384,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -26459,7 +26459,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "concave",
     "name": "baffle_type",
@@ -26598,7 +26598,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.8,
     "max": 12,
@@ -26628,7 +26628,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 77.7,
     "max": 120,
@@ -26668,7 +26668,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -26689,7 +26689,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -26749,7 +26749,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 1.3,
     "max": 8,
@@ -26759,7 +26759,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -26769,7 +26769,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -26809,7 +26809,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -26836,7 +26836,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -26856,7 +26856,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -27425,7 +27425,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -27445,7 +27445,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -27466,7 +27466,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -27476,7 +27476,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -27503,7 +27503,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -27603,7 +27603,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -27613,7 +27613,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -27898,7 +27898,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -27908,7 +27908,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -28106,7 +28106,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -28125,7 +28125,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "db4ac608-19788",
+  "hash": "bdea0b4f-19827",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28158,7 +28158,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -28188,7 +28188,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -28259,7 +28259,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 17,
     "max": 30,
@@ -28334,7 +28334,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "rollover",
     "name": "baffle_type",
@@ -28473,7 +28473,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.8,
     "max": 12,
@@ -28503,7 +28503,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 77.7,
     "max": 120,
@@ -28543,7 +28543,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -28564,7 +28564,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -28624,7 +28624,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 3,
     "max": 8,
@@ -28634,7 +28634,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -28644,7 +28644,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -28684,7 +28684,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 2.2,
     "max": 8,
@@ -28711,7 +28711,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -28731,7 +28731,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -29300,7 +29300,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -29320,7 +29320,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -29341,7 +29341,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -29351,7 +29351,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -29378,7 +29378,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -29478,7 +29478,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -29488,7 +29488,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -29773,7 +29773,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -29783,7 +29783,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -29981,7 +29981,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,
@@ -30000,7 +30000,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "29ebbaee-19757",
+  "hash": "4e8f6e7-19796",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30033,7 +30033,7 @@
     "type": "number"
    },
    {
-    "caption": "How far in the socket's bevel goes (mm); equal to its width = 45°.",
+    "caption": "How far in the socket's lead-in goes (mm).",
     "group": "Shank",
     "initial": 1,
     "max": 20,
@@ -30063,7 +30063,7 @@
     "type": "number"
    },
    {
-    "caption": "Angle between the bore and the reed table (degrees); typically about 4.",
+    "caption": "Angle between the neck's line and the reed table (degrees); about 4 is typical.",
     "group": "Shank",
     "initial": 4.1,
     "max": 8,
@@ -30134,7 +30134,7 @@
     "type": "number"
    },
    {
-    "caption": "Height before the window (mm); 0 = round. Taller lowers the floor, shorter raises it.",
+    "caption": "Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.",
     "group": "Chamber",
     "initial": 0,
     "max": 30,
@@ -30209,7 +30209,7 @@
     "type": "string"
    },
    {
-    "caption": "Roof above the reed: measured = the preset's own (Original); step = a ledge.",
+    "caption": "The roof's shape over the reed (see the picture); Original = the preset's own.",
     "group": "Baffle",
     "initial": "flat",
     "name": "baffle_type",
@@ -30348,7 +30348,7 @@
     "type": "number"
    },
    {
-    "caption": "How far back the tip's curve reaches (mm), outside and window. Match your reed.",
+    "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
     "group": "Window",
     "initial": 3.8,
     "max": 12,
@@ -30378,7 +30378,7 @@
     "type": "number"
    },
    {
-    "caption": "Length of the table, from the tip to its back end (mm), the facing included.",
+    "caption": "From the tip to the table's back end (mm), facing included; longer than the reed is normal.",
     "group": "Table",
     "initial": 77.7,
     "max": 120,
@@ -30418,7 +30418,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
+    "caption": "How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -30439,7 +30439,7 @@
     "type": "string"
    },
    {
-    "caption": "Power curve shape: 2 is an even curve; lower opens sooner, higher later.",
+    "caption": "For the Power curve: 2 opens evenly; lower opens sooner, higher later.",
     "group": "Facing",
     "initial": 1.8,
     "max": 3,
@@ -30499,7 +30499,7 @@
     "type": "number"
    },
    {
-    "caption": "Top of the beak: lower = ridged, higher = flat.",
+    "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
     "initial": 2,
     "max": 8,
@@ -30509,7 +30509,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak profile from the side: + concave (scooped), - convex (fuller).",
+    "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
     "initial": 0,
     "max": 1,
@@ -30519,7 +30519,7 @@
     "type": "number"
    },
    {
-    "caption": "Moves the shoulder where the beak starts (mm): + a longer, flatter beak, - shorter.",
+    "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -30559,7 +30559,7 @@
     "type": "number"
    },
    {
-    "caption": "Lower sides near the tip: 1.2 (lowest) = curved in, higher = boxier.",
+    "caption": "The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.",
     "group": "Exterior",
     "initial": 1.2,
     "max": 8,
@@ -30586,7 +30586,7 @@
     "type": "number"
    },
    {
-    "caption": "Text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the text reads: along the mouthpiece or across it (flipped = upside down).",
     "group": "Lettering",
     "initial": 90,
     "max": 270,
@@ -30606,7 +30606,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
     "initial": "",
     "name": "top_image",
@@ -31175,7 +31175,7 @@
     "type": "number"
    },
    {
-    "caption": "Band's front edge, mm behind the window's back end; negative is over the window.",
+    "caption": "Band's front edge (mm): 0 = just behind the window, minus = over the window.",
     "group": "Ligature",
     "initial": 2,
     "max": 40,
@@ -31195,7 +31195,7 @@
     "type": "number"
    },
    {
-    "caption": "D = round on top, flat under the reed; conform = follows the body.",
+    "caption": "D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.",
     "group": "Ligature",
     "initial": "d",
     "name": "ligature_shape",
@@ -31216,7 +31216,7 @@
     "type": "string"
    },
    {
-    "caption": "Extra length on one side, running toward the shank (mm); 0 = a straight band.",
+    "caption": "A tail on one side, running toward the shank (mm); 0 = a straight band.",
     "group": "Ligature",
     "initial": 7,
     "max": 15,
@@ -31226,7 +31226,7 @@
     "type": "number"
    },
    {
-    "caption": "Which side the tab (the extra length) runs along: the top, or under the reed.",
+    "caption": "Which side the tail runs along: the top, or under the reed.",
     "group": "Ligature",
     "initial": "top",
     "name": "ligature_tongue_side",
@@ -31253,7 +31253,7 @@
     "type": "number"
    },
    {
-    "caption": "How much it squeezes the reed against the table (mm): the reed is the tight spot.",
+    "caption": "How hard the band presses the reed onto the table (mm): bigger = tighter.",
     "group": "Ligature",
     "initial": 0.2,
     "max": 0.6,
@@ -31353,7 +31353,7 @@
     "type": "number"
    },
    {
-    "caption": "Ligature text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the ligature's text reads: along or across (flipped = upside down).",
     "group": "Ligature",
     "initial": 90,
     "max": 270,
@@ -31363,7 +31363,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the ligature's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
     "group": "Ligature",
     "initial": "",
     "name": "ligature_image",
@@ -31648,7 +31648,7 @@
     "type": "number"
    },
    {
-    "caption": "Cap text direction: 0 = along (toward the tip), 90 = across; 180, 270 = upside down.",
+    "caption": "Which way the cap's text reads: along or across (flipped = upside down).",
     "group": "Cap",
     "initial": 0,
     "max": 270,
@@ -31658,7 +31658,7 @@
     "type": "number"
    },
    {
-    "caption": "SVG picture on the cap's top (empty = none). Use filled shapes, not strokes.",
+    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
     "group": "Cap",
     "initial": "",
     "name": "cap_image",
@@ -31856,7 +31856,7 @@
     "type": "string"
    },
    {
-    "caption": "Smoothness: higher is smoother but slower. 64 is fine for printing.",
+    "caption": "Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.",
     "group": "Output",
     "initial": 64,
     "max": 128,

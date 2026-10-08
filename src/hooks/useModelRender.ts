@@ -401,6 +401,16 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     if (s.reportsOn && s.target && !shownDraft.current && !shownReports.current) loadReports(s.target, s.values);
   }, [state, loadReports]);
 
+  // The accessories shown but not made for the model on screen (they were turned on, or the model was
+  // rendered before the file's parameters said it has them, as after a reload): make them. Asked
+  // again for the same thing it does nothing (runPart's signatures); not for a draft.
+  const ensureParts = useCallback(() => {
+    const s = state.current!;
+    if (s.target && !shownDraft.current && !mainBusy.current && (s.ligOK || s.capOK))
+      loadParts(s.target, s.values, shownFn.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadParts only uses refs and state setters
+  }, [state]);
+
   // A model shown without rendering it (B swapped in as A).
   const showModel = (buf: ArrayBuffer | null) => {
     setStl(buf);
@@ -439,6 +449,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     renderPass,
     loadLigature,
     ensureReports,
+    ensureParts,
     partStl,
     kitReports,
     showModel,
