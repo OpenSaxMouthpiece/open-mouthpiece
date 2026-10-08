@@ -14,7 +14,7 @@ export type SaveOpts = {
 };
 export const SAVE_DEFAULTS: SaveOpts = {
   browser: true,
-  full: true,
+  full: false, // a first save stays in the browser; the warning below suggests a .scad
   settings: false,
   stl: false,
   ligature: false,
