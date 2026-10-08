@@ -255,7 +255,7 @@ static site (docs/HOSTING.md).
 - `npm test`: Vitest unit tests for pure logic (`src/*.test.ts`; CI runs them). `npm run check`
   covers the geometry.
 - Layout: `src/app/rail.ts` (the rail's places and what a pick does; also the phone's bottom bar),
-  `src/app/Workspace.tsx` (the desktop grid: rail, code column, panel, view + dock, splitters).
+  `src/app/Workspace.tsx` (the desktop grid: rail, code column, panel, view with the shape charts card floating over it (`ShapeDock.tsx`: closed = a "Shape charts" button; Larger / Smaller), splitters).
 - Screenshots from a script: headless Chrome over CDP (`--headless=new --remote-debugging-port`,
   `node --experimental-websocket`), `Runtime.evaluate` a click script, `Page.captureScreenshot` (a
   hidden tab stalls rAF/ResizeObserver). Keep such tools out of scad/_sweep/: `npm run sweep`

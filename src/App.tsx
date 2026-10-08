@@ -135,8 +135,9 @@ export default function App() {
   const [codeOpen, setCodeOpen] = usePref("codeOpen", false); // the code editor + console column (desktop)
   // Desktop: the place open from the rail (a section's title, or a tool), and the shape dock under the view.
   const [railSel, setRailSel] = usePref("rail", "Tip & facing");
-  const [dockOpen, setDockOpen] = usePref("dockOpen", false);
+  const [dockOpen, setDockOpen] = usePref("shapeCard", false);
   const [dockTab, setDockTab] = usePref("dockTab", "body");
+  const [dockBig, setDockBig] = usePref("dockBig", false);
   const winW = useWindowWidth();
   const isPhone = useMediaQuery("(max-width: 1024px)"); // phones and portrait tablets
   // the phone view's height (dvh), dragged; remembered in this browser
@@ -1649,7 +1650,7 @@ export default function App() {
       compare={pinned?.stl ?? null}
       frameKey={`${mainTab.key}|${otherPart ?? ""}`}
       part={tab}
-      fitKey={`${!isPhone && dockOpen}|${tab}|${tab === "ligature" ? !!model.ligStl : tab === "cap" ? !!model.capStl : ""}`}
+      fitKey={`${tab}|${tab === "ligature" ? !!model.ligStl : tab === "cap" ? !!model.capStl : ""}`}
       compact={isPhone}
       focus={focus}
       labelA={labelA}
@@ -2426,6 +2427,8 @@ export default function App() {
               tabs={dockTabs}
               active={dockTab}
               open={dockOpen}
+              big={dockBig}
+              onBig={setDockBig}
               onActive={setDockTab}
               actions={
                 dockTab === "chamber" &&

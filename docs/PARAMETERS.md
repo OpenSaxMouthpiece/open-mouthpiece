@@ -493,7 +493,7 @@ Presets: Alto `23.8` · Tenor `25.2` · Bari `28.0` · Soprano `20.0`.
 
 ### Facing curve (`facing_model`)
 
-Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).
+Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).
 
 Range: `power`, `arc`, `gauge`.
 
@@ -663,7 +663,7 @@ Presets: Alto `1.2` · Tenor `1.2` · Bari `1.2` · Soprano `1.2`.
 
 ## Lettering
 
-Text and pictures on the outside. The app's **Personalise** section has the main ones.
+Text and pictures on the outside. The app's **Personalize** section has the main ones.
 
 ### Text on top (`top_text`)
 
@@ -867,11 +867,19 @@ Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
 ### Shank decoration (`shank_detail`)
 
-Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.
+Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.
 
 Range: `none`, `ring`, `rings`, `flutes`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
+
+### Cut in or raised (`shank_detail_style`)
+
+Shank decoration cut in (engraved) or standing out (raised).
+
+Range: `engraved`, `raised`.
+
+Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
 
 ### How many (`shank_detail_count`)
 
@@ -891,7 +899,7 @@ Presets: Alto `0.25` · Tenor `0.25` · Bari `0.25` · Soprano `0.25`.
 
 ### Shank decoration depth (`shank_detail_depth`)
 
-How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.
+How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 
 Range: 0.3 to 1.2, step 0.05.
 
@@ -1161,7 +1169,7 @@ Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)
 
 ### Ligature text font (`ligature_text_font`)
 
-The ligature text's own typeface; same = the Font in Personalise.
+The ligature text's own typeface; same = the Font in Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
@@ -1339,7 +1347,7 @@ Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)
 
 ### Cap text font (`cap_text_font`)
 
-The cap text's own typeface; same = the Font in Personalise.
+The cap text's own typeface; same = the Font in Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 

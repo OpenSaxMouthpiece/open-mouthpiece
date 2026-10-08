@@ -27,7 +27,7 @@ nothing is saved on a server.
   ring first to check.
 - **Make a matching ligature**: a ring ligature built from the mouthpiece's own shape.
 - **Compare A/B** with another design, or with an STL of a mouthpiece you have.
-- **Personalise it** with text or a picture on the body.
+- **Personalize it** with text or a picture on the body.
 - **Keep and share**: save in your browser, download a .scad (it opens in OpenSCAD) or the STL, or
   send a link.
 - Works on phones and tablets too.

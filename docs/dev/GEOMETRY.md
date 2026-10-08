@@ -190,7 +190,12 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
   with the tip up; `shank_text_around` turns it, + toward the right side). Both cut a skin
   (`exterior_relief`: `exterior_offset` with its own depth per station; grooves have 45-degree
   sides, so they print standing on the shank end) at most `SHANK_WALL - 1.2` deep. With text and a
-  detail, the text takes the flare end of the band.
+  detail, the text takes the flare end of the band. The rings and flutes run from the end face
+  (`SD_SPAN`, -1 on the axis): engraved, each is only as deep as `shank_room` allows (the socket's
+  lead-in thins the wall there; 1.2mm stays), flutes open out through the face.
+  `shank_detail_style = raised` adds them instead (`shank_raised`: square-sided rings or ribs,
+  their tops `exterior_offset` outward by the depth, clipped at the end face; unioned with the
+  exterior before the cuts).
 - **Braces in strings**: OpenSCAD's parameter export stops at a string containing `{`, dropping
   every later parameter from the Customizer. Files write it `"{tip}"` (`make_variants.mjs`'s
   `fmt`, the app's `scadLiteral`); OpenSCAD reads the same string.

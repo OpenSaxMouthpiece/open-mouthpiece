@@ -2836,17 +2836,52 @@ button.link:hover {
   margin-top: 12px;
 }
 
-/* the shape dock: a tab strip that opens into the charts */
+/* the shape charts: a card floating over the view's bottom left (above the status pill), or one
+   small button when closed */
+.dock-pill,
 .dock {
-  flex-shrink: 0;
+  position: absolute;
+  left: 10px;
+  bottom: 40px;
+  z-index: 3;
+}
+.dock-pill {
+  padding: 5px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--overlay);
+  color: var(--text);
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+.dock-pill:hover {
+  border-color: var(--accent);
+}
+.dock {
+  display: flex;
+  flex-direction: column;
+  width: min(680px, calc(100% - 20px));
+  max-height: calc(55% - 40px);
   background: var(--panel);
-  border-top: 1px solid var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+.dock.big {
+  width: min(960px, calc(100% - 20px));
+  max-height: calc(80% - 40px);
 }
 .dock-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 10px;
+  gap: 6px;
+  padding: 4px 6px 4px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.dock-close {
+  padding: 0 8px;
+  font-size: 18px;
+  line-height: 1.3;
 }
 .dock-tabs {
   display: flex;
@@ -2872,13 +2907,13 @@ button.link:hover {
   flex: 1;
   font-size: 12px;
 }
-.dock-toggle {
+.dock-size {
   padding: 3px 10px;
 }
 .dock-body {
-  max-height: 48vh;
+  min-height: 0;
   overflow: auto;
-  padding: 2px 14px 10px;
+  padding: 2px 12px 10px;
 }
 .dock .design-facing {
   display: flex;
@@ -2905,6 +2940,10 @@ button.link:hover {
   grid-column: 1;
   grid-row: 2 / span 2;
 }
+/* one chart only: it takes both columns */
+.dock .profile-chart:not(.tip-chart):not(:has(> svg:nth-of-type(2))) > svg:first-of-type {
+  grid-column: 1 / -1;
+}
 .dock .profile-chart:not(.tip-chart) > .readout-label {
   grid-column: 2;
   grid-row: 2;
@@ -2915,23 +2954,27 @@ button.link:hover {
 }
 .dock .profile-chart svg,
 .dock .facing-chart svg {
-  max-height: 34vh;
+  max-height: 20vh;
+}
+.dock.big .profile-chart svg,
+.dock.big .facing-chart svg {
+  max-height: 44vh;
 }
 
-/* the dock draws the charts about three times their panel size: text and dots kept to screen size */
-.dock .profile-chart:not(.tip-chart) .tick,
-.dock .profile-chart:not(.tip-chart) .edit-label {
-  font-size: 4px;
+/* the larger card draws the charts about 1.5 times their panel size: text and dots kept to screen size */
+.dock.big .profile-chart:not(.tip-chart) .tick,
+.dock.big .profile-chart:not(.tip-chart) .edit-label {
+  font-size: 7px;
 }
-.dock .profile-chart:not(.tip-chart) .landmark text {
-  font-size: 3.6px;
+.dock.big .profile-chart:not(.tip-chart) .landmark text {
+  font-size: 6px;
 }
-.dock .profile-chart:not(.tip-chart) .edit-handle circle:not(.hit) {
-  r: 2.2px;
-  stroke-width: 0.6;
+.dock.big .profile-chart:not(.tip-chart) .edit-handle circle:not(.hit) {
+  r: 3.5px;
+  stroke-width: 1;
 }
-.dock .profile-chart:not(.tip-chart) .edit-handle circle.hit {
-  r: 5px;
+.dock.big .profile-chart:not(.tip-chart) .edit-handle circle.hit {
+  r: 8px;
 }
 
 /* the rail's section fills the panel: its head is a title, not a fold (search results still fold) */
@@ -2964,13 +3007,7 @@ button.link:hover {
   display: flex;
   align-items: center;
 }
-/* the dock: Hide by the tabs; Edit shape at the side chart's own corner */
-.dock-bar .dock-hint {
-  order: 3;
-}
-.dock-bar .dock-toggle {
-  order: 2;
-}
+/* the dock: Edit shape at the side chart's own corner */
 .dock .profile-chart:not(.tip-chart) > .profile-head {
   grid-column: 1;
 }

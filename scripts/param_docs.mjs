@@ -323,7 +323,7 @@ async function main() {
   const groups = [...new Set(params.map((p) => p.group))];
   out.push('Sections: ' + groups.map((g) => `[${g}](#${g.toLowerCase().replace(/[^a-z0-9]+/g, '-')})`).join(' · '), '');
   const NOTES = {
-    Lettering: "Text and pictures on the outside. The app's **Personalise** section has the main ones.",
+    Lettering: "Text and pictures on the outside. The app's **Personalize** section has the main ones.",
     'Profile overrides':
       'Point lists that replace a built-in curve: `[[distance from the shank end, value], ...]`, `[]` = the built-in one. ' +
       "Edit them in the app's **Curves** panel (OpenSCAD's Customizer can't edit lists).",

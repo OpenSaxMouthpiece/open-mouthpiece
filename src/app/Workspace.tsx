@@ -1,5 +1,5 @@
 // The desktop layout: the icon rail, the code column (when open), the panel with the rail's pick,
-// and the view with the shape dock under it. Columns are dragged wider or narrower at their edges.
+// and the view with the shape charts floating over it. Columns are dragged wider or narrower at their edges.
 import type { ReactNode } from "react";
 import { Rail, type RailItem } from "../components/Rail";
 import { startDrag } from "../hooks/useMediaQuery";
@@ -62,8 +62,10 @@ export function Workspace({
         }
       />
       <section className="center">
-        <div className="view-area">{view}</div>
-        {dock}
+        <div className="view-area">
+          {view}
+          {dock}
+        </div>
       </section>
     </main>
   );

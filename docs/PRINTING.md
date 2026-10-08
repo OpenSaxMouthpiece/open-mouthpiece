@@ -113,7 +113,7 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
 - **Band length**, **Tab toward the shank**, **Position** and **Wall thickness** change how much of the reed it holds,
   where, and how stiff it is; **Shape** can also be fully round or follow the whole mouthpiece.
 - **Text on the ligature** / **Picture on the ligature** put lettering or a picture on its top, in
-  the font, style (engraved or raised) and depth set under Personalise. Keep it short: the band's
+  the font, style (engraved or raised) and depth set under Personalize. Keep it short: the band's
   top is only about as long as the band plus the tab.
 
 ## 4c. A cap made for it (optional)

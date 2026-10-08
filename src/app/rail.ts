@@ -11,7 +11,7 @@ const RAIL: Record<string, [label: string, icon: RailItem["icon"]]> = {
   "Fit on the horn": ["Fit", "fit"],
   "Chamber & baffle": ["Chamber", "chamber"],
   "Body & beak": ["Body", "body"],
-  Personalise: ["Engrave", "text"],
+  Personalize: ["Personalize", "text"],
   Ligature: ["Ligature", "ligature"],
   Cap: ["Cap", "cap"],
   Printing: ["Print", "print"],

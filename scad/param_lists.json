@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "351af5-19294",
+  "hash": "8072baed-19416",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1056,7 +1056,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -1076,6 +1076,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -1101,7 +1118,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -1253,7 +1270,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -1548,7 +1565,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -1858,7 +1875,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "35a9d0cc-19531",
+  "hash": "31f095b4-19653",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2914,7 +2931,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -2934,6 +2951,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -2959,7 +2993,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -3111,7 +3145,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -3406,7 +3440,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -3716,7 +3750,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "26f3a45e-20203",
+  "hash": "88114ee-20325",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4772,7 +4806,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -4792,6 +4826,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -4817,7 +4868,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -4969,7 +5020,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -5264,7 +5315,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -5574,7 +5625,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "a80ee799-19496",
+  "hash": "d45df421-19618",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6630,7 +6681,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -6650,6 +6701,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -6675,7 +6743,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -6827,7 +6895,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -7122,7 +7190,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -7432,7 +7500,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "ae3db866-19673",
+  "hash": "b434d5a6-19795",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8488,7 +8556,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -8508,6 +8576,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -8533,7 +8618,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -8685,7 +8770,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -8980,7 +9065,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -9290,7 +9375,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "3ae58b63-19240",
+  "hash": "b6906e23-19362",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10346,7 +10431,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -10366,6 +10451,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -10391,7 +10493,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -10543,7 +10645,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -10838,7 +10940,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -11148,7 +11250,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "d245d724-19292",
+  "hash": "3c34866c-19414",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12204,7 +12306,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -12224,6 +12326,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -12249,7 +12368,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -12401,7 +12520,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -12696,7 +12815,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -13006,7 +13125,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "c3daf69-19256",
+  "hash": "c73a169-19378",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14062,7 +14181,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -14082,6 +14201,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -14107,7 +14243,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -14259,7 +14395,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -14554,7 +14690,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -14864,7 +15000,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "3e711aae-19465",
+  "hash": "eae2e05e-19587",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15920,7 +16056,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -15940,6 +16076,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -15965,7 +16118,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -16117,7 +16270,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -16412,7 +16565,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -16722,7 +16875,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "8d1e3e6a-19531",
+  "hash": "2a9c45d2-19653",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17778,7 +17931,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -17798,6 +17951,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -17823,7 +17993,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -17975,7 +18145,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -18270,7 +18440,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -18580,7 +18750,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "48773ea0-19483",
+  "hash": "d8c4d900-19605",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19636,7 +19806,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -19656,6 +19826,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -19681,7 +19868,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -19833,7 +20020,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -20128,7 +20315,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -20438,7 +20625,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "77b33acc-19501",
+  "hash": "193ccc1c-19623",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21494,7 +21681,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -21514,6 +21701,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -21539,7 +21743,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -21691,7 +21895,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -21986,7 +22190,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -22296,7 +22500,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "e60c7969-19551",
+  "hash": "3da067e9-19673",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23352,7 +23556,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -23372,6 +23576,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -23397,7 +23618,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -23549,7 +23770,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -23844,7 +24065,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -24154,7 +24375,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "898bd8a0-19516",
+  "hash": "1e3a43f8-19638",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25210,7 +25431,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -25230,6 +25451,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -25255,7 +25493,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -25407,7 +25645,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -25702,7 +25940,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -26012,7 +26250,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "dae921ee-19623",
+  "hash": "3c7c6ae6-19745",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27068,7 +27306,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -27088,6 +27326,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -27113,7 +27368,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -27265,7 +27520,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -27560,7 +27815,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -27870,7 +28125,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "cae67890-19666",
+  "hash": "db4ac608-19788",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28926,7 +29181,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -28946,6 +29201,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -28971,7 +29243,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -29123,7 +29395,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -29418,7 +29690,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -29728,7 +30000,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "8f19163e-19635",
+  "hash": "29ebbaee-19757",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30784,7 +31056,7 @@
     "type": "string"
    },
    {
-    "caption": "Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -30804,6 +31076,23 @@
      {
       "name": "flutes",
       "value": "flutes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Shank decoration cut in (engraved) or standing out (raised).",
+    "group": "Lettering",
+    "initial": "engraved",
+    "name": "shank_detail_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
      }
     ],
     "type": "string"
@@ -30829,7 +31118,7 @@
     "type": "number"
    },
    {
-    "caption": "How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.",
+    "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
     "initial": 0.6,
     "max": 1.2,
@@ -30981,7 +31270,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalise.",
+    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -31276,7 +31565,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalise.",
+    "caption": "The cap text's own typeface; same = the Font in Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",

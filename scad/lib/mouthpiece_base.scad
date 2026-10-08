@@ -215,13 +215,15 @@ shank_text_size = 3; // [1.5:0.5:8]
 shank_text_around = 0; // [-180:15:180]
 // The shank text's own typeface; same = the Font above.
 shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
-// Grooves cut into the shank's band: one ring, rings (ribbed) or flutes along it.
+// Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.
 shank_detail = "none"; // [none, ring, rings, flutes]
+// Shank decoration cut in (engraved) or standing out (raised).
+shank_detail_style = "engraved"; // [engraved, raised]
 // How many rings or flutes (rings: as many as fit).
 shank_detail_count = 3; // [2:1:40]
 // Where the single ring sits: 0 = by the neck end, 1 = by the flare.
 shank_detail_position = 0.25; // [0:0.05:1]
-// How deep the rings or flutes go (mm); the shank keeps 1.2mm of wall under them.
+// How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]
 
 /* [Profile overrides] */
@@ -289,7 +291,7 @@ ligature_fit = 0.1; // [-0.4:0.05:0.5]
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
-// The ligature text's own typeface; same = the Font in Personalise.
+// The ligature text's own typeface; same = the Font in Personalize.
 ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
@@ -335,7 +337,7 @@ cap_end_gap = 5; // [1:0.5:20]
 cap_end_dome = 1; // [0:0.1:1]
 // Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
-// The cap text's own typeface; same = the Font in Personalise.
+// The cap text's own typeface; same = the Font in Personalize.
 cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]
@@ -1635,7 +1637,8 @@ SHANK_BAND = let(f = len(FLARE_W) > 0 ? FLARE_W[0] * L : 0.09 * L, z0 = max(1.5,
 function shank_wall_at(z) = let(E = exterior_ring_at(z), c = bah_at(z))
   min(E[E_HW] - socket_d / 2, E[E_TOP] - (c + socket_ry), (c - socket_ry) - max(0, E[E_BOT]));   // the table plane cuts the underside
 SHANK_WALL = min([for (i = [0 : 4]) shank_wall_at(SHANK_BAND[0] + (SHANK_BAND[1] - SHANK_BAND[0]) * i / 4)]);
-SHANK_CUT = max(0.1, min(shank_detail_depth, SHANK_WALL - 1.2));
+SHANK_RAISED = shank_detail_style == "raised";
+SHANK_CUT = SHANK_RAISED ? shank_detail_depth : max(0.1, min(shank_detail_depth, SHANK_WALL - 1.2));
 SHANK_TEXT_CUT = max(0.1, min(lettering_depth, SHANK_WALL - 1.2));
 HAS_SHANK_DETAIL = shank_detail == "ring" || shank_detail == "rings" || shank_detail == "flutes";
 HAS_SHANK_ART = HAS_SHANK_DETAIL || has_text(shank_text);
@@ -1644,8 +1647,13 @@ shank_text_h = text_block(shank_text, shank_text_size)[1];
 shank_text_z = !has_text(shank_text) ? SHANK_BAND[1]
   : HAS_SHANK_DETAIL ? max(SHANK_BAND[0] + shank_text_h / 2, SHANK_BAND[1] - shank_text_h / 2 - 0.3)
   : (SHANK_BAND[0] + SHANK_BAND[1]) / 2;
-SD_SPAN = [SHANK_BAND[0], has_text(shank_text) ? max(SHANK_BAND[0] + 1, shank_text_z - shank_text_h / 2 - 0.8) : SHANK_BAND[1]];
-SD_GW = 2 * SHANK_CUT + 0.4;   // a groove's width at the surface (45-degree sides, a flat bottom)
+// The rings and flutes run from the end face (-1 on the axis): engraved ones get shallower where the
+// socket's lead-in thins the wall (shank_room), keeping 1.2mm.
+SD_SPAN = [-1, has_text(shank_text) ? max(1, shank_text_z - shank_text_h / 2 - 0.8) : SHANK_BAND[1]];
+function shank_bevel_at(z) = let(d = shank_bevel_depth_eff()) d > 0 ? shank_bevel_eff() * max(0, 1 - (z + 1) / d) : 0;
+function shank_room(z0, z1) = min([for (i = [0 : 4]) let(z = z0 + (z1 - z0) * i / 4)
+  shank_wall_at(max(0, z)) - shank_bevel_at(z) - 1.2]);
+SD_GW = 2 * SHANK_CUT + 0.4;   // a groove's (or raised ring's) width at the surface
 SD_RINGS = shank_detail == "ring" ? 1 : max(1, min(shank_detail_count, floor((SD_SPAN[1] - SD_SPAN[0]) / (SD_GW + 0.6))));
 SD_CENTRES = shank_detail == "ring" ? [lerp(SD_SPAN[0] + SD_GW / 2, SD_SPAN[1] - SD_GW / 2, clamp01(shank_detail_position))]
   : let(p = (SD_SPAN[1] - SD_SPAN[0]) / SD_RINGS) [for (i = [0 : SD_RINGS - 1]) SD_SPAN[0] + (i + 0.5) * p];
@@ -1658,22 +1666,23 @@ function shank_r_at(z) = let(E = exterior_ring_at(max(0, z)), c = bah_at(z)) min
 
 module shank_cutter() {
   // Rings: each a groove turned around the bore (45-degree sides); the skin flattens its bottom.
-  if (shank_detail == "ring" || shank_detail == "rings")
+  if (!SHANK_RAISED && (shank_detail == "ring" || shank_detail == "rings"))
     difference() {
-      bore_frame() for (c = SD_CENTRES) let(r = shank_r_at(c), hb = max(0.05, SD_GW / 2 - SHANK_CUT))
+      bore_frame() for (c = SD_CENTRES)
+        let(r = shank_r_at(c), k = max(0.1, min(SHANK_CUT, shank_room(c - SD_GW / 2, c + SD_GW / 2))), hb = max(0.05, SD_GW / 2 - k))
         translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS)
-          polygon([[r - SHANK_CUT - 1, -hb], [r - SHANK_CUT, -hb], [r + 6, -hb - SHANK_CUT - 6],
-                   [r + 6, hb + SHANK_CUT + 6], [r - SHANK_CUT, hb], [r - SHANK_CUT - 1, hb]]);
+          polygon([[r - k - 1, -hb], [r - k, -hb], [r + 6, -hb - k - 6],
+                   [r + 6, hb + k + 6], [r - k, hb], [r - k - 1, hb]]);
       exterior_offset(SD_SPAN[0] - 2, SD_SPAN[1] + 2, SHANK_CUT);
     }
   // Flutes: each a V (45-degree sides) along the bore, its point fw/2 under the surface (following
   // the flare in 0.5mm pieces) and rising at 45 degrees at both ends, so no ledge to print.
-  if (shank_detail == "flutes") {
+  if (!SHANK_RAISED && shank_detail == "flutes") {
     n = max(2, shank_detail_count);
     fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, SD_GW);
     m = max(2, ceil((SD_SPAN[1] - SD_SPAN[0]) / 0.5));
-    tip = function(k) let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * k / m)
-      [z + 1, shank_r_at(z), min(fw / 2, z - SD_SPAN[0], SD_SPAN[1] - z)];
+    tip = function(k) let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * k / m, zz = k == 0 ? z - 0.5 : z)   // past the face
+      [zz + 1, shank_r_at(z), max(0.05, min(fw / 2, SD_SPAN[1] - z, shank_room(z, z)))];
     difference() {
       bore_frame() for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
         for (k = [0 : m - 1]) hull() for (p = [tip(k), tip(k + 1)])
@@ -1683,6 +1692,30 @@ module shank_cutter() {
     }
   }
   if (has_text(shank_text)) shank_text_cutter();
+}
+
+// Raised: the same rings or flutes standing out SHANK_CUT, their tops following the surface
+// (square sides, like raised lettering: the step is under 1.2mm, fine unsupported).
+module shank_raised() {
+  intersection() {
+    exterior_offset(SD_SPAN[0] - 1, SD_SPAN[1] + 1, -SHANK_CUT);
+    bore_frame() intersection() {
+      translate([-60, -60, 0]) cube([120, 120, 60]);   // not past the end face
+      union() {
+        if (shank_detail == "ring" || shank_detail == "rings")
+          for (c = SD_CENTRES) let(r = shank_r_at(c))
+            translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS)
+              polygon([[r - 1, -SD_GW / 2], [r + SHANK_CUT + 8, -SD_GW / 2], [r + SHANK_CUT + 8, SD_GW / 2], [r - 1, SD_GW / 2]]);
+        if (shank_detail == "flutes") {
+          n = max(2, shank_detail_count);
+          r = shank_r_at(SD_SPAN[0]);
+          fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, SD_GW);
+          for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
+            translate([r - 1, -fw / 2, SD_SPAN[0]]) cube([SHANK_CUT + 9, fw, SD_SPAN[1] - SD_SPAN[0] + 1]);
+      }
+      }
+    }
+  }
 }
 
 // The shank text, wrapped around the band: the flat text's x becomes the distance around from the
@@ -1820,7 +1853,7 @@ function param_focus() =
    ["lettering_depth", lettering, "iso", false], ["lettering_font", lettering, "iso", false],
    ["lettering_tip_clearance", lettering, "top", false], ["top_text_font", lettering_top, "top", false],
    ["side_text_font", lettering_side, side_view, false], ["shank_text", shank, "iso", false], ["shank_text_size", shank, "iso", false],
-   ["shank_text_around", shank, "iso", false], ["shank_text_font", shank, "iso", false], ["shank_detail", shank, "iso", false],
+   ["shank_text_around", shank, "iso", false], ["shank_text_font", shank, "iso", false], ["shank_detail", shank, "iso", false], ["shank_detail_style", shank, "iso", false],
    ["shank_detail_count", shank, "iso", false], ["shank_detail_position", shank, "side", false], ["shank_detail_depth", shank, "side", false],
    ["ligature_text_font", ligature, "top", false],
    ["ligature_length", ligature, "side", false], ["ligature_position", ligature, "side", false],
@@ -2328,7 +2361,10 @@ module cap_part() {
 
 module mouthpiece_body() {
   difference() {
-    exterior_solid();
+    union() {
+      exterior_solid();
+      if (HAS_SHANK_DETAIL && SHANK_RAISED) shank_raised();
+    }
     interior_solid();
     window_cutter();
     facing_cutter();

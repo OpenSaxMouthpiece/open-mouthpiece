@@ -165,7 +165,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     more: ["body_squareness", "shoulder_sweep", "shank_diameter", "bore_axis_height"],
   },
   {
-    title: "Personalise",
+    title: "Personalize",
     plain: "Lettering and pictures",
     items: [
       { name: "top_text", label: "Text on top" },
@@ -190,7 +190,13 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "shank_detail",
         label: "Shank decoration",
-        optionLabels: { none: "None", ring: "One ring", rings: "Rings (ribbed)", flutes: "Flutes (grooves along it)" },
+        optionLabels: { none: "None", ring: "One ring", rings: "Rings (ribbed)", flutes: "Flutes (lines along it)" },
+      },
+      {
+        name: "shank_detail_style",
+        label: "Cut in or raised",
+        when: ["shank_detail", ["ring", "rings", "flutes"]],
+        optionLabels: { engraved: "Cut in (engraved)", raised: "Standing out (raised)" },
       },
       { name: "shank_detail_count", label: "How many", when: ["shank_detail", ["rings", "flutes"]] },
       { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "ring"] },
@@ -247,7 +253,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "ligature_text",
         label: "Text on the ligature",
         caption:
-          "Text on the band's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalise.",
+          "Text on the band's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
       },
       { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
       { name: "ligature_text_angle", label: "Text direction", showIf: ["ligature_text"] },
@@ -297,7 +303,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "cap_text",
         label: "Text on the cap",
         caption:
-          "Text on the cap's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalise.",
+          "Text on the cap's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
       },
       { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
       { name: "cap_text_angle", label: "Text direction", showIf: ["cap_text"] },
@@ -477,7 +483,7 @@ const ENDS: Record<string, [string, string]> = {
   body_squareness: ["Pointed", "Boxy"],
   shoulder_sweep: ["Straight across", "Swept"],
   shank_diameter: ["Slim", "Thick"],
-  // Personalise
+  // Personalize
   top_text_size: SMALL_LARGE,
   top_text_position: ALONG,
   top_image_width: SMALL_LARGE,
