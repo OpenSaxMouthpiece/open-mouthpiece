@@ -215,13 +215,13 @@ shank_text_size = 3; // [1.5:0.5:8]
 shank_text_around = 0; // [-180:15:180]
 // The shank text's own typeface; same = the Font above.
 shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
-// Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.
-shank_detail = "none"; // [none, ring, rings, flutes]
+// Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
+shank_detail = "none"; // [none, rings, flutes, spiral, knurled]
 // Shank decoration cut in (engraved) or standing out (raised).
 shank_detail_style = "engraved"; // [engraved, raised]
-// How many rings or flutes (rings: as many as fit).
-shank_detail_count = 3; // [2:1:40]
-// Where the single ring sits: 0 = by the neck end, 1 = by the flare.
+// How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
+shank_detail_count = 3; // [1:1:40]
+// Where a single ring sits: 0 = by the neck end, 1 = by the flare.
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]
@@ -1121,7 +1121,7 @@ function air_volume() =
 module validate() {
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
     echo(str("WARNING: ", r[0], " was renamed ", r[2], " — this value is ignored; rename it in the file"));
-  if (shank_detail == "rings" && SD_RINGS < shank_detail_count)
+  if (SD_KIND == "rings" && SD_RINGS < SD_COUNT)
     echo(str("WARNING: shank_detail_count ", shank_detail_count, " rings don't fit on the shank's band: ", SD_RINGS, " made"));
   if (has_text(shank_text) && shank_text_h > SHANK_BAND[1] - SHANK_BAND[0] + 0.5)
     echo(str("WARNING: shank_text ", round(shank_text_h * 10) / 10, "mm tall runs past the shank's ", round((SHANK_BAND[1] - SHANK_BAND[0]) * 10) / 10, "mm band onto the flare: try a smaller shank_text_size"));
@@ -1628,7 +1628,7 @@ module lettering_cutter() {
 
 // ---- The shank band: the round stretch at the neck end, before the flare into the body (at least
 // 7mm: a shank that flares from the end (bari, soprano) gets that much of its flare).
-// shank_detail cuts grooves into it (one ring, rings, or flutes along it) and shank_text runs
+// shank_detail cuts grooves into it (rings, flutes along it, a spiral or knurling) and shank_text runs
 // around it, both like the lettering: a cut through a skin that follows the surface. They start
 // 1mm past the socket's lead-in (the opening keeps its wall) and leave the shank 1.2mm of wall.
 // Grooves have 45-degree sides, so they print standing on the shank end without supports.
@@ -1640,7 +1640,10 @@ SHANK_WALL = min([for (i = [0 : 4]) shank_wall_at(SHANK_BAND[0] + (SHANK_BAND[1]
 SHANK_RAISED = shank_detail_style == "raised";
 SHANK_CUT = SHANK_RAISED ? shank_detail_depth : max(0.1, min(shank_detail_depth, SHANK_WALL - 1.2));
 SHANK_TEXT_CUT = max(0.1, min(lettering_depth, SHANK_WALL - 1.2));
-HAS_SHANK_DETAIL = shank_detail == "ring" || shank_detail == "rings" || shank_detail == "flutes";
+// "ring" (older files) = rings, just one.
+SD_KIND = shank_detail == "ring" ? "rings" : shank_detail;
+SD_COUNT = shank_detail == "ring" ? 1 : max(1, shank_detail_count);
+HAS_SHANK_DETAIL = SD_KIND == "rings" || SD_KIND == "flutes" || SD_KIND == "spiral" || SD_KIND == "knurled";
 HAS_SHANK_ART = HAS_SHANK_DETAIL || has_text(shank_text);
 // The text sits in the band's middle; with a detail too, at the flare end (the detail gets the rest).
 shank_text_h = text_block(shank_text, shank_text_size)[1];
@@ -1654,8 +1657,8 @@ function shank_bevel_at(z) = let(d = shank_bevel_depth_eff()) d > 0 ? shank_beve
 function shank_room(z0, z1) = min([for (i = [0 : 4]) let(z = z0 + (z1 - z0) * i / 4)
   shank_wall_at(max(0, z)) - shank_bevel_at(z) - 1.2]);
 SD_GW = 2 * SHANK_CUT + 0.4;   // a groove's (or raised ring's) width at the surface
-SD_RINGS = shank_detail == "ring" ? 1 : max(1, min(shank_detail_count, floor((SD_SPAN[1] - SD_SPAN[0]) / (SD_GW + 0.6))));
-SD_CENTRES = shank_detail == "ring" ? [lerp(SD_SPAN[0] + SD_GW / 2, SD_SPAN[1] - SD_GW / 2, clamp01(shank_detail_position))]
+SD_RINGS = max(1, min(SD_COUNT, floor((SD_SPAN[1] - SD_SPAN[0]) / (SD_GW + 0.6))));
+SD_CENTRES = SD_RINGS == 1 ? [lerp(SD_SPAN[0] + SD_GW / 2, SD_SPAN[1] - SD_GW / 2, clamp01(shank_detail_position))]
   : let(p = (SD_SPAN[1] - SD_SPAN[0]) / SD_RINGS) [for (i = [0 : SD_RINGS - 1]) SD_SPAN[0] + (i + 0.5) * p];
 // The shank's details go square to the bore, like the end face (not to the table, which the bore
 // is tilted from): built in the bore's frame, origin on its axis at the end face, z along it. A
@@ -1664,55 +1667,91 @@ module bore_frame() { translate([0, bah_at(-1), -1]) rotate([bore_tilt, 0, 0]) c
 // The surface's smallest distance from the bore axis at z (the table plane cuts the underside).
 function shank_r_at(z) = let(E = exterior_ring_at(max(0, z)), c = bah_at(z)) min(E[E_HW], E[E_TOP] - c, c - max(0, E[E_BOT]));
 
+// Spiral and knurling: grooves (or a bead) twisted round the band, linear_extruded in the bore
+// frame from the end face and scaled with the band's flare (r at both ends).
+SD_R = [shank_r_at(SD_SPAN[0]), shank_r_at(SD_SPAN[1])];
+SD_K = max(0.1, min(SHANK_CUT, shank_room(SD_SPAN[0], SD_SPAN[1])));   // engraved depth, all along
+SD_STARTS = min(SD_COUNT, 4);
+SD_LEAD = SD_STARTS * 2 * SD_GW;                       // a spiral's turns 2 groove widths apart
+SD_KNURL_LEAD = 2 * PI * SD_R[0] * 1.2;               // knurl lines ~40 degrees off the bore
+// A round profile of radius k swept along a helix of this lead, cut at z = const: an arc of
+// angles; dir -1 = a groove (round inside, open out to r + 6), +1 = a bead (round outside).
+function sd_helix_2d(r, k, lead, dir) = let(a = 2 * PI * k / lead, n = 16,
+    ph = [for (i = [0 : n]) -a + 2 * a * i / n],
+    arc = [for (p = ph) let(rr = r + dir * sqrt(max(0, k * k - pow(p * lead / (2 * PI), 2)))) [rr * cos(p * 180 / PI), rr * sin(p * 180 / PI)]],
+    base = [for (p = [for (i = [n : -1 : 0]) ph[i]]) let(rr = dir < 0 ? r + 6 : r - 1) [rr * cos(p * 180 / PI), rr * sin(p * 180 / PI)]])
+  concat(arc, base);
+module sd_twist(lead, z0 = -0.5) {
+  h = SD_SPAN[1] + 1 - z0;
+  translate([0, 0, z0]) linear_extrude(h, twist = -360 * h / lead, slices = max(4, ceil(abs(360 * h / lead) / 5)), scale = SD_R[1] / SD_R[0])
+    children();
+}
+module sd_knurl(apex) {   // V grooves (45-degree sides), both ways, apex at radius apex
+  for (s = [-1, 1], i = [0 : max(2, SD_COUNT) - 1]) rotate([0, 0, i * 360 / max(2, SD_COUNT)])
+    sd_twist(s * SD_KNURL_LEAD) polygon([[apex, 0], [SD_R[0] + 6, SD_R[0] + 6 - apex], [SD_R[0] + 6, apex - SD_R[0] - 6]]);
+}
+
 module shank_cutter() {
-  // Rings: each a groove turned around the bore (45-degree sides); the skin flattens its bottom.
-  if (!SHANK_RAISED && (shank_detail == "ring" || shank_detail == "rings"))
-    difference() {
-      bore_frame() for (c = SD_CENTRES)
-        let(r = shank_r_at(c), k = max(0.1, min(SHANK_CUT, shank_room(c - SD_GW / 2, c + SD_GW / 2))), hb = max(0.05, SD_GW / 2 - k))
-        translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS)
-          polygon([[r - k - 1, -hb], [r - k, -hb], [r + 6, -hb - k - 6],
-                   [r + 6, hb + k + 6], [r - k, hb], [r - k - 1, hb]]);
-      exterior_offset(SD_SPAN[0] - 2, SD_SPAN[1] + 2, SHANK_CUT);
-    }
+  // Rings: half-round grooves turned around the bore (no flat ledge to print).
+  if (!SHANK_RAISED && SD_KIND == "rings")
+    bore_frame() for (c = SD_CENTRES)
+      let(r = shank_r_at(c), k = max(0.1, min(SHANK_CUT, shank_room(c - SD_GW / 2, c + SD_GW / 2))))
+      translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS) union() {
+        translate([r, 0]) circle(k, $fn = 24);
+        translate([r, -k]) square([6, 2 * k]);
+      }
   // Flutes: each a V (45-degree sides) along the bore, its point fw/2 under the surface (following
   // the flare in 0.5mm pieces) and rising at 45 degrees at both ends, so no ledge to print.
-  if (!SHANK_RAISED && shank_detail == "flutes") {
-    n = max(2, shank_detail_count);
-    fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, SD_GW);
+  if (!SHANK_RAISED && SD_KIND == "flutes") {
+    n = max(2, SD_COUNT);
+    fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, 2 * SHANK_CUT);
     m = max(2, ceil((SD_SPAN[1] - SD_SPAN[0]) / 0.5));
     tip = function(k) let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * k / m, zz = k == 0 ? z - 0.5 : z)   // past the face
       [zz + 1, shank_r_at(z), max(0.05, min(fw / 2, SD_SPAN[1] - z, shank_room(z, z)))];
-    difference() {
-      bore_frame() for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
-        for (k = [0 : m - 1]) hull() for (p = [tip(k), tip(k + 1)])
-          translate([0, 0, p[0]]) linear_extrude(0.01)
-            polygon([[p[1] - p[2], 0], [p[1] + 6, 6 + p[2]], [p[1] + 6, -6 - p[2]]]);
-      exterior_offset(SD_SPAN[0] - 2, SD_SPAN[1] + 2, SHANK_CUT);
-    }
+    bore_frame() for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
+      for (k = [0 : m - 1]) hull() for (p = [tip(k), tip(k + 1)])
+        translate([0, 0, p[0]]) linear_extrude(0.01)
+          polygon([[p[1] - p[2], 0], [p[1] + 6, 6 + p[2]], [p[1] + 6, -6 - p[2]]]);
   }
+  if (!SHANK_RAISED && SD_KIND == "spiral")
+    bore_frame() for (i = [0 : SD_STARTS - 1]) rotate([0, 0, i * 360 / SD_STARTS])
+      sd_twist(SD_LEAD) polygon(sd_helix_2d(SD_R[0], SD_K, SD_LEAD, -1));
+  if (!SHANK_RAISED && SD_KIND == "knurled") bore_frame() sd_knurl(SD_R[0] - SD_K);
   if (has_text(shank_text)) shank_text_cutter();
 }
 
-// Raised: the same rings or flutes standing out SHANK_CUT, their tops following the surface
-// (square sides, like raised lettering: the step is under 1.2mm, fine unsupported).
+// Raised: the same shapes standing out SHANK_CUT (rings and the spiral as half-round beads, flutes
+// as V ridges, knurling as diamonds), trimmed to a skin that follows the surface.
 module shank_raised() {
   intersection() {
     exterior_offset(SD_SPAN[0] - 1, SD_SPAN[1] + 1, -SHANK_CUT);
     bore_frame() intersection() {
       translate([-60, -60, 0]) cube([120, 120, 60]);   // not past the end face
       union() {
-        if (shank_detail == "ring" || shank_detail == "rings")
+        if (SD_KIND == "rings")
           for (c = SD_CENTRES) let(r = shank_r_at(c))
-            translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS)
-              polygon([[r - 1, -SD_GW / 2], [r + SHANK_CUT + 8, -SD_GW / 2], [r + SHANK_CUT + 8, SD_GW / 2], [r - 1, SD_GW / 2]]);
-        if (shank_detail == "flutes") {
-          n = max(2, shank_detail_count);
-          r = shank_r_at(SD_SPAN[0]);
-          fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, SD_GW);
+            translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS) union() {
+              translate([r, 0]) circle(SHANK_CUT, $fn = 24);
+              translate([r - 1, -SHANK_CUT]) square([1, 2 * SHANK_CUT]);
+            }
+        if (SD_KIND == "flutes") {
+          n = max(2, SD_COUNT);
+          fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, 2 * SHANK_CUT);
+          m = max(2, ceil((SD_SPAN[1] - SD_SPAN[0]) / 0.5));
           for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
-            translate([r - 1, -fw / 2, SD_SPAN[0]]) cube([SHANK_CUT + 9, fw, SD_SPAN[1] - SD_SPAN[0] + 1]);
-      }
+            for (k = [0 : m - 1]) hull() for (j = [k, k + 1])
+              let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * j / m, r = shank_r_at(z))
+              translate([0, 0, z + 1]) linear_extrude(0.01)
+                polygon([[r - 1, -fw / 2], [r, -fw / 2], [r + fw / 2, 0], [r, fw / 2], [r - 1, fw / 2]]);
+        }
+        if (SD_KIND == "spiral")
+          for (i = [0 : SD_STARTS - 1]) rotate([0, 0, i * 360 / SD_STARTS])
+            sd_twist(SD_LEAD, 0) polygon(sd_helix_2d(SD_R[0], SHANK_CUT, SD_LEAD, 1));
+        if (SD_KIND == "knurled")
+          difference() {
+            translate([0, 0, SD_SPAN[0] + 1]) cylinder(r = SD_R[1] + SHANK_CUT + 9, h = SD_SPAN[1] - SD_SPAN[0], $fn = EXT_RING_POINTS);
+            sd_knurl(SD_R[0] + 0.01);
+          }
       }
     }
   }

@@ -172,13 +172,13 @@ shank_text_size = 3; // [1.5:0.5:8]
 shank_text_around = 0; // [-180:15:180]
 // The shank text's own typeface; same = the Font above.
 shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
-// Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.
-shank_detail = "none"; // [none, ring, rings, flutes]
+// Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
+shank_detail = "none"; // [none, rings, flutes, spiral, knurled]
 // Shank decoration cut in (engraved) or standing out (raised).
 shank_detail_style = "engraved"; // [engraved, raised]
-// How many rings or flutes (rings: as many as fit).
-shank_detail_count = 3; // [2:1:40]
-// Where the single ring sits: 0 = by the neck end, 1 = by the flare.
+// How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
+shank_detail_count = 3; // [1:1:40]
+// Where a single ring sits: 0 = by the neck end, 1 = by the flare.
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]

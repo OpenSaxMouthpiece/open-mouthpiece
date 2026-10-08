@@ -22,6 +22,8 @@ const OLD = new RegExp(`\\b(${Object.keys(RENAMED).join("|")})\\b`, "g");
 const chamberLength = (v: ParamValue) => (v === 0 ? 40 : v);
 
 export function migrateValues(values: Record<string, ParamValue>): Record<string, ParamValue> {
+  // shank_detail "ring" (2026-10-08) became rings, just one.
+  if (values.shank_detail === "ring") values = { ...values, shank_detail: "rings", shank_detail_count: 1 };
   if (!Object.keys(values).some((n) => n in RENAMED)) return values;
   return Object.fromEntries(
     Object.entries(values).map(([n, v]) =>

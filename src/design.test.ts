@@ -3,7 +3,7 @@ import { changedCount, optionLabel } from "./design";
 
 describe("optionLabel", () => {
   it("prefers a section's own words for an option", () => {
-    expect(optionLabel("shank_detail", "rings")).toBe("Rings (ribbed)");
+    expect(optionLabel("shank_detail", "rings")).toBe("Rings");
   });
   it("then the shared option names", () => {
     expect(optionLabel("facing_model", "arc")).toBe("Radius");

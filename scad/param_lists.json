@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "7045d314-19455",
+  "hash": "ea973618-19515",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1056,7 +1056,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -1066,16 +1066,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -1098,17 +1102,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -1875,7 +1879,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "dc829343-19692",
+  "hash": "5d9d4e57-19752",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2931,7 +2935,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -2941,16 +2945,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -2973,17 +2981,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -3750,7 +3758,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "e23f7621-20364",
+  "hash": "6cc90f85-20424",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4806,7 +4814,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -4816,16 +4824,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -4848,17 +4860,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -5625,7 +5637,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "e28453e4-19657",
+  "hash": "c5f0d00-19717",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6681,7 +6693,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -6691,16 +6703,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -6723,17 +6739,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -7500,7 +7516,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "f3965105-19834",
+  "hash": "3077ce45-19894",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8556,7 +8572,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -8566,16 +8582,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -8598,17 +8618,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -9375,7 +9395,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "ed03b082-19404",
+  "hash": "48b16242-19464",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10431,7 +10451,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -10441,16 +10461,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -10473,17 +10497,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -11250,7 +11274,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "ea405739-19453",
+  "hash": "a2fafb31-19513",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12306,7 +12330,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -12316,16 +12340,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -12348,17 +12376,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -13125,7 +13153,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "5f1a5876-19417",
+  "hash": "73fec7aa-19477",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14181,7 +14209,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -14191,16 +14219,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -14223,17 +14255,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -15000,7 +15032,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "8b48ba47-19629",
+  "hash": "47475ed3-19689",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16056,7 +16088,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -16066,16 +16098,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -16098,17 +16134,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -16875,7 +16911,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "694d861f-19692",
+  "hash": "3753e9a3-19752",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17931,7 +17967,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -17941,16 +17977,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -17973,17 +18013,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -18750,7 +18790,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "e234361b-19644",
+  "hash": "2bde2397-19704",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19806,7 +19846,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -19816,16 +19856,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -19848,17 +19892,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -20625,7 +20669,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "14e541f-19665",
+  "hash": "23c99007-19725",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21681,7 +21725,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -21691,16 +21735,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -21723,17 +21771,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -22500,7 +22548,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "49806bd8-19712",
+  "hash": "f9f98d5c-19772",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23556,7 +23604,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -23566,16 +23614,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -23598,17 +23650,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -24375,7 +24427,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "b56abb2f-19677",
+  "hash": "8d96379b-19737",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25431,7 +25483,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -25441,16 +25493,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -25473,17 +25529,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -26250,7 +26306,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "fabcb50d-19787",
+  "hash": "19d81495-19847",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27306,7 +27362,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -27316,16 +27372,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -27348,17 +27408,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -28125,7 +28185,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "bdea0b4f-19827",
+  "hash": "33b2bd97-19887",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29181,7 +29241,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -29191,16 +29251,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -29223,17 +29287,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,
@@ -30000,7 +30064,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "4e8f6e7-19796",
+  "hash": "384f9597-19856",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31056,7 +31120,7 @@
     "type": "string"
    },
    {
-    "caption": "Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.",
+    "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
     "initial": "none",
     "name": "shank_detail",
@@ -31066,16 +31130,20 @@
       "value": "none"
      },
      {
-      "name": "ring",
-      "value": "ring"
-     },
-     {
       "name": "rings",
       "value": "rings"
      },
      {
       "name": "flutes",
       "value": "flutes"
+     },
+     {
+      "name": "spiral",
+      "value": "spiral"
+     },
+     {
+      "name": "knurled",
+      "value": "knurled"
      }
     ],
     "type": "string"
@@ -31098,17 +31166,17 @@
     "type": "string"
    },
    {
-    "caption": "How many rings or flutes (rings: as many as fit).",
+    "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
     "initial": 3,
     "max": 40,
-    "min": 2,
+    "min": 1,
     "name": "shank_detail_count",
     "step": 1,
     "type": "number"
    },
    {
-    "caption": "Where the single ring sits: 0 = by the neck end, 1 = by the flare.",
+    "caption": "Where a single ring sits: 0 = by the neck end, 1 = by the flare.",
     "group": "Lettering",
     "initial": 0.25,
     "max": 1,

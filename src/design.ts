@@ -194,16 +194,16 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "shank_detail",
         label: "Shank decoration",
-        optionLabels: { none: "None", ring: "One ring", rings: "Rings (ribbed)", flutes: "Flutes (lines along it)" },
+        optionLabels: { none: "None", rings: "Rings", flutes: "Flutes (V lines along it)", spiral: "Spiral", knurled: "Knurled (diamonds)" },
       },
       {
         name: "shank_detail_style",
         label: "Cut in or raised",
-        when: ["shank_detail", ["ring", "rings", "flutes"]],
+        when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
         optionLabels: { engraved: "Cut in (engraved)", raised: "Standing out (raised)" },
       },
-      { name: "shank_detail_count", label: "How many", when: ["shank_detail", ["rings", "flutes"]] },
-      { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "ring"] },
+      { name: "shank_detail_count", label: "How many", when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]] },
+      { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "rings"] },
       {
         name: "lettering_font",
         label: "Font",
@@ -639,6 +639,7 @@ for (const [n, texts] of [
   ["cap_text_font", ["cap_text"]],
 ] as [string, string[]][])
   INACTIVE[n] = (get) => (anyText(get, texts) ? null : "no text to apply it to");
+INACTIVE.shank_detail_position = (get) => (Number(get("shank_detail_count")) === 1 ? null : "only with one ring");
 INACTIVE.shank_detail_depth = (get) =>
   get("shank_detail") && get("shank_detail") !== "none" ? null : "no shank decoration";
 INACTIVE.cap_image_aspect = (get) => (anyText(get, ["cap_image"]) ? null : "no picture on the cap");
