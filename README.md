@@ -72,6 +72,16 @@ usage" turns it off.
 Open Mouthpiece is free, with no ads. If it made you a mouthpiece you like, you can
 [support it on Ko-fi](https://ko-fi.com/opensaxmouthpiece).
 
+## How this was made
+
+Open Mouthpiece was vibe coded: most of the code (the OpenSCAD generator and this web app) was
+written by Claude, Anthropic's AI model, in conversation with a saxophonist who set the direction,
+made the design calls, and prints and plays the results. The geometry is checked by automated
+tests: every preset must come out as one closed, printable solid that matches its stored
+reference, and a sweep tries over a thousand extreme and random settings to make sure they still
+print. Printed alto, tenor and baritone pieces have been play-tested; reports from your own prints
+are welcome.
+
 ## Credits
 
 - **Anatomy and design parameters** follow M. Ozdemir et al., *Acta Acustica* 5, 46 (2021),

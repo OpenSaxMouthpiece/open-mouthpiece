@@ -46,6 +46,16 @@ docs/dev/                       developer notes: GEOMETRY.md (the generator), AP
 Read `docs/dev/GEOMETRY.md` before changing the generator and `docs/dev/APP.md` before changing
 `src/` or `vite.config.ts`.
 
+## Testing
+
+- `npm test`: unit tests for the app's logic (fast, no OpenSCAD needed; CI runs them).
+- `npm run check`: every param file renders as one closed solid, matches its baseline, and its
+  one-file bundle renders the same. Needs OpenSCAD.
+- `npm run sweep`: every setting at its extremes plus random mixes; any failure is cut down to a
+  small file in `scad/_sweep/`.
+- For the app itself, try it in the browser (`npm run dev`; add `?fresh` to start with empty
+  storage).
+
 ## Rules of the road
 
 1. **Edit parameters and their descriptions in `scad/lib/mouthpiece_base.scad` only, then run
