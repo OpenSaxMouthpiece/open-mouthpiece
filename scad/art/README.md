@@ -11,7 +11,6 @@ Examples (original drawings, same license as the project):
 | `happy_face.svg` | 10 mm or more |
 | `sample_note.svg` | 10 mm or more |
 | `treble_clef.svg` | 8 mm or more |
-| `bass_clef.svg` | 10 mm or more |
 | `beamed_notes.svg` | 10 mm or more |
 | `star.svg` | 8 mm or more |
 | `heart.svg` | 8 mm or more |
