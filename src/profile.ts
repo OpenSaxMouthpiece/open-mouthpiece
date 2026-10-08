@@ -143,10 +143,8 @@ export function zRange(stl: ArrayBuffer): [number, number] | null {
   return z1 > z0 ? [z0, z1] : null;
 }
 
-// The outside of a cut across the model at height z (Body & beak's "From the tip"), in (x, y): along
-// each direction from the cut's middle, the farthest edge it crosses, so the window's opening and the
-// bore don't show; the outline seen from the tip at that point.
-export function crossOutline(stl: ArrayBuffer, z: number, rays = 240): Loop[] {
+// The model cut across at height z, as segments in (x, y).
+function crossSegs(stl: ArrayBuffer, z: number): [number, number, number, number][] {
   const dv = new DataView(stl);
   if (stl.byteLength < 84) return [];
   const n = dv.getUint32(80, true);
@@ -157,16 +155,28 @@ export function crossOutline(stl: ArrayBuffer, z: number, rays = 240): Loop[] {
     for (let k = 0; k < 9; k++) v[k] = dv.getFloat32(84 + i * 50 + 12 + k * 4, true);
     const p: number[] = [];
     for (let e = 0; e < 3; e++) {
-      const a = e * 3,
+      let a = e * 3,
         b = ((e + 1) % 3) * 3;
-      const da = v[a + 2] - z,
-        db = v[b + 2] - z;
-      if (da < 0 === db < 0) continue;
-      const t = da / (da - db);
+      if (v[a + 2] - z < 0 === v[b + 2] - z < 0) continue;
+      // the same edge in the neighbouring triangle runs the other way: interpolate in one order
+      if (v[a + 2] > v[b + 2] || (v[a + 2] === v[b + 2] && v[a] > v[b])) [a, b] = [b, a];
+      const t = (z - v[a + 2]) / (v[b + 2] - v[a + 2]);
       p.push(v[a] + t * (v[b] - v[a]), v[a + 1] + t * (v[b + 1] - v[a + 1]));
     }
     if (p.length === 4) segs.push([p[0], p[1], p[2], p[3]]);
   }
+  return segs;
+}
+
+// The cut across at height z as loops (the Inside's slice: walls solid, air empty with an even-odd fill).
+export const crossSection = (stl: ArrayBuffer, z: number): Loop[] => chain(crossSegs(stl, z));
+
+// The outside of a cut across the model at height z (the Outside's slice), in (x, y): along each
+// direction up from the middle of the cut's bottom (the reed side), the farthest edge it crosses,
+// closed along the bottom, so the window's opening and the bore don't show; the outline seen from
+// the tip at that point.
+export function crossOutline(stl: ArrayBuffer, z: number, rays = 240): Loop[] {
+  const segs = crossSegs(stl, z);
   if (segs.length < 3) return [];
   let x0 = Infinity,
     x1 = -Infinity,
@@ -179,9 +189,9 @@ export function crossOutline(stl: ArrayBuffer, z: number, rays = 240): Loop[] {
     y1 = Math.max(y1, ay, by);
   }
   const cx = (x0 + x1) / 2,
-    cy = (y0 + y1) / 2;
+    cy = y0 + 1e-3 * (y1 - y0);
   const loop: [number, number][] = [];
-  for (let k = 0; k < rays; k++) {
+  for (let k = 0; k <= rays / 2; k++) {
     const a = (2 * Math.PI * k) / rays,
       dx = Math.cos(a),
       dy = Math.sin(a);

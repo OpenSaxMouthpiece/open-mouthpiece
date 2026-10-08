@@ -17,7 +17,6 @@ import { Rail } from "./components/Rail";
 import { buildRail } from "./app/rail";
 import { MIN_EDITOR_W, MIN_PANEL_W, Workspace } from "./app/Workspace";
 import { ShapeDock, type DockTab } from "./components/ShapeDock";
-import { TipChart } from "./components/TipChart";
 import { FacingChart } from "./components/FacingChart";
 import { ProfileChart } from "./components/ProfileChart";
 import { Notes, ReadoutLine, Readouts } from "./components/Readouts";
@@ -1724,21 +1723,6 @@ export default function App() {
         />
       </div>
     ) : undefined;
-  // From the tip: a slice across the beak (Body & beak's settings across it)
-  const tipEl =
-    !otherPart && stl && param("shank_clearance") ? (
-      <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>
-        <TipChart
-          stl={stl}
-          final={!shownDraft.current}
-          design={mainTab.key}
-          sig={valuesSig}
-          compare={
-            pinned?.stl && (!pinned.mesh || pinned.mesh.aligned) ? { stl: pinned.stl, label: labelB ?? "" } : null
-          }
-        />
-      </div>
-    ) : undefined;
   // Desktop: the readouts as a strip above the controls. Phone: the readouts are a tab of their own.
   const readoutsEl = otherPart ? (
     <PartNote part={otherPart} log={log} />
@@ -2330,7 +2314,6 @@ export default function App() {
         content: <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>{facingEl}</div>,
       },
       bodyChart && { id: "body", label: "Outside", content: bodyChart },
-      tipEl && { id: "tip", label: "From the tip", content: tipEl },
       chamberChart && { id: "chamber", label: "Inside", content: chamberChart },
     ] as (DockTab | false | null | undefined)[]
   ).filter((t): t is DockTab => !!t);

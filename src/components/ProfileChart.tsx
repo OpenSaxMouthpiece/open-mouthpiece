@@ -1,13 +1,15 @@
-// The side section under "Chamber & baffle" and "Body & beak": the model cut through the middle
-// (profile.ts), true to scale, walls solid and the air empty, the tip to the right and the reed
-// table down. The shape before the last change shows dashed (kept until the next change), and B
-// while comparing, so a baffle or chamber change reads at a glance without cutting the 3D view.
-// "Edit shape" puts a few handles on the section's lines (shapeEdit.ts) and adds a top view for the
-// widths: dragging one pulls the line there, as an offset after the sliders.
+// The shape charts' Outside and Inside: the side view (the outside seen from the side, or the model
+// cut through the middle, walls solid and the air empty), the tip to the right and the reed table
+// down, and a slice across it where the slice line is (drag it, or "Where to slice"), seen from the
+// tip: the outside's outline, or the cut with the walls and the air. True to scale. The shape before
+// the last change shows dashed (kept until the next change), and B while comparing, so a change reads
+// at a glance without cutting the 3D view. "Edit shape" puts a few dots on the section's lines in
+// both views (shapeEdit.ts) and adds a view from above for the widths: dragging one pulls the line
+// there, as an offset after the sliders (a slice's dot adds a point there).
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { ParamValue } from "../api";
 import type { Pt } from "../curves";
-import { loopsBox, midSection, sideSilhouette, type Loop } from "../profile";
+import { crossOutline, crossSection, loopsBox, midSection, sideSilhouette, zRange, type Loop } from "../profile";
 import {
   draggable,
   handleFs,
@@ -41,21 +43,31 @@ interface Props {
 
 const W = 320,
   PAD = 6,
-  FOOT = 16; // room under the plot for the scale and the labels
+  FOOT = 16, // room under the plot for the scale and the labels
+  SLICE_H = 190; // the slice's tallest drawing (svg units)
 const LANDMARKS = ["throat", "window", "break"]; // the ones drawn while editing
+// The slice's range, as a share of the model's length from the shank end.
+const SLICE_MIN = 0.02,
+  SLICE_MAX = 0.98;
 
 // Small loops are slivers where the plane grazes a facet, not walls.
 const area = (l: Loop) =>
   Math.abs(l.reduce((a, [z, y], i) => a + z * l[(i + 1) % l.length][1] - l[(i + 1) % l.length][0] * y, 0) / 2);
 const section = (stl: ArrayBuffer | null, outside = false) =>
   !stl ? [] : outside ? sideSilhouette(stl) : midSection(stl).filter((l) => area(l) > 0.5);
+const across = (stl: ArrayBuffer | null, z: number, outside: boolean) =>
+  !stl ? [] : outside ? crossOutline(stl, z) : crossSection(stl, z).filter((l) => area(l) > 0.2);
 const pathOf = (pts: [number, number][]) => "M" + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join("L");
 
-// A drag in progress: which line and handle, where it started (svg units), and how far (mm).
+// A drag in progress: which line and handle (fs: the handles' places, when a slice adds one), the
+// direction (y: up = +; x: right = + times sign), where it started (svg units) and how far (mm).
 interface Drag {
   line: LineName;
   i: number;
-  y0: number;
+  fs?: number[];
+  axis: "x" | "y";
+  sign: number;
+  p0: number;
   d: number;
   k: number; // mm per svg unit, along the drag (x2 for a width's edge)
 }
@@ -65,8 +77,8 @@ const HELD = "Held there: a wall, the socket or the reed table limits that spot.
 export function ProfileChart({ stl, final, design, sig, compare, outside = false, edit }: Props) {
   const now = useMemo(() => section(stl, outside), [stl, outside]);
   const b = useMemo(() => section(compare?.stl ?? null, outside), [compare?.stl, outside]);
-  const [before, setBefore] = useState<Loop[] | null>(null);
-  const last = useRef<{ design: string; sig: string; loops: Loop[] } | null>(null);
+  const [before, setBefore] = useState<{ loops: Loop[]; stl: ArrayBuffer } | null>(null);
+  const last = useRef<{ design: string; sig: string; loops: Loop[]; stl: ArrayBuffer } | null>(null);
   const [editing, setEditing] = useState(false);
   const [drag, setDragState] = useState<Drag | null>(null);
   // the drag as of the last event, not the last render: a quick flick's first move can come before
@@ -76,6 +88,14 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     dragRef.current = d;
     setDragState(d);
   };
+  // the slice: where it cuts (a share of the model's length), and whether its line is being dragged
+  const [f, setF] = useState(outside ? 0.8 : 0.55);
+  const slicing = useRef(false);
+  const zr = useMemo(() => (stl ? zRange(stl) : null), [stl]);
+  const zp = zr ? zr[0] + f * (zr[1] - zr[0]) : 0; // the cut's height in the model on screen
+  const cutNow = useMemo(() => across(stl, zp, outside), [stl, zp, outside]);
+  const cutB = useMemo(() => across(compare?.stl ?? null, zp, outside), [compare?.stl, zp, outside]);
+  const cutBefore = useMemo(() => across(before?.stl ?? null, zp, outside), [before?.stl, zp, outside]);
   // A drag the model couldn't follow (a wall, the socket, the table holds that spot): said once its
   // render is in, so a dot that settles back isn't a mystery.
   const pending = useRef<{ n: LineName; z: number; was: number; d: number; adj: string; prev?: Pt[] } | null>(null);
@@ -99,13 +119,13 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     if (!stl || !final || !now.length) return;
     const l = last.current;
     if (!l || l.design !== design) setBefore(null);
-    else if (l.sig !== sig) setBefore(l.loops);
-    last.current = { design, sig, loops: now };
+    else if (l.sig !== sig) setBefore({ loops: l.loops, stl: l.stl });
+    last.current = { design, sig, loops: now, stl };
   }, [stl, final, design, sig, now]);
 
   const shape = edit?.shape ?? null;
   const on = editing && !!edit && !!shape;
-  const fit = loopsBox([...now, ...(before ?? []), ...b]);
+  const fit = loopsBox([...now, ...(before?.loops ?? []), ...b]);
   const kept = useRef<typeof fit>(null);
   if (!on || !fit) kept.current = null;
   else if (kept.current) {
@@ -137,7 +157,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     const rendered = shape.values[LINES[n].param] as Pt[] | undefined;
     const now =
       drag?.line === n
-        ? moved(adjOf(n), handleFs(n, shape, adjOf(n)), drag.i, drag.d, !!LINES[n].end, LINES[n].limit)
+        ? moved(adjOf(n), drag.fs ?? handleFs(n, shape, adjOf(n)), drag.i, drag.d, !!LINES[n].end, LINES[n].limit)
         : adjOf(n);
     return JSON.stringify(rendered ?? []) === JSON.stringify(now ?? [])
       ? line
@@ -148,27 +168,43 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     const m = svg.getScreenCTM();
     return m ? new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse()) : new DOMPoint(0, 0);
   };
-  const start = (line: LineName, i: number, k: number) => (e: React.PointerEvent) => {
+  const capture = (e: React.PointerEvent) => {
     e.preventDefault();
     try {
       (e.currentTarget as Element).setPointerCapture(e.pointerId);
     } catch {
       // no capture: moves still arrive while over the chart
     }
-    setDrag({ line, i, y0: svgPt(e).y, d: 0, k });
+  };
+  const start =
+    (line: LineName, i: number, k: number, axis: "x" | "y" = "y", sign = 1, fs?: number[]) =>
+    (e: React.PointerEvent) => {
+      capture(e);
+      const p = svgPt(e);
+      setDrag({ line, i, fs, axis, sign, p0: axis === "y" ? p.y : p.x, d: 0, k });
+    };
+  // the slice line follows the pointer along the side view
+  const toF = (x: number) => {
+    if (!zr) return f;
+    const z = z0 + (x - PAD) / s;
+    return Math.max(SLICE_MIN, Math.min(SLICE_MAX, (z - zr[0]) / (zr[1] - zr[0])));
   };
   const move = (e: React.PointerEvent) => {
+    if (slicing.current) return setF(Math.round(toF(svgPt(e).x) * 200) / 200);
     const drag = dragRef.current;
     if (!drag) return;
-    const d = Math.round((drag.y0 - svgPt(e).y) * drag.k * 20) / 20; // up = + (higher / wider), 0.05mm steps
+    const p = svgPt(e);
+    const dist = drag.axis === "y" ? drag.p0 - p.y : (p.x - drag.p0) * drag.sign;
+    const d = Math.round(dist * drag.k * 20) / 20; // up / out = + (higher / wider), 0.05mm steps
     if (d !== drag.d) setDrag({ ...drag, d });
   };
   const end = () => {
+    slicing.current = false;
     const drag = dragRef.current;
     if (!drag || !edit || !shape) return setDrag(null);
     if (drag.d !== 0) {
       const n = drag.line,
-        fs = handleFs(n, shape, adjOf(n)),
+        fs = drag.fs ?? handleFs(n, shape, adjOf(n)),
         next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end, LINES[n].limit));
       const z = fs[drag.i] * shape.L,
         prev = adjOf(n);
@@ -193,6 +229,10 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     }
     setDrag(null);
   };
+  const cancel = () => {
+    slicing.current = false;
+    setDrag(null);
+  };
   const cos = shape ? Math.cos((shape.frame.tilt * Math.PI) / 180) : 1;
   const handles = (n: LineName, at: (z: number, v: number) => [number, number], k: number) => {
     if (!shape) return null;
@@ -201,7 +241,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     return fs.map((f, i) => {
       if (!draggable(n, i, fs.length)) return null;
       const [x, y] = at(f * shape.L, lineAt(shown, f * shape.L));
-      const active = drag?.line === n && drag.i === i;
+      const active = drag?.line === n && drag.i === i && !drag.fs;
       return (
         <g key={`${n}${i}`} className={`edit-handle${active ? " active" : ""}`} onPointerDown={start(n, i, k)}>
           <circle className="hit" cx={x} cy={y} r={11} />
@@ -214,6 +254,118 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     const [pz, py] = toPrint(shape!.frame, z, v);
     return [X(pz), Y(py)];
   };
+
+  // ---- the slice, in the design's frame: x across (0 = the middle), y above the reed table
+  const fr = shape?.frame ?? { print: false, tilt: 0, lift: 0 };
+  const ta = (-fr.tilt * Math.PI) / 180,
+    tc = Math.cos(ta),
+    ts = Math.sin(ta);
+  const designY = (yp: number) => (fr.print ? (zp - fr.lift) * ts + yp * tc : yp);
+  const toDesign = (loops: Loop[]): Loop[] => loops.map((l) => l.map(([x, y]) => [x, designY(y)] as [number, number]));
+  const sNow = toDesign(cutNow),
+    sB = toDesign(cutB),
+    sBefore = toDesign(cutBefore);
+  // where the slice cuts the design (its z), from the cut's height in the model on screen
+  const zd = (() => {
+    if (!fr.print) return zp;
+    const zg = (zp - fr.lift) / tc;
+    const mid = shape ? (lineAt(shape.lines.top ?? [], zg) + lineAt(shape.lines.underside ?? [], zg)) / 2 : 0;
+    return (zp - fr.lift - (Number.isFinite(mid) ? mid : 0) * ts) / tc;
+  })();
+  // one frame for every slice (the body's widest and tallest), so the scale doesn't follow the slider
+  const frameBox = (() => {
+    const w = shape?.lines.width,
+      t = shape?.lines.top,
+      u = shape?.lines.underside;
+    if (w?.length && t?.length) {
+      const hw = Math.max(...w.map((p) => p[1])) / 2;
+      return [-hw, Math.min(0, ...(u ?? []).map((p) => p[1])), hw, Math.max(...t.map((p) => p[1]))] as const;
+    }
+    return loopsBox([...sNow, ...sBefore, ...sB]);
+  })();
+  const sliceLines: { n: LineName; at: "top" | "bottom" | "sides" }[] = !edit
+    ? []
+    : edit.section === "body"
+      ? [
+          { n: "top", at: "top" },
+          { n: "underside", at: "bottom" },
+          { n: "width", at: "sides" },
+        ]
+      : [
+          { n: "baffle", at: "top" },
+          { n: "floor", at: "bottom" },
+          { n: "chamber_width", at: "sides" },
+        ];
+  const fromTip = zr ? zr[1] - zp : null;
+
+  let slice: React.ReactNode = null;
+  if (frameBox) {
+    const [a0, b0, a1, b1] = frameBox;
+    const SP = 10;
+    const ss = Math.min((W - 2 * SP) / (a1 - a0), (SLICE_H - 2 * SP) / (b1 - b0));
+    const SH = (b1 - b0) * ss + 2 * SP;
+    const SX = (x: number) => W / 2 + x * ss,
+      SY = (y: number) => SP + (b1 - y) * ss;
+    const spath = (loops: Loop[]) => loops.map((l) => pathOf(l.map(([x, y]) => [SX(x), SY(y)])) + "Z").join("");
+    // a slice dot: the line's value here; a drag adds a point at the slice (or moves the handle there)
+    const sliceDots = () => {
+      if (!shape) return null;
+      const L = shape.L;
+      return sliceLines.map(({ n, at }) => {
+        const line = lineNow(n);
+        if (line.length < 2 || zd < line[0][0] || zd > line[line.length - 1][0]) return null;
+        const endMark = LINES[n].end,
+          endZ = endMark ? shape.landmarks.find(([m]) => m === endMark)?.[1] : undefined;
+        const fe = Math.min(zd, endZ ?? L) / L; // past the line's end mark, its last handle (held to the tip)
+        const fs0 = handleFs(n, shape, adjOf(n));
+        const near = fs0.findIndex((x) => Math.abs(x - fe) < 0.015);
+        const fs = near >= 0 ? fs0 : [...fs0, fe].sort((p, q) => p - q);
+        const i = near >= 0 ? near : fs.indexOf(fe);
+        if (!draggable(n, i, fs.length)) return null;
+        const v = lineAt(line, zd);
+        const mid =
+          n === "width"
+            ? (lineAt(lineNow("top"), zd) + lineAt(lineNow("underside"), zd)) / 2
+            : (lineAt(lineNow("baffle"), zd) + lineAt(lineNow("floor"), zd)) / 2;
+        const active = drag?.line === n && drag.i === i && !!drag.fs;
+        const dot = (x: number, y: number, axis: "x" | "y", sign: number, key: string) => (
+          <g
+            key={key}
+            className={`edit-handle${active ? " active" : ""}${axis === "x" ? " sideways" : ""}`}
+            onPointerDown={start(n, i, (axis === "x" ? 2 : 1) / ss, axis, sign, near >= 0 ? undefined : fs)}
+          >
+            <circle className="hit" cx={x} cy={y} r={11} />
+            <circle cx={x} cy={y} r={4.5} />
+          </g>
+        );
+        if (!Number.isFinite(v)) return null;
+        if (at !== "sides") return dot(SX(0), SY(v), "y", 1, n);
+        const ym = Number.isFinite(mid) ? mid : (b0 + b1) / 2;
+        return [dot(SX(-v / 2), SY(ym), "x", -1, `${n}l`), dot(SX(v / 2), SY(ym), "x", 1, `${n}r`)];
+      });
+    };
+    slice = (
+      <div className="pc-slice">
+        <div className="readout-label">Across{fromTip != null && `, ${Math.round(fromTip)} mm from the tip`}</div>
+        <svg
+          className={on ? "editing" : undefined}
+          viewBox={`0 0 ${W} ${SH.toFixed(1)}`}
+          role="img"
+          aria-label="The mouthpiece cut across where the slice line is, seen from the tip"
+          onPointerMove={move}
+          onPointerUp={end}
+          onPointerCancel={cancel}
+        >
+          {sBefore.length > 0 && <path className="before" d={spath(sBefore)} />}
+          {sB.length > 0 && <path className="b" d={spath(sB)} />}
+          <path className="now" d={spath(sNow)} fillRule="evenodd" />
+          {on && sliceDots()}
+        </svg>
+      </div>
+    );
+  }
+  // the slice line on the side view: the cut's height in the model on screen
+  const sx = X(zp);
 
   return (
     <div className="profile-chart">
@@ -229,83 +381,122 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
           </button>
         )}
       </div>
-      <svg
-        className={on ? "editing" : undefined}
-        viewBox={`0 0 ${W} ${H.toFixed(1)}`}
-        role="img"
-        aria-label="The mouthpiece cut lengthwise through the middle"
-        onPointerMove={move}
-        onPointerUp={end}
-        onPointerCancel={() => setDrag(null)}
-      >
-        {/* "now" last: where nothing changed its line covers the dashed ones */}
-        {before && <path className="before" d={path(before)} />}
-        {b.length > 0 && <path className="b" d={path(b)} />}
-        <path className="now" d={path(now)} fillRule="evenodd" />
-        {on &&
-          shape!.landmarks
-            .filter(([n]) => (outside ? n === "shoulder" || n === "break" : LANDMARKS.includes(n)))
-            .map(([n, z], i) => {
-              const [xa, ya] = sideXY(z, 0),
-                [xb, yb] = sideXY(z, lineAt(shape!.lines.top ?? [], z));
-              return (
-                <g key={n} className="landmark">
-                  <line x1={xa} y1={ya} x2={xb} y2={yb} />
-                  <text x={xb} y={yb - 3 - (i % 2) * 10} textAnchor="middle">
-                    {n}
-                  </text>
-                </g>
-              );
-            })}
-        {on &&
-          names!.side.map((n) => {
-            const pts = lineNow(n);
-            if (pts.length < 2) return null;
-            // the label over the line near its start (the landmarks are further on), or past its end
-            const under = n === "underside" || n === "floor";
-            const at = under ? pts[pts.length - 1] : pts[Math.floor(pts.length * 0.22)];
-            const [lx, ly] = sideXY(at[0], at[1]);
-            return (
-              <g key={n}>
-                <path className="edit-line" d={pathOf(pts.map(([z, v]) => sideXY(z, v)))} />
-                <text
-                  className="edit-label"
-                  x={lx + (under ? 6 : 0)}
-                  y={ly + (under ? 4 : -8)}
-                  textAnchor={under ? "start" : "middle"}
-                >
-                  {LINES[n].label}
-                </text>
+      <div className="pc-views">
+        <div className="pc-side">
+          <svg
+            className={on ? "editing" : undefined}
+            viewBox={`0 0 ${W} ${H.toFixed(1)}`}
+            role="img"
+            aria-label="The mouthpiece from the side"
+            onPointerMove={move}
+            onPointerUp={end}
+            onPointerCancel={cancel}
+          >
+            {/* "now" last: where nothing changed its line covers the dashed ones */}
+            {before && <path className="before" d={path(before.loops)} />}
+            {b.length > 0 && <path className="b" d={path(b)} />}
+            <path className="now" d={path(now)} fillRule="evenodd" />
+            {zr && (
+              <g
+                className="slice-line"
+                onPointerDown={(e) => {
+                  capture(e);
+                  slicing.current = true;
+                }}
+              >
+                <line x1={sx} x2={sx} y1={TOP + 2} y2={H - FOOT} />
+                <rect className="hit" x={sx - 8} y={TOP} width={16} height={H - FOOT - TOP} />
+                <path className="grip" d={`M${sx - 5},${TOP + 1}L${sx + 5},${TOP + 1}L${sx},${TOP + 7}Z`} />
               </g>
-            );
-          })}
-        {on && names!.side.map((n) => handles(n, sideXY, 1 / s / cos))}
-        <line className="scale" x1={PAD} x2={PAD + 10 * s} y1={base - 4} y2={base - 4} />
-        <text className="tick" x={PAD + 10 * s + 4} y={base - 1}>
-          10 mm
-        </text>
-        <text className="tick" x={W - PAD} y={base - 1} textAnchor="end">
-          tip →
-        </text>
-      </svg>
-      {on && (
-        <TopView
-          shape={shape!}
-          lineNow={lineNow}
-          names={names!.top}
-          inside={!outside}
-          handles={handles}
-          onMove={move}
-          onEnd={end}
-          onCancel={() => setDrag(null)}
-        />
-      )}
+            )}
+            {on &&
+              shape!.landmarks
+                .filter(([n]) => (outside ? n === "shoulder" || n === "break" : LANDMARKS.includes(n)))
+                .map(([n, z], i) => {
+                  const [xa, ya] = sideXY(z, 0),
+                    [xb, yb] = sideXY(z, lineAt(shape!.lines.top ?? [], z));
+                  return (
+                    <g key={n} className="landmark">
+                      <line x1={xa} y1={ya} x2={xb} y2={yb} />
+                      <text x={xb} y={yb - 3 - (i % 2) * 10} textAnchor="middle">
+                        {n}
+                      </text>
+                    </g>
+                  );
+                })}
+            {on &&
+              names!.side.map((n) => {
+                const pts = lineNow(n);
+                if (pts.length < 2) return null;
+                // the label over the line near its start (the landmarks are further on), or past its end
+                const under = n === "underside" || n === "floor";
+                const at = under ? pts[pts.length - 1] : pts[Math.floor(pts.length * 0.22)];
+                const [lx, ly] = sideXY(at[0], at[1]);
+                return (
+                  <g key={n}>
+                    <path className="edit-line" d={pathOf(pts.map(([z, v]) => sideXY(z, v)))} />
+                    <text
+                      className="edit-label"
+                      x={lx + (under ? 6 : 0)}
+                      y={ly + (under ? 4 : -8)}
+                      textAnchor={under ? "start" : "middle"}
+                    >
+                      {LINES[n].label}
+                    </text>
+                  </g>
+                );
+              })}
+            {on && names!.side.map((n) => handles(n, sideXY, 1 / s / cos))}
+            <line className="scale" x1={PAD} x2={PAD + 10 * s} y1={base - 4} y2={base - 4} />
+            <text className="tick" x={PAD + 10 * s + 4} y={base - 1}>
+              10 mm
+            </text>
+            <text className="tick" x={W - PAD} y={base - 1} textAnchor="end">
+              tip →
+            </text>
+          </svg>
+          <div className="param slice-cut">
+            <div className="number">
+              <div className="slider">
+                <input
+                  type="range"
+                  min={SLICE_MIN}
+                  max={SLICE_MAX}
+                  step={0.005}
+                  value={f}
+                  aria-label="Where to slice"
+                  title="Where to slice (or drag the slice line on the side view)"
+                  onChange={(e) => setF(Number(e.target.value))}
+                />
+                <div className="slider-ends" aria-hidden="true">
+                  <span>Shank end</span>
+                  <span>Where to slice</span>
+                  <span>Tip</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {on && (
+            <TopView
+              shape={shape!}
+              lineNow={lineNow}
+              names={names!.top}
+              inside={!outside}
+              handles={handles}
+              onMove={move}
+              onEnd={end}
+              onCancel={cancel}
+            />
+          )}
+        </div>
+        {slice}
+      </div>
       {on ? (
         <div className="profile-legend muted">
           {held ? (
             <span className="held-note">{held}</span>
           ) : (
-            <span>Drag a dot up or down to pull the line there; a pull adds to what the sliders make.</span>
+            <span>Drag a dot to pull the line there (on the slice too); a pull adds to what the sliders make.</span>
           )}
           {edited.length > 0 && (
             <button

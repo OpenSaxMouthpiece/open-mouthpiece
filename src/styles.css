@@ -2593,17 +2593,39 @@ button.link:hover {
 .profile-chart .readout-label + svg {
   margin-top: 2px;
 }
-/* "From the tip" (TipChart): a tab of the shape charts, with its own small "where it cuts" slider */
-.tip-chart {
-  width: 100%;
-  max-width: 520px;
+/* the side view and the slice across it, side by side; the slice line on the side view */
+.pc-views {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: start;
 }
-.tip-cut-label {
-  margin-top: 6px;
-  font-size: 12px;
+.pc-slice svg {
+  display: block;
+  margin: 0 auto;
 }
-.tip-chart .tip-cut {
+.profile-chart .slice-cut {
   padding: 2px 0 0;
+}
+.profile-chart .slice-cut .slider-ends span:nth-child(2) {
+  color: var(--text);
+}
+.slice-line {
+  cursor: ew-resize;
+}
+.slice-line line {
+  stroke: var(--accent);
+  stroke-width: 1;
+  stroke-dasharray: 3 2;
+}
+.slice-line .grip {
+  fill: var(--accent);
+}
+.slice-line .hit {
+  fill: transparent;
+}
+.profile-chart .edit-handle.sideways {
+  cursor: ew-resize;
 }
 .profile-legend {
   display: flex;
@@ -2904,36 +2926,10 @@ button.link:hover {
   align-items: flex-start;
   column-gap: 20px;
 }
-.dock .design-facing > .profile-chart:not(.tip-chart),
+.dock .design-facing > .profile-chart,
 .dock .design-facing > .facing-chart {
   flex: 1 1 520px;
   min-width: 0;
-}
-.dock .profile-chart:not(.tip-chart) {
-  display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  column-gap: 20px;
-  align-items: start;
-}
-.dock .profile-chart:not(.tip-chart) > .profile-head,
-.dock .profile-chart:not(.tip-chart) > .profile-legend {
-  grid-column: 1 / -1;
-}
-.dock .profile-chart:not(.tip-chart) > svg:first-of-type {
-  grid-column: 1;
-  grid-row: 2 / span 2;
-}
-/* one chart only: it takes both columns */
-.dock .profile-chart:not(.tip-chart):not(:has(> svg:nth-of-type(2))) > svg:first-of-type {
-  grid-column: 1 / -1;
-}
-.dock .profile-chart:not(.tip-chart) > .readout-label {
-  grid-column: 2;
-  grid-row: 2;
-}
-.dock .profile-chart:not(.tip-chart) > svg:nth-of-type(2) {
-  grid-column: 2;
-  grid-row: 3;
 }
 .dock .profile-chart svg,
 .dock .facing-chart svg {
@@ -2945,18 +2941,18 @@ button.link:hover {
 }
 
 /* the larger card draws the charts about 1.5 times their panel size: text and dots kept to screen size */
-.dock.big .profile-chart:not(.tip-chart) .tick,
-.dock.big .profile-chart:not(.tip-chart) .edit-label {
+.dock.big .profile-chart .tick,
+.dock.big .profile-chart .edit-label {
   font-size: 7px;
 }
-.dock.big .profile-chart:not(.tip-chart) .landmark text {
+.dock.big .profile-chart .landmark text {
   font-size: 6px;
 }
-.dock.big .profile-chart:not(.tip-chart) .edit-handle circle:not(.hit) {
+.dock.big .profile-chart .edit-handle circle:not(.hit) {
   r: 3.5px;
   stroke-width: 1;
 }
-.dock.big .profile-chart:not(.tip-chart) .edit-handle circle.hit {
+.dock.big .profile-chart .edit-handle circle.hit {
   r: 8px;
 }
 
@@ -2990,17 +2986,13 @@ button.link:hover {
   display: flex;
   align-items: center;
 }
-/* the dock: Edit shape at the side chart's own corner */
-.dock .profile-chart:not(.tip-chart) > .profile-head {
-  grid-column: 1;
-}
 .dock .profile-head .link {
   padding: 2px 10px;
   border: 1px solid var(--accent);
   border-radius: 12px;
   text-decoration: none;
 }
-.dock .profile-chart:not(.tip-chart) .profile-legend {
+.dock .profile-chart .profile-legend {
   font-size: 12px;
 }
 /* a thin wall, worth a look before printing */

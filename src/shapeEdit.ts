@@ -87,7 +87,7 @@ export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined):
   };
   const endMark = LINES[n].end,
     end = endMark ? mark(endMark) : undefined;
-  if (adj?.length) return adj.map((p) => p[0]).filter((f) => end === undefined || f <= end + 1e-6);
+  if (adj?.length) return adj.map((p) => p[0]).filter((f) => end === undefined || f <= end + 1e-3);
   if (line.length < 2 || L <= 0) return [];
   const f0 = line[0][0] / L,
     f1 = Math.min(line[line.length - 1][0] / L, end ?? 1);
