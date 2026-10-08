@@ -1,6 +1,6 @@
 # Pictures for `top_image`
 
-SVG drawings the generator can engrave (or raise) on top of the mouthpiece. Pick one in the
+SVG drawings the generator can engrave (or raise) on the mouthpiece, the ligature or the cap. Pick one in the
 app (Personalize → Picture on top), or upload your own there.
 
 Examples (original drawings, same license as the project):
@@ -10,6 +10,17 @@ Examples (original drawings, same license as the project):
 | `saxophone.svg` | 16 mm or more |
 | `happy_face.svg` | 10 mm or more |
 | `sample_note.svg` | 10 mm or more |
+| `treble_clef.svg` | 8 mm or more |
+| `bass_clef.svg` | 10 mm or more |
+| `beamed_notes.svg` | 10 mm or more |
+| `star.svg` | 8 mm or more |
+| `heart.svg` | 8 mm or more |
+| `flame.svg` | 10 mm or more |
+| `skull.svg` | 10 mm or more |
+| `cat.svg` | 10 mm or more |
+| `bird.svg` | 12 mm or more |
+| `wave.svg` | 12 mm or more |
+| `lightning.svg` | 8 mm or more |
 
 ## Making your own
 

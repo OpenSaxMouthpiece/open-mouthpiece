@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60mm" height="56mm" viewBox="0 0 60 56">
+  <!-- Picture for the *_image settings: a cat face. Original drawing, filled shapes only. -->
+  <g fill="black" fill-rule="evenodd">
+  <path d="M6 2 L20 14 C 26 12, 34 12, 40 14 L54 2 L55 24 C 58 30, 58 36, 56 41 C 52 50, 42 55, 30 55 C 18 55, 8 50, 4 41 C 2 36, 2 30, 5 24 Z M20 26 C 23 26, 25 29, 25 32 C 25 35, 23 37, 20 37 C 17 37, 15 35, 15 32 C 15 29, 17 26, 20 26 Z M40 26 C 43 26, 45 29, 45 32 C 45 35, 43 37, 40 37 C 37 37, 35 35, 35 32 C 35 29, 37 26, 40 26 Z M26 41 L34 41 L30 46 Z"/>
+  </g>
+</svg>

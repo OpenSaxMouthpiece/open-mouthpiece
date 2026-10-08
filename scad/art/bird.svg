@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64mm" height="40mm" viewBox="0 0 64 40">
+  <!-- Picture for the *_image settings: a bird in flight. Original drawing, filled shapes only. -->
+  <g fill="black" fill-rule="evenodd">
+  <path d="M2 14 C 12 6, 22 8, 30 22 C 34 12, 44 4, 62 4 C 50 8, 42 16, 38 28 C 36 33, 33 36, 30 37 C 27 34, 26 30, 24 26 C 18 18, 10 14, 2 14 Z"/>
+  </g>
+</svg>

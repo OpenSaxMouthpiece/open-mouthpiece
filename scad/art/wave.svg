@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="70mm" height="44mm" viewBox="0 0 70 44">
+  <!-- Picture for the *_image settings: a breaking wave. Original drawing, filled shapes only. -->
+  <g fill="black" fill-rule="evenodd">
+  <path d="M2 42 C 10 40, 16 32, 18 22 C 21 8, 34 0, 46 2 C 58 4, 66 14, 64 24 C 62 32, 54 34, 50 28 C 47 24, 50 18, 55 19 C 53 14, 46 11, 40 14 C 32 18, 30 28, 34 34 C 38 39, 50 40, 68 38 L68 42 Z"/>
+  </g>
+</svg>

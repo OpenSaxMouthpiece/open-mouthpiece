@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56mm" height="64mm" viewBox="0 0 56 64">
+  <!-- Picture for the *_image settings: a skull. Original drawing, filled shapes only. -->
+  <g fill="black" fill-rule="evenodd">
+  <path d="M28 2 C 13 2, 3 12, 3 26 C 3 35, 7 40, 12 43 L12 50 L44 50 L44 43 C 49 40, 53 35, 53 26 C 53 12, 43 2, 28 2 Z M18 22 C 23 22, 25 26, 25 30 C 25 34, 21 36, 17 35 C 13 34, 11 31, 12 27 C 13 24, 15 22, 18 22 Z M38 22 C 41 22, 43 24, 44 27 C 45 31, 43 34, 39 35 C 35 36, 31 34, 31 30 C 31 26, 33 22, 38 22 Z M28 36 L31 43 L25 43 Z"/>
+  <path d="M14 52 L42 52 L42 58 C 42 61, 39 62, 36 62 L20 62 C 17 62, 14 61, 14 58 Z M21 54 L23 54 L23 61 L21 61 Z M27 54 L29 54 L29 61 L27 61 Z M33 54 L35 54 L35 61 L33 61 Z"/>
+  </g>
+</svg>

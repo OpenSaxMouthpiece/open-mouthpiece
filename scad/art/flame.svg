@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="46mm" height="70mm" viewBox="0 0 46 70">
+  <!-- Picture for the *_image settings: a flame. Original drawing, filled shapes only. -->
+  <g fill="black" fill-rule="evenodd">
+  <path d="M23 68 C 9 68, 2 58, 3 46 C 4 34, 13 28, 14 16 C 19 22, 20 28, 20 32 C 24 24, 28 12, 24 2 C 36 10, 44 26, 43 44 C 43 58, 36 68, 23 68 Z M23 62 C 17 62, 13 57, 14 50 C 15 44, 20 41, 21 34 C 24 40, 26 44, 27 40 C 31 45, 33 50, 32 55 C 31 60, 27 62, 23 62 Z"/>
+  </g>
+</svg>
