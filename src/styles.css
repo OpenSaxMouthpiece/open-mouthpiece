@@ -2593,27 +2593,10 @@ button.link:hover {
 .profile-chart .readout-label + svg {
   margin-top: 2px;
 }
-/* "From the tip" (TipChart): under the side view, with its own small "where it cuts" slider */
-.tip-open {
-  margin-top: 8px;
-  font-size: 12.5px;
-}
-/* From the tip: a floating card beside the settings (a view, not a setting) */
+/* "From the tip" (TipChart): a tab of the shape charts, with its own small "where it cuts" slider */
 .tip-chart {
-  position: fixed;
-  z-index: 40;
-  width: 340px;
-  max-width: calc(100vw - 16px);
-  box-sizing: border-box;
-  padding: 8px 10px 6px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-}
-.tip-close {
-  font-size: 13px;
-  text-decoration: none;
+  width: 100%;
+  max-width: 520px;
 }
 .tip-cut-label {
   margin-top: 6px;
@@ -3019,15 +3002,6 @@ button.link:hover {
 }
 .dock .profile-chart:not(.tip-chart) .profile-legend {
   font-size: 12px;
-}
-/* the tip view's link at the top of the dock's second column (over the view from above) */
-.dock .design-facing {
-  position: relative;
-}
-.dock .design-facing > .tip-open {
-  position: absolute;
-  top: 2px;
-  left: calc((100% - 20px) * 0.5556 + 20px);
 }
 /* a thin wall, worth a look before printing */
 .readout-value.warn {
