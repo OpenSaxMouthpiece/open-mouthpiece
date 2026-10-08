@@ -58,9 +58,10 @@ export const isVariant = (p: string) => /^variants\/[^/]+\.scad$/.test(p);
 // What each variant family changes, for the pickers' tooltips (the same lines as the variant files'
 // headers: scripts/make_variants.mjs BLURB).
 const VARIANT_BLURB: Record<string, string> = {
-  ash: "closer tip, radius facing, round chamber, concave baffle; slim round body, smooth convex beak",
-  birch: "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, straight beak",
-  cedar: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak",
+  ash: "closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank",
+  birch:
+    "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, fluted shank",
+  cedar: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank",
 };
 export const variantBlurb = (p: string) =>
   isVariant(p) ? VARIANT_BLURB[baseName(p).split("_").pop() ?? ""] : undefined;

@@ -9395,7 +9395,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "48b16242-19464",
+  "hash": "43ef1d70-19562",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9470,7 +9470,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 20.9,
+    "initial": 21.1,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -9715,7 +9715,7 @@
    {
     "caption": "Chamber side walls over the window (degrees): + lean out (scooped), - lean in.",
     "group": "Window",
-    "initial": 0,
+    "initial": 8,
     "max": 30,
     "min": -20,
     "name": "sidewall_angle",
@@ -9856,7 +9856,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 27,
+    "initial": 27.6,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -9896,7 +9896,7 @@
    {
     "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
-    "initial": 1.3,
+    "initial": 1.4,
     "max": 8,
     "min": 1.2,
     "name": "beak_squareness",
@@ -9906,7 +9906,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -0.3,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -9916,7 +9916,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 7,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -9926,7 +9926,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 1,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -10453,7 +10453,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "rings",
     "name": "shank_detail",
     "options": [
      {
@@ -10499,7 +10499,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -10519,7 +10519,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -11274,7 +11274,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "a2fafb31-19513",
+  "hash": "6da9cb44-19582",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11349,7 +11349,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 22.88,
+    "initial": 22.7,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -11735,7 +11735,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 27.2,
+    "initial": 29,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -11745,7 +11745,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 26.2,
+    "initial": 26.5,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -11755,7 +11755,7 @@
    {
     "caption": "Height of the beak at the tip (mm).",
     "group": "Exterior",
-    "initial": 3.2,
+    "initial": 3.3,
     "max": 8,
     "min": 2,
     "name": "beak_tip_height",
@@ -11795,7 +11795,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -3,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -11815,7 +11815,7 @@
    {
     "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": -1,
     "name": "beak_top_width",
@@ -11825,7 +11825,7 @@
    {
     "caption": "How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 6.5,
     "max": 20,
     "min": 0,
     "name": "shoulder_sweep",
@@ -12332,7 +12332,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "flutes",
     "name": "shank_detail",
     "options": [
      {
@@ -12378,7 +12378,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 16,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -13153,7 +13153,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "73fec7aa-19477",
+  "hash": "4f0c96e6-19552",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13614,7 +13614,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 28,
+    "initial": 29.9,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -13624,7 +13624,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 27.2,
+    "initial": 27.6,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -13664,7 +13664,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.7,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -13674,7 +13674,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 2,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -13684,7 +13684,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -14211,7 +14211,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "spiral",
     "name": "shank_detail",
     "options": [
      {
@@ -14257,7 +14257,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -14277,7 +14277,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -15032,7 +15032,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "47475ed3-19689",
+  "hash": "15424741-19747",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15107,7 +15107,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 22.9,
+    "initial": 23.1,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -15352,7 +15352,7 @@
    {
     "caption": "Chamber side walls over the window (degrees): + lean out (scooped), - lean in.",
     "group": "Window",
-    "initial": 0,
+    "initial": 8,
     "max": 30,
     "min": -20,
     "name": "sidewall_angle",
@@ -15493,7 +15493,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 29.51,
+    "initial": 30.1,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -15503,7 +15503,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 29.84,
+    "initial": 29.9,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -15533,7 +15533,7 @@
    {
     "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
-    "initial": 1.3,
+    "initial": 1.4,
     "max": 8,
     "min": 1.2,
     "name": "beak_squareness",
@@ -15543,7 +15543,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -0.3,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -15553,7 +15553,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 11,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -15563,7 +15563,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 1,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -16090,7 +16090,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "rings",
     "name": "shank_detail",
     "options": [
      {
@@ -16136,7 +16136,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -16156,7 +16156,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -16911,7 +16911,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "3753e9a3-19752",
+  "hash": "c561030-19768",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16986,7 +16986,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 25.06,
+    "initial": 24.8,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -17151,7 +17151,7 @@
    {
     "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
     "group": "Baffle",
-    "initial": 0.1,
+    "initial": 0.6,
     "max": 4,
     "min": -3,
     "name": "baffle_height",
@@ -17362,7 +17362,7 @@
    {
     "caption": "Total length, neck end to tip (mm). Also changes the inside volume.",
     "group": "Exterior",
-    "initial": 146.8,
+    "initial": 142,
     "max": 160,
     "min": 55,
     "name": "overall_length",
@@ -17372,7 +17372,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 29.73,
+    "initial": 31.7,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -17382,7 +17382,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 28.95,
+    "initial": 29.3,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -17392,7 +17392,7 @@
    {
     "caption": "Height of the beak at the tip (mm).",
     "group": "Exterior",
-    "initial": 4.4,
+    "initial": 4.5,
     "max": 8,
     "min": 2,
     "name": "beak_tip_height",
@@ -17432,7 +17432,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -4.5,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -17452,7 +17452,7 @@
    {
     "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": -1,
     "name": "beak_top_width",
@@ -17462,7 +17462,7 @@
    {
     "caption": "How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 10,
     "max": 20,
     "min": 0,
     "name": "shoulder_sweep",
@@ -17969,7 +17969,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "flutes",
     "name": "shank_detail",
     "options": [
      {
@@ -18015,7 +18015,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 16,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -18790,7 +18790,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "2bde2397-19704",
+  "hash": "747b051-19732",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19251,7 +19251,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 30.61,
+    "initial": 32.7,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -19261,7 +19261,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 30.06,
+    "initial": 30.5,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -19301,7 +19301,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.7,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -19311,7 +19311,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 3,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -19321,7 +19321,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -19848,7 +19848,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "spiral",
     "name": "shank_detail",
     "options": [
      {
@@ -19894,7 +19894,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -19914,7 +19914,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -20669,7 +20669,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "23c99007-19725",
+  "hash": "2168c771-19769",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20744,7 +20744,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 16.91,
+    "initial": 17.1,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -20909,7 +20909,7 @@
    {
     "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 0.7,
     "max": 4,
     "min": -3,
     "name": "baffle_height",
@@ -20989,7 +20989,7 @@
    {
     "caption": "Chamber side walls over the window (degrees): + lean out (scooped), - lean in.",
     "group": "Window",
-    "initial": 0,
+    "initial": 6,
     "max": 30,
     "min": -20,
     "name": "sidewall_angle",
@@ -21130,7 +21130,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 21.57,
+    "initial": 22.4,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -21140,7 +21140,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 21.68,
+    "initial": 22.1,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -21170,7 +21170,7 @@
    {
     "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
-    "initial": 1.3,
+    "initial": 1.4,
     "max": 8,
     "min": 1.2,
     "name": "beak_squareness",
@@ -21180,7 +21180,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -0.3,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -21190,7 +21190,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 5.5,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -21200,7 +21200,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 1,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -21727,7 +21727,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "rings",
     "name": "shank_detail",
     "options": [
      {
@@ -21773,7 +21773,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -21793,7 +21793,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -22548,7 +22548,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "f9f98d5c-19772",
+  "hash": "3e3b664f-19789",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22623,7 +22623,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 18.51,
+    "initial": 17.8,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -23009,7 +23009,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 22.76,
+    "initial": 23.6,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -23019,7 +23019,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 21.61,
+    "initial": 21.6,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -23029,7 +23029,7 @@
    {
     "caption": "Height of the beak at the tip (mm).",
     "group": "Exterior",
-    "initial": 2.6,
+    "initial": 2.7,
     "max": 8,
     "min": 2,
     "name": "beak_tip_height",
@@ -23069,7 +23069,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -2,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -23089,7 +23089,7 @@
    {
     "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": -1,
     "name": "beak_top_width",
@@ -23099,7 +23099,7 @@
    {
     "caption": "How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 5,
     "max": 20,
     "min": 0,
     "name": "shoulder_sweep",
@@ -23606,7 +23606,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "knurled",
     "name": "shank_detail",
     "options": [
      {
@@ -23652,7 +23652,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 20,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -23672,7 +23672,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.35,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -24427,7 +24427,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "8d96379b-19737",
+  "hash": "4ee2a7f2-19756",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24888,7 +24888,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 22.81,
+    "initial": 24.3,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -24898,7 +24898,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 22.17,
+    "initial": 22.5,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -24938,7 +24938,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.7,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -24948,7 +24948,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 1.5,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -24958,7 +24958,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -25485,7 +25485,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "spiral",
     "name": "shank_detail",
     "options": [
      {
@@ -25551,7 +25551,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.7,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -26306,7 +26306,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "19d81495-19847",
+  "hash": "2020212d-19952",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26381,7 +26381,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 21.85,
+    "initial": 22.1,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -26626,7 +26626,7 @@
    {
     "caption": "Chamber side walls over the window (degrees): + lean out (scooped), - lean in.",
     "group": "Window",
-    "initial": 0,
+    "initial": 8,
     "max": 30,
     "min": -20,
     "name": "sidewall_angle",
@@ -26767,7 +26767,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 28.57,
+    "initial": 29.2,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -26777,7 +26777,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 28.73,
+    "initial": 28.7,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -26787,7 +26787,7 @@
    {
     "caption": "Height of the beak at the tip (mm).",
     "group": "Exterior",
-    "initial": 4.6,
+    "initial": 3.9,
     "max": 8,
     "min": 2,
     "name": "beak_tip_height",
@@ -26807,7 +26807,7 @@
    {
     "caption": "The beak's top, seen from the tip: ridged (a peak along it) or flat.",
     "group": "Exterior",
-    "initial": 1.3,
+    "initial": 1.4,
     "max": 8,
     "min": 1.2,
     "name": "beak_squareness",
@@ -26817,7 +26817,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -0.3,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -26827,7 +26827,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 7.5,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -26837,7 +26837,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 1,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -27364,7 +27364,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "rings",
     "name": "shank_detail",
     "options": [
      {
@@ -27410,7 +27410,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -27430,7 +27430,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -28185,7 +28185,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "33b2bd97-19887",
+  "hash": "e03093b5-19963",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28260,7 +28260,7 @@
    {
     "caption": "Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.",
     "group": "Shank",
-    "initial": 23.92,
+    "initial": 23.7,
     "max": 32,
     "min": 14,
     "name": "shank_diameter",
@@ -28646,7 +28646,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 28.8,
+    "initial": 30.7,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -28666,7 +28666,7 @@
    {
     "caption": "Height of the beak at the tip (mm).",
     "group": "Exterior",
-    "initial": 3.9,
+    "initial": 3.3,
     "max": 8,
     "min": 2,
     "name": "beak_tip_height",
@@ -28706,7 +28706,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": -3,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -28726,7 +28726,7 @@
    {
     "caption": "How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": -1,
     "name": "beak_top_width",
@@ -28736,7 +28736,7 @@
    {
     "caption": "How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 7,
     "max": 20,
     "min": 0,
     "name": "shoulder_sweep",
@@ -29243,7 +29243,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "flutes",
     "name": "shank_detail",
     "options": [
      {
@@ -29289,7 +29289,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 16,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -30064,7 +30064,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "384f9597-19856",
+  "hash": "3de93ef6-19931",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30525,7 +30525,7 @@
    {
     "caption": "Widest outside width of the body, side to side (mm).",
     "group": "Exterior",
-    "initial": 29.64,
+    "initial": 31.6,
     "max": 40,
     "min": 18,
     "name": "body_width",
@@ -30535,7 +30535,7 @@
    {
     "caption": "Height of the body's top above the reed table, at its tallest (mm).",
     "group": "Exterior",
-    "initial": 28.95,
+    "initial": 29.3,
     "max": 40,
     "min": 18,
     "name": "body_height",
@@ -30575,7 +30575,7 @@
    {
     "caption": "The beak's line from the side: full (bulging) or scooped (hollowed).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.7,
     "max": 1,
     "min": -1,
     "name": "beak_curve",
@@ -30585,7 +30585,7 @@
    {
     "caption": "Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 2,
     "max": 15,
     "min": -15,
     "name": "beak_length",
@@ -30595,7 +30595,7 @@
    {
     "caption": "0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.",
     "group": "Exterior",
-    "initial": 0,
+    "initial": 0.5,
     "max": 1,
     "min": 0,
     "name": "shoulder_smoothness",
@@ -31122,7 +31122,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "none",
+    "initial": "spiral",
     "name": "shank_detail",
     "options": [
      {
@@ -31168,7 +31168,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 3,
+    "initial": 2,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -31188,7 +31188,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.6,
+    "initial": 0.5,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",

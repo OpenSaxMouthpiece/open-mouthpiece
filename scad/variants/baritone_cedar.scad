@@ -1,5 +1,5 @@
-// Baritone "Cedar": a variant of baritone.scad (its baffle table; its own outline).
-// Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, concave beak.
+// Baritone "Cedar": a variant of baritone.scad (its outline, changed by settings only).
+// Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
@@ -98,9 +98,9 @@ facing_exponent = 1.8; // [1.5:0.05:3]
 // Total length, neck end to tip (mm). Also changes the inside volume.
 overall_length = 142; // [55:0.1:160]
 // Widest outside width of the body, side to side (mm).
-body_width = 30.61; // [18:0.1:40]
+body_width = 32.7; // [18:0.1:40]
 // Height of the body's top above the reed table, at its tallest (mm).
-body_height = 30.06; // [18:0.1:40]
+body_height = 30.5; // [18:0.1:40]
 // Height of the beak at the tip (mm).
 beak_tip_height = 4.8; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
@@ -108,11 +108,11 @@ body_squareness = 2.2; // [1.2:0.1:8]
 // The beak's top, seen from the tip: ridged (a peak along it) or flat.
 beak_squareness = 2; // [1.2:0.1:8]
 // The beak's line from the side: full (bulging) or scooped (hollowed).
-beak_curve = 0; // [-1:0.05:1]
+beak_curve = 0.7; // [-1:0.05:1]
 // Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).
-beak_length = 0; // [-15:0.5:15]
+beak_length = 3; // [-15:0.5:15]
 // 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
-shoulder_smoothness = 0; // [0:0.05:1]
+shoulder_smoothness = 0.5; // [0:0.05:1]
 // How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.
 beak_top_width = 0; // [-1:0.05:1]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
@@ -172,15 +172,15 @@ shank_text_around = 0; // [-180:15:180]
 // The shank text's own typeface; same = the Font above.
 shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
-shank_detail = "none"; // [none, rings, flutes, spiral, knurled]
+shank_detail = "spiral"; // [none, rings, flutes, spiral, knurled]
 // Shank decoration cut in (engraved) or standing out (raised).
 shank_detail_style = "engraved"; // [engraved, raised]
 // How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
-shank_detail_count = 3; // [1:1:40]
+shank_detail_count = 2; // [1:1:40]
 // Where a single ring sits: 0 = by the neck end, 1 = by the flare.
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
-shank_detail_depth = 0.6; // [0.3:0.05:1.2]
+shank_detail_depth = 0.5; // [0.3:0.05:1.2]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
@@ -342,11 +342,11 @@ voice = "Baritone";
 // flare to the widest body, near-flat top, a steep shoulder at ~60% of the length (where the
 // section gets boxier), then a straight beak to a thin, WIDE tip. Any ext_*_points override
 // replaces the matching curve.
-shape_width = [[0, 24.1], [0.125, 24.19], [0.149, 24.31], [0.173, 24.95], [0.198, 26.25], [0.222, 28.04], [0.246, 29.78], [0.27, 30.61], [0.35, 29.81], [0.51, 28.31], [0.86, 24.73], [1, 21.4]];
-shape_top = [[0, 29.2], [0.185, 28.3], [0.199, 28.33], [0.213, 28.51], [0.228, 28.87], [0.242, 29.35], [0.256, 29.83], [0.27, 30.06], [0.315, 29.31], [0.375, 28.26], [0.473, 26.3], [0.543, 24.2], [0.613, 20.3], [0.693, 16.7], [0.789, 12.8], [0.895, 8.7], [1, 4.8]];
+shape_width = [[0, 24.1], [0.125, 24.2], [0.149, 24.34], [0.173, 25.09], [0.198, 26.61], [0.222, 28.7], [0.246, 30.73], [0.27, 31.7], [0.35, 30.8], [0.51, 29.2], [0.86, 25.3], [1, 21.4]];
+shape_top = [[0, 29.2], [0.185, 28.3], [0.199, 28.34], [0.213, 28.56], [0.228, 29.01], [0.242, 29.62], [0.256, 30.22], [0.27, 30.5], [0.315, 29.7], [0.375, 28.6], [0.465, 27.0], [0.535, 25.7], [0.61, 24.3], [0.655, 23.5], [0.69, 20.1], [0.75, 16.6], [0.825, 12.9], [1, 4.8]];
 shape_bottom = [[0, 6.4], [0.185, 3.2], [0.255, 1.3], [0.285, 0]];
 shape_widest = [[0, 17.5], [0.17, 15.8], [0.24, 15.6], [0.253, 15.55], [0.267, 15.28], [0.28, 14.84], [0.293, 14.39], [0.307, 14.12], [0.32, 14.07], [0.4, 13.2], [0.47, 12.1], [0.57, 11.1], [0.755, 8.8], [0.85, 7.8], [0.875, 7.25], [0.9, 6.46], [0.925, 5.54], [0.95, 4.61], [0.965, 4.1]];
-shape_top_squareness = [[0, 2], [0.526, 2], [0.613, 2.3], [0.824, 1.7], [1, 1.6]];
+shape_top_squareness = [[0, 1.9], [0.66, 1.9], [0.72, 2.5], [0.866, 1.6], [1, 1.4]];
 shape_bottom_squareness = [[0, 1.9], [0.52, 1.8], [0.958, 1.2], [1, 1.2]];
 shape_baffle = [[0.609, 17.6], [0.683, 14.2], [0.736, 9.9], [0.75, 8.7], [0.824, 6.8], [0.901, 4.8], [0.982, 3.1]];
 // Commercial tip-opening range for this instrument — only used for a validate() warning (mm).

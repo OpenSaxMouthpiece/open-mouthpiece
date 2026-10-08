@@ -1,5 +1,5 @@
-// Soprano "Ash": a variant of soprano.scad (its baffle table; its own outline).
-// Ash: closer tip, radius facing, round chamber, concave baffle; slim round body, smooth convex beak.
+// Soprano "Ash": a variant of soprano.scad (its outline, changed by settings only).
+// Ash: closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
@@ -20,7 +20,7 @@ bore_diameter = 13.6; // [8:0.1:24]
 // Angle between the neck's line and the reed table (degrees); about 4 is typical.
 bore_tilt = 4.1; // [-3:0.1:8]
 // Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.
-shank_diameter = 16.91; // [14:0.1:32]
+shank_diameter = 17.1; // [14:0.1:32]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
@@ -48,7 +48,7 @@ throat_shape = "round"; // [chamber, round, square, horseshoe]
 // The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "concave"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
-baffle_height = 0.5; // [-3:0.1:4]
+baffle_height = 0.7; // [-3:0.1:4]
 // Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
 baffle_start = 0; // [-15:0.5:15]
 // Bends the baffle: - comes down early, + stays up and drops late.
@@ -66,7 +66,7 @@ window_taper = 2.7; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 4.8; // [0:0.1:10]
 // Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
-sidewall_angle = 0; // [-20:1:30]
+sidewall_angle = 6; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
@@ -98,21 +98,21 @@ facing_exponent = 1.8; // [1.5:0.05:3]
 // Total length, neck end to tip (mm). Also changes the inside volume.
 overall_length = 66; // [55:0.1:160]
 // Widest outside width of the body, side to side (mm).
-body_width = 21.57; // [18:0.1:40]
+body_width = 22.4; // [18:0.1:40]
 // Height of the body's top above the reed table, at its tallest (mm).
-body_height = 21.68; // [18:0.1:40]
+body_height = 22.1; // [18:0.1:40]
 // Height of the beak at the tip (mm).
 beak_tip_height = 3.3; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
 body_squareness = 1.7; // [1.2:0.1:8]
 // The beak's top, seen from the tip: ridged (a peak along it) or flat.
-beak_squareness = 1.3; // [1.2:0.1:8]
+beak_squareness = 1.4; // [1.2:0.1:8]
 // The beak's line from the side: full (bulging) or scooped (hollowed).
-beak_curve = 0; // [-1:0.05:1]
+beak_curve = -0.3; // [-1:0.05:1]
 // Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).
-beak_length = 0; // [-15:0.5:15]
+beak_length = 5.5; // [-15:0.5:15]
 // 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
-shoulder_smoothness = 0; // [0:0.05:1]
+shoulder_smoothness = 1; // [0:0.05:1]
 // How wide the beak's top is: - narrower, rounder top; + wider, fuller top. 0 = as designed.
 beak_top_width = 0; // [-1:0.05:1]
 // How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
@@ -172,15 +172,15 @@ shank_text_around = 0; // [-180:15:180]
 // The shank text's own typeface; same = the Font above.
 shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
-shank_detail = "none"; // [none, rings, flutes, spiral, knurled]
+shank_detail = "rings"; // [none, rings, flutes, spiral, knurled]
 // Shank decoration cut in (engraved) or standing out (raised).
 shank_detail_style = "engraved"; // [engraved, raised]
 // How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
-shank_detail_count = 3; // [1:1:40]
+shank_detail_count = 2; // [1:1:40]
 // Where a single ring sits: 0 = by the neck end, 1 = by the flare.
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
-shank_detail_depth = 0.6; // [0.3:0.05:1.2]
+shank_detail_depth = 0.5; // [0.3:0.05:1.2]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
@@ -342,11 +342,11 @@ voice = "Soprano";
 // flare to the widest body, near-flat top, a steep shoulder at ~60% of the length (where the
 // section gets boxier), then a straight beak to a thin, WIDE tip. Any ext_*_points override
 // replaces the matching curve.
-shape_width = [[0, 17.8], [0.025, 17.8], [0.044, 17.88], [0.063, 18.3], [0.083, 19.16], [0.102, 20.33], [0.121, 21.47], [0.14, 22.02], [0.235, 21.57], [0.42, 20.97], [0.8, 20.02], [0.88, 19.16], [0.95, 17.49], [1, 16.8]];
-shape_top = [[0, 19.9], [0.07, 20.14], [0.083, 20.18], [0.095, 20.36], [0.107, 20.74], [0.12, 21.26], [0.132, 21.77], [0.145, 22.01], [0.22, 21.46], [0.35, 20.36], [0.362, 20.3], [0.472, 18.6], [0.582, 16.3], [0.691, 13], [0.802, 9.7], [0.901, 6.3], [1, 3]];
+shape_width = [[0, 17.8], [0.025, 17.8], [0.044, 17.91], [0.063, 18.49], [0.083, 19.67], [0.102, 21.28], [0.121, 22.85], [0.14, 23.6], [0.235, 23.3], [0.42, 22.6], [0.8, 21.1], [0.88, 19.9], [0.95, 17.8], [1, 16.8]];
+shape_top = [[0, 19.9], [0.07, 20.2], [0.083, 20.24], [0.095, 20.47], [0.107, 20.94], [0.12, 21.58], [0.132, 22.2], [0.145, 22.5], [0.22, 21.9], [0.35, 20.9], [0.465, 20.1], [0.57, 19.2], [0.585, 17.9], [0.6, 16.6], [0.65, 14.5], [0.77, 10.5], [1, 3.0]];
 shape_bottom = [[0, 2.7], [0.115, 1.9], [0.195, 0.0]];
 shape_widest = [[0, 11.0], [0.125, 11.0], [0.175, 10.5], [0.305, 9.9], [0.4, 9.4], [0.585, 8.5], [0.74, 7.7], [0.825, 6.2], [0.9, 4.2], [0.917, 3.62], [0.933, 3.16], [0.95, 3.1], [0.967, 3.1], [0.983, 3.1], [1, 3.1]];
-shape_top_squareness = [[0, 2], [0.45, 2], [0.78, 1.7], [1, 1.6]];
+shape_top_squareness = [[0, 2.0], [0.55, 1.9], [0.64, 2.5], [0.825, 1.5], [1, 1.5]];
 shape_bottom_squareness = [[0, 2.0], [0.275, 1.9], [0.4, 1.7], [0.65, 1.6], [0.81, 1.2], [1, 1.2]];
 shape_baffle = [[0.49, 15.4], [0.51, 14.5], [0.52, 13.6], [0.53, 12.1], [0.54, 10.6], [0.57, 10.0], [0.64, 8.6], [0.89, 3.2], [0.96, 2.0]];
 // Commercial tip-opening range for this instrument — only used for a validate() warning (mm).
