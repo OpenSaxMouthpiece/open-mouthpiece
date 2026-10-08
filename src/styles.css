@@ -53,6 +53,12 @@ body,
   height: 100%;
   margin: 0;
 }
+/* the app fills the window and scrolls inside its panels: the page itself never scrolls (window
+   scrollbars that come and go resize the 3D view, which then shakes) */
+html,
+body {
+  overflow: hidden;
+}
 body {
   background: var(--bg);
   color: var(--text);
