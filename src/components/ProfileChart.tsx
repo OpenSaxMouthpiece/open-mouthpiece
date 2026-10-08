@@ -14,6 +14,7 @@ import {
   lineAt,
   LINES,
   moved,
+  offsetAt,
   previewLine,
   SECTION_LINES,
   tidy,
@@ -59,6 +60,8 @@ interface Drag {
   k: number; // mm per svg unit, along the drag (x2 for a width's edge)
 }
 
+const HELD = "Held there: a wall, the socket or the reed table limits that spot.";
+
 export function ProfileChart({ stl, final, design, sig, compare, outside = false, edit }: Props) {
   const now = useMemo(() => section(stl, outside), [stl, outside]);
   const b = useMemo(() => section(compare?.stl ?? null, outside), [compare?.stl, outside]);
@@ -76,7 +79,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   // A drag the model couldn't follow (a wall, the socket, the table holds that spot): said once its
   // render is in, so a dot that settles back isn't a mystery.
   const pending = useRef<{ n: LineName; z: number; was: number; d: number; adj: string; prev?: Pt[] } | null>(null);
-  const [held, setHeld] = useState(false);
+  const [held, setHeld] = useState<string | null>(null); // the note after a drag that didn't go all the way
   const onSet = useRef(edit?.onSet);
   onSet.current = edit?.onSet;
   useEffect(() => {
@@ -87,8 +90,8 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     const got = lineAt(sh.lines[p.n] ?? [], p.z) - p.was;
     if (Math.abs(p.d) >= 0.3 && got / p.d < 0.4) {
       if (got / p.d < 0.1) onSet.current?.(LINES[p.n].param, p.prev?.length ? p.prev : undefined);
-      setHeld(true);
-      const t = setTimeout(() => setHeld(false), 6000);
+      setHeld(HELD);
+      const t = setTimeout(() => setHeld(null), 6000);
       return () => clearTimeout(t);
     }
   }, [edit?.shape]);
@@ -102,7 +105,14 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
 
   const shape = edit?.shape ?? null;
   const on = editing && !!edit && !!shape;
-  const box = loopsBox([...now, ...(before ?? []), ...b]);
+  const fit = loopsBox([...now, ...(before ?? []), ...b]);
+  const kept = useRef<typeof fit>(null);
+  if (!on || !fit) kept.current = null;
+  else if (kept.current) {
+    const k = kept.current;
+    kept.current = [Math.min(k[0], fit[0]), Math.min(k[1], fit[1]), Math.max(k[2], fit[2]), Math.max(k[3], fit[3])];
+  } else kept.current = fit;
+  const box = kept.current ?? fit;
   if (!box) return null;
   const [z0, y0, z1, y1] = box;
   const s = (W - 2 * PAD) / (z1 - z0);
@@ -162,11 +172,24 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
         next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end, LINES[n].limit));
       const z = fs[drag.i] * shape.L,
         prev = adjOf(n);
+      // the change at the dot after the pull's limit (the model may then hold it back further)
+      const d = offsetAt(next, fs[drag.i]) - offsetAt(prev, fs[drag.i]);
       if (JSON.stringify(next) !== JSON.stringify(prev ?? [])) {
-        pending.current = { n, z, was: lineAt(lineNow(n), z), d: drag.d, adj: JSON.stringify(next), prev };
-        setHeld(false);
+        // where the line was before this drag (lineNow would already include it)
+        const before = previewLine(
+          shape.lines[n] ?? [],
+          shape.values[LINES[n].param] as Pt[] | undefined,
+          prev ?? [],
+          shape.L,
+        );
+        pending.current = { n, z, was: lineAt(before, z), d, adj: JSON.stringify(next), prev };
         edit.onSet(LINES[n].param, next.length ? next : undefined);
       }
+      setHeld(
+        Math.abs(drag.d) > Math.abs(d) + 0.1
+          ? `That's as far as this dot goes (${LINES[n].limit} mm either way); the sliders go further.`
+          : null,
+      );
     }
     setDrag(null);
   };
@@ -280,7 +303,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
       {on ? (
         <div className="profile-legend muted">
           {held ? (
-            <span className="held-note">Held there: a wall, the socket or the reed table limits that spot.</span>
+            <span className="held-note">{held}</span>
           ) : (
             <span>Drag a dot up or down to pull the line there; a pull adds to what the sliders make.</span>
           )}

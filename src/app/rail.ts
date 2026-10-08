@@ -26,6 +26,7 @@ const DOCK_OF: Record<string, string> = {
 
 export interface RailInput {
   selected: string; // the remembered place (a section's title or a tool)
+  tools: boolean; // the tools are places (desktop); without them (the phone's bar) a tool picked falls back to the first section
   designOK: boolean; // the file is the generator's (has its sections)
   ligOK: boolean;
   capOK: boolean;
@@ -59,7 +60,7 @@ export function buildRail(r: RailInput): Rail {
       )
     : [];
   const now =
-    !TOOLS.includes(r.selected) && !sections.some((s) => s.title === r.selected)
+    !(r.tools && TOOLS.includes(r.selected)) && !sections.some((s) => s.title === r.selected)
       ? (sections[0]?.title ?? "settings")
       : r.selected;
   const pick = (id: string) => {

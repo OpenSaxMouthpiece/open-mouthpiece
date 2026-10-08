@@ -667,7 +667,7 @@ Text and pictures on the outside. The app's **Personalise** section has the main
 
 ### Text on top (`top_text`)
 
-Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.
+Text on top (empty = none), several lines OK; {tip} puts in the tip size.
 
 Range: text.
 

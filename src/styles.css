@@ -741,8 +741,9 @@ button.toggle.on {
 .compare .stats td:first-child {
   color: var(--muted);
 }
-/* numbers wrap at their spaces instead of being cut off */
-.compare .stats td {
+/* values wrap at their spaces instead of being cut off */
+.compare .stats td,
+.compare .pdiff td {
   white-space: normal;
 }
 .compare .stats td:not(:first-child),
@@ -1359,6 +1360,7 @@ button.toggle.on {
   position: absolute;
   right: 14px;
   bottom: 14px;
+  z-index: 2;
   padding: 6px 14px;
   border-radius: 16px;
   background: var(--overlay);
@@ -1367,6 +1369,12 @@ button.toggle.on {
   font-weight: 600;
   box-shadow: var(--shadow);
   cursor: pointer;
+}
+/* phone: bottom left, clear of the view options (⋯) and the cut slider at the bottom right */
+.phone .whole-model {
+  right: auto;
+  left: 10px;
+  bottom: 10px;
 }
 .render-progress.first {
   bottom: auto;
@@ -2067,10 +2075,13 @@ button.link:hover {
 .ab-legend button {
   padding: 0 6px;
 }
-/* touch: finger-sized close and "use B's value" buttons */
+/* touch: finger-sized small buttons (close B, use B's value, Edit shape, the panel's ⋯) */
 @media (pointer: coarse) {
   .ab-legend button,
-  .compare .use {
+  .compare .use,
+  .profile-head .link,
+  .head-more > button,
+  .panel-options .link {
     min-width: 40px;
     min-height: 40px;
   }

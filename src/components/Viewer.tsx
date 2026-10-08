@@ -104,6 +104,7 @@ interface Props {
   compare: ArrayBuffer | null; // pinned model B, blue (see-through when overlaid on A)
   frameKey: string; // changes when a different file is loaded -> reframe on the next model
   fitKey?: string; // changes when the view's room or content changes (the dock, the part): fit it again
+  part?: string; // the part being edited: another one closes a cut auto-zoom made
   compact?: boolean; // phone layout: the tool strip folds behind a ⋯ button
   focus?: FocusRequest | null; // fly to the part a parameter shapes (cut open when it's inside)
   busy?: boolean; // a render is running: show progress over the current model
@@ -199,6 +200,7 @@ export function Viewer({
   compare,
   frameKey,
   fitKey,
+  part,
   compact = false,
   focus = null,
   busy = false,
@@ -875,6 +877,11 @@ export function Viewer({
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fitKey]);
+  useEffect(() => {
+    if (!autoCut.current) return;
+    autoCut.current = false;
+    setSection("off");
+  }, [part]);
   const wholeModel = () => {
     if (autoCut.current) {
       autoCut.current = false;

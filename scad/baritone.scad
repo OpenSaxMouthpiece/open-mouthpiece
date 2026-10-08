@@ -122,7 +122,7 @@ shoulder_sweep = 0; // [0:0.5:20]
 underside_squareness = 1.2; // [1.2:0.1:8]
 
 /* [Lettering] */
-// Text on top (empty = none), several lines OK; {tip}, {facing}... are variables.
+// Text on top (empty = none), several lines OK; {tip} puts in the tip size.
 top_text = "";
 // Letter height (mm).
 top_text_size = 5; // [2:0.5:20]

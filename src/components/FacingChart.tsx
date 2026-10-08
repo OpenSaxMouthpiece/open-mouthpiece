@@ -65,7 +65,8 @@ const W = 320,
   MB = 28;
 const round = (v: number, k: number) => Math.round(v * k) / k;
 
-type Drag = { i: number; moved: boolean; x: number; y: number; dom: { maxD: number; maxT: number } };
+// grab: from the pointer to the point, in data units (a point grabbed off-centre doesn't jump to the pointer)
+type Drag = { i: number; moved: boolean; x: number; y: number; dom: { maxD: number; maxT: number }; grab: Pt };
 
 // A feeler gauge by its thickness in inches, as printed on it (.0015, .010).
 const gaugeName = (g: number) => g.toFixed(g < 0.01 ? 4 : 3).replace(/^0/, "");
@@ -134,7 +135,8 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
     } catch {
       /* moves still reach the svg */
     }
-    drag.current = { i, moved: false, x: e.clientX, y: e.clientY, dom };
+    const [pd, pv] = toData(e);
+    drag.current = { i, moved: false, x: e.clientX, y: e.clientY, dom, grab: [knots[i][0] - pd, knots[i][1] - pv] };
     setDraft(knots);
   };
   const onMove = (e: React.PointerEvent) => {
@@ -142,7 +144,9 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
     if (!g || !edit) return;
     if (!g.moved && Math.hypot(e.clientX - g.x, e.clientY - g.y) < 3) return;
     g.moved = true;
-    const [d, v] = toData(e);
+    const [pd, pv] = toData(e),
+      d = pd + g.grab[0],
+      v = pv + g.grab[1];
     const n = knots.length;
     let next: Pt[];
     if (g.i === 0) {

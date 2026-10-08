@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import type { ParamValue } from "../api";
 import { diffAssignments, diffParams, formatValue, sameValue, stlStats, type Snapshot } from "../compare";
 import { formatThou, optionLabel, paramLabel, paramUnit } from "../design";
+import { curveGroup, curveLabel } from "../curves";
+import { LINES } from "../shapeEdit";
 
 interface Props {
   a: Snapshot;
@@ -255,6 +257,21 @@ export function ComparePanel({ a, b, labelA, labelB, onUseB, onSwap, onClear }: 
   );
 }
 
+// Other assignments in words: a shape edit or a curve by what it shapes, a point list by its size
+// (the list itself is in the tooltip).
+const EDITS = Object.fromEntries(Object.values(LINES).map((l) => [l.param, `Shape edit: ${l.label}`]));
+function assignLabel(name: string) {
+  if (EDITS[name]) return EDITS[name];
+  const g = curveGroup(name);
+  return g === "Other" ? name : `${g.replace(/ \(.*\)$/, "")}: ${curveLabel(name)}`;
+}
+function assignValue(v: string | undefined) {
+  if (v === undefined) return "—";
+  if (/^\[\s*\]$/.test(v)) return "none";
+  if (/^\[\s*\[/.test(v)) return `${(v.match(/\[/g)?.length ?? 1) - 1} points`;
+  return v;
+}
+
 function AssignTable({ rows }: { rows: { name: string; a?: string; b?: string }[] }) {
   return (
     <table className="pdiff code">
@@ -268,9 +285,9 @@ function AssignTable({ rows }: { rows: { name: string; a?: string; b?: string }[
       <tbody>
         {rows.map((r) => (
           <tr key={r.name} className="differs">
-            <td>{r.name}</td>
-            <td title={r.a}>{r.a ?? "—"}</td>
-            <td title={r.b}>{r.b ?? "—"}</td>
+            <td title={r.name}>{assignLabel(r.name)}</td>
+            <td title={r.a}>{assignValue(r.a)}</td>
+            <td title={r.b}>{assignValue(r.b)}</td>
           </tr>
         ))}
       </tbody>

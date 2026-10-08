@@ -143,9 +143,9 @@ export default function App() {
   const [phoneViewerH, setPhoneViewerH] = useState(() => {
     try {
       const v = Number(localStorage.getItem(PHONE_VIEW_KEY));
-      return v >= 20 && v <= 85 ? v : 36;
+      return v >= 20 && v <= 85 ? v : 44;
     } catch {
-      return 36;
+      return 44;
     }
   });
   // The phone shows the design; the code and its console open from the ☰ menu, over it.
@@ -1637,6 +1637,7 @@ export default function App() {
       svg={svg}
       compare={pinned?.stl ?? null}
       frameKey={`${mainTab.key}|${otherPart ?? ""}`}
+      part={tab}
       fitKey={`${!isPhone && dockOpen}|${tab}|${tab === "ligature" ? !!model.ligStl : tab === "cap" ? !!model.capStl : ""}`}
       compact={isPhone}
       focus={focus}
@@ -2002,6 +2003,7 @@ export default function App() {
 
   const rail = buildRail({
     selected: railSel,
+    tools: !isPhone,
     designOK,
     ligOK,
     capOK,

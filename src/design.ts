@@ -74,7 +74,7 @@ const PARTS: Record<string, string> = {
   ligature: "Ligature",
   cap: "Cap",
 };
-const SIDE_TEXT = "Several lines OK; {tip} etc. are variables (as on top).";
+const SIDE_TEXT = "Several lines OK; {tip} puts in the tip size (more under Variables ▾).";
 const num = (v: unknown, unit: string) => (typeof v === "number" ? `${+v.toFixed(2)} ${unit}` : null);
 const join = (parts: unknown[]) => parts.filter((p) => typeof p === "string" && p).join(" · ");
 
@@ -184,7 +184,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "shank_text",
         label: "Text around the shank",
-        caption: "Runs around the round band at the neck end; {tip} etc. are variables.",
+        caption: "Runs around the round band at the neck end; {tip} puts in the tip size.",
       },
       { name: "shank_text_size", label: "Shank text size", showIf: ["shank_text"] },
       {
@@ -247,7 +247,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "ligature_text",
         label: "Text on the ligature",
         caption:
-          "Text on the band's top (empty = none); several lines OK; {tip} etc. are variables. Font, style and depth are set in Personalise.",
+          "Text on the band's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalise.",
       },
       { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
       { name: "ligature_text_angle", label: "Text direction", showIf: ["ligature_text"] },
@@ -297,7 +297,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         name: "cap_text",
         label: "Text on the cap",
         caption:
-          "Text on the cap's top (empty = none); several lines OK; {tip} etc. are variables. Font, style and depth are set in Personalise.",
+          "Text on the cap's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalise.",
       },
       { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
       { name: "cap_text_angle", label: "Text direction", showIf: ["cap_text"] },
