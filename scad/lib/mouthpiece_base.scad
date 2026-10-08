@@ -1183,6 +1183,8 @@ module validate() {
   // the lettering variables and their values now (the app lists them by the text fields)
   echo(str("Text variables: ", join_str([for (t = LETTERING_TOKENS) str(t[0], " ", t[1])], "; ")));
   echo(str("Inside air volume: ", round(air_volume() / 100) / 10, " cm3 (from where the neck ends to the tip, with the reed closing the window)"));
+  // the socket the neck fills (the app turns a change of air into mm along the cork with it)
+  echo(str("Socket: ", eff_shank_depth, "mm deep, ", socket_d, "mm across, voice ", voice));
 }
 validate();
 

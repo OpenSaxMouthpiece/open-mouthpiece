@@ -2,6 +2,7 @@
 // volume, thinnest wall) and the generator's notes when a guarantee changed a value. While comparing, each
 // card also shows B's number.
 import { formatThou } from "../design";
+import { corkShift, corkShiftText } from "../corkFit";
 import { isAdjustment, type Summary, type Wall } from "../readouts";
 
 interface Props {
@@ -33,6 +34,15 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
   const atRails = !!wall && /beside the window/.test(wall.where);
   // under 1 mm a printer lays only a line or two there: worth a look before printing
   const thin = !!wall && wall.wall < 1;
+  // the air as a spot on the cork, next to the preset's (more air: further on)
+  const socket = summary.socket;
+  const shift = summary.air !== null && socket ? corkShift(summary.air, socket) : null;
+  const corkShort =
+    shift === null
+      ? undefined
+      : Math.abs(shift) < 1
+        ? "as the preset"
+        : `${Math.round(Math.abs(shift))} mm further ${shift > 0 ? "on" : "out"}`;
   // [label, value, fine print, B's value, a short note shown under the value on desktop too]
   const cards: [string, string, string?, string?, string?][] = [
     [
@@ -57,8 +67,10 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     [
       compact ? "Air" : "Air volume",
       summary.air !== null ? `${summary.air.toFixed(1)} cm³` : "–",
-      "sets where it plays in tune on the cork",
+      (shift !== null ? `In tune ${corkShiftText(shift, socket!.voice)}. ` : "") +
+        "More air: it goes further onto the cork; less: further out.",
       compare?.air != null ? `${compare.air.toFixed(1)} cm³` : undefined,
+      corkShort,
     ],
     [
       compact ? "Wall" : "Thinnest wall",

@@ -125,7 +125,7 @@ static site (docs/HOSTING.md).
   only); the filter also searches descriptions; hides the "Not yet implemented" group. A string
   param named `*_image` gets `ImagePicker` (scad/art/ SVGs plus the user's own, "Upload SVG…");
   picking one also sets `<name>_aspect`.
-- **Readouts**: cards from the render log (`parseSummary`: length/tip/facing/air) and two echo-only
+- **Readouts**: cards from the render log (`parseSummary`: length/tip/facing/air; the Air card turns the air into mm on the cork vs the voice's preset, src/corkFit.ts, whose `PRESET_AIR` `npm run check` keeps current) and two echo-only
   reports (`facing_report()` -> facing chart + feeler-gauge stops, `clearance_report()` -> thinnest
   wall). Facing has one meaning everywhere: the facing length, tip to the break (the Facing length
   setting, the Facing card, Compare, the check card); the feeler-gauge stops fold under the facing

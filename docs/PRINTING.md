@@ -88,9 +88,14 @@ The app's readouts give the targets:
 - **Tip opening:** the readout's tip opening, in mm and thousandths of an inch.
 - **Facing:** the facing chart lists where standard feeler gauges should stop along the facing, if
   you want to check a print against it.
-- **Air volume:** if you know your current mouthpiece's chamber volume, a similar volume will sit
-  at a similar spot on the cork to play in tune. The air inside the mouthpiece stands in for the
-  missing tip of the horn's cone, so it also sets how wide the octaves are
+- **Air volume:** the air between the end of the neck and the tip. It stands in for the missing
+  tip of the horn's cone, so it mostly decides where the mouthpiece plays in tune on the cork: more
+  air, further on; less air, further out. There is no single right number (makers make smaller
+  chambers longer to land on the same spot), so the readout compares yours with the preset's, e.g.
+  "about 3 mm further onto the cork than the Alto preset". Change it by the size of the chamber or
+  the baffle, or by the socket's depth. If you know your current mouthpiece's volume (fill it with
+  water, the window taped shut, minus what the neck fills), a similar volume sits at a similar spot.
+  The air also sets how wide the octaves are
   ([saxophone acoustics, UNSW](https://www.phys.unsw.edu.au/jw/saxacoustics.html)).
 
 ## 4b. A ligature made for it (optional)

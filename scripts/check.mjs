@@ -59,6 +59,8 @@ const importTs = (file) =>
 // migrateScad: a downloaded design must open unchanged (renaming the generator's own RENAMED_PARAMS
 // block once set real settings to undef: a hang).
 const { migrateScad } = await importTs('migrate.ts');
+// the presets' air and socket, which the app's cork readout measures against (src/corkFit.ts)
+const { PRESET_AIR, parseSocket } = await importTs('corkFit.ts');
 
 const rel = (f) => path.relative(SCAD, f).split(path.sep).join('/');
 const listed = args.filter((a) => !a.startsWith('--'));
@@ -182,6 +184,11 @@ async function checkFile(file) {
     );
   for (const w of log.warnings) r.problems.push(w);
   for (const w of log.designWarnings) r.notes.push(w);
+  const sock = parseSocket(run.log);
+  const presetAir = sock && !/^(variants|experiments)\//.test(name) ? PRESET_AIR[sock.voice] : null;
+  const air = Number(/Inside air volume: ([\d.]+) cm3/.exec(run.log)?.[1]);
+  if (presetAir && (Math.abs(presetAir.air - air) > 0.05 || Math.abs(presetAir.depth - sock.depth) > 0.01))
+    r.problems.push(`PRESET_AIR in src/corkFit.ts is out of date: ${sock.voice}: { air: ${air}, depth: ${sock.depth} }`);
   const m = meshInfo(stl);
   Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
   // 3: print orientation

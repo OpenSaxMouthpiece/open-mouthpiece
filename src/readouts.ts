@@ -1,12 +1,14 @@
 // The readouts, parsed from what the generator echoes: the summary lines of every
 // render, and the echo-only reports (part = "facing_report" / "clearance_report").
 import { parseAirVolume } from "./compare";
+import { parseSocket, type Socket } from "./corkFit";
 
 export interface Summary {
   length: number | null; // mm
   tip: number | null; // mm
   facing: number | null; // mm
   air: number | null; // cm3
+  socket?: Socket | null; // where the neck goes (for the cork readout)
   notes: string[]; // validate() warnings, in plain words
 }
 
@@ -18,6 +20,7 @@ export function parseSummary(log: string): Summary {
     tip: m ? Number(m[2]) : null,
     facing: m ? Number(m[3]) : null,
     air: parseAirVolume(log),
+    socket: parseSocket(log),
     notes: [...new Set(notes)],
   };
 }
