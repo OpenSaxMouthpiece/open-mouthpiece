@@ -2,6 +2,8 @@
 // docs/PRINTING.md.
 export const REPO_URL = "https://github.com/OpenSaxMouthpiece/open-mouthpiece";
 export const PRINTING_GUIDE_URL = REPO_URL ? `${REPO_URL}/blob/master/docs/PRINTING.md` : "";
+// The words (tip, facing, baffle, ...) with labelled pictures.
+export const GLOSSARY_URL = REPO_URL ? `${REPO_URL}/blob/master/docs/GLOSSARY.md` : "";
 
 // Donation page (Ko-fi). Empty hides every donation link.
 export const DONATE_URL = "https://ko-fi.com/opensaxmouthpiece";

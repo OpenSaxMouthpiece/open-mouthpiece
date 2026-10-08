@@ -38,7 +38,7 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     [
       compact ? "Tip" : "Tip opening",
       summary.tip !== null ? formatThou(summary.tip) : "–",
-      summary.tip !== null ? `${summary.tip.toFixed(2)} mm` : undefined,
+      summary.tip !== null ? `${summary.tip.toFixed(2)} mm: the gap between the reed and the tip` : undefined,
       b?.tip != null ? formatThou(b.tip) : undefined,
     ],
     [

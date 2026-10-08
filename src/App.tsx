@@ -51,7 +51,7 @@ import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
 import { migrateScad } from "./migrate";
 import { imageRefs, isUserArt, receiveArt, sharedArt } from "./userArt";
-import { DONATE_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
+import { DONATE_URL, GLOSSARY_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
 import { setSectionsOpen, usePref } from "./uiPrefs";
 import {
   presetFor,
@@ -1601,17 +1601,28 @@ export default function App() {
     !hintSeen && isPhone ? (
       <div className="hint-card short">
         <span>
-          <b>Design your own mouthpiece:</b> pick a voice, change the settings below, then download the STL.
+          <b>Design your own mouthpiece, free:</b> pick a voice, change the settings below, then download the STL.
         </span>
         <button onClick={gotIt}>Got it</button>
       </div>
     ) : (
       !hintSeen && (
         <div className="hint-card">
-          <b>Design your own saxophone mouthpiece</b>
+          <b>Design your own saxophone mouthpiece, free</b>
           <ol>
             <li>Pick a voice (soprano, alto, tenor, baritone).</li>
-            <li>Adjust the tip, facing, chamber and baffle; the model and the readouts follow.</li>
+            <li>
+              Adjust the tip, facing, chamber and baffle (sections on the left); the model and the readouts follow.
+              {GLOSSARY_URL && (
+                <>
+                  {" "}
+                  New to the words?{" "}
+                  <a href={GLOSSARY_URL} target="_blank" rel="noreferrer">
+                    Glossary
+                  </a>
+                </>
+              )}
+            </li>
             <li>
               Download the STL and print it
               {PRINTING_GUIDE_URL && (
@@ -1995,6 +2006,11 @@ export default function App() {
       Printing guide
     </a>
   );
+  const glossaryLink = GLOSSARY_URL && (
+    <a className="button" href={GLOSSARY_URL} target="_blank" rel="noreferrer">
+      Glossary (the words, with pictures)
+    </a>
+  );
   const sourceLink = REPO_URL && (
     <a className="button" href={REPO_URL} target="_blank" rel="noreferrer">
       Source code (GitHub)
@@ -2102,11 +2118,19 @@ export default function App() {
                 </a>
               )}
               <details className="phone-look">
+                <summary>About and help</summary>
+                <Credits />
+                <div className="phone-code-actions">
+                  {glossaryLink}
+                  {printingGuideLink}
+                </div>
+              </details>
+              <details className="phone-look">
                 <summary>Appearance</summary>
                 <AppearancePanel />
               </details>
               <details className="phone-look">
-                <summary>Code files</summary>
+                <summary>Code editor and files</summary>
                 <div className="phone-code-actions">
                   <button onClick={act(() => setPhonePanel("code"))}>Code editor (OpenSCAD) and console</button>
                   {openProjectSelect}
@@ -2283,6 +2307,7 @@ export default function App() {
               <>
                 <Credits />
                 <div className="tool-actions">
+                  {glossaryLink}
                   {printingGuideLink}
                   {sourceLink}
                 </div>
