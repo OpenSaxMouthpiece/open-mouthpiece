@@ -184,8 +184,10 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
 - **Shank band** (`SHANK_BAND`): the round stretch at the neck end, from 1mm past the socket's
   lead-in to where the width starts to flare (at least 7mm: the bari's and soprano's shanks flare
   from the end, so they get that much of the flare), short of the reed's heel. `shank_detail` cuts
-  grooves into it (`ring`: one, at `shank_detail_position`; `rings`: as many as fit, up to
-  `shank_detail_count`; `flutes`: V grooves along it, following the flare in 1mm hulls) and
+  grooves into it (`rings`: half-round, as many as fit up to `shank_detail_count`, one at
+  `shank_detail_position`; older files' `ring` = rings, 1; `flutes`: V grooves along it, following
+  the flare in 0.5mm hulls; `spiral`: 1-4 half-round starts, `knurled`: V grooves both ways, both
+  `linear_extrude` twisted and scaled with the flare, `sd_helix_2d` / `sd_knurl`) and
   `shank_text` runs around it (2mm strips wedged out along the radius, as the wrapped picture; read
   with the tip up; `shank_text_around` turns it, + toward the right side). Both cut a skin
   (`exterior_relief`: `exterior_offset` with its own depth per station; grooves have 45-degree
