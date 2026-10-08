@@ -2067,6 +2067,14 @@ button.link:hover {
 .ab-legend button {
   padding: 0 6px;
 }
+/* touch: finger-sized close and "use B's value" buttons */
+@media (pointer: coarse) {
+  .ab-legend button,
+  .compare .use {
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
 .model-label {
   position: absolute;
   transform: translate(-50%, 6px);

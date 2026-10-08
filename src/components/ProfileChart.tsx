@@ -282,7 +282,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
           {held ? (
             <span className="held-note">Held there: a wall, the socket or the reed table limits that spot.</span>
           ) : (
-            <span>Drag a dot up or down to pull the line there; the sliders still work.</span>
+            <span>Drag a dot up or down to pull the line there; a pull adds to what the sliders make.</span>
           )}
           {edited.length > 0 && (
             <button

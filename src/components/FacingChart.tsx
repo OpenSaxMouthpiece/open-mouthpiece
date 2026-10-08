@@ -67,6 +67,9 @@ const round = (v: number, k: number) => Math.round(v * k) / k;
 
 type Drag = { i: number; moved: boolean; x: number; y: number; dom: { maxD: number; maxT: number } };
 
+// A feeler gauge by its thickness in inches, as printed on it (.0015, .010).
+const gaugeName = (g: number) => g.toFixed(g < 0.01 ? 4 : 3).replace(/^0/, "");
+
 export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: Props) {
   // The knots: the tip, the points in between (the gauge points, or four points on the smooth
   // curve to start from), the break.
@@ -274,7 +277,9 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
         )}
         <path className="curve" d={path} />
         {stops.map((s) => (
-          <circle key={s.gauge} className="stop" cx={x(s.at)} cy={y(s.gauge * 1000)} r={2.5} />
+          <circle key={s.gauge} className="stop" cx={x(s.at)} cy={y(s.gauge * 1000)} r={2.5}>
+            <title>{`A ${gaugeName(s.gauge)}" feeler gauge stops here`}</title>
+          </circle>
         ))}
         {edit &&
           shown.map(([d, g], i) => (
@@ -337,15 +342,13 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
       )}
       {stops.length > 0 && (
         <details className="gauge-check">
-          <summary>Feeler gauge stops (to check a print)</summary>
+          <summary>Feeler gauge stops (the small dots; to check a print)</summary>
           <table className="gauge-table">
             <thead>
               <tr>
                 <th>Feeler</th>
                 {stops.map((s) => (
-                  <th key={s.gauge}>
-                    {s.gauge < 0.01 ? s.gauge.toFixed(4).replace(/^0/, "") : s.gauge.toFixed(3).replace(/^0/, "")}"
-                  </th>
+                  <th key={s.gauge}>{gaugeName(s.gauge)}"</th>
                 ))}
               </tr>
             </thead>
