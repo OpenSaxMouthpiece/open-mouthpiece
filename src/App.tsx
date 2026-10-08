@@ -143,9 +143,9 @@ export default function App() {
   const [phoneViewerH, setPhoneViewerH] = useState(() => {
     try {
       const v = Number(localStorage.getItem(PHONE_VIEW_KEY));
-      return v >= 20 && v <= 85 ? v : 46;
+      return v >= 20 && v <= 85 ? v : 36;
     } catch {
-      return 46;
+      return 36;
     }
   });
   // The phone shows the design; the code and its console open from the ☰ menu, over it.
@@ -1832,7 +1832,7 @@ export default function App() {
   );
   // `only`: the desktop rail's pick (a section's title; "" = every setting, for a file that isn't the
   // generator's): no part tabs or deeper sections there, the rail has them.
-  const designEl = (withReadouts: boolean, other?: React.ReactNode, only?: string) => (
+  const designEl = (withReadouts: boolean, other?: React.ReactNode, only?: string, charts = false) => (
     <DesignPanel
       params={params}
       values={values}
@@ -1859,6 +1859,7 @@ export default function App() {
       tabs={only === undefined ? partTabs : undefined}
       onTab={openPartTab}
       only={only || undefined}
+      charts={charts}
       printKit={kitOK ? printKitButton : undefined}
       showNames={coding}
       deeper={only === undefined ? deeperEl : undefined}
@@ -1988,6 +1989,96 @@ export default function App() {
     </a>
   );
 
+  // ---- the rail: the generator's sections (the parts made from it after a line, then printing), the
+  // tools at the bottom. A file that isn't the generator's has one place: its settings.
+  const RAIL: Record<string, [label: string, icon: RailItem["icon"]]> = {
+    "Tip & facing": ["Tip", "tip"],
+    "Fit on the horn": ["Fit", "fit"],
+    "Chamber & baffle": ["Chamber", "chamber"],
+    "Body & beak": ["Body", "body"],
+    Personalise: ["Engrave", "text"],
+    Ligature: ["Ligature", "ligature"],
+    Cap: ["Cap", "cap"],
+    Printing: ["Print", "print"],
+  };
+  const railSections = designOK
+    ? DESIGN_SECTIONS.filter(
+        (s) => (!s.ligature || ligOK) && (!s.cap || capOK) && s.items.some((i) => param(i.name)) && RAIL[s.title],
+      )
+    : [];
+  const TOOLS = ["compare", "points", "about"];
+  const railNow =
+    !TOOLS.includes(railSel) && !railSections.some((s) => s.title === railSel)
+      ? (railSections[0]?.title ?? "settings")
+      : railSel;
+  const sectionOfNow = railSections.find((s) => s.title === railNow);
+  // A section's dock chart: the facing for the tip, the outside for the body, the inside for the chamber.
+  const DOCK_OF: Record<string, string> = {
+    "Tip & facing": "facing",
+    "Body & beak": "body",
+    "Chamber & baffle": "chamber",
+  };
+  const pickRail = (id: string) => {
+    if (id === "code") return setCodeOpen(!codeOpen);
+    setRailSel(id);
+    const s = railSections.find((x) => x.title === id);
+    if (!s) return;
+    const part: PartTab = s.ligature ? "ligature" : s.cap ? "cap" : "mouthpiece";
+    if (part !== tab) openPartTab(part);
+    if (DOCK_OF[id]) setDockTab(DOCK_OF[id]);
+    // the view flies to the part the section shapes (Auto-zoom)
+    const first = s.items.find((i) => param(i.name));
+    if (first && part === "mouthpiece") focusOn(first.name);
+  };
+  const changedIn = (s: (typeof DESIGN_SECTIONS)[number]) =>
+    [...s.items.map((i) => i.name), ...(s.more ?? [])].filter((n) => n in values).length;
+  const railItems: RailItem[] = [
+    ...(railSections.length
+      ? railSections.map((s, i): RailItem => ({
+          id: s.title,
+          label: RAIL[s.title][0],
+          title: s.title,
+          icon: RAIL[s.title][1],
+          active: railNow === s.title,
+          dot: s.ligature ? ligMade : s.cap ? capMade : undefined,
+          changed: changedIn(s) || undefined,
+          sep: i > 0 && (!!s.ligature || s.title === "Printing" || (!!s.cap && !railSections[i - 1].ligature)),
+        }))
+      : [{ id: "settings", label: "Settings", title: "Settings", icon: "settings" as const, active: true }]),
+    {
+      id: "compare",
+      label: "Compare",
+      title: "Compare two designs (A/B)",
+      icon: "compare",
+      active: railNow === "compare",
+      dot: !!pinned,
+      group: "tools",
+    },
+    {
+      id: "points",
+      label: "Points",
+      title: "Exact points (advanced: Edit shape in the charts is easier)",
+      icon: "points",
+      active: railNow === "points",
+      group: "tools",
+    },
+    {
+      id: "code",
+      label: "Code",
+      title: codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console",
+      icon: "code",
+      active: codeOpen,
+      group: "tools",
+    },
+    {
+      id: "about",
+      label: "About",
+      title: "About Open Mouthpiece",
+      icon: "about",
+      active: railNow === "about",
+      group: "tools",
+    },
+  ];
   // ---- phone: viewer on top, one panel below (Design goes as deep as you open it; the code has its
   // own tabs), everything else in the ☰ menu
   if (isPhone) {
@@ -2145,7 +2236,12 @@ export default function App() {
         <section className="phone-panel">
           {pane(
             "design",
-            designEl(false, mpReadouts && summary?.notes.length ? <Notes notes={summary.notes} /> : undefined),
+            designEl(
+              false,
+              mpReadouts && summary?.notes.length ? <Notes notes={summary.notes} /> : undefined,
+              railSections.length ? (sectionOfNow?.title ?? "") : undefined,
+              true,
+            ),
           )}
           {pane(
             "code",
@@ -2158,6 +2254,9 @@ export default function App() {
           )}
           {pane("console", consoleEl)}
         </section>
+        {phonePanel === "design" && railSections.length > 0 && (
+          <Rail items={railItems.filter((i) => !i.group)} onPick={pickRail} horizontal />
+        )}
         {dropHint}
       </div>
     );
@@ -2202,96 +2301,6 @@ export default function App() {
       )}
     </Menu>
   );
-  // ---- the rail: the generator's sections (the parts made from it after a line, then printing), the
-  // tools at the bottom. A file that isn't the generator's has one place: its settings.
-  const RAIL: Record<string, [label: string, icon: RailItem["icon"]]> = {
-    "Tip & facing": ["Tip", "tip"],
-    "Fit on the horn": ["Fit", "fit"],
-    "Chamber & baffle": ["Chamber", "chamber"],
-    "Body & beak": ["Body", "body"],
-    Personalise: ["Personalise", "text"],
-    Ligature: ["Ligature", "ligature"],
-    Cap: ["Cap", "cap"],
-    Printing: ["Print", "print"],
-  };
-  const railSections = designOK
-    ? DESIGN_SECTIONS.filter(
-        (s) => (!s.ligature || ligOK) && (!s.cap || capOK) && s.items.some((i) => param(i.name)) && RAIL[s.title],
-      )
-    : [];
-  const TOOLS = ["compare", "points", "about"];
-  const railNow =
-    !TOOLS.includes(railSel) && !railSections.some((s) => s.title === railSel)
-      ? (railSections[0]?.title ?? "settings")
-      : railSel;
-  const sectionOfNow = railSections.find((s) => s.title === railNow);
-  // A section's dock chart: the facing for the tip, the outside for the body, the inside for the chamber.
-  const DOCK_OF: Record<string, string> = {
-    "Tip & facing": "facing",
-    "Body & beak": "body",
-    "Chamber & baffle": "chamber",
-  };
-  const pickRail = (id: string) => {
-    if (id === "code") return setCodeOpen(!codeOpen);
-    setRailSel(id);
-    const s = railSections.find((x) => x.title === id);
-    if (!s) return;
-    const part: PartTab = s.ligature ? "ligature" : s.cap ? "cap" : "mouthpiece";
-    if (part !== tab) openPartTab(part);
-    if (DOCK_OF[id]) setDockTab(DOCK_OF[id]);
-    // the view flies to the part the section shapes (Auto-zoom)
-    const first = s.items.find((i) => param(i.name));
-    if (first && part === "mouthpiece") focusOn(first.name);
-  };
-  const changedIn = (s: (typeof DESIGN_SECTIONS)[number]) =>
-    [...s.items.map((i) => i.name), ...(s.more ?? [])].filter((n) => n in values).length;
-  const railItems: RailItem[] = [
-    ...(railSections.length
-      ? railSections.map((s, i): RailItem => ({
-          id: s.title,
-          label: RAIL[s.title][0],
-          title: s.title,
-          icon: RAIL[s.title][1],
-          active: railNow === s.title,
-          dot: s.ligature ? ligMade : s.cap ? capMade : undefined,
-          changed: changedIn(s) || undefined,
-          sep: i > 0 && (!!s.ligature || s.title === "Printing" || (!!s.cap && !railSections[i - 1].ligature)),
-        }))
-      : [{ id: "settings", label: "Settings", title: "Settings", icon: "settings" as const, active: true }]),
-    {
-      id: "compare",
-      label: "Compare",
-      title: "Compare two designs (A/B)",
-      icon: "compare",
-      active: railNow === "compare",
-      dot: !!pinned,
-      group: "tools",
-    },
-    {
-      id: "points",
-      label: "Points",
-      title: "Exact points (advanced: Edit shape in the charts is easier)",
-      icon: "points",
-      active: railNow === "points",
-      group: "tools",
-    },
-    {
-      id: "code",
-      label: "Code",
-      title: codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console",
-      icon: "code",
-      active: codeOpen,
-      group: "tools",
-    },
-    {
-      id: "about",
-      label: "About",
-      title: "About Open Mouthpiece",
-      icon: "about",
-      active: railNow === "about",
-      group: "tools",
-    },
-  ];
   const toolPanel = (title: string, body: React.ReactNode) => (
     <div className="design-panel">
       {!noReadouts && readoutsEl}

@@ -3013,3 +3013,32 @@ a:focus-visible,
   margin: 0;
   box-shadow: var(--shadow);
 }
+/* the phone: the sections along the bottom */
+.rail.horizontal {
+  flex: 0 0 auto;
+  flex-direction: row;
+  overflow-x: auto;
+  padding: 0;
+  border-right: none;
+  border-top: 1px solid var(--border);
+}
+.rail.horizontal .rail-item {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 54px;
+  padding: 7px 0 5px;
+}
+.rail.horizontal .rail-label {
+  max-width: 100%;
+  font-size: 10px;
+}
+.rail.horizontal .rail-changed {
+  right: 2px;
+}
+.rail.horizontal .rail-item.active {
+  box-shadow: inset 0 3px 0 var(--accent);
+}
+.rail.horizontal .rail-sep,
+.rail.horizontal .rail-spacer {
+  display: none;
+}

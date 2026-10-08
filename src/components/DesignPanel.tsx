@@ -52,6 +52,7 @@ interface Props {
   // the credits under About. A search still looks everywhere.
   only?: string;
   fitNote?: ReactNode; // under "Fit on the horn": the test ring, to check the fit first
+  charts?: boolean; // with `only`: the section's chart inline all the same (the phone has no dock)
 }
 
 const same = (a: ParamValue, b: ParamValue) => JSON.stringify(a) === JSON.stringify(b);
@@ -84,6 +85,7 @@ export function DesignPanel({
   printed,
   only,
   fitNote,
+  charts = false,
 }: Props) {
   const byName = new Map(params.map((p) => [p.name, p]));
   const setParam = (name: string, v: ParamValue) => {
@@ -406,9 +408,9 @@ export function DesignPanel({
               {s.ligature && ligature!.head}
               {s.cap && cap!.head}
               {rows.map((i) => row(byName.get(i.name)!, i))}
-              {s.title === "Tip & facing" && !q && !only && facing}
-              {s.title === "Chamber & baffle" && !q && !only && profile?.("chamber")}
-              {s.title === "Body & beak" && !q && !only && profile?.("body")}
+              {s.title === "Tip & facing" && !q && (!only || charts) && facing}
+              {s.title === "Chamber & baffle" && !q && (!only || charts) && profile?.("chamber")}
+              {s.title === "Body & beak" && !q && (!only || charts) && profile?.("body")}
               {s.title === "Printing" && !q && printKit}
               {s.title === "Fit on the horn" && !q && fitNote}
               {more.length > 0 && (

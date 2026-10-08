@@ -111,7 +111,16 @@ export const ICONS = {
   ),
 };
 
-export function Rail({ items, onPick }: { items: RailItem[]; onPick(id: string): void }) {
+// `horizontal`: the phone's bar along the bottom (the sections only).
+export function Rail({
+  items,
+  onPick,
+  horizontal = false,
+}: {
+  items: RailItem[];
+  onPick(id: string): void;
+  horizontal?: boolean;
+}) {
   const button = (i: RailItem) => [
     i.sep && <hr key={`${i.id}-sep`} className="rail-sep" />,
     <button
@@ -134,7 +143,7 @@ export function Rail({ items, onPick }: { items: RailItem[]; onPick(id: string):
   const main = items.filter((i) => !i.group),
     tools = items.filter((i) => i.group === "tools");
   return (
-    <nav className="rail" aria-label="Sections">
+    <nav className={`rail${horizontal ? " horizontal" : ""}`} aria-label="Sections">
       {main.map(button)}
       <span className="rail-spacer" />
       {tools.map(button)}
