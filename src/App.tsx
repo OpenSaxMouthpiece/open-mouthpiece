@@ -1864,13 +1864,25 @@ export default function App() {
       deeper={only === undefined ? deeperEl : undefined}
       about={fileAbout(mainTab.source)}
       printed={printed ? () => setPrinted(false) : undefined}
+      fitNote={
+        kitOK && (
+          <p className="fit-note muted">
+            Check the fit first: a{" "}
+            <button className="link" onClick={() => downloadPart("ring")} disabled={!stl || dlBusy("ring")}>
+              shank test ring
+            </button>{" "}
+            prints in minutes and slides on your cork like the mouthpiece will. No calipers? The value here suits a
+            typical neck; the ring shows if yours differs.
+          </p>
+        )
+      }
     />
   );
   // The download follows the part tab: the ligature or the cap once made, else the model on screen.
   const dlWhat: "model" | "ligature" | "cap" =
     tab === "ligature" && ligMade ? "ligature" : tab === "cap" && capMade ? "cap" : "model";
   const downloadDisabled = (!stl && !svg) || dlBusy(dlWhat);
-  const dlName = dlWhat === "model" ? (svg ? "SVG" : "STL") : `${dlWhat} STL`;
+  const dlName = dlWhat === "model" ? (svg ? "SVG" : otherPart ? "STL" : "mouthpiece STL") : `${dlWhat} STL`;
   // The main button shows any download in progress (the menu closes when one starts).
   const dlMain = (label: string) =>
     dl?.state === "busy" && dl.what !== dlWhat ? dlLabel(dl.what, label) : dlLabel(dlWhat, label);
@@ -2016,12 +2028,12 @@ export default function App() {
           ) : (
             <button
               className="primary dl-button"
-              onClick={() => downloadPart(dlWhat)}
+              onClick={() => setMenuOpen(true)}
               disabled={downloadDisabled}
               aria-live="polite"
               title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
             >
-              {dlMain(dlName)}
+              {dl?.state === "busy" ? dlMain("Download") : "Download"}
             </button>
           )}
         </header>

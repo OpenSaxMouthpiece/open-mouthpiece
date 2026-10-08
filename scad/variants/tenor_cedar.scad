@@ -89,7 +89,7 @@ table_concavity = 0; // [0:0.005:0.1]
 tip_opening = 2.16; // [0.5:0.01:4.5]
 // From the tip back to the break, where the rails leave the flat table (mm).
 facing_length = 24.3; // [10:0.1:45]
-// Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).
+// Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).
 facing_model = "power"; // [power, arc, gauge]
 // Power curve shape: 2 is an even curve; lower opens sooner, higher later.
 facing_exponent = 1.8; // [1.5:0.05:3]

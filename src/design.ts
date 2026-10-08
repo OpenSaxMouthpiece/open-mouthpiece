@@ -23,6 +23,7 @@ export interface DesignItem {
 
 export interface DesignSection {
   title: string;
+  plain?: string; // what it is, in plain words, under the title (the desktop's one-section panel)
   items: DesignItem[];
   more?: string[]; // the rest of the section's settings, under its "More" (the small, nuanced ones)
   summary?: (get: (name: string) => unknown) => string; // one line on the section's header: only what the panel doesn't show elsewhere
@@ -80,6 +81,7 @@ const join = (parts: unknown[]) => parts.filter((p) => typeof p === "string" && 
 export const DESIGN_SECTIONS: DesignSection[] = [
   {
     title: "Tip & facing",
+    plain: "The opening at the tip, and the curve the reed closes against",
     items: [
       {
         name: "tip_opening",
@@ -104,6 +106,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Fit on the horn",
+    plain: "How it fits your neck cork",
     summary: (get) => join([num(get("neck_cork_diameter"), "mm cork"), num(get("shank_clearance"), "squeeze")]),
     items: [
       { name: "neck_cork_diameter", label: "Neck cork diameter" },
@@ -118,6 +121,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Chamber & baffle",
+    plain: "The space inside, from the reed to the shank",
     items: [
       { name: "chamber_shape", label: "Chamber shape" },
       { name: "chamber_width_extra", label: "Chamber width" },
@@ -145,6 +149,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Body & beak",
+    plain: "The outside: what you see and bite on",
     items: [
       { name: "overall_length", label: "Length" },
       { name: "beak_tip_height", label: "Beak height at the tip" },
@@ -161,6 +166,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Personalise",
+    plain: "Lettering and pictures",
     items: [
       { name: "top_text", label: "Text on top" },
       { name: "top_text_size", label: "Text size", showIf: ["top_text"] },
@@ -223,6 +229,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Ligature",
+    plain: "A printed ring that holds the reed",
     ligature: true,
     tab: "ligature",
     items: [
@@ -257,6 +264,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Cap",
+    plain: "A printed cap that covers the tip and reed",
     cap: true,
     tab: "cap",
     summary: (get) =>
@@ -310,6 +318,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   },
   {
     title: "Printing",
+    plain: "What to print, and how",
     summary: (get) =>
       join([
         get("part") !== "mouthpiece" && (PARTS[String(get("part"))] ?? get("part")),

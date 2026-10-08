@@ -328,6 +328,7 @@ function ParamInput({
         <SliderEnds name={p.name}>
           <input
             type="range"
+            aria-label={paramLabel(p.name)}
             min={p.min}
             max={p.max}
             step={p.step ?? "any"}
@@ -492,6 +493,7 @@ function ThouInput({ p, value, onChange }: { p: ScadParam; value: number; onChan
         <SliderEnds name={p.name}>
           <input
             type="range"
+            aria-label={paramLabel(p.name)}
             min={p.min}
             max={p.max}
             step={p.step ?? "any"}

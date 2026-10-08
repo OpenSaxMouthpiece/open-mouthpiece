@@ -51,6 +51,7 @@ interface Props {
   // The desktop's rail picks one section to show (its title), open; its charts are in the dock, and
   // the credits under About. A search still looks everywhere.
   only?: string;
+  fitNote?: ReactNode; // under "Fit on the horn": the test ring, to check the fit first
 }
 
 const same = (a: ParamValue, b: ParamValue) => JSON.stringify(a) === JSON.stringify(b);
@@ -82,6 +83,7 @@ export function DesignPanel({
   about,
   printed,
   only,
+  fitNote,
 }: Props) {
   const byName = new Map(params.map((p) => [p.name, p]));
   const setParam = (name: string, v: ParamValue) => {
@@ -386,7 +388,16 @@ export function DesignPanel({
             <Fold
               key={s.title}
               id={`d:${s.title}`}
-              title={s.title}
+              title={
+                only && s.plain ? (
+                  <>
+                    {s.title}
+                    <span className="fold-plain">{s.plain}</span>
+                  </>
+                ) : (
+                  s.title
+                )
+              }
               summary={summary}
               forceOpen={!!q || !!only || (tabbed && tab !== "mouthpiece")}
               className="design-section"
@@ -399,6 +410,7 @@ export function DesignPanel({
               {s.title === "Chamber & baffle" && !q && !only && profile?.("chamber")}
               {s.title === "Body & beak" && !q && !only && profile?.("body")}
               {s.title === "Printing" && !q && printKit}
+              {s.title === "Fit on the horn" && !q && fitNote}
               {more.length > 0 && (
                 <Fold
                   id={`m:${s.title}`}

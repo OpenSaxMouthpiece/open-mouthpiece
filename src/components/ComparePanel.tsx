@@ -4,7 +4,7 @@
 import { useMemo, useState } from "react";
 import type { ParamValue } from "../api";
 import { diffAssignments, diffParams, formatValue, sameValue, stlStats, type Snapshot } from "../compare";
-import { formatThou, paramLabel, paramUnit } from "../design";
+import { formatThou, optionLabel, paramLabel, paramUnit } from "../design";
 
 interface Props {
   a: Snapshot;
@@ -37,6 +37,7 @@ function delta(a: number, b: number, digits = 2, unit = "") {
 // A parameter value the way the Design panel shows it: tip openings in thousandths.
 function showValue(name: string, v: ParamValue | undefined) {
   if (typeof v === "number" && paramUnit(name) === "thou") return `${formatThou(v)} (${fmt(v)} mm)`;
+  if (typeof v === "string" && v) return optionLabel(name, v);
   return formatValue(v);
 }
 

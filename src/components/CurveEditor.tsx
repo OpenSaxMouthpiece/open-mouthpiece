@@ -386,7 +386,7 @@ export function CurveEditor({ title, source, target, values, visible, compact, o
             ◀
           </button>
           <label>
-            z{" "}
+            {axisLabel(list.name)}{" "}
             <NumberBox
               value={selPt[0]}
               onCommit={(z) => {
@@ -398,7 +398,7 @@ export function CurveEditor({ title, source, target, values, visible, compact, o
             />
           </label>
           <label>
-            value{" "}
+            {valueLabel(list.name)}{" "}
             <NumberBox value={selPt[1]} onCommit={(v) => commit(pts.map((p, j) => (j === sel ? [p[0], v] : p)))} />
           </label>
           <button

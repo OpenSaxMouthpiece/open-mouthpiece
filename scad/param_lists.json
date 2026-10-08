@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "3456d02c-19293",
+  "hash": "950e5ff0-19300",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -418,7 +418,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -1858,7 +1858,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "af9c9fa5-19530",
+  "hash": "ca625077-19537",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2276,7 +2276,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -3716,7 +3716,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "f4dfc79f-20202",
+  "hash": "fa9a34c1-20209",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4134,7 +4134,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -5574,7 +5574,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "c0447218-19495",
+  "hash": "7299fcae-19502",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5992,7 +5992,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -7432,7 +7432,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "9dbdf603-19672",
+  "hash": "8a0c1493-19679",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7850,7 +7850,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -9290,7 +9290,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "a52da256-19239",
+  "hash": "9dfbae76-19246",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9708,7 +9708,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -11148,7 +11148,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "8cda1ecd-19291",
+  "hash": "408dcb1f-19298",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11566,7 +11566,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -13006,7 +13006,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "d24a2e20-19255",
+  "hash": "d0b0fbe6-19262",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13424,7 +13424,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -14864,7 +14864,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "c2501f5-19464",
+  "hash": "6b8247fb-19471",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15282,7 +15282,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -16722,7 +16722,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "2352417-19530",
+  "hash": "501c7467-19537",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17140,7 +17140,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -18580,7 +18580,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "59dbcf01-19482",
+  "hash": "795899f3-19489",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18998,7 +18998,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -20438,7 +20438,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "3bf88555-19500",
+  "hash": "350bbf85-19507",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20856,7 +20856,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -22296,7 +22296,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "94a4dda0-19550",
+  "hash": "36d64580-19557",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22714,7 +22714,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -24154,7 +24154,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "ed569af9-19515",
+  "hash": "e184b19d-19522",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24572,7 +24572,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -26012,7 +26012,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "1c135837-19622",
+  "hash": "3a34d007-19629",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26430,7 +26430,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "arc",
     "name": "facing_model",
@@ -27870,7 +27870,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "f78b5a8d-19665",
+  "hash": "76b5709-19672",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28288,7 +28288,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",
@@ -29728,7 +29728,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "b56b0be3-19634",
+  "hash": "3a4a2191-19641",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30146,7 +30146,7 @@
     "type": "number"
    },
    {
-    "caption": "Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).",
+    "caption": "Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).",
     "group": "Facing",
     "initial": "power",
     "name": "facing_model",

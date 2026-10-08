@@ -15,7 +15,7 @@
 // Profile overrides (tab "Profile overrides"): each *_points parameter is a list of [z, value]
 // pairs (z from the shank end) joined by a smooth monotone cubic (PCHIP). [] keeps the built-in
 // shape. Together they contour the body, table, chamber and baffle to nearly any real mouthpiece.
-// The Customizer can't edit nested lists: use the app's Curves panel, or set them in the file or
+// The Customizer can't edit nested lists: use the app's Exact points, or set them in the file or
 // with -D.
 //
 // File layout:
@@ -133,7 +133,7 @@ table_concavity = 0; // [0:0.005:0.1]
 tip_opening = 1.93; // [0.5:0.01:4.5]
 // From the tip back to the break, where the rails leave the flat table (mm).
 facing_length = 23.8; // [10:0.1:45]
-// Facing curve: Power (shaped by the exponent), Arc (a true radius) or Gauge (your points).
+// Facing curve: Power curve (shaped by the exponent), Radius (a true arc) or Gauge points (yours).
 facing_model = "power"; // [power, arc, gauge]
 // Power curve shape: 2 is an even curve; lower opens sooner, higher later.
 facing_exponent = 1.8; // [1.5:0.05:3]
@@ -1160,7 +1160,7 @@ module validate() {
   if (len(AIR_RINGS) > 0 && chamber_built < CHAMBER_W - 0.3)  // (no rings: a ligature/cap-only run)
     echo(str("WARNING: the chamber (", CHAMBER_W, "mm wide) is limited to ", round(chamber_built * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)"));
   if (facing_model == "gauge" && len(GAUGE_PTS) <= 2)
-    echo("WARNING: facing_model gauge has no facing_gauge_points yet — the power curve is used; add points in the Curves panel");
+    echo("WARNING: facing_model gauge has no facing_gauge_points yet — the power curve is used; add points under Exact points (or drag the facing chart)");
   if (L - TABLE_LEN < tenon_end_z + table_ramp - 0.01)
     echo(str("WARNING: table_length ", TABLE_LEN, "mm is longer than this body's table allows: the table starts at ", round(table_rear_z * 10) / 10, "mm from the shank end"));
   if (has_text(top_text) && top_text_width > top_text_room + 0.01)
