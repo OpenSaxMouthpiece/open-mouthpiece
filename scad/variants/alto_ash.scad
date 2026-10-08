@@ -181,6 +181,14 @@ shank_detail_count = 3; // [1:1:40]
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]
+// A texture cut all round the body, between the shank's band and the beak (table and beak stay smooth).
+body_texture = "none"; // [none, ribs, rings, knurled, dimples]
+// Distance between the texture's lines or dimples (mm).
+body_texture_spacing = 3; // [1.5:0.25:8]
+// How deep the texture goes (mm); at most min_wall - 1.2.
+body_texture_depth = 0.4; // [0.2:0.05:1]
+// How far back from the tip the beak stays smooth (mm).
+body_texture_beak = 25; // [10:1:60]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
