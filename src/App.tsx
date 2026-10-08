@@ -2461,11 +2461,15 @@ export default function App() {
               tabs={dockTabs}
               active={dockTab}
               open={dockOpen}
-              onActive={(t) => {
-                setDockTab(t);
-                // the inside can't be seen from outside: fly there, cut open (Auto-zoom)
-                if (t === "chamber" && param("baffle_height")) focusOn("baffle_height");
-              }}
+              onActive={setDockTab}
+              actions={
+                dockTab === "chamber" &&
+                param("baffle_height") && (
+                  <button className="link" onClick={() => focusOn("baffle_height")} disabled={!zoom}>
+                    {zoom ? "Cut the view open to see the inside" : "Turn on Auto-zoom (⋯) to cut the view open"}
+                  </button>
+                )
+              }
               onOpen={setDockOpen}
             />
           </section>

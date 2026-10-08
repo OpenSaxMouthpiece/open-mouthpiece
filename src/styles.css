@@ -2996,3 +2996,20 @@ a:focus-visible,
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+/* the Download button keeps its width while its label says what it's doing */
+.toolbar .dl-button {
+  min-width: 15em;
+}
+/* the note after a download floats over the panel's foot instead of pushing the settings down */
+.workspace.rail-mode .right {
+  position: relative;
+}
+.workspace.rail-mode .printed-note {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 5;
+  margin: 0;
+  box-shadow: var(--shadow);
+}

@@ -15,12 +15,14 @@ export function ShapeDock({
   open,
   onActive,
   onOpen,
+  actions,
 }: {
   tabs: DockTab[];
   active: string;
   open: boolean;
   onActive(id: string): void;
   onOpen(open: boolean): void;
+  actions?: ReactNode; // by the tabs, for the open chart (e.g. cut the view open for the inside)
 }) {
   if (!tabs.length) return null;
   const shown = tabs.find((t) => t.id === active) ?? tabs[0];
@@ -43,7 +45,7 @@ export function ShapeDock({
             </button>
           ))}
         </div>
-        <span className="dock-hint muted">{open ? "" : "side and top views, with Edit shape"}</span>
+        <span className="dock-hint muted">{open ? actions : "side and top views, with Edit shape"}</span>
         <button
           className="dock-toggle"
           onClick={() => onOpen(!open)}

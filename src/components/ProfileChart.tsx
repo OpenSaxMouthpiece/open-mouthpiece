@@ -123,7 +123,9 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     if (!shape) return line;
     const rendered = shape.values[LINES[n].param] as Pt[] | undefined;
     const now =
-      drag?.line === n ? moved(adjOf(n), handleFs(n, shape, adjOf(n)), drag.i, drag.d, !!LINES[n].end) : adjOf(n);
+      drag?.line === n
+        ? moved(adjOf(n), handleFs(n, shape, adjOf(n)), drag.i, drag.d, !!LINES[n].end, LINES[n].limit)
+        : adjOf(n);
     return JSON.stringify(rendered ?? []) === JSON.stringify(now ?? [])
       ? line
       : previewLine(line, rendered, now ?? [], shape.L);
@@ -154,7 +156,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     if (drag.d !== 0) {
       const n = drag.line,
         fs = handleFs(n, shape, adjOf(n)),
-        next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end));
+        next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end, LINES[n].limit));
       const z = fs[drag.i] * shape.L;
       pending.current = { n, z, was: lineAt(lineNow(n), z), d: drag.d, adj: JSON.stringify(next) };
       setHeld(false);

@@ -46,14 +46,15 @@ interface LineSpec {
   // the landmark where the last handle sits (the line runs on, rounding over to the tip); an edit
   // there holds on to the end of the length
   end?: string;
+  limit: number; // the most an edit may move the line at a handle (mm, either way)
 }
 export const LINES: Record<LineName, LineSpec> = {
-  top: { param: "top_adjust", label: "top", points: 7, end: "top_end" },
-  underside: { param: "underside_adjust", label: "underside", points: 3, pin: "end" }, // meets the table
-  width: { param: "width_adjust", label: "width", points: 7, end: "width_end" },
-  baffle: { param: "baffle_adjust", label: "baffle", points: 5, pin: "start" }, // leaves the chamber's roof
-  floor: { param: "floor_adjust", label: "floor", points: 3, pin: "both" }, // throat to window
-  chamber_width: { param: "chamber_width_adjust", label: "inside width", points: 6, pin: "start" }, // the bore
+  top: { param: "top_adjust", label: "top", points: 7, end: "top_end", limit: 6 },
+  underside: { param: "underside_adjust", label: "underside", points: 3, pin: "end", limit: 4 }, // meets the table
+  width: { param: "width_adjust", label: "width", points: 7, end: "width_end", limit: 6 },
+  baffle: { param: "baffle_adjust", label: "baffle", points: 5, pin: "start", limit: 3 }, // leaves the chamber's roof
+  floor: { param: "floor_adjust", label: "floor", points: 3, pin: "both", limit: 3 }, // throat to window
+  chamber_width: { param: "chamber_width_adjust", label: "inside width", points: 6, pin: "start", limit: 4 }, // the bore
 };
 // Whether point i of n has a handle (pinned ends don't).
 export const draggable = (n: LineName, i: number, count: number) => {
@@ -119,8 +120,10 @@ export function handleFs(n: LineName, shape: ShapeLines, adj: Pt[] | undefined):
 // `end`, the last handle's offset holds on to the end of the length.
 const r3 = (x: number) => Math.round(x * 1000) / 1000;
 const r2 = (x: number) => Math.round(x * 100) / 100;
-export function moved(adj: Pt[] | undefined, fs: number[], i: number, d: number, hold = false): Pt[] {
-  const out = fs.map((f, j) => [r3(f), r2(offsetAt(adj, f) + (j === i ? d : 0))] as Pt);
+export function moved(adj: Pt[] | undefined, fs: number[], i: number, d: number, hold = false, limit = Infinity): Pt[] {
+  const out = fs.map(
+    (f, j) => [r3(f), r2(Math.max(-limit, Math.min(limit, offsetAt(adj, f) + (j === i ? d : 0))))] as Pt,
+  );
   const last = out[out.length - 1];
   return hold && last && last[0] < 1 ? [...out, [1, last[1]] as Pt] : out;
 }
