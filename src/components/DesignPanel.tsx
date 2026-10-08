@@ -11,6 +11,7 @@ import {
   isPlaced,
   PART_GROUPS,
   paramCaption,
+  changedCount,
   paramInactive,
   paramLabel,
   type PartTab,
@@ -92,7 +93,7 @@ export function DesignPanel({
     const q = byName.get(name);
     if (q) onChange(name, same(v, q.initial) ? undefined : v);
   };
-  const changed = Object.keys(values).length;
+  const changed = changedCount(values);
   const [captions, setCaptions] = usePref("captions", true);
   // the rail on the ligature or cap before it is made: only its "make" button
   const unmade = (only === "Ligature" && !ligature?.on) || (only === "Cap" && !cap?.on);

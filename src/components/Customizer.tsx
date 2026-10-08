@@ -13,6 +13,7 @@ import {
   paramEnds,
   paramInactive,
   paramLabel,
+  changedCount,
   paramUnit,
   thouToMm,
   type DesignUnit,
@@ -68,7 +69,7 @@ export function Customizer({
     }
     return [...map.entries()];
   }, [params, filter, hideGroups]);
-  const changed = Object.keys(values).length;
+  const changed = changedCount(values);
   // A parameter's current value (changed or the file's), for the "not used with this setting" hints.
   const current = (name: string) => {
     const q = params.find((x) => x.name === name);

@@ -15,6 +15,13 @@ interface History {
 const MERGE_MS = 700;
 const MAX_STEPS = 200;
 
+const sameValues = (a: Values, b: Values) => {
+  const ka = Object.keys(a);
+  return (
+    ka.length === Object.keys(b).length && ka.every((k) => k in b && JSON.stringify(a[k]) === JSON.stringify(b[k]))
+  );
+};
+
 export function useValueHistory(key: string, values: Values, setValues: (key: string, v: Values) => void) {
   const hist = useRef(new Map<string, History>());
   const applying = useRef(false);
@@ -35,6 +42,15 @@ export function useValueHistory(key: string, values: Values, setValues: (key: st
         .filter((k) => JSON.stringify(h.last[k]) !== JSON.stringify(values[k]))
         .join(",");
       const now = performance.now();
+      if (h.past.length && sameValues(h.past[h.past.length - 1], values)) {
+        // back to where the last step started: that step is undone, not a new one
+        h.past.pop();
+        h.future = [];
+        h.at = 0;
+        h.last = values;
+        bump((n) => n + 1);
+        return;
+      }
       if (!(now - h.at < MERGE_MS && keys === h.keys && h.past.length)) h.past.push(h.last);
       if (h.past.length > MAX_STEPS) h.past.shift();
       h.future = [];

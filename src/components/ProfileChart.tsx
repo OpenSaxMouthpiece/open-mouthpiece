@@ -75,8 +75,10 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   };
   // A drag the model couldn't follow (a wall, the socket, the table holds that spot): said once its
   // render is in, so a dot that settles back isn't a mystery.
-  const pending = useRef<{ n: LineName; z: number; was: number; d: number; adj: string } | null>(null);
+  const pending = useRef<{ n: LineName; z: number; was: number; d: number; adj: string; prev?: Pt[] } | null>(null);
   const [held, setHeld] = useState(false);
+  const onSet = useRef(edit?.onSet);
+  onSet.current = edit?.onSet;
   useEffect(() => {
     const p = pending.current,
       sh = edit?.shape;
@@ -84,6 +86,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     pending.current = null;
     const got = lineAt(sh.lines[p.n] ?? [], p.z) - p.was;
     if (Math.abs(p.d) >= 0.3 && got / p.d < 0.4) {
+      if (got / p.d < 0.1) onSet.current?.(LINES[p.n].param, p.prev?.length ? p.prev : undefined);
       setHeld(true);
       const t = setTimeout(() => setHeld(false), 6000);
       return () => clearTimeout(t);
@@ -157,10 +160,13 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
       const n = drag.line,
         fs = handleFs(n, shape, adjOf(n)),
         next = tidy(moved(adjOf(n), fs, drag.i, drag.d, !!LINES[n].end, LINES[n].limit));
-      const z = fs[drag.i] * shape.L;
-      pending.current = { n, z, was: lineAt(lineNow(n), z), d: drag.d, adj: JSON.stringify(next) };
-      setHeld(false);
-      edit.onSet(LINES[n].param, next.length ? next : undefined);
+      const z = fs[drag.i] * shape.L,
+        prev = adjOf(n);
+      if (JSON.stringify(next) !== JSON.stringify(prev ?? [])) {
+        pending.current = { n, z, was: lineAt(lineNow(n), z), d: drag.d, adj: JSON.stringify(next), prev };
+        setHeld(false);
+        edit.onSet(LINES[n].param, next.length ? next : undefined);
+      }
     }
     setDrag(null);
   };

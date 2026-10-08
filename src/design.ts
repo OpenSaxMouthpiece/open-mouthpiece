@@ -545,6 +545,10 @@ export const optionLabel = (name: string, value: string, fileName = value) => {
     words.charAt(0).toUpperCase() + words.slice(1)
   );
 };
+// How many settings a design changes, as Reset counts them: a dragged facing curve sets its points
+// and the facing model that goes with them, one change.
+export const changedCount = (values: Record<string, unknown>) =>
+  Object.keys(values).filter((k) => !(k === "facing_model" && "facing_gauge_points" in values)).length;
 // Parameters that do nothing with the current settings, and why (shown dimmed).
 // get(name) = the parameter's current value (undefined if the file doesn't declare it).
 type Getter = (name: string) => unknown;

@@ -101,9 +101,7 @@ export function ComparePanel({ a, b, labelA, labelB, onUseB, onSwap, onClear }: 
         </div>
         <div>
           <span className="swatch b" /> <b>B</b> {labelB}{" "}
-          <span className="muted">
-            ({!b.mesh ? "pinned" : b.mesh.aligned ? "STL, lined up with A" : "STL, as uploaded"})
-          </span>
+          {b.mesh && <span className="muted">({b.mesh.aligned ? "STL, lined up with A" : "STL, as uploaded"})</span>}
         </div>
         {b.mesh && (
           <p className="muted compare-note">

@@ -741,6 +741,10 @@ button.toggle.on {
 .compare .stats td:first-child {
   color: var(--muted);
 }
+/* numbers wrap at their spaces instead of being cut off */
+.compare .stats td {
+  white-space: normal;
+}
 .compare .stats td:not(:first-child),
 .compare .stats th:not(:first-child) {
   text-align: right;

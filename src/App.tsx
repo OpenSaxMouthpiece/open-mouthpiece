@@ -663,10 +663,21 @@ export default function App() {
     setSectionsOpen(["d:compare"], true);
     if (isPhone) setPhonePanel("design");
   };
+  // B pinned from the editor, named apart from A: the same design, as it was when pinned.
+  const asPinned = (c: Snapshot): Snapshot => {
+    const time = new Date().toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
+    return { ...c, label: `${c.label ?? (c.path ? voiceLabel(c.path) : c.name)} (pinned ${time})` };
+  };
   const pinCurrent = () => {
     track("feature", "compare");
     if (!current) return;
-    setPinned({ ...current, values: { ...current.values }, files: { ...current.files } });
+    const b = asPinned({ ...current, values: { ...current.values }, files: { ...current.files } });
+    // the model on screen is the quick draft: B gets its own full render (a draft B differs from A)
+    if (shownDraft.current) {
+      const { stl: _stl, params: _params, ...rest } = b;
+      return void pinScad(b.label!, rest);
+    }
+    setPinned(b);
     showCompare();
   };
   // Renders a .scad as B.
@@ -798,7 +809,7 @@ export default function App() {
   const swap = async () => {
     if (!pinned || !current || pinned.mesh) return;
     const b = pinned;
-    setPinned({ ...current });
+    setPinned(asPinned(current));
     const key = b.path ?? `${LOCAL}${b.name}`;
     const onDisk = b.path
       ? await api
