@@ -99,6 +99,12 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = 0; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
+// A texture cut into the baffle: grooves along it, grooves across it, or dimples.
+baffle_texture = "none"; // [none, along, across, dimples]
+// How deep the texture cuts (mm); less where the wall over it is thin.
+baffle_texture_depth = 0.4; // [0.1:0.05:1]
+// Distance between the grooves or dimples (mm).
+baffle_texture_spacing = 3; // [1.5:0.1:8]
 
 /* [Window] */
 // Length of the opening under the reed (mm).
@@ -1124,6 +1130,59 @@ function sidewall_allowed(I, y) =
   let(d = y - I[6], rise = d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4)
   min(I[0], max(0.3 * I[5], min(I[5], I[0]) + rise * tan(sidewall_angle)));
 
+// ---- Baffle texture: shallow dents cut up into the roof from inside, from 4mm past where the
+// baffle begins to 2mm behind the tip curve (fading in and out over 3mm). Each dent is the cap of
+// a sphere of radius BTX_R (>= 3.5 x the depth, so its sides stay under ~45 degrees and the
+// overhang is never wider than the depth: prints without support); grooves are hulls of
+// neighbouring spheres. Guarantees, per sample: the wall over the dent keeps interior_wall (and
+// room for lettering on top), and the whole sphere stays inside the air path's width (the window's
+// width under the window), so it can't reach the side walls or the rails.
+BTX_D = baffle_texture_depth;
+BTX_S = baffle_texture_spacing;
+BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D));
+BTX_Z0 = baffle_start_z + 4;
+BTX_Z1 = L - tip_curve - 2;
+// y of a superellipse ring's upper half at x (cy = mid-height); undef outside it
+function se_top_y(hw, top, cy, n, x) = abs(x) >= hw ? undef : cy + (top - cy) * pow(1 - pow(abs(x) / hw, n), 1 / n);
+// half-width of the interior ring I at height y (I as in interior_ring_at)
+function int_hw_at_y(I, y) =
+  let(cy = (I[1] + I[2]) / 2, up = y >= cy, n = up ? I[3] : I[4])
+  let(rel = min(1, abs(y - cy) / max(0.01, up ? I[1] - cy : cy - I[2])))
+  I[0] * pow(1 - pow(rel, n), 1 / n);
+// One row of samples at z: [[x, sphere centre y, z, depth], ...] (depth 0 = no dent there).
+function btx_row(z, xs) =
+  let(I = interior_ring_at(z), E = exterior_ring_at(z), cy = (I[1] + I[2]) / 2)
+  let(fade = smootherstep(clamp01((z - BTX_Z0) / 3)) * smootherstep(clamp01((BTX_Z1 - z) / 3)))
+  let(keep = interior_wall(z) + (HAS_LETTERING ? eff_lettering_depth : 0))
+  [for (x = xs)
+    let(roof = se_top_y(I[0], I[1], cy, I[3], x), out = se_top_y(E[E_HW], E[E_TOP], E[E_CY], E[E_NT], x))
+    let(d0 = is_undef(roof) || is_undef(out) ? 0 : max(0, min(BTX_D * fade, out - roof - keep)))
+    let(c = is_undef(roof) ? 0 : roof + d0 - BTX_R)
+    let(room = z > win_z0 ? window_side_hw(z) : int_hw_at_y(I, max(I[2], c - BTX_R)))
+    let(ok = d0 >= 0.05 && abs(x) + BTX_R <= room && c - BTX_R >= (z > win_z0 ? -10 : I[2]))
+    [x, c, z, ok ? d0 : 0]];
+module btx_dent(p) translate([p[0], p[1], p[2]]) sphere(r = BTX_R, $fn = 32);
+module baffle_texture_cutter() {
+  span = BTX_Z1 - BTX_Z0;
+  if (span > 2) {
+    if (baffle_texture == "along") {
+      xs = [for (k = [-6 : 6]) k * BTX_S];
+      rows = [for (z = [BTX_Z0 : 1 : BTX_Z1]) btx_row(z, xs)];
+      for (k = [0 : len(xs) - 1], i = [0 : len(rows) - 2])
+        if (rows[i][k][3] > 0 && rows[i + 1][k][3] > 0) hull() { btx_dent(rows[i][k]); btx_dent(rows[i + 1][k]); }
+    } else if (baffle_texture == "across") {
+      xs = [for (x = [-12 : 0.75 : 12]) x];
+      for (j = [0 : floor(span / BTX_S)]) let(row = btx_row(BTX_Z0 + (span - floor(span / BTX_S) * BTX_S) / 2 + j * BTX_S, xs))
+        for (i = [0 : len(row) - 2]) if (row[i][3] > 0 && row[i + 1][3] > 0) hull() { btx_dent(row[i]); btx_dent(row[i + 1]); }
+    } else if (baffle_texture == "dimples") {
+      dz = BTX_S * 0.866;
+      for (j = [0 : floor(span / dz)])
+        let(row = btx_row(BTX_Z0 + j * dz, [for (k = [-6 : 6]) (k + (j % 2) / 2) * BTX_S]))
+          for (p = row) if (p[3] > 0) btx_dent(p);
+    }
+  }
+}
+
 // ===========================================================================================
 // 7. Validation — echoed to the console, not geometry. Assumes the built-in shape.
 // ===========================================================================================
@@ -1928,7 +1987,7 @@ function param_focus() =
    ["throat_position", throat, "side", true], ["throat_width", throat, "side", true],
    ["throat_taper", throat, "side", true], ["throat_shape", throat, "side", true], ["floor_shape", chamber, "side", true],
    ["baffle_type", baffle, "side", true], ["baffle_height", baffle, "side", true], ["baffle_start", baffle, "side", true], ["baffle_hump", baffle, "side", true],
-   ["baffle_curve", baffle, "side", true], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
+   ["baffle_curve", baffle, "side", true], ["baffle_texture", window, "table", false], ["baffle_texture_depth", window, "table", false], ["baffle_texture_spacing", window, "table", false], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
    ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],
    ["tip_rail_thickness", tip, "table", false], ["tip_curve", tip, "table", false],
@@ -2563,6 +2622,7 @@ module mouthpiece_body() {
       if (HAS_SHANK_DETAIL && SHANK_RAISED) shank_raised();
     }
     interior_solid();
+    if (baffle_texture != "none") baffle_texture_cutter();
     window_cutter();
     facing_cutter();
     if (HAS_LETTERING) lettering_cutter();

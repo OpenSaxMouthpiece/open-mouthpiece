@@ -321,6 +321,30 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *0 → 1.5*
 
+### Baffle texture (`baffle_texture`)
+
+A texture cut into the baffle: grooves along it, grooves across it, or dimples.
+
+Range: `none`, `along`, `across`, `dimples`.
+
+Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
+
+### Texture depth (`baffle_texture_depth`)
+
+How deep the texture cuts (mm); less where the wall over it is thin.
+
+Range: 0.1 to 1, step 0.05.
+
+Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
+
+### Texture spacing (`baffle_texture_spacing`)
+
+Distance between the grooves or dimples (mm).
+
+Range: 1.5 to 8, step 0.1.
+
+Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
 ## Window
 
 ### Window length (`window_length`)
@@ -1303,7 +1327,7 @@ Air vents on both sides, between the rim and the tip: slots along the cap, round
 
 Range: `none`, `slots`, `holes`.
 
-Presets: Alto `slots` · Tenor `slots` · Bari `slots` · Soprano `slots`.
+Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
 
 ### Vents on each side (`cap_side_vent_count`)
 
@@ -1320,6 +1344,14 @@ Vent width, or a hole's diameter (mm).
 Range: 1.5 to 5, step 0.5.
 
 Presets: Alto `2.5` · Tenor `2.5` · Bari `2.5` · Soprano `2.5`.
+
+### Space between vents (`cap_side_vent_gap`)
+
+Space between neighbouring vents (mm).
+
+Range: 1 to 10, step 0.5.
+
+Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
 
 ### Wall thickness (`cap_wall`)
 

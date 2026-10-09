@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "c51781e2-20099",
+  "hash": "944445f4-20449",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -274,6 +274,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -1940,7 +1985,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "b9ffd83d-20336",
+  "hash": "6646d4cb-20686",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2214,6 +2259,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -3880,7 +3970,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "1ddd1e77-21008",
+  "hash": "e38b7189-21358",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4154,6 +4244,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -5820,7 +5955,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "b47361ba-20301",
+  "hash": "64ce3d98-20651",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6094,6 +6229,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -7760,7 +7940,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "de62a093-20478",
+  "hash": "58f912bd-20828",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8034,6 +8214,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -9700,7 +9925,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "e4dc31e9-20193",
+  "hash": "d7cd5f0f-20543",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9974,6 +10199,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -11640,7 +11910,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "d3f921f4-20204",
+  "hash": "8ca472e-20554",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11914,6 +12184,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -13580,7 +13895,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "dd89a1cc-20174",
+  "hash": "8c4ab08a-20524",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13854,6 +14169,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -15520,7 +15880,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "21ca90ef-20378",
+  "hash": "beee8e31-20728",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15794,6 +16154,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -17460,7 +17865,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "4098f1b3-20389",
+  "hash": "30fe2b59-20739",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17734,6 +18139,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -19400,7 +19850,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "949e03a0-20351",
+  "hash": "2e420222-20701",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19674,6 +20124,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -21340,7 +21835,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "63c17a9-20400",
+  "hash": "f97f1eb-20750",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21614,6 +22109,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -23280,7 +23820,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "88e09e81-20409",
+  "hash": "ef18b903-20759",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23554,6 +24094,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -25220,7 +25805,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "bc0bd544-20376",
+  "hash": "eef55186-20726",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25494,6 +26079,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -27160,7 +27790,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "f5a0772a-20585",
+  "hash": "d98b11b4-20935",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27434,6 +28064,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -29100,7 +29775,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "500ba791-20587",
+  "hash": "e59241b7-20937",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29374,6 +30049,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
@@ -31040,7 +31760,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "272b7c39-20551",
+  "hash": "160d9297-20901",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31314,6 +32034,51 @@
     "max": 3,
     "min": 0,
     "name": "baffle_hump",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "group": "Baffle",
+    "initial": "none",
+    "name": "baffle_texture",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "along",
+      "value": "along"
+     },
+     {
+      "name": "across",
+      "value": "across"
+     },
+     {
+      "name": "dimples",
+      "value": "dimples"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "group": "Baffle",
+    "initial": 0.4,
+    "max": 1,
+    "min": 0.1,
+    "name": "baffle_texture_depth",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "Distance between the grooves or dimples (mm).",
+    "group": "Baffle",
+    "initial": 3,
+    "max": 8,
+    "min": 1.5,
+    "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },

@@ -68,6 +68,12 @@ const BAFFLES: Record<string, string> = {
   step: "Step",
   concave: "Concave",
 };
+const TEXTURES: Record<string, string> = {
+  none: "None",
+  along: "Grooves along",
+  across: "Grooves across",
+  dimples: "Dimples",
+};
 const PARTS: Record<string, string> = {
   mouthpiece: "Mouthpiece",
   shank_test_ring: "Shank test ring",
@@ -133,6 +139,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
       { name: "baffle_height", label: "Baffle height" },
       { name: "baffle_hump", label: "Baffle hump" },
+      { name: "baffle_texture", label: "Baffle texture", optionLabels: TEXTURES },
       { name: "window_width", label: "Window width" },
     ],
     more: [
@@ -145,6 +152,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       "throat_shape",
       "baffle_start",
       "baffle_curve",
+      "baffle_texture_depth",
+      "baffle_texture_spacing",
       "window_length",
       "window_taper",
       "window_rear_radius",
@@ -415,6 +424,8 @@ const LABELS: Record<string, string> = {
   floor_shape: "Chamber floor",
   throat_taper: "Narrowing into the throat",
   baffle_start: "Where the baffle begins",
+  baffle_texture_depth: "Texture depth",
+  baffle_texture_spacing: "Texture spacing",
   window_taper: "Window narrows at the back",
   sidewall_angle: "Chamber side walls",
   window_rear_radius: "Window corner rounding",
@@ -494,6 +505,8 @@ const ENDS: Record<string, [string, string]> = {
   throat_taper: ["Abrupt", "Gradual"],
   baffle_start: ALONG,
   baffle_curve: ["Drops early", "Drops late"],
+  baffle_texture_depth: ["Shallow", "Deep"],
+  baffle_texture_spacing: ["Close together", "Far apart"],
   window_length: SHORT_LONG,
   window_taper: ["Straight", "Tapered"],
   window_rear_radius: ["Square", "Round"],
@@ -641,6 +654,8 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
     filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
   table_width_rear: (get) =>
     filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
+  baffle_texture_depth: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
+  baffle_texture_spacing: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   floor_shape: (get) => (filled(get("floor_points")) ? "your own floor (floor_points) sets it" : null),
   // it shapes the stretch between the throat and the window (as the generator's chamber_weight)
   chamber_height: (get) =>

@@ -130,10 +130,11 @@ typical. You can also set how far the cork goes in, and download a shank test ri
 settings are the bevel at the opening of the socket, the bore size and the angle of the table.
 
 **Chamber & baffle.** This group controls the inside of the mouthpiece: the chamber's shape
-(round, square or horseshoe) and width, the throat width, the baffle's shape, height and hump, and
-the width of the window. More settings has the chamber height and floor, how the chamber widens
+(round, square or horseshoe) and width, the throat width, the baffle's shape, height and hump, a
+texture on the baffle (grooves along it, grooves across it, or dimples), and the width of the
+window. More settings has the chamber height and floor, how the chamber widens
 past the throat, the throat's position and shape, where the baffle starts and how it curves, the
-window's length and corners, and the angle of the side walls.
+texture's depth and spacing, the window's length and corners, and the angle of the side walls.
 
 **Body & beak.** This group controls the outside: overall length, the height of the beak at the
 tip, the beak's curve, length and top, the shoulder, the sides near the table, and the width and

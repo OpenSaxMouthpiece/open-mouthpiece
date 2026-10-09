@@ -55,6 +55,12 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = -0.3; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
+// A texture cut into the baffle: grooves along it, grooves across it, or dimples.
+baffle_texture = "none"; // [none, along, across, dimples]
+// How deep the texture cuts (mm); less where the wall over it is thin.
+baffle_texture_depth = 0.4; // [0.1:0.05:1]
+// Distance between the grooves or dimples (mm).
+baffle_texture_spacing = 3; // [1.5:0.1:8]
 
 /* [Window] */
 // Length of the opening under the reed (mm).

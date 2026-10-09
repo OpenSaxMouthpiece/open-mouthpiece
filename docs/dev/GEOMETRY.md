@@ -111,7 +111,12 @@ readout and the clearance report.
 - **`chamber_height`** (0 = round) acts between the throat and the window: full after the first 40%
   of that stretch, faded out over its last <= 4mm; where the baffle is already the roof the floor
   takes all of it (`chamber_roof_share`), so its effect is modest (alto 8.7 -> 9.1 cm³ from 8 to
-  20mm).
+  20mm; past ~16mm the floor is held by the underside wall). On the tenor and bari the window
+  starts < 2mm after the throat, so it does nothing there: the app dims it when
+  `overall_length - window_length - throat_position < 3`.
+- **Round chamber section**: round until the chamber peak, then boxes up ([2,2] -> [4,6]) by the
+  window start, over at least 6mm (a peak at or past the window start used to box up in one step,
+  a ledge, on the tenor/bari/C-melody).
 - **`floor_shape`** bends the built-in floor from throat to window (`floor_t`, t^(2^(1.5 s))).
   `floor_points` can start before the throat (the bore's round floor is used until its first point).
 - **Throat**: `throat_shape` ("chamber" = as the chamber) gives it its own section, easing into the
@@ -134,6 +139,15 @@ the reed; eases in over the first third), `baffle_start` (moves where it begins;
 `baffle_hump` (a bell at 80% of the way to the tip), `baffle_curve` (u -> u^(2^c); held above a 0.85
 descent from every point 16mm behind it, `baffle_shape_at`). The roof blends in from the
 bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (`baffle_roof`).
+
+**Texture** (`baffle_texture` along / across / dimples, `_depth`, `_spacing`;
+`baffle_texture_cutter`): shallow dents cut up into the roof from 4mm past the baffle start to 2mm
+behind the tip curve (3mm fades). Each is a sphere cap (radius >= 3.5 x depth, so its sides stay
+under ~45° and no overhang is wider than the depth); grooves are hulls of neighbouring spheres
+(1mm apart along, 0.75mm across). Per sample (`btx_row`): depth limited so the wall over it keeps
+`interior_wall` (+ the lettering depth when there is lettering), and the whole sphere stays within
+the air path's width (the window's width under the window), so it never reaches the side walls or
+rails. Not in the air readout (a few mm³). Costs ~0.3-1s per render.
 
 ### Readouts
 
