@@ -508,8 +508,7 @@ export function Credits({ donate = true }: { donate?: boolean } = {}) {
             </a>
           </span>
         ))}
-        . Unlike those fixed models, here you set your own tip opening and facing, fit the shank to your neck cork,
-        print a matching ligature, and can leave extra material on the table to sand it flat.
+        .
       </p>
       <p className="preset-credit muted">
         The geometry is made by{" "}
