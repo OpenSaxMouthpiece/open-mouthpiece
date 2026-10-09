@@ -353,7 +353,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         label: "What to print",
         options: ["mouthpiece", "shank_test_ring"],
         caption:
-          "The mouthpiece, or a shank test ring (print it first to check the fit on your cork). The ligature and the cap download from their tabs.",
+          "The mouthpiece, or a shank test ring (print it first to check the fit on your cork). The ligature and the cap download from their own sections.",
         optionLabels: PARTS,
       },
       { name: "print_stock", label: "Extra to sand off" },

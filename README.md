@@ -8,7 +8,7 @@
 # Open Mouthpiece
 
 **Design your own saxophone mouthpiece in the browser, then 3D-print it.**
-Try it: **https://opensaxmouthpiece.org**
+Try it: **https://opensaxmouthpiece.org** · [User guide](docs/GUIDE.md)
 
 ![The app: the section buttons down the left, the readouts and the tip and facing settings, and a variant with lettering and a knurled shank in the 3D view](docs/images/app.png)
 
@@ -64,6 +64,7 @@ npm install
 npm run dev            # the app (OpenSCAD runs in the browser)
 ```
 
+- **User guide**, from a first mouthpiece to every tool in the app: [docs/GUIDE.md](docs/GUIDE.md)
 - The parts of a mouthpiece, and which settings change each: [docs/GLOSSARY.md](docs/GLOSSARY.md)
 - Every setting, with pictures of what it changes: [docs/PARAMETERS.md](docs/PARAMETERS.md)
 - Printing and play-testing: [docs/PRINTING.md](docs/PRINTING.md)
