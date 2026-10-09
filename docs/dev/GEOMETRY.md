@@ -144,7 +144,7 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
 - Echo-only parts: `clearance_report` (thinnest wall), `facing_report` (facing gap per mm from the
   tip). `part` also has `shank_test_ring`, `interior_only` and `debug_*` pieces.
 - `curve_editor_curves()`: every `*_points` override's curve as the model has it (interior curves
-  sampled from `AIR_RINGS`, i.e. after the clamps); only evaluated when echoed (the app's Curves
+  sampled from `AIR_RINGS`, i.e. after the clamps); only evaluated when echoed (the app's Points
   panel). Add new overrides to it.
 - `param_focus()`: for "zoom to parameter": per parameter/list a box (design frame), a view side and
   whether it's inside (cut), plus the print transform. Add new parameters to it.
@@ -297,7 +297,7 @@ inside = that + `CAP_CLEARANCE` (0.5), shaped by `cap_shape` (conform, or `lig_r
 
 - **`*_points` overrides** are `[[z, value], ...]`, PCHIP-joined, prepared once (`pchip_prep`) and
   evaluated with `pchip_at` (binary search); add new ones the same way (and to
-  `curve_editor_curves()`). The Customizer can't edit nested lists; the app's Curves panel can.
+  `curve_editor_curves()`). The Customizer can't edit nested lists; the app's Points panel (Exact points) can.
 - **Renamed parameters** (2026-09-26): chamber_d -> chamber_width, bore_d -> bore_diameter,
   throat_z -> throat_position, throat_length -> throat_taper, chamber_position -> chamber_flare,
   chamber_length -> chamber_full_length (0 "all the way" -> 40), tip_thickness -> beak_tip_height,

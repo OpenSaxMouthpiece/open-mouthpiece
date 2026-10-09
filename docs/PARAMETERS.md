@@ -867,9 +867,9 @@ Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
 ### Shank decoration (`shank_detail`)
 
-Decoration on the shank's band: one ring, rings (ribbed) or flutes along it.
+Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
 
-Range: `none`, `ring`, `rings`, `flutes`.
+Range: `none`, `rings`, `flutes`, `spiral`, `knurled`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
 
@@ -883,15 +883,15 @@ Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engr
 
 ### How many (`shank_detail_count`)
 
-How many rings or flutes (rings: as many as fit).
+How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
 
-Range: 2 to 40, step 1.
+Range: 1 to 40, step 1.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
 
 ### Ring position (`shank_detail_position`)
 
-Where the single ring sits: 0 = by the neck end, 1 = by the flare.
+Where a single ring sits: 0 = by the neck end, 1 = by the flare.
 
 Range: 0 to 1, step 0.05.
 

@@ -4,12 +4,13 @@ A first print answers the questions no measurement can: does it fit the neck, do
 out accurate, and how does it play. This is the order that wastes the least plastic.
 
 Everything happens in the app (https://opensaxmouthpiece.org/): design your mouthpiece, then
-download its STL. The settings come in three tabs: **Mouthpiece**, **Ligature** and **Cap**; the
-Download button saves the part whose tab is open. In the Mouthpiece tab, the **Printing** section's
-**What to print** picks the mouthpiece or a shank test ring. Every download is already oriented for
-printing.
+download its STL. The buttons down the left (along the bottom on a phone) open each section:
+the mouthpiece's (Tip, Fit, Chamber, Body, Personalize), then **Ligature**, **Cap** and **Print**.
+The Download button saves the part you're working on; its **▾** lists everything else to download.
+**Print**'s **What to print** picks the mouthpiece or a shank test ring. Every download is already
+oriented for printing.
 
-Or take everything at once: **Download print kit** (Printing section, or More) makes one zip with
+Or take everything at once: **Download print kit** (in Print, or Download ▾) makes one zip with
 the mouthpiece, the three shank test rings below, the ligature if you made one, and a check card
 with the numbers to measure the print against (tip opening, facing stops).
 
@@ -29,13 +30,13 @@ Try them on your neck cork (lightly greased, as usual):
 Set **Cork squeeze** to the one that fit. If none fits, measure your cork with calipers in two
 directions (corks are often slightly oval), set the cork diameter and print the rings again.
 
-The socket's mouth has a bevel so it doesn't catch on the cork (**Shank entry bevel width** and
-**Bevel depth**, 1 mm each). A bevel much wider than it is deep gets hard to print without supports.
+The socket's mouth has a bevel so it doesn't catch on the cork (Fit on the horn -> More:
+**Lead-in at the opening** and **Lead-in length**, 1 mm each). A bevel much wider than it is long
+gets hard to print without supports.
 
 ## 2. Print the mouthpiece
 
-Set **What to print** back to *Mouthpiece*. Two ways to print it (Printing -> **Extra stock for
-finishing**):
+Set **What to print** back to *Mouthpiece*. Two ways to print it (Print -> **Extra to sand off**):
 
 - **0 (as designed):** try this first if your printer is accurate (resin, or a well-tuned FDM
   printer at fine layers).
@@ -86,8 +87,8 @@ fairer test of the design.
 The app's readouts give the targets:
 
 - **Tip opening:** the readout's tip opening, in mm and thousandths of an inch.
-- **Facing:** the facing chart lists where standard feeler gauges should stop along the facing, if
-  you want to check a print against it.
+- **Facing:** **Shape charts** (under the view) -> **Facing curve** -> **Feeler gauge stops** lists
+  where standard feeler gauges should stop along the facing, if you want to check a print against it.
 - **Air volume:** the air between the end of the neck and the tip. It stands in for the missing
   tip of the horn's cone, so it mostly decides where the mouthpiece plays in tune on the cork: more
   air, further on; less air, further out. There is no single right number (makers make smaller
@@ -101,7 +102,7 @@ The app's readouts give the targets:
 ## 4b. A ligature made for it (optional)
 
 Store-bought ligatures fit only mouthpieces close to the one they were made for. The app can make
-one from your design: the **Ligature** tab -> **Make a ligature for this mouthpiece**. It shows in grey on the
+one from your design: **Ligature** -> **Make a ligature for this mouthpiece**. It shows in grey on the
 mouthpiece; **Download ligature STL** gives the print. It's a ring, round over the top and shaped
 to the reed underneath, with a longer side (the tab) on top, toward the shank. The **reed** is
 the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of gap to the body.
@@ -123,14 +124,14 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
 
 ## 4c. A cap made for it (optional)
 
-A cap keeps the tip and reed safe in a bag. The **Cap** tab -> **Make a cap for this mouthpiece** builds one
+A cap keeps the tip and reed safe in a bag. **Cap** -> **Make a cap for this mouthpiece** builds one
 around your mouthpiece, reed and ligature, shown see-through (teal) on the mouthpiece; **Download
 cap STL** gives the print. Like a store-bought cap it is one smooth shell, tapering from its rim to
 a rounded tip, with a slot up from the rim and air holes in the end so the reed can dry; it slides
 on over the tip and the rim clips onto the ligature.
 
 - **Print** it standing on its rim, open end down (as downloaded), no supports; the closed end is a dome.
-- **Goes over:** the ligature made here (the **Ligature** tab) or a metal one. As on
+- **Goes over:** the ligature made here (**Ligature**) or a metal one. As on
   store-bought caps, a metal ligature's screws ride in the slot: it starts at the rim as a window as
   wide as the screws, so the cap needn't be big enough to cover them. Give the band's length,
   position and thickness and the screws' width and length, and set **Slot side** to the side
@@ -164,5 +165,6 @@ in tune (a tuner at A = 440). Then change one thing at a time:
 | Upper register flat when the low one is in tune (octaves narrow) | less inside air, or a harder reed |
 | Wobbles on the neck | re-do step 1 |
 
-After each change, compare the new version against the one you played: pin the old one as B in
-the app ("Pin as B") and look at the Compare tab (the air volume row) and the section view.
+After each change, compare the new version against the one you played: **Compare** -> **Pin this
+model as B** before changing it, then look at the readouts (the air volume row), the shape charts
+and the view cut open (**Cut open**).

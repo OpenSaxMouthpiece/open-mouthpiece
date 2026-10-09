@@ -156,7 +156,7 @@ static site (docs/HOSTING.md).
   dots per line (`LINES`; ends where a line meets another part are pinned) drag up/down and set the
   generator's `*_adjust` offsets (`setPointList`, so undo, shares and downloads carry them). A top
   view for the widths shows while editing. The line previews during a drag; the model follows.
-- **Exact points** (was Curves; `CurveEditor.tsx`, `curves.ts`; the `*_adjust` lists are left out): every single-line top-level `name = [[a, b],
+- **Exact points** (the rail's Points; was Curves; `CurveEditor.tsx`, `curves.ts`; the `*_adjust` lists are left out): every single-line top-level `name = [[a, b],
   ...];` in the rendered file, named and grouped by part (`CURVE_GROUPS`; others under "Other"). PCHIP drawn exactly as the generator evaluates it; drag knots, click
   to add, Delete, typed values, Undo; edits are values (`setPointList`), so they work on presets,
   downloads and shares. Dashed = the model's curve from `curve_editor_curves()` (shows where a clamp
@@ -209,7 +209,8 @@ static site (docs/HOSTING.md).
   Hide / Beside / Download cap STL / Remove; the print kit and Save as take `<name>_cap.stl` when made.
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
-- **Part tabs** (Mouthpiece | Ligature | Cap, over the settings; `partTab` in the session): each
+- **Part tabs** (no tab bar since layout B: the rail's Ligature and Cap open theirs, every other place
+  the mouthpiece's; `partTab` in the session): each
   `DesignSection` has a `tab` (default mouthpiece); other settings hide the other tabs' groups
   (`PART_GROUPS`: Ligature, Cap); a search looks in every tab. Opening a tab sets the view toggles as
   a start (`openPartTab`: the ligature's shows the ligature, not the cap; the cap's shows the cap and the

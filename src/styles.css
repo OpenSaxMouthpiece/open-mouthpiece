@@ -1512,6 +1512,9 @@ button.toggle.on {
   border-radius: 0 4px 4px 0;
   border-left: none;
 }
+.design-head button {
+  white-space: nowrap;
+}
 .design-head .zoom-toggle {
   display: flex;
   align-items: center;
@@ -1886,7 +1889,7 @@ button.link:hover {
   padding: 0 6px;
 }
 .design-about {
-  margin: 8px 0 4px;
+  margin: 8px 10px 4px;
   font-size: 13px;
   line-height: 1.4;
 }

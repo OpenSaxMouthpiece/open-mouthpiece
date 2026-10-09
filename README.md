@@ -10,7 +10,7 @@
 **Design your own saxophone mouthpiece in the browser, then 3D-print it.**
 Try it: **https://opensaxmouthpiece.org**
 
-![The app: a mouthpiece, its readouts, and the tip and facing settings with the facing curve](docs/images/app.png)
+![The app: the section buttons down the left, the readouts and the tip and facing settings, and a variant with lettering and a knurled shank in the 3D view](docs/images/app.png)
 
 Change real design parameters (tip opening, facing, chamber, baffle, window, body and beak) and
 download a printable STL. Everything runs in your browser: no account, nothing to install, and
@@ -18,32 +18,38 @@ nothing is saved on a server.
 
 ## What it does
 
-- **Start from a preset**: soprano, alto, tenor or baritone, each with three variants.
+- **Start from a preset**: soprano, alto, tenor or baritone, each with three variants (Flamma,
+  Silva, Unda), plus a C-melody.
 - **Shape it in sax terms**: tip opening in thousandths, facing length and curve (drag it, or pick
-  one), chamber, baffle, window, body and beak.
-- **See the numbers**: tip, facing, length, inside air volume and thinnest wall, and where
-  feeler gauges stop along the facing.
+  one), chamber, baffle, window, body and beak. Every slider says what each end does.
+- **Drag the shape itself**: the shape charts under the view show the facing, the outside and the
+  inside from the side and in a slice across; **Edit shape** lets you pull their lines.
+- **See the numbers**: tip, facing, length, inside air volume (and where that sits on the cork) and
+  thinnest wall, and where feeler gauges stop along the facing.
 - **Fit your horn**: set your neck cork's diameter and how tight it should be; print a small test
   ring first to check.
-- **Make a matching ligature**: a ring ligature built from the mouthpiece's own shape.
-- **Compare A/B** with another design, or with an STL of a mouthpiece you have.
-- **Personalize it** with text or a picture on the body.
-- **Keep and share**: save in your browser, download a .scad (it opens in OpenSCAD) or the STL, or
-  send a link.
+- **Make a matching ligature and cap**: a ring ligature and a cap built from the mouthpiece's own
+  shape.
+- **Compare A/B** with another design, with the original, or with an STL of a mouthpiece you have.
+- **Personalize it**: text and pictures on the top, sides and shank, and rings, flutes, a spiral or
+  knurling around the shank.
+- **Keep and share**: save in your browser, download a .scad (it opens in OpenSCAD), the STL or a
+  whole print kit, or send a link.
 - Works on phones and tablets too.
 
 The generator keeps every realistic combination printable: walls, the socket and the window are
 limited so that no setting breaks the model.
 
-| Compare A/B | Ligature | Phone |
-|---|---|---|
-| ![Two mouthpieces side by side, with both facing curves](docs/images/compare.png) | ![A mouthpiece with a reed and a printed ring ligature](docs/images/ligature.png) | ![The app on a phone](docs/images/phone.png) |
+| Shape charts | Compare A/B |
+|---|---|
+| ![The outside chart in Edit shape: the side view with dots on the top and underside, a slice across it, and the view from above](docs/images/shape-charts.png) | ![A variant and the alto preset side by side, with the settings that differ](docs/images/compare.png) |
+| **Ligature and cap** | **Phone** |
+| ![A mouthpiece with its reed, a printed ring ligature and a see-through cap](docs/images/ligature.png) | ![The app on a phone: the view, the settings and the section bar along the bottom](docs/images/phone.png) |
 
 ## Status
 
-Early but usable. The alto and baritone presets have been printed and played; the tenor was
-reworked after its first print and is waiting for a reprint, and the variants and the ligature
-haven't been printed yet.
+Early but usable. The alto, tenor and baritone presets have been printed and played; the soprano,
+the variants, the C-melody, the ligature and the cap haven't been printed yet.
 [docs/PRINTING.md](docs/PRINTING.md) walks through printing, fitting and play-testing.
 Feedback and prints are welcome (open an issue).
 
