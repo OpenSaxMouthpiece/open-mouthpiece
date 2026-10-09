@@ -14,7 +14,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 import type { FocusRequest } from "../focus";
 import { Menu } from "./Menu";
-import { luminance, useLook, useTheme, viewerBackground } from "../appearance";
+import { luminance, useLook, useModelColor, useTheme, viewerBackground } from "../appearance";
 
 // Sides as the player sees them (the lettering's convention: looking down on the top with the tip
 // away, right = -X): "left" looks from +X, "right" from -X.
@@ -225,8 +225,9 @@ export function Viewer({
   // Appearance (the ⚙ menu): model colour, background, grid, axes.
   const [look] = useLook();
   const bg = viewerBackground(look, useTheme());
-  const modelColor = useRef(look.model);
-  modelColor.current = look.model;
+  const model = useModelColor(); // the picked colour, or the variant's
+  const modelColor = useRef(model);
+  modelColor.current = model;
   const ctxRef = useRef<Ctx | null>(null);
   const framedFor = useRef<string | null>(null);
   const [edges, setEdges] = useState(viewPrefs.edges);
@@ -827,9 +828,9 @@ export function Viewer({
     ctx.a.traverse((o) => {
       if (!(o instanceof THREE.Mesh || o instanceof THREE.LineSegments)) return;
       const m = o.material as THREE.MeshStandardMaterial;
-      if (o.name === "body") m.color.set(look.model);
-      if (o.name === "cap") m.color.set(cutColor(look.model));
-      if (o.name === "edges") m.color.set(edgeColor(look.model));
+      if (o.name === "body") m.color.set(model);
+      if (o.name === "cap") m.color.set(cutColor(model));
+      if (o.name === "edges") m.color.set(edgeColor(model));
     });
     const mats = (
       Array.isArray(ctx.grid.material) ? ctx.grid.material : [ctx.grid.material]
@@ -843,7 +844,7 @@ export function Viewer({
     ctx.grid.visible = look.grid;
     ctx.axes.visible = look.axes;
     ctx.draw();
-  }, [look.model, bg.light, look.grid, look.axes]);
+  }, [model, bg.light, look.grid, look.axes]);
 
   const range = section === "length" ? bounds.x : bounds.z;
   // Save the view as a PNG: the viewer's background painted under the (transparent) 3D canvas.

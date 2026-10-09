@@ -90,6 +90,9 @@ export function AppearancePanel() {
           colors={MODEL_COLORS}
           onChange={(model) => setLook({ model })}
         />
+        {look.model.toLowerCase() === DEFAULT_LOOK.model && (
+          <span className="muted appearance-hint">With Gold, the variants show in their own colours.</span>
+        )}
       </div>
       <div className="appearance-row col">
         <span>Background</span>

@@ -2335,6 +2335,9 @@ button.link:hover {
   align-items: flex-start;
   gap: 6px;
 }
+.appearance-hint {
+  font-size: 12px;
+}
 .appearance-row > span {
   color: var(--muted);
   font-size: 12px;

@@ -32,6 +32,34 @@ export const MODEL_COLORS: [string, string][] = [
   ["Green", "#3f9e6e"],
   ["Purple", "#8a63d2"],
 ];
+// The variants' own colours, by family (Flamma = flame, Silva = forest, Unda = wave). A variant shows
+// in its colour while the model colour is the default Gold; any other colour picked in ⚙ wins.
+export const VARIANT_COLORS: Record<string, string> = { flamma: "#f08030", silva: "#5fb35a", unda: "#3d6fd6" };
+export const variantColor = (path: string | null | undefined) => {
+  const m = /_(flamma|silva|unda)\.scad$/.exec(path ?? "");
+  return m ? VARIANT_COLORS[m[1]] : null;
+};
+let variant: string | null = null; // the open design's variant colour (set by the app)
+const variantListeners = new Set<() => void>();
+export function setVariantColor(c: string | null) {
+  if (c === variant) return;
+  variant = c;
+  apply();
+  variantListeners.forEach((fn) => fn());
+}
+const onVariant = (fn: () => void) => {
+  variantListeners.add(fn);
+  return () => variantListeners.delete(fn);
+};
+// The model's colour as drawn: the variant's while the picked colour is the default.
+export const modelColorOf = (look: Look, v: string | null = variant) =>
+  v && look.model.toLowerCase() === DEFAULT_LOOK.model ? v : look.model;
+export function useModelColor(): string {
+  const [look] = useLook();
+  const v = useSyncExternalStore(onVariant, () => variant);
+  return modelColorOf(look, v);
+}
+
 export const BG_COLORS: [string, string][] = [
   ["Slate", "#3a4150"],
   ["Night", "#101218"],
@@ -55,8 +83,9 @@ function apply() {
   const root = document.documentElement,
     theme = effectiveTheme(look.theme);
   if (root.dataset.theme !== theme) root.dataset.theme = theme;
-  root.style.setProperty("--model", look.model); // the A swatch and label
-  root.style.setProperty("--model-text", luminance(look.model) > 0.45 ? "#1b1d22" : "#ffffff");
+  const model = modelColorOf(look);
+  root.style.setProperty("--model", model); // the A swatch and label
+  root.style.setProperty("--model-text", luminance(model) > 0.45 ? "#1b1d22" : "#ffffff");
 }
 apply();
 subscribePrefs(apply);

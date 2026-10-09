@@ -322,7 +322,8 @@ computer, where the settings appear in the Customizer. To make the ligature or c
 ## 15. App settings and privacy
 
 The **⚙** menu at the top right lets you change the theme (light, dark or your system's setting),
-the colour of the model, the background, and whether the grid and axes are shown.
+the colour of the model, the background, and whether the grid and axes are shown. With the
+default Gold, the variants show in their own colours: Flamma orange, Silva green, Unda blue.
 
 Your designs stay in your browser unless you download or share them. The app sends anonymous
 usage information to help us improve it, such as which designs and settings are used and whether

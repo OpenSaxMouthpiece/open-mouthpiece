@@ -180,7 +180,8 @@ static site (docs/HOSTING.md).
   shows in a box.
 - **Appearance** (`src/appearance.ts`): theme (`<html data-theme>`, CSS variables in styles.css: use
   `--accent-fg` for accent-coloured text and lines, `--overlay` for things over the viewer), model
-  colour, viewer background (the WebGL canvas is transparent over the container's CSS background),
+  colour (a variant shows in its family's colour, `VARIANT_COLORS`, while it is the default Gold;
+  `setVariantColor` from App, `useModelColor` in the Viewer), viewer background (the WebGL canvas is transparent over the container's CSS background),
   grid, axes.
 - **Phone/tablet** below 1024px (`useMediaQuery`): ☰ menu for file/compare/download actions, viewer
   on top with its tools behind ⋯ and the readouts as one line over it (`ReadoutLine`; a tap opens

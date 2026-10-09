@@ -9,6 +9,7 @@ import { withValues } from "./scadText";
 import { api, base64ToBuffer, type ParamValue, type RenderTarget, type ScadParam } from "./api";
 import { Editor, type EditorHandle } from "./components/Editor";
 import { Viewer } from "./components/Viewer";
+import { setVariantColor, variantColor } from "./appearance";
 import { Console } from "./components/Console";
 import { ComparePanel } from "./components/ComparePanel";
 import { CurveEditor } from "./components/CurveEditor";
@@ -201,6 +202,8 @@ export default function App() {
   const activeTab = tabs.find((t) => t.key === activeKey) ?? tabs[0];
   const mainTab = tabs.find((t) => t.key === mainKey) ?? activeTab;
   const values = (mainTab && valuesByKey[mainTab.key]) ?? NO_VALUES;
+  // a variant shows in its family's colour (while the model colour is the default)
+  useEffect(() => setVariantColor(variantColor(mainTab?.path)), [mainTab?.path]);
   const otherPart = otherPartOf(values); // the shank test ring etc.: the mouthpiece's readouts don't apply
   const isRO = (t: Tab | undefined) => !!t?.path && readOnly.has(t.path);
   // What OpenSCAD needs to render the main tab: its text + unsaved text of other project files.
