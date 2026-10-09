@@ -3,13 +3,6 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# local reference files (not part of the project)
-example_models/
-reference/*.stl
-reference/*.STL
-test/references.json
-test/reference_scores.json
-
 # render outputs
 /*.stl
 test/out/
@@ -22,34 +15,6 @@ vite.config.d.ts
 # parameter-sweep repro files (scripts/sweep.mjs)
 scad/_sweep/
 
-# print kit output (scripts/print_kit.mjs)
-prints/
-
 # static-site inputs (scripts/fetch_openscad_wasm.mjs, scripts/build_static_project.mjs)
 public/openscad/
 public/project/
-# flow demo meshes (presets rendered with print_orientation=false)
-public/flow/
-
-# local working files
-scad/fits/
-reference/reed_v2_1*
-reference/study.pdf
-mp-fig1.jpg
-
-# local tools and notes
-/Start Open Mouthpiece*.cmd
-scripts/fit_mouthpiece.mjs
-scripts/interior_profile.mjs
-scripts/compare_sections.mjs
-scripts/stl_diff.mjs
-scripts/stl_profile.mjs
-scripts/print_kit.mjs
-reference/
-
-CLAUDE.md
-
-# parked airflow demo (kept locally)
-flow.html
-src/flow/
-docs/dev/FLOW_DEMO.md
