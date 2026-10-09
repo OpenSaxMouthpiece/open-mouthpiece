@@ -12,7 +12,8 @@ import { Viewer } from "./components/Viewer";
 import { Console } from "./components/Console";
 import { ComparePanel } from "./components/ComparePanel";
 import { CurveEditor } from "./components/CurveEditor";
-import { Credits, DesignPanel } from "./components/DesignPanel";
+import { About } from "./components/About";
+import { DesignPanel } from "./components/DesignPanel";
 import { Rail } from "./components/Rail";
 import { buildRail } from "./app/rail";
 import { MIN_EDITOR_W, MIN_PANEL_W, Workspace } from "./app/Workspace";
@@ -1992,11 +1993,6 @@ export default function App() {
       Printing guide
     </a>
   );
-  const glossaryLink = GLOSSARY_URL && (
-    <a className="button" href={GLOSSARY_URL} target="_blank" rel="noreferrer">
-      Glossary (the words, with pictures)
-    </a>
-  );
   const sourceLink = REPO_URL && (
     <a className="button" href={REPO_URL} target="_blank" rel="noreferrer">
       Source code (GitHub)
@@ -2105,11 +2101,7 @@ export default function App() {
               )}
               <details className="phone-look">
                 <summary>About and help</summary>
-                <Credits />
-                <div className="phone-code-actions">
-                  {glossaryLink}
-                  {printingGuideLink}
-                </div>
+                <About />
               </details>
               <details className="phone-look">
                 <summary>Appearance</summary>
@@ -2288,17 +2280,7 @@ export default function App() {
       : rail.now === "points"
         ? toolPanel("Exact points", curvesEl)
         : rail.now === "about"
-          ? toolPanel(
-              "About",
-              <>
-                <Credits />
-                <div className="tool-actions">
-                  {glossaryLink}
-                  {printingGuideLink}
-                  {sourceLink}
-                </div>
-              </>,
-            )
+          ? toolPanel("About", <About />)
           : designEl(true, undefined, rail.section?.title ?? "");
   // The dock's charts (the mouthpiece's, on every part's tab: the layout stays put).
   const bodyChart = profileEl("body"),

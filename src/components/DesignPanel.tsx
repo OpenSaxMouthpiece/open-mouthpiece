@@ -495,7 +495,7 @@ export function DesignPanel({
 }
 
 // Where the presets and the geometry come from, and the donation note.
-export function Credits() {
+export function Credits({ donate = true }: { donate?: boolean } = {}) {
   return (
     <>
       <p className="preset-credit muted">
@@ -532,7 +532,7 @@ export function Credits() {
           </>
         )}
       </p>
-      {DONATE_URL && (
+      {donate && DONATE_URL && (
         <p className="donate-note muted">
           Open Mouthpiece is free: no ads, no accounts, your designs stay in your browser (anonymous usage helps improve
           it; ⚙ turns it off). If it made you a mouthpiece you like,{" "}

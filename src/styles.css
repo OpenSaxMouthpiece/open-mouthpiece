@@ -1557,6 +1557,54 @@ button.toggle.on {
 .phone-menu-body > a.button.donate {
   color: #d9536b;
 }
+
+/* About: a lead line, short headed blocks, the credits small at the end */
+.about {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.about p {
+  margin: 0 0 8px;
+}
+.about a {
+  color: var(--accent-fg);
+}
+.about .preset-credit a,
+.about .donate-note a {
+  color: inherit;
+}
+.about-lead {
+  font-size: 14px;
+  color: var(--text);
+}
+.about h3 {
+  margin: 16px 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.about-steps {
+  margin: 0 0 8px;
+  padding-left: 20px;
+}
+.about-steps li {
+  margin-bottom: 4px;
+}
+.about a.about-donate {
+  display: inline-block;
+  margin-top: 8px;
+  color: #d9536b;
+  text-decoration: none;
+}
+.about .preset-credit {
+  padding: 0 0 8px;
+}
+.about-build {
+  font-size: 11px;
+  font-family: var(--mono);
+}
 .design-section .param-label span {
   font-weight: 600;
 }
