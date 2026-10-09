@@ -3,7 +3,7 @@
 // carries its text, since it exists only in their browser (or on their computer). The user's own
 // pictures go along only when they ask (art: {name: svg text}); otherwise they are left out.
 import type { ParamValue } from "./api";
-import { migrateScad, migrateValues } from "./migrate";
+import { migratePath, migrateScad, migrateValues } from "./migrate";
 
 export interface SharedDesign {
   v: 1;
@@ -51,7 +51,12 @@ export async function readShare(): Promise<SharedDesign | null> {
   if (d?.v !== 1 || typeof d.file !== "string" || typeof d.values !== "object" || d.values === null)
     throw new Error("not a design link");
   // links made before the parameter renames (migrate.ts)
-  return { ...d, values: migrateValues(d.values), source: d.source === undefined ? undefined : migrateScad(d.source) };
+  return {
+    ...d,
+    file: migratePath(d.file),
+    values: migrateValues(d.values),
+    source: d.source === undefined ? undefined : migrateScad(d.source),
+  };
 }
 
 // Drop the design from the address bar once loaded, so later edits don't disagree with it.

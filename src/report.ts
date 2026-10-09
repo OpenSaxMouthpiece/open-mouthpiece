@@ -9,7 +9,7 @@ import { getPref } from "./uiPrefs";
 declare const __BUILD__: string;
 
 export interface ReportContext {
-  design: string; // "alto.scad", "variants/alto_ash.scad", or "own design"
+  design: string; // "alto.scad", "variants/alto_flamma.scad", or "own design"
   changed: string[]; // names of the settings changed from the file
 }
 

@@ -1,5 +1,5 @@
-// Soprano "Birch": a variant of soprano.scad (its outline, changed by settings only).
-// Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.
+// Soprano "Silva": a variant of soprano.scad (its outline, changed by settings only).
+// Silva: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
@@ -142,7 +142,7 @@ top_image_position = 0; // [-50:0.5:50]
 // Wrap the picture around the body like a label.
 top_image_wrap = false;
 // Text on the right side (seen from above, tip away). Lines, variables as on top.
-side_text_right = "BIRCH";
+side_text_right = "SILVA";
 // Text on the left side.
 side_text_left = "\u007Btip}";
 // Side letter height (mm).

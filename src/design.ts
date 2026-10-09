@@ -194,7 +194,13 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         name: "shank_detail",
         label: "Shank decoration",
-        optionLabels: { none: "None", rings: "Rings", flutes: "Flutes (V lines along it)", spiral: "Spiral", knurled: "Knurled (diamonds)" },
+        optionLabels: {
+          none: "None",
+          rings: "Rings",
+          flutes: "Flutes (V lines along it)",
+          spiral: "Spiral",
+          knurled: "Knurled (diamonds)",
+        },
       },
       {
         name: "shank_detail_style",
@@ -202,7 +208,11 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
         optionLabels: { engraved: "Cut in (engraved)", raised: "Standing out (raised)" },
       },
-      { name: "shank_detail_count", label: "How many", when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]] },
+      {
+        name: "shank_detail_count",
+        label: "How many",
+        when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
+      },
       { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "rings"] },
       {
         name: "lettering_font",
@@ -655,8 +665,8 @@ for (const n of [
 INACTIVE.cap_slot_width = (get) => (Number(get("cap_slot_length")) > 0 ? null : "the cap has no slot");
 INACTIVE.cap_end_vent_size = (get) => (Number(get("cap_end_vents")) > 0 ? null : "the cap's end has no holes");
 export const paramInactive = (name: string, get: Getter) => INACTIVE[name]?.(get) ?? null;
-// A variant's one-line description, from its file's header ('// Alto "Ash": a variant of alto.scad ...'
-// then "// Ash: closer tip, ..."): "Ash, compared with the Alto preset: closer tip, ...".
+// A variant's one-line description, from its file's header ('// Alto "Flamma": a variant of alto.scad ...'
+// then "// Flamma: closer tip, ..."): "Flamma, compared with the Alto preset: closer tip, ...".
 export const fileAbout = (source: string) => {
   const m = /^\/\/ (\w+) "(\w+)": a variant of [^\n]*\n\/\/ \w+: ([^\n]+)/.exec(source);
   return m ? `${m[2]}, compared with the ${m[1]} preset: ${m[3].trim()}` : undefined;

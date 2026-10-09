@@ -47,7 +47,7 @@ static site (docs/HOSTING.md).
   wins. The base can be edited in the editor for live experiments (the unsaved text goes with every
   render), not saved.
 - **Read-only presets** (`READ_ONLY` in scripts/project_files.mjs: the four voices and the variants,
-  labelled "Alto Ash" by `voiceLabel`): Save disabled, CodeMirror read-only, 🔒 on the tab;
+  labelled "Alto Flamma" by `voiceLabel`): Save disabled, CodeMirror read-only, 🔒 on the tab;
   Customizer values still apply as -D overrides. Unsaved preset text in localStorage is dropped on
   load (a broken curve edit once stopped the tenor rendering). The CLI scripts still write them.
 - **A saved design is a document**: Save and Save as write the Customizer values into the file

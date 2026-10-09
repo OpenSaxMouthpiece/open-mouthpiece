@@ -9394,8 +9394,8 @@
    }
   ]
  },
- "variants/alto_ash.scad": {
-  "hash": "d39951dd-19578",
+ "variants/alto_flamma.scad": {
+  "hash": "de024277-19587",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10057,7 +10057,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Ash",
+    "initial": "Flamma",
     "name": "side_text_right",
     "type": "string"
    },
@@ -11273,8 +11273,8 @@
    }
   ]
  },
- "variants/alto_birch.scad": {
-  "hash": "f181e97a-19598",
+ "variants/alto_silva.scad": {
+  "hash": "fdb5a6d1-19598",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11936,7 +11936,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "BIRCH",
+    "initial": "SILVA",
     "name": "side_text_right",
     "type": "string"
    },
@@ -13152,8 +13152,8 @@
    }
   ]
  },
- "variants/alto_cedar.scad": {
-  "hash": "8e2538c2-19569",
+ "variants/alto_unda.scad": {
+  "hash": "880016ef-19566",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13815,7 +13815,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Cedar",
+    "initial": "Unda",
     "name": "side_text_right",
     "type": "string"
    },
@@ -15031,8 +15031,8 @@
    }
   ]
  },
- "variants/baritone_ash.scad": {
-  "hash": "92c7858-19763",
+ "variants/baritone_flamma.scad": {
+  "hash": "d4d5830e-19772",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15694,7 +15694,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Ash",
+    "initial": "Flamma",
     "name": "side_text_right",
     "type": "string"
    },
@@ -16910,8 +16910,8 @@
    }
   ]
  },
- "variants/baritone_birch.scad": {
-  "hash": "a2f14db0-19784",
+ "variants/baritone_silva.scad": {
+  "hash": "abeb55d5-19784",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17573,7 +17573,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "BIRCH",
+    "initial": "SILVA",
     "name": "side_text_right",
     "type": "string"
    },
@@ -18789,8 +18789,8 @@
    }
   ]
  },
- "variants/baritone_cedar.scad": {
-  "hash": "b3d734db-19749",
+ "variants/baritone_unda.scad": {
+  "hash": "b1c085b0-19746",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19452,7 +19452,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Cedar",
+    "initial": "Unda",
     "name": "side_text_right",
     "type": "string"
    },
@@ -20668,8 +20668,8 @@
    }
   ]
  },
- "variants/soprano_ash.scad": {
-  "hash": "4415db70-19785",
+ "variants/soprano_flamma.scad": {
+  "hash": "9c9188c6-19794",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21331,7 +21331,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Ash",
+    "initial": "Flamma",
     "name": "side_text_right",
     "type": "string"
    },
@@ -22547,8 +22547,8 @@
    }
   ]
  },
- "variants/soprano_birch.scad": {
-  "hash": "748891f8-19803",
+ "variants/soprano_silva.scad": {
+  "hash": "fd09e1af-19803",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23210,7 +23210,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "BIRCH",
+    "initial": "SILVA",
     "name": "side_text_right",
     "type": "string"
    },
@@ -24426,8 +24426,8 @@
    }
   ]
  },
- "variants/soprano_cedar.scad": {
-  "hash": "61e89ba4-19773",
+ "variants/soprano_unda.scad": {
+  "hash": "ec2441d1-19770",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25089,7 +25089,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Cedar",
+    "initial": "Unda",
     "name": "side_text_right",
     "type": "string"
    },
@@ -26305,8 +26305,8 @@
    }
   ]
  },
- "variants/tenor_ash.scad": {
-  "hash": "e0b6b285-19968",
+ "variants/tenor_flamma.scad": {
+  "hash": "858ba845-19977",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26968,7 +26968,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Ash",
+    "initial": "Flamma",
     "name": "side_text_right",
     "type": "string"
    },
@@ -28184,8 +28184,8 @@
    }
   ]
  },
- "variants/tenor_birch.scad": {
-  "hash": "79a5a954-19979",
+ "variants/tenor_silva.scad": {
+  "hash": "bb3db1c9-19979",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28847,7 +28847,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "BIRCH",
+    "initial": "SILVA",
     "name": "side_text_right",
     "type": "string"
    },
@@ -30063,8 +30063,8 @@
    }
   ]
  },
- "variants/tenor_cedar.scad": {
-  "hash": "2e3ccc77-19948",
+ "variants/tenor_unda.scad": {
+  "hash": "a99ec064-19945",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30726,7 +30726,7 @@
    {
     "caption": "Text on the right side (seen from above, tip away). Lines, variables as on top.",
     "group": "Lettering",
-    "initial": "Cedar",
+    "initial": "Unda",
     "name": "side_text_right",
     "type": "string"
    },

@@ -1,7 +1,7 @@
 // The session kept in this browser between visits: open tabs, changed values, layout, model B.
 import type { PartTab } from "../design";
 import type { Snapshot } from "../compare";
-import { migrateScad, migrateValues } from "../migrate";
+import { migratePath, migrateScad, migrateValues } from "../migrate";
 import type { Tab, Values } from "./files";
 
 const STORE_KEY = "open-mouthpiece-session-v1";
@@ -40,8 +40,9 @@ export interface Session {
 
 export function loadSession(): Partial<Session> {
   try {
+    // variant paths from before their rename, wherever the session names them (migratePath)
     const s = JSON.parse(
-      localStorage.getItem(STORE_KEY) ?? localStorage.getItem(OLD_STORE_KEY) ?? "{}",
+      migratePath(localStorage.getItem(STORE_KEY) ?? localStorage.getItem(OLD_STORE_KEY) ?? "{}"),
     ) as Partial<Session>;
     // designs from before the parameter renames (migrate.ts)
     if (s.tabs)

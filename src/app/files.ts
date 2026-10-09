@@ -53,22 +53,23 @@ export function scadFileName(typed: string) {
   return n ? `${n}.scad` : "";
 }
 
-// The Ash/Birch/Cedar variants of the presets (scad/variants/<voice>_<family>.scad).
+// The Flamma/Silva/Unda variants of the presets (scad/variants/<voice>_<family>.scad).
 export const isVariant = (p: string) => /^variants\/[^/]+\.scad$/.test(p);
 // What each variant family changes, for the pickers' tooltips (the same lines as the variant files'
 // headers: scripts/make_variants.mjs BLURB).
 const VARIANT_BLURB: Record<string, string> = {
-  ash: "closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank",
-  birch:
+  flamma:
+    "closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank",
+  silva:
     "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank",
-  cedar: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank",
+  unda: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank",
 };
 export const variantBlurb = (p: string) =>
   isVariant(p) ? VARIANT_BLURB[baseName(p).split("_").pop() ?? ""] : undefined;
 // Other voices, less common (scad/extras/: the C-melody).
 export const isExtra = (p: string) => /^extras\/[^/]+\.scad$/.test(p);
 const titleCase = (s: string) => s.replace(/^./, (c) => c.toUpperCase());
-// "alto.scad" -> "Alto", "extras/c_melody.scad" -> "C-melody", "variants/alto_ash.scad" -> "Alto Ash",
+// "alto.scad" -> "Alto", "extras/c_melody.scad" -> "C-melody", "variants/alto_flamma.scad" -> "Alto Flamma",
 // "my_alto.scad" -> "my alto".
 export const voiceLabel = (p: string) =>
   PRESETS.includes(p) || isExtra(p)
@@ -77,7 +78,7 @@ export const voiceLabel = (p: string) =>
       ? baseName(p).split("_").map(titleCase).join(" ")
       : baseName(p).replace(/_/g, " ");
 // The preset of a design's voice, from the comment line that names it near the top ("// Tenor
-// saxophone mouthpiece.", a variant's "// Tenor "Birch": ...", designs saved from them, also after a
+// saxophone mouthpiece.", a variant's "// Tenor "Silva": ...", designs saved from them, also after a
 // downloaded .scad's own header); the default when it doesn't say.
 export const presetFor = (source: string) => {
   const m = /^\s*\/\/\s*(soprano|alto|tenor|baritone|c-melody)\b/im.exec(source.slice(0, 3000));
@@ -88,7 +89,7 @@ export const presetFor = (source: string) => {
 // The generator every design includes: the geometry, with default values its settings files override.
 export const GENERATOR = "lib/mouthpiece_base.scad";
 export const includesGenerator = (source: string) => /include\s*<[^>]*mouthpiece_base\.scad>/.test(source);
-// A tab's name in the code column: "Generator", or the design's name ("Tenor", "Alto Ash").
+// A tab's name in the code column: "Generator", or the design's name ("Tenor", "Alto Flamma").
 export const tabLabel = (t: Tab) =>
   t.path === GENERATOR ? "Generator" : isLibrary(t) ? t.path! : voiceLabel(t.path ?? t.name);
 // For error reports: a preset's or variant's path, or just "own design" (never the user's file name).

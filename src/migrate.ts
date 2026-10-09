@@ -16,6 +16,13 @@ export const RENAMED: Record<string, string> = {
   baffle_rollover: "baffle_hump",
   reed_length: "table_length", // 2026-10-05, the same length
 };
+// The variants' names (2026-10-08): Ash, Birch, Cedar became Flamma, Silva, Unda (flame, forest,
+// wave). Old paths in this browser's session and in share links open the renamed files.
+export const VARIANT_RENAMED: Record<string, string> = { ash: "flamma", birch: "silva", cedar: "unda" };
+const OLD_VARIANT = /variants\/([a-z_]+?)_(ash|birch|cedar)\.scad/g;
+export const migratePath = (p: string) =>
+  p.replace(OLD_VARIANT, (_, v: string, f: string) => `variants/${v}_${VARIANT_RENAMED[f]}.scad`);
+
 const OLD = new RegExp(`\\b(${Object.keys(RENAMED).join("|")})\\b`, "g");
 
 // chamber_length: 0 meant "all the way"; chamber_full_length says that with its maximum, 40.
