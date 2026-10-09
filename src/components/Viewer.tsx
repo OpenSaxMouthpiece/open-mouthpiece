@@ -157,11 +157,12 @@ const viewPrefs: ViewPrefs = (() => {
     section: "off",
     showA: true,
     showB: true,
-    ghost: true,
+    ghost: false, // off until turned on (Show ▾); stored as autoGhost, so older stored values don't count
   };
   try {
-    const s = JSON.parse(localStorage.getItem(PREFS_KEY) ?? "{}") as Partial<ViewPrefs>;
-    for (const k of ["edges", "wire", "seeThrough", "ghost"] as const) if (typeof s[k] === "boolean") p[k] = s[k]!;
+    const s = JSON.parse(localStorage.getItem(PREFS_KEY) ?? "{}") as Partial<ViewPrefs> & { autoGhost?: boolean };
+    for (const k of ["edges", "wire", "seeThrough"] as const) if (typeof s[k] === "boolean") p[k] = s[k]!;
+    if (typeof s.autoGhost === "boolean") p.ghost = s.autoGhost;
     if (s.layout === "overlay" || s.layout === "side") p.layout = s.layout;
   } catch {
     // no storage: defaults
@@ -173,7 +174,7 @@ function keepPrefs(p: ViewPrefs) {
   try {
     localStorage.setItem(
       PREFS_KEY,
-      JSON.stringify({ edges: p.edges, wire: p.wire, seeThrough: p.seeThrough, layout: p.layout, ghost: p.ghost }),
+      JSON.stringify({ edges: p.edges, wire: p.wire, seeThrough: p.seeThrough, layout: p.layout, autoGhost: p.ghost }),
     );
   } catch {
     // storage unavailable: kept for this page only
