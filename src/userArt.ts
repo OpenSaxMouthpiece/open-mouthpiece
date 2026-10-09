@@ -61,6 +61,8 @@ export function imageRefs(values: Record<string, unknown>, source?: string): Rec
   const refs: Record<string, string> = {};
   if (source) for (const [, k, v] of source.matchAll(/^\s*(\w+_image)\s*=\s*"([^"]*)"/gm)) refs[k] = v;
   for (const [k, v] of Object.entries(values)) if (k.endsWith("_image") && typeof v === "string") refs[k] = v;
+  // "same" points at the top picture, not a file
+  for (const k of Object.keys(refs)) if (refs[k] === "same") delete refs[k];
   return refs;
 }
 

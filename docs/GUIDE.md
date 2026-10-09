@@ -237,11 +237,12 @@ The app can make a ligature and a cap that fit your mouthpiece.
 To make a ligature, click **Ligature** in the icon bar, then **Make a ligature for this
 mouthpiece**. It's a ring that's shaped to the mouthpiece, so it still fits after you make
 changes. It slides on over the tip and holds the reed in place by friction. You can adjust its
-shape, how tightly it grips the reed, its length and position, and add text or a picture.
+shape, thickness, how tightly it grips the reed, its length and position, and add text or a picture.
+Both start with the same picture as the mouthpiece, if it has one; you can choose another or none.
 
 To make a cap, click **Cap**, then **Make a cap for this mouthpiece**. The cap fits over the tip,
 the reed and the ligature. It can be made to fit the printed ligature or a metal one (you enter
-the metal ligature's measurements). It has a slot and air holes so the reed can dry, and clips onto
+the metal ligature's measurements). It has a slot, side vents and air holes in the end so the reed can dry, and clips onto
 the ligature.
 
 Each one has its own download button. You can also show it beside the mouthpiece, hide it, or

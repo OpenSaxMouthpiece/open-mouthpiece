@@ -259,6 +259,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" },
       },
       { name: "ligature_reed_grip", label: "Reed grip" },
+      { name: "ligature_wall", label: "Thickness" },
       { name: "ligature_length", label: "Band length" },
       { name: "ligature_position", label: "Position" },
       { name: "ligature_tongue", label: "Tail toward the shank" },
@@ -280,7 +281,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         showIf: ["ligature_text", "ligature_image"],
       },
     ],
-    more: ["ligature_text_font", "ligature_fit", "ligature_wall", "ligature_image_aspect"],
+    more: ["ligature_text_font", "ligature_fit", "ligature_image_aspect"],
   },
   {
     title: "Cap",
@@ -291,6 +292,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       join([
         get("cap_ligature") === "metal" && "Over a metal ligature",
         Number(get("cap_end_vents")) > 0 && `${get("cap_end_vents")} air holes`,
+        get("cap_side_vents") === "slots" && "side slots",
+        get("cap_side_vents") === "holes" && "side holes",
       ]),
     items: [
       {
@@ -316,6 +319,13 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "cap_end_dome", label: "End shape" },
       { name: "cap_extend", label: "Extra length (toward the shank)" },
       { name: "cap_end_vents", label: "Air holes in the end" },
+      {
+        name: "cap_side_vents",
+        label: "Side vents",
+        optionLabels: { none: "None", slots: "Slots", holes: "Round holes" },
+      },
+      { name: "cap_side_vent_count", label: "Vents on each side", when: ["cap_side_vents", ["slots", "holes"]] },
+      { name: "cap_side_vent_size", label: "Vent size", when: ["cap_side_vents", ["slots", "holes"]] },
       {
         name: "cap_text",
         label: "Text on the cap",
@@ -532,6 +542,8 @@ const ENDS: Record<string, [string, string]> = {
   cap_slot_length: ["None", "Long"],
   cap_slot_width: NARROW_WIDE,
   cap_end_vent_size: SMALL_LARGE,
+  cap_side_vent_count: ["Fewer", "More"],
+  cap_side_vent_size: SMALL_LARGE,
   cap_end_gap: ["Close", "Roomy"],
   cap_wall: THIN_THICK,
   cap_metal_length: SHORT_LONG,
@@ -576,7 +588,9 @@ export const changedCount = (values: Record<string, unknown>) =>
 // get(name) = the parameter's current value (undefined if the file doesn't declare it).
 type Getter = (name: string) => unknown;
 const filled = (v: unknown) => (typeof v === "string" && v !== "") || (Array.isArray(v) && v.length > 0);
-const anyText = (get: Getter, names: string[]) => names.some((n) => filled(get(n)));
+// A picture set to "same" (the ligature's and cap's) counts when the mouthpiece has a top picture.
+const anyText = (get: Getter, names: string[]) =>
+  names.some((n) => filled(get(n) === "same" ? get("top_image") : get(n)));
 const noWidening = (get: Getter) =>
   (
     typeof get("chamber_width") === "number"
@@ -638,7 +652,12 @@ for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertic
   if (n === "lettering_depth") on.push("shank_text", "ligature_text", "ligature_image", "cap_text", "cap_image");
   INACTIVE[n] = (get) => (anyText(get, on) ? null : "no text or picture to apply it to");
 }
-INACTIVE.ligature_image_aspect = (get) => (anyText(get, ["ligature_image"]) ? null : "no picture on the ligature");
+INACTIVE.ligature_image_aspect = (get) =>
+  get("ligature_image") === "same"
+    ? "follows the mouthpiece's picture"
+    : anyText(get, ["ligature_image"])
+      ? null
+      : "no picture on the ligature";
 // Each text's own font only counts with that text.
 for (const [n, texts] of [
   ["top_text_font", ["top_text"]],
@@ -652,7 +671,12 @@ for (const [n, texts] of [
 INACTIVE.shank_detail_position = (get) => (Number(get("shank_detail_count")) === 1 ? null : "only with one ring");
 INACTIVE.shank_detail_depth = (get) =>
   get("shank_detail") && get("shank_detail") !== "none" ? null : "no shank decoration";
-INACTIVE.cap_image_aspect = (get) => (anyText(get, ["cap_image"]) ? null : "no picture on the cap");
+INACTIVE.cap_image_aspect = (get) =>
+  get("cap_image") === "same"
+    ? "follows the mouthpiece's picture"
+    : anyText(get, ["cap_image"])
+      ? null
+      : "no picture on the cap";
 // The metal ligature's numbers only count for a cap over a metal ligature.
 for (const n of [
   "cap_metal_length",

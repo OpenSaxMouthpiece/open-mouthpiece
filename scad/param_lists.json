@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "ea973618-19515",
+  "hash": "b649f6fb-19882",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1367,9 +1367,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -1501,6 +1501,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -1662,9 +1703,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -1879,7 +1920,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "5d9d4e57-19752",
+  "hash": "8f7c002e-20119",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3246,9 +3287,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -3380,6 +3421,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -3541,9 +3623,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -3758,7 +3840,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "6cc90f85-20424",
+  "hash": "bfa84e24-20791",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5125,9 +5207,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -5259,6 +5341,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -5420,9 +5543,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -5637,7 +5760,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "c5f0d00-19717",
+  "hash": "f886efdf-20084",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7004,9 +7127,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -7138,6 +7261,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -7299,9 +7463,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -7516,7 +7680,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "3077ce45-19894",
+  "hash": "7ba62190-20261",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8883,9 +9047,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -9017,6 +9181,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -9178,9 +9383,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -9395,7 +9600,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "344d262b-19609",
+  "hash": "5235bbce-19976",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10762,9 +10967,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -10896,6 +11101,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -11057,9 +11303,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -11274,7 +11520,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "2473b2ba-19620",
+  "hash": "4d8d032d-19987",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12641,9 +12887,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -12775,6 +13021,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -12936,9 +13223,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -13153,7 +13440,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "5c11ccb2-19590",
+  "hash": "31bbbb05-19957",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14520,9 +14807,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -14654,6 +14941,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -14815,9 +15143,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -15032,7 +15360,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "ca7b3d71-19794",
+  "hash": "cbaf1bc0-20161",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16399,9 +16727,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -16533,6 +16861,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -16694,9 +17063,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -16911,7 +17280,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "242b7555-19805",
+  "hash": "13782dcc-20172",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18278,9 +18647,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -18412,6 +18781,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -18573,9 +18983,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -18790,7 +19200,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "2b613936-19767",
+  "hash": "339c0261-20134",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20157,9 +20567,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -20291,6 +20701,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -20452,9 +20903,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -20669,7 +21120,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "101c1d63-19816",
+  "hash": "ec501302-20183",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22036,9 +22487,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -22170,6 +22621,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -22331,9 +22823,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -22548,7 +23040,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "95ef1c5b-19825",
+  "hash": "710c7aba-20192",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23915,9 +24407,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -24049,6 +24541,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -24210,9 +24743,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -24427,7 +24960,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "3d370492-19792",
+  "hash": "286a4bd9-20159",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25794,9 +26327,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -25928,6 +26461,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -26089,9 +26663,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -26306,7 +26880,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "b6ded4c0-20001",
+  "hash": "414a3803-20368",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27673,9 +28247,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -27807,6 +28381,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -27968,9 +28583,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -28185,7 +28800,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "e81c3d53-20003",
+  "hash": "18bb9a76-20370",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29552,9 +30167,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -29686,6 +30301,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -29847,9 +30503,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },
@@ -30064,7 +30720,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "e5e342db-19967",
+  "hash": "267cb29e-20334",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31431,9 +32087,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.",
     "group": "Ligature",
-    "initial": "",
+    "initial": "same",
     "name": "ligature_image",
     "type": "string"
    },
@@ -31565,6 +32221,47 @@
     "max": 4,
     "min": 1,
     "name": "cap_end_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
+    "group": "Cap",
+    "initial": "slots",
+    "name": "cap_side_vents",
+    "options": [
+     {
+      "name": "none",
+      "value": "none"
+     },
+     {
+      "name": "slots",
+      "value": "slots"
+     },
+     {
+      "name": "holes",
+      "value": "holes"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How many vents on each side (slots stack up the side, holes run along it).",
+    "group": "Cap",
+    "initial": 2,
+    "max": 5,
+    "min": 1,
+    "name": "cap_side_vent_count",
+    "step": 1,
+    "type": "number"
+   },
+   {
+    "caption": "Vent width, or a hole's diameter (mm).",
+    "group": "Cap",
+    "initial": 2.5,
+    "max": 5,
+    "min": 1.5,
+    "name": "cap_side_vent_size",
     "step": 0.5,
     "type": "number"
    },
@@ -31726,9 +32423,9 @@
     "type": "number"
    },
    {
-    "caption": "A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.",
+    "caption": "A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.",
     "group": "Cap",
-    "initial": "",
+    "initial": "same",
     "name": "cap_image",
     "type": "string"
    },

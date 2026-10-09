@@ -250,7 +250,7 @@ tongue toward the shank (`ligature_tongue` +7mm; soprano 5), on top by default; 
 `part = cap | cap_seated | cap_clash | metal_ligature_model`; `cap_made` only records that the design
 has one (the app shows `cap_seated` see-through on the mouthpiece, like the ligature). A shell over
 the tip, the reed and the ligature, as a store-bought cap: one smooth taper with a slot up from the
-rim and air holes in the end; the rim clips onto the ligature. Built like the ligature from **support
+rim, side vents and air holes in the end; the rim clips onto the ligature. Built like the ligature from **support
 functions**: per station (1mm, rim to tip) h(phi) = what the cap must clear: the whole body (behind
 the table; above it plus the table's edges on it), **any reed** (`CAP_REED_T` = 4mm at the heel,
 `CAP_REED_HW` = 0.5mm wider than the table a side), and the ligature: the printed one's outside (its
@@ -283,13 +283,23 @@ inside = that + `CAP_CLEARANCE` (0.5), shaped by `cap_shape` (conform, or `lig_r
   screws) that `cap_clash` checks against.
 - **End vents** (`cap_end_vents`, `cap_end_vent_size`): a row along x on the dome's centre line, each a
   cylinder along z from the dome's base out through the dome, within 55% of the ring's half-width;
-  fewer fit = a WARNING. **EXPECTED GENUS** = the end vents (the slot starts at the rim: no genus).
+  fewer fit = a WARNING. **EXPECTED GENUS** = the end vents + 2 x the side vents (the slot starts at
+  the rim: no genus).
+- **Side vents** (`cap_side_vents` none / slots / holes, `cap_side_vent_count` per side,
+  `cap_side_vent_size`; back since 2026-10-09 with the placement automatic): both sides, on the side's
+  middle line (`cap_side`: the middle of the ring's flattest side), from 2.5mm in front of the collar
+  (the grip stays whole) to 3mm short of the tip. Slots run along the cap (up to 22mm, straight between
+  the side's middle at their two ends) and stack up the side within 45% of the inside height, 1.8mm
+  apart; holes run along it, evenly spread, 2.5mm apart; fewer fit = a WARNING. Each is a bore from
+  the middle out plus a 45° chamfer at the outside (`cap_ring_x`: the outline's reach at that height).
+- **Pictures**: `ligature_image` / `cap_image` = "same" (the default) use `top_image` and its aspect
+  (`LIG_IMAGE`, `CAP_IMAGE`); "" = none.
 - **Lettering**: as the ligature's, on a skin between the outer rings at two offsets.
 - `cap_clash` = cap ∩ mouthpiece + cap ∩ the printed or stand-in metal ligature; `npm run check` runs it
   with `cap_grip=-0.05` (a squeeze of 0 touches the band's face exactly and leaves zero-thickness
   slivers) and accepts under 1mm³. `npm run sweep -- --part cap` sweeps the Cap and Ligature groups.
 - Removed after review (2026-10-04): reed thickness / width (any reed now), a body fit (never
-  gripped over the printed ligature), collar length and slits, room inside, side vents, ribs, the D
+  gripped over the printed ligature), collar length and slits, room inside, ribs, the D
   shape: the slot and end holes do their jobs.
 - Everything lives inside `cap_part()` (module-level values), so mouthpiece renders don't pay for it.
 

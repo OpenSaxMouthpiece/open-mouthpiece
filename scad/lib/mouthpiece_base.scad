@@ -297,8 +297,8 @@ ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif
 ligature_text_size = 4; // [2:0.5:12]
 // Which way the ligature's text reads: along or across (flipped = upside down).
 ligature_text_angle = 90; // [0:90:270]
-// A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.
-ligature_image = "";
+// A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.
+ligature_image = "same";
 // Ligature picture width (mm).
 ligature_image_width = 8; // [3:0.5:30]
 // Picture height / width, for spacing (the app fills it in).
@@ -325,6 +325,12 @@ cap_slot_width = 3; // [1:0.5:8]
 cap_end_vents = 3; // [0:1:7]
 // End hole diameter (mm).
 cap_end_vent_size = 2; // [1:0.5:4]
+// Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.
+cap_side_vents = "slots"; // [none, slots, holes]
+// How many vents on each side (slots stack up the side, holes run along it).
+cap_side_vent_count = 2; // [1:1:5]
+// Vent width, or a hole's diameter (mm).
+cap_side_vent_size = 2.5; // [1.5:0.5:5]
 // Wall thickness (mm).
 cap_wall = 1.6; // [1.2:0.1:4]
 // Follows the mouthpiece (smoothed), or round.
@@ -343,8 +349,8 @@ cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Ital
 cap_text_size = 5; // [2:0.5:14]
 // Which way the cap's text reads: along or across (flipped = upside down).
 cap_text_angle = 0; // [0:90:270]
-// A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.
-cap_image = "";
+// A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.
+cap_image = "same";
 // Cap picture width (mm).
 cap_image_width = 10; // [3:0.5:40]
 // Picture height / width, for spacing (the app fills it in).
@@ -2104,27 +2110,30 @@ module tube_loft(outer, inner) {
 // band), kept LIG_ART_INSET inside the band's edges (no faces shared with them). Picture toward the
 // tip, text toward the shank, 2mm apart, centred on the top (the tongue counts when it is on top).
 // Engraving leaves at least 0.8mm of the band's wall.
-LIG_HAS_ART = has_text(ligature_text) || has_text(ligature_image);
+// "same" = the mouthpiece's top picture (and its aspect).
+LIG_IMAGE = ligature_image == "same" ? top_image : ligature_image;
+LIG_IMAGE_ASPECT = ligature_image == "same" ? top_image_aspect : ligature_image_aspect;
+LIG_HAS_ART = has_text(ligature_text) || has_text(LIG_IMAGE);
 LIG_ART_INSET = 0.8;
 lig_art_depth = lettering_raised ? lettering_depth : max(0.1, min(lettering_depth, ligature_wall - 0.8));
 lig_top_z0 = lig_z0 - lig_tongue * lig_tongue_w(90);   // the top's rear edge
 lig_text_len = text_len(ligature_text, ligature_text_size, ligature_text_angle);
 lig_text_wide = text_wide(ligature_text, ligature_text_size, ligature_text_angle);
-lig_image_len = ligature_image_width * (abs(cos(ligature_image_angle)) * ligature_image_aspect + abs(sin(ligature_image_angle)));
-lig_image_wide = ligature_image_width * (abs(sin(ligature_image_angle)) * ligature_image_aspect + abs(cos(ligature_image_angle)));
-lig_art_both = has_text(ligature_text) && has_text(ligature_image);
+lig_image_len = ligature_image_width * (abs(cos(ligature_image_angle)) * LIG_IMAGE_ASPECT + abs(sin(ligature_image_angle)));
+lig_image_wide = ligature_image_width * (abs(sin(ligature_image_angle)) * LIG_IMAGE_ASPECT + abs(cos(ligature_image_angle)));
+lig_art_both = has_text(ligature_text) && has_text(LIG_IMAGE);
 lig_art_mid = max(lig_top_z0, min(lig_z1, (lig_top_z0 + lig_z1) / 2 + ligature_lettering_position));
 lig_image_z = lig_art_mid + (lig_art_both ? (lig_text_len + 2) / 2 : 0);
 lig_text_z = lig_art_mid - (lig_art_both ? (lig_image_len + 2) / 2 : 0);
-lig_art_len = (has_text(ligature_text) ? lig_text_len : 0) + (has_text(ligature_image) ? lig_image_len : 0) + (lig_art_both ? 2 : 0);
-lig_art_wide = max(has_text(ligature_text) ? lig_text_wide : 0, has_text(ligature_image) ? lig_image_wide : 0);
+lig_art_len = (has_text(ligature_text) ? lig_text_len : 0) + (has_text(LIG_IMAGE) ? lig_image_len : 0) + (lig_art_both ? 2 : 0);
+lig_art_wide = max(has_text(ligature_text) ? lig_text_wide : 0, has_text(LIG_IMAGE) ? lig_image_wide : 0);
 
 // The text and picture as prisms standing up from the band's widest line (so they reach only its
 // top), readable from above with the tip away, as the mouthpiece's top text.
 module lig_art_prisms(env, y_lo, y_hi) {
-  if (has_text(ligature_image))
+  if (has_text(LIG_IMAGE))
     translate([0, y_lo, lig_image_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
-      art_2d(ligature_image, ligature_image_width, ligature_image_angle);
+      art_2d(LIG_IMAGE, ligature_image_width, ligature_image_angle);
   if (has_text(ligature_text))
     translate([0, y_lo, lig_text_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
       rotate(-90 - ligature_text_angle) lettering_text(ligature_text, ligature_text_size, font_name(ligature_text_font));
@@ -2231,7 +2240,9 @@ cap_cz0 = CAP_PRINTED ? lig_z0 : cap_m_z0;                 // the collar: over t
 cap_cz1 = (CAP_PRINTED ? lig_z1 : cap_m_z1) - 0.5;
 cap_nst = max(4, ceil((L - 0.05 - cap_z0) / 1));           // stations, ~1mm apart
 cap_art_depth = lettering_raised ? lettering_depth : max(0.1, min(lettering_depth, cap_wall - 0.8));
-CAP_HAS_ART = has_text(cap_text) || has_text(cap_image);
+CAP_IMAGE = cap_image == "same" ? top_image : cap_image;
+CAP_IMAGE_ASPECT = cap_image == "same" ? top_image_aspect : cap_image_aspect;
+CAP_HAS_ART = has_text(cap_text) || has_text(CAP_IMAGE);
 
 function cap_sup(P, c = 0) = [for (u = LIG_U) max([for (p = P) p * u]) + c];
 function cap_add(h, c) = [for (v = h) v + c];
@@ -2301,6 +2312,31 @@ module cap_slot_cutter(z_slot1) {
 // The end's air holes: a row across, straight along the axis through the dome, from inside the cap.
 module cap_end_vent_cutter(xs, y, z0, z1) {
   for (x = xs) translate([x, y, z0]) cylinder(d = cap_end_vent_size, h = z1 - z0, $fn = 16);
+}
+
+// The side vents. A ring's side, [x, the middle of its flat (or near-flat) side's height, inside
+// height], and how far out a ring reaches at height y (its outline crossing y, the right side).
+function cap_side(R) =
+  let(xm = max([for (p = R) p[0]]), ys = [for (p = R) if (p[0] > xm - 0.3) p[1]], all = [for (p = R) p[1]])
+  [xm, (min(ys) + max(ys)) / 2, max(all) - min(all)];
+function cap_ring_x(R, y) =
+  max(concat([0], [for (i = [0 : len(R) - 1]) let(a = R[i], b = R[(i + 1) % len(R)])
+    if (a[0] > 0 && b[0] > 0 && (a[1] - y) * (b[1] - y) <= 0 && a[1] != b[1]) lerp(a[0], b[0], (y - a[1]) / (b[1] - a[1]))]));
+// One vent on the right side (mirrored for the left): pts = [[z, y, x_out], ...] along its centre
+// line, hulled pairwise. A straight bore from the middle out through the wall, plus a 45° chamfer at
+// the outer edge so the opening looks finished. Horizontal round holes and slots running up the cap
+// (it prints standing on its rim) bridge cleanly at these sizes.
+module cap_side_vent(pts, d, ch) {
+  module bore(p) translate([0, p[1], p[0]]) rotate([0, 90, 0]) cylinder(d = d, h = p[2] + 1, $fn = 20);
+  module flare(p) {
+    translate([p[2] - ch, p[1], p[0]]) rotate([0, 90, 0]) cylinder(d = d, h = 0.01, $fn = 20);
+    translate([p[2] + 0.3, p[1], p[0]]) rotate([0, 90, 0]) cylinder(d = d + 2 * (ch + 0.3), h = 0.01, $fn = 20);
+  }
+  for (j = [0 : max(0, len(pts) - 2)]) {
+    q = len(pts) > 1 ? [pts[j], pts[j + 1]] : [pts[0]];
+    hull() for (p = q) bore(p);
+    hull() for (p = q) flare(p);
+  }
 }
 
 // A stand-in metal ligature, to see the cap over it (part = metal_ligature_model; not for printing):
@@ -2377,20 +2413,47 @@ module cap_part() {
   e_p = cap_end_vent_size + 1.6;
   e_n = cap_end_vents <= 0 ? 0 : max(0, min(cap_end_vents, floor((2 * e_hw - cap_end_vent_size) / e_p) + 1));
   e_xs = [for (i = [0 : 1 : e_n - 1]) (i - (e_n - 1) / 2) * e_p];
+  // the side vents: both sides, on the side's middle line, from 2.5mm in front of the collar (the
+  // grip stays whole) to 3mm short of the tip. Slots run along the cap (up to 22mm, following the
+  // side's middle line as the cap tapers) and stack up the side, within 45% of the inside height;
+  // holes run along it, evenly spread. 1.8mm (slots) / 2.5mm (holes) of wall between neighbours.
+  sv_d = cap_side_vent_size;
+  sv_ch = min(0.6, 0.35 * cap_wall);
+  sv_z0 = max(cap_cz1, cap_zr) + 2.5;
+  sv_z1 = min(zb, L) - 3;
+  sv_span = sv_z1 - sv_z0;
+  sv_zm = (sv_z0 + sv_z1) / 2;
+  sv_slots = cap_side_vents == "slots";
+  sv_mid = cap_side(lig_ring(cap_h_at(H, sv_zm), sv_zm, 0));
+  sv_fit = cap_side_vents == "none" || sv_span < sv_d ? 0
+         : sv_slots ? floor((max(sv_d, 0.45 * sv_mid[2]) - sv_d) / (sv_d + 1.8)) + 1
+         : floor((sv_span - sv_d) / (sv_d + 2.5)) + 1;
+  sv_n = max(0, min(cap_side_vent_count, sv_fit));
+  sv_len = min(sv_span, 22);
+  // a centre-line point at z, dy off the side's middle: [z, y, the outside's reach there]
+  sv_y = function(z) cap_side(outer_at(z))[1];
+  sv_pt = function(z, y) [z, y, cap_ring_x(outer_at(z), y)];
+  sv_lines = sv_n == 0 ? []
+    : sv_slots
+      ? let(za = sv_zm - (sv_len - sv_d) / 2, zc = sv_zm + (sv_len - sv_d) / 2, ya = sv_y(za), yc = sv_y(zc), m = max(1, ceil((zc - za) / 3)))
+        [for (k = [0 : sv_n - 1]) let(dy = (k - (sv_n - 1) / 2) * (sv_d + 1.8))
+           [for (j = [0 : m]) sv_pt(lerp(za, zc, j / m), lerp(ya, yc, j / m) + dy)]]
+      : let(step = sv_n > 1 ? min(2 * (sv_d + 2.5), (sv_span - sv_d) / (sv_n - 1)) : 0)
+        [for (k = [0 : sv_n - 1]) let(z = sv_zm + (k - (sv_n - 1) / 2) * step) [sv_pt(z, sv_y(z))]];
   // text and pictures on the top (as on the ligature)
   t_mid = max(cap_z0 + 3, min(L - 3, (cap_z0 + L) / 2 + cap_lettering_position));
   t_len = text_len(cap_text, cap_text_size, cap_text_angle);
-  i_len = cap_image_width * (abs(cos(cap_image_angle)) * cap_image_aspect + abs(sin(cap_image_angle)));
-  both = has_text(cap_text) && has_text(cap_image);
+  i_len = cap_image_width * (abs(cos(cap_image_angle)) * CAP_IMAGE_ASPECT + abs(sin(cap_image_angle)));
+  both = has_text(cap_text) && has_text(CAP_IMAGE);
   i_z = t_mid + (both ? (t_len + 2) / 2 : 0);
   t_z = t_mid - (both ? (i_len + 2) / 2 : 0);
   a_ring = lig_ring(cap_h_at(Ho, t_mid), t_mid, cap_wall);
   y_lo = a_ring[LIG_N / 4][1];
   y_hi = max([for (p = a_ring) p[1]]) + cap_art_depth + 5;
   module prisms() {
-    if (has_text(cap_image))
+    if (has_text(CAP_IMAGE))
       translate([0, y_lo, i_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
-        art_2d(cap_image, cap_image_width, cap_image_angle);
+        art_2d(CAP_IMAGE, cap_image_width, cap_image_angle);
     if (has_text(cap_text))
       translate([0, y_lo, t_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
         rotate(-90 - cap_text_angle) lettering_text(cap_text, cap_text_size, font_name(cap_text_font));
@@ -2408,6 +2471,7 @@ module cap_part() {
     }
     cap_slot_cutter(z_slot1);
     if (e_n > 0) cap_end_vent_cutter(e_xs, c0, zb, z_end + 2);
+    for (line = sv_lines, s = [0, 1]) mirror([s, 0, 0]) cap_side_vent(line, sv_d, sv_ch);
     if (CAP_HAS_ART && !lettering_raised)
       intersection() { prisms(); difference() { skin_solid(1); skin_solid(-cap_art_depth); } }
   }
@@ -2418,7 +2482,9 @@ module cap_part() {
   squeeze = max([for (i = [0 : n]) if (in_collar(zs[i])) max([for (k = [0 : LIG_N - 1]) S[i][k] - H[i][k]])]);
   r2 = function(v) round(v * 100) / 100;
   echo(str("CAP ", r2(z_end - cap_z0), " ", r2(cap_z0), " ", r2(max(xs(cr, 0)) - min(xs(cr, 0))), " ", r2(max(xs(cr, 1)) - min(xs(cr, 1))), " ", r2(squeeze)));
-  echo(str("EXPECTED GENUS ", e_n));
+  echo(str("EXPECTED GENUS ", e_n + 2 * sv_n));
+  if (cap_side_vents != "none" && sv_n < cap_side_vent_count)
+    echo(str("WARNING: cap_side_vent_count ", cap_side_vent_count, " reduced to ", sv_n, ": that many fit on each side"));
   if (e_n < cap_end_vents)
     echo(str("WARNING: cap_end_vents ", cap_end_vents, " reduced to ", e_n, ": that many fit across the cap's end"));
   if (cap_slot_length > 0 && z_slot1 < cap_zr + cap_slot_length - 0.01)
@@ -2428,10 +2494,10 @@ module cap_part() {
   // the art's reach across the top (it runs down the sides past ~3/4 of the half-width) and along
   // the cap (past its ends it is cut off)
   a_wide = max(has_text(cap_text) ? text_wide(cap_text, cap_text_size, cap_text_angle) : 0,
-               has_text(cap_image) ? cap_image_width * (abs(sin(cap_image_angle)) * cap_image_aspect + abs(cos(cap_image_angle))) : 0);
+               has_text(CAP_IMAGE) ? cap_image_width * (abs(sin(cap_image_angle)) * CAP_IMAGE_ASPECT + abs(cos(cap_image_angle))) : 0);
   a_room = 2 * 0.75 * max([for (p = a_ring) p[0]]);
-  a_z0 = min(has_text(cap_text) ? t_z - t_len / 2 : L, has_text(cap_image) ? i_z - i_len / 2 : L);
-  a_z1 = max(has_text(cap_text) ? t_z + t_len / 2 : 0, has_text(cap_image) ? i_z + i_len / 2 : 0);
+  a_z0 = min(has_text(cap_text) ? t_z - t_len / 2 : L, has_text(CAP_IMAGE) ? i_z - i_len / 2 : L);
+  a_z1 = max(has_text(cap_text) ? t_z + t_len / 2 : 0, has_text(CAP_IMAGE) ? i_z + i_len / 2 : 0);
   if (CAP_HAS_ART && a_wide > a_room + 0.5)
     echo(str("WARNING: the cap's lettering is about ", round(a_wide), "mm wide but its top is about ", round(a_room), "mm wide: it runs down the sides; make it smaller or turn it"));
   if (CAP_HAS_ART && (a_z0 < cap_z0 - 0.5 || a_z1 > L + 0.5))

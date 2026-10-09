@@ -306,7 +306,14 @@ function ParamInput({
     return <input type="checkbox" checked={Boolean(value)} onChange={(e) => onChange(e.target.checked)} />;
   }
   if (p.type === "string" && p.name.endsWith("_image")) {
-    return <ImagePicker value={String(value)} onChange={onChange} onAspect={(a) => setParam(`${p.name}_aspect`, a)} />;
+    return (
+      <ImagePicker
+        value={String(value)}
+        onChange={onChange}
+        onAspect={(a) => setParam(`${p.name}_aspect`, a)}
+        offerSame={p.name !== "top_image"}
+      />
+    );
   }
   if (p.type === "string" && isLetteringText(p.name)) return <TextField value={String(value)} onChange={onChange} />;
   if (p.type === "string") {
@@ -353,10 +360,12 @@ export function ImagePicker({
   value,
   onChange,
   onAspect,
+  offerSame = false,
 }: {
   value: string;
   onChange(v: string): void;
   onAspect(a: number): void;
+  offerSame?: boolean; // offer "Same as the mouthpiece" (the ligature's and the cap's picture)
 }) {
   const [files, setFiles] = useState<string[]>([]);
   const [aspects, setAspects] = useState<Record<string, number | null>>({});
@@ -401,7 +410,10 @@ export function ImagePicker({
       <div className="image-picker-row">
         <select value={value} onChange={(e) => pick(e.target.value)}>
           <option value="">(none)</option>
-          {value && !files.includes(value) && <option value={value}>{artLabel(value)} (missing)</option>}
+          {offerSame && <option value="same">Same as the mouthpiece</option>}
+          {value && value !== "same" && !files.includes(value) && (
+            <option value={value}>{artLabel(value)} (missing)</option>
+          )}
           {files.map((f) => (
             <option key={f} value={f}>
               {artLabel(f)}

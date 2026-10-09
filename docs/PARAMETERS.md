@@ -1111,7 +1111,7 @@ Range: -10 to 40, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
-### Wall thickness (`ligature_wall`)
+### Thickness (`ligature_wall`)
 
 Band thickness (mm): thinner flexes onto it more easily, thicker grips harder.
 
@@ -1193,11 +1193,11 @@ Presets: Alto `90` · Tenor `90` · Bari `90` · Soprano `90`.
 
 ### Picture on the ligature (`ligature_image`)
 
-A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.
+A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.
 
 Range: text.
 
-Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
 ### Picture size (`ligature_image_width`)
 
@@ -1297,6 +1297,30 @@ Range: 1 to 4, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
+### Side vents (`cap_side_vents`)
+
+Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.
+
+Range: `none`, `slots`, `holes`.
+
+Presets: Alto `slots` · Tenor `slots` · Bari `slots` · Soprano `slots`.
+
+### Vents on each side (`cap_side_vent_count`)
+
+How many vents on each side (slots stack up the side, holes run along it).
+
+Range: 1 to 5, step 1.
+
+Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
+### Vent size (`cap_side_vent_size`)
+
+Vent width, or a hole's diameter (mm).
+
+Range: 1.5 to 5, step 0.5.
+
+Presets: Alto `2.5` · Tenor `2.5` · Bari `2.5` · Soprano `2.5`.
+
 ### Wall thickness (`cap_wall`)
 
 Wall thickness (mm).
@@ -1371,11 +1395,11 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Picture on the cap (`cap_image`)
 
-A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.
+A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.
 
 Range: text.
 
-Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
 ### Picture size (`cap_image_width`)
 

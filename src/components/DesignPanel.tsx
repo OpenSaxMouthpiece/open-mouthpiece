@@ -365,7 +365,9 @@ export function DesignPanel({
         )}
         {about && !q && tab === "mouthpiece" && <p className="design-about muted">{about}</p>}
         {DESIGN_SECTIONS.map((s) => {
-          const filled = (n: string) => String(values[n] ?? byName.get(n)?.initial ?? "").trim() !== "";
+          const raw = (n: string) => String(values[n] ?? byName.get(n)?.initial ?? "").trim();
+          // a picture set to "same" (ligature, cap) counts when the mouthpiece has one
+          const filled = (n: string) => (raw(n) === "same" ? raw("top_image") : raw(n)) !== "";
           const rows = s.items.filter(
             (i) =>
               byName.has(i.name) &&

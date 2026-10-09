@@ -254,8 +254,8 @@ ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif
 ligature_text_size = 4; // [2:0.5:12]
 // Which way the ligature's text reads: along or across (flipped = upside down).
 ligature_text_angle = 90; // [0:90:270]
-// A picture (SVG file) on the ligature; solid shapes work, thin line drawings don't.
-ligature_image = "";
+// A picture (SVG file) on the ligature; same = the mouthpiece's top picture; empty = none.
+ligature_image = "same";
 // Ligature picture width (mm).
 ligature_image_width = 8; // [3:0.5:30]
 // Picture height / width, for spacing (the app fills it in).
@@ -282,6 +282,12 @@ cap_slot_width = 3; // [1:0.5:8]
 cap_end_vents = 3; // [0:1:7]
 // End hole diameter (mm).
 cap_end_vent_size = 2; // [1:0.5:4]
+// Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.
+cap_side_vents = "slots"; // [none, slots, holes]
+// How many vents on each side (slots stack up the side, holes run along it).
+cap_side_vent_count = 2; // [1:1:5]
+// Vent width, or a hole's diameter (mm).
+cap_side_vent_size = 2.5; // [1.5:0.5:5]
 // Wall thickness (mm).
 cap_wall = 1.6; // [1.2:0.1:4]
 // Follows the mouthpiece (smoothed), or round.
@@ -300,8 +306,8 @@ cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Ital
 cap_text_size = 5; // [2:0.5:14]
 // Which way the cap's text reads: along or across (flipped = upside down).
 cap_text_angle = 0; // [0:90:270]
-// A picture (SVG file) on the cap; solid shapes work, thin line drawings don't.
-cap_image = "";
+// A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.
+cap_image = "same";
 // Cap picture width (mm).
 cap_image_width = 10; // [3:0.5:40]
 // Picture height / width, for spacing (the app fills it in).

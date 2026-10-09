@@ -117,10 +117,11 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
 - **Reed not held** (it moves or buzzes): raise **Reed grip** (try 0.3). **Stops too far forward**
   (over the window): lower it. Printing grips of 0.1, 0.2 and 0.3 side by side is a quick way to
   find yours.
-- **Band length**, **Tail toward the shank**, **Position** and **Wall thickness** change how much of the reed it holds,
-  where, and how stiff it is; **Shape** can also be fully round or follow the whole mouthpiece.
+- **Thickness**, **Band length**, **Tail toward the shank** and **Position** change how stiff it is and how much of the reed it holds,
+  and where; **Shape** can also be fully round or follow the whole mouthpiece.
 - **Text on the ligature** / **Picture on the ligature** put lettering or a picture on its top, in
-  the font, style (engraved or raised) and depth set under Personalize. Keep it short: the band's
+  the font, style (engraved or raised) and depth set under Personalize. The picture starts as the
+  mouthpiece's own (**Same as the mouthpiece**); pick another, or none. Keep it short: the band's
   top is only about as long as the band plus the tab.
 
 ## 4c. A cap made for it (optional)
@@ -128,7 +129,7 @@ the tight spot: it squeezes the reed 0.2 mm (**Reed grip**) and keeps a hair of 
 A cap keeps the tip and reed safe in a bag. **Cap** -> **Make a cap for this mouthpiece** builds one
 around your mouthpiece, reed and ligature, shown see-through (teal) on the mouthpiece; **Download
 cap STL** gives the print. Like a store-bought cap it is one smooth shell, tapering from its rim to
-a rounded tip, with a slot up from the rim and air holes in the end so the reed can dry; it slides
+a rounded tip, with a slot up from the rim and vents in the sides and the end so the reed can dry; it slides
 on over the tip and the rim clips onto the ligature.
 
 - **Print** it standing on its rim, open end down (as downloaded), no supports; the closed end is a dome.
@@ -137,15 +138,16 @@ on over the tip and the rim clips onto the ligature.
   wide as the screws, so the cap needn't be big enough to cover them. Give the band's length,
   position and thickness and the screws' width and length, and set **Slot side** to the side
   they're on: under the reed (a standard ligature) or on top (an inverted one).
-- **Air:** the **slot** (length and width) and the **air holes in the end** let air through, so a
-  wet reed dries instead of staying damp in a closed cap.
+- **Air:** the **slot**, the **side vents** (slots or round holes, on both sides between the rim and
+  the tip) and the **air holes in the end** let air through, so a wet reed dries instead of staying
+  damp in a closed cap. The vents print without supports, standing on the rim.
 - **Grip:** the rim clips onto the ligature's band; **Grip squeeze** sets how hard. Too loose: raise
   it (try 0.2-0.3); too tight: lower it, or make the slot longer so the rim flexes more. Printing
   0.1, 0.2 and 0.3 side by side finds yours.
 - **Any reed fits:** the cap leaves room for a reed up to 4 mm thick and a little wider than the table.
 - **Wall**, **Shape** (follows the mouthpiece, or round), **Space at the end** and **End shape**
   change how it looks and how it sits in the hand. **Text on the cap** and **Picture on the cap**
-  work like the ligature's.
+  work like the ligature's (the picture starts as the mouthpiece's).
 
 ## 5. Play-test and adjust
 
