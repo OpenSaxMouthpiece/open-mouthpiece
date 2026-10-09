@@ -23,6 +23,7 @@ Examples (original drawings, same license as the project):
 | `ash_leaf.svg` | 10 mm or more |
 | `birch_leaf.svg` | 8 mm or more |
 | `cedar_tree.svg` | 8 mm or more |
+| `element_fire.svg`, `element_leaf.svg`, `element_water.svg` (a set) | 10 mm or more |
 
 ## Making your own
 

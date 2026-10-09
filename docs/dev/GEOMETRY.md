@@ -335,8 +335,8 @@ so anyone can rebuild a variant (or take it further) in the app.
 - **Cedar** (all-round): close tip, short facing, flat baffle, 1.2mm rails; wider and soft, a
   softened shoulder into a scooped beak (`beak_curve` 0.7); a spiral on the shank.
 
-Each carries side text (name / `{tip}`, a font per family) and a picture on top (`scad/art/`
-ash_leaf, birch_leaf, cedar_tree; 10mm wide on the alto). Sizes go as a fraction of the preset's
+Each carries side text (name / `{tip}`, a font per family) and a picture on top, one set of
+round element badges (`scad/art/element_*.svg`: Ash fire, Birch leaf, Cedar water; 12mm on the alto). Sizes go as a fraction of the preset's
 and `beak_length` as a fraction of L, so the four voices match. Guardrails: tip within ~.010" of
 the preset, air within ±8% (baffle height is the main lever, ~±10% per mm; chamber width barely
 moves it), thinnest wall >= ~1.2mm. The lengths go against each recipe's air (~5% per 3mm on the

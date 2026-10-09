@@ -203,7 +203,7 @@ const LOOKS = {
     shank_diameter: r1(p('shank_diameter') * 0.96),
     lettering_font: 'Marcellus SC',
     side_text_right: 'Ash',
-    top_image: 'ash_leaf.svg',
+    top_image: 'element_fire.svg',
     shank_detail: 'rings',
     shank_detail_count: 2,
     shank_detail_depth: 0.5,
@@ -220,7 +220,7 @@ const LOOKS = {
     shank_diameter: r1(p('shank_diameter') * 1.03),
     lettering_font: 'Bebas Neue',
     side_text_right: 'BIRCH',
-    top_image: 'birch_leaf.svg',
+    top_image: 'element_leaf.svg',
     shank_detail: 'knurled',
     shank_detail_style: 'raised',
     shank_detail_count: 16,
@@ -236,7 +236,7 @@ const LOOKS = {
     lettering_font: 'Pacifico',
     lettering_depth: 0.6,
     side_text_right: 'Cedar',
-    top_image: 'cedar_tree.svg',
+    top_image: 'element_water.svg',
     shank_detail: 'spiral',
     shank_detail_count: 2,
     shank_detail_depth: 0.5,
@@ -250,9 +250,10 @@ const VOICE_LOOKS = {
     cedar: { shank_detail_count: 3, shank_detail_depth: 0.7 },
   },
 };
-// Side text size and the picture's width on top, per voice (mm); the pictures (scad/art/) are 2:3.
+// Side text size and the picture's width on top, per voice (mm). The pictures are one set of round
+// element badges (scad/art/element_*.svg): fire for Ash, leaf for Birch, water for Cedar.
 const TEXT = { alto: 5, tenor: 5.5, baritone: 6.5, soprano: 4 };
-const PICTURE = { alto: 10, tenor: 11, baritone: 12, soprano: 9 };
+const PICTURE = { alto: 12, tenor: 13, baritone: 14, soprano: 10 };
 // Overall length (shank end to tip) per family, as a fraction of the voice's: length adds or removes
 // inside air (~5% per 3mm on the alto), so each family's goes against its recipe's air: Ash (big
 // chamber, more air) shorter, Birch (small chamber, less air) longer. Both then sit nearer the
@@ -291,7 +292,7 @@ for (const voice of process.argv.slice(2)) {
       side_text_left: '{tip}',
       side_text_size: TEXT[voice],
       top_image_width: PICTURE[voice],
-      top_image_aspect: 1.5,
+      top_image_aspect: 1,
       overall_length: L1,
       ...(L1 < L0 ? { throat_position: r1(num('throat_position') + L1 - L0) } : {}),
     };
