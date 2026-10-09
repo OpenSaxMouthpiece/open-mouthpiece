@@ -13,7 +13,7 @@ npm run dev:lan        # the same, reachable from phones/tablets on your network
 npm run build          # the site -> dist/ (docs/HOSTING.md); npm run preview to try it
 npm test               # unit tests (Vitest) for the app's pure logic, src/*.test.ts
 npm run check          # regression check of every param file; -- --update to accept changes
-npm run sweep          # robustness sweep, quick (~1 min); -- --full for every voice (a few minutes)
+npm run sweep          # robustness sweep, quick (~2 min); -- --full for every voice (~8 min)
 npm run lint           # ESLint (TypeScript, React hooks); npm run typecheck for tsc alone
 npm run format         # Prettier (src/, scripts/); format:check only reports
 node scripts/sync_voice_files.mjs     # after changing parameters/descriptions in the base file
