@@ -1031,7 +1031,8 @@ function interior_exps_shape(z) =
 function interior_exps_chamber(z) =
   chamber_shape == "square" ? let(t = ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) [lerp(2, 8, t), lerp(2, 8, t)] :
   chamber_shape == "horseshoe" ? let(t = ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) [lerp(2, 2.5, t), lerp(2, 8, t)] :
-  let(bt = ease(clamp01((z - chamber_peak_z) / max(0.001, win_z0 - chamber_peak_z)))) [lerp(2, 4, bt), lerp(2, 6, bt)];
+  // at least 6mm: a chamber peak at or past the window start boxed up in one step (a ledge)
+  let(bt = ease(clamp01((z - chamber_peak_z) / max(6, win_z0 - chamber_peak_z)))) [lerp(2, 4, bt), lerp(2, 6, bt)];
 function interior_exps(z) =
   (has_pts(INT_TOP_SQ_C) || has_pts(INT_BOTTOM_SQ_C))
     ? let(d = interior_exps_shape(z)) [has_pts(INT_TOP_SQ_C) ? pchip_at(z, INT_TOP_SQ_C) : d[0],

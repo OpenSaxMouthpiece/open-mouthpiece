@@ -642,6 +642,11 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
   table_width_rear: (get) =>
     filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
   floor_shape: (get) => (filled(get("floor_points")) ? "your own floor (floor_points) sets it" : null),
+  // it shapes the stretch between the throat and the window (as the generator's chamber_weight)
+  chamber_height: (get) =>
+    Number(get("overall_length")) - Number(get("window_length")) - Number(get("throat_position")) < 3
+      ? "the window starts right after the throat: Baffle height sets the height there"
+      : null,
   baffle_type: (get) => (filled(get("baffle_points_custom")) ? "your own baffle (baffle_points_custom) wins" : null),
   shank_bevel_depth: (get) =>
     Number(get("shank_bevel")) > 0 ? null : "the opening has no lead-in (Lead-in at the opening is 0)",

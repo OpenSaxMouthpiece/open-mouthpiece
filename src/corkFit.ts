@@ -16,9 +16,9 @@ export interface Socket {
 export const PRESET_AIR: Record<string, { air: number; depth: number }> = {
   Soprano: { air: 2.9, depth: 25.5 },
   Alto: { air: 9, depth: 22 },
-  "C-melody": { air: 9.5, depth: 24.5 },
+  "C-melody": { air: 9.4, depth: 24.5 },
   Tenor: { air: 10.2, depth: 26 },
-  Baritone: { air: 17, depth: 30 },
+  Baritone: { air: 16.9, depth: 30 },
 };
 
 // "Socket: 22mm deep, 16mm across, voice Alto"
