@@ -1,341 +1,355 @@
 # Open Mouthpiece user guide
 
-Open Mouthpiece (https://opensaxmouthpiece.org) designs saxophone mouthpieces you can 3D-print. You
-start from a soprano, alto, tenor or baritone piece, change it with settings named the way players
-and refacers talk (tip opening, facing, baffle, chamber), and download a file ready to print. It
-runs in your web browser: no account, nothing to install, and your designs are never stored on a
-server.
+Open Mouthpiece is a free web app for designing saxophone mouthpieces and 3D printing them. You
+pick a soprano, alto, tenor or baritone mouthpiece to start from, adjust things like the tip
+opening, facing, baffle and chamber, and download a file to print. Everything happens in your
+browser. You don't need an account or any software, and your designs aren't stored on our server.
 
-![The app: the section buttons down the left, the readouts and settings, and the mouthpiece in the 3D view](images/app.png)
+Open the app at https://opensaxmouthpiece.org.
+
+![The app with the section buttons on the left, the settings panel, and the mouthpiece in the 3D view](images/app.png)
 
 **Contents**
 
-1. [Your first mouthpiece](#1-your-first-mouthpiece)
-2. [Finding your way around](#2-finding-your-way-around)
+1. [Getting started](#1-getting-started)
+2. [The screen](#2-the-screen)
 3. [Choosing a starting point](#3-choosing-a-starting-point)
-4. [Changing the design](#4-changing-the-design)
-5. [The sections, one by one](#5-the-sections-one-by-one)
-6. [Shape charts: drag the shape itself](#6-shape-charts-drag-the-shape-itself)
-7. [The readouts](#7-the-readouts)
+4. [Changing settings](#4-changing-settings)
+5. [What each section covers](#5-what-each-section-covers)
+6. [Shape charts](#6-shape-charts)
+7. [Readouts](#7-readouts)
 8. [The 3D view](#8-the-3d-view)
-9. [Comparing two designs](#9-comparing-two-designs)
-10. [A ligature and a cap](#10-a-ligature-and-a-cap)
+9. [Comparing designs](#9-comparing-designs)
+10. [Ligature and cap](#10-ligature-and-cap)
 11. [Saving, opening and sharing](#11-saving-opening-and-sharing)
 12. [Downloading and printing](#12-downloading-and-printing)
-13. [On a phone or tablet](#13-on-a-phone-or-tablet)
-14. [For OpenSCAD users](#14-for-openscad-users)
+13. [Phones and tablets](#13-phones-and-tablets)
+14. [Using OpenSCAD](#14-using-openscad)
 15. [App settings and privacy](#15-app-settings-and-privacy)
-16. [Questions and troubleshooting](#16-questions-and-troubleshooting)
-17. [More reading](#17-more-reading)
+16. [Troubleshooting](#16-troubleshooting)
+17. [Other documents](#17-other-documents)
 
-## 1. Your first mouthpiece
+## 1. Getting started
 
-1. Open https://opensaxmouthpiece.org. The alto preset appears in the 3D view.
-2. **Pick your voice** in the list at the top left: Soprano, Alto, Tenor or Baritone (or one of
-   their variants; see [section 3](#3-choosing-a-starting-point)).
-3. **Fit it to your horn**: click **Fit** on the left and enter your neck cork's diameter, if you
-   know it. The value already there suits a typical neck.
-4. **Change what you want**: **Tip** for the tip opening and facing, **Chamber** for the inside,
-   **Body** for the outside. The model redraws a moment after each change, and the readouts at
-   the top of the panel follow.
-5. **Print a test ring first**: open **Download ▾** (the arrow beside the yellow Download button)
-   and pick **Shank test ring**. It's the socket end of the mouthpiece and prints in minutes; try it
-   on your cork before printing the whole piece.
-6. **Download the mouthpiece**: the yellow **Download mouthpiece STL** button. The file is already
-   standing the right way for printing.
-7. **Keep your design**: **Save as…** keeps a copy in this browser, and can also download a design
-   file you can open again later.
+1. Open the app. The alto mouthpiece loads first.
+2. Choose your saxophone in the list at the top left (Soprano, Alto, Tenor or Baritone).
+3. Click **Fit** on the left and enter the diameter of your neck cork. If you don't know it, leave
+   the default, which suits most necks.
+4. Make your changes. **Tip** has the tip opening and facing, **Chamber** has the inside and
+   **Body** has the outside. The model updates a few seconds after each change.
+5. Before printing the whole mouthpiece, print a shank test ring to check the fit on your cork.
+   Click the small arrow next to the yellow Download button and choose **Shank test ring**. It only
+   takes a few minutes to print.
+6. Click **Download mouthpiece STL** to get the file for your printer. It's already oriented for
+   printing.
+7. Click **Save as…** to keep your design.
 
-The [printing guide](PRINTING.md) takes it from there: printer settings, finishing the table and
-facing, checking the print, and what to change after you play it.
+The [printing guide](PRINTING.md) covers the rest: printer settings, sanding the table and facing,
+checking the print, and making changes after you've played it.
 
-## 2. Finding your way around
+## 2. The screen
 
-On a computer the screen has four parts:
+On a computer, the app has four areas.
 
-- **The top bar**: the design list, **Save as…** and **Open…** on the left; **Support**, **Share**,
-  **Download** (with its **▾** list), **More ▾** and the **⚙** app settings on the right.
-- **The rail** down the left edge: one button per section of settings (**Tip**, **Fit**,
-  **Chamber**, **Body**, **Personalize**), then the extra parts (**Ligature**, **Cap**) and
-  **Print**. At the bottom are the tools: **Compare**, **Points**, **Code** and **About**. A small
-  dot or number on a button means you've changed something there.
-- **The panel** beside the rail: the readouts at the top, then the settings of the section you
-  picked.
-- **The 3D view**: the mouthpiece itself, with the view tools along its top and the **Shape
-  charts** button at its bottom left.
+The **top bar** has the design list, **Save as…** and **Open…** on the left. On the right are
+**Support**, **Share**, the **Download** button with its arrow menu, **More** and the **⚙**
+settings.
 
-Picking a section also turns the view toward the part it shapes, so you can see what you're
-changing. Drag the edges between the columns to make the panel wider or narrower.
+The **icon bar** down the left side opens each group of settings: Tip, Fit, Chamber, Body and
+Personalize for the mouthpiece, then Ligature, Cap and Print. Compare, Points, Code and About are
+at the bottom. A dot or number on a button means you've changed something in that group.
+
+The **settings panel** next to it shows the measurements at the top and the settings for the group
+you picked below them.
+
+The **3D view** shows the mouthpiece. The view controls are along its top, and the **Shape charts**
+button is at the bottom left.
+
+When you open a group of settings, the view turns to the part of the mouthpiece those settings
+change. You can drag the borders between the columns to resize them.
 
 ## 3. Choosing a starting point
 
-The design list at the top left has:
+The list at the top left contains:
 
-- **The four presets**: Soprano, Alto, Tenor and Baritone. Their dimensions were measured from
-  well-known printed mouthpieces (credited in About). The alto, tenor and baritone have been
-  printed and play-tested.
-- **Variants**: each voice has three, named **Flamma**, **Silva** and **Unda**. Each one changes
-  several settings at once, and comes with lettering, a picture and a shank decoration to show
-  what Personalize can do. A one-line note above the settings says what the variant changes
-  compared with its preset.
-- **Extras**: a **C-melody** mouthpiece, blended between the alto and tenor.
-- **Your designs**: everything you've kept with Save as… in this browser.
-- **Open files**: .scad files you've opened (with **Open…** or by dropping them on the page).
+- The four standard mouthpieces: soprano, alto, tenor and baritone. These are based on
+  measurements of well-known 3D-printed mouthpieces (see the credits in About). The alto, tenor
+  and baritone versions have been printed and played.
+- Three variations of each, called Flamma, Silva and Unda. Each one changes several settings at
+  once and adds some lettering and decoration as an example. A short note above the settings
+  explains how it differs from the standard version.
+- A C-melody mouthpiece, under Extras.
+- Your own saved designs.
+- Any .scad files you've opened.
 
-Presets and variants can't be overwritten: change them as much as you like, then **Save as…** to
-keep the result under your own name. "(edited)" after the name means you've changed it since it
-was opened or saved.
+You can't overwrite the built-in designs, but you can change them as much as you like and then
+use **Save as…** to keep your version under a new name. If "(edited)" appears after the name, the
+design has changes that haven't been saved.
 
-## 4. Changing the design
+## 4. Changing settings
 
-Each setting has a slider, a box to type an exact value, and words at both ends of the slider
-that say which way is which (Closed / Open, Short / Long, Narrow / Wide). A short description under
-the label gives the unit; **Options ▾** -> **Show descriptions** hides them once you know them.
+Each setting has a slider and a box where you can type an exact number. The words under each end of
+the slider tell you what that direction does, such as Closed and Open or Short and Long. A short
+description under each setting gives the unit. If you'd rather not see the descriptions, turn
+them off under **Options**.
 
-- **More settings**: every section shows its main settings first. The **More settings** chip at the
-  bottom opens the rest; the number on it is how many there are.
-- **Find a setting**: type in the box at the top of the panel (for example "baffle" or "window")
-  to list every setting that matches, from any section.
-- **Undo and redo**: the ↶ ↷ buttons, or Ctrl+Z / Ctrl+Y. Each design has its own history.
-- **Reset**: back to the design as it was opened or last saved. The number on it is how many
-  settings you've changed.
-- **Auto-zoom** (**Options ▾**): when you touch a setting, the view flies to the part it shapes,
-  and cuts the model open for parts inside it. Turn it off to keep the camera still.
-- **Compare with the original** (**Options ▾**): puts the design as it was published or saved
-  beside your changes (see [section 9](#9-comparing-two-designs)).
+Each group shows its main settings first. Click **More settings** at the bottom of the group to see
+the rest.
 
-**The generator keeps it printable.** Walls, the socket and the window are limited by
-construction, so no combination of settings breaks the model. When a setting is held back to
-keep a wall thick enough, a note under the readouts says so and by how much.
+To find a particular setting, type part of its name in the **Find a setting** box, for example
+"baffle" or "window".
 
-## 5. The sections, one by one
+Use the ↶ and ↷ buttons (or Ctrl+Z and Ctrl+Y) to undo and redo. **Reset** takes the design back
+to how it was when you opened or last saved it, and the number on the button shows how many
+settings you've changed.
 
-Every setting, with pictures of its lowest and highest values, is in
-[PARAMETERS.md](PARAMETERS.md); the [glossary](GLOSSARY.md) names each part of a mouthpiece and
-the settings that change it. In short:
+Two more options are in the **Options** menu. **Auto-zoom** moves the view to whatever part a
+setting affects, and cuts the model open for parts on the inside. Turn it off if you'd rather the
+view stayed put. **Compare with the original** puts the unchanged design next to yours.
 
-**Tip & facing (Tip)**: the tip opening (in thousandths of an inch; typing mm works too), the
-facing length (from the tip back to the break, where the rails leave the flat table), and the tip
-and side rails. Under More: the facing curve's shape, the tip's roundness, and the table's length,
-widths and hollow.
+The app won't let you make a mouthpiece that can't be printed. If a setting would make a wall too
+thin, the app limits it and a note under the measurements tells you.
 
-**Fit on the horn (Fit)**: your neck cork's diameter, the **cork squeeze** (how much smaller than
-the cork the socket is: bigger = tighter; 0.1-0.3 mm is usual) and how far the cork goes in.
-**Download a shank test ring** prints just the socket end to check the fit. Under More: the
-lead-in at the socket's mouth, the bore behind the cork and the table's angle to the neck.
+## 5. What each section covers
 
-**Chamber & baffle (Chamber)**: the inside. Chamber shape (round, square, horseshoe) and width,
-throat width, the baffle's shape (with a sketch of each), height and hump, and the window's width.
-Under More: chamber height and floor, how the chamber widens after the throat, throat position and
-shape, where the baffle begins and its curve, the window's length and corners, and the side walls.
+For a full list of settings with before-and-after pictures, see [Every setting](PARAMETERS.md).
+The [glossary](GLOSSARY.md) explains the parts of a mouthpiece and which settings change each one.
 
-**Body & beak (Body)**: the outside. Length, the beak's height at the tip, its curve, length and
-top (ridged or flat, narrow or wide), how crisp or smooth the shoulder is, the sides near the table,
-and the body's width and height. Under More: the body's cross-section, the shoulder sweep, the
-shank's outside diameter and the bore's height.
+**Tip & facing.** The tip opening is in thousandths of an inch, but you can type a value in mm
+too. The facing length is measured from the tip back to the break, where the rails leave the flat
+table. This group also has the thickness of the tip rail and the width of the side rails. Under
+More settings you'll find the shape of the facing curve, the roundness of the tip, and the length,
+width and hollow of the table.
 
-**Personalize**: text on top, on either side and around the shank; a picture on top (pick one of
-the built-in pictures or upload your own SVG); and a shank decoration (rings, flutes, a spiral or
-knurling, cut in or raised). **Variables ▾** next to each text box puts in values from the design,
-such as `{tip}` (the tip opening), `{facing}`, `{title}` (the design's name) or `{voice_letter}`.
-Text can have several lines. One font applies to all the lettering, and each text can have its
-own under More. Lettering on the mouthpiece is always engraved, so the ligature can't catch on it.
+**Fit on the horn.** Enter your neck cork's diameter here, and set the cork squeeze, which is how
+much smaller the socket is than the cork. A bigger number gives a tighter fit, and 0.1 to 0.3 mm is
+typical. You can also set how far the cork goes in, and download a shank test ring. Under More
+settings are the bevel at the opening of the socket, the bore size and the angle of the table.
 
-**Print**: **What to print** (the mouthpiece or a shank test ring), **Extra to sand off** (a little
-extra on the table and facing to sand flat; see the printing guide), and **Download print kit**.
-Under More: the thinnest wall the generator allows, the smoothness of the model, and whether
-downloads stand on the neck end.
+**Chamber & baffle.** This group controls the inside of the mouthpiece: the chamber's shape
+(round, square or horseshoe) and width, the throat width, the baffle's shape, height and hump, and
+the width of the window. More settings has the chamber height and floor, how the chamber widens
+past the throat, the throat's position and shape, where the baffle starts and how it curves, the
+window's length and corners, and the angle of the side walls.
 
-## 6. Shape charts: drag the shape itself
+**Body & beak.** This group controls the outside: overall length, the height of the beak at the
+tip, the beak's curve, length and top, the shoulder, the sides near the table, and the width and
+height of the body. More settings has the body's cross-section, the shoulder sweep, the shank's
+outside diameter and the bore height.
 
-![The Outside chart in Edit shape: the side view with dots on the top and underside, a slice across it, and the view from above](images/shape-charts.png)
+**Personalize.** Add text on the top, on either side or around the shank, and a picture on top.
+You can use one of the built-in pictures or upload your own SVG file. You can also add rings,
+flutes, a spiral or knurling around the shank. Click **Variables** next to a text box to insert
+values from the design, such as the tip opening (`{tip}`) or the design's name (`{title}`). Text
+can run over several lines. The same font is used for all text unless you choose a different one
+for a particular text under More settings. Text on the mouthpiece is always engraved so the
+ligature can't catch on it.
 
-**Shape charts** at the bottom left of the 3D view opens a card with three charts. It follows the
-section you're in, and **Larger** / **Smaller** sizes it.
+**Print.** Choose whether to print the mouthpiece or a shank test ring. **Extra to sand off** adds
+a little material to the table and facing so you can sand them flat after printing (the printing
+guide explains when to use it). You can also download the print kit here. Under More settings are
+the minimum wall thickness, the smoothness of the model, and the print orientation.
 
-- **Facing curve**: the gap between the reed and the rails, from the tip back to the break.
-  Pick a shape (**As designed**, **Opens early**, **Even**, **Opens late**, **Radius**), or drag the
-  points: the tip end sets the tip opening, the flat end the facing length. Click the curve to add
-  a point, double-click one to remove it. **Feeler gauge stops** lists where standard gauges
-  should stop along a straightedge on the table, to check a print.
-- **Outside**: the mouthpiece from the side, and a slice across it. Drag the line over the side
-  view, or use the **Where to slice** slider, to choose where the slice is taken.
-- **Inside**: the same for the inside: the baffle and the floor from the side, and the inside's
-  width in the slice.
+## 6. Shape charts
 
-**Edit shape** (on Outside and Inside) puts dots on the lines: drag them to reshape the top, the
-underside and the width (outside), or the baffle, the floor and the inside width (inside). A
-readout shows the change in mm as you drag, and the model follows. Dragging a dot on the slice
-changes the shape at that spot. **↶ Undo** steps back through your shape edits, **Reset shape**
-removes them all, and **Done** hides the dots. Shape edits are saved, shared and downloaded with
-the design like any other setting.
+![The Outside chart in Edit shape mode, with dots on the side view, a cross-section, and the view from above](images/shape-charts.png)
 
-**Points** (on the rail) is the advanced version: every curve in the design as a list of exact
-points, to drag or type. Most people never need it.
+Click **Shape charts** at the bottom left of the 3D view to open a panel with three charts. Use
+**Larger** and **Smaller** to resize it.
 
-## 7. The readouts
+**Facing curve** shows the gap between the reed and the rails from the tip back to the break. You
+can pick a ready-made curve (As designed, Opens early, Even, Opens late or Radius), or drag the
+points yourself. The point at the tip sets the tip opening and the point at the flat end sets the
+facing length. Click on the curve to add a point and double-click a point to remove it. Open
+**Feeler gauge stops** to see where standard feeler gauges should stop, which is useful for
+checking a print.
 
-The five boxes at the top of the panel:
+**Outside** shows the mouthpiece from the side and a cross-section of it. To move the
+cross-section, drag the line on the side view or use the **Where to slice** slider.
 
-- **Tip**: the tip opening, in thousandths of an inch.
-- **Facing**: the facing length, to the break.
-- **Length**: overall, from the neck end to the tip.
-- **Air**: the air inside the mouthpiece, from the end of the neck to the tip. This mostly decides
-  where the mouthpiece sits on the cork when it's in tune, so it's compared with the preset's
-  ("as the preset", or how many mm further on or out).
+**Inside** works the same way for the inside of the mouthpiece, showing the baffle and floor from
+the side and the inside width in the cross-section.
+
+To change the shape directly, click **Edit shape** on the Outside or Inside chart and drag the
+dots. On the outside you can change the top, the underside and the width. On the inside you can
+change the baffle, the floor and the inside width. The change in mm is shown while you drag. Use
+**Undo** to step back, **Reset shape** to remove all your shape changes, and **Done** when you're
+finished. Shape changes are saved and shared along with the rest of the design.
+
+For finer control, **Points** in the icon bar lets you edit the exact points of every curve in the
+design. You won't need it for normal use.
+
+## 7. Readouts
+
+The boxes at the top of the settings panel show:
+
+- **Tip**: the tip opening.
+- **Facing**: the facing length.
+- **Length**: the overall length.
+- **Air**: the volume of air inside the mouthpiece, from the end of the neck to the tip. This
+  affects how far onto the cork you'll need to push the mouthpiece to play in tune, so it's
+  compared with the standard design for your saxophone.
 - **Wall**: the thinnest wall, and where it is.
 
-Click the readouts for the details. Notes from the generator (a setting it held back, something to
-check) show under them.
+Click the readouts for more detail. Any notes about your design appear underneath them.
 
 ## 8. The 3D view
 
-Drag to turn the model, scroll or pinch to zoom, and right-drag (or two fingers) to move it.
-The tools along the top:
+Drag to rotate the model, scroll or pinch to zoom, and right-drag or use two fingers to move it.
 
-- **3D, Table, Top, Left, Right, Tip**: standard views.
-- **Show ▾**: edges, wireframe, see-through, and which parts are shown (the mouthpiece, the
-  ligature, the reed, the cap). **Ghost after a change** shows the previous shape faintly after
-  each change for a moment, so you can see what moved.
-- **Last shape**: brings that previous shape back until you turn it off.
-- **Cut open**: cuts the model lengthwise or across, to see the chamber, baffle and bore.
-- **Quality**: **Draft** redraws fastest while you explore; **Normal** is the default; **Fine** is
-  smoother. Downloads are always made at full quality.
-- **📷**: saves the view as a picture (PNG).
+The buttons along the top of the view do the following:
 
-When auto-zoom has flown in close, **Whole model** at the bottom right brings the whole piece back.
-The "Ready" line at the bottom left shows how long the last redraw took.
+- **3D, Table, Top, Left, Right** and **Tip** switch to a standard view.
+- **Show** lets you turn edges, wireframe and see-through on or off, and choose which parts are
+  visible. When **Ghost after a change** is on, the previous shape shows faintly for a moment
+  after each change.
+- **Last shape** shows the previous shape again, until you turn it off.
+- **Cut open** cuts the model in half lengthwise or crosswise, so you can see inside.
+- **Quality** sets how detailed the preview is. Draft is the fastest. Downloads are always full
+  quality.
+- The camera button saves the current view as a picture.
 
-## 9. Comparing two designs
+If the view has zoomed in on one part, click **Whole model** at the bottom right to see all of it.
 
-**Compare** on the rail puts a second design, **B**, beside the one you're changing (**A**):
+## 9. Comparing designs
 
-- **Pin this model as B** freezes the design as it is now; then change A and see the difference.
-- **Compare with the original** pins the design as published or as last saved.
-- **Compare with…** picks any preset, variant or saved design, a .scad file, or an **STL file** of a
-  mouthpiece you already have (or drop an .stl on the page).
+Click **Compare** in the icon bar to show a second design (B) next to the one you're working on
+(A). There are a few ways to choose B:
 
-A and B show side by side or overlaid (the choice next to the A / B buttons over the view). The readouts show B's numbers under A's, the facing chart
-draws B's curve dashed, and the Compare panel lists every setting that differs, with **← B** to
-copy B's value into A. **Swap A ↔ B** and **Clear B** do what they say.
+- **Pin this model as B** keeps a copy of your design as it is now, so you can make changes and
+  see the difference.
+- **Compare with the original** uses the design as it was before your changes.
+- **Compare with…** lets you choose any built-in or saved design, a .scad file, or an STL file of a
+  mouthpiece you already own. You can also drag an STL file onto the page.
 
-![A variant and the alto preset side by side, with the settings that differ](images/compare.png)
+You can show the two designs side by side or overlapping. The measurements show both designs'
+numbers, the facing chart shows B's curve as a dashed line, and the Compare panel lists every
+setting that's different. Click **← B** next to a setting to copy B's value into your design.
 
-## 10. A ligature and a cap
+![A variant next to the standard alto, with the list of settings that differ](images/compare.png)
 
-![A mouthpiece with its reed, a printed ring ligature and a see-through cap](images/ligature.png)
+## 10. Ligature and cap
 
-**Ligature** on the rail -> **Make a ligature for this mouthpiece** builds a ring ligature from
-the mouthpiece's own shape, so it fits whatever you change. It slides on over the tip with the
-reed and grips it like a cork. You can set its shape, reed grip, band length, position, a tail
-toward the shank, and text or a picture on its top.
+![A mouthpiece with a reed, a printed ligature and a see-through cap](images/ligature.png)
 
-**Cap** -> **Make a cap for this mouthpiece** builds a cap over the tip, the reed and the ligature
-(the printed one, or a metal ligature whose size you give). It has a slot and air holes so the reed
-can dry, and the rim clips onto the ligature.
+The app can make a ligature and a cap that fit your mouthpiece.
 
-Each section has a **Download … STL** button, a choice of showing the part on the mouthpiece or
-beside it, **Hide** and **Remove**. Once made, they're saved and shared with the design, and the
-ligature goes into the print kit. The
-[printing guide](PRINTING.md#4b-a-ligature-made-for-it-optional) covers printing and fitting both.
+To make a ligature, click **Ligature** in the icon bar, then **Make a ligature for this
+mouthpiece**. It's a ring that's shaped to the mouthpiece, so it still fits after you make
+changes. It slides on over the tip and holds the reed in place by friction. You can adjust its
+shape, how tightly it grips the reed, its length and position, and add text or a picture.
+
+To make a cap, click **Cap**, then **Make a cap for this mouthpiece**. The cap fits over the tip,
+the reed and the ligature. It can be made to fit the printed ligature or a metal one (you enter
+the metal ligature's measurements). It has a slot and air holes so the reed can dry, and clips onto
+the ligature.
+
+Each one has its own download button. You can also show it beside the mouthpiece, hide it, or
+remove it. Once you've made them, they're saved and shared with your design, and the ligature is
+included in the print kit. See the [printing guide](PRINTING.md#4b-a-ligature-made-for-it-optional)
+for how to print and fit them.
 
 ## 11. Saving, opening and sharing
 
-**Save as…** opens a small panel: a name, then any of
+When you click **Save as…**, you enter a name and choose how to save:
 
-- **Keep a copy in this browser**: quick, and it then shows under **Your designs**. It's only in
-  this browser on this device: clearing the site's data, or another browser, loses it.
-- **Design file (.scad)**: one plain file with your settings and the generator. It opens here
-  again with **Open…**, and in OpenSCAD. This is the way to really keep a design.
-- **More formats -> Settings-only .scad**: just your settings, a few KB; it opens only on this site.
-- **STL** files of the mouthpiece, the ligature and the cap, optionally zipped together.
+- **Keep a copy in this browser** saves the design in the app, under Your designs. It only exists
+  in this browser on this device, so it will be lost if you clear your browser data or switch
+  browsers.
+- **Design file (.scad)** downloads a file you can open again in the app with **Open…**, or in
+  OpenSCAD. This is the safest way to keep a design.
+- Under **More formats**, a settings-only .scad file is much smaller but only opens in this app.
+- You can also download STL files of the mouthpiece, ligature and cap, and zip them together.
 
-**Open…** (or dropping files on the page) opens .scad files; an .stl dropped on the page is
-pinned as B to compare with.
+To open a saved design file, click **Open…** or drag the file onto the page.
 
-**Share** copies a link with the whole design in it: paste it in a message or a forum post, and
-it opens the design for whoever clicks it. Nothing is uploaded: the design travels inside the
-link itself. A picture you uploaded yourself goes along only if you choose to include it.
+**Share** copies a link to your design. Anyone who opens the link sees your design. The design is
+stored inside the link itself, so nothing is uploaded. If you've added your own picture, you can
+choose whether to include it.
 
 ## 12. Downloading and printing
 
-The yellow **Download** button saves the part you're working on: the mouthpiece, or the ligature or
-cap while you're in their sections. **Download ▾** lists everything:
+The yellow **Download** button downloads the part you're working on: the mouthpiece, or the
+ligature or cap when you're in their section. The arrow next to it has more options:
 
-- **Mouthpiece (.stl)**, standing on its shank end, as printed.
-- **Shank test ring (.stl)** at your cork squeeze.
-- **Print kit (.zip)**: the mouthpiece, shank test rings at 0.10 / 0.20 / 0.30 mm squeeze, the
-  ligature if made, and a check card with the numbers to measure the print against.
+- **Mouthpiece (.stl)**, oriented for printing.
+- **Shank test ring (.stl)**, using your cork squeeze setting.
+- **Print kit (.zip)**, which contains the mouthpiece, test rings at three different squeezes
+  (0.10, 0.20 and 0.30 mm), the ligature if you made one, and a card with measurements to check
+  the print against.
 - **Design file (.scad)**.
 
-Then follow the [printing guide](PRINTING.md): fit check, printer settings, finishing the table and
-facing, checking the print, and play-testing one change at a time.
+The [printing guide](PRINTING.md) explains how to print the mouthpiece, check the fit, finish the
+table and facing, and test it.
 
-## 13. On a phone or tablet
+## 13. Phones and tablets
 
-The same app, laid out for a small screen:
+The app works on phones and tablets, with a few differences:
 
-- The sections are a bar along the bottom (**Tip**, **Fit**, **Chamber**, **Body**,
-  **Personalize**, **Ligature**, **Cap**, **Print**); the settings scroll under the view.
-- The readouts are one line over the view: tap it for the details.
-- **☰** (top left) has the downloads, Quality, Save as, Open, Share, Compare, the printing guide,
-  Appearance, the code editor, and About and help; **⋯** in the view has the views and Cut open.
-- The shape charts show inside their sections.
+- The groups of settings are in a bar at the bottom of the screen, and the settings appear below
+  the 3D view.
+- The measurements are shown in one line above the view. Tap it to see the details.
+- The **☰** menu at the top left has downloads, quality, saving, opening, sharing, comparing,
+  appearance, the code editor and About.
+- The **⋯** button in the view has the view buttons and Cut open.
+- The shape charts appear inside each group of settings.
 
-Rendering on a phone takes longer than on a computer (several seconds per change); **Quality:
-Draft** helps.
+Updates take longer on a phone than on a computer. Setting the quality to Draft makes them faster.
 
 ![The app on a phone](images/phone.png)
 
-## 14. For OpenSCAD users
+## 14. Using OpenSCAD
 
-The generator is an ordinary OpenSCAD file. **Code** on the rail (or **More ▾** -> **Show the code
-editor**) shows the design's source and OpenSCAD's console. Presets are read-only; your own designs
-and opened files can be edited, and the model follows the text. A downloaded design file opens in
-any OpenSCAD (its Customizer shows the settings), and the source of the whole project
-is on [GitHub](https://github.com/OpenSaxMouthpiece/open-mouthpiece).
+The mouthpiece is made by an OpenSCAD program. Click **Code** in the icon bar to see the program
+and OpenSCAD's messages. You can edit the code of your own designs and the model will update.
+The built-in designs are read-only. A downloaded design file also opens in OpenSCAD on your
+computer, where the settings appear in the Customizer. The source code for the whole project is on
+[GitHub](https://github.com/OpenSaxMouthpiece/open-mouthpiece).
 
 ## 15. App settings and privacy
 
-**⚙** (top right): the theme (system, dark, light), the model's colour, the background, the grid
-and axes, and **Share anonymous usage**.
+The **⚙** menu at the top right lets you change the theme (light, dark or your system's setting),
+the colour of the model, the background, and whether the grid and axes are shown.
 
-Your designs never leave your browser unless you download or share them. The live site counts
-anonymous usage to improve the app: which designs and settings get used, what gets printed (its
-numbers) and what fails. Never your lettering, pictures or file names, no cookies, no IP
-addresses, and nothing that links one visit to the next. **Share anonymous usage** turns it off.
+Your designs stay in your browser unless you download or share them. The app sends anonymous
+usage information to help us improve it, such as which designs and settings are used and whether
+anything goes wrong. It never sends your text, pictures or file names, doesn't use cookies, doesn't
+record IP addresses, and can't connect one visit to another. You can turn this off with **Share
+anonymous usage** in the **⚙** menu.
 
-## 16. Questions and troubleshooting
+## 16. Troubleshooting
 
-**The model takes a while to redraw.** Every change rebuilds the whole mouthpiece in your browser:
-about 2-5 seconds on a computer, longer on a phone. Use **Quality: Draft** while exploring.
-Lettering and shank decorations add a little.
+**The model is slow to update.** The app rebuilds the whole mouthpiece after every change, which
+takes a few seconds on a computer and longer on a phone. Set the quality to Draft while you're
+experimenting. Text and shank decorations add a little extra time.
 
-**A setting doesn't seem to do anything.** Some settings only matter when another one is set (the
-chamber's widening needs a chamber wider than the throat; a ring's position needs a single ring).
-Those show dimmed, with a note saying why. Others are held back to keep a wall printable; the note under
-the readouts says so.
+**A setting doesn't change anything.** Some settings only work together with another one. For
+example, the chamber's widening only applies when the chamber is wider than the throat. These
+settings are greyed out with a note explaining why. A setting may also be limited to keep the walls
+thick enough to print, in which case a note appears under the measurements.
 
-**The view looks broken.** In the 3D view you often see the inside through the window, which can
-look like a hole. Try **Left** or **Cut open** to check.
+**The model looks like it has a hole in it.** In the default view you can often see inside the
+mouthpiece through the window. Switch to the Left view or use Cut open to check.
 
-**My saved design is gone.** Copies kept in the browser live only in that browser, on that device.
-Clearing the site's data or using a private window removes them. Download a design file (.scad)
-for anything you want to keep.
+**My saved design has disappeared.** Designs saved in the browser only exist in that browser on
+that device, and are deleted if you clear your browser data or use private browsing. To keep a
+design safe, download it as a design file (.scad).
 
-**My picture doesn't show.** Pictures are SVG files. Solid shapes work; thin line drawings don't.
-If part of a picture is cut off, a warning says so: make it smaller or move it.
+**My picture doesn't appear.** Pictures need to be SVG files with solid shapes. Thin line drawings
+won't work. If part of the picture is cut off, you'll see a warning; try making it smaller or
+moving it.
 
-**It doesn't fit my cork.** Print shank test rings at a few squeezes (the print kit has three),
-and measure your cork in two directions with calipers if none fits. See step 1 of the
+**The mouthpiece doesn't fit my cork.** Print test rings at a few different squeezes (the print
+kit includes three). If none of them fit, measure your cork with calipers in two directions and
+enter the new diameter. See step 1 of the
 [printing guide](PRINTING.md#1-check-the-cork-fit-15-minutes).
 
-**Something is broken, or I have an idea.** Tell us on
+**I found a problem or have a suggestion.** Please let us know on
 [GitHub](https://github.com/OpenSaxMouthpiece/open-mouthpiece/issues).
 
-## 17. More reading
+## 17. Other documents
 
 - [Printing guide](PRINTING.md): printing, finishing, checking and play-testing.
-- [Glossary](GLOSSARY.md): the parts of a mouthpiece, with labelled pictures.
-- [Every setting](PARAMETERS.md): each setting, with pictures of what it changes.
-- [Putting the app online](HOSTING.md) and [working on the code](../CONTRIBUTING.md).
+- [Glossary](GLOSSARY.md): the parts of a mouthpiece, with diagrams.
+- [Every setting](PARAMETERS.md): each setting, with pictures.
+- [Hosting the app](HOSTING.md) and [contributing to the project](../CONTRIBUTING.md).
