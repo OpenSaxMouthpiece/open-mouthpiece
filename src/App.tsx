@@ -4,7 +4,7 @@
 // files, so editing an included base file re-renders the file that includes it.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { zipSync } from "fflate";
-import { bundleDesign } from "./bundle";
+import { bundleDesign, designPictures } from "./bundle";
 import { withValues } from "./scadText";
 import { api, base64ToBuffer, type ParamValue, type RenderTarget, type ScadParam } from "./api";
 import { Editor, type EditorHandle } from "./components/Editor";
@@ -50,7 +50,7 @@ import { designNumbers, track, trackSetting, trackVisit } from "./usage";
 import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
 import { migrateScad } from "./migrate";
-import { imageRefs, isUserArt, receiveArt, sharedArt } from "./userArt";
+import { imageRefs, isUserArt, receiveArt, sharedArt, userArtFiles } from "./userArt";
 import { DONATE_URL, GLOSSARY_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
 import { setSectionsOpen, usePref } from "./uiPrefs";
 import {
@@ -1110,15 +1110,42 @@ export default function App() {
       readFile: async (p) => tabs.find((t) => t.path === p)?.source ?? (await api.file(p)).source,
       date: new Date().toLocaleDateString("sv-SE"), // YYYY-MM-DD, local
     });
+  // The pictures the design file imports, as art/<name> files to go beside it (the user's own or
+  // the project's; one that can't be found is left out, and the file says so in its header).
+  const pictureFiles = async (): Promise<[string, Uint8Array<ArrayBuffer>][]> => {
+    const own = userArtFiles();
+    const enc = new TextEncoder();
+    const got = await Promise.all(
+      designPictures(titled, mainTab.source).map(async (n) => {
+        const text =
+          own[`art/${n}`] ??
+          (await api.file(`art/${n}`).then(
+            (f) => f.source,
+            () => null,
+          ));
+        return text === null ? null : ([`art/${n}`, enc.encode(text)] as [string, Uint8Array<ArrayBuffer>]);
+      }),
+    );
+    return got.filter((f) => f !== null);
+  };
+  // The design file; with a picture, a .zip of it and its art/ folder (a .scad can't hold an SVG).
   const downloadScad = async () => {
     track("download", "scad");
-    const name = `${downloadName(mainTab, values, isRO(mainTab))}.scad`;
-    notify({ text: `Making ${name}…`, short: "Preparing the download…", kind: "busy" });
+    const base = downloadName(mainTab, values, isRO(mainTab));
+    notify({ text: `Making ${base}.scad…`, short: "Preparing the download…", kind: "busy" });
     try {
       const text = await fullScad();
-      download(text, "text/plain", name);
+      const art = await pictureFiles();
+      const name = art.length ? `${base}.zip` : `${base}.scad`;
+      if (art.length)
+        download(
+          zipSync(Object.fromEntries([[`${base}.scad`, new TextEncoder().encode(text)], ...art])),
+          "application/zip",
+          name,
+        );
+      else download(text, "text/plain", name);
       notify({
-        text: `Downloaded ${name} (self-contained, ${Math.round(text.length / 1024)} KB)`,
+        text: `Downloaded ${name} (self-contained${art.length ? ", with its picture" : ""}, ${Math.round(text.length / 1024)} KB)`,
         short: `Downloaded ${name}`,
         kind: "ok",
       });
@@ -1142,7 +1169,7 @@ export default function App() {
     try {
       if (wantsFiles(opts, ligMade, capMade))
         notify({ text: `Making the files for ${name}…`, short: "Preparing the files…", kind: "busy" });
-      if (opts.full) out.push([`${name}.scad`, enc.encode(await fullScad())]);
+      if (opts.full) out.push([`${name}.scad`, enc.encode(await fullScad())], ...(await pictureFiles()));
       // settings-only: the voice file with these values; its include as the site resolves it
       if (opts.settings)
         out.push([
@@ -1155,7 +1182,8 @@ export default function App() {
     } catch (err) {
       return fail({ text: `Save as failed: ${(err as Error).message}`, kind: "error" });
     }
-    const zipped = out.length > 1 && opts.zip;
+    // a picture goes in an art/ folder beside the design file: only a zip keeps the folder
+    const zipped = out.length > 1 && (opts.zip || out.some(([n]) => n.startsWith("art/")));
     if (zipped) download(zipSync(Object.fromEntries(out)), "application/zip", `${name}.zip`);
     else for (const [n, data] of out) download(data, n.endsWith(".stl") ? "model/stl" : "text/plain", n);
     const got = zipped ? `${name}.zip` : out.map(([n]) => n).join(", ");
@@ -1900,6 +1928,7 @@ export default function App() {
   // Everything there is to download, in one list (desktop: Download's ▾; phone: the ☰ menu).
   const squeezeNow = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
   const downloadItems = (close: () => void) => {
+    const hasPicture = designPictures(titled, mainTab.source).length > 0;
     const go = (fn: () => void) => () => {
       close();
       fn();
@@ -1943,8 +1972,10 @@ export default function App() {
       ),
       <hr key="hr" />,
       <button key="scad" className="dl-item" onClick={go(downloadScad)}>
-        <span>Design file (.scad)</span>
-        <small>opens here again with Open…, or in OpenSCAD</small>
+        <span>Design file (.scad{hasPicture ? " + picture, .zip" : ""})</span>
+        <small>
+          opens here again with Open…, or in OpenSCAD{ligMade || capMade ? " (ligature and cap included)" : ""}
+        </small>
       </button>,
     ];
   };

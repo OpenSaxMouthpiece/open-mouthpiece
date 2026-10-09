@@ -70,8 +70,9 @@ export function SaveAsPanel({
         {box("browser")} Keep a copy in this browser <span className="muted">quick, not a backup</span>
       </label>
       <div className="save-group">Download</div>
-      <label title="Your settings + the generator in one plain OpenSCAD file: opens in any OpenSCAD, and here with Open…">
-        {box("full")} Design file (.scad) <span className="muted">opens anywhere</span>
+      <label title="Your settings + the generator in one plain OpenSCAD file: opens in any OpenSCAD, and here with Open…. Its part setting (Output tab) also makes the ligature and cap; a picture comes beside it in an art/ folder (zipped)">
+        {box("full")} Design file (.scad){" "}
+        <span className="muted">opens anywhere{ligature || cap ? ", ligature and cap included" : ""}</span>
       </label>
       <details className="save-more" open={moreOpen} onToggle={(e) => setMoreOpen(e.currentTarget.open)}>
         <summary>More formats</summary>

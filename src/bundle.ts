@@ -5,7 +5,8 @@
 // it, and assigning twice only produces "overwritten" warnings). Same method as
 // scripts/bundle_scad.mjs. Lettering is text() as usual; a picture stays a file: it's imported
 // from art/<name> next to this file (the app has it; elsewhere it's left out with a
-// warning unless the SVG is put there). The STL always has it.
+// warning unless the SVG is put there; the app's download zips them together). The STL always has it.
+// The same file makes the ligature and the cap: `part` picks (its list trimmed to the printable parts).
 import { withValues } from "./scadText";
 import { imageRefs } from "./userArt";
 import type { ParamValue } from "./api";
@@ -27,6 +28,15 @@ const readAssignments = (text: string) =>
       .filter((m) => m)
       .map((m) => [m![1], m![2]]),
   );
+
+// The parts a downloaded file offers in its `part` list (the others, debug views and the app's
+// seated previews, still work when typed in).
+const PRINTABLE_PARTS = "mouthpiece, shank_test_ring, ligature, cap";
+
+// The pictures a design uses (file names under art/).
+export const designPictures = (values: Record<string, ParamValue>, source: string) => [
+  ...new Set(Object.values(imageRefs(values, source)).filter((n) => n)),
+];
 
 // Fonts that come with desktop OpenSCAD (the Liberation faces); the others need installing.
 const BUILT_IN_FONTS = ["Sans Bold", "Sans", "Serif Bold", "Serif", "Serif Italic", "Mono Bold"];
@@ -78,23 +88,25 @@ export async function bundleDesign(o: Options): Promise<string> {
     .replace(/^\/\* \[(?!Hidden)[^\]]*\] \*\/\n(\n|$)/gm, ""); // now-empty tab markers
 
   const font = String(o.values.lettering_font ?? JSON.parse(own.lettering_font ?? '""'));
-  const pictures = [...new Set(Object.values(imageRefs(o.values, text)).filter((n) => n))];
+  const pictures = designPictures(o.values, text);
   const header = [
     `// Open Mouthpiece design, self-contained (downloaded ${o.date}): the settings come first,`,
     `// then the whole generator (${basePath}). Opens in any OpenSCAD (the Customizer shows the`,
     `// settings; a recent version with the Manifold backend renders in about a second) and in the`,
     `// Open Mouthpiece (Open .scad…).`,
+    `// Parts: set part (Customizer, Output tab) to mouthpiece, shank_test_ring, ligature or cap. The`,
+    `// ligature and cap are made to fit this mouthpiece; their settings are in the Ligature and Cap tabs.`,
     `// Fonts for lettering: Sans, Serif and Mono come with OpenSCAD. The others are free Google Fonts;`,
     `// install the one you pick, or OpenSCAD uses its default font.${font && !BUILT_IN_FONTS.includes(font) ? ` This design uses ${font}.` : ""}`,
     ...(pictures.length
       ? [
-          `// Picture: ${pictures.join(", ")} is not in this file (a .scad can't hold an SVG). Put it in an`,
-          `// art/ folder next to this file, or the model is made without it. The STL always has it.`,
+          `// Picture: ${pictures.join(", ")} is not in this file (a .scad can't hold an SVG): keep the art/`,
+          `// folder that came with it next to this file, or the model is made without it.`,
         ]
       : []),
     "",
   ].join("\n");
-  return [
+  const out = [
     header +
       text.replace(
         inc[0],
@@ -106,4 +118,5 @@ export async function bundleDesign(o: Options): Promise<string> {
     `// ======================== ${basePath} (included) ========================`,
     body,
   ].join("\n");
+  return out.replace(/^(part = [^;]*;\s*\/\/ )\[[^\]]*\]/m, `$1[${PRINTABLE_PARTS}]`);
 }

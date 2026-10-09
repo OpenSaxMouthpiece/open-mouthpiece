@@ -261,7 +261,8 @@ When you click **Save as…**, you enter a name and choose how to save:
   in this browser on this device, so it will be lost if you clear your browser data or switch
   browsers.
 - **Design file (.scad)** downloads a file you can open again in the app with **Open…**, or in
-  OpenSCAD. This is the safest way to keep a design.
+  OpenSCAD. This is the safest way to keep a design. It holds the ligature and cap too. If the
+  design has a picture, it comes as a .zip with the picture in an `art` folder next to the file.
 - Under **More formats**, a settings-only .scad file is much smaller but only opens in this app.
 - You can also download STL files of the mouthpiece, ligature and cap, and zip them together.
 
@@ -307,7 +308,8 @@ Updates take longer on a phone than on a computer. Setting the quality to Draft 
 The mouthpiece is made by an OpenSCAD program. Click **Code** in the icon bar to see the program
 and OpenSCAD's messages. You can edit the code of your own designs and the model will update.
 The built-in designs are read-only. A downloaded design file also opens in OpenSCAD on your
-computer, where the settings appear in the Customizer. The source code for the whole project is on
+computer, where the settings appear in the Customizer. To make the ligature or cap there, set
+**part** (in the Output tab) to `ligature` or `cap`. The source code for the whole project is on
 [GitHub](https://github.com/OpenSaxMouthpiece/open-mouthpiece).
 
 ## 15. App settings and privacy
