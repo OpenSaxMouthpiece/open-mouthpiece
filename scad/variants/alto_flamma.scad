@@ -138,17 +138,17 @@ top_image_aspect = 1; // [0.1:0.01:10]
 // Picture rotation (degrees).
 top_image_angle = 0; // [0:15:345]
 // Moves the picture toward the tip (+) or the shank (-) (mm).
-top_image_position = 0; // [-50:0.5:50]
+top_image_position = -17; // [-50:0.5:50]
 // Wrap the picture around the body like a label.
 top_image_wrap = false;
 // Text on the right side (seen from above, tip away). Lines, variables as on top.
 side_text_right = "Flamma";
 // Text on the left side.
-side_text_left = "\u007Btip}";
+side_text_left = "\u007Btip} \u007Bvoice_letter}";
 // Side letter height (mm).
 side_text_size = 5; // [1.5:0.5:10]
 // Side text from just behind the ligature: + toward the tip, - toward the shank (mm).
-side_text_position = 0; // [-50:0.5:50]
+side_text_position = -1.5; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
 // Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).

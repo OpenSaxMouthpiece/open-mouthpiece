@@ -9,6 +9,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import os from 'node:os';
+import { runOpenscad } from './openscad.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const inch = (x) => +(x * 0.0254).toFixed(2);
@@ -289,7 +291,7 @@ for (const voice of process.argv.slice(2)) {
       ...VOICES[voice][fam],
       ...LOOKS[fam](num, L1),
       ...VOICE_LOOKS[voice]?.[fam],
-      side_text_left: '{tip}',
+      side_text_left: '{tip} {voice_letter}',
       side_text_size: TEXT[voice],
       top_image_width: PICTURE[voice],
       top_image_aspect: 1,
@@ -323,6 +325,26 @@ for (const voice of process.argv.slice(2)) {
     const dst = path.join(ROOT, 'scad', 'variants', `${voice}_${fam}.scad`);
     fs.mkdirSync(path.dirname(dst), { recursive: true });
     fs.writeFileSync(dst, out);
-    console.log('wrote', dst);
+    // The picture and the side text centred on one station, both clear of the ligature: where the
+    // side text sits on its own (just behind the ligature's band), moved back if the picture would
+    // reach the tongue on top. Each one's own spot (no offset) from an echo-only run.
+    const probe = path.join(os.tmpdir(), `variant_probe_${voice}_${fam}.scad`);
+    fs.writeFileSync(
+      probe,
+      `include <${dst.replace(/\\/g, '/')}>\necho(ALIGN = [top_image_z, side_text_z, top_image_len, lig_zt]);\n`,
+    );
+    const echo = probe.replace(/\.scad$/, '.echo');
+    const { log } = await runOpenscad(['-o', echo, probe]);
+    const m = /ALIGN = \[([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+)\]/.exec(
+      fs.existsSync(echo) ? fs.readFileSync(echo, 'utf8') : '',
+    );
+    if (!m) throw new Error(`${voice}_${fam}: no ALIGN echo\n${log}`);
+    const [image, text, len, tongue] = m.slice(1).map(Number);
+    const at = Math.min(text, tongue - 1 - len / 2);
+    out = out
+      .replace(/^top_image_position = [^;]*;/m, `top_image_position = ${r05(at - image)};`)
+      .replace(/^side_text_position = [^;]*;/m, `side_text_position = ${r05(at - text)};`);
+    fs.writeFileSync(dst, out);
+    console.log('wrote', dst, `(picture and side text at ${at.toFixed(1)}mm, the ligature from ${tongue}mm)`);
   }
 }

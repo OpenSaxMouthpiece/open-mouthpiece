@@ -337,8 +337,10 @@ so anyone can rebuild a variant (or take it further) in the app.
 - **Unda** (all-round): close tip, short facing, flat baffle, 1.2mm rails; wider and soft, a
   softened shoulder into a scooped beak (`beak_curve` 0.7); a spiral on the shank.
 
-Each carries side text (name / `{tip}`, a font per family) and a picture on top, one set of
-round element badges (`scad/art/element_*.svg`: Flamma fire, Silva leaf, Unda water; 12mm on the alto). Sizes go as a fraction of the preset's
+Each carries side text (name / `{tip} {voice_letter}`, a font per family) and a picture on top, one set of
+round element badges (`scad/art/element_*.svg`: Flamma fire, Silva leaf, Unda water; 12mm on the alto),
+centred with the side text on one station just behind the ligature, the picture clear of its
+tongue (`make_variants.mjs` reads both spots from an echo-only run and sets the `*_position`s). Sizes go as a fraction of the preset's
 and `beak_length` as a fraction of L, so the four voices match. Guardrails: tip within ~.010" of
 the preset, air within ±8% (baffle height is the main lever, ~±10% per mm; chamber width barely
 moves it), thinnest wall >= ~1.2mm. The lengths go against each recipe's air (~5% per 3mm on the

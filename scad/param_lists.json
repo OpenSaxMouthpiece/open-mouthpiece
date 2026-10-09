@@ -9395,7 +9395,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "de024277-19587",
+  "hash": "97b72ed3-19612",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10040,7 +10040,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -17,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -10064,7 +10064,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -10081,7 +10081,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -1.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -11274,7 +11274,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "fdb5a6d1-19598",
+  "hash": "d15d2853-19625",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11919,7 +11919,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -14.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -11943,7 +11943,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -11960,7 +11960,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -1.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -13153,7 +13153,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "880016ef-19566",
+  "hash": "40207de6-19591",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13798,7 +13798,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -16,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -13822,7 +13822,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -13839,7 +13839,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -1.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -15032,7 +15032,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "d4d5830e-19772",
+  "hash": "ca7b3d71-19794",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15677,7 +15677,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -11,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -15701,7 +15701,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -16911,7 +16911,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "abeb55d5-19784",
+  "hash": "242b7555-19805",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17556,7 +17556,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -9,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -17580,7 +17580,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -18790,7 +18790,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "b1c085b0-19746",
+  "hash": "2b613936-19767",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19435,7 +19435,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -9,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -19459,7 +19459,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -20669,7 +20669,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "9c9188c6-19794",
+  "hash": "84da85fb-19821",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21314,7 +21314,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -10.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -21338,7 +21338,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -21355,7 +21355,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -0.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -22548,7 +22548,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "fd09e1af-19803",
+  "hash": "a2c90956-19829",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23193,7 +23193,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -9.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -23217,7 +23217,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -23234,7 +23234,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -0.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -24427,7 +24427,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "ec2441d1-19770",
+  "hash": "29cb4f70-19797",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25072,7 +25072,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -10.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -25096,7 +25096,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -25113,7 +25113,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -0.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -26306,7 +26306,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "858ba845-19977",
+  "hash": "435f80fd-20002",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26951,7 +26951,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -17.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -26975,7 +26975,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -26992,7 +26992,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -1,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -28185,7 +28185,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "bb3db1c9-19979",
+  "hash": "90100f5a-20004",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28830,7 +28830,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -14.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -28854,7 +28854,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -28871,7 +28871,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -1,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -30064,7 +30064,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "a99ec064-19945",
+  "hash": "b9ca4eb6-19968",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30709,7 +30709,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -16,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -30733,7 +30733,7 @@
    {
     "caption": "Text on the left side.",
     "group": "Lettering",
-    "initial": "{tip}",
+    "initial": "{tip} {voice_letter}",
     "name": "side_text_left",
     "type": "string"
    },
@@ -30750,7 +30750,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": -1,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
