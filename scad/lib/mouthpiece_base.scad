@@ -912,8 +912,16 @@ function bell(u, c, w) = let(t = 1 - abs(u - c) / w) t > 0 ? smootherstep(t) : 0
 // Shape edits (baffle_adjust) are held the same way.
 BAFFLE_ADJ_C = adjust_prep(baffle_adjust);
 function baffle_edited_at(z) = baffle_type_at(z) + adjust_at(z, BAFFLE_ADJ_C);
-function baffle_shape_at(z) = baffle_curve == 0 && !has_pts(BAFFLE_ADJ_C) ? baffle_type_at(z)
-  : max([for (k = [0 : 32]) baffle_edited_at(z - 0.5 * k) - 0.85 * 0.5 * k]);
+// Held as a running max over a 0.25mm table, computed once (it is read many times per ring).
+BAFFLE_HELD = baffle_curve != 0 || has_pts(BAFFLE_ADJ_C);
+BT_H = 0.25;
+BT_Z0 = baffle_start_z - 16;
+BT_N = BAFFLE_HELD ? ceil((L + 1 - BT_Z0) / BT_H) : 0;
+BAFFLE_TAB = [for (i = 0, v = baffle_edited_at(BT_Z0); i <= BT_N;
+                   i = i + 1, v = max(baffle_edited_at(BT_Z0 + i * BT_H), v - 0.85 * BT_H)) v];
+function baffle_shape_at(z) = !BAFFLE_HELD ? baffle_type_at(z)
+  : let(t = max(0, min(BT_N, (z - BT_Z0) / BT_H)), i = min(floor(t), BT_N - 1))
+    lerp(BAFFLE_TAB[i], BAFFLE_TAB[i + 1], t - i);
 function baffle_roof(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
   let(raw = baffle_shape_at(z) - baffle_height * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
@@ -1153,10 +1161,10 @@ module validate() {
     echo(str("WARNING: throat_position ", throat_position, "mm moved to ", eff_throat_z, "mm — it must come before the window start (", win_z0, "mm); shorten window_length or move throat_position back"));
   if (eff_throat_z > throat_position)
     echo(str("WARNING: throat_position ", throat_position, "mm moved to ", eff_throat_z, "mm — it must come after the socket (", shank_depth, "mm deep)"));
-  if (shank_bevel > 0 && shank_bevel_eff() < shank_bevel - 0.01)
-    echo(str("WARNING: shank_bevel ", shank_bevel, "mm limited to ", round(shank_bevel_eff() * 10) / 10, "mm: it keeps 0.8mm of the tenon's wall at the opening"));
-  if (shank_bevel > 0 && shank_bevel_depth_eff() < shank_bevel_depth - 0.01)
-    echo(str("WARNING: shank_bevel_depth ", shank_bevel_depth, "mm limited to ", round(shank_bevel_depth_eff() * 10) / 10, "mm: it leaves 3mm of full-size socket"));
+  if (shank_bevel > 0 && SHANK_BEVEL < shank_bevel - 0.01)
+    echo(str("WARNING: shank_bevel ", shank_bevel, "mm limited to ", round(SHANK_BEVEL * 10) / 10, "mm: it keeps 0.8mm of the tenon's wall at the opening"));
+  if (shank_bevel > 0 && SHANK_BEVEL_DEPTH < shank_bevel_depth - 0.01)
+    echo(str("WARNING: shank_bevel_depth ", shank_bevel_depth, "mm limited to ", round(SHANK_BEVEL_DEPTH * 10) / 10, "mm: it leaves 3mm of full-size socket"));
   if (eff_throat_length < throat_taper)
     echo(str("WARNING: throat_taper ", throat_taper, "mm shortened to ", round(eff_throat_length * 10) / 10, "mm — the bore can only start narrowing after the socket"));
   // The chamber as built (the walls keep min_wall, so a chamber wider than the body allows is
@@ -1322,11 +1330,10 @@ function end_face_z(y) = -1 + (y - bah_at(-1)) * bore_tan;
 
 // The shank bevel takes wall at the opening: it leaves at least 0.8mm of the tenon's wall there
 // (measured sideways, over and under the socket at the end face).
-function shank_bevel_eff() =
-  let(E = exterior_ring_at(0), c = bah_at(0))
+SHANK_BEVEL = let(E = exterior_ring_at(0), c = bah_at(0))
   let(wall = min(E[E_HW] - socket_d / 2, E[E_TOP] - (c + socket_ry), (c - socket_ry) - E[E_BOT]))
   max(0, min(shank_bevel, wall - 0.8));
-function shank_bevel_depth_eff() = max(0, min(shank_bevel_depth, eff_shank_depth - 3));
+SHANK_BEVEL_DEPTH = max(0, min(shank_bevel_depth, eff_shank_depth - 3));
 
 module exterior_solid() {
   dirs = ring_dirs(EXT_RING_POINTS);
@@ -1350,8 +1357,8 @@ module interior_solid(with_socket = true) {
   // shank_bevel: a lead-in at the opening, its rings following the (tilted) end face: r + bevel at
   // the face (continued 0.5mm past it so it crosses the face cleanly, no edge in its plane), r at
   // shank_bevel_depth (shank_bevel_depth_eff: leaves 3mm of full socket).
-  bdepth = shank_bevel_depth_eff();
-  bv = bdepth > 0 ? shank_bevel_eff() : 0;
+  bdepth = SHANK_BEVEL_DEPTH;
+  bv = bdepth > 0 ? SHANK_BEVEL : 0;
   face_ring = function(d, rr) [for (p = sring(dirs, -1 + d, rr, bah_at(-1 + d) + rr / cos(bore_tilt), bah_at(-1 + d) - rr / cos(bore_tilt), 2, 2, bah_at(-1 + d)))
     [p[0], p[1], end_face_z(p[1]) + d]];
   socket = bv <= 0 ? [for (z = [socket_back_z, eff_shank_depth]) sring(dirs, z, r, bah_at(z) + ry, bah_at(z) - ry, 2, 2, bah_at(z))]
@@ -1393,9 +1400,16 @@ module facing_cutter() {
 // Full window width up to just above the facing (so the window outline is exact), then its upper
 // corners pull in to stay 0.6mm inside the exterior at their height — near the tip a rounded beak
 // can be narrower than the window there (a bari fit got two holes through its beak corners).
+// The interior ring at z, interpolated between AIR_RINGS' stations (exact where they're skipped).
+function interior_ring_near(z) =
+  let(n = len(AIR_RINGS)) n < 2 || z < AIR_RINGS[0][0] || z > AIR_RINGS[n - 1][0] ? interior_ring_at(z)
+  : let(i = air_find(z, 0, n - 1), a = AIR_RINGS[i], b = AIR_RINGS[i + 1])
+    lerp(a[1], b[1], (z - a[0]) / max(1e-9, b[0] - a[0]));
+function air_find(z, lo, hi) = hi - lo <= 1 ? lo :
+  let(m = floor((lo + hi) / 2)) AIR_RINGS[m][0] <= z ? air_find(z, m, hi) : air_find(z, lo, m);
 module window_cutter() {
   ring_loft([for (z = station_list(win_z0 + 0.01, win_front_z - 0.02, tip_curve + 1, Z_STEP * 0.8))
-    let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_at(z), top = (I[1] + I[2]) / 2)
+    let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[1] + I[2]) / 2)
     // walls leaning in (sidewall_angle < 0): the cutter's upper corners stay inside them
     let(lean = sidewall_angle < 0 ? sidewall_allowed(I, top) - 0.05 : 1e3)
     let(y_rail = min(facing_at_z(z) + 0.1, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
@@ -1542,11 +1556,12 @@ function ext_ring_pt(E, th, z = undef) =
 // The lowest the wrap goes: 1mm above the underside, and 3.5mm above the table alongside the
 // window (as the side text), clear of the thin walls beside the rails.
 function wrap_floor(z, E) = max(E[E_BOT] + 1, z >= win_z0 - 2 ? 3.5 : 1);
-WRAP_E = exterior_ring_at(top_image_z);
+HAS_WRAP = has_text(top_image) && top_image_wrap;
+WRAP_E = HAS_WRAP ? exterior_ring_at(top_image_z) : [];
 // The right half of that ring from the top centre down (x >= 0), and the arc length to each point.
-WRAP_PTS = [for (j = [0 : 360]) ext_ring_pt(WRAP_E, 90 - j / 2, top_image_z)];
-WRAP_CUM = [for (i = 0, a = 0; i <= 360; a = a + (i < 360 ? norm(WRAP_PTS[i + 1] - WRAP_PTS[i]) : 0), i = i + 1) a];
-WRAP_MAX = let(fl = wrap_floor(top_image_z, WRAP_E), below = [for (i = [0 : 360]) if (WRAP_PTS[i][1] < fl) i])
+WRAP_PTS = !HAS_WRAP ? [] : [for (j = [0 : 360]) ext_ring_pt(WRAP_E, 90 - j / 2, top_image_z)];
+WRAP_CUM = !HAS_WRAP ? [] : [for (i = 0, a = 0; i <= 360; a = a + (i < 360 ? norm(WRAP_PTS[i + 1] - WRAP_PTS[i]) : 0), i = i + 1) a];
+WRAP_MAX = !HAS_WRAP ? 0 : let(fl = wrap_floor(top_image_z, WRAP_E), below = [for (i = [0 : 360]) if (WRAP_PTS[i][1] < fl) i])
   len(below) > 0 ? WRAP_CUM[below[0]] : WRAP_CUM[360];
 // [x, y, tangent x, tangent y] at distance u around the ring (u > 0 toward +x); the tangent points
 // the way u grows, so [t, (-ty, tx)] is a right-handed frame with the second axis outward.
@@ -1637,7 +1652,7 @@ module lettering_cutter() {
 // around it, both like the lettering: a cut through a skin that follows the surface. They start
 // 1mm past the socket's lead-in (the opening keeps its wall) and leave the shank 1.2mm of wall.
 // Grooves have 45-degree sides, so they print standing on the shank end without supports.
-SHANK_BAND = let(f = len(FLARE_W) > 0 ? FLARE_W[0] * L : 0.09 * L, z0 = max(1.5, shank_bevel_depth_eff() + 1))
+SHANK_BAND = let(f = len(FLARE_W) > 0 ? FLARE_W[0] * L : 0.09 * L, z0 = max(1.5, SHANK_BEVEL_DEPTH + 1))
   [z0, max(z0 + 2, min(max(f, z0 + 7), table_rear_z - 2))];   // short of the reed's heel
 function shank_wall_at(z) = let(E = exterior_ring_at(z), c = bah_at(z))
   min(E[E_HW] - socket_d / 2, E[E_TOP] - (c + socket_ry), (c - socket_ry) - max(0, E[E_BOT]));   // the table plane cuts the underside
@@ -1658,7 +1673,7 @@ shank_text_z = !has_text(shank_text) ? SHANK_BAND[1]
 // The rings and flutes run from the end face (-1 on the axis): engraved ones get shallower where the
 // socket's lead-in thins the wall (shank_room), keeping 1.2mm.
 SD_SPAN = [-1, has_text(shank_text) ? max(1, shank_text_z - shank_text_h / 2 - 0.8) : SHANK_BAND[1]];
-function shank_bevel_at(z) = let(d = shank_bevel_depth_eff()) d > 0 ? shank_bevel_eff() * max(0, 1 - (z + 1) / d) : 0;
+function shank_bevel_at(z) = let(d = SHANK_BEVEL_DEPTH) d > 0 ? SHANK_BEVEL * max(0, 1 - (z + 1) / d) : 0;
 function shank_room(z0, z1) = min([for (i = [0 : 4]) let(z = z0 + (z1 - z0) * i / 4)
   shank_wall_at(max(0, z)) - shank_bevel_at(z) - 1.2]);
 SD_GW = 2 * SHANK_CUT + 0.4;   // a groove's (or raised ring's) width at the surface

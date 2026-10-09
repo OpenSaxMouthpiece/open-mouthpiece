@@ -7,12 +7,18 @@
 // Each sample is checked for: render failure / OpenSCAD errors, OpenSCAD warnings, genus other than the file's (1, or its EXPECTED GENUS echo)
 // (holes or loose pieces), and wall clearance below --min-wall (part="clearance_report").
 // Failures get a repro param file in scad/_sweep/ (gitignored) — open it from the app.
+// Quick by default: extremes on the first voice only (they rarely differ by voice), 15 random mixes
+// per voice. --full: extremes on every voice, 50 mixes each (before going live, after clamp work).
+// --only <regex>: extremes of the matching parameters only (a targeted check after a narrow change).
 //   npm run sweep
+//   npm run sweep -- --full
+//   npm run sweep -- --only baffle --random 10
 //   npm run sweep -- --random 100 --seed 7 --base scad/alto.scad --min-wall 0.6 --jobs 8
 //   npm run sweep -- --part cap       # the cap instead of the mouthpiece: extremes of the Cap and
 //                                     # Ligature groups, random mixes of 3 of them + up to 5 others;
 //                                     # checks the genus it announces, not the wall clearance
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runOpenscad, parseLog, pool } from './openscad.mjs';
@@ -31,10 +37,12 @@ const bases = argv.flatMap((a, i) => (argv[i - 1] === '--base' ? [a] : []));
 const BASES = (bases.length ? bases : ['alto', 'tenor', 'baritone', 'soprano'].map((v) => `scad/${v}.scad`)).map((b) =>
   path.resolve(ROOT, b),
 );
-const RANDOM = Number(opt('--random', 50));
+const FULL = argv.includes('--full');
+const RANDOM = Number(opt('--random', FULL ? 50 : 15));
+const ONLY = opt('--only', null) ? new RegExp(opt('--only', null)) : null;
 const SEED = Number(opt('--seed', 1));
 const MIN_WALL = Number(opt('--min-wall', 0.6));
-const JOBS = Number(opt('--jobs', 8));
+const JOBS = Number(opt('--jobs', Math.max(2, os.cpus().length - 2)));
 const SHRINK = Number(opt('--shrink', 12));
 const EXTREMES = !argv.includes('--no-extremes');
 const PART = opt('--part', null); // sweep this part (the cap) instead of the mouthpiece
@@ -149,12 +157,14 @@ function writeRepro(base, overrides, res, label) {
 const t0 = Date.now();
 const failures = [];
 let total = 0;
-for (const base of BASES) {
+for (const [bi, base] of BASES.entries()) {
   const params = await paramsOf(base);
   const vname = path.basename(base);
   const samples = [];
-  if (EXTREMES) {
-    for (const p of PART ? params.filter((q) => PART_GROUPS.has(q.group)) : params) {
+  if (EXTREMES && (FULL || ONLY || bases.length || bi === 0)) {
+    for (const p of (PART ? params.filter((q) => PART_GROUPS.has(q.group)) : params).filter(
+      (q) => !ONLY || ONLY.test(q.name),
+    )) {
       if (p.options)
         for (const o of p.options) {
           if (String(o.value) !== String(p.initial))
