@@ -5,6 +5,9 @@ pick a soprano, alto, tenor or baritone mouthpiece to start from, adjust things 
 opening, facing, baffle and chamber, and download a file to print. Everything happens in your
 browser. You don't need an account or any software, and your designs aren't stored on our server.
 
+Open Mouthpiece is AI-generated: the app, the mouthpiece generator and this guide were written by
+Claude, Anthropic's AI model, directed by a saxophonist who prints and plays the results.
+
 Open the app at https://opensaxmouthpiece.org.
 
 ![The app with the section buttons on the left, the settings panel, and the mouthpiece in the 3D view](images/app.png)

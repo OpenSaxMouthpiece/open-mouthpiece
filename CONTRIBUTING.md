@@ -4,6 +4,10 @@ OpenSCAD builds the geometry (`scad/`); a React app (`src/`) runs OpenSCAD in th
 (WebAssembly), with an editor, sliders and a 3D viewer. There is no server: designs live in the
 browser, in downloaded .scad files, or in share links.
 
+**The project is AI-generated**: nearly all of it was written by Claude (Anthropic's AI model) at
+a saxophonist's direction (README, "How this was made"). AI-assisted contributions are welcome;
+the checks below (`npm test`, `npm run check`, `npm run sweep`) are how changes are verified.
+
 ## Quick start
 
 ```

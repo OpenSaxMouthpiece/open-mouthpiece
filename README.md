@@ -10,6 +10,10 @@
 **Design your own saxophone mouthpiece in the browser, then 3D-print it.**
 Try it: **https://opensaxmouthpiece.org** · [User guide](docs/GUIDE.md)
 
+> **This project is AI-generated.** The code, the mouthpiece generator, the presets and the
+> documentation were written by Claude, Anthropic's AI model. A saxophonist directed it and prints
+> and plays the results; see [How this was made](#how-this-was-made).
+
 ![The app: the section buttons down the left, the readouts and the tip and facing settings, and a variant with lettering and a knurled shank in the 3D view](docs/images/app.png)
 
 Change real design parameters (tip opening, facing, chamber, baffle, window, body and beak) and
@@ -81,9 +85,10 @@ Open Mouthpiece is free, with no ads. If it made you a mouthpiece you like, you 
 
 ## How this was made
 
-Open Mouthpiece was vibe coded: most of the code (the OpenSCAD generator and this web app) was
-written by Claude, Anthropic's AI model, in conversation with a saxophonist who set the direction,
-made the design calls, and prints and plays the results. The geometry is checked by automated
+Open Mouthpiece is AI-generated ("vibe coded"): the OpenSCAD generator, this web app, the
+presets' measurements and the documentation were written by Claude, Anthropic's AI model, in
+conversation with a saxophonist who set the direction, made the design calls, and prints and plays
+the results. Read the code, and the numbers it gives you, with that in mind. The geometry is checked by automated
 tests: every preset must come out as one closed, printable solid that matches its stored
 reference, and a sweep tries over a thousand extreme and random settings to make sure they still
 print. Printed alto, tenor and baritone pieces have been play-tested; reports from your own prints

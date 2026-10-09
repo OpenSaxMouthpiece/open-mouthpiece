@@ -46,6 +46,13 @@ export function About() {
         </p>
       )}
 
+      <h3>Made with AI</h3>
+      <p className="muted">
+        Open Mouthpiece is AI-generated: the app, the mouthpiece generator and the documentation were written by Claude,
+        Anthropic&apos;s AI model, directed by a saxophonist who prints and plays the results. Check your print before
+        you play it.
+      </p>
+
       <h3>Your designs</h3>
       <p className="muted">
         They stay in your browser: no accounts, nothing saved on a server. Save as keeps a copy here; a download (.scad)
