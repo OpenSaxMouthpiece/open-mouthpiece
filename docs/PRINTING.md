@@ -132,7 +132,9 @@ cap STL** gives the print. Like a store-bought cap it is one smooth shell, taper
 a rounded tip, with a slot up from the rim and vents in the sides and the end so the reed can dry; it slides
 on over the tip and the rim clips onto the ligature.
 
-- **Print** it standing on its rim, open end down (as downloaded), no supports; the closed end is a dome.
+- **Print** it standing on its rim, open end down (as downloaded), no supports. The closed end is
+  always at least a low dome (**End shape**), because a flat end would be a ceiling printed over air,
+  and the **Rim bead** around the open end slopes back at 45° so it needs no support either.
 - **Goes over:** the ligature made here (**Ligature**) or a metal one. As on
   store-bought caps, a metal ligature's screws ride in the slot: it starts at the rim as a window as
   wide as the screws, so the cap needn't be big enough to cover them. Give the band's length,

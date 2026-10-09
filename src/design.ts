@@ -317,6 +317,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       { name: "cap_grip", label: "Grip squeeze" },
       { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
       { name: "cap_end_dome", label: "End shape" },
+      { name: "cap_rim_bead", label: "Rim bead" },
       { name: "cap_extend", label: "Extra length (toward the shank)" },
       { name: "cap_end_vents", label: "Air holes in the end" },
       {
@@ -537,7 +538,8 @@ const ENDS: Record<string, [string, string]> = {
   ligature_lettering_position: ALONG,
   // Cap
   cap_grip: ["None", "Tight"],
-  cap_end_dome: ["Flat", "Domed"],
+  cap_end_dome: ["Low dome", "Full dome"],
+  cap_rim_bead: ["None", "Big"],
   cap_extend: ["None", "Whole mouthpiece"],
   cap_slot_length: ["None", "Long"],
   cap_slot_width: NARROW_WIDE,

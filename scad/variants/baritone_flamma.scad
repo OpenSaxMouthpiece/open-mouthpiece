@@ -295,8 +295,10 @@ cap_shape = "conform"; // [conform, round]
 cap_extend = 0; // [0:1:120]
 // Space between the tip and the inside of the closed end (mm).
 cap_end_gap = 4; // [1:0.5:20]
-// Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
-cap_end_dome = 1; // [0:0.1:1]
+// Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).
+cap_end_dome = 1; // [0.6:0.1:1]
+// A raised bead around the open end (mm out from the wall); 0 = none.
+cap_rim_bead = 0.6; // [0:0.1:1.5]
 // Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
 // The cap text's own typeface; same = the Font in Personalize.

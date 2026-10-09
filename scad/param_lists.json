@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "b649f6fb-19882",
+  "hash": "7551516c-20021",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1593,12 +1593,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -1920,7 +1930,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "8f7c002e-20119",
+  "hash": "7c39140b-20258",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3513,12 +3523,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -3840,7 +3860,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "bfa84e24-20791",
+  "hash": "3eb36291-20930",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5433,12 +5453,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -5760,7 +5790,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "f886efdf-20084",
+  "hash": "b4437514-20223",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7353,12 +7383,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -7680,7 +7720,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "7ba62190-20261",
+  "hash": "4031d89d-20400",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9273,12 +9313,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -9600,7 +9650,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "5235bbce-19976",
+  "hash": "6aa21943-20115",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11193,12 +11243,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -11520,7 +11580,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "4d8d032d-19987",
+  "hash": "13371e76-20126",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13113,12 +13173,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -13440,7 +13510,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "31bbbb05-19957",
+  "hash": "b150c64e-20096",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15033,12 +15103,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -15360,7 +15440,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "cbaf1bc0-20161",
+  "hash": "716288cd-20300",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16953,12 +17033,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -17280,7 +17370,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "13782dcc-20172",
+  "hash": "54543d91-20311",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18873,12 +18963,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -19200,7 +19300,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "339c0261-20134",
+  "hash": "9158aa7e-20273",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20793,12 +20893,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -21120,7 +21230,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "ec501302-20183",
+  "hash": "5ff9958b-20322",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22713,12 +22823,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -23040,7 +23160,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "710c7aba-20192",
+  "hash": "2150ede3-20331",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24633,12 +24753,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -24960,7 +25090,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "286a4bd9-20159",
+  "hash": "61a1fe0e-20298",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26553,12 +26683,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -26880,7 +27020,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "414a3803-20368",
+  "hash": "a9ffa494-20507",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28473,12 +28613,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -28800,7 +28950,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "18bb9a76-20370",
+  "hash": "4becc16b-20509",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30393,12 +30543,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },
@@ -30720,7 +30880,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "267cb29e-20334",
+  "hash": "d99b35b3-20473",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32313,12 +32473,22 @@
     "type": "number"
    },
    {
-    "caption": "Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.",
+    "caption": "Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).",
     "group": "Cap",
     "initial": 1,
     "max": 1,
-    "min": 0,
+    "min": 0.6,
     "name": "cap_end_dome",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "A raised bead around the open end (mm out from the wall); 0 = none.",
+    "group": "Cap",
+    "initial": 0.6,
+    "max": 1.5,
+    "min": 0,
+    "name": "cap_rim_bead",
     "step": 0.1,
     "type": "number"
    },

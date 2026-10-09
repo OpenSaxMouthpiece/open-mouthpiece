@@ -339,8 +339,10 @@ cap_shape = "conform"; // [conform, round]
 cap_extend = 0; // [0:1:120]
 // Space between the tip and the inside of the closed end (mm).
 cap_end_gap = 5; // [1:0.5:20]
-// Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
-cap_end_dome = 1; // [0:0.1:1]
+// Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).
+cap_end_dome = 1; // [0.6:0.1:1]
+// A raised bead around the open end (mm out from the wall); 0 = none.
+cap_rim_bead = 0.6; // [0:0.1:1.5]
 // Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
 // The cap text's own typeface; same = the Font in Personalize.
@@ -2114,7 +2116,7 @@ module tube_loft(outer, inner) {
 LIG_IMAGE = ligature_image == "same" ? top_image : ligature_image;
 LIG_IMAGE_ASPECT = ligature_image == "same" ? top_image_aspect : ligature_image_aspect;
 LIG_HAS_ART = has_text(ligature_text) || has_text(LIG_IMAGE);
-LIG_ART_INSET = 0.8;
+LIG_ART_INSET = max(0.8, min(1.0, 0.45 * ligature_wall) + 0.3);   // clear of the rounded rear edge
 lig_art_depth = lettering_raised ? lettering_depth : max(0.1, min(lettering_depth, ligature_wall - 0.8));
 lig_top_z0 = lig_z0 - lig_tongue * lig_tongue_w(90);   // the top's rear edge
 lig_text_len = text_len(ligature_text, ligature_text_size, ligature_text_angle);
@@ -2151,10 +2153,32 @@ module lig_art(env, y_lo, y_hi) {
   }
 }
 
+// Finished edges, kept printable (it prints standing on its front edge, the tail up): the rear edge
+// (on top) rounded outside with radius LIG_EDGE_R; the front edge (on the plate) a 45° chamfer
+// outside (a round there would lift off the plate) and a small one inside, which also eases the band
+// over the reed. Each corner measures from its own edges (the tail makes some longer).
+LIG_EDGE_R = min(1.0, 0.45 * ligature_wall);
+LIG_EDGE_C = min(0.4, 0.2 * ligature_wall);
+LIG_EDGE_CI = 0.3;
+function lig_edge_cut(s_rear, s_front) =
+  max(s_rear >= LIG_EDGE_R ? 0 : LIG_EDGE_R - sqrt(LIG_EDGE_R * LIG_EDGE_R - pow(LIG_EDGE_R - s_rear, 2)), LIG_EDGE_C - s_front, 0);
+// The rings' t: fine near both edges (for the shortest and the longest corner), ~1mm between.
+lig_ts = let(lmax = lig_len + lig_tongue, k = 6)
+  [for (t = thin_nums(sort_nums(concat(
+      [for (j = [0 : k]) LIG_EDGE_R / lmax * j / k], [for (j = [1 : k]) LIG_EDGE_R / lig_len * j / k],
+      [for (j = [1 : lig_rings - 1]) j / lig_rings],
+      [for (j = [0 : 3]) 1 - max(LIG_EDGE_C, LIG_EDGE_CI) / lig_len * j / 3])), 0.002)) if (t >= 0 && t <= 1) t];
+// A ring at t with the edges' cut: d_out outside (cut inward), d_in inside (the front chamfer, outward).
+function lig_ring_edge(env, t, d, inside) =
+  [for (i = [0 : LIG_N - 1])
+    let(th = -90 + i * 360 / LIG_N, zr = lig_z0 - lig_tongue * lig_tongue_w(th), len = lig_z1 - zr, z = lerp(zr, lig_z1, t))
+    let(cut = inside ? max(0, LIG_EDGE_CI - (1 - t) * len) : -lig_edge_cut(t * len, (1 - t) * len))
+    concat(lig_corner(lig_h_at(env, z), i, d + cut), z)];
+
 module ligature_band() {
   env = lig_env();
-  outer = [for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, ligature_fit + ligature_wall)];
-  inner = [for (j = [0 : lig_rings]) lig_ring_t(env, j / lig_rings, ligature_fit)];
+  outer = [for (t = lig_ts) lig_ring_edge(env, t, ligature_fit + ligature_wall, false)];
+  inner = [for (t = lig_ts) lig_ring_edge(env, t, ligature_fit, true)];
   // the lettering's reach: up from the widest line (at the band's middle) to above its top
   mid = lig_ring(lig_h_at(env, (lig_z0 + lig_z1) / 2), (lig_z0 + lig_z1) / 2, ligature_fit + ligature_wall);
   y_lo = mid[LIG_N / 4][1];
@@ -2230,6 +2254,7 @@ CAP_REED_T = 4.0;            // the thickest reed the cap makes room for, at the
 CAP_REED_HW = lig_reed_hw + 0.5;   // and a reed 1mm wider than the table
 CAP_CLEARANCE = 0.5;         // room around everything inside (mm)
 CAP_HOLD = 6;                // the cap stops narrowing this far behind the tip (mm)
+CAP_BEAD_W = 1.2;            // the rim bead's flat height (mm)
 CAP_FLEX = 0.4;              // how far the collar may be pushed out on its way over the band (mm)
 cap_m_len = max(4, min(cap_metal_length, lig_room));
 cap_m_z1 = min(L - 8, max(table_rear_z + 1 + cap_m_len, win_z0 - cap_metal_position));
@@ -2371,10 +2396,11 @@ module cap_part() {
   Hs = [for (i = [0 : n]) shape(cap_add(B(i), CAP_CLEARANCE))];
   hl = Hs[n];
   c0 = lig_circle_c(hl, -30, 40);                       // the end shrinks toward this point on the midline
-  dh = cap_end_dome * cap_end_gap;                      // the dome's height
+  dome = max(0.6, min(1, cap_end_dome));               // lower leaves a flat ceiling too wide to print
+  dh = dome * cap_end_gap;                              // the dome's height
   zb = L + cap_end_gap - dh;                            // where it starts
-  s_end = 1 - 0.7 * cap_end_dome;                       // the end face's size (a fraction of the ring)
-  nd = cap_end_dome > 0.05 ? 6 : 0;
+  s_end = 1 - 0.7 * dome;                               // the end face's size (a fraction of the ring)
+  nd = 6;
   psis = [for (j = [1 : max(1, nd)]) 90 * j / max(1, nd)];
   dome_h = function(psi) let(s = 1 - (1 - s_end) * (1 - cos(psi))) [for (k = [0 : LIG_N - 1]) s * (hl[k] - c0 * LIG_U[k][1]) + c0 * LIG_U[k][1]];
   // the whole inside as one convex hull, direction by direction: [stations, the dome's base, the dome]
@@ -2398,8 +2424,13 @@ module cap_part() {
   // outside rings: the hull + the wall, then the dome pushed out by the wall (the wall turns from
   // sideways to forwards as the dome curves, so it never thins)
   outer_at = function(z, delta = 0) lig_ring(cap_h_at(Ho, z), z, cap_wall + delta);
+  // the rim (on the plate): a bead cap_rim_bead proud, CAP_BEAD_W tall, its upper side sloping back at
+  // 45° (no overhang); the bottom corner chamfered 0.3mm (the first layers' squash)
+  rim = function(s) (s <= CAP_BEAD_W ? cap_rim_bead : max(0, cap_rim_bead - (s - CAP_BEAD_W))) - max(0, 0.3 - s);
+  rim_zs = [for (s = [0, 0.1, 0.2, 0.3, CAP_BEAD_W / 2, CAP_BEAD_W, CAP_BEAD_W + cap_rim_bead / 2, CAP_BEAD_W + cap_rim_bead]) cap_z0 + s];
+  out_zs = thin_nums(sort_nums(concat(zs, [for (z = rim_zs) if (z < zs[n] - 0.05) z])), 0.02);
   out_rings = concat(
-    [for (z = zs) outer_at(z)],
+    [for (z = out_zs) outer_at(z, rim(z - cap_z0))],
     [lig_ring(Hm[n + 1], zb, cap_wall)],
     nd > 0 ? [for (j = [0 : nd - 1]) let(psi = psis[j]) lig_ring(Hm[n + 2 + j], X[n + 2 + j] + cap_wall * sin(psi), cap_wall * cos(psi))]
            : [lig_ring(Hm[n + 1], zb + cap_wall, cap_wall)]);
@@ -2485,6 +2516,8 @@ module cap_part() {
   echo(str("EXPECTED GENUS ", e_n + 2 * sv_n));
   if (cap_side_vents != "none" && sv_n < cap_side_vent_count)
     echo(str("WARNING: cap_side_vent_count ", cap_side_vent_count, " reduced to ", sv_n, ": that many fit on each side"));
+  if (cap_end_dome < 0.6)
+    echo(str("WARNING: cap_end_dome ", cap_end_dome, " raised to 0.6: a flatter end is a ceiling too wide to print without supports"));
   if (e_n < cap_end_vents)
     echo(str("WARNING: cap_end_vents ", cap_end_vents, " reduced to ", e_n, ": that many fit across the cap's end"));
   if (cap_slot_length > 0 && z_slot1 < cap_zr + cap_slot_length - 0.01)

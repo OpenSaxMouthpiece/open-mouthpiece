@@ -212,6 +212,9 @@ that the design has one (no geometry reads it). A friction-fit ring made for the
 Windy City Woodwinds' printed ring: round inside, a band (`ligature_length`, 12mm; soprano 10) with a
 tongue toward the shank (`ligature_tongue` +7mm; soprano 5), on top by default; 2mm wall. `ligature_shape`: "d"
 (default: round over the top, following the reed underneath), "round", "conform" (follows the body).
+Edges (`lig_edge_cut`, `lig_ts`): the rear edge (on top when printed) rounded outside, radius
+`LIG_EDGE_R` (1mm, at most 0.45 x the wall); the front edge (on the plate) a 45° chamfer outside
+(`LIG_EDGE_C`) and 0.3mm inside (eases it over the reed); each corner measured from its own edges.
 
 - **The reed is the tight spot**: the reed counts `ligature_reed_grip` + `ligature_fit` thinner, so
   the band squeezes it by the grip (0.2) while the body keeps the fit gap (0.1). The band first
@@ -295,6 +298,10 @@ inside = that + `CAP_CLEARANCE` (0.5), shaped by `cap_shape` (conform, or `lig_r
 - **Pictures**: `ligature_image` / `cap_image` = "same" (the default) use `top_image` and its aspect
   (`LIG_IMAGE`, `CAP_IMAGE`); "" = none.
 - **Lettering**: as the ligature's, on a skin between the outer rings at two offsets.
+- **Rim bead** (`cap_rim_bead`, 0 = none): the outer rings near the rim pushed out by the bead,
+  `CAP_BEAD_W` tall, then back at 45° (on the plate: no overhang); the bottom corner chamfered 0.3mm.
+  Extra outer rings there (`out_zs`). **End shape** is clamped to 0.6..1 (`dome`): flatter left a flat
+  ceiling ~25mm across (measured: 181 mm² facing straight down at 0, 84 at 0.6, 38 at 1).
 - `cap_clash` = cap ∩ mouthpiece + cap ∩ the printed or stand-in metal ligature; `npm run check` runs it
   with `cap_grip=-0.05` (a squeeze of 0 touches the band's face exactly and leaves zero-thickness
   slivers) and accepts under 1mm³. `npm run sweep -- --part cap` sweeps the Cap and Ligature groups.

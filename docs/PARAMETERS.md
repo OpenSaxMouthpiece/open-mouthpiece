@@ -1355,11 +1355,19 @@ Presets: Alto `4` · Tenor `4` · Bari `4` · Soprano `4`.
 
 ### End shape (`cap_end_dome`)
 
-Closed end's shape: 0 = flat, 1 = a full dome as tall as the end gap.
+Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).
 
-Range: 0 to 1, step 0.1.
+Range: 0.6 to 1, step 0.1.
 
 Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+### Rim bead (`cap_rim_bead`)
+
+A raised bead around the open end (mm out from the wall); 0 = none.
+
+Range: 0 to 1.5, step 0.1.
+
+Presets: Alto `0.6` · Tenor `0.6` · Bari `0.6` · Soprano `0.6`.
 
 ### Text on the cap (`cap_text`)
 
