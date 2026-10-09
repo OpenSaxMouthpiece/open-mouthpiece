@@ -181,13 +181,16 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
   `bundle_scad.mjs` drops the font `use`s.
   Each text can have its own (`top_text_font`, `side_text_font`, `shank_text_font`,
   `ligature_text_font`, `cap_text_font`; "same" = `lettering_font`, via `font_name()`).
-- **Shank band** (`SHANK_BAND`): the round stretch at the neck end, from 1mm past the socket's
+- **Shank band** (`SHANK_BAND`): the stretch at the neck end (round, unless the body is boxy), from 1mm past the socket's
   lead-in to where the width starts to flare (at least 7mm: the bari's and soprano's shanks flare
   from the end, so they get that much of the flare), short of the reed's heel. `shank_detail` cuts
   grooves into it (`rings`: half-round, as many as fit up to `shank_detail_count`, one at
-  `shank_detail_position`; older files' `ring` = rings, 1; `flutes`: V grooves along it, following
-  the flare in 0.5mm hulls; `spiral`: 1-4 half-round starts, `knurled`: V grooves both ways, both
-  `linear_extrude` twisted and scaled with the flare, `sd_helix_2d` / `sd_knurl`) and
+  `shank_detail_position`; older files' `ring` = rings, 1; `flutes`: V grooves along it; `spiral`:
+  1-4 half-round starts; `knurled`: V grooves both ways). Each is a tube swept over the surface
+  (`sd_sweep`: a profile per slice, placed from the surface under each point, `sd_r` from the
+  `SD_RGRID` of surface radii by station and angle): the band is only round on a round body, and
+  details built around one circle cut deeper and wider at a boxy body's corners. Profiles reach
+  only ~1mm past the surface (wide ones fold over themselves on a twisted path). And
   `shank_text` runs around it (2mm strips wedged out along the radius, as the wrapped picture; read
   with the tip up; `shank_text_around` turns it, + toward the right side). Both cut a skin
   (`exterior_relief`: `exterior_offset` with its own depth per station; grooves have 45-degree

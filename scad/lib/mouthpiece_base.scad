@@ -1669,56 +1669,81 @@ module bore_frame() { translate([0, bah_at(-1), -1]) rotate([bore_tilt, 0, 0]) c
 // The surface's smallest distance from the bore axis at z (the table plane cuts the underside).
 function shank_r_at(z) = let(E = exterior_ring_at(max(0, z)), c = bah_at(z)) min(E[E_HW], E[E_TOP] - c, c - max(0, E[E_BOT]));
 
-// Spiral and knurling: grooves (or a bead) twisted round the band, linear_extruded in the bore
-// frame from the end face and scaled with the band's flare (r at both ends).
-SD_R = [shank_r_at(SD_SPAN[0]), shank_r_at(SD_SPAN[1])];
+// The band's surface, direction by direction: on a boxy body the band is not round, and details
+// placed around one circle (its smallest radius) cut deeper and wider at the corners. Every detail
+// is instead laid on the surface at its own angle: SD_RGRID holds the surface's distance from the
+// bore axis per station (0.5mm apart) and angle (5 degrees; 90 = top), as shank_r_at (the table
+// plane cuts the underside), found by bisection along the ray.
+function sd_inside(E, x, y) = y >= max(0, E[E_BOT]) &&
+  (let(up = y >= E[E_CY], n = up ? E[E_NT] : E[E_NB], h = up ? E[E_TOP] - E[E_CY] : E[E_CY] - E[E_BOT])
+  pow(abs(x) / E[E_HW], n) + pow(min(1.5, abs(y - E[E_CY]) / max(0.01, h)), n) <= 1);
+function sd_ray(E, c, a, lo = 0, hi = 40, i = 0) = i >= 16 ? (lo + hi) / 2
+  : let(m = (lo + hi) / 2) sd_inside(E, m * cos(a), c + m * sin(a)) ? sd_ray(E, c, a, m, hi, i + 1) : sd_ray(E, c, a, lo, m, i + 1);
+SD_GZ = [min(SD_SPAN[0], SHANK_BAND[0]) - 1.5, SHANK_BAND[1] + 2];
+SD_GN = ceil((SD_GZ[1] - SD_GZ[0]) / 0.5);
+SD_RGRID = !HAS_SHANK_ART ? [] : [for (i = [0 : SD_GN]) let(z = max(0, SD_GZ[0] + (SD_GZ[1] - SD_GZ[0]) * i / SD_GN), E = exterior_ring_at(z), c = bah_at(z))
+  [for (j = [0 : 71]) sd_ray(E, c, j * 5)]];
+function sd_r(z, a) = let(t = clamp01((z - SD_GZ[0]) / (SD_GZ[1] - SD_GZ[0])) * SD_GN, i = min(SD_GN - 1, floor(t)), fi = t - i,
+    b = ((a % 360) + 360) % 360 / 5, j = floor(b) % 72, j1 = (j + 1) % 72, fj = b - floor(b))
+  lerp(lerp(SD_RGRID[i][j], SD_RGRID[i][j1], fj), lerp(SD_RGRID[i + 1][j], SD_RGRID[i + 1][j1], fj), fi);
+
+// A detail as a tube swept over the surface (in the bore frame, like the end face): slices
+// [angle, z, va, vz, profile], the profile's points [u, v] = u mm out from the surface (- = in) and v
+// mm across the path, along (va, vz) = its across-direction in mm around and along the band, to
+// the path's right seen from outside (the other way turns the tube inside out).
+function sd_slice(s) = [for (p = s[4]) let(a = s[0] + p[1] * s[2] / max(1, sd_r(s[1], s[0])) * 180 / PI, z = s[1] + p[1] * s[3], r = sd_r(z, a) + p[0])
+  [r * cos(a), r * sin(a), z + 1]];
+module sd_sweep(slices, closed = false) {
+  n = len(slices); m = len(slices[0][4]);
+  pts = [for (s = slices) each sd_slice(s)];
+  side = [for (i = [0 : (closed ? n : n - 1) - 1]) for (k = [0 : m - 1])
+    let(a = i * m + k, b = i * m + (k + 1) % m, c = ((i + 1) % n) * m + (k + 1) % m, d = ((i + 1) % n) * m + k) each [[a, c, b], [a, d, c]]];
+  caps = closed ? [] : [[for (k = [0 : m - 1]) k], [for (k = [m - 1 : -1 : 0]) (n - 1) * m + k]];
+  polyhedron(points = pts, faces = concat(side, caps), convexity = 6);
+}
+// Profiles, reaching just past the surface (every point is placed from the surface under it, and
+// a wide profile on a twisted path folds over itself): a round groove (k deep, open outward), a round bead (k high, rooted 1mm in), a V groove
+// (45-degree sides, its point k in, or k out for the raised knurl's diamonds between them).
+function sd_groove(k) = concat([for (i = [0 : 12]) let(t = 90 + 180 * i / 12) [k * cos(t), k * sin(t)]], [[1, -k], [1, k]]);
+function sd_bead(k) = concat([for (i = [0 : 12]) let(t = -90 + 180 * i / 12) [k * cos(t), k * sin(t)]], [[-1, k], [-1, -k]]);
+function sd_vee(k, out = 1) = [[-k, 0], [out, -out - k], [out, out + k]];
+// The paths: around at a station, along at an angle, a helix (lead mm per turn, + / - = the two
+// directions), each with its profile from a function of the station (depths ease out at the ends).
+function sd_ring_path(c, prof) = [for (j = [0 : 143]) [j * 2.5, c, 0, -1, prof]];
+function sd_line_path(a, z0, z1, prof) = let(n = max(2, ceil((z1 - z0) / 0.5))) [for (k = [0 : n]) let(z = z0 + (z1 - z0) * k / n) [a, z, 1, 0, prof(z)]];
+function sd_helix_path(a0, lead, z0, z1, prof) = let(h = z1 - z0, n = max(4, ceil(max(h / 0.5, abs(360 * h / lead) / 3))))
+  [for (k = [0 : n]) let(z = z0 + h * k / n, a = a0 + 360 * (z - z0) / lead, g = 2 * PI * sd_r(z, a) / lead, q = sqrt(1 + g * g))
+    [a, z, 1 / q, -g / q, prof(z)]];
+
 SD_K = max(0.1, min(SHANK_CUT, shank_room(SD_SPAN[0], SD_SPAN[1])));   // engraved depth, all along
+SD_R = [shank_r_at(SD_SPAN[0]), shank_r_at(SD_SPAN[1])];
 SD_STARTS = min(SD_COUNT, 4);
 SD_LEAD = SD_STARTS * 2 * SD_GW;                       // a spiral's turns 2 groove widths apart
 SD_KNURL_LEAD = 2 * PI * SD_R[0] * 1.2;               // knurl lines ~40 degrees off the bore
-// A round profile of radius k swept along a helix of this lead, cut at z = const: an arc of
-// angles; dir -1 = a groove (round inside, open out to r + 6), +1 = a bead (round outside).
-function sd_helix_2d(r, k, lead, dir) = let(a = 2 * PI * k / lead, n = 16,
-    ph = [for (i = [0 : n]) -a + 2 * a * i / n],
-    arc = [for (p = ph) let(rr = r + dir * sqrt(max(0, k * k - pow(p * lead / (2 * PI), 2)))) [rr * cos(p * 180 / PI), rr * sin(p * 180 / PI)]],
-    base = [for (p = [for (i = [n : -1 : 0]) ph[i]]) let(rr = dir < 0 ? r + 6 : r - 1) [rr * cos(p * 180 / PI), rr * sin(p * 180 / PI)]])
-  concat(arc, base);
-module sd_twist(lead, z0 = -0.5) {
-  h = SD_SPAN[1] + 1 - z0;
-  translate([0, 0, z0]) linear_extrude(h, twist = -360 * h / lead, slices = max(4, ceil(abs(360 * h / lead) / 5)), scale = SD_R[1] / SD_R[0])
-    children();
-}
-module sd_knurl(apex) {   // V grooves (45-degree sides), both ways, apex at radius apex
-  for (s = [-1, 1], i = [0 : max(2, SD_COUNT) - 1]) rotate([0, 0, i * 360 / max(2, SD_COUNT)])
-    sd_twist(s * SD_KNURL_LEAD) polygon([[apex, 0], [SD_R[0] + 6, SD_R[0] + 6 - apex], [SD_R[0] + 6, apex - SD_R[0] - 6]]);
+SD_FW = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / max(2, SD_COUNT) * 0.6, 2 * SHANK_CUT);   // a flute's width
+// Twisted and fluted details run from past the end face to the band's end, easing out over their
+// last mm at 45 degrees (no ledge to print standing on the end face).
+function sd_ease(z, k) = max(0.05, min(k, SD_SPAN[1] - z));
+module sd_knurl(apex_out) {
+  for (s = [-1, 1], i = [0 : max(2, SD_COUNT) - 1])
+    sd_sweep(sd_helix_path(i * 360 / max(2, SD_COUNT), s * SD_KNURL_LEAD, SD_SPAN[0] - 0.5, SD_SPAN[1],
+      function(z) apex_out ? sd_vee(-0.01, SHANK_CUT + 0.5) : sd_vee(sd_ease(z, SD_K))));
 }
 
 module shank_cutter() {
-  // Rings: half-round grooves turned around the bore (no flat ledge to print).
+  // Rings: half-round grooves around the band (no flat ledge to print).
   if (!SHANK_RAISED && SD_KIND == "rings")
     bore_frame() for (c = SD_CENTRES)
-      let(r = shank_r_at(c), k = max(0.1, min(SHANK_CUT, shank_room(c - SD_GW / 2, c + SD_GW / 2))))
-      translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS) union() {
-        translate([r, 0]) circle(k, $fn = 24);
-        translate([r, -k]) square([6, 2 * k]);
-      }
-  // Flutes: each a V (45-degree sides) along the bore, its point fw/2 under the surface (following
-  // the flare in 0.5mm pieces) and rising at 45 degrees at both ends, so no ledge to print.
-  if (!SHANK_RAISED && SD_KIND == "flutes") {
-    n = max(2, SD_COUNT);
-    fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, 2 * SHANK_CUT);
-    m = max(2, ceil((SD_SPAN[1] - SD_SPAN[0]) / 0.5));
-    tip = function(k) let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * k / m, zz = k == 0 ? z - 0.5 : z)   // past the face
-      [zz + 1, shank_r_at(z), max(0.05, min(fw / 2, SD_SPAN[1] - z, shank_room(z, z)))];
-    bore_frame() for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
-      for (k = [0 : m - 1]) hull() for (p = [tip(k), tip(k + 1)])
-        translate([0, 0, p[0]]) linear_extrude(0.01)
-          polygon([[p[1] - p[2], 0], [p[1] + 6, 6 + p[2]], [p[1] + 6, -6 - p[2]]]);
-  }
+      sd_sweep(sd_ring_path(c, sd_groove(max(0.1, min(SHANK_CUT, shank_room(c - SD_GW / 2, c + SD_GW / 2))))), true);
+  // Flutes: V grooves along the band, their point SD_FW/2 under the surface.
+  if (!SHANK_RAISED && SD_KIND == "flutes")
+    bore_frame() for (i = [0 : max(2, SD_COUNT) - 1])
+      sd_sweep(sd_line_path(90 + i * 360 / max(2, SD_COUNT), SD_SPAN[0] - 0.5, SD_SPAN[1],
+        function(z) sd_vee(sd_ease(z, min(SD_FW / 2, shank_room(max(0, z), max(0, z)))))));
   if (!SHANK_RAISED && SD_KIND == "spiral")
-    bore_frame() for (i = [0 : SD_STARTS - 1]) rotate([0, 0, i * 360 / SD_STARTS])
-      sd_twist(SD_LEAD) polygon(sd_helix_2d(SD_R[0], SD_K, SD_LEAD, -1));
-  if (!SHANK_RAISED && SD_KIND == "knurled") bore_frame() sd_knurl(SD_R[0] - SD_K);
+    bore_frame() for (i = [0 : SD_STARTS - 1])
+      sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0] - 0.5, SD_SPAN[1], function(z) sd_groove(sd_ease(z, SD_K))));
+  if (!SHANK_RAISED && SD_KIND == "knurled") bore_frame() sd_knurl(false);
   if (has_text(shank_text)) shank_text_cutter();
 }
 
@@ -1731,28 +1756,18 @@ module shank_raised() {
       translate([-60, -60, 0]) cube([120, 120, 60]);   // not past the end face
       union() {
         if (SD_KIND == "rings")
-          for (c = SD_CENTRES) let(r = shank_r_at(c))
-            translate([0, 0, c + 1]) rotate_extrude($fn = EXT_RING_POINTS) union() {
-              translate([r, 0]) circle(SHANK_CUT, $fn = 24);
-              translate([r - 1, -SHANK_CUT]) square([1, 2 * SHANK_CUT]);
-            }
-        if (SD_KIND == "flutes") {
-          n = max(2, SD_COUNT);
-          fw = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / n * 0.6, 2 * SHANK_CUT);
-          m = max(2, ceil((SD_SPAN[1] - SD_SPAN[0]) / 0.5));
-          for (i = [0 : n - 1]) rotate([0, 0, 90 + i * 360 / n])
-            for (k = [0 : m - 1]) hull() for (j = [k, k + 1])
-              let(z = SD_SPAN[0] + (SD_SPAN[1] - SD_SPAN[0]) * j / m, r = shank_r_at(z))
-              translate([0, 0, z + 1]) linear_extrude(0.01)
-                polygon([[r - 1, -fw / 2], [r, -fw / 2], [r + fw / 2, 0], [r, fw / 2], [r - 1, fw / 2]]);
-        }
+          for (c = SD_CENTRES) sd_sweep(sd_ring_path(c, sd_bead(SHANK_CUT)), true);
+        if (SD_KIND == "flutes")
+          for (i = [0 : max(2, SD_COUNT) - 1])
+            sd_sweep(sd_line_path(90 + i * 360 / max(2, SD_COUNT), SD_SPAN[0], SD_SPAN[1],
+              function(z) [[-1, -SD_FW / 2], [0, -SD_FW / 2], [SD_FW / 2, 0], [0, SD_FW / 2], [-1, SD_FW / 2]]));
         if (SD_KIND == "spiral")
-          for (i = [0 : SD_STARTS - 1]) rotate([0, 0, i * 360 / SD_STARTS])
-            sd_twist(SD_LEAD, 0) polygon(sd_helix_2d(SD_R[0], SHANK_CUT, SD_LEAD, 1));
+          for (i = [0 : SD_STARTS - 1])
+            sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0], SD_SPAN[1], function(z) sd_bead(SHANK_CUT)));
         if (SD_KIND == "knurled")
           difference() {
             translate([0, 0, SD_SPAN[0] + 1]) cylinder(r = SD_R[1] + SHANK_CUT + 9, h = SD_SPAN[1] - SD_SPAN[0], $fn = EXT_RING_POINTS);
-            sd_knurl(SD_R[0] + 0.01);
+            sd_knurl(true);
           }
       }
     }
@@ -1773,10 +1788,11 @@ module shank_text_cutter() {
       translate([-50, -50, z0 + 1]) cube([100, 100, z1 - z0]);
       for (k = [-n : n - 1])
         let(u = (k + 0.5) * sw, a = 90 + shank_text_around + u / R * 180 / PI, nr = [cos(a), sin(a)], t = [-sin(a), cos(a)])
-        multmatrix([[t[0], 0, nr[0], nr[0] * (R - inw)], [t[1], 0, nr[1], nr[1] * (R - inw)],
+        let(Rk = sd_r(shank_text_z, a))   // the surface in this strip's direction (a boxy band isn't round)
+        multmatrix([[t[0], 0, nr[0], nr[0] * (Rk - inw)], [t[1], 0, nr[1], nr[1] * (Rk - inw)],
                     [0, 1, 0, shank_text_z + 1], [0, 0, 0, 1]])
-          linear_extrude(height = inw + out, scale = [(R + out) / (R - inw), 1])
-            scale([(R - inw) / R, 1]) translate([-u, 0]) intersection() {
+          linear_extrude(height = inw + out, scale = [(Rk + out) / (Rk - inw), 1])
+            scale([(Rk - inw) / R, 1]) translate([-u, 0]) intersection() {
               lettering_text(shank_text, shank_text_size, font_name(shank_text_font));
               translate([u - sw / 2 - 0.05, -50]) square([sw + 0.1, 100]);
             }
