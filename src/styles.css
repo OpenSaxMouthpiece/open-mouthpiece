@@ -2549,6 +2549,16 @@ button.link:hover {
 .profile-head .link.on {
   font-weight: 600;
 }
+/* Undo / Reset shape, by Done */
+.pc-edit-tools {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+.pc-edit-tools .link:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
 .profile-chart svg.editing {
   touch-action: none;
 }

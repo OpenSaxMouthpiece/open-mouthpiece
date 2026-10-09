@@ -83,6 +83,11 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
   const last = useRef<{ design: string; sig: string; loops: Loop[]; stl: ArrayBuffer } | null>(null);
   const beforeSig = useRef<string | null>(null); // the settings "before" was made from
   const [editing, setEditing] = useState(false);
+  // the card's own undo: each step = the lines it changed and what they were before (a drag is one
+  // line, Reset shape all of them); a slider in between stays as it is
+  type Step = { param: string; prev?: Pt[] }[];
+  const [steps, setSteps] = useState<Step[]>([]);
+  useEffect(() => setSteps([]), [design]);
   const [drag, setDragState] = useState<Drag | null>(null);
   // the drag as of the last event, not the last render: a quick flick's first move can come before
   // React has drawn the press, and was lost
@@ -112,7 +117,10 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     pending.current = null;
     const got = lineAt(sh.lines[p.n] ?? [], p.z) - p.was;
     if (Math.abs(p.d) >= 0.3 && got / p.d < 0.4) {
-      if (got / p.d < 0.1) onSet.current?.(LINES[p.n].param, p.prev?.length ? p.prev : undefined);
+      if (got / p.d < 0.1) {
+        onSet.current?.(LINES[p.n].param, p.prev?.length ? p.prev : undefined);
+        setSteps((s) => s.slice(0, -1)); // that drag is taken back: nothing to undo
+      }
       setHeld(HELD);
       const t = setTimeout(() => setHeld(null), 6000);
       return () => clearTimeout(t);
@@ -159,6 +167,21 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     return Array.isArray(v) ? (v as Pt[]) : undefined;
   };
   const edited = names ? [...names.side, ...names.top].filter((n) => adjOf(n)?.length) : [];
+  const undoShape = () => {
+    const last = steps[steps.length - 1];
+    if (!last || !edit) return;
+    pending.current = null;
+    setHeld(null);
+    setSteps(steps.slice(0, -1));
+    last.forEach((c) => edit.onSet(c.param, c.prev?.length ? c.prev : undefined));
+  };
+  const resetShape = () => {
+    if (!edit || !edited.length) return;
+    pending.current = null;
+    setHeld(null);
+    setSteps([...steps, edited.map((n) => ({ param: LINES[n].param, prev: adjOf(n) }))]);
+    edited.forEach((n) => edit.onSet(LINES[n].param, undefined));
+  };
   // A line as drawn: the model's, moved by whatever offsets changed since it was rendered (a drag
   // in progress, or one let go of while the model catches up, an undo), so nothing snaps back.
   const lineNow = (n: LineName): Pt[] => {
@@ -229,6 +252,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
           shape.L,
         );
         pending.current = { n, z, was: lineAt(before, z), d, adj: JSON.stringify(next), prev };
+        setSteps((s) => [...s, [{ param: LINES[n].param, prev }]]);
         edit.onSet(LINES[n].param, next.length ? next : undefined);
       }
       setHeld(
@@ -387,6 +411,30 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     <div className="profile-chart">
       <div className="profile-head">
         <span className="readout-label">{outside ? "From the side" : "Side section, through the middle"}</span>
+        {on && (
+          <span className="pc-edit-tools">
+            <button
+              className="link"
+              disabled={!steps.length}
+              onClick={undoShape}
+              title="Undo the last drag on this card"
+            >
+              ↶ Undo
+            </button>
+            <button
+              className="link"
+              disabled={!edited.length}
+              onClick={resetShape}
+              title={
+                edited.length
+                  ? `Remove this section's shape edits (${edited.map((n) => LINES[n].label).join(", ")})`
+                  : "No shape edits here"
+              }
+            >
+              Reset shape
+            </button>
+          </span>
+        )}
         {edit && shape && (
           <button
             className={`link${on ? " on" : ""}`}
@@ -519,15 +567,6 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
               Drag a dot to reshape the line (on the slice too; widths mirror to the other side). The sliders still work
               on top.
             </span>
-          )}
-          {edited.length > 0 && (
-            <button
-              className="link"
-              onClick={() => edited.forEach((n) => edit!.onSet(LINES[n].param, undefined))}
-              title="Remove this section's shape edits"
-            >
-              Remove shape edits ({edited.map((n) => LINES[n].label).join(", ")})
-            </button>
           )}
         </div>
       ) : (

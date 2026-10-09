@@ -4,6 +4,7 @@
 // items and what's open out; App keeps the remembered choice (prefs "rail", "dockTab").
 import type { RailItem } from "../components/Rail";
 import { DESIGN_SECTIONS, type DesignSection, type PartTab } from "../design";
+import { shapeParams } from "../shapeEdit";
 
 // A section's rail button: one short word and an icon.
 const RAIL: Record<string, [label: string, icon: RailItem["icon"]]> = {
@@ -77,7 +78,8 @@ export function buildRail(r: RailInput): Rail {
     const first = r.has(FLY_OF[id] ?? "") ? FLY_OF[id] : s.items.find((i) => r.has(i.name))?.name;
     if (first && part === "mouthpiece") r.focusOn(first);
   };
-  const changedIn = (s: DesignSection) => [...s.items.map((i) => i.name), ...(s.more ?? [])].filter(r.changed).length;
+  const changedIn = (s: DesignSection) =>
+    [...s.items.map((i) => i.name), ...(s.more ?? []), ...shapeParams(s.title)].filter(r.changed).length;
   const tool = (id: string, label: string, title: string, icon: RailItem["icon"], extra: Partial<RailItem> = {}) =>
     ({ id, label, title, icon, active: now === id, group: "tools", ...extra }) satisfies RailItem;
   const items: RailItem[] = [

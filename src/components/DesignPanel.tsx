@@ -17,6 +17,7 @@ import {
   paramLabel,
   type PartTab,
 } from "../design";
+import { shapeParams } from "../shapeEdit";
 import { BaffleSketches } from "./BaffleSketches";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
@@ -417,7 +418,11 @@ export function DesignPanel({
               summary={summary}
               forceOpen={!!q || !!only || (tabbed && tab !== "mouthpiece")}
               className="design-section"
-              changed={s.items.filter((i) => i.name in values).length + moreChanged}
+              changed={
+                s.items.filter((i) => i.name in values).length +
+                moreChanged +
+                shapeParams(s.title).filter((n) => n in values).length
+              }
             >
               {s.ligature && ligature!.head}
               {s.cap && cap!.head}

@@ -67,6 +67,13 @@ export const SECTION_LINES = {
   chamber: { side: ["baffle", "floor"], top: ["chamber_width"] },
 } satisfies Record<string, { side: LineName[]; top: LineName[] }>;
 export type ShapeSection = keyof typeof SECTION_LINES;
+// The settings section each chart sits in, and the offsets it edits (counted as that section's
+// changes, like its sliders).
+const SECTION_OF: Record<string, ShapeSection> = { "Body & beak": "body", "Chamber & baffle": "chamber" };
+export const shapeParams = (title: string): string[] => {
+  const s = SECTION_OF[title];
+  return s ? [...SECTION_LINES[s].side, ...SECTION_LINES[s].top].map((n) => LINES[n].param) : [];
+};
 
 // The offset curve as the generator reads it: 0 at both ends of the length unless given there.
 export function offsetAt(adj: Pt[] | undefined, f: number): number {
