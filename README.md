@@ -22,7 +22,7 @@ nothing is saved on a server.
   Silva, Unda), plus a C-melody.
 - **Shape it in sax terms**: tip opening in thousandths, facing length and curve (drag it, or pick
   one), chamber, baffle, window, body and beak. Every slider says what each end does.
-- **Drag the shape itself**: the shape charts under the view show the facing, the outside and the
+- **Drag the shape itself**: the shape card over the view shows the facing, the outside and the
   inside from the side and in a slice across; **Edit shape** lets you pull their lines.
 - **See the numbers**: tip, facing, length, inside air volume (and where that sits on the cork) and
   thinnest wall, and where feeler gauges stop along the facing.
