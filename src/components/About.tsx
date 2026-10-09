@@ -1,6 +1,6 @@
 // The About panel (the rail's About; the phone's ☰ "About and help"): what the app is, how to use it,
 // where designs live, where to get help, and the credits.
-import { DONATE_URL, GLOSSARY_URL, PRINTING_GUIDE_URL, REPO_URL } from "../links";
+import { DONATE_URL, GLOSSARY_URL, PARAMETERS_URL, PRINTING_GUIDE_URL, REPO_URL } from "../links";
 import { Credits } from "./DesignPanel";
 
 declare const __BUILD__: string;
@@ -45,6 +45,14 @@ export function About() {
             The glossary
           </a>{" "}
           shows each part in a picture.
+        </p>
+      )}
+      {PARAMETERS_URL && (
+        <p className="muted">
+          <a href={PARAMETERS_URL} {...ext}>
+            Every setting
+          </a>
+          , with pictures of what it changes.
         </p>
       )}
 
