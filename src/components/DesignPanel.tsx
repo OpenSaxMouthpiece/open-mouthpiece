@@ -508,8 +508,8 @@ export function Credits({ donate = true }: { donate?: boolean } = {}) {
             </a>
           </span>
         ))}
-        . What this adds: a socket fitted to your own neck cork, your tip opening and facing curve, a matching ligature,
-        and extra stock to sand the table flat.
+        . Unlike those fixed models, here you set your own tip opening and facing, fit the shank to your neck cork,
+        print a matching ligature, and can leave extra material on the table to sand it flat.
       </p>
       <p className="preset-credit muted">
         The geometry is made by{" "}
