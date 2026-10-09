@@ -400,6 +400,8 @@ min_airgap = 0.5;
 
 $fn = render_fn;
 
+// (legacy names: begin; the bundlers move this block above the settings, so an old name
+// pasted into a single-file download still wins over these and gets its warning)
 // Parameters renamed on 2026-09-26: a file that still sets an old name gets a warning (the app
 // rewrites old names itself when it opens a file or a link, see src/migrate.ts).
 chamber_d = undef;
@@ -424,6 +426,7 @@ chamber_width = undef;
 // reed_length before 2026-10-05 (renamed table_length, the same length): an older file's value
 // still applies.
 reed_length = undef;
+// (legacy names: end)
 RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width_extra (the width vs the throat's)"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
 // ===========================================================================================
@@ -440,7 +443,7 @@ function has_pts(pts) = is_list(pts) && len(pts) > 0;
 // Numbers in order (a small list: quicksort), and without near-repeats (closer than eps).
 function sort_nums(v) = len(v) <= 1 ? v : let(p = v[floor(len(v) / 2)])
   concat(sort_nums([for (x = v) if (x < p) x]), [for (x = v) if (x == p) x], sort_nums([for (x = v) if (x > p) x]));
-function thin_nums(s, eps) = [for (i = [0 : len(s) - 1]) if (i == 0 || s[i] - s[i - 1] > eps) s[i]];
+function thin_nums(s, eps) = [for (i = [0 : 1 : len(s) - 1]) if (i == 0 || s[i] - s[i - 1] > eps) s[i]];
 
 // Monotone piecewise-cubic (PCHIP, Fritsch-Carlson) interpolation through [[x, y], ...] sorted by
 // x — smooth (C1) like a spline, but never overshoots, so a flat run stays flat and a step stays a
@@ -1110,13 +1113,13 @@ function sidewall_allowed(I, y) =
 // closing the window — the volume that, with the neck, sets how the mouthpiece tunes on the horn.
 // Trapezoid rule over the interior loft's own rings (their polygon area), plus the slot of the
 // window below the interior's floor skin, down to the reed (facing) line.
-function poly_area(pts) = abs(vsum([for (i = [0 : len(pts) - 1]) let(a = pts[i], b = pts[(i + 1) % len(pts)]) a[0] * b[1] - b[0] * a[1]])) / 2;
+function poly_area(pts) = abs(vsum([for (i = [0 : 1 : len(pts) - 1]) let(a = pts[i], b = pts[(i + 1) % len(pts)]) a[0] * b[1] - b[0] * a[1]])) / 2;
 function vsum(v, i = 0, acc = 0) = i >= len(v) ? acc : vsum(v, i + 1, acc + v[i]);
 function air_volume() =
   let(zs = [for (r = AIR_RINGS) r[0]])
   let(areas = [for (r = AIR_RINGS) let(z = r[0], I = r[1])
                  poly_area(r[2]) + (z > win_z0 ? 2 * window_half_width(z) * max(0, I[2] - facing_at_z(z)) : 0)])
-  vsum([for (i = [0 : len(zs) - 2]) (zs[i + 1] - zs[i]) * (areas[i] + areas[i + 1]) / 2]);
+  vsum([for (i = [0 : 1 : len(zs) - 2]) (zs[i + 1] - zs[i]) * (areas[i] + areas[i + 1]) / 2]);
 
 module validate() {
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
@@ -2358,7 +2361,7 @@ module cap_part() {
   e_hw = 0.55 * min(hl[LIG_N / 4], hl[3 * LIG_N / 4]);
   e_p = cap_end_vent_size + 1.6;
   e_n = cap_end_vents <= 0 ? 0 : max(0, min(cap_end_vents, floor((2 * e_hw - cap_end_vent_size) / e_p) + 1));
-  e_xs = [for (i = [0 : e_n - 1]) (i - (e_n - 1) / 2) * e_p];
+  e_xs = [for (i = [0 : 1 : e_n - 1]) (i - (e_n - 1) / 2) * e_p];
   // text and pictures on the top (as on the ligature)
   t_mid = max(cap_z0 + 3, min(L - 3, (cap_z0 + L) / 2 + cap_lettering_position));
   t_len = text_len(cap_text, cap_text_size, cap_text_angle);

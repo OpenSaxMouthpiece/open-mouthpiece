@@ -64,8 +64,14 @@ export async function bundleDesign(o: Options): Promise<string> {
   // missing one is an ERROR line). Desktop OpenSCAD has the Liberation faces built in and finds
   // the others by name once installed; the app adds its fonts itself (browserApi.ts).
   // Pictures were imported relative to lib/ ("../art/"): now relative to this file ("art/").
+  // The legacy-name block goes above the settings (where the include was): an old name pasted
+  // into the settings must come after its `= undef` to win (and get its rename warning).
+  const LEGACY = /^\/\/ \(legacy names: begin[^\n]*\n(?:[^\n]*\n)*?\/\/ \(legacy names: end\)\n/m;
+  const legacy = LEGACY.exec(keep.join("\n"))?.[0] ?? "";
+  const tabFirst = /^\s*(\/\/[^\n]*\n\s*)*\/\* \[/.test(text.slice(inc.index + inc[0].length)); // settings open with a tab
   const body = keep
     .join("\n")
+    .replace(LEGACY, "")
     .replace(/^\/\/ Lettering fonts \(see LETTERING_FONTS\)[^\n]*\n(\/\/[^\n]*\n)*(use <fonts\/[^>]+>\n)+/m, "")
     .replace(/^use <fonts\/[^>]+>\n/gm, "")
     .replace(/import\(str\("\.\.\/art\/", /g, 'import(str("art/", ')
@@ -89,7 +95,12 @@ export async function bundleDesign(o: Options): Promise<string> {
     "",
   ].join("\n");
   return [
-    header + text.replace(inc[0], `// (self-contained: ${basePath} is included at the end of this file)`),
+    header +
+      text.replace(
+        inc[0],
+        `// (self-contained: ${basePath} is included at the end of this file)` +
+          (legacy ? `\n/* [Hidden] */\n${legacy}${tabFirst ? "" : "/* [Parameters] */\n"}` : ""),
+      ),
     "",
     "/* [Hidden] */",
     `// ======================== ${basePath} (included) ========================`,
