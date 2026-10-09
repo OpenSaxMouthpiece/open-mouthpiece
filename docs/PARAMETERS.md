@@ -329,9 +329,17 @@ Range: `none`, `along`, `across`, `dimples`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
 
+### Texture style (`baffle_texture_style`)
+
+Texture cut into the baffle (engraved) or standing out of it (raised).
+
+Range: `engraved`, `raised`.
+
+Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
+
 ### Texture depth (`baffle_texture_depth`)
 
-How deep the texture cuts (mm); less where the wall over it is thin.
+How deep the texture cuts, or how far it stands out (mm); less where there is no room.
 
 Range: 0.1 to 1, step 0.05.
 

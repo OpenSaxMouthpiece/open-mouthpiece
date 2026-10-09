@@ -134,7 +134,7 @@ settings are the bevel at the opening of the socket, the bore size and the angle
 texture on the baffle (grooves along it, grooves across it, or dimples), and the width of the
 window. More settings has the chamber height and floor, how the chamber widens
 past the throat, the throat's position and shape, where the baffle starts and how it curves, the
-texture's depth and spacing, the window's length and corners, and the angle of the side walls.
+texture's style (engraved or raised), depth and spacing, the window's length and corners, and the angle of the side walls.
 
 **Body & beak.** This group controls the outside: overall length, the height of the beak at the
 tip, the beak's curve, length and top, the shoulder, the sides near the table, and the width and

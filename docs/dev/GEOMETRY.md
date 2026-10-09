@@ -140,14 +140,19 @@ the reed; eases in over the first third), `baffle_start` (moves where it begins;
 descent from every point 16mm behind it, `baffle_shape_at`). The roof blends in from the
 bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (`baffle_roof`).
 
-**Texture** (`baffle_texture` along / across / dimples, `_depth`, `_spacing`;
-`baffle_texture_cutter`): shallow dents cut up into the roof from 4mm past the baffle start to 2mm
-behind the tip curve (3mm fades). Each is a sphere cap (radius >= 3.5 x depth, so its sides stay
-under ~45° and no overhang is wider than the depth); grooves are hulls of neighbouring spheres
-(1mm apart along, 0.75mm across). Per sample (`btx_row`): depth limited so the wall over it keeps
-`interior_wall` (+ the lettering depth when there is lettering), and the whole sphere stays within
-the air path's width (the window's width under the window), so it never reaches the side walls or
-rails. Not in the air readout (a few mm³). Costs ~0.3-1s per render.
+**Texture** (`baffle_texture` along / across / dimples, `_style` engraved / raised, `_depth`,
+`_spacing`; `baffle_texture_solid`, data `BTX_ROWS` after HAS_LETTERING): dents cut up into the roof
+(engraved) or bumps standing down from it (raised), from 4mm past the baffle start to 2mm behind
+the tip curve (3mm fades). Each is a sphere cap (radius >= 3.5 x depth, so its sides stay under
+~45° and no overhang is wider than the depth), placed square to the roof's local slope; grooves are
+hulls of neighbouring spheres (1mm apart along, 0.75mm across). Per sample (`btx_row`): engraved,
+the wall over it keeps `interior_wall` (+ the lettering depth when there is lettering); raised, the
+roof keeps 1mm above the floor and the reed line; either way the whole sphere stays within the air
+path's width (the window's width under the window), so it never reaches the side walls or rails.
+Raised bumps are cut from the interior before it is cut from the body (they only fill air). The air
+readout counts the texture (`BTX_AIR`, a grid integral of the caps, `btx_volume`; within ~20% of
+the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.07 cm³). Costs
+~0.3-1.3s per render.
 
 ### Readouts
 

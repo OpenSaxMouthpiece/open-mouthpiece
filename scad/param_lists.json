@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "944445f4-20449",
+  "hash": "7fbee722-20598",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -303,7 +303,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -1985,7 +2002,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "6646d4cb-20686",
+  "hash": "edbe843d-20835",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2288,7 +2305,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -3970,7 +4004,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "e38b7189-21358",
+  "hash": "2db6795d-21507",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4273,7 +4307,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -5955,7 +6006,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "64ce3d98-20651",
+  "hash": "6a576bb6-20800",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6258,7 +6309,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -7940,7 +8008,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "58f912bd-20828",
+  "hash": "a9977ae9-20977",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8243,7 +8311,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -9925,7 +10010,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "d7cd5f0f-20543",
+  "hash": "b7bdae79-20692",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10228,7 +10313,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -11910,7 +12012,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "8ca472e-20554",
+  "hash": "2d4cf502-20703",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12213,7 +12315,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -13895,7 +14014,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "8c4ab08a-20524",
+  "hash": "b44f8908-20673",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14198,7 +14317,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -15880,7 +16016,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "beee8e31-20728",
+  "hash": "38006533-20877",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16183,7 +16319,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -17865,7 +18018,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "30fe2b59-20739",
+  "hash": "564c1c37-20888",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18168,7 +18321,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -19850,7 +20020,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "2e420222-20701",
+  "hash": "d0f12896-20850",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20153,7 +20323,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -21835,7 +22022,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "f97f1eb-20750",
+  "hash": "d16d1b27-20899",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22138,7 +22325,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -23820,7 +24024,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "ef18b903-20759",
+  "hash": "af97be37-20908",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24123,7 +24327,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -25805,7 +26026,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "eef55186-20726",
+  "hash": "db3ae3c2-20875",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26108,7 +26329,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -27790,7 +28028,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "d98b11b4-20935",
+  "hash": "fbe5613e-21084",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28093,7 +28331,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -29775,7 +30030,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "e59241b7-20937",
+  "hash": "5c16f3e1-21086",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30078,7 +30333,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,
@@ -31760,7 +32032,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "160d9297-20901",
+  "hash": "b1f4179b-21050",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32063,7 +32335,24 @@
     "type": "string"
    },
    {
-    "caption": "How deep the texture cuts (mm); less where the wall over it is thin.",
+    "caption": "Texture cut into the baffle (engraved) or standing out of it (raised).",
+    "group": "Baffle",
+    "initial": "engraved",
+    "name": "baffle_texture_style",
+    "options": [
+     {
+      "name": "engraved",
+      "value": "engraved"
+     },
+     {
+      "name": "raised",
+      "value": "raised"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
     "max": 1,

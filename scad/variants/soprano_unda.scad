@@ -57,7 +57,9 @@ baffle_curve = -0.4; // [-1:0.05:1]
 baffle_hump = 0; // [0:0.1:3]
 // A texture cut into the baffle: grooves along it, grooves across it, or dimples.
 baffle_texture = "none"; // [none, along, across, dimples]
-// How deep the texture cuts (mm); less where the wall over it is thin.
+// Texture cut into the baffle (engraved) or standing out of it (raised).
+baffle_texture_style = "engraved"; // [engraved, raised]
+// How deep the texture cuts, or how far it stands out (mm); less where there is no room.
 baffle_texture_depth = 0.4; // [0.1:0.05:1]
 // Distance between the grooves or dimples (mm).
 baffle_texture_spacing = 3; // [1.5:0.1:8]

@@ -152,6 +152,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       "throat_shape",
       "baffle_start",
       "baffle_curve",
+      "baffle_texture_style",
       "baffle_texture_depth",
       "baffle_texture_spacing",
       "window_length",
@@ -424,6 +425,7 @@ const LABELS: Record<string, string> = {
   floor_shape: "Chamber floor",
   throat_taper: "Narrowing into the throat",
   baffle_start: "Where the baffle begins",
+  baffle_texture_style: "Texture style",
   baffle_texture_depth: "Texture depth",
   baffle_texture_spacing: "Texture spacing",
   window_taper: "Window narrows at the back",
@@ -505,7 +507,7 @@ const ENDS: Record<string, [string, string]> = {
   throat_taper: ["Abrupt", "Gradual"],
   baffle_start: ALONG,
   baffle_curve: ["Drops early", "Drops late"],
-  baffle_texture_depth: ["Shallow", "Deep"],
+  baffle_texture_depth: ["Subtle", "Pronounced"],
   baffle_texture_spacing: ["Close together", "Far apart"],
   window_length: SHORT_LONG,
   window_taper: ["Straight", "Tapered"],
@@ -582,6 +584,7 @@ export const paramEnds = (name: string) => ENDS[name];
 const OPTION_LABELS: Record<string, Record<string, string>> = {
   facing_model: { power: "Power curve", arc: "Radius", gauge: "Gauge points" },
   throat_shape: { chamber: "Same as the chamber" },
+  baffle_texture_style: { engraved: "Engraved (cut in)", raised: "Raised (stands out)" },
   ...Object.fromEntries(
     ["top_text_font", "side_text_font", "shank_text_font", "ligature_text_font", "cap_text_font"].map((n) => [
       n,
@@ -654,6 +657,7 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
     filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
   table_width_rear: (get) =>
     filled(get("table_width_points")) ? "your own reed seat (table_width_points) sets it" : null,
+  baffle_texture_style: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   baffle_texture_depth: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   baffle_texture_spacing: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   floor_shape: (get) => (filled(get("floor_points")) ? "your own floor (floor_points) sets it" : null),
