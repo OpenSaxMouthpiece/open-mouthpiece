@@ -323,7 +323,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Baffle texture (`baffle_texture`)
 
-A texture cut into the baffle: grooves along it, grooves across it, or dimples.
+A texture on the baffle: grooves along it, grooves across it, or dimples.
 
 Range: `none`, `along`, `across`, `dimples`.
 

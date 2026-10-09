@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "7fbee722-20598",
+  "hash": "59c0013d-20592",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -278,7 +278,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -2002,7 +2002,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "edbe843d-20835",
+  "hash": "a39e6440-20829",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2280,7 +2280,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -4004,7 +4004,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "2db6795d-21507",
+  "hash": "b22a7712-21501",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4282,7 +4282,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -6006,7 +6006,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "6a576bb6-20800",
+  "hash": "e7a914f-20794",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6284,7 +6284,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -8008,7 +8008,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "a9977ae9-20977",
+  "hash": "4e910542-20971",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8286,7 +8286,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -10010,7 +10010,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "b7bdae79-20692",
+  "hash": "d88705c4-20686",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10288,7 +10288,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -12012,7 +12012,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "2d4cf502-20703",
+  "hash": "63dc09e5-20697",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12290,7 +12290,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -14014,7 +14014,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "b44f8908-20673",
+  "hash": "77b99c4b-20667",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14292,7 +14292,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -16016,7 +16016,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "38006533-20877",
+  "hash": "5db037f6-20871",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16294,7 +16294,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -18018,7 +18018,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "564c1c37-20888",
+  "hash": "756e3822-20882",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18296,7 +18296,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -20020,7 +20020,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "d0f12896-20850",
+  "hash": "691b06fd-20844",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20298,7 +20298,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -22022,7 +22022,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "d16d1b27-20899",
+  "hash": "fb9c1d26-20893",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22300,7 +22300,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -24024,7 +24024,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "af97be37-20908",
+  "hash": "ac14b55c-20902",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24302,7 +24302,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -26026,7 +26026,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "db3ae3c2-20875",
+  "hash": "157b923f-20869",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26304,7 +26304,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -28028,7 +28028,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "fbe5613e-21084",
+  "hash": "48bad41b-21078",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28306,7 +28306,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -30030,7 +30030,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "5c16f3e1-21086",
+  "hash": "2d56d178-21080",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30308,7 +30308,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -32032,7 +32032,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "b1f4179b-21050",
+  "hash": "a1565a34-21044",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32310,7 +32310,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture cut into the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",

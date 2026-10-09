@@ -1,5 +1,6 @@
 // The settings panel's sections, in sax terms: the settings a player or maker starts with, most useful
-// first, and the rest of each section under its More. Ranges and descriptions come from the rendered file's own Customizer export (so they follow
+// first, and the rest of each section under its More. A longer section comes in small groups (one
+// part each: Baffle, Chamber, Throat, ...), each with its own rows and its own More. Ranges and descriptions come from the rendered file's own Customizer export (so they follow
 // scad/lib/mouthpiece_base.scad); a name the file doesn't declare is simply skipped.
 
 export type DesignUnit = "thou" | "turn"; // thou: in thousandths of an inch next to the mm value; turn: four buttons (0/90/180/270)
@@ -21,11 +22,21 @@ export interface DesignItem {
   side?: "left" | "right"; // drawn by the label: that side on a small top view (tip away)
 }
 
+// A group within a section: one part of it, its rows, then its own More (a group with no rows
+// shows only its More, named after the group).
+export interface DesignGroup {
+  title: string;
+  items: DesignItem[];
+  more?: string[];
+  chart?: boolean; // the section's chart follows this group
+}
+
 export interface DesignSection {
   title: string;
   plain?: string; // what it is, in plain words, under the title (the desktop's one-section panel)
-  items: DesignItem[];
+  items: DesignItem[]; // with groups: every group's rows, in order (derived, see grouped())
   more?: string[]; // the rest of the section's settings, under its "More" (the small, nuanced ones)
+  groups?: DesignGroup[];
   summary?: (get: (name: string) => unknown) => string; // one line on the section's header: only what the panel doesn't show elsewhere
   ligature?: boolean; // the ligature's section: its controls show once a ligature is made (App's slot heads it)
   cap?: boolean; // the cap's section: App's slot heads it (show it / back to the mouthpiece)
@@ -84,32 +95,46 @@ const SIDE_TEXT = "Several lines OK; {tip} puts in the tip size (more under Vari
 const num = (v: unknown, unit: string) => (typeof v === "number" ? `${+v.toFixed(2)} ${unit}` : null);
 const join = (parts: unknown[]) => parts.filter((p) => typeof p === "string" && p).join(" · ");
 
+// A section made of groups: its items and more are the groups', in order.
+type GroupedSection = Omit<DesignSection, "items" | "more" | "groups"> & { groups: DesignGroup[] };
+const grouped = (s: GroupedSection): DesignSection => ({
+  ...s,
+  items: s.groups.flatMap((g) => g.items),
+  more: s.groups.flatMap((g) => g.more ?? []),
+});
+const TEXTURED = ["along", "across", "dimples"];
+
 export const DESIGN_SECTIONS: DesignSection[] = [
-  {
+  grouped({
     title: "Tip & facing",
     plain: "The opening at the tip, and the curve the reed closes against",
-    items: [
+    groups: [
       {
-        name: "tip_opening",
-        label: "Tip opening",
-        unit: "thou",
-        caption:
-          'Gap at the tip, from the tip rail to a straightedge on the table, in thousandths (76 = .076"; mm works too).',
+        title: "Tip opening & facing",
+        items: [
+          {
+            name: "tip_opening",
+            label: "Tip opening",
+            unit: "thou",
+            caption:
+              'Gap at the tip, from the tip rail to a straightedge on the table, in thousandths (76 = .076"; mm works too).',
+          },
+          { name: "facing_length", label: "Facing length" },
+        ],
+        more: ["facing_model", "facing_exponent"],
+        chart: true,
       },
-      { name: "facing_length", label: "Facing length" },
-      { name: "tip_rail_thickness", label: "Tip rail thickness" },
-      { name: "side_rail_width", label: "Side rail width" },
+      {
+        title: "Rails",
+        items: [
+          { name: "tip_rail_thickness", label: "Tip rail thickness" },
+          { name: "side_rail_width", label: "Side rail width" },
+        ],
+        more: ["tip_curve"],
+      },
+      { title: "Table", items: [], more: ["table_length", "table_width_tip", "table_width_rear", "table_concavity"] },
     ],
-    more: [
-      "facing_model",
-      "facing_exponent",
-      "tip_curve",
-      "table_length",
-      "table_width_tip",
-      "table_width_rear",
-      "table_concavity",
-    ],
-  },
+  }),
   {
     title: "Fit on the horn",
     plain: "How it fits your neck cork",
@@ -125,175 +150,240 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     ],
     more: ["shank_bevel", "shank_bevel_depth", "bore_diameter", "bore_tilt"],
   },
-  {
+  grouped({
     title: "Chamber & baffle",
     plain: "The space inside, from the reed to the shank",
-    items: [
-      { name: "chamber_shape", label: "Chamber shape" },
+    groups: [
       {
-        name: "chamber_width_extra",
-        label: "Chamber width",
-        caption: "In mm, against the throat's width: 0 = as wide, minus = narrower, plus = wider.",
+        title: "Baffle",
+        items: [
+          { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
+          { name: "baffle_height", label: "Baffle height" },
+          { name: "baffle_hump", label: "Baffle hump" },
+          { name: "baffle_texture", label: "Baffle texture", optionLabels: TEXTURES },
+          {
+            name: "baffle_texture_style",
+            label: "Texture style",
+            when: ["baffle_texture", TEXTURED],
+            optionLabels: { engraved: "Engraved (cut in)", raised: "Raised (stands out)" },
+          },
+          { name: "baffle_texture_depth", label: "Texture depth", when: ["baffle_texture", TEXTURED] },
+          { name: "baffle_texture_spacing", label: "Texture spacing", when: ["baffle_texture", TEXTURED] },
+        ],
+        more: ["baffle_start", "baffle_curve"],
       },
-      { name: "throat_width", label: "Throat width" },
-      { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
-      { name: "baffle_height", label: "Baffle height" },
-      { name: "baffle_hump", label: "Baffle hump" },
-      { name: "baffle_texture", label: "Baffle texture", optionLabels: TEXTURES },
-      { name: "window_width", label: "Window width" },
+      {
+        title: "Chamber",
+        items: [
+          { name: "chamber_shape", label: "Chamber shape" },
+          {
+            name: "chamber_width_extra",
+            label: "Chamber width",
+            caption: "In mm, against the throat's width: 0 = as wide, minus = narrower, plus = wider.",
+          },
+        ],
+        more: ["chamber_height", "chamber_flare", "chamber_full_length", "floor_shape", "sidewall_angle"],
+        chart: true,
+      },
+      {
+        title: "Throat",
+        items: [{ name: "throat_width", label: "Throat width" }],
+        more: ["throat_position", "throat_taper", "throat_shape"],
+      },
+      {
+        title: "Window",
+        items: [{ name: "window_width", label: "Window width" }],
+        more: ["window_length", "window_taper", "window_rear_radius"],
+      },
     ],
-    more: [
-      "chamber_height",
-      "chamber_flare",
-      "chamber_full_length",
-      "floor_shape",
-      "throat_position",
-      "throat_taper",
-      "throat_shape",
-      "baffle_start",
-      "baffle_curve",
-      "baffle_texture_style",
-      "baffle_texture_depth",
-      "baffle_texture_spacing",
-      "window_length",
-      "window_taper",
-      "window_rear_radius",
-      "sidewall_angle",
-    ],
-  },
-  {
+  }),
+  grouped({
     title: "Body & beak",
     plain: "The outside: what you see and bite on",
-    items: [
-      { name: "overall_length", label: "Length" },
-      { name: "beak_tip_height", label: "Beak height at the tip" },
-      { name: "beak_curve", label: "Beak curve" },
-      { name: "beak_length", label: "Beak length" },
-      { name: "shoulder_smoothness", label: "Shoulder smoothness" },
-      { name: "beak_squareness", label: "Beak top" },
-      { name: "beak_top_width", label: "Beak top width" },
-      { name: "underside_squareness", label: "Sides near the table" },
-      { name: "body_width", label: "Body width" },
-      { name: "body_height", label: "Body height" },
+    groups: [
+      {
+        title: "Size",
+        items: [
+          { name: "overall_length", label: "Length" },
+          { name: "body_width", label: "Body width" },
+          { name: "body_height", label: "Body height" },
+        ],
+        more: ["shank_diameter", "bore_axis_height"],
+      },
+      {
+        title: "Beak",
+        items: [
+          { name: "beak_tip_height", label: "Beak height at the tip" },
+          { name: "beak_curve", label: "Beak curve" },
+          { name: "beak_length", label: "Beak length" },
+          { name: "beak_squareness", label: "Beak top" },
+          { name: "beak_top_width", label: "Beak top width" },
+        ],
+        chart: true,
+      },
+      {
+        title: "Shoulder & sides",
+        items: [
+          { name: "shoulder_smoothness", label: "Shoulder smoothness" },
+          { name: "underside_squareness", label: "Sides near the table" },
+        ],
+        more: ["shoulder_sweep", "body_squareness"],
+      },
     ],
-    more: ["body_squareness", "shoulder_sweep", "shank_diameter", "bore_axis_height"],
-  },
-  {
+  }),
+  grouped({
     title: "Personalize",
     plain: "Lettering and pictures",
-    items: [
-      { name: "top_text", label: "Text on top" },
-      { name: "top_text_size", label: "Text size", showIf: ["top_text"] },
-      { name: "top_text_angle", label: "Text direction", unit: "turn", showIf: ["top_text"] },
-      { name: "top_text_position", label: "Text position", showIf: ["top_text"] },
-      { name: "top_image", label: "Picture on top" },
-      { name: "top_image_width", label: "Picture size", showIf: ["top_image"] },
-      { name: "top_image_angle", label: "Picture rotation", showIf: ["top_image"] },
-      { name: "top_image_position", label: "Picture position", showIf: ["top_image"] },
-      { name: "top_image_wrap", label: "Wrap picture around to the table", showIf: ["top_image"] },
-      { name: "side_text_right", label: "Text, right side", side: "right", caption: SIDE_TEXT },
-      { name: "side_text_left", label: "Text, left side", side: "left", caption: SIDE_TEXT },
-      { name: "side_text_size", label: "Side text size", showIf: ["side_text_right", "side_text_left"] },
-      { name: "side_text_position", label: "Side text position", showIf: ["side_text_right", "side_text_left"] },
+    groups: [
       {
-        name: "shank_text",
-        label: "Text around the shank",
-        caption: "Runs around the round band at the neck end; {tip} puts in the tip size.",
-      },
-      { name: "shank_text_size", label: "Shank text size", showIf: ["shank_text"] },
-      {
-        name: "shank_detail",
-        label: "Shank decoration",
-        optionLabels: {
-          none: "None",
-          rings: "Rings",
-          flutes: "Flutes (V lines along it)",
-          spiral: "Spiral",
-          knurled: "Knurled (diamonds)",
-        },
-      },
-      {
-        name: "shank_detail_style",
-        label: "Cut in or raised",
-        when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
-        optionLabels: { engraved: "Cut in (engraved)", raised: "Standing out (raised)" },
-      },
-      {
-        name: "shank_detail_count",
-        label: "How many",
-        when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
-      },
-      { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "rings"] },
-      {
-        name: "lettering_font",
-        label: "Font",
-        showIf: ["top_text", "side_text_right", "side_text_left", "shank_text", "ligature_text", "cap_text"],
-        caption: "For all the lettering. Each text can have its own font under More.",
-      },
-      {
-        name: "lettering_style",
-        label: "Lettering style",
-        showIf: [
-          "top_text",
-          "top_image",
-          "side_text_right",
-          "side_text_left",
-          "ligature_text",
-          "ligature_image",
-          "cap_text",
-          "cap_image",
+        title: "On top",
+        items: [
+          { name: "top_text", label: "Text on top" },
+          { name: "top_text_size", label: "Text size", showIf: ["top_text"] },
+          { name: "top_text_angle", label: "Text direction", unit: "turn", showIf: ["top_text"] },
+          { name: "top_text_position", label: "Text position", showIf: ["top_text"] },
+          { name: "top_image", label: "Picture on top" },
+          { name: "top_image_width", label: "Picture size", showIf: ["top_image"] },
+          { name: "top_image_angle", label: "Picture rotation", showIf: ["top_image"] },
+          { name: "top_image_position", label: "Picture position", showIf: ["top_image"] },
+          { name: "top_image_wrap", label: "Wrap picture around to the table", showIf: ["top_image"] },
         ],
+        more: ["top_text_font", "top_image_aspect"],
+      },
+      {
+        title: "Sides",
+        items: [
+          { name: "side_text_right", label: "Text, right side", side: "right", caption: SIDE_TEXT },
+          { name: "side_text_left", label: "Text, left side", side: "left", caption: SIDE_TEXT },
+          { name: "side_text_size", label: "Side text size", showIf: ["side_text_right", "side_text_left"] },
+          {
+            name: "side_text_position",
+            label: "Side text position",
+            showIf: ["side_text_right", "side_text_left"],
+          },
+        ],
+        more: ["side_text_font", "side_text_vertical"],
+      },
+      {
+        title: "Shank band",
+        items: [
+          {
+            name: "shank_text",
+            label: "Text around the shank",
+            caption: "Runs around the round band at the neck end; {tip} puts in the tip size.",
+          },
+          { name: "shank_text_size", label: "Shank text size", showIf: ["shank_text"] },
+          {
+            name: "shank_detail",
+            label: "Shank decoration",
+            optionLabels: {
+              none: "None",
+              rings: "Rings",
+              flutes: "Flutes (V lines along it)",
+              spiral: "Spiral",
+              knurled: "Knurled (diamonds)",
+            },
+          },
+          {
+            name: "shank_detail_style",
+            label: "Cut in or raised",
+            when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
+            optionLabels: { engraved: "Cut in (engraved)", raised: "Standing out (raised)" },
+          },
+          {
+            name: "shank_detail_count",
+            label: "How many",
+            when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
+          },
+          { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "rings"] },
+        ],
+        more: ["shank_text_font", "shank_text_around", "shank_detail_depth"],
+      },
+      {
+        title: "All lettering",
+        items: [
+          {
+            name: "lettering_font",
+            label: "Font",
+            showIf: ["top_text", "side_text_right", "side_text_left", "shank_text", "ligature_text", "cap_text"],
+            caption: "For all the lettering. Each text can have its own font under its More.",
+          },
+          {
+            name: "lettering_style",
+            label: "Lettering style",
+            showIf: [
+              "top_text",
+              "top_image",
+              "side_text_right",
+              "side_text_left",
+              "ligature_text",
+              "ligature_image",
+              "cap_text",
+              "cap_image",
+            ],
+          },
+        ],
+        more: ["lettering_depth", "lettering_tip_clearance"],
       },
     ],
-    more: [
-      "top_text_font",
-      "side_text_font",
-      "shank_text_font",
-      "shank_text_around",
-      "shank_detail_depth",
-      "lettering_depth",
-      "side_text_vertical",
-      "lettering_tip_clearance",
-      "top_image_aspect",
-    ],
-  },
-  {
+  }),
+  grouped({
     title: "Ligature",
     plain: "A printed ring that holds the reed",
     ligature: true,
     tab: "ligature",
-    items: [
+    groups: [
       {
-        name: "ligature_shape",
-        label: "Shape",
-        optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" },
+        title: "Band",
+        items: [
+          {
+            name: "ligature_shape",
+            label: "Shape",
+            optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" },
+          },
+          { name: "ligature_length", label: "Band length" },
+          { name: "ligature_position", label: "Position" },
+          { name: "ligature_tongue", label: "Tail toward the shank" },
+          {
+            name: "ligature_tongue_side",
+            label: "Tail side",
+            optionLabels: { top: "On top", reed: "Under the reed" },
+          },
+        ],
       },
-      { name: "ligature_reed_grip", label: "Reed grip" },
-      { name: "ligature_wall", label: "Thickness" },
-      { name: "ligature_length", label: "Band length" },
-      { name: "ligature_position", label: "Position" },
-      { name: "ligature_tongue", label: "Tail toward the shank" },
-      { name: "ligature_tongue_side", label: "Tail side", optionLabels: { top: "On top", reed: "Under the reed" } },
       {
-        name: "ligature_text",
-        label: "Text on the ligature",
-        caption:
-          "Text on the band's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
+        title: "Fit",
+        items: [
+          { name: "ligature_reed_grip", label: "Reed grip" },
+          { name: "ligature_wall", label: "Thickness" },
+        ],
+        more: ["ligature_fit"],
       },
-      { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
-      { name: "ligature_text_angle", label: "Text direction", unit: "turn", showIf: ["ligature_text"] },
-      { name: "ligature_image", label: "Picture on the ligature" },
-      { name: "ligature_image_width", label: "Picture size", showIf: ["ligature_image"] },
-      { name: "ligature_image_angle", label: "Picture rotation", showIf: ["ligature_image"] },
       {
-        name: "ligature_lettering_position",
-        label: "Text and picture position",
-        showIf: ["ligature_text", "ligature_image"],
+        title: "Text & picture",
+        items: [
+          {
+            name: "ligature_text",
+            label: "Text on the ligature",
+            caption:
+              "Text on the band's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
+          },
+          { name: "ligature_text_size", label: "Text size", showIf: ["ligature_text"] },
+          { name: "ligature_text_angle", label: "Text direction", unit: "turn", showIf: ["ligature_text"] },
+          { name: "ligature_image", label: "Picture on the ligature" },
+          { name: "ligature_image_width", label: "Picture size", showIf: ["ligature_image"] },
+          { name: "ligature_image_angle", label: "Picture rotation", showIf: ["ligature_image"] },
+          {
+            name: "ligature_lettering_position",
+            label: "Text and picture position",
+            showIf: ["ligature_text", "ligature_image"],
+          },
+        ],
+        more: ["ligature_text_font", "ligature_image_aspect"],
       },
     ],
-    more: ["ligature_text_font", "ligature_fit", "ligature_image_aspect"],
-  },
-  {
+  }),
+  grouped({
     title: "Cap",
     plain: "A printed cap that covers the tip and reed",
     cap: true,
@@ -305,62 +395,94 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         get("cap_side_vents") === "slots" && "side slots",
         get("cap_side_vents") === "holes" && "side holes",
       ]),
-    items: [
+    groups: [
       {
-        name: "cap_ligature",
-        label: "Goes over",
-        optionLabels: { printed: "The printed ligature", metal: "A metal ligature" },
+        title: "Goes over",
+        items: [
+          {
+            name: "cap_ligature",
+            label: "Goes over",
+            optionLabels: { printed: "The printed ligature", metal: "A metal ligature" },
+          },
+          { name: "cap_metal_length", label: "Band length", when: ["cap_ligature", "metal"] },
+          { name: "cap_metal_position", label: "Band position", when: ["cap_ligature", "metal"] },
+          { name: "cap_metal_proud", label: "Band thickness", when: ["cap_ligature", "metal"] },
+          { name: "cap_metal_screw_width", label: "Screws, width across", when: ["cap_ligature", "metal"] },
+          { name: "cap_metal_screw_length", label: "Screws, length along", when: ["cap_ligature", "metal"] },
+        ],
       },
-      { name: "cap_metal_length", label: "Band length", when: ["cap_ligature", "metal"] },
-      { name: "cap_metal_position", label: "Band position", when: ["cap_ligature", "metal"] },
-      { name: "cap_metal_proud", label: "Band thickness", when: ["cap_ligature", "metal"] },
-      { name: "cap_metal_screw_width", label: "Screws, width across", when: ["cap_ligature", "metal"] },
-      { name: "cap_metal_screw_length", label: "Screws, length along", when: ["cap_ligature", "metal"] },
       {
-        name: "cap_slot_side",
-        label: "Slot side",
-        optionLabels: {
-          reed: "Under the reed (a standard ligature's screws)",
-          top: "On top (an inverted ligature's screws)",
-        },
+        title: "Fit & slot",
+        items: [
+          { name: "cap_grip", label: "Grip squeeze" },
+          {
+            name: "cap_slot_side",
+            label: "Slot side",
+            optionLabels: {
+              reed: "Under the reed (a standard ligature's screws)",
+              top: "On top (an inverted ligature's screws)",
+            },
+          },
+        ],
+        more: ["cap_slot_length", "cap_slot_width", "cap_end_gap"],
       },
-      { name: "cap_grip", label: "Grip squeeze" },
-      { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
-      { name: "cap_end_dome", label: "End shape" },
-      { name: "cap_rim_bead", label: "Rim bead" },
-      { name: "cap_extend", label: "Extra length (toward the shank)" },
-      { name: "cap_end_vents", label: "Air holes in the end" },
       {
-        name: "cap_side_vents",
-        label: "Side vents",
-        optionLabels: { none: "None", slots: "Slots", holes: "Round holes" },
+        title: "Shape",
+        items: [
+          { name: "cap_shape", label: "Shape", optionLabels: { conform: "Follows the mouthpiece", round: "Round" } },
+          { name: "cap_end_dome", label: "End shape" },
+          { name: "cap_rim_bead", label: "Rim bead" },
+          { name: "cap_extend", label: "Extra length (toward the shank)" },
+        ],
+        more: ["cap_wall"],
       },
-      { name: "cap_side_vent_count", label: "Vents on each side", when: ["cap_side_vents", ["slots", "holes"]] },
-      { name: "cap_side_vent_size", label: "Vent size", when: ["cap_side_vents", ["slots", "holes"]] },
-      { name: "cap_side_vent_gap", label: "Space between vents", when: ["cap_side_vents", ["slots", "holes"]] },
       {
-        name: "cap_text",
-        label: "Text on the cap",
-        caption:
-          "Text on the cap's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
+        title: "Air holes & vents",
+        items: [
+          { name: "cap_end_vents", label: "Air holes in the end" },
+          {
+            name: "cap_side_vents",
+            label: "Side vents",
+            optionLabels: { none: "None", slots: "Slots", holes: "Round holes" },
+          },
+          {
+            name: "cap_side_vent_count",
+            label: "Vents on each side",
+            when: ["cap_side_vents", ["slots", "holes"]],
+          },
+          { name: "cap_side_vent_size", label: "Vent size", when: ["cap_side_vents", ["slots", "holes"]] },
+          {
+            name: "cap_side_vent_gap",
+            label: "Space between vents",
+            when: ["cap_side_vents", ["slots", "holes"]],
+          },
+        ],
+        more: ["cap_end_vent_size"],
       },
-      { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
-      { name: "cap_text_angle", label: "Text direction", unit: "turn", showIf: ["cap_text"] },
-      { name: "cap_image", label: "Picture on the cap" },
-      { name: "cap_image_width", label: "Picture size", showIf: ["cap_image"] },
-      { name: "cap_image_angle", label: "Picture rotation", showIf: ["cap_image"] },
-      { name: "cap_lettering_position", label: "Text and picture position", showIf: ["cap_text", "cap_image"] },
+      {
+        title: "Text & picture",
+        items: [
+          {
+            name: "cap_text",
+            label: "Text on the cap",
+            caption:
+              "Text on the cap's top (empty = none); several lines OK; {tip} puts in the tip size. Font, style and depth are set in Personalize.",
+          },
+          { name: "cap_text_size", label: "Text size", showIf: ["cap_text"] },
+          { name: "cap_text_angle", label: "Text direction", unit: "turn", showIf: ["cap_text"] },
+          { name: "cap_image", label: "Picture on the cap" },
+          { name: "cap_image_width", label: "Picture size", showIf: ["cap_image"] },
+          { name: "cap_image_angle", label: "Picture rotation", showIf: ["cap_image"] },
+          {
+            name: "cap_lettering_position",
+            label: "Text and picture position",
+            showIf: ["cap_text", "cap_image"],
+          },
+        ],
+        more: ["cap_text_font", "cap_image_aspect"],
+      },
     ],
-    more: [
-      "cap_text_font",
-      "cap_end_vent_size",
-      "cap_slot_length",
-      "cap_slot_width",
-      "cap_end_gap",
-      "cap_wall",
-      "cap_image_aspect",
-    ],
-  },
+  }),
   {
     title: "Printing",
     plain: "What to print, and how",
@@ -584,7 +706,6 @@ export const paramEnds = (name: string) => ENDS[name];
 const OPTION_LABELS: Record<string, Record<string, string>> = {
   facing_model: { power: "Power curve", arc: "Radius", gauge: "Gauge points" },
   throat_shape: { chamber: "Same as the chamber" },
-  baffle_texture_style: { engraved: "Engraved (cut in)", raised: "Raised (stands out)" },
   ...Object.fromEntries(
     ["top_text_font", "side_text_font", "shank_text_font", "ligature_text_font", "cap_text_font"].map((n) => [
       n,

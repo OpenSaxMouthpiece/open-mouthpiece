@@ -95,7 +95,11 @@ static site (docs/HOSTING.md).
   parameters), Undo/Redo, Auto-zoom, Reset, Expand/Collapse all, Descriptions, then folds (`Fold`,
   closed by default, summary from `DesignSection.summary`, ● count of changed settings): the
   sections (`DESIGN_SECTIONS`: the main settings, most useful first, then a nested "More" fold
-  with the rest of the section, `DesignSection.more`; every generator setting has exactly one place,
+  with the rest of the section, `DesignSection.more`; longer sections are `grouped()` into
+  `DesignSection.groups` (Baffle, Chamber, ...: a small heading, the group's rows, its own More,
+  fold id `m:<section>:<group>`; a group with no rows shows only its More, named after it;
+  `chart` = the section's chart follows that group; `items` / `more` are derived from the groups,
+  so the rail, badges and checks read them as before); every generator setting has exactly one place,
   checked by `npm run check`), Exact points, Compare A/B (while a B is pinned). The panel's left
   edge drags (`panelW`). UI prefs in `src/uiPrefs.ts` (`open-mouthpiece-ui-v1`).
 - **Code column** (left, closed by default): editor + console. Opening it (`coding`) brings back

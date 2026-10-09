@@ -15,6 +15,7 @@ import {
   paramInactive,
   paramEnds,
   paramLabel,
+  type DesignItem,
   type PartTab,
 } from "../design";
 import { shapeParams } from "../shapeEdit";
@@ -368,31 +369,36 @@ export function DesignPanel({
           const raw = (n: string) => String(values[n] ?? byName.get(n)?.initial ?? "").trim();
           // a picture set to "same" (ligature, cap) counts when the mouthpiece has one
           const filled = (n: string) => (raw(n) === "same" ? raw("top_image") : raw(n)) !== "";
-          const rows = s.items.filter(
-            (i) =>
-              byName.has(i.name) &&
-              (!i.showIf || i.showIf.some(filled)) &&
-              (!i.when || [i.when[1]].flat().includes(String(get(i.when[0])))) &&
-              (!s.ligature || ligature?.on) &&
-              (!s.cap || cap?.on) &&
-              matches(i.name, i.label, i.caption),
-          );
+          const rowsOf = (items: DesignItem[]) =>
+            items.filter(
+              (i) =>
+                byName.has(i.name) &&
+                (!i.showIf || i.showIf.some(filled)) &&
+                (!i.when || [i.when[1]].flat().includes(String(get(i.when[0])))) &&
+                (!s.ligature || ligature?.on) &&
+                (!s.cap || cap?.on) &&
+                matches(i.name, i.label, i.caption),
+            );
+          const rows = rowsOf(s.items);
           if (s.ligature && (!ligature || !s.items.some((i) => byName.has(i.name)))) return null;
           if (s.cap && !cap) return null;
           if (!onTabNow(s)) return null;
           if (only && !q && s.title !== only) return null;
           if (!s.items.some((i) => byName.has(i.name))) return null;
-          // The rest of the section, under More (the ligature's and cap's once made, like their rows).
-          const more = (s.more ?? [])
-            .map((n) => byName.get(n))
-            .filter(
-              (p): p is ScadParam =>
-                !!p &&
-                !hidden(p) &&
-                (!s.ligature || !!ligature?.on) &&
-                (!s.cap || !!cap?.on) &&
-                matches(p.name, paramLabel(p.name)),
-            );
+          // The rest of the section (or of a group), under More (the ligature's and cap's once made,
+          // like their rows).
+          const moreOf = (names: string[] = []) =>
+            names
+              .map((n) => byName.get(n))
+              .filter(
+                (p): p is ScadParam =>
+                  !!p &&
+                  !hidden(p) &&
+                  (!s.ligature || !!ligature?.on) &&
+                  (!s.cap || !!cap?.on) &&
+                  matches(p.name, paramLabel(p.name)),
+              );
+          const more = moreOf(s.more);
           if (
             q &&
             !rows.length &&
@@ -403,6 +409,43 @@ export function DesignPanel({
             return null;
           const summary = s.cap && !cap?.on ? undefined : s.summary?.(get); // the cap's only once made
           const moreChanged = more.filter((p) => p.name in values).length;
+          const rowOf = (i: DesignItem) =>
+            i.name === "baffle_type" ? (
+              <Fragment key={i.name}>
+                {row(byName.get(i.name)!, i)}
+                <BaffleSketches value={String(get(i.name))} onPick={(v) => setParam(i.name, v)} />
+              </Fragment>
+            ) : (
+              row(byName.get(i.name)!, i)
+            );
+          // the section's chart (the facing curve, the inside or the outside)
+          const chart =
+            !q && (!only || charts)
+              ? s.title === "Tip & facing"
+                ? facing
+                : s.title === "Chamber & baffle"
+                  ? profile?.("chamber")
+                  : s.title === "Body & beak"
+                    ? profile?.("body")
+                    : null
+              : null;
+          const moreFold = (id: string, label: string, ps: ScadParam[]) => (
+            <Fold
+              id={id}
+              title={
+                <>
+                  {label} <span className="more-count">{ps.length}</span>
+                  <span className="more-chevron" aria-hidden="true" />
+                </>
+              }
+              summary={q ? undefined : ps.map((p) => paramLabel(p.name).toLowerCase()).join(", ")}
+              forceOpen={!!q}
+              className="design-more"
+              changed={ps.filter((p) => p.name in values).length}
+            >
+              {ps.map((p) => row(p))}
+            </Fold>
+          );
           return (
             <Fold
               key={s.title}
@@ -428,19 +471,23 @@ export function DesignPanel({
             >
               {s.ligature && ligature!.head}
               {s.cap && cap!.head}
-              {rows.map((i) =>
-                i.name === "baffle_type" ? (
-                  <Fragment key={i.name}>
-                    {row(byName.get(i.name)!, i)}
-                    <BaffleSketches value={String(get(i.name))} onPick={(v) => setParam(i.name, v)} />
-                  </Fragment>
-                ) : (
-                  row(byName.get(i.name)!, i)
-                ),
-              )}
-              {s.title === "Tip & facing" && !q && (!only || charts) && facing}
-              {s.title === "Chamber & baffle" && !q && (!only || charts) && profile?.("chamber")}
-              {s.title === "Body & beak" && !q && (!only || charts) && profile?.("body")}
+              {s.groups
+                ? s.groups.map((g) => {
+                    const gRows = rowsOf(g.items);
+                    const gMore = moreOf(g.more);
+                    if (!gRows.length && !gMore.length) return null;
+                    return (
+                      <div className="design-group" key={g.title}>
+                        {gRows.length > 0 && <div className="design-group-title">{g.title}</div>}
+                        {gRows.map(rowOf)}
+                        {g.chart && chart}
+                        {gMore.length > 0 &&
+                          moreFold(`m:${s.title}:${g.title}`, gRows.length ? "More" : g.title, gMore)}
+                      </div>
+                    );
+                  })
+                : rows.map(rowOf)}
+              {!s.groups && chart}
               {s.title === "Printing" && !q && PRINTING_GUIDE_URL && (
                 <p className="fit-note muted">
                   First print? The{" "}
@@ -452,23 +499,7 @@ export function DesignPanel({
               )}
               {s.title === "Printing" && !q && printKit}
               {s.title === "Fit on the horn" && !q && fitNote}
-              {more.length > 0 && (
-                <Fold
-                  id={`m:${s.title}`}
-                  title={
-                    <>
-                      More settings <span className="more-count">{more.length}</span>
-                      <span className="more-chevron" aria-hidden="true" />
-                    </>
-                  }
-                  summary={q ? undefined : more.map((p) => paramLabel(p.name).toLowerCase()).join(", ")}
-                  forceOpen={!!q}
-                  className="design-more"
-                  changed={moreChanged}
-                >
-                  {more.map((p) => row(p))}
-                </Fold>
-              )}
+              {!s.groups && more.length > 0 && moreFold(`m:${s.title}`, "More settings", more)}
             </Fold>
           );
         })}

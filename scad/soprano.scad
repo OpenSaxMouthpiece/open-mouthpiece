@@ -55,7 +55,7 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = 0; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
-// A texture cut into the baffle: grooves along it, grooves across it, or dimples.
+// A texture on the baffle: grooves along it, grooves across it, or dimples.
 baffle_texture = "none"; // [none, along, across, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]

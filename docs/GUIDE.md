@@ -96,8 +96,11 @@ the slider tell you what that direction does, such as Closed and Open or Short a
 description under each setting gives the unit. If you'd rather not see the descriptions, turn
 them off under **Options**.
 
-Each group shows its main settings first. Click **More settings** at the bottom of the group to see
-the rest.
+The longer sections are split into small groups, one per part (for example Baffle, Chamber,
+Throat and Window), each under a small heading. A group shows its main settings first. Click
+**More** under it to see the rest of that group's settings. A group with nothing but smaller
+settings, like Table, shows only its own button. Settings that only matter after you pick
+something, such as a texture's depth, appear right under it once you do.
 
 To find a particular setting, type part of its name in the **Find a setting** box, for example
 "baffle" or "window".
@@ -118,36 +121,39 @@ thin, the app limits it and a note under the measurements tells you.
 For a full list of settings with before-and-after pictures, see [Every setting](PARAMETERS.md).
 The [glossary](GLOSSARY.md) explains the parts of a mouthpiece and which settings change each one.
 
-**Tip & facing.** The tip opening is in thousandths of an inch, but you can type a value in mm
-too. The facing length is measured from the tip back to the break, where the rails leave the flat
-table. This group also has the thickness of the tip rail and the width of the side rails. Under
-More settings you'll find the shape of the facing curve, the roundness of the tip, and the length,
-width and hollow of the table.
+**Tip & facing.** *Tip opening & facing*: the tip opening is in thousandths of an inch, but you
+can type a value in mm too. The facing length is measured from the tip back to the break, where the
+rails leave the flat table; its More has the shape of the facing curve. *Rails*: the thickness of
+the tip rail and the width of the side rails, with the roundness of the tip under More. *Table*:
+the table's length, width and hollow.
 
 **Fit on the horn.** Enter your neck cork's diameter here, and set the cork squeeze, which is how
 much smaller the socket is than the cork. A bigger number gives a tighter fit, and 0.1 to 0.3 mm is
 typical. You can also set how far the cork goes in, and download a shank test ring. Under More
 settings are the bevel at the opening of the socket, the bore size and the angle of the table.
 
-**Chamber & baffle.** This group controls the inside of the mouthpiece: the chamber's shape
-(round, square or horseshoe) and width, the throat width, the baffle's shape, height and hump, a
-texture on the baffle (grooves along it, grooves across it, or dimples), and the width of the
-window. More settings has the chamber height and floor, how the chamber widens
-past the throat, the throat's position and shape, where the baffle starts and how it curves, the
-texture's style (engraved or raised), depth and spacing, the window's length and corners, and the angle of the side walls.
+**Chamber & baffle.** The inside of the mouthpiece, in four groups. *Baffle*: its shape, height and
+hump, and a texture on it (grooves along it, grooves across it, or dimples, engraved or raised, with
+their depth and spacing); More has where the baffle starts and how it curves. *Chamber*: its shape
+(round, square or horseshoe) and width; More has its height and floor, how it widens past the
+throat and the angle of its side walls. *Throat*: its width; More has its position, the narrowing
+into it and its shape. *Window*: its width; More has its length and corners.
 
-**Body & beak.** This group controls the outside: overall length, the height of the beak at the
-tip, the beak's curve, length and top, the shoulder, the sides near the table, and the width and
-height of the body. More settings has the body's cross-section, the shoulder sweep, the shank's
-outside diameter and the bore height.
+**Body & beak.** The outside, in three groups. *Size*: overall length and the width and height of
+the body, with the shank's outside diameter under More. *Beak*: its height at the tip, curve,
+length and top. *Shoulder & sides*: the shoulder and the sides near the table, with the shoulder
+sweep and the body's cross-section under More.
 
-**Personalize.** Add text on the top, on either side or around the shank, and a picture on top.
-You can use one of the built-in pictures or upload your own SVG file. You can also add rings,
-flutes, a spiral or knurling around the shank. Click **Variables** next to a text box to insert
-values from the design, such as the tip opening (`{tip}`) or the design's name (`{title}`). Text
-can run over several lines. The same font is used for all text unless you choose a different one
-for a particular text under More settings. Text on the mouthpiece is always engraved so the
+**Personalize.** Add text and a picture *On top*, text on the *Sides*, and text around the *Shank
+band*, where you can also add rings, flutes, a spiral or knurling. You can use one of the built-in
+pictures or upload your own SVG file. Click **Variables** next to a text box to insert values from
+the design, such as the tip opening (`{tip}`) or the design's name (`{title}`). Text can run over
+several lines. The same font is used for all text (*All lettering*) unless you choose a different
+one for a particular text under its group's More. Text on the mouthpiece is always engraved so the
 ligature can't catch on it.
+
+**Ligature and Cap.** Their settings come in groups too: the ligature's *Band*, *Fit* and *Text &
+picture*; the cap's *Goes over*, *Fit & slot*, *Shape*, *Air holes & vents* and *Text & picture*.
 
 **Print.** Choose whether to print the mouthpiece or a shank test ring. **Extra to sand off** adds
 a little material to the table and facing so you can sand them flat after printing (the printing
