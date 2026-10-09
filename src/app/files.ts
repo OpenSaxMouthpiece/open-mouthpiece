@@ -61,8 +61,8 @@ const VARIANT_BLURB: Record<string, string> = {
   flamma:
     "closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank",
   silva:
-    "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank",
-  unda: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank",
+    "more open tip, square chamber, rollover baffle with grooves along, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank",
+  unda: "close tip, short facing, horseshoe chamber, flat baffle with dimples, wide rails; soft body, scooped beak, raised spiral shank",
 };
 export const variantBlurb = (p: string) =>
   isVariant(p) ? VARIANT_BLURB[baseName(p).split("_").pop() ?? ""] : undefined;

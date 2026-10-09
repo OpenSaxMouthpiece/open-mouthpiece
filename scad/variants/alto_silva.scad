@@ -1,5 +1,5 @@
 // Alto "Silva": a variant of alto.scad (its outline, changed by settings only).
-// Silva: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.
+// Silva: more open tip, square chamber, rollover baffle with grooves along, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
@@ -56,7 +56,7 @@ baffle_curve = -0.3; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0.4; // [0:0.1:3]
 // A texture on the baffle: grooves along it, grooves across it, or dimples.
-baffle_texture = "none"; // [none, along, across, dimples]
+baffle_texture = "along"; // [none, along, across, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]
 // How deep the texture cuts, or how far it stands out (mm); less where there is no room.
@@ -146,7 +146,7 @@ top_image_aspect = 1; // [0.1:0.01:10]
 // Picture rotation (degrees).
 top_image_angle = 0; // [0:15:345]
 // Moves the picture toward the tip (+) or the shank (-) (mm).
-top_image_position = -13; // [-50:0.5:50]
+top_image_position = -2; // [-50:0.5:50]
 // Wrap the picture around the body like a label.
 top_image_wrap = false;
 // Text on the right side (seen from above, tip away). Lines, variables as on top.
@@ -156,7 +156,7 @@ side_text_left = "\u007Btip} \u007Bvoice_letter}";
 // Side letter height (mm).
 side_text_size = 5; // [1.5:0.5:10]
 // Side text from just behind the ligature: + toward the tip, - toward the shank (mm).
-side_text_position = 0; // [-50:0.5:50]
+side_text_position = 11.5; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
 // Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).

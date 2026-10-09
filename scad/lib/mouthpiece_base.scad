@@ -1139,11 +1139,11 @@ function sidewall_allowed(I, y) =
 // over 3mm). Each is the cap of a sphere of radius BTX_R (>= 3.5 x the depth, so its sides stay
 // under ~45 degrees and no overhang is wider than the depth: prints without support); grooves are
 // hulls of neighbouring spheres. Guarantees, per sample: engraved, the wall over the dent keeps
-// interior_wall (and room for lettering on top); raised, the roof keeps 1mm above the floor and the
+// interior_wall (and room for lettering where there is lettering); raised, the roof keeps 1mm above the floor and the
 // reed line; either way the whole sphere stays inside the air path's width (the window's width
 // under the window), so it can't reach the side walls or the rails. Raised bumps are cut out of the
 // interior before it is cut out of the body, so they only ever fill air. The data (BTX_ROWS) is
-// computed once, after HAS_LETTERING; the air readout counts it (BTX_AIR).
+// computed once, after LETTERING_SPAN; the air readout counts it (BTX_AIR).
 // y of a superellipse ring's upper half at x (cy = mid-height); undef outside it
 function se_top_y(hw, top, cy, n, x) = abs(x) >= hw ? undef : cy + (top - cy) * pow(1 - pow(abs(x) / hw, n), 1 / n);
 // half-width of the interior ring I at height y (I as in interior_ring_at)
@@ -1151,11 +1151,12 @@ function int_hw_at_y(I, y) =
   let(cy = (I[1] + I[2]) / 2, up = y >= cy, n = up ? I[3] : I[4])
   let(rel = min(1, abs(y - cy) / max(0.01, up ? I[1] - cy : cy - I[2])))
   I[0] * pow(1 - pow(rel, n), 1 / n);
-// One row of samples at z: [[x, sphere centre y, z, depth], ...] (depth 0 = nothing there).
+// One row of samples at z: [[x, sphere centre y, z, depth, roof y, k, fits], ...] (depth 0 =
+// nothing there; fits = the sphere has room across there, whatever the depth).
 function btx_row(z, xs) =
   let(I = interior_ring_at(z), E = exterior_ring_at(z), cy = (I[1] + I[2]) / 2)
   let(fade = smootherstep(clamp01((z - BTX_Z0) / 3)) * smootherstep(clamp01((BTX_Z1 - z) / 3)))
-  let(keep = interior_wall(z) + (HAS_LETTERING ? eff_lettering_depth : 0))
+  let(keep = interior_wall(z) + (HAS_LETTERING && z > LETTERING_SPAN[0] - 1 && z < LETTERING_SPAN[1] + 1 ? eff_lettering_depth : 0))
   let(low = max(I[2], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)))
   [for (x = xs)
     let(roof = se_top_y(I[0], I[1], cy, I[3], x), out = se_top_y(E[E_HW], E[E_TOP], E[E_CY], E[E_NT], x))
@@ -1168,8 +1169,15 @@ function btx_row(z, xs) =
     let(c = is_undef(roof) ? 0 : BTX_RAISED ? roof + (BTX_R - d0) * k : roof - (BTX_R - d0) * k)
     let(lowest = is_undef(roof) ? 0 : BTX_RAISED ? roof - d0 * k : c - BTX_R)
     let(room = z > win_z0 ? window_side_hw(z) : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[2], lowest)))
-    let(ok = d0 >= 0.05 && abs(x) + BTX_R <= room && (BTX_RAISED || z > win_z0 || lowest >= I[2]))
-    [x, c, z, ok ? d0 : 0]];
+    let(fits = !is_undef(roof) && abs(x) + BTX_R <= room && (BTX_RAISED || z > win_z0 || lowest >= I[2]))
+    // left out where the wall allows under 40% of the depth meant there (a faint dent looks like a speck)
+    [x, c, z, fits && d0 >= max(0.05, 0.4 * BTX_D * fade) ? d0 : 0, roof, k, fits]];
+// A groove across at one even depth: the shallowest any of its samples allows (none where that is
+// under 40% of the depth set: a faint line looks like a scratch), so it doesn't break up where the
+// wall over the middle gets thin.
+function btx_even(row) =
+  let(ds = [for (p = row) if (p[6]) p[3]], d = len(ds) ? min(ds) : 0, e = d >= max(0.05, 0.4 * BTX_D) ? d : 0)
+  [for (p = row) p[6] ? [p[0], BTX_RAISED ? p[4] + (BTX_R - e) * p[5] : p[4] - (BTX_R - e) * p[5], p[2], e] : [p[0], 0, p[2], 0]];
 // Height of a sphere cap of depth d at distance r from its centre line (0 outside it).
 function btx_cap(d, r) = d <= 0 || r >= BTX_R ? 0 : max(0, d - (BTX_R - sqrt(BTX_R * BTX_R - r * r)));
 // The texture as pieces in the x-z plane, [[x, z, depth], [x, z, depth]]: a groove's neighbouring
@@ -1592,26 +1600,6 @@ side_text_long = max(text_block(side_text_right, side_text_size)[0], text_block(
 function has_text(s) = is_string(s) && len(s) > 0;
 HAS_LETTERING = has_text(top_text) || has_text(top_image) || has_text(side_text_right) || has_text(side_text_left);
 
-// Baffle texture data (see baffle_texture_solid): rows of samples, computed once, none for the
-// ligature / cap parts (no AIR_RINGS there).
-BTX_ON = baffle_texture != "none" && len(AIR_RINGS) > 0;
-BTX_RAISED = baffle_texture_style == "raised";
-BTX_D = baffle_texture_depth;
-BTX_S = baffle_texture_spacing;
-BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D));
-BTX_Z0 = baffle_start_z + 4;
-BTX_Z1 = L - tip_curve - 2;
-BTX_SPAN = BTX_Z1 - BTX_Z0;
-BTX_ROWS = !BTX_ON || BTX_SPAN <= 2 ? [] :
-  baffle_texture == "along" ? [for (z = [BTX_Z0 : 1 : BTX_Z1]) btx_row(z, [for (k = [-6 : 6]) k * BTX_S])] :
-  baffle_texture == "across" ?
-    let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
-    [for (j = [0 : n]) btx_row(BTX_Z0 + off + j * BTX_S, [for (x = [-12 : 0.75 : 12]) x])] :
-  baffle_texture == "dimples" ?
-    let(dz = BTX_S * 0.866) [for (j = [0 : floor(BTX_SPAN / dz)]) btx_row(BTX_Z0 + j * dz, [for (k = [-6 : 6]) (k + (j % 2) / 2) * BTX_S])] :
-  [];
-// Air the texture adds (engraved) or takes away (raised), mm^3
-BTX_AIR = BTX_ON ? (BTX_RAISED ? -1 : 1) * btx_volume() : 0;
 
 // lettering_font choices -> OpenSCAD font names. All are SIL OFL fonts in lib/fonts/ (licence files
 // alongside), loaded by the use<>s at the top: Liberation (also bundled with desktop OpenSCAD) and
@@ -2121,6 +2109,27 @@ LETTERING_SPAN = let(ext = concat(
     has_text(side_text_right) || has_text(side_text_left) ? [[side_text_z, max(text_block(side_text_right, side_text_size, 1)[0], text_block(side_text_left, side_text_size, 1)[0])]] : []))
   len(ext) == 0 ? [lettering_z0, lettering_z1]
   : [max(lettering_z0, min([for (e = ext) e[0] - e[1] / 2]) - 2), min(lettering_z1, max([for (e = ext) e[0] + e[1] / 2]) + 2)];
+
+// Baffle texture data (see baffle_texture_solid): rows of samples, computed once, none for the
+// ligature / cap parts (no AIR_RINGS there).
+BTX_ON = baffle_texture != "none" && len(AIR_RINGS) > 0;
+BTX_RAISED = baffle_texture_style == "raised";
+BTX_D = baffle_texture_depth;
+BTX_S = baffle_texture_spacing;
+BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D));
+BTX_Z0 = baffle_start_z + 4;
+BTX_Z1 = L - tip_curve - 2;
+BTX_SPAN = BTX_Z1 - BTX_Z0;
+BTX_ROWS = !BTX_ON || BTX_SPAN <= 2 ? [] :
+  baffle_texture == "along" ? [for (z = [BTX_Z0 : 1 : BTX_Z1]) btx_row(z, [for (k = [-6 : 6]) k * BTX_S])] :
+  baffle_texture == "across" ?
+    let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
+    [for (j = [0 : n]) btx_even(btx_row(BTX_Z0 + off + j * BTX_S, [for (x = [-12 : 0.75 : 12]) x]))] :
+  baffle_texture == "dimples" ?
+    let(dz = BTX_S * 0.866) [for (j = [0 : floor(BTX_SPAN / dz)]) btx_row(BTX_Z0 + j * dz, [for (k = [-6 : 6]) (k + (j % 2) / 2) * BTX_S])] :
+  [];
+// Air the texture adds (engraved) or takes away (raised), mm^3
+BTX_AIR = BTX_ON ? (BTX_RAISED ? -1 : 1) * btx_volume() : 0;
 // (Room for raised lettering on the body: none, the mouthpiece's lettering is always engraved.)
 lig_raise = 0;
 // Covers the sampled outline's chords (the true curve bulges a few hundredths between samples).

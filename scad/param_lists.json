@@ -10010,7 +10010,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "7b2d2d3d-20663",
+  "hash": "491c44b1-20663",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10717,7 +10717,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -16,
+    "initial": -6,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -10758,7 +10758,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 10,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -12012,7 +12012,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "951601f4-20676",
+  "hash": "ba512642-20698",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12292,7 +12292,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "along",
     "name": "baffle_texture",
     "options": [
      {
@@ -12719,7 +12719,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -13,
+    "initial": -2,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -12760,7 +12760,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 11.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -14014,7 +14014,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "ddc49e8c-20646",
+  "hash": "2088b34e-20667",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14294,7 +14294,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "dimples",
     "name": "baffle_texture",
     "options": [
      {
@@ -14721,7 +14721,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -14.5,
+    "initial": -4,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -14762,7 +14762,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 10.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -15163,7 +15163,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {
@@ -16016,7 +16016,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "a9fba3b7-20849",
+  "hash": "71ff7295-20852",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16723,7 +16723,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -11,
+    "initial": -6.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -16764,7 +16764,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 4.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -18018,7 +18018,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "43d40d55-20860",
+  "hash": "4a573603-20881",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18298,7 +18298,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "along",
     "name": "baffle_texture",
     "options": [
      {
@@ -18725,7 +18725,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -9,
+    "initial": 1,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -18766,7 +18766,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 9.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -20020,7 +20020,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "b5f39178-20822",
+  "hash": "d4bba6ae-20843",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20300,7 +20300,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "dimples",
     "name": "baffle_texture",
     "options": [
      {
@@ -20727,7 +20727,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -9,
+    "initial": -3,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -20768,7 +20768,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 6,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -21169,7 +21169,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {
@@ -22022,7 +22022,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "bf6b4f91-20870",
+  "hash": "fd6ae191-20870",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22729,7 +22729,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -8.5,
+    "initial": -4.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -22770,7 +22770,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 4,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -24024,7 +24024,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "71d4c3c-20878",
+  "hash": "ff24de4e-20896",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24304,7 +24304,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "along",
     "name": "baffle_texture",
     "options": [
      {
@@ -24731,7 +24731,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -7.5,
+    "initial": -1,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -24772,7 +24772,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 6,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -26026,7 +26026,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "f5c16838-20846",
+  "hash": "9b10839e-20867",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26306,7 +26306,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "dimples",
     "name": "baffle_texture",
     "options": [
      {
@@ -26733,7 +26733,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -8.5,
+    "initial": -2.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -26774,7 +26774,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 6,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -27175,7 +27175,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {
@@ -28028,7 +28028,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "c7c7fa9-21055",
+  "hash": "8075a276-21054",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28735,7 +28735,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -16.5,
+    "initial": -7.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -28776,7 +28776,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 9,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -30030,7 +30030,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "73f1d6bd-21059",
+  "hash": "4db45dc4-21079",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30310,7 +30310,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "along",
     "name": "baffle_texture",
     "options": [
      {
@@ -30737,7 +30737,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -13.5,
+    "initial": -3.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -30778,7 +30778,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 10,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -32032,7 +32032,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "f956ef4b-21023",
+  "hash": "7e6c11c5-21047",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32312,7 +32312,7 @@
    {
     "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
-    "initial": "none",
+    "initial": "dimples",
     "name": "baffle_texture",
     "options": [
      {
@@ -32739,7 +32739,7 @@
    {
     "caption": "Moves the picture toward the tip (+) or the shank (-) (mm).",
     "group": "Lettering",
-    "initial": -15,
+    "initial": -5.5,
     "max": 50,
     "min": -50,
     "name": "top_image_position",
@@ -32780,7 +32780,7 @@
    {
     "caption": "Side text from just behind the ligature: + toward the tip, - toward the shank (mm).",
     "group": "Lettering",
-    "initial": 0,
+    "initial": 9.5,
     "max": 50,
     "min": -50,
     "name": "side_text_position",
@@ -33181,7 +33181,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {

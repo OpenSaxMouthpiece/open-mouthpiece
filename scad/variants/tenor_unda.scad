@@ -1,5 +1,5 @@
 // Tenor "Unda": a variant of tenor.scad (its outline, changed by settings only).
-// Unda: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank.
+// Unda: close tip, short facing, horseshoe chamber, flat baffle with dimples, wide rails; soft body, scooped beak, raised spiral shank.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
@@ -56,7 +56,7 @@ baffle_curve = 0; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
 // A texture on the baffle: grooves along it, grooves across it, or dimples.
-baffle_texture = "none"; // [none, along, across, dimples]
+baffle_texture = "dimples"; // [none, along, across, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]
 // How deep the texture cuts, or how far it stands out (mm); less where there is no room.
@@ -146,7 +146,7 @@ top_image_aspect = 1; // [0.1:0.01:10]
 // Picture rotation (degrees).
 top_image_angle = 0; // [0:15:345]
 // Moves the picture toward the tip (+) or the shank (-) (mm).
-top_image_position = -15; // [-50:0.5:50]
+top_image_position = -5.5; // [-50:0.5:50]
 // Wrap the picture around the body like a label.
 top_image_wrap = false;
 // Text on the right side (seen from above, tip away). Lines, variables as on top.
@@ -156,7 +156,7 @@ side_text_left = "\u007Btip} \u007Bvoice_letter}";
 // Side letter height (mm).
 side_text_size = 5.5; // [1.5:0.5:10]
 // Side text from just behind the ligature: + toward the tip, - toward the shank (mm).
-side_text_position = 0; // [-50:0.5:50]
+side_text_position = 9.5; // [-50:0.5:50]
 // Moves the side text up (+) or down (-) (mm).
 side_text_vertical = 0; // [-10:0.5:10]
 // Ligature and cap lettering; the mouthpiece's is always engraved (the ligature slides over it).
@@ -182,7 +182,7 @@ shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif It
 // Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
 shank_detail = "spiral"; // [none, rings, flutes, spiral, knurled]
 // Shank decoration cut in (engraved) or standing out (raised).
-shank_detail_style = "engraved"; // [engraved, raised]
+shank_detail_style = "raised"; // [engraved, raised]
 // How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
 shank_detail_count = 2; // [1:1:40]
 // Where a single ring sits: 0 = by the neck end, 1 = by the flare.

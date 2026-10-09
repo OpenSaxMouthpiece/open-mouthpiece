@@ -227,6 +227,7 @@ const LOOKS = {
     shank_detail_style: 'raised',
     shank_detail_count: 16,
     shank_detail_depth: 0.6,
+    baffle_texture: 'along',
   }),
   unda: (p, L) => ({
     body_width: r1(p('body_width') * 1.03),
@@ -240,8 +241,10 @@ const LOOKS = {
     side_text_right: 'Unda',
     top_image: 'element_water.svg',
     shank_detail: 'spiral',
+    shank_detail_style: 'raised',
     shank_detail_count: 2,
     shank_detail_depth: 0.5,
+    baffle_texture: 'dimples',
   }),
 };
 // Per voice: the soprano's shank band is short, so its decorations differ a little.
@@ -269,8 +272,8 @@ const BLURB = {
   flamma:
     'Flamma: closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank.',
   silva:
-    'Silva: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.',
-  unda: 'Unda: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank.',
+    'Silva: more open tip, square chamber, rollover baffle with grooves along, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.',
+  unda: 'Unda: close tip, short facing, horseshoe chamber, flat baffle with dimples, wide rails; soft body, scooped beak, raised spiral shank.',
 };
 
 // "{" as {: OpenSCAD's parameter export stops at a string with a brace in it ("{tip}").
@@ -322,31 +325,31 @@ for (const voice of process.argv.slice(2)) {
     const dst = path.join(ROOT, 'scad', 'variants', `${voice}_${fam}.scad`);
     fs.mkdirSync(path.dirname(dst), { recursive: true });
     fs.writeFileSync(dst, out);
-    // The picture and the side text centred on one station: the side text's own spot (as far forward
-    // as clears the ligature's band, which sweeps back on the sides), unless the picture would reach
-    // the band on top (1.5 mm; the band's tongue may lie over the picture, engraving is flush).
-    // Said when one starts on the shank's flare (before its crest, where the body is full size): fine
-    // on a long, gentle flare (alto), not on the soprano's short one. Each one's own spot (no offset)
-    // from an echo-only run.
+    // The picture and the side text in the middle between the top of the shank (its flare's crest)
+    // and the shoulder (where the top starts its drop to the tip); a ligature may lie over them
+    // (engraving is flush). Each one's own spot (no offset) from an echo-only run.
     const probe = path.join(os.tmpdir(), `variant_probe_${voice}_${fam}.scad`);
     fs.writeFileSync(
       probe,
-      `include <${dst.replace(/\\/g, '/')}>\necho(ALIGN = [top_image_z, side_text_z, top_image_len, side_text_long, lig_z0, max(len(FLARE_W) ? FLARE_W[2] : 0.21, len(FLARE_H) ? FLARE_H[2] : 0.21) * L]);\n`,
+      `include <${dst.replace(/\\/g, '/')}>\necho(ALIGN = [top_image_z, side_text_z, top_image_len, side_text_long, lig_z0, max(len(FLARE_W) ? FLARE_W[2] : 0.21, len(FLARE_H) ? FLARE_H[2] : 0.21) * L, SWEEP_Z0]);\n`,
     );
     const echo = probe.replace(/\.scad$/, '.echo');
     const { log } = await runOpenscad(['-o', echo, probe]);
-    const m = /ALIGN = \[([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+)\]/.exec(
-      fs.existsSync(echo) ? fs.readFileSync(echo, 'utf8') : '',
-    );
+    const m =
+      /ALIGN = \[([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+)\]/.exec(
+        fs.existsSync(echo) ? fs.readFileSync(echo, 'utf8') : '',
+      );
     if (!m) throw new Error(`${voice}_${fam}: no ALIGN echo\n${log}`);
-    const [image, text, len, long, band, crest] = m.slice(1).map(Number);
-    const at = Math.min(text, band - 1.5 - len / 2);
-    const back = at - Math.max(len, long) / 2;
-    if (back < crest) console.log(`  ${voice}_${fam}: starts ${(crest - back).toFixed(1)}mm onto the flare`);
+    const [image, text, , , , crest, shoulder] = m.slice(1).map(Number);
+    const at = (crest + shoulder) / 2;
     out = out
       .replace(/^top_image_position = [^;]*;/m, `top_image_position = ${r05(at - image)};`)
       .replace(/^side_text_position = [^;]*;/m, `side_text_position = ${r05(at - text)};`);
     fs.writeFileSync(dst, out);
-    console.log('wrote', dst, `(picture and side text at ${at.toFixed(1)}mm, the ligature's band from ${band}mm)`);
+    console.log(
+      'wrote',
+      dst,
+      `(picture and side text at ${at.toFixed(1)}mm, between ${crest.toFixed(1)} and ${shoulder.toFixed(1)})`,
+    );
   }
 }
