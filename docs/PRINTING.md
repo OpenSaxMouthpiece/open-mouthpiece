@@ -51,7 +51,7 @@ Suggested settings (a starting point, not gospel):
 | Layer height | 0.08–0.12 mm | 0.03–0.05 mm |
 | Walls / infill | solid: 100% infill, or 6+ perimeters | solid (no hollowing) |
 | Supports | none needed (see below) | on the neck end face only |
-| Seam | on the top (beak side), never on the table or rails | — |
+| Seam | down one side, never on the table, rails or beak | — |
 | Material | PETG or PLA for testing | a tough, food-contact / biocompatible resin |
 
 **Supports:** measured on the presets, surfaces steeper than 45° are under 0.5% of each
@@ -59,9 +59,10 @@ mouthpiece: the tip rail bridging over the window at the very top, a small ledge
 shoulder on the tenor, and a few mm² inside the bore. Your slicer may flag them, but they print
 fine without supports, and supports inside the bore would be hard to remove.
 
-**Materials in your mouth:** filament and resin makers' food-contact claims vary. For play-testing,
-PETG or a biocompatible resin is a sensible choice. Wash the piece before playing, and don't treat
-a test print as a permanent mouthpiece.
+**A word on materials:** this is something you'll put in your mouth, and most printing materials
+aren't certified food safe. Even a food-safe filament can collect bacteria in the tiny gaps between
+layers. PETG or a biocompatible resin is a good choice, but whatever you use is your call and at
+your own risk. Wash it before you play, keep it clean, and reprint it when it starts to look worn.
 
 ## 3. Finish the table and facing
 
