@@ -60,7 +60,7 @@ export const isVariant = (p: string) => /^variants\/[^/]+\.scad$/.test(p);
 const VARIANT_BLURB: Record<string, string> = {
   ash: "closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank",
   birch:
-    "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, fluted shank",
+    "more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank",
   cedar: "close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank",
 };
 export const variantBlurb = (p: string) =>

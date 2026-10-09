@@ -330,8 +330,8 @@ so anyone can rebuild a variant (or take it further) in the app.
   shank; 3.4% shorter.
 - **Birch** (small chamber): more open tip, square chamber and abrupt square throat, rollover
   baffle + hump, thin tip rail; boxy (squareness 3.2 / 3.0 / 2.2), lower, a crisp set-back shoulder
-  (`beak_length` -3% of L) swept down the sides, wide flat beak top; flutes on the shank (soprano:
-  knurled, its band is short); 3.4% longer (bari: the preset's length, as length adds air there).
+  (`beak_length` -3% of L) swept down the sides, wide flat beak top; 16 raised knurls on
+  the shank; 3.4% longer (bari: the preset's length, as length adds air there).
 - **Cedar** (all-round): close tip, short facing, flat baffle, 1.2mm rails; wider and soft, a
   softened shoulder into a scooped beak (`beak_curve` 0.7); a spiral on the shank.
 

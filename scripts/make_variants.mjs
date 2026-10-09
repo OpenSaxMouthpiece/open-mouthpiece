@@ -186,7 +186,7 @@ const VOICES = {
 //   ash    slim and round, scooped sidewalls inside, a full (bulging) beak with no shoulder,
 //          classic rings on the shank.
 //   birch  boxy and flat-sided, a crisp shoulder set back, a wide flat-topped straight beak,
-//          flutes all round the shank.
+//          raised knurling all round the shank.
 //   cedar  wider and soft, an early gentle shoulder into a scooped (ski-slope) beak, a spiral shank.
 const LOOKS = {
   ash: (p, L) => ({
@@ -219,7 +219,8 @@ const LOOKS = {
     shank_diameter: r1(p('shank_diameter') * 1.03),
     lettering_font: 'Bebas Neue',
     side_text_right: 'BIRCH',
-    shank_detail: 'flutes',
+    shank_detail: 'knurled',
+    shank_detail_style: 'raised',
     shank_detail_count: 16,
     shank_detail_depth: 0.6,
   }),
@@ -238,11 +239,11 @@ const LOOKS = {
     shank_detail_depth: 0.5,
   }),
 };
-// Per voice: the soprano's shank band is short, so flutes there would run up into the flare.
+// Per voice: the soprano's shank band is short, so its decorations differ a little.
 const VOICE_LOOKS = {
   soprano: {
     ash: { sidewall_angle: 6 }, // less scoop: its small chamber gains air fast
-    birch: { shank_detail: 'knurled', shank_detail_count: 20, shank_detail_depth: 0.35, shank_diameter: 17.8 }, // the preset's
+    birch: { shank_diameter: 17.8 }, // the preset's
     cedar: { shank_detail_count: 3, shank_detail_depth: 0.7 },
   },
 };
@@ -259,7 +260,7 @@ const VOICE_LENGTH = { baritone: { birch: 0 } };
 const BLURB = {
   ash: 'Ash: closer tip, radius facing, round chamber with scooped sidewalls, concave baffle; slim round body, full beak, ringed shank.',
   birch:
-    'Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, fluted shank.',
+    'Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.',
   cedar:
     'Cedar: close tip, short facing, horseshoe chamber, flat baffle, wide rails; soft body, scooped beak, spiral shank.',
 };

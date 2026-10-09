@@ -1,5 +1,5 @@
 // Soprano "Birch": a variant of soprano.scad (its outline, changed by settings only).
-// Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, fluted shank.
+// Birch: more open tip, square chamber, rollover baffle, thin tip rail; boxy body, set-back shoulder, flat straight beak, knurled shank.
 // Geometry: lib/mouthpiece_base.scad.
 
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
@@ -174,13 +174,13 @@ shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif It
 // Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
 shank_detail = "knurled"; // [none, rings, flutes, spiral, knurled]
 // Shank decoration cut in (engraved) or standing out (raised).
-shank_detail_style = "engraved"; // [engraved, raised]
+shank_detail_style = "raised"; // [engraved, raised]
 // How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.
-shank_detail_count = 20; // [1:1:40]
+shank_detail_count = 16; // [1:1:40]
 // Where a single ring sits: 0 = by the neck end, 1 = by the flare.
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
-shank_detail_depth = 0.35; // [0.3:0.05:1.2]
+shank_detail_depth = 0.6; // [0.3:0.05:1.2]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).

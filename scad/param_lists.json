@@ -11274,7 +11274,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "6da9cb44-19582",
+  "hash": "c77cb639-19582",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12332,7 +12332,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "flutes",
+    "initial": "knurled",
     "name": "shank_detail",
     "options": [
      {
@@ -12361,7 +12361,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {
@@ -16911,7 +16911,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "c561030-19768",
+  "hash": "18e181bb-19768",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17969,7 +17969,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "flutes",
+    "initial": "knurled",
     "name": "shank_detail",
     "options": [
      {
@@ -17998,7 +17998,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {
@@ -22548,7 +22548,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "3e3b664f-19789",
+  "hash": "17584c7b-19787",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23635,7 +23635,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {
@@ -23652,7 +23652,7 @@
    {
     "caption": "How many rings (as many as fit), flutes, spiral starts (up to 4) or knurl lines each way.",
     "group": "Lettering",
-    "initial": 20,
+    "initial": 16,
     "max": 40,
     "min": 1,
     "name": "shank_detail_count",
@@ -23672,7 +23672,7 @@
    {
     "caption": "How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.",
     "group": "Lettering",
-    "initial": 0.35,
+    "initial": 0.6,
     "max": 1.2,
     "min": 0.3,
     "name": "shank_detail_depth",
@@ -28185,7 +28185,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "e03093b5-19963",
+  "hash": "3e7dd6d0-19963",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29243,7 +29243,7 @@
    {
     "caption": "Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.",
     "group": "Lettering",
-    "initial": "flutes",
+    "initial": "knurled",
     "name": "shank_detail",
     "options": [
      {
@@ -29272,7 +29272,7 @@
    {
     "caption": "Shank decoration cut in (engraved) or standing out (raised).",
     "group": "Lettering",
-    "initial": "engraved",
+    "initial": "raised",
     "name": "shank_detail_style",
     "options": [
      {

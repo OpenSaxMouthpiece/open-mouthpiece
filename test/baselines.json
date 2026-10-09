@@ -70,14 +70,14 @@
     "capVolume": 9741.012
   },
   "variants/alto_birch.scad": {
-    "tris": 27562,
-    "volume": 26752.239,
+    "tris": 36056,
+    "volume": 27154.402,
     "size": [
       28.998,
       26.5,
-      94.158
+      94.204
     ],
-    "hash": "78b22db89bc5a46c",
+    "hash": "eee6b6c88c8bbbfe",
     "ligHash": "b343642bb94b9f6e",
     "ligVolume": 2770.875,
     "capHash": "aecbb3c86fe476c7",
@@ -112,14 +112,14 @@
     "capVolume": 12527.197
   },
   "variants/baritone_birch.scad": {
-    "tris": 36376,
-    "volume": 51365.243,
+    "tris": 43414,
+    "volume": 51797.189,
     "size": [
       31.696,
-      29.524,
-      143.971
+      30.117,
+      143.98
     ],
-    "hash": "87f9e176bc8a7f80",
+    "hash": "16baece5f92c1eca",
     "ligHash": "c47f39bf3ae620fb",
     "ligVolume": 2965.613,
     "capHash": "c5a6920cb0a4fe0a",
@@ -154,14 +154,14 @@
     "capVolume": 6815.967
   },
   "variants/soprano_birch.scad": {
-    "tris": 29510,
-    "volume": 13934.64,
+    "tris": 30778,
+    "volume": 14195.538,
     "size": [
-      23.597,
-      21.586,
-      69.817
+      24.605,
+      22.162,
+      69.859
     ],
-    "hash": "b9e24956cd10ec08",
+    "hash": "fe8bd9fd481cd361",
     "ligHash": "ae59720fb74f1d90",
     "ligVolume": 1933.734,
     "capHash": "1f9827c84cae669a",
@@ -196,14 +196,14 @@
     "capVolume": 10664.88
   },
   "variants/tenor_birch.scad": {
-    "tris": 27864,
-    "volume": 33427.959,
+    "tris": 34464,
+    "volume": 33850.047,
     "size": [
       30.684,
       28.099,
-      101.749
+      101.791
     ],
-    "hash": "994a477e7f13f8f1",
+    "hash": "f6dea8d69edb36b5",
     "ligHash": "54e6a829deaaf2b5",
     "ligVolume": 2943.037,
     "capHash": "e29ef45e33e42cc7",
