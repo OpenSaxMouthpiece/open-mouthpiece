@@ -283,11 +283,13 @@ cap_end_vents = 3; // [0:1:7]
 // End hole diameter (mm).
 cap_end_vent_size = 2; // [1:0.5:4]
 // Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.
-cap_side_vents = "slots"; // [none, slots, holes]
+cap_side_vents = "none"; // [none, slots, holes]
 // How many vents on each side (slots stack up the side, holes run along it).
 cap_side_vent_count = 2; // [1:1:5]
 // Vent width, or a hole's diameter (mm).
 cap_side_vent_size = 2.5; // [1.5:0.5:5]
+// Space between neighbouring vents (mm).
+cap_side_vent_gap = 3; // [1:0.5:10]
 // Wall thickness (mm).
 cap_wall = 1.6; // [1.2:0.1:4]
 // Follows the mouthpiece (smoothed), or round.

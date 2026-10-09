@@ -10,8 +10,8 @@
     "hash": "e2ec61861d4ce0cc",
     "ligHash": "1456930baa4a62d9",
     "ligVolume": 2609.452,
-    "capHash": "9b1c7b8d55781069",
-    "capVolume": 9728.593
+    "capHash": "0b8375927c80a100",
+    "capVolume": 10128.179
   },
   "baritone.scad": {
     "tris": 28088,
@@ -24,8 +24,8 @@
     "hash": "af2b6026589e2a6c",
     "ligHash": "be2f5744bfea43d2",
     "ligVolume": 2743.761,
-    "capHash": "240dc8304e228678",
-    "capVolume": 12533.442
+    "capHash": "834fd95411cbb0cd",
+    "capVolume": 12925.502
   },
   "soprano.scad": {
     "tris": 13424,
@@ -38,8 +38,8 @@
     "hash": "a3d0205c349f0f5f",
     "ligHash": "8015fbad7b425a94",
     "ligVolume": 1810.525,
-    "capHash": "9040e2ffcaedf361",
-    "capVolume": 6686.817
+    "capHash": "9a0cc10f4a075708",
+    "capVolume": 7094.766
   },
   "tenor.scad": {
     "tris": 19216,
@@ -52,8 +52,8 @@
     "hash": "e77c8272c3efe168",
     "ligHash": "c6c6b8545f43c608",
     "ligVolume": 2753.665,
-    "capHash": "106ddcdced46469a",
-    "capVolume": 10633.566
+    "capHash": "a4c4915f62b50f54",
+    "capVolume": 11032.423
   },
   "variants/alto_flamma.scad": {
     "tris": 42332,
@@ -66,8 +66,8 @@
     "hash": "88ab1cf9ab426f35",
     "ligHash": "2046399c10b76a1b",
     "ligVolume": 2487.799,
-    "capHash": "942e8301ba2c4701",
-    "capVolume": 9421.439
+    "capHash": "64b319ee3afcc99e",
+    "capVolume": 9817.012
   },
   "variants/alto_silva.scad": {
     "tris": 39702,
@@ -80,8 +80,8 @@
     "hash": "8805ba11e84683e7",
     "ligHash": "bc4a2292e5ec093c",
     "ligVolume": 2726.854,
-    "capHash": "5f184437bfc71c9c",
-    "capVolume": 10099.354
+    "capHash": "e6333e157324179b",
+    "capVolume": 10493.207
   },
   "variants/alto_unda.scad": {
     "tris": 47850,
@@ -94,8 +94,8 @@
     "hash": "cb358d450cc7c1e2",
     "ligHash": "eaf1f3169b8711ab",
     "ligVolume": 2652.879,
-    "capHash": "884ea69ddfe21fba",
-    "capVolume": 9842.458
+    "capHash": "bf168fb2d488a79b",
+    "capVolume": 10242.676
   },
   "variants/baritone_flamma.scad": {
     "tris": 53146,
@@ -108,8 +108,8 @@
     "hash": "6348bfd7f43d9a0c",
     "ligHash": "15a2716e919125a0",
     "ligVolume": 2610.63,
-    "capHash": "1bf98340e4325076",
-    "capVolume": 12212.578
+    "capHash": "8a5017d43066dd61",
+    "capVolume": 12606.17
   },
   "variants/baritone_silva.scad": {
     "tris": 49614,
@@ -122,8 +122,8 @@
     "hash": "0cd026759fb8fcfa",
     "ligHash": "631a35817c09202a",
     "ligVolume": 2919.478,
-    "capHash": "1c430cc1f6e49f75",
-    "capVolume": 13146.052
+    "capHash": "f1ac4c56e737db3f",
+    "capVolume": 13532.28
   },
   "variants/baritone_unda.scad": {
     "tris": 57356,
@@ -136,8 +136,8 @@
     "hash": "2eb6f3a689d486ff",
     "ligHash": "50b55c0b901bda7d",
     "ligVolume": 2830.111,
-    "capHash": "ebc6e41d96f197d0",
-    "capVolume": 12794.954
+    "capHash": "3692edef1b75c5aa",
+    "capVolume": 13183.448
   },
   "variants/soprano_flamma.scad": {
     "tris": 38576,
@@ -150,8 +150,8 @@
     "hash": "1679d7758ec9d2ae",
     "ligHash": "8f454a179d60e692",
     "ligVolume": 1719.779,
-    "capHash": "3f19244abcfb4d3b",
-    "capVolume": 6468.626
+    "capHash": "bbe90e3d5f2079eb",
+    "capVolume": 6878.4
   },
   "variants/soprano_silva.scad": {
     "tris": 33192,
@@ -164,8 +164,8 @@
     "hash": "0c0bc5a997f05450",
     "ligHash": "9f0a578f3c68d6a9",
     "ligVolume": 1894.073,
-    "capHash": "22adb061cb12e6f4",
-    "capVolume": 6959.893
+    "capHash": "5bfa3e97d6f2b596",
+    "capVolume": 7358.602
   },
   "variants/soprano_unda.scad": {
     "tris": 38388,
@@ -178,8 +178,8 @@
     "hash": "f79b537e475a54b4",
     "ligHash": "c4c58c9a779a22b0",
     "ligVolume": 1845.415,
-    "capHash": "27d78b2d1ffe7d85",
-    "capVolume": 6772.146
+    "capHash": "52167d04facad07f",
+    "capVolume": 7175.543
   },
   "variants/tenor_flamma.scad": {
     "tris": 44838,
@@ -192,8 +192,8 @@
     "hash": "5f4a08036bd38e11",
     "ligHash": "32ff1c01627929e2",
     "ligVolume": 2630.821,
-    "capHash": "d58ef0fdb48f6aae",
-    "capVolume": 10348.717
+    "capHash": "2b283b88b20da011",
+    "capVolume": 10744.793
   },
   "variants/tenor_silva.scad": {
     "tris": 39872,
@@ -206,8 +206,8 @@
     "hash": "37e1d5e87b009565",
     "ligHash": "27d8280d3287bdea",
     "ligVolume": 2897.111,
-    "capHash": "90e1de85322ff7e3",
-    "capVolume": 11075.093
+    "capHash": "11e19b53312d3193",
+    "capVolume": 11469.001
   },
   "variants/tenor_unda.scad": {
     "tris": 48590,
@@ -220,8 +220,8 @@
     "hash": "8fcf7b6e582415f2",
     "ligHash": "d4aa84a4ee3f1fcc",
     "ligVolume": 2817.969,
-    "capHash": "10651ca84807b16f",
-    "capVolume": 10786.45
+    "capHash": "74769a627684f2d2",
+    "capVolume": 11187.135
   },
   "experiments/dual_reed.scad": {
     "tris": 15986,
@@ -244,7 +244,7 @@
     "hash": "1257cce157676d38",
     "ligHash": "baae9ee1c35992c3",
     "ligVolume": 2682.989,
-    "capHash": "e8d15f8be0a25250",
-    "capVolume": 10226.075
+    "capHash": "d8e7ddd465652fdd",
+    "capVolume": 10622.791
   }
 }

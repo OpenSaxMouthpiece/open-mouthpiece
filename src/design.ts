@@ -327,6 +327,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       },
       { name: "cap_side_vent_count", label: "Vents on each side", when: ["cap_side_vents", ["slots", "holes"]] },
       { name: "cap_side_vent_size", label: "Vent size", when: ["cap_side_vents", ["slots", "holes"]] },
+      { name: "cap_side_vent_gap", label: "Space between vents", when: ["cap_side_vents", ["slots", "holes"]] },
       {
         name: "cap_text",
         label: "Text on the cap",
@@ -546,6 +547,7 @@ const ENDS: Record<string, [string, string]> = {
   cap_end_vent_size: SMALL_LARGE,
   cap_side_vent_count: ["Fewer", "More"],
   cap_side_vent_size: SMALL_LARGE,
+  cap_side_vent_gap: ["Close together", "Far apart"],
   cap_end_gap: ["Close", "Roomy"],
   cap_wall: THIN_THICK,
   cap_metal_length: SHORT_LONG,

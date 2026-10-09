@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "7551516c-20021",
+  "hash": "c51781e2-20099",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1507,7 +1507,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -1542,6 +1542,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -1930,7 +1940,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "7c39140b-20258",
+  "hash": "b9ffd83d-20336",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3437,7 +3447,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -3472,6 +3482,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -3860,7 +3880,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "3eb36291-20930",
+  "hash": "1ddd1e77-21008",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5367,7 +5387,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -5402,6 +5422,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -5790,7 +5820,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "b4437514-20223",
+  "hash": "b47361ba-20301",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7297,7 +7327,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -7332,6 +7362,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -7720,7 +7760,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "4031d89d-20400",
+  "hash": "de62a093-20478",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9227,7 +9267,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -9262,6 +9302,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -9650,7 +9700,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "6aa21943-20115",
+  "hash": "e4dc31e9-20193",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11157,7 +11207,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -11192,6 +11242,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -11580,7 +11640,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "13371e76-20126",
+  "hash": "d3f921f4-20204",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13087,7 +13147,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -13122,6 +13182,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -13510,7 +13580,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "b150c64e-20096",
+  "hash": "dd89a1cc-20174",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15017,7 +15087,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -15052,6 +15122,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -15440,7 +15520,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "716288cd-20300",
+  "hash": "21ca90ef-20378",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16947,7 +17027,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -16982,6 +17062,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -17370,7 +17460,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "54543d91-20311",
+  "hash": "4098f1b3-20389",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18877,7 +18967,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -18912,6 +19002,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -19300,7 +19400,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "9158aa7e-20273",
+  "hash": "949e03a0-20351",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20807,7 +20907,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -20842,6 +20942,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -21230,7 +21340,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "5ff9958b-20322",
+  "hash": "63c17a9-20400",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22737,7 +22847,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -22772,6 +22882,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -23160,7 +23280,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "2150ede3-20331",
+  "hash": "88e09e81-20409",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24667,7 +24787,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -24702,6 +24822,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -25090,7 +25220,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "61a1fe0e-20298",
+  "hash": "bc0bd544-20376",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26597,7 +26727,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -26632,6 +26762,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -27020,7 +27160,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "a9ffa494-20507",
+  "hash": "f5a0772a-20585",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28527,7 +28667,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -28562,6 +28702,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -28950,7 +29100,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "4becc16b-20509",
+  "hash": "500ba791-20587",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30457,7 +30607,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -30492,6 +30642,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },
@@ -30880,7 +31040,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "d99b35b3-20473",
+  "hash": "272b7c39-20551",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32387,7 +32547,7 @@
    {
     "caption": "Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.",
     "group": "Cap",
-    "initial": "slots",
+    "initial": "none",
     "name": "cap_side_vents",
     "options": [
      {
@@ -32422,6 +32582,16 @@
     "max": 5,
     "min": 1.5,
     "name": "cap_side_vent_size",
+    "step": 0.5,
+    "type": "number"
+   },
+   {
+    "caption": "Space between neighbouring vents (mm).",
+    "group": "Cap",
+    "initial": 3,
+    "max": 10,
+    "min": 1,
+    "name": "cap_side_vent_gap",
     "step": 0.5,
     "type": "number"
    },

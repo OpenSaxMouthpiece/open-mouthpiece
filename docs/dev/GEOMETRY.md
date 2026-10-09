@@ -288,12 +288,12 @@ inside = that + `CAP_CLEARANCE` (0.5), shaped by `cap_shape` (conform, or `lig_r
   cylinder along z from the dome's base out through the dome, within 55% of the ring's half-width;
   fewer fit = a WARNING. **EXPECTED GENUS** = the end vents + 2 x the side vents (the slot starts at
   the rim: no genus).
-- **Side vents** (`cap_side_vents` none / slots / holes, `cap_side_vent_count` per side,
-  `cap_side_vent_size`; back since 2026-10-09 with the placement automatic): both sides, on the side's
+- **Side vents** (`cap_side_vents` none (the default) / slots / holes, `cap_side_vent_count` per side,
+  `cap_side_vent_size`, `cap_side_vent_gap` between neighbours; back since 2026-10-09 with the placement automatic): both sides, on the side's
   middle line (`cap_side`: the middle of the ring's flattest side), from 2.5mm in front of the collar
   (the grip stays whole) to 3mm short of the tip. Slots run along the cap (up to 22mm, straight between
-  the side's middle at their two ends) and stack up the side within 45% of the inside height, 1.8mm
-  apart; holes run along it, evenly spread, 2.5mm apart; fewer fit = a WARNING. Each is a bore from
+  the side's middle at their two ends) and stack up the side within 45% of the inside height; holes
+  run along it, centred; both `cap_side_vent_gap` apart; fewer fit = a WARNING. Each is a bore from
   the middle out plus a 45° chamfer at the outside (`cap_ring_x`: the outline's reach at that height).
 - **Pictures**: `ligature_image` / `cap_image` = "same" (the default) use `top_image` and its aspect
   (`LIG_IMAGE`, `CAP_IMAGE`); "" = none.

@@ -326,11 +326,13 @@ cap_end_vents = 3; // [0:1:7]
 // End hole diameter (mm).
 cap_end_vent_size = 2; // [1:0.5:4]
 // Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.
-cap_side_vents = "slots"; // [none, slots, holes]
+cap_side_vents = "none"; // [none, slots, holes]
 // How many vents on each side (slots stack up the side, holes run along it).
 cap_side_vent_count = 2; // [1:1:5]
 // Vent width, or a hole's diameter (mm).
 cap_side_vent_size = 2.5; // [1.5:0.5:5]
+// Space between neighbouring vents (mm).
+cap_side_vent_gap = 3; // [1:0.5:10]
 // Wall thickness (mm).
 cap_wall = 1.6; // [1.2:0.1:4]
 // Follows the mouthpiece (smoothed), or round.
@@ -2457,7 +2459,7 @@ module cap_part() {
   // the side vents: both sides, on the side's middle line, from 2.5mm in front of the collar (the
   // grip stays whole) to 3mm short of the tip. Slots run along the cap (up to 22mm, following the
   // side's middle line as the cap tapers) and stack up the side, within 45% of the inside height;
-  // holes run along it, evenly spread. 1.8mm (slots) / 2.5mm (holes) of wall between neighbours.
+  // holes run along it. cap_side_vent_gap of wall between neighbours.
   sv_d = cap_side_vent_size;
   sv_ch = min(0.6, 0.35 * cap_wall);
   sv_z0 = max(cap_cz1, cap_zr) + 2.5;
@@ -2467,8 +2469,8 @@ module cap_part() {
   sv_slots = cap_side_vents == "slots";
   sv_mid = cap_side(lig_ring(cap_h_at(H, sv_zm), sv_zm, 0));
   sv_fit = cap_side_vents == "none" || sv_span < sv_d ? 0
-         : sv_slots ? floor((max(sv_d, 0.45 * sv_mid[2]) - sv_d) / (sv_d + 1.8)) + 1
-         : floor((sv_span - sv_d) / (sv_d + 2.5)) + 1;
+         : sv_slots ? floor((max(sv_d, 0.45 * sv_mid[2]) - sv_d) / (sv_d + cap_side_vent_gap)) + 1
+         : floor((sv_span - sv_d) / (sv_d + cap_side_vent_gap)) + 1;
   sv_n = max(0, min(cap_side_vent_count, sv_fit));
   sv_len = min(sv_span, 22);
   // a centre-line point at z, dy off the side's middle: [z, y, the outside's reach there]
@@ -2477,9 +2479,9 @@ module cap_part() {
   sv_lines = sv_n == 0 ? []
     : sv_slots
       ? let(za = sv_zm - (sv_len - sv_d) / 2, zc = sv_zm + (sv_len - sv_d) / 2, ya = sv_y(za), yc = sv_y(zc), m = max(1, ceil((zc - za) / 3)))
-        [for (k = [0 : sv_n - 1]) let(dy = (k - (sv_n - 1) / 2) * (sv_d + 1.8))
+        [for (k = [0 : sv_n - 1]) let(dy = (k - (sv_n - 1) / 2) * (sv_d + cap_side_vent_gap))
            [for (j = [0 : m]) sv_pt(lerp(za, zc, j / m), lerp(ya, yc, j / m) + dy)]]
-      : let(step = sv_n > 1 ? min(2 * (sv_d + 2.5), (sv_span - sv_d) / (sv_n - 1)) : 0)
+      : let(step = sv_d + cap_side_vent_gap)
         [for (k = [0 : sv_n - 1]) let(z = sv_zm + (k - (sv_n - 1) / 2) * step) [sv_pt(z, sv_y(z))]];
   // text and pictures on the top (as on the ligature)
   t_mid = max(cap_z0 + 3, min(L - 3, (cap_z0 + L) / 2 + cap_lettering_position));
