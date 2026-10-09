@@ -56,42 +56,42 @@
     "capVolume": 10929.495
   },
   "variants/alto_flamma.scad": {
-    "tris": 42374,
-    "volume": 16092.831,
+    "tris": 42332,
+    "volume": 16092.811,
     "size": [
-      27.593,
+      27.6,
       27,
       88.098
     ],
-    "hash": "941fb2d9822815ef",
+    "hash": "88ab1cf9ab426f35",
     "ligHash": "47ee3fea043b5ab1",
     "ligVolume": 2530.9,
     "capHash": "8f3b29db77d88fef",
     "capVolume": 9741.012
   },
   "variants/alto_silva.scad": {
-    "tris": 39666,
-    "volume": 26989.534,
+    "tris": 39702,
+    "volume": 26989.546,
     "size": [
       28.998,
       26.5,
       94.204
     ],
-    "hash": "e86fb77be2b146ca",
+    "hash": "8805ba11e84683e7",
     "ligHash": "b343642bb94b9f6e",
     "ligVolume": 2770.875,
     "capHash": "aecbb3c86fe476c7",
     "capVolume": 10409.704
   },
   "variants/alto_unda.scad": {
-    "tris": 47838,
-    "volume": 22142.081,
+    "tris": 47850,
+    "volume": 22141.945,
     "size": [
-      29.877,
-      27.57,
+      29.891,
+      27.59,
       91.132
     ],
-    "hash": "4d6637d8a282e2d0",
+    "hash": "cb358d450cc7c1e2",
     "ligHash": "e8371731f8fbe36a",
     "ligVolume": 2698.426,
     "capHash": "ee84954f0fd95236",
@@ -140,84 +140,84 @@
     "capVolume": 13100.765
   },
   "variants/soprano_flamma.scad": {
-    "tris": 39294,
-    "volume": 9123.679,
+    "tris": 38576,
+    "volume": 9135.074,
     "size": [
       22.398,
       22.1,
       67.617
     ],
-    "hash": "ffc00f7bd24dae5c",
+    "hash": "1679d7758ec9d2ae",
     "ligHash": "0a333265081cc948",
     "ligVolume": 1759.011,
     "capHash": "9c2f0cb4c8184127",
     "capVolume": 6815.967
   },
   "variants/soprano_silva.scad": {
-    "tris": 33416,
-    "volume": 14059.575,
+    "tris": 33192,
+    "volume": 14071.119,
     "size": [
       24.605,
       22.162,
       69.859
     ],
-    "hash": "baf4b3cae68cb3ec",
+    "hash": "0c0bc5a997f05450",
     "ligHash": "ae59720fb74f1d90",
     "ligVolume": 1933.734,
     "capHash": "1f9827c84cae669a",
     "capVolume": 7289.014
   },
   "variants/soprano_unda.scad": {
-    "tris": 38788,
-    "volume": 12031.34,
+    "tris": 38388,
+    "volume": 12048.862,
     "size": [
-      24.286,
+      24.298,
       22.5,
       67.617
     ],
-    "hash": "51e56a915132d524",
+    "hash": "f79b537e475a54b4",
     "ligHash": "105b7bbaeadb10f3",
     "ligVolume": 1886.763,
     "capHash": "d3e02c8284008f17",
     "capVolume": 7111.11
   },
   "variants/tenor_flamma.scad": {
-    "tris": 44824,
-    "volume": 20269.922,
+    "tris": 44838,
+    "volume": 20269.88,
     "size": [
-      29.2,
-      28.693,
+      29.19,
+      28.664,
       95.179
     ],
-    "hash": "b74dd0b1da9477d4",
+    "hash": "5f4a08036bd38e11",
     "ligHash": "9e72c569aabdf08c",
     "ligVolume": 2675.568,
     "capHash": "0fbd5082b35f7e17",
     "capVolume": 10664.88
   },
   "variants/tenor_silva.scad": {
-    "tris": 39860,
-    "volume": 33678.196,
+    "tris": 39872,
+    "volume": 33678.197,
     "size": [
       30.684,
       28.099,
       101.791
     ],
-    "hash": "7f4a2c4871b8ee40",
+    "hash": "37e1d5e87b009565",
     "ligHash": "54e6a829deaaf2b5",
     "ligVolume": 2943.037,
     "capHash": "e29ef45e33e42cc7",
     "capVolume": 11380.716
   },
   "variants/tenor_unda.scad": {
-    "tris": 48586,
-    "volume": 27402.225,
+    "tris": 48590,
+    "volume": 27402.218,
     "size": [
-      31.583,
+      31.597,
       29.279,
       98.511
     ],
-    "hash": "b75218221a6b598a",
+    "hash": "8fcf7b6e582415f2",
     "ligHash": "4e19ca5e0b7d13e7",
     "ligVolume": 2865.315,
     "capHash": "43d29be6997689a7",

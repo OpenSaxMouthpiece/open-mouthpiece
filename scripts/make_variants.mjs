@@ -254,8 +254,9 @@ const VOICE_LOOKS = {
 };
 // Side text size and the picture's width on top, per voice (mm). The pictures are one set of round
 // element badges (scad/art/element_*.svg): fire for Flamma, leaf for Silva, water for Unda.
-const TEXT = { alto: 5, tenor: 5.5, baritone: 6.5, soprano: 4 };
-const PICTURE = { alto: 12, tenor: 13, baritone: 14, soprano: 10 };
+// The soprano's room between its flare and the ligature is ~14 mm, so its are smaller.
+const TEXT = { alto: 5, tenor: 5.5, baritone: 6.5, soprano: 3 };
+const PICTURE = { alto: 12, tenor: 13, baritone: 14, soprano: 9 };
 // Overall length (shank end to tip) per family, as a fraction of the voice's: length adds or removes
 // inside air (~5% per 3mm on the alto), so each family's goes against its recipe's air: Flamma (big
 // chamber, more air) shorter, Silva (small chamber, less air) longer. Both then sit nearer the
@@ -325,26 +326,31 @@ for (const voice of process.argv.slice(2)) {
     const dst = path.join(ROOT, 'scad', 'variants', `${voice}_${fam}.scad`);
     fs.mkdirSync(path.dirname(dst), { recursive: true });
     fs.writeFileSync(dst, out);
-    // The picture and the side text centred on one station, both clear of the ligature: where the
-    // side text sits on its own (just behind the ligature's band), moved back if the picture would
-    // reach the tongue on top. Each one's own spot (no offset) from an echo-only run.
+    // The picture and the side text centred on one station: the side text's own spot (as far forward
+    // as clears the ligature's band, which sweeps back on the sides), unless the picture would reach
+    // the band on top (1.5 mm; the band's tongue may lie over the picture, engraving is flush).
+    // Said when one starts on the shank's flare (before its crest, where the body is full size): fine
+    // on a long, gentle flare (alto), not on the soprano's short one. Each one's own spot (no offset)
+    // from an echo-only run.
     const probe = path.join(os.tmpdir(), `variant_probe_${voice}_${fam}.scad`);
     fs.writeFileSync(
       probe,
-      `include <${dst.replace(/\\/g, '/')}>\necho(ALIGN = [top_image_z, side_text_z, top_image_len, lig_zt]);\n`,
+      `include <${dst.replace(/\\/g, '/')}>\necho(ALIGN = [top_image_z, side_text_z, top_image_len, side_text_long, lig_z0, max(len(FLARE_W) ? FLARE_W[2] : 0.21, len(FLARE_H) ? FLARE_H[2] : 0.21) * L]);\n`,
     );
     const echo = probe.replace(/\.scad$/, '.echo');
     const { log } = await runOpenscad(['-o', echo, probe]);
-    const m = /ALIGN = \[([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+)\]/.exec(
+    const m = /ALIGN = \[([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+), ([-0-9.e]+)\]/.exec(
       fs.existsSync(echo) ? fs.readFileSync(echo, 'utf8') : '',
     );
     if (!m) throw new Error(`${voice}_${fam}: no ALIGN echo\n${log}`);
-    const [image, text, len, tongue] = m.slice(1).map(Number);
-    const at = Math.min(text, tongue - 1 - len / 2);
+    const [image, text, len, long, band, crest] = m.slice(1).map(Number);
+    const at = Math.min(text, band - 1.5 - len / 2);
+    const back = at - Math.max(len, long) / 2;
+    if (back < crest) console.log(`  ${voice}_${fam}: starts ${(crest - back).toFixed(1)}mm onto the flare`);
     out = out
       .replace(/^top_image_position = [^;]*;/m, `top_image_position = ${r05(at - image)};`)
       .replace(/^side_text_position = [^;]*;/m, `side_text_position = ${r05(at - text)};`);
     fs.writeFileSync(dst, out);
-    console.log('wrote', dst, `(picture and side text at ${at.toFixed(1)}mm, the ligature from ${tongue}mm)`);
+    console.log('wrote', dst, `(picture and side text at ${at.toFixed(1)}mm, the ligature's band from ${band}mm)`);
   }
 }
