@@ -85,9 +85,9 @@ const PICS = {
   bore_tilt: { view: 'side_cut', whole: true },
   shank_diameter: { view: 'side', values: [19, 25] },
   chamber_shape: { view: 'xsec', zFrom: 'chamber' },
-  chamber_width_extra: { view: 'plan', y: 6, values: [-1, 4] },
-  chamber_flare: { view: 'plan', y: 6, values: [0.15, 0.8], context: { chamber_width_extra: 4 } },
-  chamber_full_length: { view: 'plan', y: 6, values: [5, 40], context: { chamber_width_extra: 4 } },
+  chamber_width: { view: 'plan', y: 6, values: [13.2, 18] },
+  chamber_flare: { view: 'plan', y: 6, values: [0.15, 0.8], context: { chamber_width: 18 } },
+  chamber_full_length: { view: 'plan', y: 6, values: [5, 40], context: { chamber_width: 18 } },
   chamber_height: { view: 'side_cut', values: [0, 18] },
   floor_shape: { view: 'side_cut', values: [-0.8, 0.8] },
   throat_position: { view: 'side_cut' },
@@ -262,7 +262,7 @@ async function main() {
       .map((e) => [e[0], e[1]]),
   );
   const zMid = (n) => (FOCUS[n][0][2] + FOCUS[n][1][2]) / 2;
-  const zFrom = { chamber: zMid('chamber_width_extra'), throat: zMid('throat_position'), window: zMid('window_width') };
+  const zFrom = { chamber: zMid('chamber_width'), throat: zMid('throat_position'), window: zMid('window_width') };
 
   // the pictures to make: [file, param, lo, hi, caption]
   const jobs = [];

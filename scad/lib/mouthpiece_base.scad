@@ -69,8 +69,8 @@ shank_diameter = 22.0; // [14:0.1:32]
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
 chamber_shape = "horseshoe"; // [round, square, horseshoe]
-// Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.
-chamber_width_extra = 0.4; // [-1:0.1:12]
+// Width of the chamber after the throat (mm), whatever the throat's width.
+chamber_width = 14.6; // [4:0.1:36]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
 // How far the full width runs toward the tip (mm); 40 = as far as it can.
@@ -438,14 +438,14 @@ baffle_rollover = undef;
 body_width_scale = 1;
 body_height_scale = 1;
 shank_scale = 1;
-// chamber_width before 2026-10-03: an older file's or link's chamber width in mm; it wins over
-// chamber_width_extra.
-chamber_width = undef;
+// chamber_width_extra (2026-10-03 to 2026-10-09): the chamber's width against the throat's (the
+// chamber followed the throat). A file from then keeps its shape: its value wins over chamber_width.
+chamber_width_extra = undef;
 // reed_length before 2026-10-05 (renamed table_length, the same length): an older file's value
 // still applies.
 reed_length = undef;
 // (legacy names: end)
-RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width_extra (the width vs the throat's)"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
+RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
 // ===========================================================================================
 // 2. Curve math
@@ -536,8 +536,10 @@ win_front_z = L - tip_rail_thickness;     // front of the window, on the centerl
 eff_throat_z = max(8, min(max(throat_position, shank_depth + socket_cone + 1), win_z0 - 1));
 eff_throat_length = max(1, min(throat_taper, eff_throat_z - (shank_depth + socket_cone)));
 chamber_peak_z = eff_throat_z + (break_z - eff_throat_z) * chamber_flare;
-// The chamber's width (mm): the throat's plus chamber_width_extra (or an older file's chamber_width).
-CHAMBER_W = is_undef(chamber_width) ? throat_width + chamber_width_extra : chamber_width;
+// The chamber's width (mm): its own setting, independent of the throat's (or a 2026-10-03..09
+// file's throat + chamber_width_extra). Narrower than the throat is a valid shape: the passage
+// narrows a little after the throat.
+CHAMBER_W = is_undef(chamber_width_extra) ? chamber_width : throat_width + chamber_width_extra;
 // The chamber: widens from the throat to CHAMBER_W at chamber_peak_z, holds that width to
 // chamber_end_z, then closes smoothly into the window width by chamber_close_z, just behind the
 // tip rounding (the measured references stay ~chamber-wide under the baffle to ~90% of L).
@@ -2032,7 +2034,7 @@ function param_focus() =
   [["frame", [print_orientation, bore_tilt, end_face_lift]],
    ["overall_length", whole, "iso", false], ["neck_cork_diameter", socket, "end", false], ["shank_clearance", socket, "end", false], ["shank_bevel", socket, "end", false], ["shank_bevel_depth", socket, "side", true],
    ["shank_depth", socket, "side", true], ["bore_diameter", bore, "side", true], ["bore_tilt", whole, "side", false],
-   ["chamber_shape", chamber, "side", true], ["chamber_width_extra", chamber, "side", true], ["chamber_flare", chamber, "side", true],
+   ["chamber_shape", chamber, "side", true], ["chamber_width", chamber, "side", true], ["chamber_flare", chamber, "side", true],
    ["chamber_full_length", chamber, "side", true], ["chamber_height", chamber, "side", true],
    ["throat_position", throat, "side", true], ["throat_width", throat, "side", true],
    ["throat_taper", throat, "side", true], ["throat_shape", throat, "side", true], ["floor_shape", chamber, "side", true],

@@ -25,8 +25,8 @@ shank_diameter = 24.8; // [14:0.1:32]
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
 chamber_shape = "square"; // [round, square, horseshoe]
-// Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.
-chamber_width_extra = 0.6; // [-1:0.1:12]
+// Width of the chamber after the throat (mm), whatever the throat's width.
+chamber_width = 15.4; // [4:0.1:36]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
 // How far the full width runs toward the tip (mm); 40 = as far as it can.

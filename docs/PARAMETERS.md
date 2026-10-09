@@ -131,17 +131,17 @@ Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 
 *`horseshoe` (the alto's) → `square`*
 
-### Chamber width (`chamber_width_extra`)
+### Chamber width (`chamber_width`)
 
-Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.
+Width of the chamber after the throat (mm), whatever the throat's width.
 
-Range: -1 to 12, step 0.1.
+Range: 4 to 36, step 0.1.
 
-Presets: Alto `-0.4` · Tenor `-0.4` · Bari `0.6` · Soprano `0.2`.
+Presets: Alto `13.8` · Tenor `14.5` · Bari `15.4` · Soprano `9.5`.
 
-![chamber_width_extra: -1 → 4](images/params/chamber_width_extra.png)
+![chamber_width: 13.2 → 18](images/params/chamber_width.png)
 
-*-1 → 4*
+*13.2 → 18*
 
 ### Widening after the throat (`chamber_flare`)
 

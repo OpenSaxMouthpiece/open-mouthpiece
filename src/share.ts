@@ -3,7 +3,14 @@
 // carries its text, since it exists only in their browser (or on their computer). The user's own
 // pictures go along only when they ask (art: {name: svg text}); otherwise they are left out.
 import type { ParamValue } from "./api";
-import { migratePath, migrateScad, migrateValues } from "./migrate";
+import {
+  CHAMBER_BEFORE,
+  chamberBefore,
+  migrateChamberValues,
+  migratePath,
+  migrateScad,
+  migrateValues,
+} from "./migrate";
 
 export interface SharedDesign {
   v: 1;
@@ -11,6 +18,7 @@ export interface SharedDesign {
   values: Record<string, ParamValue>;
   source?: string; // the file's text, when it isn't a preset
   art?: Record<string, string>; // the user's own pictures, when they chose to include them
+  cw?: 1; // made since chamber_width is in mm again (2026-10-10; older links are converted)
 }
 
 const KEY = "d=";
@@ -35,7 +43,7 @@ function fromBase64Url(s: string) {
 }
 
 export async function encodeShare(d: Omit<SharedDesign, "v">): Promise<string> {
-  const json = new TextEncoder().encode(JSON.stringify({ v: 1, ...d }));
+  const json = new TextEncoder().encode(JSON.stringify({ v: 1, cw: 1, ...d }));
   const packed = await pipe(json, new CompressionStream("deflate-raw"));
   const url = new URL(location.href);
   url.hash = KEY + toBase64Url(packed);
@@ -51,10 +59,12 @@ export async function readShare(): Promise<SharedDesign | null> {
   if (d?.v !== 1 || typeof d.file !== "string" || typeof d.values !== "object" || d.values === null)
     throw new Error("not a design link");
   // links made before the parameter renames (migrate.ts)
+  const file = migratePath(d.file);
+  const values = migrateValues(d.values);
   return {
     ...d,
-    file: migratePath(d.file),
-    values: migrateValues(d.values),
+    file,
+    values: d.cw ? values : migrateChamberValues(values, chamberBefore(d.source) ?? CHAMBER_BEFORE[file] ?? null),
     source: d.source === undefined ? undefined : migrateScad(d.source),
   };
 }

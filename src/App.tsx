@@ -333,6 +333,7 @@ export default function App() {
       ligature: lig,
       cap: capV,
       partTab,
+      chamberMm: true,
     });
   }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig, capV, partTab]);
 

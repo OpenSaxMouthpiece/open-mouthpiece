@@ -176,11 +176,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         title: "Chamber",
         items: [
           { name: "chamber_shape", label: "Chamber shape" },
-          {
-            name: "chamber_width_extra",
-            label: "Chamber width",
-            caption: "In mm, against the throat's width: 0 = as wide, minus = narrower, plus = wider.",
-          },
+          { name: "chamber_width", label: "Chamber width" },
         ],
         more: ["chamber_height", "chamber_flare", "chamber_full_length", "floor_shape", "sidewall_angle"],
         chart: true,
@@ -616,7 +612,7 @@ const ENDS: Record<string, [string, string]> = {
   bore_diameter: NARROW_WIDE,
   bore_tilt: ["Flatter", "Steeper"],
   // Chamber & baffle
-  chamber_width_extra: ["Narrower", "Wider"],
+  chamber_width: ["Narrower", "Wider"],
   throat_width: NARROW_WIDE,
   baffle_height: ["Away from the reed", "Toward the reed"],
   baffle_hump: ["None", "Big"],
@@ -733,11 +729,7 @@ const filled = (v: unknown) => (typeof v === "string" && v !== "") || (Array.isA
 const anyText = (get: Getter, names: string[]) =>
   names.some((n) => filled(get(n) === "same" ? get("top_image") : get(n)));
 const noWidening = (get: Getter) =>
-  (
-    typeof get("chamber_width") === "number"
-      ? Number(get("chamber_width")) <= Number(get("throat_width"))
-      : Number(get("chamber_width_extra")) <= 0
-  )
+  Number(get("chamber_width")) <= Number(get("throat_width"))
     ? "the chamber is no wider than the throat: no widening to shape"
     : null;
 const INACTIVE: Record<string, (get: Getter) => string | null> = {
@@ -747,7 +739,7 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
       ? "only the Power facing uses it"
       : null,
   facing_gauge_points: (get) => (get("facing_model") === "gauge" ? null : "only the Gauge facing uses them"),
-  // they shape the chamber's widening after the throat (an older link's chamber_width is in mm)
+  // they shape the chamber's widening after the throat
   chamber_flare: (get) => noWidening(get),
   chamber_full_length: (get) => noWidening(get),
   body_width: (get) => (filled(get("ext_width_points")) ? "your own width outline (ext_width_points) sets it" : null),

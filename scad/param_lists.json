@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "59c0013d-20592",
+  "hash": "d755180d-20569",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -104,12 +104,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -0.4,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 13.8,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -2002,7 +2002,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "a39e6440-20829",
+  "hash": "e5149ad1-20807",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2106,12 +2106,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.6,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 15.4,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -4004,7 +4004,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "b22a7712-21501",
+  "hash": "ba0be49b-21479",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4108,12 +4108,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.8,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 15.4,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -6006,7 +6006,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "e7a914f-20794",
+  "hash": "ae5984cc-20771",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6110,12 +6110,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.2,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 9.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -8008,7 +8008,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "4e910542-20971",
+  "hash": "aef4bf76-20948",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8112,12 +8112,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -0.4,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 14.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -10010,7 +10010,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "d88705c4-20686",
+  "hash": "7b2d2d3d-20663",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10114,12 +10114,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -0.2,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 14.2,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -12012,7 +12012,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "63dc09e5-20697",
+  "hash": "951601f4-20676",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12116,12 +12116,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -1,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 13.8,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -14014,7 +14014,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "77b99c4b-20667",
+  "hash": "ddc49e8c-20646",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14118,12 +14118,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -1,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 13.8,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -16016,7 +16016,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "5db037f6-20871",
+  "hash": "a9fba3b7-20849",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16120,12 +16120,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.6,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 15.4,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -18018,7 +18018,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "756e3822-20882",
+  "hash": "43d40d55-20860",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18122,12 +18122,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.6,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 15.4,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -20020,7 +20020,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "691b06fd-20844",
+  "hash": "b5f39178-20822",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20124,12 +20124,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.6,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 15.4,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -22022,7 +22022,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "fb9c1d26-20893",
+  "hash": "bf6b4f91-20870",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22126,12 +22126,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.2,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 9.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -24024,7 +24024,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "ac14b55c-20902",
+  "hash": "71d4c3c-20878",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24128,12 +24128,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -0.4,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 9.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -26026,7 +26026,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "157b923f-20869",
+  "hash": "f5c16838-20846",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26130,12 +26130,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": 0.2,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 9.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -28028,7 +28028,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "48bad41b-21078",
+  "hash": "c7c7fa9-21055",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28132,12 +28132,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -0.4,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 14.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -30030,7 +30030,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "2d56d178-21080",
+  "hash": "73f1d6bd-21059",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30134,12 +30134,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -1,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 14.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },
@@ -32032,7 +32032,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "a1565a34-21044",
+  "hash": "f956ef4b-21023",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32136,12 +32136,12 @@
     "type": "string"
    },
    {
-    "caption": "Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.",
+    "caption": "Width of the chamber after the throat (mm), whatever the throat's width.",
     "group": "Chamber",
-    "initial": -1,
-    "max": 12,
-    "min": -1,
-    "name": "chamber_width_extra",
+    "initial": 14.5,
+    "max": 36,
+    "min": 4,
+    "name": "chamber_width",
     "step": 0.1,
     "type": "number"
    },

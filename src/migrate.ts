@@ -132,20 +132,65 @@ export function outlineSizes(text: string) {
   };
 }
 
-// chamber_width (mm) became chamber_width_extra (2026-10-03): the width vs the throat's, so every
-// value does something whatever the throat. An older file's width minus its throat (the
-// generator's 14.2 when it doesn't set one). A link's chamber_width still applies as it is.
+// chamber_width_extra (2026-10-03 to 2026-10-09: the chamber's width against the throat's, so the
+// chamber followed the throat) became chamber_width again (2026-10-10: mm, its own setting, so
+// Throat width moves only the throat). A design from then keeps its shape: its chamber width is its
+// throat plus its extra, each its own value or its file's. (Before 2026-10-03 chamber_width was
+// already in mm: such files and links apply as they are.)
+// What each project file had then [throat_width, chamber_width_extra], for stored values and links
+// whose file is today's text:
+export const CHAMBER_BEFORE: Record<string, [number, number]> = {
+  "alto.scad": [14.2, -0.4],
+  "tenor.scad": [14.9, -0.4],
+  "baritone.scad": [14.8, 0.6],
+  "soprano.scad": [9.3, 0.2],
+  "extras/c_melody.scad": [14.6, 0.8],
+  "lib/mouthpiece_base.scad": [14.2, 0.4],
+  "variants/alto_flamma.scad": [14.4, -0.2],
+  "variants/alto_silva.scad": [14.8, -1],
+  "variants/alto_unda.scad": [14.8, -1],
+  "variants/baritone_flamma.scad": [14.8, 0.6],
+  "variants/baritone_silva.scad": [14.8, 0.6],
+  "variants/baritone_unda.scad": [14.8, 0.6],
+  "variants/soprano_flamma.scad": [9.3, 0.2],
+  "variants/soprano_silva.scad": [9.9, -0.4],
+  "variants/soprano_unda.scad": [9.3, 0.2],
+  "variants/tenor_flamma.scad": [14.9, -0.4],
+  "variants/tenor_silva.scad": [15.5, -1],
+  "variants/tenor_unda.scad": [15.5, -1],
+};
+// A file text from then: its [throat_width, chamber_width_extra] (null for any other text).
+export function chamberBefore(text: string | undefined | null): [number, number] | null {
+  if (!text || text.includes("RENAMED_PARAMS")) return null;
+  const extra = assigned(text, "chamber_width_extra");
+  if (extra === null || assigned(text, "chamber_width") !== null || !Number.isFinite(Number(extra))) return null;
+  return [numberIn(text, "throat_width", 14.2), Number(extra)];
+}
+const r2 = (x: number) => Math.round(x * 100) / 100;
+// Changed values from then (`before` = their file's [throat, extra]): a changed throat or extra
+// becomes the chamber width it made.
+export function migrateChamberValues(
+  values: Record<string, ParamValue>,
+  before: [number, number] | null | undefined,
+): Record<string, ParamValue> {
+  if (!before) return values;
+  const { chamber_width_extra: extra, ...rest } = values;
+  if ("chamber_width" in rest || (extra === undefined && !("throat_width" in rest))) return rest;
+  const throat = Number(rest.throat_width ?? before[0]);
+  const e = Number(extra ?? before[1]);
+  return Number.isFinite(throat + e) ? { ...rest, chamber_width: r2(throat + e) } : rest;
+}
 function migrateChamber(text: string): string {
-  const width = assigned(text, "chamber_width");
-  if (width === null || assigned(text, "chamber_width_extra") !== null || !Number.isFinite(Number(width))) return text;
-  const extra = Math.round((Number(width) - numberIn(text, "throat_width", 14.2)) * 100) / 100;
+  const before = chamberBefore(text);
+  if (!before) return text;
+  const width = r2(before[0] + before[1]);
   return text
-    .replace(/^[ \t]*\/\/ Inside width of the chamber \(mm\); never narrower than the window\.\r?\n/m, "")
+    .replace(/^[ \t]*\/\/ Chamber width vs the throat's \(mm\)[^\r\n]*\r?\n/m, "")
     .replace(
-      /^([ \t]*)chamber_width\s*=[^;]*;[^\r\n]*/m,
+      /^([ \t]*)chamber_width_extra\s*=[^;]*;[^\r\n]*/m,
       (_m, indent: string) =>
-        `${indent}// Chamber width vs the throat's (mm): 0 = as wide, + wider (a larger chamber), - narrower.\n` +
-        `${indent}chamber_width_extra = ${extra}; // [-1:0.1:12]`,
+        `${indent}// Width of the chamber after the throat (mm), whatever the throat's width.\n` +
+        `${indent}chamber_width = ${width}; // [4:0.1:36]`,
     );
 }
 

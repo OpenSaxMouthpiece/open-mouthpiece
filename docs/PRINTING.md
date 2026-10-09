@@ -158,7 +158,7 @@ in tune (a tuner at A = 440). Then change one thing at a time:
 
 | What you hear or feel | Try |
 |---|---|
-| Too bright, harsh, edgy | lower `baffle_height` (negative), a positive `baffle_curve`, or a wider `chamber_width_extra` / positive `sidewall_angle` |
+| Too bright, harsh, edgy | lower `baffle_height` (negative), a positive `baffle_curve`, or a wider `chamber_width` / positive `sidewall_angle` |
 | Too dark, dull, doesn't project | raise `baffle_height`, add `baffle_hump`, or a negative `baffle_curve` |
 | Stuffy, resistant | wider `throat_width`; check the facing for leaks first |
 | Too free, spread, hard to control | a slightly smaller `tip_opening` or a shorter `facing_length` |

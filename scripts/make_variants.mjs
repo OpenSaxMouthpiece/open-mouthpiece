@@ -304,12 +304,8 @@ for (const voice of process.argv.slice(2)) {
       const room = vals.throat_position - num('shank_depth') - 1.5;
       if (num('throat_taper') > room) vals.throat_taper = r1(room);
     }
-    // The chamber's width (a family's chamber_width, else the preset's) as the width vs the
-    // variant's throat, so a family that changes only the throat keeps the preset's chamber.
-    const throat = vals.throat_width ?? num('throat_width');
-    const width = vals.chamber_width ?? num('throat_width') + num('chamber_width_extra');
-    delete vals.chamber_width;
-    vals.chamber_width_extra = Math.round((width - throat) * 100) / 100;
+    // The chamber's width is its own setting (mm): a family that changes only the throat keeps the
+    // preset's chamber.
     let out = src;
     for (const [k, val] of Object.entries(vals)) {
       const re = new RegExp(`^${k} = [^;]*;`, 'm');

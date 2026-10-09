@@ -340,6 +340,12 @@ inside = that + `CAP_CLEARANCE` (0.5), shaped by `cap_shape` (conform, or `lig_r
   tip_round -> tip_curve, side_text_height -> side_text_vertical, baffle_rollover -> baffle_hump.
   The app rewrites old names in files, saved designs and links (`src/migrate.ts`); the base declares
   the old names undef and warns if a file sets one (`RENAMED_PARAMS`).
+- **Chamber width** (2026-10-10): `chamber_width` is in mm and independent of the throat (Throat
+  width moves only the throat; a chamber narrower than the throat is allowed). From 2026-10-03 to
+  10-09 it was `chamber_width_extra` (vs the throat, so the chamber followed it): the base keeps it
+  hidden (undef; a file that sets it gets throat + extra), and the app converts files (text),
+  sessions (no `chamberMm` mark) and links (no `cw` mark) to the width they made, using the
+  design's own text or `CHAMBER_BEFORE` (what each project file had then).
 
 ## Presets
 

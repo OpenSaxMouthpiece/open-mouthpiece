@@ -1,6 +1,6 @@
 // Blend the alto and tenor presets into scad/extras/c_melody.scad by pitch. Fitted values as args:
 //   node scripts/blend_voices.mjs neck_cork_diameter:16.3 bore_diameter:16.1 table_width_tip:16.0
-//     table_width_rear:13.6 chamber_width_extra:0.8
+//     table_width_rear:13.6 chamber_width:15.4
 // Sounding pitch of written C: alto Eb (9 semitones down), C-melody C (12), tenor Bb (14).
 // t = (12 - 9) / (14 - 9) = 0.6 in log-frequency; sizes blend geometrically: a * (b/a)^t.
 import fs from 'fs';
@@ -25,7 +25,7 @@ const params = (src) => {
 const B = params(tenor);
 
 const geo = (a, b) => (a > 0 && b > 0 ? a * Math.pow(b / a, T) : a + T * (b - a));
-const LINEAR = new Set(['bore_tilt', 'chamber_width_extra', 'baffle_height', 'baffle_start', 'baffle_curve']);
+const LINEAR = new Set(['bore_tilt', 'baffle_height', 'baffle_start', 'baffle_curve']);
 const roundStep = (v, rest) => {
   const s = rest.match(/\[\s*-?[\d.]+\s*:\s*([\d.]+)\s*:/);
   if (!s) return +v.toFixed(2);
