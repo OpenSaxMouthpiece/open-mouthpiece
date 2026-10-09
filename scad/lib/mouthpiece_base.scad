@@ -2013,6 +2013,9 @@ lig_raise = 0;
 LIG_MARGIN = 0.03;
 LIG_N = 4 * round(render_fn * 1.5 / 4);                 // support directions per ring
 LIG_U = [for (i = [0 : LIG_N - 1]) let(a = -90 + (i - 0.5) * 360 / LIG_N) [cos(a), sin(a)]];
+// Support values of points P over LIG_U: one matrix product (LIG_U times P's columns), then each
+// row's max (several times faster than a loop per direction).
+function lig_sup(P) = [for (row = LIG_U * [[for (p = P) p[0]], [for (p = P) p[1]]]) max(row)];
 // The reed: any reed, so a nominal one, 3mm at the heel and as wide as the table (the band is a taper
 // fit: a thicker reed seats it a little further forward, a thinner one further back).
 LIG_REED_T = 3.0;
@@ -2042,7 +2045,7 @@ function lig_body_pts(z) =
 // otherwise, also ahead: conservative).
 function lig_support(z) =
   let(Pb = lig_body_pts(z), Pr = lig_reed_pts(z, max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
-  let(hb = [for (u = LIG_U) max([for (p = Pb) p * u])], hr = [for (u = LIG_U) max([for (p = Pr) p * u])])
+  let(hb = lig_sup(Pb), hr = lig_sup(Pr))
   [[for (i = [0 : LIG_N - 1]) max(hb[i], hr[i]) + m], [for (i = [0 : LIG_N - 1]) hb[i] + m]];
 function pmax(a, b) = [for (i = [0 : len(a) - 1]) max(a[i], b[i])];
 function pmax2(a, b) = [pmax(a[0], b[0]), pmax(a[1], b[1])];
@@ -2074,19 +2077,26 @@ function lig_env() =
 function lig_h_at(env, z) =
   let(f = clamp01((z - lig_zt) / (lig_z1 - lig_zt)) * lig_nb, i = min(lig_nb - 1, floor(f)), t = f - i)
   [for (k = [0 : LIG_N - 1]) lerp(env[i][k], env[i + 1][k], t)];
+// The same for direction k alone (a ring's corners each need only two of them).
+function lig_hk_at(env, z, k) =
+  let(f = clamp01((z - lig_zt) / (lig_z1 - lig_zt)) * lig_nb, i = min(lig_nb - 1, floor(f)), t = f - i)
+  lerp(env[i][k], env[i + 1][k], t);
 
 // Corner i of a ring from support values h pushed out by d: where lines i and i+1 meet (index 0 at
 // the bottom centre, counter-clockwise, as sring's rings run).
-function lig_corner(h, i, d) =
-  let(j = (i + 1) % LIG_N, a = LIG_U[i], b = LIG_U[j], ha = h[i] + d, hb = h[j] + d, det = a[0] * b[1] - a[1] * b[0])
+function lig_corner(h, i, d) = lig_corner2(h[i], h[(i + 1) % LIG_N], i, d);
+function lig_corner2(hi, hj, i, d) =
+  let(a = LIG_U[i], b = LIG_U[(i + 1) % LIG_N], ha = hi + d, hb = hj + d, det = a[0] * b[1] - a[1] * b[0])
   [(ha * b[1] - hb * a[1]) / det, (a[0] * hb - b[0] * ha) / det];
+// Corner i of the band's ring at z (from env, between stations).
+function lig_corner_at(env, z, i, d) = lig_corner2(lig_hk_at(env, z, i), lig_hk_at(env, z, (i + 1) % LIG_N), i, d);
 function lig_ring(h, z, d) = [for (i = [0 : LIG_N - 1]) concat(lig_corner(h, i, d), z)];
 // Ring t (0 = the rear edge, following the tongue; 1 = the front edge): each corner at its own z.
 // inset: that far inside both edges (the lettering's skin).
 function lig_ring_t(env, t, d, inset = 0) =
   [for (i = [0 : LIG_N - 1])
     let(th = -90 + i * 360 / LIG_N, z = lerp(lig_z0 - lig_tongue * lig_tongue_w(th) + inset, lig_z1 - inset, t))
-    concat(lig_corner(lig_h_at(env, z), i, d), z)];
+    concat(lig_corner_at(env, z, i, d), z)];
 
 function ring_perimeter(R) = vsum([for (i = [0 : len(R) - 1]) norm(R[(i + 1) % len(R)] - R[i])]);
 
@@ -2173,7 +2183,7 @@ function lig_ring_edge(env, t, d, inside) =
   [for (i = [0 : LIG_N - 1])
     let(th = -90 + i * 360 / LIG_N, zr = lig_z0 - lig_tongue * lig_tongue_w(th), len = lig_z1 - zr, z = lerp(zr, lig_z1, t))
     let(cut = inside ? max(0, LIG_EDGE_CI - (1 - t) * len) : -lig_edge_cut(t * len, (1 - t) * len))
-    concat(lig_corner(lig_h_at(env, z), i, d + cut), z)];
+    concat(lig_corner_at(env, z, i, d + cut), z)];
 
 module ligature_band() {
   env = lig_env();
@@ -2269,7 +2279,7 @@ CAP_IMAGE = cap_image == "same" ? top_image : cap_image;
 CAP_IMAGE_ASPECT = cap_image == "same" ? top_image_aspect : cap_image_aspect;
 CAP_HAS_ART = has_text(cap_text) || has_text(CAP_IMAGE);
 
-function cap_sup(P, c = 0) = [for (u = LIG_U) max([for (p = P) p * u]) + c];
+function cap_sup(P, c = 0) = [for (v = lig_sup(P)) v + c];
 function cap_add(h, c) = [for (v = h) v + c];
 // Support values moved inward can leave lines that no longer touch the shape (the corners between
 // neighbours then cross over): pull each such line in to the corner of its neighbours, a few times.
