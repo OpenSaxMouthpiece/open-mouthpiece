@@ -1672,17 +1672,25 @@ function shank_r_at(z) = let(E = exterior_ring_at(max(0, z)), c = bah_at(z)) min
 // The band's surface, direction by direction: on a boxy body the band is not round, and details
 // placed around one circle (its smallest radius) cut deeper and wider at the corners. Every detail
 // is instead laid on the surface at its own angle: SD_RGRID holds the surface's distance from the
-// bore axis per station (0.5mm apart) and angle (5 degrees; 90 = top), as shank_r_at (the table
-// plane cuts the underside), found by bisection along the ray.
+// bore axis in the bore frame (the details' frame, tilted from the design's: on a steep flare that
+// matters) per station (0.5mm apart, z + 1 along the axis) and angle (5 degrees; 90 = top), found by
+// bisection along the ray through the exterior rings, tabulated every 0.25mm (SD_EROWS); the table
+// plane cuts the underside, as in shank_r_at.
 function sd_inside(E, x, y) = y >= max(0, E[E_BOT]) &&
   (let(up = y >= E[E_CY], n = up ? E[E_NT] : E[E_NB], h = up ? E[E_TOP] - E[E_CY] : E[E_CY] - E[E_BOT])
   pow(abs(x) / E[E_HW], n) + pow(min(1.5, abs(y - E[E_CY]) / max(0.01, h)), n) <= 1);
-function sd_ray(E, c, a, lo = 0, hi = 40, i = 0) = i >= 16 ? (lo + hi) / 2
-  : let(m = (lo + hi) / 2) sd_inside(E, m * cos(a), c + m * sin(a)) ? sd_ray(E, c, a, m, hi, i + 1) : sd_ray(E, c, a, lo, m, i + 1);
 SD_GZ = [min(SD_SPAN[0], SHANK_BAND[0]) - 1.5, SHANK_BAND[1] + 2];
 SD_GN = ceil((SD_GZ[1] - SD_GZ[0]) / 0.5);
-SD_RGRID = !HAS_SHANK_ART ? [] : [for (i = [0 : SD_GN]) let(z = max(0, SD_GZ[0] + (SD_GZ[1] - SD_GZ[0]) * i / SD_GN), E = exterior_ring_at(z), c = bah_at(z))
-  [for (j = [0 : 71]) sd_ray(E, c, j * 5)]];
+SD_EZ0 = SD_GZ[0] - 3;
+SD_EROWS = !HAS_SHANK_ART ? [] : [for (z = [SD_EZ0 : 0.25 : SD_GZ[1] + 4]) exterior_ring_at(max(0, z))];
+function sd_E(z) = let(t = max(0, min(len(SD_EROWS) - 1.001, (z - SD_EZ0) / 0.25)), i = floor(t))
+  SD_EROWS[i] + (SD_EROWS[i + 1] - SD_EROWS[i]) * (t - i);
+SD_Y0 = bah_at(-1);
+function sd_ray(w, a, lo = 0, hi = 40, i = 0) = i >= 16 ? (lo + hi) / 2
+  : let(m = (lo + hi) / 2, y = m * sin(a), Y = SD_Y0 + y * cos(bore_tilt) - w * sin(bore_tilt), Z = -1 + y * sin(bore_tilt) + w * cos(bore_tilt))
+    sd_inside(sd_E(Z), m * cos(a), Y) ? sd_ray(w, a, m, hi, i + 1) : sd_ray(w, a, lo, m, i + 1);
+SD_RGRID = !HAS_SHANK_ART ? [] : [for (i = [0 : SD_GN]) let(z = SD_GZ[0] + (SD_GZ[1] - SD_GZ[0]) * i / SD_GN)
+  [for (j = [0 : 71]) sd_ray(z + 1, j * 5)]];
 function sd_r(z, a) = let(t = clamp01((z - SD_GZ[0]) / (SD_GZ[1] - SD_GZ[0])) * SD_GN, i = min(SD_GN - 1, floor(t)), fi = t - i,
     b = ((a % 360) + 360) % 360 / 5, j = floor(b) % 72, j1 = (j + 1) % 72, fj = b - floor(b))
   lerp(lerp(SD_RGRID[i][j], SD_RGRID[i][j1], fj), lerp(SD_RGRID[i + 1][j], SD_RGRID[i + 1][j1], fj), fi);
@@ -1724,10 +1732,12 @@ SD_FW = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / max(2, SD_COUNT
 // Twisted and fluted details run from past the end face to the band's end, easing out over their
 // last mm at 45 degrees (no ledge to print standing on the end face).
 function sd_ease(z, k) = max(0.05, min(k, SD_SPAN[1] - z));
+// apex_out: the raised knurl's grooves, their point 0.3mm under the surface so each diamond is rooted
+// in the body (the faceted surface lies a little inside the true one sd_r gives).
 module sd_knurl(apex_out) {
   for (s = [-1, 1], i = [0 : max(2, SD_COUNT) - 1])
     sd_sweep(sd_helix_path(i * 360 / max(2, SD_COUNT), s * SD_KNURL_LEAD, SD_SPAN[0] - 0.5, SD_SPAN[1],
-      function(z) apex_out ? sd_vee(-0.01, SHANK_CUT + 0.5) : sd_vee(sd_ease(z, SD_K))));
+      function(z) apex_out ? sd_vee(0.3, SHANK_CUT + 0.5) : sd_vee(sd_ease(z, SD_K))));
 }
 
 module shank_cutter() {

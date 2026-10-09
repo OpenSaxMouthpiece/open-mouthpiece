@@ -188,7 +188,7 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
   `shank_detail_position`; older files' `ring` = rings, 1; `flutes`: V grooves along it; `spiral`:
   1-4 half-round starts; `knurled`: V grooves both ways). Each is a tube swept over the surface
   (`sd_sweep`: a profile per slice, placed from the surface under each point, `sd_r` from the
-  `SD_RGRID` of surface radii by station and angle): the band is only round on a round body, and
+  `SD_RGRID` of surface radii by station and angle, in the tilted bore frame): the band is only round on a round body, and
   details built around one circle cut deeper and wider at a boxy body's corners. Profiles reach
   only ~1mm past the surface (wide ones fold over themselves on a twisted path). And
   `shank_text` runs around it (2mm strips wedged out along the radius, as the wrapped picture; read
