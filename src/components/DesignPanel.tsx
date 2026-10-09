@@ -499,16 +499,16 @@ export function Credits({ donate = true }: { donate?: boolean } = {}) {
   return (
     <>
       <p className="preset-credit muted">
-        The presets are measured from Windy City Woodwinds' mouthpieces on Thingiverse:{" "}
+        Thanks to Windy City Woodwinds, whose mouthpieces (
         {PRESET_SOURCES.map((s, i) => (
           <span key={s.url}>
             {i ? ", " : ""}
             <a href={s.url} target="_blank" rel="noreferrer">
-              {s.label}
+              {s.label.replace(/^"64" /, "")}
             </a>
           </span>
         ))}
-        .
+        ) the presets are based on.
       </p>
       <p className="preset-credit muted">
         The geometry is made by{" "}
