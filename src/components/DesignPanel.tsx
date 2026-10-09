@@ -23,7 +23,7 @@ import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
 import { Menu } from "./Menu";
 import { usePref } from "../uiPrefs";
-import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL, REPO_URL } from "../links";
+import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL } from "../links";
 
 interface Props {
   title: string;
@@ -511,7 +511,7 @@ export function Credits({ donate = true }: { donate?: boolean } = {}) {
         ) the presets are based on.
       </p>
       <p className="preset-credit muted">
-        The geometry is made by{" "}
+        Built with{" "}
         <a href="https://openscad.org" target="_blank" rel="noreferrer">
           OpenSCAD
         </a>{" "}
@@ -519,17 +519,7 @@ export function Credits({ donate = true }: { donate?: boolean } = {}) {
         <a href="https://github.com/openscad/openscad" target="_blank" rel="noreferrer">
           source
         </a>
-        ), running in your browser.
-        {REPO_URL && (
-          <>
-            {" "}
-            Open Mouthpiece is free software (GPL-3.0-or-later):{" "}
-            <a href={REPO_URL} target="_blank" rel="noreferrer">
-              source code
-            </a>
-            .
-          </>
-        )}
+        ).
       </p>
       {donate && DONATE_URL && (
         <p className="donate-note muted">
