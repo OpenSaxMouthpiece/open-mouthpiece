@@ -130,11 +130,11 @@ top_text_angle = 90; // [0:90:270]
 // Moves the top text toward the tip (+) or the shank (-) (mm).
 top_text_position = 0; // [-50:0.5:50]
 // A picture (SVG file) on top; solid shapes work, thin line drawings don't.
-top_image = "";
+top_image = "cedar_tree.svg";
 // Picture width (mm).
-top_image_width = 14; // [4:0.5:90]
+top_image_width = 11; // [4:0.5:90]
 // Picture height / width, for spacing (the app fills it in).
-top_image_aspect = 1; // [0.1:0.01:10]
+top_image_aspect = 1.5; // [0.1:0.01:10]
 // Picture rotation (degrees).
 top_image_angle = 0; // [0:15:345]
 // Moves the picture toward the tip (+) or the shank (-) (mm).

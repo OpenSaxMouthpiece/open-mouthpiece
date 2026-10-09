@@ -20,6 +20,9 @@ Examples (original drawings, same license as the project):
 | `bird.svg` | 12 mm or more |
 | `wave.svg` | 12 mm or more |
 | `lightning.svg` | 8 mm or more |
+| `ash_leaf.svg` | 10 mm or more |
+| `birch_leaf.svg` | 8 mm or more |
+| `cedar_tree.svg` | 8 mm or more |
 
 ## Making your own
 

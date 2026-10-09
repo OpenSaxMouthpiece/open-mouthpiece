@@ -9395,7 +9395,7 @@
   ]
  },
  "variants/alto_ash.scad": {
-  "hash": "43ef1d70-19562",
+  "hash": "1ee0594-19576",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10003,14 +10003,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "ash_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 10,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -10020,7 +10020,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -11274,7 +11274,7 @@
   ]
  },
  "variants/alto_birch.scad": {
-  "hash": "c77cb639-19582",
+  "hash": "659942a7-19598",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11882,14 +11882,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "birch_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 10,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -11899,7 +11899,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -13153,7 +13153,7 @@
   ]
  },
  "variants/alto_cedar.scad": {
-  "hash": "4f0c96e6-19552",
+  "hash": "3f85cad7-19568",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13761,14 +13761,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "cedar_tree.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 10,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -13778,7 +13778,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -15032,7 +15032,7 @@
   ]
  },
  "variants/baritone_ash.scad": {
-  "hash": "15424741-19747",
+  "hash": "4dbc6e13-19761",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15640,14 +15640,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "ash_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 12,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -15657,7 +15657,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -16911,7 +16911,7 @@
   ]
  },
  "variants/baritone_birch.scad": {
-  "hash": "18e181bb-19768",
+  "hash": "bef4e043-19784",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17519,14 +17519,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "birch_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 12,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -17536,7 +17536,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -18790,7 +18790,7 @@
   ]
  },
  "variants/baritone_cedar.scad": {
-  "hash": "747b051-19732",
+  "hash": "48557f9c-19748",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19398,14 +19398,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "cedar_tree.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 12,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -19415,7 +19415,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -20669,7 +20669,7 @@
   ]
  },
  "variants/soprano_ash.scad": {
-  "hash": "2168c771-19769",
+  "hash": "c2060d15-19782",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21277,14 +21277,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "ash_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 9,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -21294,7 +21294,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -22548,7 +22548,7 @@
   ]
  },
  "variants/soprano_birch.scad": {
-  "hash": "17584c7b-19787",
+  "hash": "d74cab6d-19802",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23156,14 +23156,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "birch_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 9,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -23173,7 +23173,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -24427,7 +24427,7 @@
   ]
  },
  "variants/soprano_cedar.scad": {
-  "hash": "4ee2a7f2-19756",
+  "hash": "4ee807fb-19771",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25035,14 +25035,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "cedar_tree.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 9,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -25052,7 +25052,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -26306,7 +26306,7 @@
   ]
  },
  "variants/tenor_ash.scad": {
-  "hash": "2020212d-19952",
+  "hash": "20113b98-19966",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26914,14 +26914,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "ash_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 11,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -26931,7 +26931,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -28185,7 +28185,7 @@
   ]
  },
  "variants/tenor_birch.scad": {
-  "hash": "3e7dd6d0-19963",
+  "hash": "1cf8402d-19979",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28793,14 +28793,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "birch_leaf.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 11,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -28810,7 +28810,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",
@@ -30064,7 +30064,7 @@
   ]
  },
  "variants/tenor_cedar.scad": {
-  "hash": "3de93ef6-19931",
+  "hash": "4b33aa00-19947",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30672,14 +30672,14 @@
    {
     "caption": "A picture (SVG file) on top; solid shapes work, thin line drawings don't.",
     "group": "Lettering",
-    "initial": "",
+    "initial": "cedar_tree.svg",
     "name": "top_image",
     "type": "string"
    },
    {
     "caption": "Picture width (mm).",
     "group": "Lettering",
-    "initial": 14,
+    "initial": 11,
     "max": 90,
     "min": 4,
     "name": "top_image_width",
@@ -30689,7 +30689,7 @@
    {
     "caption": "Picture height / width, for spacing (the app fills it in).",
     "group": "Lettering",
-    "initial": 1,
+    "initial": 1.5,
     "max": 10,
     "min": 0.1,
     "name": "top_image_aspect",

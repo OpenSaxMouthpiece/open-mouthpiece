@@ -40,10 +40,12 @@ for (let i = 0; i < baseLines.length; i++) {
   keep.push(baseLines[i]);
 }
 // A single file can't carry the lettering fonts in lib/fonts/: drop their use<>s (the Liberation
-// choices ship with OpenSCAD; the others fall back to its default font). top_image needs art/.
+// choices ship with OpenSCAD; the others fall back to its default font). Pictures were imported
+// relative to lib/ ("../art/"): now from art/ beside the bundle, as src/bundle.ts does.
 const baseBody = keep
   .filter((l) => !/^use <fonts\//.test(l))
   .join('\n')
+  .replace(/import\(str\("\.\.\/art\/", /g, 'import(str("art/", ')
   .replace(/^\/\* \[(?!Hidden)[^\]]*\] \*\/\n(\n|$)/gm, ''); // now-empty tab markers
 
 const out = [

@@ -141,6 +141,8 @@ function nodeScript(script, scriptArgs) {
 async function checkBundle(file, tag, m, r) {
   const bundled = path.join(OUT, `${tag}_bundled.scad`);
   nodeScript('bundle_scad.mjs', [file, '-o', bundled]);
+  // A bundle reads its pictures from art/ beside it (as the app serves them).
+  fs.cpSync(path.join(SCAD, 'art'), path.join(OUT, 'art'), { recursive: true });
   const btext = fs.readFileSync(bundled, 'utf8');
   if (migrateScad(btext) !== btext)
     r.problems.push('the app would change the bundled file on opening it (src/migrate.ts)');
