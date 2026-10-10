@@ -152,10 +152,7 @@ path's width (the window's width under the window), so it never reaches the side
 A dent the wall cuts to under 40% of its depth there is left out (a faint one looks like a speck);
 grooves across take one even depth each, the shallowest along them (`btx_even`), so they end
 cleanly instead of breaking up where the wall over the middle thins (a scooped beak).
-Engraved, the beak makes room for it: where it is thinner over the baffle than the wall plus 1.3 x
-the depth (a scooped beak, Unda), its top rises by the difference (`btx_room`, `E_LIFT`; smooth,
-<= ~0.5mm at 0.4mm deep) and the roof stays where it was, so the texture reaches the tip and the air
-is unchanged. Raised bumps are cut from the interior before it is cut from the body (they only fill air). The air
+Raised bumps are cut from the interior before it is cut from the body (they only fill air). The air
 readout counts the texture (`BTX_AIR`, a grid integral of the caps, `btx_volume`; within ~20% of
 the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.07 cm³). Costs
 ~0.3-1.3s per render.
