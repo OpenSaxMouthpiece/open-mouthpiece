@@ -5,9 +5,7 @@ const variant = "include <../lib/mouthpiece_base.scad>  // keep first\ntip_openi
 
 describe("rebaseGenerator", () => {
   it("points a copied variant's include at the generator from its new folder", () => {
-    expect(rebaseGenerator(variant, "my_c_melody.scad")).toMatch(
-      /^include <lib\/mouthpiece_base\.scad>  \/\/ keep first/,
-    );
+    expect(rebaseGenerator(variant, "my_c_melody.scad")).toBe(variant.replace("../lib/", "lib/"));
     expect(rebaseGenerator(variant, "variants/alto_unda.scad")).toBe(variant);
     expect(rebaseGenerator(variant, "a/b/c.scad")).toMatch(/^include <\.\.\/\.\.\/lib\/mouthpiece_base\.scad>/);
   });
