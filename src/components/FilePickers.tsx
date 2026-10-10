@@ -50,11 +50,7 @@ function GroupOptions({
     <>
       {groups.own.length > 0 && <optgroup label="Your designs">{options(groups.own, prefix, note)}</optgroup>}
       <optgroup label="Presets">{options(groups.presets, prefix, note)}</optgroup>
-      {groups.variants.length > 0 && (
-        <optgroup label="Variants (Flamma, Silva, Unda: other shapes of each voice)">
-          {options(groups.variants, prefix, note)}
-        </optgroup>
-      )}
+      {groups.variants.length > 0 && <optgroup label="Variants">{options(groups.variants, prefix, note)}</optgroup>}
       {groups.extras.length > 0 && <optgroup label="Extras">{options(groups.extras, prefix, note)}</optgroup>}
     </>
   );
