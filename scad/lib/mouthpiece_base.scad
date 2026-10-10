@@ -1429,7 +1429,9 @@ Z_STEP = 64 / render_fn;
 // The interior's rings, computed ONCE and shared by the interior loft, the air-volume readout and
 // the clearance report: [[z, ring, points], ...] from the end of the socket to the window front.
 // Not needed by the ligature, cap and reed parts: skipped there (each run evaluates the whole file).
-AIR_RINGS = (part == "ligature_seated" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap") ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
+ACCESSORY_PART = part == "ligature_seated" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap"
+  || part == "metal_ligature_model";
+AIR_RINGS = ACCESSORY_PART ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
   let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 
 // ---- Exterior: tenon -> flare -> tapered body -> beak -> wide rounded tip, as one loft. The
@@ -1852,14 +1854,15 @@ function sd_inside(E, x, y) = y >= max(0, E[E_BOT]) &&
 SD_GZ = [min(SD_SPAN[0], SHANK_BAND[0]) - 1.5, SHANK_BAND[1] + 2];
 SD_GN = ceil((SD_GZ[1] - SD_GZ[0]) / 0.5);
 SD_EZ0 = SD_GZ[0] - 3;
-SD_EROWS = !HAS_SHANK_ART ? [] : [for (z = [SD_EZ0 : 0.25 : SD_GZ[1] + 4]) exterior_ring_at(max(0, z))];
+// (skipped on the accessory parts, which have no shank, like AIR_RINGS)
+SD_EROWS = !HAS_SHANK_ART || ACCESSORY_PART ? [] : [for (z = [SD_EZ0 : 0.25 : SD_GZ[1] + 4]) exterior_ring_at(max(0, z))];
 function sd_E(z) = let(t = max(0, min(len(SD_EROWS) - 1.001, (z - SD_EZ0) / 0.25)), i = floor(t))
   SD_EROWS[i] + (SD_EROWS[i + 1] - SD_EROWS[i]) * (t - i);
 SD_Y0 = bah_at(-1);
-function sd_ray(w, a, lo = 0, hi = 40, i = 0) = i >= 16 ? (lo + hi) / 2
+function sd_ray(w, a, lo = 0, hi = 40, i = 0) = i >= 12 ? (lo + hi) / 2
   : let(m = (lo + hi) / 2, y = m * sin(a), Y = SD_Y0 + y * cos(bore_tilt) - w * sin(bore_tilt), Z = -1 + y * sin(bore_tilt) + w * cos(bore_tilt))
     sd_inside(sd_E(Z), m * cos(a), Y) ? sd_ray(w, a, m, hi, i + 1) : sd_ray(w, a, lo, m, i + 1);
-SD_RGRID = !HAS_SHANK_ART ? [] : [for (i = [0 : SD_GN]) let(z = SD_GZ[0] + (SD_GZ[1] - SD_GZ[0]) * i / SD_GN)
+SD_RGRID = !HAS_SHANK_ART || ACCESSORY_PART ? [] : [for (i = [0 : SD_GN]) let(z = SD_GZ[0] + (SD_GZ[1] - SD_GZ[0]) * i / SD_GN)
   [for (j = [0 : 71]) sd_ray(z + 1, j * 5)]];
 function sd_r(z, a) = let(t = clamp01((z - SD_GZ[0]) / (SD_GZ[1] - SD_GZ[0])) * SD_GN, i = min(SD_GN - 1, floor(t)), fi = t - i,
     b = ((a % 360) + 360) % 360 / 5, j = floor(b) % 72, j1 = (j + 1) % 72, fj = b - floor(b))
@@ -2161,7 +2164,7 @@ LETTERING_SPAN = let(ext = concat(
 
 // Baffle texture data (see baffle_texture_solid): rows of samples, computed once, none for the
 // ligature / cap parts (no AIR_RINGS there).
-BTX_ON = baffle_texture != "none" && len(AIR_RINGS) > 0;
+BTX_ON = baffle_texture != "none" && len(AIR_RINGS) > 0 && part != "shank_test_ring";   // far from the shank
 BTX_RAISED = baffle_texture_style == "raised";
 BTX_D = baffle_texture_depth;
 BTX_S = baffle_texture_spacing;
