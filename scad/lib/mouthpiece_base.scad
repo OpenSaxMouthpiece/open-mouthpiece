@@ -788,8 +788,8 @@ function exterior_bottom_from(z, hw, top, n_bot) =
   lerp(rear, table_bot_line(z, hw, top, n_bot), smootherstep(clamp01((z - table_start_z) / table_ramp)));
 
 // The exterior cross-section at z, every term computed once:
-//   [half_width, top, bottom, widest_y, top_exponent, bottom_exponent]  (indices E_*)
-E_HW = 0; E_TOP = 1; E_BOT = 2; E_CY = 3; E_NT = 4; E_NB = 5;
+//   [half_width, top, bottom, widest_y, top_exponent, bottom_exponent, texture lift]  (indices E_*)
+E_HW = 0; E_TOP = 1; E_BOT = 2; E_CY = 3; E_NT = 4; E_NB = 5; E_LIFT = 6;
 // A top exponent below 2 makes a ridge along the top center. Fine on the body, but where the beak
 // thins out toward the tip it becomes a spike, so it eases up to TIP_TOP_EXP before the tip curve:
 // 1.8, nearly round (2 made the top near the tip flatter and wider than real beaks; 1.8 shows no spike).
@@ -821,7 +821,12 @@ function exterior_ring_at(z) =
   // The very front rounds over (top down to the widest point): the rings close to a vertical line
   // at the tip, and with the top at full height the facets fanned into a point on the crest.
   let(top_n = cy + (top - cy) * tip_factor(L - z, tip_nose))
-  [hw, top_n, bot, cy, n_top, n_bot];
+  // Engraved baffle texture: where the beak is thinner over the baffle than the wall plus the
+  // dents' room (a scooped beak), its top rises by the difference (smoothly, never less), and
+  // E_LIFT tells the interior to keep its roof where it was. Elsewhere 0: the shape as designed.
+  let(need = btx_room(z))
+  let(lift = need <= 0 ? 0 : let(spare = top_n - interior_wall(z) - baffle_roof(z)) -smin(-(need - max(0, spare)), 0, 0.6))
+  [hw, top_n + lift, bot, cy, n_top, n_bot, lift];
 
 // Half-width of exterior ring E at height y (inverting the superellipse) — lets the interior clamp
 // against the real cross-section, not just the widest point.
@@ -904,6 +909,15 @@ BAFFLE_BASE_C = pchip_prep(baffle_base_pts);
 baffle_z0 = baffle_base_pts[0][0];
 baffle_z1 = baffle_base_pts[len(baffle_base_pts) - 1][0];
 baffle_start_z = max(shank_taper_end_z + 2, min(baffle_z0 + baffle_start, baffle_z1 - 5));
+// The baffle texture's stretch (see baffle_texture_solid), here because the beak makes room for
+// engraved dents over it (btx_room, exterior_ring_at).
+BTX_Z0 = baffle_start_z + 4;
+BTX_Z1 = L - tip_curve - 2;
+function btx_fade(z) = smootherstep(clamp01((z - BTX_Z0) / 3)) * smootherstep(clamp01((BTX_Z1 - z) / 3));
+// Depth the beak keeps free over the baffle for engraved texture, on top of interior_wall (0 where
+// there is none). 1.3 x the depth: the dents off the middle sit where the beak's top curves down.
+function btx_room(z) = baffle_texture == "none" || baffle_texture_style != "engraved" ? 0
+  : 1.3 * baffle_texture_depth * btx_fade(z);
 // baffle_curve bends any baffle along its length (0 = as is): below 0 it comes down toward the
 // reed early and runs flatter to the tip, above 0 it stays up and drops late. u -> u^(2^c).
 function baffle_warp(u) = baffle_curve == 0 ? u : pow(u, pow(2, baffle_curve));
@@ -972,7 +986,7 @@ function window_floor_y(z) = facing_at_z(z) + 0.8;
 // recursion): the exterior top less the wall, or the baffle where that is lower. The window-region
 // width clamp is taken at this height, where the roof corners are.
 function roof_cap_y(z, E) =
-  let(cap = E[E_TOP] - interior_wall(z))
+  let(cap = E[E_TOP] - E[E_LIFT] - interior_wall(z))
   z >= baffle_start_z ? min(cap, baffle_roof(z)) : cap;
 
 // Mid-height half-width. E = exterior_ring_at(z).
@@ -1070,7 +1084,7 @@ function interior_ring_at(z) = interior_ring_pts_at(z)[0];
 // [ring, its points]: the points come free with the last fit pass.
 function interior_ring_pts_at(z) =
   let(E = exterior_ring_at(z), hw0 = interior_half_w(z, E), bot0 = interior_bottom_y(z, E, hw0), ne = interior_exps(z))
-  let(cap = E[E_TOP] - interior_wall(z))
+  let(cap = E[E_TOP] - E[E_LIFT] - interior_wall(z))
   // the roof blends from the round bore/chamber into the baffle over 4mm (no step when the
   // baffle start is moved)
   let(bore_roof = bah_at(z) + hw0 + chamber_extra * chamber_weight(z) * chamber_roof_share(z))
@@ -1157,7 +1171,7 @@ function int_hw_at_y(I, y) =
 // nothing there; fits = the sphere has room across there, whatever the depth).
 function btx_row(z, xs) =
   let(I = interior_ring_at(z), E = exterior_ring_at(z), cy = (I[1] + I[2]) / 2)
-  let(fade = smootherstep(clamp01((z - BTX_Z0) / 3)) * smootherstep(clamp01((BTX_Z1 - z) / 3)))
+  let(fade = btx_fade(z))
   let(keep = interior_wall(z) + (HAS_LETTERING && z > LETTERING_SPAN[0] - 1 && z < LETTERING_SPAN[1] + 1 ? eff_lettering_depth : 0))
   let(low = max(I[2], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)))
   [for (x = xs)
@@ -2169,8 +2183,6 @@ BTX_RAISED = baffle_texture_style == "raised";
 BTX_D = baffle_texture_depth;
 BTX_S = baffle_texture_spacing;
 BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D));
-BTX_Z0 = baffle_start_z + 4;
-BTX_Z1 = L - tip_curve - 2;
 BTX_SPAN = BTX_Z1 - BTX_Z0;
 BTX_ROWS = !BTX_ON || BTX_SPAN <= 2 ? [] :
   baffle_texture == "along" ? [for (z = [BTX_Z0 : 1 : BTX_Z1]) btx_row(z, [for (k = [-6 : 6]) k * BTX_S])] :
