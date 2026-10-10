@@ -1717,6 +1717,42 @@ module wrap_zone(hw, y_hi) {
     let(lo = wrap_floor(z, E)) [[-hw, lo, z], [hw, lo, z], [hw, y_hi, z], [-hw, y_hi, z]]]);
 }
 
+// Engraved designs are cut slanting toward the shank, not straight in: standing on its neck end to
+// print (tilted by bore_tilt), a straight cut's roofs are flat ledges, and a thin bit of body left
+// between two strokes droops outward, starting in mid-air (a slicer's "floating regions"). Slanted,
+// every roof rises at least 45 degrees outward. The slant pivots on a plane through the surface (o0
+// out at zc and x = 0, rising m per mm along z and gx per mm along x), so the design keeps its shape
+// and place on the surface; only the floor moves (by s times the depth) toward the shank. dir: the
+// design's outward direction.
+TOP_SLANT = tan(45 + max(-3, bore_tilt));             // outward on the top tips down by bore_tilt as printed
+SIDE_SLANT = 1 / sqrt(cos(2 * min(20, abs(bore_tilt))));
+module slant(sl, dir, o0, m, zc, gx = 0) {
+  multmatrix([[1, 0, 0, 0], [0, 1, 0, 0], [sl * (dir[0] - gx), sl * dir[1], 1 - sl * m, sl * (m * zc - o0)], [0, 0, 0, 1]]) children();
+}
+// The top's height at x on ring E (the superellipse above the widest point).
+function ring_top_at_x(E, x) = let(h = E[E_TOP] - E[E_CY], f = min(1, abs(x) / max(0.01, E[E_HW])))
+  E[E_CY] + h * pow(max(0, 1 - pow(f, E[E_NT])), 1 / E[E_NT]);
+// A flat design (2D children) cut into the top around zc (len along z, w across, either way): in 2mm
+// strips across, each slanting about the surface's chord across it (the top is crowned; neighbours
+// meet on their shared edge), each starting just under the lowest surface it spans.
+module slanted_top(zc, len, w, hw_hi, y_hi) {
+  r = min(hw_hi, norm([len, w]) / 2 + 1);
+  sw = 2;
+  n = ceil(r / sw);
+  zs = [for (i = [-1 : 1]) zc + i * (len / 2 + 1)];
+  Es = [for (z = zs) exterior_ring_at(max(0, min(L, z)))];
+  for (k = [-n : n - 1])
+    let(xa = k * sw, xb = xa + sw, xm = xa + sw / 2, ys = [for (E = Es) ring_top_at_x(E, xm)])
+    let(ya = ring_top_at_x(Es[1], xa), gx = (ring_top_at_x(Es[1], xb) - ya) / sw)
+    let(m = (ys[2] - ys[0]) / (zs[2] - zs[0]), y_lo = min([for (E = Es, x = [xa, xm, xb]) ring_top_at_x(E, x)]) - eff_lettering_depth - 1)
+    slant(TOP_SLANT, [0, 1, 0], ya - gx * xa, m, zc, gx)
+      translate([0, y_lo, zc]) rotate([-90, 0, 0]) linear_extrude(height = max(1, y_hi - y_lo))
+        intersection() {
+          children();
+          translate([xa - 0.05, -100]) square([sw + 0.1, 200]);
+        }
+}
+
 // The design prisms, clipped to their zones (in the design frame).
 module lettering_prisms() {
   Es = [for (i = [0 : 16]) exterior_ring_at(LETTERING_SPAN[0] + (LETTERING_SPAN[1] - LETTERING_SPAN[0]) * i / 16)];
@@ -1725,8 +1761,7 @@ module lettering_prisms() {
   if (has_text(top_image) && !top_image_wrap)
     intersection() {
       lettering_zone(true, hw_hi, y_hi);
-      translate([0, 0, top_image_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi)
-        top_image_2d();
+      slanted_top(top_image_z, top_image_len, top_image_width, hw_hi, y_hi) top_image_2d();
     }
   if (has_text(top_image) && top_image_wrap)
     intersection() {
@@ -1738,16 +1773,20 @@ module lettering_prisms() {
       lettering_zone(true, hw_hi, y_hi);
       // Readable from above: across the body with the tip pointing away (90), or along it reading
       // toward the tip (0).
-      translate([0, 0, top_text_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi)
+      slanted_top(top_text_z, top_text_len, max(top_text_len, text_block(top_text, top_text_size)[0]), hw_hi, y_hi)
         rotate(-90 - top_text_angle) lettering_text(top_text, top_text_size, font_name(top_text_font));
     }
   // In from each side, upright as seen from that side.
   for (side = [[-1, side_text_right], [1, side_text_left]]) if (has_text(side[1]))
     intersection() {
       lettering_zone(false, hw_hi, y_hi);
-      translate([0, side_text_y, side_text_z])
-        multmatrix([[0, 0, side[0], 0], [0, 1, 0, 0], [-side[0], 0, 0, 0], [0, 0, 0, 1]])
-          linear_extrude(height = hw_hi) lettering_text(side[1], side_text_size, font_name(side_text_font));
+      let(sd = side[0], zs = [for (i = [-1 : 1]) side_text_z + i * (side_text_long / 2 + 1)],
+          os = [for (z = zs) ring_half_width_at_y(exterior_ring_at(z), side_text_y)],
+          m = (os[2] - os[0]) / (zs[2] - zs[0]), o_lo = min(os) - eff_lettering_depth - 1.5)
+      slant(SIDE_SLANT, [sd, 0, 0], os[1], m, side_text_z)
+        translate([sd * o_lo, side_text_y, side_text_z])
+          multmatrix([[0, 0, sd, 0], [0, 1, 0, 0], [-sd, 0, 0, 0], [0, 0, 0, 1]])
+            linear_extrude(height = hw_hi - o_lo) lettering_text(side[1], side_text_size, font_name(side_text_font));
     }
 }
 
@@ -1863,10 +1902,12 @@ SD_FW = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / max(2, SD_COUNT
 // Twisted and fluted details run from past the end face to the band's end, easing out over their
 // last mm at 45 degrees (no ledge to print standing on the end face).
 function sd_ease(z, k) = max(0.05, min(k, SD_SPAN[1] - z));
-// The spiral fades into the body over its last half turn instead: narrower and shallower (or lower),
-// eased at both ends of the fade.
+// The spiral fades in and out of the body over a half turn at each end instead: narrower and
+// shallower (or lower), eased at both ends of the fade. It starts at the band (clear of the end
+// face it prints standing on), not at the end face.
 SD_TAPER = SD_LEAD / 2;
-function sd_taper(z, k) = let(t = clamp01((SD_SPAN[1] - z) / SD_TAPER)) max(0.05, k * t * t * (3 - 2 * t));
+SD_SPIRAL_Z0 = min(SHANK_BAND[0], SD_SPAN[1] - 2 * SD_TAPER);
+function sd_taper(z, k) = let(t = clamp01(min(SD_SPAN[1] - z, z - SD_SPIRAL_Z0) / SD_TAPER)) max(0.05, k * t * t * (3 - 2 * t));
 // apex_out: the raised knurl's grooves, their point 0.3mm under the surface so each diamond is rooted
 // in the body (the faceted surface lies a little inside the true one sd_r gives).
 module sd_knurl(apex_out) {
@@ -1887,7 +1928,7 @@ module shank_cutter() {
         function(z) sd_vee(sd_ease(z, min(SD_FW / 2, shank_room(max(0, z), max(0, z)))))));
   if (!SHANK_RAISED && SD_KIND == "spiral")
     bore_frame() for (i = [0 : SD_STARTS - 1])
-      sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0] - 0.5, SD_SPAN[1], function(z) sd_groove(sd_taper(z, SD_K))));
+      sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPIRAL_Z0, SD_SPAN[1], function(z) sd_groove(sd_taper(z, SD_K))));
   if (!SHANK_RAISED && SD_KIND == "knurled") bore_frame() sd_knurl(false);
   if (has_text(shank_text)) shank_text_cutter();
 }
@@ -1908,7 +1949,7 @@ module shank_raised() {
               function(z) [[-1, -SD_FW / 2], [0, -SD_FW / 2], [SD_FW / 2, 0], [0, SD_FW / 2], [-1, SD_FW / 2]]));
         if (SD_KIND == "spiral")
           for (i = [0 : SD_STARTS - 1])
-            sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0], SD_SPAN[1], function(z) sd_bead(sd_taper(z, SHANK_CUT))));
+            sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPIRAL_Z0, SD_SPAN[1], function(z) sd_bead(sd_taper(z, SHANK_CUT))));
         if (SD_KIND == "knurled")
           difference() {
             translate([0, 0, SD_SPAN[0] + 1]) cylinder(r = SD_R[1] + SHANK_CUT + 9, h = SD_SPAN[1] - SD_SPAN[0], $fn = EXT_RING_POINTS);

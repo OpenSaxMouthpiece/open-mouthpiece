@@ -183,6 +183,12 @@ the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.0
   max(3.5, underside + 1) to 0.5mm below the split (top and side cuts meeting along an edge made
   holes; a raised letter below the split floated loose). Engraving leaves >= 0.8mm of
   `interior_wall()`.
+- **Slanted cuts** (`slant`, `slanted_top`): the flat top picture, top text and side text are cut
+  slanting toward the shank (`TOP_SLANT` = tan(45° + `bore_tilt`), `SIDE_SLANT`), so standing on the
+  neck end every roof rises >= 45° outward: straight cuts left flat ledges and, on the top (tipped
+  down by `bore_tilt` as printed), thin bits between strokes that started in mid-air (slicers'
+  "floating regions"). Each shears about a plane through the surface, so the outline stays put; the
+  top in 2mm strips across, each about the surface's chord (the top is crowned). Not the wrapped picture.
 - **Top picture**: `top_image` = an SVG name in `scad/art/`, imported as `"../art/" + name`,
   `center = true`, `resize([top_image_width, 0], auto = true)`, cut like the top text. OpenSCAD can't
   measure an import, so `top_image_aspect` (height / width) is filled in by the app's picker; it only
@@ -208,7 +214,7 @@ the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.0
   from the end, so they get that much of the flare; `shank_detail_length` > 0 sets the end instead), short of the reed's heel. `shank_detail` cuts
   grooves into it (`rings`: half-round, as many as fit up to `shank_detail_count`, one at
   `shank_detail_position`; older files' `ring` = rings, 1; `flutes`: V grooves along it; `spiral`:
-  1-4 half-round starts, fading out over their last half turn (`sd_taper`); `knurled`: V grooves both ways). Each is a tube swept over the surface
+  1-4 half-round starts from the band's start (clear of the end face), fading in and out over a half turn (`sd_taper`); `knurled`: V grooves both ways). Each is a tube swept over the surface
   (`sd_sweep`: a profile per slice, placed from the surface under each point, `sd_r` from the
   `SD_RGRID` of surface radii by station and angle, in the tilted bore frame): the band is only round on a round body, and
   details built around one circle cut deeper and wider at a boxy body's corners. Profiles reach

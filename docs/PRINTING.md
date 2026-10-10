@@ -57,7 +57,7 @@ Suggested settings (a starting point, not gospel):
 **Supports:** measured on the presets, surfaces steeper than 45° are under 0.5% of each
 mouthpiece: the tip rail bridging over the window at the very top, a small ledge at the beak
 shoulder on the tenor, and a few mm² inside the bore. Your slicer may flag them, but they print
-fine without supports, and supports inside the bore would be hard to remove.
+fine without supports, and supports inside the bore would be hard to remove. Lettering and pictures are cut slanting toward the shank, so they need none either.
 
 **A word on materials:** this is something you'll put in your mouth, and most printing materials
 aren't certified food safe. Even a food-safe filament can collect bacteria in the tiny gaps between
