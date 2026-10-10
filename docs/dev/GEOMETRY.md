@@ -146,7 +146,7 @@ bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (
 the tip curve (3mm fades). Each is a sphere cap (radius >= 3.5 x depth, so its sides stay under
 ~45° and no overhang is wider than the depth), placed square to the roof's local slope; grooves are
 hulls of neighbouring spheres (1mm apart along, 0.75mm across). Per sample (`btx_row`): engraved,
-the wall over it keeps `interior_wall` (+ the lettering depth within `LETTERING_SPAN`); raised, the
+the wall over it keeps 1.2mm (`BTX_WALL`; less than `interior_wall`, so the texture reaches the tip on a scooped beak) (+ the lettering depth within `LETTERING_SPAN`); raised, the
 roof keeps 1mm above the floor and the reed line; either way the whole sphere stays within the air
 path's width (the window's width under the window), so it never reaches the side walls or rails.
 A dent the wall cuts to under 40% of its depth there is left out (a faint one looks like a speck);

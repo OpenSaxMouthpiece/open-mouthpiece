@@ -1158,7 +1158,9 @@ function int_hw_at_y(I, y) =
 function btx_row(z, xs) =
   let(I = interior_ring_at(z), E = exterior_ring_at(z), cy = (I[1] + I[2]) / 2)
   let(fade = smootherstep(clamp01((z - BTX_Z0) / 3)) * smootherstep(clamp01((BTX_Z1 - z) / 3)))
-  let(keep = interior_wall(z) + (HAS_LETTERING && z > LETTERING_SPAN[0] - 1 && z < LETTERING_SPAN[1] + 1 ? eff_lettering_depth : 0))
+  // an engraved dent may thin the wall over it to BTX_WALL (the beak's own wall near the tip), so the
+  // texture reaches the tip on a scooped beak too (where the wall is already at its minimum)
+  let(keep = min(interior_wall(z), BTX_WALL) + (HAS_LETTERING && z > LETTERING_SPAN[0] - 1 && z < LETTERING_SPAN[1] + 1 ? eff_lettering_depth : 0))
   let(low = max(I[2], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)))
   [for (x = xs)
     let(roof = se_top_y(I[0], I[1], cy, I[3], x), out = se_top_y(E[E_HW], E[E_TOP], E[E_CY], E[E_NT], x))
@@ -2166,6 +2168,7 @@ LETTERING_SPAN = let(ext = concat(
 // ligature / cap parts (no AIR_RINGS there).
 BTX_ON = baffle_texture != "none" && len(AIR_RINGS) > 0 && part != "shank_test_ring";   // far from the shank
 BTX_RAISED = baffle_texture_style == "raised";
+BTX_WALL = 1.2;   // mm: the least wall left over an engraved dent
 BTX_D = baffle_texture_depth;
 BTX_S = baffle_texture_spacing;
 BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D));
