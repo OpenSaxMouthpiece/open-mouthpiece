@@ -101,8 +101,7 @@ const PHONE_VIEW_KEY = "open-mouthpiece-phone-view-v1";
 // Point lists set as values (the Customizer can't show them), kept while the parameter that uses
 // them is there: the facing chart's gauge points (facing_model = "gauge").
 const POINT_VALUES: Record<string, string> = { facing_gauge_points: "facing_model" };
-const QUALITY_HINT =
-  "Model detail: Draft is fastest, Fine slowest. Changes show a quick draft first, then this quality once you pause. Downloads are always at least Normal.";
+const QUALITY_HINT = "Model detail: Draft is fastest, Fine slowest. Downloads are always at least Normal.";
 
 // "model" = whatever is on screen; "mouthpiece" = the mouthpiece even while a test ring is shown.
 type PartWhat = "model" | "mouthpiece" | "ring" | "ligature" | "cap";
@@ -282,7 +281,7 @@ export default function App() {
   // ---- rendering (hooks/useModelRender.ts) and zoom to parameter (hooks/useParamFocus.ts)
   const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
-  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports, shownDraft } = model;
+  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
   const textVars = useMemo(() => (log ? parseTextVariables(log) : []), [log]);
 
@@ -603,7 +602,7 @@ export default function App() {
       firstQuality.current = false;
       return;
     }
-    if (ready && (stl || svg)) renderPass(false);
+    if (ready && (stl || svg)) renderPass();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- only on a change of quality
   }, [quality]);
   // The ligature, reed or cap turned on, or a model in (the first one after a reload too): make the
@@ -672,11 +671,6 @@ export default function App() {
     track("feature", "compare");
     if (!current) return;
     const b = asPinned({ ...current, values: { ...current.values }, files: { ...current.files } });
-    // the model on screen is the quick draft: B gets its own full render (a draft B differs from A)
-    if (shownDraft.current) {
-      const { stl: _stl, params: _params, ...rest } = b;
-      return void pinScad(b.label!, rest);
-    }
     setPinned(b);
     showCompare();
   };
@@ -1708,7 +1702,6 @@ export default function App() {
       <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>
         <ProfileChart
           stl={stl}
-          final={!shownDraft.current}
           design={mainTab.key}
           sig={valuesSig}
           compare={

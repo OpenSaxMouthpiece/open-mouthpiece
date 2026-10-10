@@ -28,7 +28,6 @@ import {
 
 interface Props {
   stl: ArrayBuffer | null;
-  final: boolean; // the model on screen is the final pass (not a draft)
   design: string; // the design and part on screen: a new one starts without a "before"
   sig: string; // its settings: a final render with other settings moves "now" to "before"
   compare?: { stl: ArrayBuffer; label: string } | null; // B, dashed blue
@@ -76,7 +75,7 @@ interface Drag {
 
 const HELD = "Held there: a wall, the socket or the reed table limits that spot.";
 
-export function ProfileChart({ stl, final, design, sig, compare, outside = false, edit }: Props) {
+export function ProfileChart({ stl, design, sig, compare, outside = false, edit }: Props) {
   const now = useMemo(() => section(stl, outside), [stl, outside]);
   const b = useMemo(() => section(compare?.stl ?? null, outside), [compare?.stl, outside]);
   const [before, setBefore] = useState<{ loops: Loop[]; stl: ArrayBuffer } | null>(null);
@@ -127,7 +126,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
     }
   }, [edit?.shape]);
   useEffect(() => {
-    if (!stl || !final || !now.length) return;
+    if (!stl || !now.length) return;
     const l = last.current;
     if (!l || l.design !== design) {
       setBefore(null);
@@ -139,7 +138,7 @@ export function ProfileChart({ stl, final, design, sig, compare, outside = false
       setBefore(back ? null : { loops: l.loops, stl: l.stl });
     }
     last.current = { design, sig, loops: now, stl };
-  }, [stl, final, design, sig, now]);
+  }, [stl, design, sig, now]);
 
   const shape = edit?.shape ?? null;
   const on = editing && !!edit && !!shape;

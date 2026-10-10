@@ -11,7 +11,7 @@ static site (docs/HOSTING.md).
 - **Code map**: `src/api.ts` (the `Api` interface; `api` = `browserApi`). `App.tsx` holds the state
   (tabs, values, layout, B) and both layouts; `src/app/files.ts` (tabs, names, labels, downloads),
   `src/app/session.ts` (what is kept in this browser); hooks in `src/hooks/`: `useModelRender` (the
-  render loop: draft then full quality, the readouts' reports, the ligature, download renders),
+  render loop: one render per change, the readouts' reports, the ligature, download renders),
   `useParamFocus`, `useValueHistory` (undo/redo), `useMediaQuery`; toolbar and panel pieces in
   `src/components/`.
 - **OpenSCAD**: the official WebAssembly build, pinned in `scripts/fetch_openscad_wasm.mjs` (version
@@ -170,8 +170,8 @@ static site (docs/HOSTING.md).
 - **Undo / redo** per design (`hist`): Ctrl+Z / Ctrl+Y outside text boxes, and ↶ ↷; a slider drag is
   one step.
 - **Quality** (Draft 32 / Normal 64 / Fine 96 = `render_fn`; only for a file that declares it): a
-  change renders Draft, then the chosen quality after 700ms quiet (`refineTimer`; a drag runs only
-  drafts). Reports run after the final pass only. Download re-renders when the model on screen isn't
+  change renders once at the chosen quality (a quick Draft pass first was dropped 2026-10-10: it saved
+  only ~20%, most of a run being the generator's evaluation, and doubled the wait for the final model). Download re-renders when the model on screen isn't
   at the chosen quality (Normal at least).
 - **Share links** (`src/share.ts`): `#d=` + base64url(deflate-raw(JSON {v, file, values,
   source?})); presets carry only changed values, other files their text too. Read at startup, then
@@ -206,11 +206,11 @@ static site (docs/HOSTING.md).
   until the next outside part, unless the user chose the section.
 - **Ligature**: "Make a ligature for this mouthpiece" sets `ligature_made` (so saves, downloads and
   links keep it). `lig` in the session is only the view: on / beside / hidden ("made · hidden");
-  the reed is its own toggle. After each non-draft render App runs `ligature_seated` and/or
+  the reed is its own toggle. After each render App runs `ligature_seated` and/or
   `reed_model`, whichever is shown (`loadLigature`); the viewer shows them in A's frame (`lig` graphite,
   `reed` pale; "beside" stands the band in front of A). Readout line from `parseLigature`.
 - **Cap**: as the ligature: "Make a cap for this mouthpiece" sets `cap_made`; `capV` (session `cap`) is
-  the view: on / beside. After each non-draft render App runs `cap_seated` (`loadCap`); the viewer shows
+  the view: on / beside. After each render App runs `cap_seated` (`loadCap`); the viewer shows
   it see-through teal on A (`capG`) or opaque beside it (+Y). `CapHead`: readout (`parseCap`, warnings),
   Hide / Beside / Download cap STL / Remove; the print kit and Download ▾ take `<name>_cap.stl` when made.
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with

@@ -1,6 +1,6 @@
-// Rendering the design on screen: a quick draft after each change, then the chosen quality once
-// the user pauses (a newer change cancels it), so dragging only ever runs drafts. The full-quality
-// run also makes the readouts' reports and the zoom targets (one OpenSCAD run instead of three:
+// Rendering the design on screen: one run per change at the chosen quality (a newer change cancels
+// it; no quick lower-resolution pass first: it saves only ~20%, as most of a run is evaluating the
+// generator, and made the final model arrive about twice as late). The run also makes the readouts' reports and the zoom targets (one OpenSCAD run instead of three:
 // each run evaluates the whole generator again). After it: the ligature, a model reed and the cap, while shown.
 import { useCallback, useRef, useState, type RefObject } from "react";
 import { api, base64ToBuffer, type RenderResult, type RenderTarget, type ScadParam } from "../api";
@@ -48,7 +48,6 @@ interface Options {
   prefetchFocus: (t: RenderTarget, vals: Values) => void;
 }
 
-const REFINE_DELAY = 700; // ms of quiet after a draft before the full-quality render
 const SLOW_RENDER_S = 45; // reported to the site's log when a render takes longer
 // The "Edit shape" lines ride along with the reports (no measurable cost).
 const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n" + SHAPE_ECHO;
@@ -105,10 +104,8 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
 
   const renderAbort = useRef<AbortController | null>(null);
   const reportsAbort = useRef<AbortController | null>(null);
-  const refineTimer = useRef<number | undefined>(undefined);
   const shownFn = useRef<number | null>(null); // render_fn of the model on screen (null: the file's own)
-  // The model on screen is a draft / has its readouts' reports (or they are on their way).
-  const shownDraft = useRef(false);
+  // The model on screen has its readouts' reports (or they are on their way).
   const shownReports = useRef(false);
   // What the mouthpiece on screen was last rendered from, and whether a render of it is running.
   const lastMain = useRef<{ tsig: string; vals: Values } | null>(null);
@@ -248,29 +245,24 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     [state, setFocusData],
   );
 
-  // draft: a quick pass at Draft quality, followed by the chosen quality after a pause.
   const renderPass = useCallback(
-    async (draft: boolean) => {
+    async () => {
       const s = state.current!;
       const { target: t, values: vals, quality: q } = s;
       if (!t) return;
-      clearTimeout(refineTimer.current);
       const ac = restart(renderAbort);
       mainBusy.current = true;
       lastMain.current = null;
-      const fn = qualityFn(draft ? "draft" : q, vals);
-      const isDraft = draft && fn !== null && q !== "draft";
-      // The accessories start with the final render, on their own lane (not behind it); a draft
-      // pass stops them, so dragging only runs drafts.
-      if (isDraft) stopParts();
-      else if (s.ligOK || s.capOK) loadParts(t, vals, fn);
-      setStatus({ text: `Rendering ${t.name}${isDraft ? " (draft)" : ""}…`, short: "Rendering…", kind: "busy" });
+      const fn = qualityFn(q, vals);
+      // The accessories start with the render, on their own lane (not behind it).
+      if (s.ligOK || s.capOK) loadParts(t, vals, fn);
+      setStatus({ text: `Rendering ${t.name}…`, short: "Rendering…", kind: "busy" });
       renderStarted(reportDesign(t.path));
       const slow = window.setTimeout(
         () => report("slow-render", `a render is still running after ${SLOW_RENDER_S}s`),
         SLOW_RENDER_S * 1000,
       );
-      const withReports = !isDraft && s.reportsOn;
+      const withReports = s.reportsOn;
       const focusToo = withReports && s.zoom;
       const source = withReports ? t.source + REPORTS_ECHO + (focusToo ? FOCUS_ECHO : "") : t.source;
       try {
@@ -309,18 +301,16 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
           setStl(buf);
           setSvg(null);
           shownFn.current = fn;
-          shownDraft.current = isDraft;
           shownReports.current = withReports;
           const airText = airCm3 !== null ? ` · air ${airCm3.toFixed(1)} cm³` : "";
-          const label = fn === null ? "" : isDraft ? " · draft, refining…" : ` · ${q}`;
+          const label = fn === null ? "" : ` · ${q}`;
           setStatus({
             text: `${t.name} · 3D · ${tris.toLocaleString()} triangles${airText} · ${secs}${label}`,
-            short: `${isDraft ? "Draft" : "Ready"} · ${secs}${isDraft ? " · refining…" : ""}`,
+            short: `Ready · ${secs}`,
             kind: "ok",
           });
           lastMain.current = { tsig: targetSig(t), vals };
-          if (isDraft) refineTimer.current = window.setTimeout(() => renderPass(false), REFINE_DELAY);
-          else if (!withReports && s.zoom) prefetchFocus(t, vals);
+          if (!withReports && s.zoom) prefetchFocus(t, vals);
         } else if (r.kind === "2d" && r.svg) {
           setSvg(r.svg);
           setStl(null);
@@ -344,16 +334,16 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         if (renderAbort.current === ac) mainBusy.current = false;
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- stopParts / loadParts only use refs and state setters
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- loadParts only uses refs and state setters
     [state, qualityFn, setStatus, setFocusData, prefetchFocus],
   );
 
-  // A change: a draft pass then the chosen quality. When only accessory settings changed since the
+  // A change: a render. When only accessory settings changed since the
   // mouthpiece on screen was rendered, the mouthpiece stays and just the accessories re-run.
   const render = useCallback(() => {
     const s = state.current!;
     const last = lastMain.current;
-    if (last && s.target && !mainBusy.current && !shownDraft.current && last.tsig === targetSig(s.target)) {
+    if (last && s.target && !mainBusy.current && last.tsig === targetSig(s.target)) {
       const keys = new Set([...Object.keys(last.vals), ...Object.keys(s.values)]);
       const part = (v: Values) => v.part ?? "mouthpiece";
       const same =
@@ -363,17 +353,16 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
           (k) => ACCESSORY_KEY.test(k) || k === "part" || JSON.stringify(last.vals[k]) === JSON.stringify(s.values[k]),
         );
       if (same) {
-        clearTimeout(refineTimer.current);
         loadParts(s.target, s.values, shownFn.current);
         return;
       }
     }
-    return renderPass(true);
+    return renderPass();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- loadParts only uses refs and state setters
   }, [state, renderPass]);
 
   // The model on screen (part null) or another part, for a download: at the chosen quality, Normal
-  // at least (never a draft); the model on screen when it already is that. extra: settings on top
+  // at least; the model on screen when it already is that. extra: settings on top
   // (the print kit's test rings at other clearances).
   const partStl = useCallback(
     async (part: string | null, extra?: Values): Promise<ArrayBuffer> => {
@@ -404,16 +393,15 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   // before they showed, e.g. before the file's parameters had loaded at startup): fetch them.
   const ensureReports = useCallback(() => {
     const s = state.current!;
-    if (s.reportsOn && s.target && !shownDraft.current && !shownReports.current) loadReports(s.target, s.values);
+    if (s.reportsOn && s.target && !shownReports.current) loadReports(s.target, s.values);
   }, [state, loadReports]);
 
   // The accessories shown but not made for the model on screen (they were turned on, or the model was
   // rendered before the file's parameters said it has them, as after a reload): make them. Asked
-  // again for the same thing it does nothing (runPart's signatures); not for a draft.
+  // again for the same thing it does nothing (runPart's signatures).
   const ensureParts = useCallback(() => {
     const s = state.current!;
-    if (s.target && !shownDraft.current && !mainBusy.current && (s.ligOK || s.capOK))
-      loadParts(s.target, s.values, shownFn.current);
+    if (s.target && !mainBusy.current && (s.ligOK || s.capOK)) loadParts(s.target, s.values, shownFn.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- loadParts only uses refs and state setters
   }, [state]);
 
@@ -450,7 +438,6 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     partsBusy,
     loadCap,
     shownFn,
-    shownDraft,
     render,
     renderPass,
     loadLigature,

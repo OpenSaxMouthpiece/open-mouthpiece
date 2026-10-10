@@ -59,7 +59,7 @@ OpenSCAD runs in the browser as WebAssembly; there is no server. Start with `App
 |---|---|
 | `api.ts`, `browserApi.ts` | The app's interface to OpenSCAD and the project files, all in the browser |
 | `wasm/runner.ts`, `wasm/openscad.worker.ts`, `wasm/types.ts` | Web workers that run OpenSCAD's WebAssembly build |
-| `hooks/useModelRender.ts` | A quick draft render after each change, then the chosen quality |
+| `hooks/useModelRender.ts` | One render per change at the chosen quality |
 
 **Settings and design files**
 
