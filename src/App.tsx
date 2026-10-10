@@ -24,7 +24,8 @@ import { ProfileChart } from "./components/ProfileChart";
 import { Notes, ReadoutLine, Readouts } from "./components/Readouts";
 import { TabBar } from "./components/TabBar";
 import { CompareSelect, groupFiles, VoicePicker, type ComparePick } from "./components/FilePickers";
-import { SaveAsPanel, SAVE_DEFAULTS, wantsFiles, type SaveOpts } from "./components/SaveAsPanel";
+import { SaveAsPanel } from "./components/SaveAsPanel";
+import { DownloadPanel, DOWNLOAD_ALL, DOWNLOAD_DEFAULTS, type DownloadOpts } from "./components/DownloadPanel";
 import { LigatureHead } from "./components/LigatureHead";
 import { CapHead } from "./components/CapHead";
 import { PartNote } from "./components/PartNote";
@@ -72,7 +73,6 @@ import {
   isVariant,
   localTab,
   otherPartOf,
-  partName,
   projectTab,
   reportDesign,
   scadFileName,
@@ -106,7 +106,7 @@ const QUALITY_HINT =
 
 // "model" = whatever is on screen; "mouthpiece" = the mouthpiece even while a test ring is shown.
 type PartWhat = "model" | "mouthpiece" | "ring" | "ligature" | "cap";
-type Download = { what: PartWhat | "kit"; state: "busy" | "done" | "error" };
+type Download = { what: PartWhat | "kit" | "files"; state: "busy" | "done" | "error" };
 
 export default function App() {
   const saved = useRef(loadSession()).current;
@@ -183,7 +183,7 @@ export default function App() {
   const [copied, setCopied] = useState(false); // the Share button says "Copied ✓" for a moment
   const copiedTimer = useRef<ReturnType<typeof setTimeout>>();
   const [saveAs, setSaveAs] = useState<string | null>(null); // the Save as name while it's open
-  const [saveOpts, setSaveOpts] = usePref<SaveOpts>("saveAs", SAVE_DEFAULTS);
+  const [dlPicks, setDlPicks] = usePref<DownloadOpts>("downloads", DOWNLOAD_DEFAULTS); // Download ▾ ticks
   const [armedClose, setArmedClose] = useState<string | null>(null); // close clicked once on an unsaved tab
   const [armedDelete, setArmedDelete] = useState<string | null>(null); // Delete clicked once on a saved design
   const [dragging, setDragging] = useState(false); // a file dragged over the page
@@ -1056,53 +1056,73 @@ export default function App() {
       "Download failed"
     );
   const dlBusy = (what: Download["what"]) => dl?.what === what && dl.state === "busy";
-  // The print kit, one zip with everything: the mouthpiece, shank test rings at three cork squeezes
-  // (and the design's own), the ligature and cap if made, the design file with its pictures, and a
-  // check card (printKit.ts).
-  const downloadKit = async () => {
+  // The files ticked in Download ▾, zipped or not; the print kit = all of them, one zip: the
+  // mouthpiece, shank test rings at three cork squeezes (and the design's own), the ligature and cap
+  // if made, the design file with its pictures, and a check card (printKit.ts).
+  const downloadFiles = async (sel: DownloadOpts, kit = false) => {
     if (dl?.state === "busy") return;
+    const what = kit ? "kit" : "files";
     const name = downloadName(mainTab, values, isRO(mainTab));
     const get = (n: string) => (n in values ? values[n] : param(n)?.initial);
-    const withLigature = !!param("ligature_length") && get("ligature_made") === true;
-    const withCap = !!param("cap_wall") && get("cap_made") === true;
-    setDl({ what: "kit", state: "busy" });
-    notify({ text: `Making the print kit for ${labelA}…`, short: "Preparing the print kit…", kind: "busy" });
+    const withLigature = sel.ligature && !!param("ligature_length") && get("ligature_made") === true;
+    const withCap = sel.cap && !!param("cap_wall") && get("cap_made") === true;
+    const enc = new TextEncoder();
+    setDl({ what, state: "busy" });
+    notify({
+      text: `Making ${kit ? "the print kit" : "the files"} for ${labelA}…`,
+      short: "Preparing the download…",
+      kind: "busy",
+    });
     try {
       const out: [string, Uint8Array<ArrayBuffer>][] = [];
-      out.push([`${name}.stl`, new Uint8Array(await partStl(otherPart ? "mouthpiece" : null))]);
-      for (const c of kitSqueezes(Number(get("shank_clearance"))))
-        out.push([ringFile(name, c), new Uint8Array(await partStl("shank_test_ring", { shank_clearance: c }))]);
+      if (sel.stl) out.push([`${name}.stl`, new Uint8Array(await partStl(otherPart ? "mouthpiece" : null))]);
+      if (sel.rings)
+        for (const c of kitSqueezes(Number(get("shank_clearance"))))
+          out.push([ringFile(name, c), new Uint8Array(await partStl("shank_test_ring", { shank_clearance: c }))]);
       if (withLigature) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
       if (withCap) out.push([`${name}_cap.stl`, new Uint8Array(await partStl("cap"))]);
-      out.push([`${name}.scad`, new TextEncoder().encode(await fullScad())], ...(await pictureFiles()));
-      const r = await kitReports();
-      const card = checkCard({
-        name,
-        title: labelA,
-        ...r,
-        get,
-        files: out.map(([f]) => f),
-        date: new Date().toLocaleDateString("sv-SE"),
-      });
-      out.push([`${name}_check_card.txt`, new TextEncoder().encode(card)]);
-      const s = parseSummary(r.log);
-      track("download", "print_kit", {
-        tip: s.tip,
-        facing: s.facing,
-        length: s.length,
-        air: s.air,
+      if (sel.full) out.push([`${name}.scad`, enc.encode(await fullScad())], ...(await pictureFiles()));
+      // settings-only: the voice file with these values; its include as the site resolves it
+      if (sel.settings)
+        out.push([
+          `${name}_settings.scad`,
+          enc.encode(withValues(mainTab.source, titled).replace(/include\s*<(\.\.\/)+lib\//, "include <lib/")),
+        ]);
+      let s = summary;
+      if (sel.card) {
+        const r = await kitReports();
+        const card = checkCard({
+          name,
+          title: labelA,
+          ...r,
+          get,
+          files: out.map(([f]) => f),
+          date: new Date().toLocaleDateString("sv-SE"),
+        });
+        out.push([`${name}_check_card.txt`, enc.encode(card)]);
+        s = parseSummary(r.log);
+      }
+      track("download", kit ? "print_kit" : sel.stl ? "mouthpiece" : "files", {
+        ...(sel.stl && s ? { tip: s.tip, facing: s.facing, length: s.length, air: s.air } : {}),
+        files: out.map(([f]) => f.replace(name, "")).join(" "),
         ligature: withLigature,
         cap: withCap,
         settings: designNumbers(params, values),
       });
-      deliver([[`${name}_print_kit.zip`, zipSync(Object.fromEntries(out))]], `Downloaded ${name}_print_kit.zip`);
-      setDl({ what: "kit", state: "done" });
-      setPrinted(true);
+      // a picture goes in an art/ folder beside the design file: only a zip keeps the folder
+      const zipped = out.length > 1 && (sel.zip || out.some(([n]) => n.startsWith("art/")));
+      const files: [string, BlobPart][] = zipped
+        ? [[`${name}${kit ? "_print_kit" : ""}.zip`, zipSync(Object.fromEntries(out))]]
+        : out;
+      deliver(files, `Downloaded ${files.map(([n]) => n).join(", ")}`);
+      setDl({ what, state: "done" });
+      if (sel.stl) setPrinted(true);
     } catch (err) {
-      fail({ text: `Print kit failed: ${(err as Error).message}`, kind: "error" });
-      setDl({ what: "kit", state: "error" });
+      fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
+      setDl({ what, state: "error" });
     }
   };
+  const downloadKit = () => downloadFiles(DOWNLOAD_ALL, true);
   const kitOK = !!param("shank_clearance") && !noReadouts;
   const printKitButton = (
     <div className="lig-head print-kit">
@@ -1145,68 +1165,10 @@ export default function App() {
     );
     return got.filter((f) => f !== null);
   };
-  // The design file; with a picture, a .zip of it and its art/ folder (a .scad can't hold an SVG).
-  const downloadScad = async () => {
-    track("download", "scad");
-    const base = downloadName(mainTab, values, isRO(mainTab));
-    notify({ text: `Making ${base}.scad…`, short: "Preparing the download…", kind: "busy" });
-    try {
-      const text = await fullScad();
-      const art = await pictureFiles();
-      const name = art.length ? `${base}.zip` : `${base}.scad`;
-      deliver(
-        [
-          [
-            name,
-            art.length ? zipSync(Object.fromEntries([[`${base}.scad`, new TextEncoder().encode(text)], ...art])) : text,
-          ],
-        ],
-        `Downloaded ${name} (self-contained${art.length ? ", with its picture" : ""}, ${Math.round(text.length / 1024)} KB)`,
-      );
-    } catch (err) {
-      fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
-    }
-  };
-
-  // ---- Save as, for the design: build the chosen files from the design on screen first (its values
-  // go with the tab once it is kept in the browser), then download them, then keep it.
-  const opts = { ...SAVE_DEFAULTS, ...saveOpts };
-  const ligatureFile = ligMade && values.part !== "ligature";
-  const capFile = capMade && values.part !== "cap";
-  const saveDesignAs = async (typed: string) => {
-    track("feature", "save_as", { ...opts });
-    const p = scadFileName(typed);
-    if (!p) return fail({ text: "Save as: give the design a name", kind: "error" });
-    const name = baseName(p);
-    const out: [string, Uint8Array<ArrayBuffer>][] = [];
-    const enc = new TextEncoder();
-    try {
-      if (wantsFiles(opts, ligMade, capMade))
-        notify({ text: `Making the files for ${name}…`, short: "Preparing the files…", kind: "busy" });
-      if (opts.full) out.push([`${name}.scad`, enc.encode(await fullScad())], ...(await pictureFiles()));
-      // settings-only: the voice file with these values; its include as the site resolves it
-      if (opts.settings)
-        out.push([
-          `${name}_settings.scad`,
-          enc.encode(withValues(mainTab.source, titled).replace(/include\s*<(\.\.\/)+lib\//, "include <lib/")),
-        ]);
-      if (opts.stl) out.push([`${name}${otherPart ? `_${otherPart}` : ""}.stl`, new Uint8Array(await partStl(null))]);
-      if (opts.ligature && ligatureFile) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
-      if (opts.cap && capFile) out.push([`${name}_cap.stl`, new Uint8Array(await partStl("cap"))]);
-    } catch (err) {
-      return fail({ text: `Save as failed: ${(err as Error).message}`, kind: "error" });
-    }
-    // a picture goes in an art/ folder beside the design file: only a zip keeps the folder
-    const zipped = out.length > 1 && (opts.zip || out.some(([n]) => n.startsWith("art/")));
-    const files: [string, BlobPart][] = zipped ? [[`${name}.zip`, zipSync(Object.fromEntries(out))]] : out;
-    const got = files.map(([n]) => n).join(", ");
-    if (opts.browser) {
-      await doSaveAs(p, mainTab);
-      if (out.length) deliver(files, `Saved as “${voiceLabel(p)}” in this browser; downloaded ${got}`);
-    } else {
-      setSaveAs(null);
-      deliver(files, `Downloaded ${got}`);
-    }
+  // ---- Save as, for the design: a copy under a new name in this browser (files: Download ▾).
+  const saveDesignAs = (typed: string) => {
+    track("feature", "save_as");
+    return doSaveAs(typed, mainTab);
   };
 
   // ---- the user's own design (unsaved, or kept in this browser): Save, Close, Delete
@@ -1472,7 +1434,7 @@ export default function App() {
       title={
         coding
           ? "Save your own copy of this file under a new name (kept in this browser)"
-          : "Save this design under a new name: in this browser, and/or as files (.scad, STL, zipped or not)"
+          : "Save this design under a new name in this browser (files to download: Download ▾)"
       }
     >
       Save as…
@@ -1485,11 +1447,6 @@ export default function App() {
         <SaveAsPanel
           name={saveAs}
           onName={setSaveAs}
-          opts={opts}
-          onOpt={(k, v) => setSaveOpts((o) => ({ ...SAVE_DEFAULTS, ...o, [k]: v }))}
-          partLabel={partName(values.part)}
-          ligature={ligatureFile}
-          cap={capFile}
           onSubmit={() => saveDesignAs(saveAs)}
           onCancel={() => setSaveAs(null)}
         />
@@ -1962,40 +1919,26 @@ export default function App() {
           !stl && !svg,
         ),
       ];
-    return [
-      item("mouthpiece", "Mouthpiece (.stl)", "placed standing on its shank end, as printed", () =>
-        downloadPart("mouthpiece"),
-      ),
-      item(
-        "ring",
-        "Shank test ring (.stl)",
-        `print it first to check the fit on your cork (squeeze ${squeezeNow.toFixed(2)} mm)`,
-        () => downloadPart("ring"),
-      ),
-      ligMade &&
-        item("ligature", "Ligature (.stl)", "the ring ligature made for this mouthpiece", () =>
-          downloadPart("ligature"),
-        ),
-      capMade && item("cap", "Cap (.stl)", "the cap made for this mouthpiece", () => downloadPart("cap")),
-      item(
-        "kit",
-        "Print kit (.zip)",
-        "everything: all of these, test rings at 0.10 / 0.20 / 0.30 squeeze, the design file, a check card",
-        downloadKit,
-      ),
-      <hr key="hr" />,
-      <button key="scad" className="dl-item" onClick={go(downloadScad)}>
-        <span>Design file (.scad{hasPicture ? " + picture, .zip" : ""})</span>
-        <small>
-          opens here again with Open…, or in OpenSCAD{ligMade || capMade ? " (ligature and cap included)" : ""}
-        </small>
-      </button>,
-    ];
+    const get = (n: string) => (n in values ? values[n] : param(n)?.initial);
+    return (
+      <DownloadPanel
+        opts={{ ...DOWNLOAD_DEFAULTS, ...dlPicks }}
+        onOpt={(k, v) => setDlPicks((o) => ({ ...DOWNLOAD_DEFAULTS, ...o, [k]: v }))}
+        ligature={!!param("ligature_length") && get("ligature_made") === true}
+        cap={!!param("cap_wall") && get("cap_made") === true}
+        squeezes={kitSqueezes(squeezeNow)
+          .map((c) => c.toFixed(2))
+          .join(" / ")}
+        picture={hasPicture}
+        busy={!stl || dl?.state === "busy"}
+        onDownload={go(() => downloadFiles({ ...DOWNLOAD_DEFAULTS, ...dlPicks }))}
+      />
+    );
   };
   const downloadMenu = (
     <Menu
       label="▾"
-      title="Everything to download: the test ring, the print kit, the ligature, the cap, the design file"
+      title="Choose what to download: STLs, test rings, the design file, a check card"
       className="dl-menu"
     >
       {(close) => <div className="menu-list">{downloadItems(close)}</div>}

@@ -55,11 +55,8 @@ static site (docs/HOSTING.md).
   clear them, so Reset means "back to what I saved". Save as leaves a preset as published (Compare
   with a preset also uses it as published); your own design keeps its unsaved changes. Typed names
   are made file-safe (`scadFileName`); own designs show with spaces for `_`.
-- **Save as panel** (`saveDesignAs`; the code column's Save as keeps a plain name box): any of a
-  copy in this browser ("quick, not a backup"), the design file = the full .scad (`bundleDesign`), a settings-only
-  .scad under "More formats" (`<name>_settings.scad`: the voice file with the values, `include <../lib/` rewritten to
-  `include <lib/`), the part's STL and the ligature's (`partStl`, download quality), downloaded or
-  zipped (fflate). The choices persist (`saveAs` pref).
+- **Save as panel** (`saveDesignAs`, SaveAsPanel.tsx; the code column's Save as keeps a plain name box): a name,
+  kept in this browser only; files are in Download ▾.
 - **Download .scad** writes one self-contained file that opens in any OpenSCAD (`bundleDesign`,
   src/bundle.ts, the method of scripts/bundle_scad.mjs): a header, the file with its values, then
   the base without the defaults the file sets (unsaved tab text wins). Lettering is text(); a
@@ -71,13 +68,17 @@ static site (docs/HOSTING.md).
 - **Open .scad…** (or drop) loads .scad files as tabs, listed under "Open files" in the voice
   picker; an opened file gets Save (to Your designs) and Close. "Download tab" = the editor text as
   is.
-- **Download ▾** (`downloadItems` in App.tsx; desktop: the ▾ joined to Download, phone: the ☰ menu):
-  everything to download in one list: the mouthpiece, a shank test ring at the design's squeeze
-  (`downloadPart("ring")`), the ligature / cap once made, the print kit, the design file (.scad). The
-  main button still downloads the part tab's part (and shows any download's progress).
-- **Print kit** (`downloadKit` in App.tsx, src/printKit.ts; Printing section, Download ▾, phone ☰):
+- **Download ▾** (`downloadItems` in App.tsx, DownloadPanel.tsx; desktop: the ▾ joined to Download, phone: the
+  ☰ menu): ticks for the mouthpiece STL, shank test rings, the ligature / cap once made, the design file
+  (.scad + `art/`), the check card, a settings-only .scad under "More formats" (`<name>_settings.scad`: the
+  voice file with the values, `include <../lib/` rewritten to `include <lib/`), zip or not (fflate); one
+  Download (`downloadFiles`), "Tick all" = the print kit. Ticks persist (`downloads` pref). The main
+  button still downloads the part tab's part (and shows any download's progress). A file finished
+  after the click's activation expired (`navigator.userActivation`) waits for a Save button in the
+  status line (`deliver`): browsers block late script downloads.
+- **Print kit** (`downloadKit` = `downloadFiles(DOWNLOAD_ALL)`, src/printKit.ts; Printing section):
   one zip with the mouthpiece, shank test rings at squeeze 0.10 / 0.20 / 0.30 (plus the design's own),
-  the ligature if made, and `<name>_check_card.txt` (tip, facing, length, air, thinnest wall, cork /
+  the ligature and cap if made, the design file, and `<name>_check_card.txt` (tip, facing, length, air, thinnest wall, cork /
   socket, feeler-gauge stops) from one echo-only run (`kitReports`).
 - **Top bar**: Save (own design), Save as… (always), Open…; a saved design also Close and Delete
   (`api.remove`). Discarding or deleting takes a second click. Switching voices closes the previous
@@ -211,7 +212,7 @@ static site (docs/HOSTING.md).
 - **Cap**: as the ligature: "Make a cap for this mouthpiece" sets `cap_made`; `capV` (session `cap`) is
   the view: on / beside. After each non-draft render App runs `cap_seated` (`loadCap`); the viewer shows
   it see-through teal on A (`capG`) or opaque beside it (+Y). `CapHead`: readout (`parseCap`, warnings),
-  Hide / Beside / Download cap STL / Remove; the print kit and Save as take `<name>_cap.stl` when made.
+  Hide / Beside / Download cap STL / Remove; the print kit and Download ▾ take `<name>_cap.stl` when made.
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
 - **Part tabs** (no tab bar since layout B: the rail's Ligature and Cap open theirs, every other place

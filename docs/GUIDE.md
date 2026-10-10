@@ -262,16 +262,10 @@ for how to print and fit them.
 
 ## 11. Saving, opening and sharing
 
-When you click **Save as…**, you enter a name and choose how to save:
-
-- **Keep a copy in this browser** saves the design in the app, under Your designs. It only exists
-  in this browser on this device, so it will be lost if you clear your browser data or switch
-  browsers.
-- **Design file (.scad)** downloads a file you can open again in the app with **Open…**, or in
-  OpenSCAD. This is the safest way to keep a design. It holds the ligature and cap too. If the
-  design has a picture, it comes as a .zip with the picture in an `art` folder next to the file.
-- Under **More formats**, a settings-only .scad file is much smaller but only opens in this app.
-- You can also download STL files of the mouthpiece, ligature and cap, and zip them together.
+**Save as…** keeps a copy of the design under a new name in the app, under Your designs. It only
+exists in this browser on this device, so it will be lost if you clear your browser data or switch
+browsers. To really keep a design, download its design file (.scad) from **Download ▾** (next
+section): it opens again in the app with **Open…**, or in OpenSCAD.
 
 To open a saved design file, click **Open…** or drag the file onto the page.
 
@@ -282,14 +276,20 @@ choose whether to include it.
 ## 12. Downloading and printing
 
 The yellow **Download** button downloads the part you're working on: the mouthpiece, or the
-ligature or cap when you're in their section. The arrow next to it has more options:
+ligature or cap when you're in their section. The arrow next to it lets you tick what to download,
+then **Download**:
 
-- **Mouthpiece (.stl)**, oriented for printing.
-- **Shank test ring (.stl)**, using your cork squeeze setting.
-- **Print kit (.zip)**, everything in one zip: the mouthpiece, test rings at three different
-  squeezes (0.10, 0.20 and 0.30 mm), the ligature and cap if you made them, the design file, and a
-  card with measurements to check the print against.
-- **Design file (.scad)**.
+- **Mouthpiece STL**, oriented for printing.
+- **Shank test rings** at three cork squeezes (0.10, 0.20 and 0.30 mm), to check the fit first.
+- **Ligature STL** and **Cap STL**, if you made them.
+- **Design file (.scad)**, the safest way to keep a design: it opens again with **Open…** or in
+  OpenSCAD, and holds the ligature and cap too. A picture comes beside it in an `art` folder
+  (zipped).
+- **Check card**, the numbers to measure the print against.
+- Under **More formats**, a settings-only .scad file: much smaller, but it only opens in this app.
+- **Zip the files into one download**.
+
+**Tick all** ticks everything (the print kit). Your ticks are remembered.
 
 The [printing guide](PRINTING.md) explains how to print the mouthpiece, check the fit, finish the
 table and facing, and test it.

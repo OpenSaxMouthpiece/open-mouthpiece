@@ -10,7 +10,7 @@ The Download button saves the part you're working on; its **▾** lists everythi
 **Print**'s **What to print** picks the mouthpiece or a shank test ring. Every download is already
 oriented for printing.
 
-Or take everything at once: **Download print kit** (in Print, or Download ▾) makes one zip with
+Or take everything at once: **Download print kit** (in Print; or Download ▾, Tick all) makes one zip with
 the mouthpiece, the three shank test rings below, the ligature and cap if you made them, the design
 file, and a check card with the numbers to measure the print against (tip opening, facing stops).
 
