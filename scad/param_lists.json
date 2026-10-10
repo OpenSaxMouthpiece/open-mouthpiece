@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "d755180d-20569",
+  "hash": "d3fc6f61-20680",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1194,6 +1194,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -2002,7 +2012,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "e5149ad1-20807",
+  "hash": "a5247ecb-20918",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3196,6 +3206,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -4004,7 +4024,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "ba0be49b-21479",
+  "hash": "4b2ac135-21590",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5198,6 +5218,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -6006,7 +6036,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "ae5984cc-20771",
+  "hash": "191d7416-20882",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7200,6 +7230,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -8008,7 +8048,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "aef4bf76-20948",
+  "hash": "6b6436f8-21059",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9202,6 +9242,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -10010,7 +10060,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "491c44b1-20663",
+  "hash": "17b30aed-20774",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11204,6 +11254,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -12012,7 +12072,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "ba512642-20698",
+  "hash": "55732d80-20809",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13206,6 +13266,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -14014,7 +14084,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "2088b34e-20667",
+  "hash": "b647df74-20778",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15208,6 +15278,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -16016,7 +16096,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "71ff7295-20852",
+  "hash": "8943d4c7-20963",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17210,6 +17290,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -18018,7 +18108,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "4a573603-20881",
+  "hash": "736c4e39-20992",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19212,6 +19302,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -20020,7 +20120,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "d4bba6ae-20843",
+  "hash": "1a1712d6-20954",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21214,6 +21314,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -22022,7 +22132,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "fd6ae191-20870",
+  "hash": "4eb28841-20981",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23216,6 +23326,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -24024,7 +24144,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "ff24de4e-20896",
+  "hash": "59073454-21007",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25218,6 +25338,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -26026,7 +26156,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "9b10839e-20867",
+  "hash": "14f6c684-20978",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27220,6 +27350,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -28028,7 +28168,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "8075a276-21054",
+  "hash": "d686e7f8-21165",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29222,6 +29362,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -30030,7 +30180,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "4db45dc4-21079",
+  "hash": "d0dff17a-21190",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31224,6 +31374,16 @@
     "type": "number"
    },
    {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
+    "type": "number"
+   },
+   {
     "caption": "Only with your own top outline: bore height at the neck end (mm).",
     "group": "Profile overrides",
     "initial": 14.5,
@@ -32032,7 +32192,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "7e6c11c5-21047",
+  "hash": "5e9346ad-21158",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33223,6 +33383,16 @@
     "min": 0.3,
     "name": "shank_detail_depth",
     "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How far up the shank decoration and text reach (mm); 0 = to the flare.",
+    "group": "Lettering",
+    "initial": 0,
+    "max": 30,
+    "min": 0,
+    "name": "shank_detail_length",
+    "step": 1,
     "type": "number"
    },
    {

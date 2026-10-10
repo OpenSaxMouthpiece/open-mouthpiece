@@ -190,6 +190,8 @@ shank_detail_count = 3; // [1:1:40]
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]
+// How far up the shank decoration and text reach (mm); 0 = to the flare.
+shank_detail_length = 0; // [0:1:30]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).

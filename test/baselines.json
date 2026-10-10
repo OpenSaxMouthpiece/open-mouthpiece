@@ -84,14 +84,14 @@
     "capVolume": 10493.207
   },
   "variants/alto_unda.scad": {
-    "tris": 56316,
-    "volume": 22319.047,
+    "tris": 55834,
+    "volume": 22301.349,
     "size": [
       29.891,
       27.59,
       91.132
     ],
-    "hash": "a9f40be1ad832723",
+    "hash": "a637931eadc7118e",
     "ligHash": "eaf1f3169b8711ab",
     "ligVolume": 2652.879,
     "capHash": "bf168fb2d488a79b",
@@ -126,14 +126,14 @@
     "capVolume": 13532.28
   },
   "variants/baritone_unda.scad": {
-    "tris": 73704,
-    "volume": 45388.824,
+    "tris": 73188,
+    "volume": 45370.236,
     "size": [
       32.696,
       30.489,
       143.944
     ],
-    "hash": "e01fefabcff68e9a",
+    "hash": "0499ae1bf4336f7d",
     "ligHash": "50b55c0b901bda7d",
     "ligVolume": 2830.111,
     "capHash": "3692edef1b75c5aa",
@@ -168,14 +168,14 @@
     "capVolume": 7358.602
   },
   "variants/soprano_unda.scad": {
-    "tris": 43750,
-    "volume": 12164.521,
+    "tris": 43212,
+    "volume": 12115.123,
     "size": [
-      24.633,
-      23.006,
+      24.298,
+      22.5,
       67.64
     ],
-    "hash": "93a886aa43b4e690",
+    "hash": "3261779820a48d51",
     "ligHash": "c4c58c9a779a22b0",
     "ligVolume": 1845.415,
     "capHash": "52167d04facad07f",
@@ -210,14 +210,14 @@
     "capVolume": 11469.001
   },
   "variants/tenor_unda.scad": {
-    "tris": 58986,
-    "volume": 27616.119,
+    "tris": 58560,
+    "volume": 27597.755,
     "size": [
       31.597,
       29.279,
       98.511
     ],
-    "hash": "66aa694385c0856f",
+    "hash": "c20cf0471c4283d5",
     "ligHash": "d4aa84a4ee3f1fcc",
     "ligVolume": 2817.969,
     "capHash": "74769a627684f2d2",

@@ -233,6 +233,8 @@ shank_detail_count = 3; // [1:1:40]
 shank_detail_position = 0.25; // [0:0.05:1]
 // How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
 shank_detail_depth = 0.6; // [0.3:0.05:1.2]
+// How far up the shank decoration and text reach (mm); 0 = to the flare.
+shank_detail_length = 0; // [0:1:30]
 
 /* [Profile overrides] */
 // Only with your own top outline: bore height at the neck end (mm).
@@ -1757,13 +1759,14 @@ module lettering_cutter() {
 }
 
 // ---- The shank band: the round stretch at the neck end, before the flare into the body (at least
-// 7mm: a shank that flares from the end (bari, soprano) gets that much of its flare).
+// 7mm: a shank that flares from the end (bari, soprano) gets that much of its flare); shank_detail_length
+// sets its end instead.
 // shank_detail cuts grooves into it (rings, flutes along it, a spiral or knurling) and shank_text runs
 // around it, both like the lettering: a cut through a skin that follows the surface. They start
 // 1mm past the socket's lead-in (the opening keeps its wall) and leave the shank 1.2mm of wall.
 // Grooves have 45-degree sides, so they print standing on the shank end without supports.
 SHANK_BAND = let(f = len(FLARE_W) > 0 ? FLARE_W[0] * L : 0.09 * L, z0 = max(1.5, SHANK_BEVEL_DEPTH + 1))
-  [z0, max(z0 + 2, min(max(f, z0 + 7), table_rear_z - 2))];   // short of the reed's heel
+  [z0, max(z0 + 2, min(shank_detail_length > 0 ? shank_detail_length : max(f, z0 + 7), table_rear_z - 2))];   // short of the reed's heel
 function shank_wall_at(z) = let(E = exterior_ring_at(z), c = bah_at(z))
   min(E[E_HW] - socket_d / 2, E[E_TOP] - (c + socket_ry), (c - socket_ry) - max(0, E[E_BOT]));   // the table plane cuts the underside
 SHANK_WALL = min([for (i = [0 : 4]) shank_wall_at(SHANK_BAND[0] + (SHANK_BAND[1] - SHANK_BAND[0]) * i / 4)]);
@@ -1860,6 +1863,10 @@ SD_FW = min(PI * 2 * shank_r_at((SD_SPAN[0] + SD_SPAN[1]) / 2) / max(2, SD_COUNT
 // Twisted and fluted details run from past the end face to the band's end, easing out over their
 // last mm at 45 degrees (no ledge to print standing on the end face).
 function sd_ease(z, k) = max(0.05, min(k, SD_SPAN[1] - z));
+// The spiral fades into the body over its last half turn instead: narrower and shallower (or lower),
+// eased at both ends of the fade.
+SD_TAPER = SD_LEAD / 2;
+function sd_taper(z, k) = let(t = clamp01((SD_SPAN[1] - z) / SD_TAPER)) max(0.05, k * t * t * (3 - 2 * t));
 // apex_out: the raised knurl's grooves, their point 0.3mm under the surface so each diamond is rooted
 // in the body (the faceted surface lies a little inside the true one sd_r gives).
 module sd_knurl(apex_out) {
@@ -1880,7 +1887,7 @@ module shank_cutter() {
         function(z) sd_vee(sd_ease(z, min(SD_FW / 2, shank_room(max(0, z), max(0, z)))))));
   if (!SHANK_RAISED && SD_KIND == "spiral")
     bore_frame() for (i = [0 : SD_STARTS - 1])
-      sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0] - 0.5, SD_SPAN[1], function(z) sd_groove(sd_ease(z, SD_K))));
+      sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0] - 0.5, SD_SPAN[1], function(z) sd_groove(sd_taper(z, SD_K))));
   if (!SHANK_RAISED && SD_KIND == "knurled") bore_frame() sd_knurl(false);
   if (has_text(shank_text)) shank_text_cutter();
 }
@@ -1901,7 +1908,7 @@ module shank_raised() {
               function(z) [[-1, -SD_FW / 2], [0, -SD_FW / 2], [SD_FW / 2, 0], [0, SD_FW / 2], [-1, SD_FW / 2]]));
         if (SD_KIND == "spiral")
           for (i = [0 : SD_STARTS - 1])
-            sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0], SD_SPAN[1], function(z) sd_bead(SHANK_CUT)));
+            sd_sweep(sd_helix_path(i * 360 / SD_STARTS, SD_LEAD, SD_SPAN[0], SD_SPAN[1], function(z) sd_bead(sd_taper(z, SHANK_CUT))));
         if (SD_KIND == "knurled")
           difference() {
             translate([0, 0, SD_SPAN[0] + 1]) cylinder(r = SD_R[1] + SHANK_CUT + 9, h = SD_SPAN[1] - SD_SPAN[0], $fn = EXT_RING_POINTS);
@@ -2050,6 +2057,7 @@ function param_focus() =
    ["side_text_font", lettering_side, side_view, false], ["shank_text", shank, "iso", false], ["shank_text_size", shank, "iso", false],
    ["shank_text_around", shank, "iso", false], ["shank_text_font", shank, "iso", false], ["shank_detail", shank, "iso", false], ["shank_detail_style", shank, "iso", false],
    ["shank_detail_count", shank, "iso", false], ["shank_detail_position", shank, "side", false], ["shank_detail_depth", shank, "side", false],
+   ["shank_detail_length", shank, "side", false],
    ["ligature_text_font", ligature, "top", false],
    ["ligature_length", ligature, "side", false], ["ligature_position", ligature, "side", false],
    ["ligature_wall", ligature, "end", false], ["ligature_fit", ligature, "end", false],

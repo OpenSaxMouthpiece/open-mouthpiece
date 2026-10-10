@@ -205,10 +205,10 @@ the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.0
   `ligature_text_font`, `cap_text_font`; "same" = `lettering_font`, via `font_name()`).
 - **Shank band** (`SHANK_BAND`): the stretch at the neck end (round, unless the body is boxy), from 1mm past the socket's
   lead-in to where the width starts to flare (at least 7mm: the bari's and soprano's shanks flare
-  from the end, so they get that much of the flare), short of the reed's heel. `shank_detail` cuts
+  from the end, so they get that much of the flare; `shank_detail_length` > 0 sets the end instead), short of the reed's heel. `shank_detail` cuts
   grooves into it (`rings`: half-round, as many as fit up to `shank_detail_count`, one at
   `shank_detail_position`; older files' `ring` = rings, 1; `flutes`: V grooves along it; `spiral`:
-  1-4 half-round starts; `knurled`: V grooves both ways). Each is a tube swept over the surface
+  1-4 half-round starts, fading out over their last half turn (`sd_taper`); `knurled`: V grooves both ways). Each is a tube swept over the surface
   (`sd_sweep`: a profile per slice, placed from the surface under each point, `sd_r` from the
   `SD_RGRID` of surface radii by station and angle, in the tilted bore frame): the band is only round on a round body, and
   details built around one circle cut deeper and wider at a boxy body's corners. Profiles reach

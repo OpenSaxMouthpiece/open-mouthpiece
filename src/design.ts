@@ -292,6 +292,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
             when: ["shank_detail", ["rings", "flutes", "spiral", "knurled"]],
           },
           { name: "shank_detail_position", label: "Ring position", when: ["shank_detail", "rings"] },
+          { name: "shank_detail_length", label: "How far up the shank" },
         ],
         more: ["shank_text_font", "shank_text_around", "shank_detail_depth"],
       },
@@ -658,6 +659,7 @@ const ENDS: Record<string, [string, string]> = {
   shank_detail_count: ["Few", "Many"],
   shank_detail_position: ["By the neck end", "By the flare"],
   shank_detail_depth: SHALLOW_DEEP,
+  shank_detail_length: ["To the flare (auto)", "Far up"],
   lettering_depth: SHALLOW_DEEP,
   lettering_tip_clearance: ["Near the tip", "Far back"],
   // Ligature
@@ -812,6 +814,10 @@ for (const [n, texts] of [
 INACTIVE.shank_detail_position = (get) => (Number(get("shank_detail_count")) === 1 ? null : "only with one ring");
 INACTIVE.shank_detail_depth = (get) =>
   get("shank_detail") && get("shank_detail") !== "none" ? null : "no shank decoration";
+INACTIVE.shank_detail_length = (get) =>
+  (get("shank_detail") && get("shank_detail") !== "none") || anyText(get, ["shank_text"])
+    ? null
+    : "no shank decoration or text";
 INACTIVE.cap_image_aspect = (get) =>
   get("cap_image") === "same"
     ? "follows the mouthpiece's picture"
