@@ -5,6 +5,7 @@
 // anywhere else. The presets are read-only, renders fall back to SVG for 2D results, log paths are
 // project-relative.
 import type { Api, ParamValue, RenderResult, RenderTarget, ScadParam } from "./api";
+import { rebaseGenerator } from "./app/files";
 import { migrateScad } from "./migrate";
 import { scadLiteral } from "./scadText";
 import { runOpenscad } from "./wasm/runner";
@@ -49,8 +50,10 @@ function projectFile(rel: string): Promise<Uint8Array> {
 function loadStore(): Record<string, Stored> {
   try {
     const s = JSON.parse(localStorage.getItem(STORE_KEY) ?? "{}") as Record<string, Stored>;
-    // files saved before the parameter renames (migrate.ts); rewritten on their next save
-    for (const f of Object.values(s)) if (f && typeof f.text === "string") f.text = migrateScad(f.text);
+    // files saved before the parameter renames (migrate.ts), and copies of a variant or extra saved
+    // before Save as rebased their include line; rewritten on their next save
+    for (const [p, f] of Object.entries(s))
+      if (f && typeof f.text === "string") f.text = rebaseGenerator(migrateScad(f.text), p);
     return s;
   } catch {
     return {};
