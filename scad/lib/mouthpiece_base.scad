@@ -1067,8 +1067,13 @@ function interior_exps(z) =
 // through the beak corners.)
 function interior_ring_at(z) = interior_ring_pts_at(z)[0];
 
-// [ring, its points]: the points come free with the last fit pass.
-function interior_ring_pts_at(z) =
+// [ring, its points]: the points come free with the last fit pass. Under the window the width
+// starts from the smoothed wall limit (WIN_FIT_TAB), so it follows the outside in one smooth curve.
+function interior_ring_pts_at(z) = interior_ring_build(z, z > win_z0 ? win_fit_cap(z) : 1);
+
+// [ring, its points, the width before the wall fit]. cap_s (<= 1) scales the width before the fit,
+// which still checks every point, so the wall guarantee doesn't depend on it.
+function interior_ring_build(z, cap_s) =
   let(E = exterior_ring_at(z), hw0 = interior_half_w(z, E), bot0 = interior_bottom_y(z, E, hw0), ne = interior_exps(z))
   let(cap = E[E_TOP] - interior_wall(z))
   // the roof blends from the round bore/chamber into the baffle over 4mm (no step when the
@@ -1086,7 +1091,9 @@ function interior_ring_pts_at(z) =
   let(narrow = in_win ? window_side_hw(z) + 0.3 * rail_t : 1e3, narrow_top = facing_at_z(z) + 2)
   // walls leaning out (sidewall_angle > 0) need the ring wide enough to reach them at the roof
   let(hw0w = in_win && sidewall_angle > 0 ? max(hw0, narrow + max(0, top - narrow_top) * tan(sidewall_angle)) : hw0)
-  let(hw1 = !in_win ? hw0w : max(min(hw0w, ring_half_width_at_y(E, top) - 0.8), min(narrow, hw0w)))
+  let(hw1r = !in_win ? hw0w : max(min(hw0w, ring_half_width_at_y(E, top) - 0.8), min(narrow, hw0w)))
+  // the smoothed limit, but never narrower than the window (the fit below still has the last word)
+  let(hw1 = cap_s >= 1 ? hw1r : max(hw1r * cap_s, min(narrow, hw1r)))
   // Last guarantee: every point of the ring keeps the side wall (min_wall before the window, the
   // rail allowance in it) at its OWN height — the width clamps above only look at mid-height, and
   // a wide throat/chamber/bore in a narrow or low body poked through above and below it. Only x
@@ -1104,7 +1111,7 @@ function interior_ring_pts_at(z) =
   // I[5] stays 1e3 before the window (it marks "no window here" for interior_points; clamped to
   // the width, the leaning sidewalls reached back into the throat and bore)
   let(I = [max(0.05, hw), top, bot, ne[0], ne[1], in_win ? min(narrow, max(0.05, hw)) : 1e3, narrow_top])
-  [I, I == I2 ? f2[1] : interior_points(INT_DIRS, z, I)];
+  [I, I == I2 ? f2[1] : interior_points(INT_DIRS, z, I), hw1r];
 
 // Width scale (<= 1) that makes every ring point keep its wall at its own height: min_wall before
 // the window; under the window 0.6 x side_rail_width for the part within the window width (the
@@ -1121,14 +1128,16 @@ function interior_fit(z, E, I, in_win, lo) =
   [len(ratios) ? max(0.05, min(1, min(ratios))) : 1, pts];
 
 // The interior ring's points: the superellipse, with x held within the window width below
-// narrow_top and blending out to the full width over the next 1.5mm (I[5] = 1e3 before the window).
+// narrow_top and blending out to the full width above it, over 1.5mm or 2 x the step out if that
+// is more (a chamber much wider than the window leans out, under ~45 degrees at the steepest,
+// instead of making a shelf over the rails, issue #1) (I[5] = 1e3 before the window).
 // With sidewall_angle (under the window only) the walls above narrow_top lean out (+, scooped
 // out toward the chamber width) or in (-, the chamber narrower than the window toward the roof)
 // at that angle from vertical.
 function interior_points(dirs, z, I) =
   [for (p = sring(dirs, z, I[0], I[1], I[2], I[3], I[4], (I[1] + I[2]) / 2))
     let(allowed = sidewall_angle == 0 || I[5] >= 1e3
-      ? lerp(min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / 1.5)))
+      ? lerp(min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0]))))))
       : sidewall_allowed(I, p[1]))
     [sign(p[0]) * min(abs(p[0]), allowed), p[1], p[2]]];
 // Half-width the leaning walls allow at height y (the corner at narrow_top rounded over 1mm).
@@ -1433,6 +1442,25 @@ Z_STEP = 64 / render_fn;
 // Not needed by the ligature, cap and reed parts: skipped there (each run evaluates the whole file).
 ACCESSORY_PART = part == "ligature_seated" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap"
   || part == "metal_ligature_model";
+// The wall fit under the window, smoothed along Z. Ring by ring it jumps where ring points cross
+// the window width (the rails' allowance gives way to the full wall there): a chamber wider than
+// the window came out ribbed (issue #1). The width scale each ring would get, sampled every 1mm,
+// then the lowest within 2mm either side, averaged over 1mm either side: smooth, and at the
+// samples never above any scale within 1mm of it (between them the fit still checks every ring).
+WIN_FIT_DZ = 1;
+WIN_FIT_TAB = ACCESSORY_PART ? [] : let(
+    zs = [for (z = [win_z0 + WIN_FIT_DZ : WIN_FIT_DZ : win_front_z]) z],
+    raw = [for (z = zs) let(R = interior_ring_build(z, 1)) R[0][0] / max(0.05, R[2])],
+    n = len(raw),
+    lo = [for (i = [0 : n - 1]) min([for (j = [max(0, i - 2) : min(n - 1, i + 2)]) raw[j]])],
+    sm = [for (i = [0 : n - 1]) (lo[max(0, i - 1)] + lo[i] + lo[min(n - 1, i + 1)]) / 3])
+  [for (i = [0 : n - 1]) [zs[i], min(1, sm[i])]];
+function win_fit_cap(z) =
+  len(WIN_FIT_TAB) < 2 ? 1 :
+  let(t = (z - WIN_FIT_TAB[0][0]) / WIN_FIT_DZ, n = len(WIN_FIT_TAB))
+  t <= 0 ? WIN_FIT_TAB[0][1] : t >= n - 1 ? WIN_FIT_TAB[n - 1][1]
+  : let(i = floor(t)) lerp(WIN_FIT_TAB[i][1], WIN_FIT_TAB[i + 1][1], t - i);
+
 AIR_RINGS = ACCESSORY_PART ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
   let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 

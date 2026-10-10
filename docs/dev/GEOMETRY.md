@@ -104,6 +104,11 @@ readout and the clearance report.
   `L - tip_curve - 1`. Never narrower than the window above it. On the presets the chamber peaks
   under the window, so `chamber_flare` / `chamber_full_length` only show when `chamber_width` is
   wider than the window.
+- **Wider than the window** (issue #1): under the window the walls hold the window width up to
+  `narrow_top`, then open out to the chamber over 1.5mm or 2 x the step out (under ~45 degrees,
+  no shelf over the rails); the wall fit there starts from `WIN_FIT_TAB`, its scale sampled every
+  1mm and smoothed (lowest within 2mm, averaged over 1mm), so the width follows the outside in one
+  curve instead of ribbing where ring points cross the window width. The fit still checks every ring.
 - **Under the window** the walls rise straight from the window edge for 2mm (rails keep full
   thickness), then open out to the chamber width (`interior_points`); `sidewall_angle` (!= 0) leans
   them out or in from there (`sidewall_allowed`; leaning in, the window cutter's upper corners

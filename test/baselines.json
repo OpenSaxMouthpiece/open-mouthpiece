@@ -56,14 +56,14 @@
     "capVolume": 11032.423
   },
   "variants/alto_flamma.scad": {
-    "tris": 42528,
-    "volume": 16063.647,
+    "tris": 42516,
+    "volume": 16067.972,
     "size": [
       27.6,
       27,
       88.098
     ],
-    "hash": "e725b371298c9ad3",
+    "hash": "845ccaa6d42e7a7b",
     "ligHash": "2046399c10b76a1b",
     "ligVolume": 2487.799,
     "capHash": "64b319ee3afcc99e",
@@ -98,14 +98,14 @@
     "capVolume": 10242.676
   },
   "variants/baritone_flamma.scad": {
-    "tris": 53370,
-    "volume": 32221.384,
+    "tris": 53358,
+    "volume": 32224.115,
     "size": [
       30.097,
       29.898,
       139.105
     ],
-    "hash": "c61fc651e9e2f2d7",
+    "hash": "737b79fbfdce29c6",
     "ligHash": "15a2716e919125a0",
     "ligVolume": 2610.63,
     "capHash": "8a5017d43066dd61",
@@ -182,14 +182,14 @@
     "capVolume": 7175.543
   },
   "variants/tenor_flamma.scad": {
-    "tris": 45072,
-    "volume": 20312.948,
+    "tris": 45068,
+    "volume": 20313.45,
     "size": [
       29.2,
       28.693,
       95.179
     ],
-    "hash": "1d4ddc1528ce5008",
+    "hash": "505ff2bb048f78cd",
     "ligHash": "32ff1c01627929e2",
     "ligVolume": 2630.821,
     "capHash": "2b283b88b20da011",
@@ -235,13 +235,13 @@
   },
   "extras/c_melody.scad": {
     "tris": 19234,
-    "volume": 25506.907,
+    "volume": 25521.484,
     "size": [
       29.994,
       28.593,
       95.517
     ],
-    "hash": "15a2f73e28958389",
+    "hash": "0b71b340ff625e98",
     "ligHash": "baae9ee1c35992c3",
     "ligVolume": 2682.989,
     "capHash": "d8e7ddd465652fdd",
