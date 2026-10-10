@@ -2744,10 +2744,13 @@ module mouthpiece_body() {
   }
 }
 
+// Cut square to the bore (like the end face), so the ring prints flat on its end and its top is
+// parallel to it.
 module shank_test_ring() {
   intersection() {
     mouthpiece_body();
-    translate([-100, -100, -1]) cube([200, 200, eff_shank_depth + 2]);
+    translate([0, bah_at(-1), -1]) rotate([bore_tilt, 0, 0])
+      translate([-100, -100, -1]) cube([200, 200, eff_shank_depth + 3]);
   }
 }
 

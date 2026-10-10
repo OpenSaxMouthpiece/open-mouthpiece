@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "d3fc6f61-20680",
+  "hash": "43f056ab-20680",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -55,7 +55,7 @@
    {
     "caption": "Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.",
     "group": "Shank",
-    "initial": 16,
+    "initial": 16.2,
     "max": 24,
     "min": 8,
     "name": "bore_diameter",
@@ -10060,7 +10060,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "17b30aed-20774",
+  "hash": "cf309f93-20774",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10115,7 +10115,7 @@
    {
     "caption": "Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.",
     "group": "Shank",
-    "initial": 16,
+    "initial": 16.2,
     "max": 24,
     "min": 8,
     "name": "bore_diameter",
@@ -12072,7 +12072,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "55732d80-20809",
+  "hash": "50ba26b6-20809",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12127,7 +12127,7 @@
    {
     "caption": "Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.",
     "group": "Shank",
-    "initial": 16,
+    "initial": 16.2,
     "max": 24,
     "min": 8,
     "name": "bore_diameter",
@@ -14084,7 +14084,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "b647df74-20778",
+  "hash": "50828256-20778",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14139,7 +14139,7 @@
    {
     "caption": "Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.",
     "group": "Shank",
-    "initial": 16,
+    "initial": 16.2,
     "max": 24,
     "min": 8,
     "name": "bore_diameter",

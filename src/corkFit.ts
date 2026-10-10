@@ -15,7 +15,7 @@ export interface Socket {
 // preset no longer renders these (after a retune: copy the new numbers from its message).
 export const PRESET_AIR: Record<string, { air: number; depth: number }> = {
   Soprano: { air: 2.9, depth: 25.5 },
-  Alto: { air: 9, depth: 22 },
+  Alto: { air: 9.1, depth: 22 },
   "C-melody": { air: 9.4, depth: 24.5 },
   Tenor: { air: 10.2, depth: 26 },
   Baritone: { air: 16.9, depth: 30 },

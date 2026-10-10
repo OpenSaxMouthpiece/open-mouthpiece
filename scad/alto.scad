@@ -16,7 +16,7 @@ shank_bevel_depth = 1.0; // [0.2:0.1:20]
 // How far the cork goes in (mm). Other settings give way to keep it.
 shank_depth = 22.0; // [10:0.5:70]
 // Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.
-bore_diameter = 16.0; // [8:0.1:24]
+bore_diameter = 16.2; // [8:0.1:24]
 // Angle between the neck's line and the reed table (degrees); about 4 is typical.
 bore_tilt = 4.4; // [-3:0.1:8]
 // Outside diameter of the shank at the neck end (mm); grows if the wall gets too thin.
