@@ -286,9 +286,9 @@ ligature or cap when you're in their section. The arrow next to it has more opti
 
 - **Mouthpiece (.stl)**, oriented for printing.
 - **Shank test ring (.stl)**, using your cork squeeze setting.
-- **Print kit (.zip)**, which contains the mouthpiece, test rings at three different squeezes
-  (0.10, 0.20 and 0.30 mm), the ligature if you made one, and a card with measurements to check
-  the print against.
+- **Print kit (.zip)**, everything in one zip: the mouthpiece, test rings at three different
+  squeezes (0.10, 0.20 and 0.30 mm), the ligature and cap if you made them, the design file, and a
+  card with measurements to check the print against.
 - **Design file (.scad)**.
 
 The [printing guide](PRINTING.md) explains how to print the mouthpiece, check the fit, finish the

@@ -399,6 +399,18 @@ button.toggle.on {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.status .status-action {
+  pointer-events: auto;
+  margin-left: 8px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
 .status.busy span:first-child {
   color: var(--accent-fg);
 }

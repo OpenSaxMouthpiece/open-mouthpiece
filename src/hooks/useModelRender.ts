@@ -20,7 +20,13 @@ import { renderEnded, renderStarted, report } from "../report";
 import { reportDesign, type Values } from "../app/files";
 import { QUALITY_FN, type CapView, type LigatureView, type Quality } from "../app/session";
 
-export type Status = { text: string; short?: string; kind: "idle" | "busy" | "ok" | "error" };
+// action: a button beside the text (a finished download that needs a click of its own).
+export type Status = {
+  text: string;
+  short?: string;
+  kind: "idle" | "busy" | "ok" | "error";
+  action?: { label: string; run: () => void };
+};
 
 export interface RenderState {
   target: RenderTarget | null;

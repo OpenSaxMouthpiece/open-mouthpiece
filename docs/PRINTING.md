@@ -11,8 +11,8 @@ The Download button saves the part you're working on; its **▾** lists everythi
 oriented for printing.
 
 Or take everything at once: **Download print kit** (in Print, or Download ▾) makes one zip with
-the mouthpiece, the three shank test rings below, the ligature if you made one, and a check card
-with the numbers to measure the print against (tip opening, facing stops).
+the mouthpiece, the three shank test rings below, the ligature and cap if you made them, the design
+file, and a check card with the numbers to measure the print against (tip opening, facing stops).
 
 ## 1. Check the cork fit (15 minutes)
 

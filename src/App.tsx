@@ -171,7 +171,7 @@ export default function App() {
     setStatus(s);
   }, []);
   useEffect(() => {
-    if (!notice || notice.kind === "busy") return; // progress stays until the action ends
+    if (!notice || notice.kind === "busy" || notice.action) return; // progress and Save stay until done
     const t = setTimeout(() => setNotice(null), 4000);
     return () => clearTimeout(t);
   }, [notice]);
@@ -978,6 +978,19 @@ export default function App() {
   const labelB = pinned ? labelOf(pinned) : undefined;
 
   // ---- downloads
+  // Hand finished files to the browser. A page may start a download only shortly after a click
+  // (Chrome otherwise holds it behind its "download multiple files" prompt), so after a long render
+  // the files wait for a click on Save in the status line.
+  const deliver = (files: [string, BlobPart][], text: string) => {
+    const save = () => {
+      for (const [n, data] of files)
+        download(data, n.endsWith(".zip") ? "application/zip" : n.endsWith(".stl") ? "model/stl" : "text/plain", n);
+      notify({ text, short: "Downloaded", kind: "ok" });
+    };
+    if (navigator.userActivation?.isActive ?? true) return save();
+    const names = files.map(([n]) => n).join(", ");
+    notify({ text: `${names} is ready`, short: "Ready to save", kind: "ok", action: { label: "Save", run: save } });
+  };
   const downloadPart = async (what: PartWhat) => {
     if (dl?.state === "busy") return;
     const base = downloadName(mainTab, values, isRO(mainTab));
@@ -1005,7 +1018,6 @@ export default function App() {
           : what === "ligature" || what === "cap"
             ? await partStl(what)
             : await partStl(what === "mouthpiece" && otherPart ? "mouthpiece" : null);
-      download(stlData, "model/stl", `${name}.stl`);
       track(
         "download",
         mouthpiece
@@ -1022,7 +1034,7 @@ export default function App() {
           settings: designNumbers(params, values),
         },
       );
-      notify({ text: `Downloaded ${name}.stl`, short: "Downloaded", kind: "ok" });
+      deliver([[`${name}.stl`, stlData]], `Downloaded ${name}.stl`);
       setDl({ what, state: "done" });
       if (mouthpiece) setPrinted(true);
     } catch (err) {
@@ -1044,8 +1056,9 @@ export default function App() {
       "Download failed"
     );
   const dlBusy = (what: Download["what"]) => dl?.what === what && dl.state === "busy";
-  // The print kit, one zip: the mouthpiece, shank test rings at three cork squeezes (and the design's
-  // own), the ligature if made, and a check card (printKit.ts).
+  // The print kit, one zip with everything: the mouthpiece, shank test rings at three cork squeezes
+  // (and the design's own), the ligature and cap if made, the design file with its pictures, and a
+  // check card (printKit.ts).
   const downloadKit = async () => {
     if (dl?.state === "busy") return;
     const name = downloadName(mainTab, values, isRO(mainTab));
@@ -1061,6 +1074,7 @@ export default function App() {
         out.push([ringFile(name, c), new Uint8Array(await partStl("shank_test_ring", { shank_clearance: c }))]);
       if (withLigature) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
       if (withCap) out.push([`${name}_cap.stl`, new Uint8Array(await partStl("cap"))]);
+      out.push([`${name}.scad`, new TextEncoder().encode(await fullScad())], ...(await pictureFiles()));
       const r = await kitReports();
       const card = checkCard({
         name,
@@ -1081,8 +1095,7 @@ export default function App() {
         cap: withCap,
         settings: designNumbers(params, values),
       });
-      download(zipSync(Object.fromEntries(out)), "application/zip", `${name}_print_kit.zip`);
-      notify({ text: `Downloaded ${name}_print_kit.zip`, short: "Downloaded", kind: "ok" });
+      deliver([[`${name}_print_kit.zip`, zipSync(Object.fromEntries(out))]], `Downloaded ${name}_print_kit.zip`);
       setDl({ what: "kit", state: "done" });
       setPrinted(true);
     } catch (err) {
@@ -1094,8 +1107,8 @@ export default function App() {
   const printKitButton = (
     <div className="lig-head print-kit">
       <p className="muted">
-        Everything for a first print in one zip: the mouthpiece, shank test rings at cork squeeze 0.10 / 0.20 / 0.30 mm,
-        the ligature if made, and a check card with the numbers to measure the print against.
+        Everything in one zip: the mouthpiece, shank test rings at cork squeeze 0.10 / 0.20 / 0.30 mm, the ligature and
+        cap if made, the design file, and a check card with the numbers to measure the print against.
       </p>
       <div className="lig-actions">
         <button onClick={downloadKit} disabled={!stl || dlBusy("kit")} aria-live="polite">
@@ -1141,18 +1154,15 @@ export default function App() {
       const text = await fullScad();
       const art = await pictureFiles();
       const name = art.length ? `${base}.zip` : `${base}.scad`;
-      if (art.length)
-        download(
-          zipSync(Object.fromEntries([[`${base}.scad`, new TextEncoder().encode(text)], ...art])),
-          "application/zip",
-          name,
-        );
-      else download(text, "text/plain", name);
-      notify({
-        text: `Downloaded ${name} (self-contained${art.length ? ", with its picture" : ""}, ${Math.round(text.length / 1024)} KB)`,
-        short: `Downloaded ${name}`,
-        kind: "ok",
-      });
+      deliver(
+        [
+          [
+            name,
+            art.length ? zipSync(Object.fromEntries([[`${base}.scad`, new TextEncoder().encode(text)], ...art])) : text,
+          ],
+        ],
+        `Downloaded ${name} (self-contained${art.length ? ", with its picture" : ""}, ${Math.round(text.length / 1024)} KB)`,
+      );
     } catch (err) {
       fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
     }
@@ -1188,20 +1198,14 @@ export default function App() {
     }
     // a picture goes in an art/ folder beside the design file: only a zip keeps the folder
     const zipped = out.length > 1 && (opts.zip || out.some(([n]) => n.startsWith("art/")));
-    if (zipped) download(zipSync(Object.fromEntries(out)), "application/zip", `${name}.zip`);
-    else for (const [n, data] of out) download(data, n.endsWith(".stl") ? "model/stl" : "text/plain", n);
-    const got = zipped ? `${name}.zip` : out.map(([n]) => n).join(", ");
+    const files: [string, BlobPart][] = zipped ? [[`${name}.zip`, zipSync(Object.fromEntries(out))]] : out;
+    const got = files.map(([n]) => n).join(", ");
     if (opts.browser) {
       await doSaveAs(p, mainTab);
-      if (out.length)
-        notify({
-          text: `Saved as “${voiceLabel(p)}” in this browser; downloaded ${got}`,
-          short: "Saved and downloaded",
-          kind: "ok",
-        });
+      if (out.length) deliver(files, `Saved as “${voiceLabel(p)}” in this browser; downloaded ${got}`);
     } else {
       setSaveAs(null);
-      notify({ text: `Downloaded ${got}`, short: "Downloaded", kind: "ok" });
+      deliver(files, `Downloaded ${got}`);
     }
   };
 
@@ -1591,6 +1595,11 @@ export default function App() {
   const statusBar = (
     <div className={`status ${shownStatus.kind}`}>
       <span>{(coding ? shownStatus.text : (shownStatus.short ?? shownStatus.text)) + partsNote}</span>
+      {shownStatus.action && (
+        <button className="status-action" onClick={shownStatus.action.run}>
+          {shownStatus.action.label}
+        </button>
+      )}
       {coding && <span className="backend">{backend && `OpenSCAD · ${backend}`}</span>}
     </div>
   );
@@ -1971,7 +1980,7 @@ export default function App() {
       item(
         "kit",
         "Print kit (.zip)",
-        "all of these, test rings at 0.10 / 0.20 / 0.30 squeeze, and a check card",
+        "everything: all of these, test rings at 0.10 / 0.20 / 0.30 squeeze, the design file, a check card",
         downloadKit,
       ),
       <hr key="hr" />,
