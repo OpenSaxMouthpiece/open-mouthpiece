@@ -22,13 +22,12 @@ export const isDirty = (t: Tab) => t.saved !== null && t.source !== t.saved;
 export const isLibrary = (t: Tab) => !!t.path && t.path.startsWith("lib/");
 export const fileName = (p: string) => p.split("/").pop()!;
 export const baseName = (p: string) => fileName(p).replace(/\.scad$/i, "");
-export const projectTab = (path: string, source: string): Tab => ({
-  key: path,
-  path,
-  name: fileName(path),
-  source,
-  saved: source,
-});
+// The include line is fixed on the way in: copies saved from a variant or extra before Save as
+// rebased it ("../lib/..." at the top level) would otherwise render nothing.
+export const projectTab = (path: string, text: string): Tab => {
+  const source = rebaseGenerator(text, path);
+  return { key: path, path, name: fileName(path), source, saved: source };
+};
 
 // A tab for text that isn't a project file, keyed "local:<name>.scad" ("<name> (2).scad" etc. when taken).
 export function localTab(name: string, source: string, taken: (key: string) => boolean): Tab {
@@ -89,6 +88,13 @@ export const presetFor = (source: string) => {
 // The generator every design includes: the geometry, with default values its settings files override.
 export const GENERATOR = "lib/mouthpiece_base.scad";
 export const includesGenerator = (source: string) => /include\s*<[^>]*mouthpiece_base\.scad>/.test(source);
+// A design copied to another folder (Save as from a variant or extra, "../lib/..."): its include
+// line pointed at the generator from the new place.
+export const rebaseGenerator = (source: string, path: string) =>
+  source.replace(
+    /include\s*<[^>]*mouthpiece_base\.scad>/,
+    `include <${"../".repeat(path.split("/").length - 1)}${GENERATOR}>`,
+  );
 // A tab's name in the code column: "Generator", or the design's name ("Tenor", "Alto Flamma").
 export const tabLabel = (t: Tab) =>
   t.path === GENERATOR ? "Generator" : isLibrary(t) ? t.path! : voiceLabel(t.path ?? t.name);

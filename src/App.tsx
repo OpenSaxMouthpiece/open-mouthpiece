@@ -67,6 +67,7 @@ import {
   downloadName,
   fileName,
   includesGenerator,
+  rebaseGenerator,
   isDirty,
   isLibrary,
   isExtra,
@@ -481,7 +482,7 @@ export default function App() {
       return;
     }
     const fromPreset = isRO(t);
-    const source = withValues(t.source, valuesByKey[t.key] ?? {});
+    const source = rebaseGenerator(withValues(t.source, valuesByKey[t.key] ?? {}), p);
     try {
       await api.save(p, source);
       setSaveAs(null);
