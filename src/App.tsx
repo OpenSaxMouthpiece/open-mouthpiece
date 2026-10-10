@@ -2003,11 +2003,14 @@ export default function App() {
   );
   const dropProps = {
     onDragOver: (e: React.DragEvent) => {
+      if (!e.dataTransfer.types.includes("Files")) return; // only files, not text or a picture on the page
       e.preventDefault();
       setDragging(true);
     },
+    // Left the page (out of the window: no relatedTarget), not just moved onto a child.
     onDragLeave: (e: React.DragEvent) => {
-      if (e.currentTarget === e.target) setDragging(false);
+      const to = e.relatedTarget as Node | null;
+      if (!to || !e.currentTarget.contains(to)) setDragging(false);
     },
     onDrop: (e: React.DragEvent) => {
       e.preventDefault();
