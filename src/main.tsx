@@ -30,8 +30,20 @@ if (location.hostname.startsWith("dev.") || location.search.includes("devtag")) 
 watchPageErrors();
 reportUnfinishedRender(); // the last visit froze during a render
 
+// The 3D view needs WebGL: without it (switched off, a headless browser) the app can't work, so the
+// page says so instead of starting.
+const canvas = document.createElement("canvas");
+const hasWebGL = !!(canvas.getContext("webgl2") ?? canvas.getContext("webgl"));
+
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  hasWebGL ? (
+    <StrictMode>
+      <App />
+    </StrictMode>
+  ) : (
+    <p className="no-webgl">
+      Open Mouthpiece needs WebGL to show the 3D model, and this browser doesn't have it (it may be switched off). Try
+      another browser or turn on hardware acceleration.
+    </p>
+  ),
 );

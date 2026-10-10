@@ -59,6 +59,14 @@ html,
 body {
   overflow: hidden;
 }
+/* shown instead of the app when the browser has no WebGL (main.tsx) */
+.no-webgl {
+  max-width: 32rem;
+  margin: 20vh auto 0;
+  padding: 0 16px;
+  font-size: 15px;
+  text-align: center;
+}
 body {
   background: var(--bg);
   color: var(--text);
