@@ -258,17 +258,34 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
       if (s.ligOK || s.capOK) loadParts(t, vals, fn);
       setStatus({ text: `Rendering ${t.name}…`, short: "Rendering…", kind: "busy" });
       renderStarted(reportDesign(t.path));
-      const slow = window.setTimeout(
-        () => report("slow-render", `a render is still running after ${SLOW_RENDER_S}s`),
-        SLOW_RENDER_S * 1000,
-      );
+      // Time spent in the background doesn't count (a phone pauses the page while another app is
+      // up, and the timer fires on return); a slow render also reports how long it took in the end.
+      const began = performance.now();
+      let wasHidden = document.hidden;
+      let wasSlow = false;
+      const onVisibility = () => {
+        if (document.hidden) wasHidden = true;
+      };
+      document.addEventListener("visibilitychange", onVisibility);
+      const slow = window.setTimeout(() => {
+        if (wasHidden || document.hidden) return;
+        wasSlow = true;
+        report("slow-render", `a render is still running after ${SLOW_RENDER_S}s`);
+      }, SLOW_RENDER_S * 1000);
       const withReports = s.reportsOn;
       const focusToo = withReports && s.zoom;
       const source = withReports ? t.source + REPORTS_ECHO + (focusToo ? FOCUS_ECHO : "") : t.source;
       try {
         const run = api.render(source === t.source ? t : { ...t, source }, withFn(vals, fn), ac.signal).finally(() => {
           clearTimeout(slow);
+          document.removeEventListener("visibilitychange", onVisibility);
           renderEnded();
+          if (wasSlow)
+            report(
+              "slow-render",
+              `the slow render ${ac.signal.aborted ? "was cancelled" : "finished"} after ` +
+                `${Math.round((performance.now() - began) / 1000)}s${wasHidden ? " (page hidden meanwhile)" : ""}`,
+            );
         });
         if (focusToo)
           setFocusData(
