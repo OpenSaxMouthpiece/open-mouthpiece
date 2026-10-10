@@ -1056,7 +1056,7 @@ export default function App() {
       "Download failed"
     );
   const dlBusy = (what: Download["what"]) => dl?.what === what && dl.state === "busy";
-  // The files ticked in Download ▾, zipped or not; the print kit = all of them, one zip: the
+  // The files ticked in Download ▾ (one zip if more than one); the print kit = all of them, one zip: the
   // mouthpiece, shank test rings at three cork squeezes (and the design's own), the ligature and cap
   // if made, the design file with its pictures, and a check card (printKit.ts).
   const downloadFiles = async (sel: DownloadOpts, kit = false) => {
@@ -1109,8 +1109,9 @@ export default function App() {
         cap: withCap,
         settings: designNumbers(params, values),
       });
-      // a picture goes in an art/ folder beside the design file: only a zip keeps the folder
-      const zipped = out.length > 1 && (sel.zip || out.some(([n]) => n.startsWith("art/")));
+      // several files go as one zip: Chrome holds back a second download from the same click (and
+      // only a zip keeps a picture's art/ folder)
+      const zipped = out.length > 1;
       const files: [string, BlobPart][] = zipped
         ? [[`${name}${kit ? "_print_kit" : ""}.zip`, zipSync(Object.fromEntries(out))]]
         : out;
@@ -1508,7 +1509,7 @@ export default function App() {
       {!coding && (
         <button
           onClick={() => fileInput.current?.click()}
-          title="Open a design (.scad) from this device: a Download .scad, or a file from OpenSCAD"
+          title="Open a design (.scad) from this device: a downloaded design file, or one from OpenSCAD"
         >
           Open…
         </button>

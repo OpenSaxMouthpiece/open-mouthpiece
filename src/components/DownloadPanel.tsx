@@ -1,5 +1,5 @@
 // Download ▾ for a design: tick the files (STLs, test rings, the design file, a check card), then
-// one Download, zipped or not. The ticks are remembered; "All" ticks everything (the print kit).
+// one Download (more than one file comes as one zip: Chrome holds a second download back). The ticks are remembered; "All" ticks everything (the print kit).
 import { useState } from "react";
 
 export type DownloadOpts = {
@@ -10,7 +10,6 @@ export type DownloadOpts = {
   full: boolean;
   settings: boolean;
   card: boolean;
-  zip: boolean;
 };
 export const DOWNLOAD_DEFAULTS: DownloadOpts = {
   stl: true,
@@ -20,7 +19,6 @@ export const DOWNLOAD_DEFAULTS: DownloadOpts = {
   full: true,
   settings: false,
   card: false,
-  zip: true,
 };
 // Everything there is (the print kit).
 export const DOWNLOAD_ALL: DownloadOpts = {
@@ -31,7 +29,6 @@ export const DOWNLOAD_ALL: DownloadOpts = {
   full: true,
   settings: false,
   card: true,
-  zip: true,
 };
 
 // Whether the ticks download anything (the ligature and the cap only count when the design has one).
@@ -44,7 +41,7 @@ interface Props {
   ligature: boolean; // offer the ligature's STL
   cap: boolean; // offer the cap's STL
   squeezes: string; // the test rings' cork squeezes, "0.10 / 0.20 / 0.30"
-  picture: boolean; // the design file has a picture beside it (always zipped then)
+  picture: boolean; // the design file has a picture beside it
   busy: boolean;
   onDownload: () => void;
 }
@@ -90,9 +87,7 @@ export function DownloadPanel({ opts, onOpt, ligature, cap, squeezes, picture, b
           {box("settings")} Settings-only .scad <span className="muted">opens only on this site</span>
         </label>
       </details>
-      <label title="One .zip with every file above, instead of separate downloads (a picture always comes zipped)">
-        {box("zip", !files)} Zip the files into one download
-      </label>
+      <p className="muted">More than one file comes as one .zip.</p>
       <div className="save-buttons">
         <button
           type="button"

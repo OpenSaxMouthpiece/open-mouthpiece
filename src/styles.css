@@ -981,6 +981,10 @@ button.toggle.on {
 .dl-panel .save-more label {
   margin-top: 4px;
 }
+.dl-panel > p.muted {
+  margin: 0;
+  font-size: 11.5px;
+}
 .dl-panel .save-buttons {
   display: flex;
   justify-content: flex-end;
@@ -1180,6 +1184,10 @@ button.toggle.on {
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 10px;
+}
+/* a scrolling column: keep each item its full height (the download list was squashed under the buttons) */
+.phone-menu-body > * {
+  flex-shrink: 0;
 }
 .phone-menu-body > button,
 .phone-menu-body > select,

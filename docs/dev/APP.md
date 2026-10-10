@@ -71,7 +71,7 @@ static site (docs/HOSTING.md).
 - **Download ▾** (`downloadItems` in App.tsx, DownloadPanel.tsx; desktop: the ▾ joined to Download, phone: the
   ☰ menu): ticks for the mouthpiece STL, shank test rings, the ligature / cap once made, the design file
   (.scad + `art/`), the check card, a settings-only .scad under "More formats" (`<name>_settings.scad`: the
-  voice file with the values, `include <../lib/` rewritten to `include <lib/`), zip or not (fflate); one
+  voice file with the values, `include <../lib/` rewritten to `include <lib/`); more than one file = one zip (fflate: Chrome holds back a second download); one
   Download (`downloadFiles`), "Tick all" = the print kit. Ticks persist (`downloads` pref). The main
   button still downloads the part tab's part (and shows any download's progress). A file finished
   after the click's activation expired (`navigator.userActivation`) waits for a Save button in the
