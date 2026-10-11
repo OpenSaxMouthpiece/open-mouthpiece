@@ -282,7 +282,7 @@ export default function App() {
   // ---- rendering (hooks/useModelRender.ts) and zoom to parameter (hooks/useParamFocus.ts)
   const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
-  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, kitReports } = model;
+  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, capPrintStl, kitReports } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
   const textVars = useMemo(() => (log ? parseTextVariables(log) : []), [log]);
 
@@ -1007,12 +1007,15 @@ export default function App() {
     setDl({ what, state: "busy" });
     notify({ text: `Making ${name}.stl for the download…`, short: "Preparing the download…", kind: "busy" });
     try {
+      const cachedCap = what === "cap" ? capPrintStl() : null;
       const stlData =
         what === "ring"
           ? await partStl("shank_test_ring", { shank_clearance: squeeze })
-          : what === "ligature" || what === "cap"
-            ? await partStl(what)
-            : await partStl(what === "mouthpiece" && otherPart ? "mouthpiece" : null);
+          : what === "cap" && cachedCap
+            ? cachedCap
+            : what === "ligature" || what === "cap"
+              ? await partStl(what)
+              : await partStl(what === "mouthpiece" && otherPart ? "mouthpiece" : null);
       track(
         "download",
         mouthpiece

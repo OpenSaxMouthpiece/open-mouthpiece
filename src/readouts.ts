@@ -99,6 +99,7 @@ export function parseLigature(log: string): LigatureInfo | null {
 // the collar> <squeeze>", and its warnings.
 export interface CapInfo {
   length: number;
+  rearZ: number; // cap rim position in the seated model; the printable STL shifts this to z = 0
   inside: [number, number]; // inside width, height at the collar
   squeeze: number; // how much smaller than what it sits on the collar is (mm)
   notes: string[];
@@ -108,7 +109,7 @@ export function parseCap(log: string): CapInfo | null {
   if (!m) return null;
   const n = m[1].trim().split(" ").map(Number);
   const notes = [...log.matchAll(/ECHO: "WARNING: ((?:the cap|cap_)[^"]*)"/g)].map((w) => plainNote(w[1]));
-  return { length: n[0], inside: [n[2], n[3]], squeeze: n[4], notes };
+  return { length: n[0], rearZ: n[1], inside: [n[2], n[3]], squeeze: n[4], notes };
 }
 export function capText(c: CapInfo | null): string {
   if (!c) return "";

@@ -88,6 +88,21 @@ const partSignature = (t: RenderTarget, vals: Values, fn: number | null, part: s
   ]);
 const withFn = (vals: Values, fn: number | null): Values => (fn === null ? vals : { ...vals, render_fn: fn });
 
+function translateStlZ(stl: ArrayBuffer, dz: number): ArrayBuffer {
+  const out = stl.slice(0);
+  if (!dz) return out;
+  const view = new DataView(out);
+  if (out.byteLength < 84) throw new Error("the cap preview isn't a binary STL");
+  const triangles = view.getUint32(80, true);
+  if (84 + triangles * 50 > out.byteLength) throw new Error("the cap preview STL is incomplete");
+  for (let i = 0; i < triangles; i++)
+    for (let v = 0; v < 3; v++) {
+      const at = 84 + i * 50 + 12 + v * 12 + 8;
+      view.setFloat32(at, view.getFloat32(at, true) + dz, true);
+    }
+  return out;
+}
+
 export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }: Options) {
   const [stl, setStl] = useState<ArrayBuffer | null>(null);
   const [svg, setSvg] = useState<string | null>(null);
@@ -101,6 +116,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const [ligInfo, setLigInfo] = useState<LigatureInfo | null>(null);
   const [capStl, setCapStl] = useState<ArrayBuffer | null>(null);
   const [capInfo, setCapInfo] = useState<CapInfo | null>(null);
+  const readyCapSig = useRef<string | null>(null);
 
   const renderAbort = useRef<AbortController | null>(null);
   const reportsAbort = useRef<AbortController | null>(null);
@@ -197,11 +213,16 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
 
   // The cap for the model, seated on it (the model's frame), only while shown.
   const loadCap = useCallback(
-    (t: RenderTarget, vals: Values, fn: number | null) =>
-      runPart("cap", "cap_seated", t, vals, fn, (r) => {
-        setCapInfo(parseCap(r.log));
-        setCapStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null);
-      }),
+    (t: RenderTarget, vals: Values, fn: number | null) => {
+      const sig = partSignature(t, vals, fn, "cap_seated");
+      return runPart("cap", "cap_seated", t, vals, fn, (r) => {
+        const info = parseCap(r.log);
+        const mesh = r.ok && r.stl ? base64ToBuffer(r.stl) : null;
+        setCapInfo(info);
+        setCapStl(mesh);
+        readyCapSig.current = mesh && info ? sig : null;
+      });
+    },
     [runPart],
   );
 
@@ -394,6 +415,21 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     [state, qualityFn, stl],
   );
 
+  // The cap preview is the same shell as the printable cap, still at its seated z position.
+  // Reusing it avoids a second expensive render after the user's click; shift the rim to z=0 just
+  // as part="cap" does when print_orientation is on.
+  const capPrintStl = useCallback((): ArrayBuffer | null => {
+    const s = state.current!;
+    const t = s.target;
+    if (!t || !capStl || !capInfo) return null;
+    const previewFn = qualityFn(s.quality, s.values);
+    const exportFn = qualityFn(s.quality === "draft" ? "normal" : s.quality, s.values);
+    if (previewFn !== exportFn || readyCapSig.current !== partSignature(t, s.values, previewFn, "cap_seated"))
+      return null;
+    const orient = s.values.print_orientation ?? s.params.find((p) => p.name === "print_orientation")?.initial ?? true;
+    return translateStlZ(capStl, orient ? -capInfo.rearZ : 0);
+  }, [state, qualityFn, capStl, capInfo]);
+
   // The numbers for the print kit's check card, fresh for the settings now: one echo-only run
   // (the summary, the facing and the thinnest wall).
   const kitReports = useCallback(async () => {
@@ -461,6 +497,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     ensureReports,
     ensureParts,
     partStl,
+    capPrintStl,
     kitReports,
     showModel,
     clearLigature,
