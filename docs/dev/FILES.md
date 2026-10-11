@@ -110,6 +110,7 @@ parameters), `Viewer` (3D view), `ProfileChart` and `ShapeDock` (shape charts), 
 | `check.mjs` | `npm run check`: renders every preset; one closed solid, matches `test/baselines.json` |
 | `sweep.mjs` | `npm run sweep`: every setting at its extremes plus random mixes |
 | `openscad.mjs`, `mesh_frame.mjs` | Shared helpers: find and run OpenSCAD; read STLs |
+| `tip_bevel_check.mjs` | Checks that the bevel opens into the window without leaving a hollow slot |
 | `sync_voice_files.mjs`, `voice_file.mjs` | Copy the base file's parameter list into every preset |
 | `make_variants.mjs` | Write the variant files |
 | `blend_voices.mjs` | Write the C-melody preset |

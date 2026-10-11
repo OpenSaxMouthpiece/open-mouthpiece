@@ -13,6 +13,7 @@
 //   7. the cap made for it: the genus it announces (one per vent), stands on z = 0, clears the
 //      mouthpiece and the ligature (part = cap_clash with a slightly loose collar is empty: bar
 //      zero-thickness slivers), fingerprinted.
+//   8. a tip bevel opens into the window without a hollow slot in the centre section.
 //   Then the presets' settings lists for the app are refreshed (scripts/param_lists.mjs).
 //   npm run check                 # compare with the baselines (exit 1 on any failure/change)
 //   npm run check -- --update     # accept the current results as the new baselines
@@ -24,7 +25,8 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { runOpenscad, parseLog, pool, OPENSCAD } from './openscad.mjs';
 import { loadTris } from './mesh_frame.mjs';
-import { isVoiceFile } from './voice_file.mjs';
+import { isVoiceFile, readAssignments } from './voice_file.mjs';
+import { tipBevelPocket } from './tip_bevel_check.mjs';
 import { updateParamLists } from './param_lists.mjs';
 import { transformSync } from 'esbuild';
 
@@ -171,6 +173,8 @@ async function checkFile(file) {
   const name = rel(file);
   const tag = name.replace(/[/.]/g, '_');
   const r = { file: name, problems: [], notes: [] };
+  const text = fs.readFileSync(file, 'utf8');
+  const values = isVoiceFile(text) ? readAssignments(text) : {};
   // 1 + 2: design-frame render
   const stl = path.join(OUT, `${tag}.stl`);
   const run = await runOpenscad(['-o', stl, '-D', 'print_orientation=false', file], { cwd: path.dirname(file) });
@@ -195,6 +199,14 @@ async function checkFile(file) {
     );
   const m = meshInfo(stl);
   Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
+  if (isVoiceFile(text)) {
+    const front = Number(values.overall_length) - Number(values.tip_rail_thickness);
+    const bevel = Math.min(Number(values.tip_bevel), 0.6, Number(values.tip_rail_thickness) - 0.3);
+    if (bevel > 0 && Number.isFinite(front)) {
+      const pocket = tipBevelPocket(m.T, front, bevel);
+      if (pocket > 0.03) r.problems.push(`tip bevel leaves a hollow slot ${pocket.toFixed(3)}mm high`);
+    }
+  }
   // 3: print orientation
   const pstl = path.join(OUT, `${tag}_print.stl`);
   const prun = await runOpenscad(['-o', pstl, file], { cwd: path.dirname(file) });

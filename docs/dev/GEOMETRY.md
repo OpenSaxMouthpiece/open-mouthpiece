@@ -82,7 +82,17 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   rising toward the break (clamped by construction), [facing_length, 0]; no points = power.
 - **Window**: a slot (`window_width`, `window_taper`, `window_rear_radius`) whose front follows the
   reed-tip arc one `tip_rail_thickness` inside the tip; `window_cutter` (6-point rings) cuts it from
-  below the table up to the interior's mid-height.
+  below the table to the interior's mid-height. The optional `tip_bevel` (default 0, up to 0.6mm)
+  is a separate triangular-profile loft along the window's outward normal. It cuts the open
+  window/facing corner at 45°, follows the curved tip and tapers C2 into both side rails, rather
+  than ending in a full-depth corner cap. The depth leaves at least 0.3mm of sealing land at the
+  centre and is smooth-min limited by side-rail width as it turns around the corners; an
+  `exterior_offset(.., 0.6)` intersection protects the outside shell. It narrows the inner sealing
+  surface but leaves the outer tip and facing curve intact. Removing the square inside corner
+  can reduce tip sagging when printed upright. At 0, all presets keep their exact
+  original mesh. The additive tip-support prototype and its coverage control are removed, not
+  mapped to a bevel; settings-only saved designs drop those obsolete values, while self-contained
+  downloads retain their embedded generator.
 - **Socket**: `socket_d = neck_cork_diameter - shank_clearance` (a bigger "clearance" is a
   **tighter** fit: the cork's squeeze; the app calls it "Cork squeeze"), `eff_shank_depth` deep: the
   interior loft's first two rings (round, square to the tilted bore), then a short cone to the bore.

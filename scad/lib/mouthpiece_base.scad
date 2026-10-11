@@ -123,6 +123,8 @@ sidewall_angle = 0; // [-20:1:30]
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 2.0; // [0.3:0.02:3]
+// Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.
+tip_bevel = 0; // [0:0.05:0.6]
 // How round the tip is, seen from above: how far back its curve reaches (mm).
 tip_curve = 3.5; // [0.5:0.1:12]
 
@@ -528,6 +530,8 @@ socket_cone = max(1, (socket_d - bore_diameter) * 1.5);
 eff_window_length = min(window_length, L - max(0.3 * L, 20), max(15, L - (shank_depth + socket_cone + 6)));
 win_z0 = max(0, L - eff_window_length);   // rear of the window
 win_front_z = L - tip_rail_thickness;     // front of the window, on the centerline
+// Leave at least 0.3mm of the tip rail's sealing land; 0 keeps the original edge.
+TIP_BEVEL = max(0, min(tip_bevel, 0.6, tip_rail_thickness - 0.3));
 // Anatomical order per a labeled reference diagram and Ozdemir et al. (2021): bore -> throat
 // (narrowest point) -> chamber (widens again, in the beak region) -> baffle/tip.
 // The throat always comes before the window (bore -> throat -> chamber -> window); a throat at or
@@ -1272,6 +1276,9 @@ module validate() {
   if (tip_opening < tip_opening_range[0] || tip_opening > tip_opening_range[1])
     echo(str("WARNING: tip_opening ", tip_opening, "mm is outside the commercial range [",
               tip_opening_range[0], ", ", tip_opening_range[1], "]mm for this instrument"));
+  if (tip_bevel > TIP_BEVEL + 0.01)
+    echo(str("WARNING: tip_bevel ", tip_bevel, "mm limited to ", round(TIP_BEVEL * 100) / 100,
+      "mm: it leaves at least 0.3mm of the tip rail's sealing land"));
   gap_at_throat = baffle_roof(max(eff_throat_z, baffle_start_z)) - facing_height(min(F, max(0, eff_throat_z - break_z)));
   if (gap_at_throat < min_airgap)
     echo(str("WARNING: baffle/facing air gap near the throat is only ", gap_at_throat, "mm (min_airgap=", min_airgap, "mm)"));
@@ -1464,6 +1471,48 @@ function win_fit_cap(z) =
 AIR_RINGS = ACCESSORY_PART ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
   let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 
+// A true chamfer of the OPEN window/facing corner. Sweep its 1:1 profile along the
+// window's outward normal, around both corners and onto the side rails. A C2 taper
+// there ends flush with the window edge, not with a full-depth corner cap.
+// Both tip and side rails keep at least 0.3mm of sealing land; the outer shell stays.
+TIP_BEVEL_ARC_Z0 = max(win_z0 + 0.04, win_front_z - max(0.5, tip_curve - tip_rail_thickness));
+TIP_BEVEL_BLEND = max(1.2, 3 * TIP_BEVEL);
+TIP_BEVEL_Z0 = max(win_z0 + min(window_rear_radius, win_hw_rear) + 0.1, TIP_BEVEL_ARC_Z0 - TIP_BEVEL_BLEND);
+function tip_bevel_arc(a) =
+  let(z = win_front_z - (win_front_z - TIP_BEVEL_ARC_Z0) * (1 - cos(a)))
+  [sign(a) * window_half_width(z), z];
+function tip_bevel_normal(a) =
+  abs(a) >= 90 ? tip_bevel_side_normal(TIP_BEVEL_ARC_Z0, sign(a)) :
+  let(v = tip_bevel_arc(min(90, a + 0.05)) - tip_bevel_arc(max(-90, a - 0.05)))
+  [-v[1], v[0]] / max(1e-9, norm(v));
+function tip_bevel_side_normal(z, side) =
+  let(slope = (window_half_width(z + 0.01) - window_half_width(z - 0.01)) / 0.02)
+  [side, -slope] / sqrt(1 + slope * slope);
+function tip_bevel_ring(p, n, d) =
+  let(face = facing_at_z(p[1]), inside = [p[0] * 0.98, p[1] - 0.03],
+      overlap = (p - inside) * n, outside = p + n * (d + 0.1))
+  [[inside[0], face - 0.1, inside[1]],
+   [inside[0], face + d + overlap, inside[1]],
+   [outside[0], face - 0.1, outside[1]]];
+function tip_bevel_depth(n) =
+  max(0, smin(TIP_BEVEL, max(0, side_rail_width - 0.3) / max(0.001, abs(n[0])), min(0.05, TIP_BEVEL / 6)));
+TIP_BEVEL_RINGS = TIP_BEVEL <= 0 || ACCESSORY_PART ? [] : let(m = max(32, render_fn)) concat(
+  [for (i = [0 : 15]) let(z = lerp(min(TIP_BEVEL_Z0, TIP_BEVEL_ARC_Z0 - 0.01), TIP_BEVEL_ARC_Z0, i / 16),
+      n = tip_bevel_side_normal(z, -1), d = tip_bevel_depth(n) * smootherstep(i / 16))
+    tip_bevel_ring([-window_half_width(z), z], n, d)],
+  [for (i = [-m : m]) let(a = 90 * i / m, n = tip_bevel_normal(a))
+    tip_bevel_ring(tip_bevel_arc(a), n, tip_bevel_depth(n))],
+  [for (i = [1 : 16]) let(z = lerp(TIP_BEVEL_ARC_Z0, min(TIP_BEVEL_Z0, TIP_BEVEL_ARC_Z0 - 0.01), i / 16),
+      n = tip_bevel_side_normal(z, 1), d = tip_bevel_depth(n) * smootherstep(1 - i / 16))
+    tip_bevel_ring([window_half_width(z), z], n, d)]);
+module tip_bevel_cutter() {
+  if (TIP_BEVEL > 0) intersection() {
+    ring_loft(TIP_BEVEL_RINGS);
+    // Keep the outer shell even with narrow/ridged beaks; this is solely an inside cut.
+    exterior_offset(min(TIP_BEVEL_Z0, TIP_BEVEL_ARC_Z0 - 0.01) - 0.1, min(L - 0.02, win_front_z + TIP_BEVEL + 0.15), 0.6);
+  }
+}
+
 // ---- Exterior: tenon -> flare -> tapered body -> beak -> wide rounded tip, as one loft. The
 // table and facing are NOT part of it — facing_cutter slices them in afterward.
 // The shank end face is square to the (possibly tilted) bore, through the axis at z = -1. The
@@ -1538,8 +1587,8 @@ module facing_cutter() {
 }
 
 // ---- Window cutter: the window planform extruded from well below the table up to the
-// interior's mid-height, as a ring loft. Tall enough to clear the interior's rounded floor
-// corners, but always below its roof, so it opens the window without notching the baffle.
+// interior's mid-height, as a ring loft. The optional bevel is a separate open-edge cutter;
+// without it, the window and interior retain the original square tip edge.
 // Full window width up to just above the facing (so the window outline is exact), then its upper
 // corners pull in to stay 0.6mm inside the exterior at their height — near the tip a rounded beak
 // can be narrower than the window there (a bari fit got two holes through its beak corners).
@@ -2111,7 +2160,7 @@ function param_focus() =
    ["baffle_curve", baffle, "side", true], ["baffle_texture", window, "table", false], ["baffle_texture_style", window, "table", false], ["baffle_texture_depth", window, "table", false], ["baffle_texture_spacing", window, "table", false], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
    ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],
-   ["tip_rail_thickness", tip, "table", false], ["tip_curve", tip, "table", false],
+   ["tip_rail_thickness", tip, "table", false], ["tip_bevel", tip, "table", false], ["tip_curve", tip, "table", false],
    ["table_width_tip", table, "table", false], ["table_width_rear", table, "table", false], ["table_length", table, "table", false],
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],
    ["facing_exponent", facing, "side", false], ["print_stock", facing, "side", false],
@@ -2771,6 +2820,7 @@ module mouthpiece_body() {
     else interior_solid();
     if (BTX_ON && !BTX_RAISED) baffle_texture_solid();
     window_cutter();
+    if (TIP_BEVEL > 0) tip_bevel_cutter();
     facing_cutter();
     if (HAS_LETTERING) lettering_cutter();
     if (HAS_SHANK_ART) shank_cutter();

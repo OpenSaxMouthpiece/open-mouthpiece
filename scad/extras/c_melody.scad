@@ -79,6 +79,8 @@ sidewall_angle = 0; // [-20:1:30]
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 1.62; // [0.3:0.02:3]
+// Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.
+tip_bevel = 0; // [0:0.05:0.6]
 // How round the tip is, seen from above: how far back its curve reaches (mm).
 tip_curve = 3.7; // [0.5:0.1:12]
 

@@ -439,6 +439,18 @@ Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
 
 *1 → 3*
 
+### Tip bevel (mm) (`tip_bevel`)
+
+Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.
+
+Range: 0 to 0.6, step 0.05.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+![tip_bevel: 0 → 0.6](images/params/tip_bevel.png)
+
+*0 → 0.6*
+
 ### Tip roundness (`tip_curve`)
 
 How round the tip is, seen from above: how far back its curve reaches (mm).

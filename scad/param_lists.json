@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "43f056ab-20680",
+  "hash": "7372ff27-20793",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -407,6 +407,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -2012,7 +2022,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "a5247ecb-20918",
+  "hash": "d8179305-21031",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2419,6 +2429,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -4024,7 +4044,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "4b2ac135-21590",
+  "hash": "5be3cd8d-21703",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4431,6 +4451,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -6036,7 +6066,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "191d7416-20882",
+  "hash": "22dcd172-20995",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6443,6 +6473,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -8048,7 +8088,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "6b6436f8-21059",
+  "hash": "1d265ba2-21172",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8455,6 +8495,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -10060,7 +10110,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "cf309f93-20774",
+  "hash": "175d76a9-20887",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10467,6 +10517,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -12072,7 +12132,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "50ba26b6-20809",
+  "hash": "fdacfb2e-20922",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12479,6 +12539,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -14084,7 +14154,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "50828256-20778",
+  "hash": "d82eb7fc-20891",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14491,6 +14561,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -16096,7 +16176,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "8943d4c7-20963",
+  "hash": "a6811e13-21076",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16503,6 +16583,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -18108,7 +18198,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "736c4e39-20992",
+  "hash": "848e3895-21105",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18515,6 +18605,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -20120,7 +20220,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "1a1712d6-20954",
+  "hash": "2b2fc9ac-21067",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20527,6 +20627,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -22132,7 +22242,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "4eb28841-20981",
+  "hash": "ac7a69bb-21094",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22539,6 +22649,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -24144,7 +24264,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "59073454-21007",
+  "hash": "abe098ae-21120",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24551,6 +24671,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -26156,7 +26286,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "14f6c684-20978",
+  "hash": "5e59a61a-21091",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26563,6 +26693,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -28168,7 +28308,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "d686e7f8-21165",
+  "hash": "80131582-21278",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28575,6 +28715,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -30180,7 +30330,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "d0dff17a-21190",
+  "hash": "77deb98-21303",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30587,6 +30737,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -32192,7 +32352,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "5e9346ad-21158",
+  "hash": "9389d6a5-21271",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32599,6 +32759,16 @@
     "min": 0.3,
     "name": "tip_rail_thickness",
     "step": 0.02,
+    "type": "number"
+   },
+   {
+    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "group": "Window",
+    "initial": 0,
+    "max": 0.6,
+    "min": 0,
+    "name": "tip_bevel",
+    "step": 0.05,
     "type": "number"
    },
    {

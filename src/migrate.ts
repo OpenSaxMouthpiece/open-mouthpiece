@@ -29,6 +29,11 @@ const OLD = new RegExp(`\\b(${Object.keys(RENAMED).join("|")})\\b`, "g");
 const chamberLength = (v: ParamValue) => (v === 0 ? 40 : v);
 
 export function migrateValues(values: Record<string, ParamValue>): Record<string, ParamValue> {
+  // Retired prototype support adds material; do not reinterpret it as the cut bevel.
+  if ("tip_rail_chamfer" in values || "tip_support_coverage" in values)
+    values = Object.fromEntries(
+      Object.entries(values).filter(([n]) => n !== "tip_rail_chamfer" && n !== "tip_support_coverage"),
+    );
   // shank_detail "ring" (2026-10-08) became rings, just one.
   if (values.shank_detail === "ring") values = { ...values, shank_detail: "rings", shank_detail_count: 1 };
   if (!Object.keys(values).some((n) => n in RENAMED)) return values;
@@ -44,6 +49,10 @@ export function migrateScad(text: string): string {
   // declares the old names itself (`chamber_d = undef;`): renaming those would overwrite the
   // real settings with undef (the render then hangs). Such a file is current: leave it alone.
   if (text.includes("RENAMED_PARAMS")) return text;
+  // Settings-only designs use today's generator, so discard its retired controls. Preserve
+  // self-contained downloads above: their embedded generator and original geometry stay intact.
+  if (/^\s*include\s*<[^>]*mouthpiece_base\.scad>/m.test(text))
+    text = text.replace(/^[ \t]*(?:tip_rail_chamfer|tip_support_coverage)[ \t]*=[^;\r\n]*;[^\r\n]*(?:\r?\n|$)/gm, "");
   return migrateChamber(migrateSizes(migrateNames(text)));
 }
 

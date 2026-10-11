@@ -107,6 +107,7 @@ const PICS = {
   side_rail_width: { view: 'plan', y: 0.3, values: [0.8, 1.8] },
   // near the tip the rails are up at the tip opening: cut just above them
   tip_rail_thickness: { view: 'plan', y: 2.4, values: [1, 3] },
+  tip_bevel: { view: 'side_cut', box: [L_ALTO - 6, L_ALTO], y: [-0.5, 4.5], values: [0, 0.6] },
   tip_curve: { view: 'plan', y: 2.4, values: [2, 6] },
   table_width_tip: { view: 'plan', y: 2.4 },
   table_width_rear: { view: 'plan', y: 0.3 },
@@ -173,7 +174,7 @@ const MAPS = {
 function viewOf(pic) {
   if (pic.view === 'side') return { map: MAPS.side, cut: null };
   if (pic.view === 'facing') return { map: MAPS.side, cut: null, y: [-0.5, 3.5], stretch: 6 };
-  if (pic.view === 'side_cut') return { map: MAPS.side, cut: 0 };
+  if (pic.view === 'side_cut') return { map: MAPS.side, cut: 0, y: pic.y };
   if (pic.view === 'top') return { map: MAPS.top, cut: null };
   if (pic.view === 'plan') return { map: MAPS.top, cut: pic.y };
   return { map: null, cut: pic.z, xsec: true }; // as OpenSCAD looks down z: seen from the tip
