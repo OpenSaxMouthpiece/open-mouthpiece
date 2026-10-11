@@ -106,7 +106,11 @@ const QUALITY_HINT = "Model detail: Draft is fastest, Fine slowest. Downloads ar
 
 // "model" = whatever is on screen; "mouthpiece" = the mouthpiece even while a test ring is shown.
 type PartWhat = "model" | "mouthpiece" | "ring" | "ligature" | "cap";
-type Download = { what: PartWhat | "kit" | "files"; state: "busy" | "done" | "error" };
+type Download = {
+  what: PartWhat | "kit" | "files";
+  state: "busy" | "ready" | "done" | "error";
+  save?: () => void;
+};
 
 export default function App() {
   const saved = useRef(loadSession()).current;
@@ -306,7 +310,7 @@ export default function App() {
   }, [codeOpen]);
   useEffect(() => track("quality", quality), [quality]);
   useEffect(() => {
-    if (!dl || dl.state === "busy") return;
+    if (!dl || dl.state === "busy" || dl.state === "ready") return;
     const t = setTimeout(() => setDl(null), dl.state === "done" ? 3000 : 5000);
     return () => clearTimeout(t);
   }, [dl]);
@@ -975,18 +979,32 @@ export default function App() {
   // ---- downloads
   // Hand finished files to the browser. A page may start a download only shortly after a click
   // (Chrome otherwise holds it behind its "download multiple files" prompt), so after a long render
-  // the files wait for a click on Save in the status line.
-  const deliver = (files: [string, BlobPart][], text: string) => {
+  // a cap waits on its download button and other files wait on Save in the status line.
+  const deliver = (files: [string, BlobPart][], text: string, onReady?: (save: () => void) => void) => {
     const save = () => {
       for (const [n, data] of files)
         download(data, n.endsWith(".zip") ? "application/zip" : n.endsWith(".stl") ? "model/stl" : "text/plain", n);
       notify({ text, short: "Downloaded", kind: "ok" });
     };
-    if (navigator.userActivation?.isActive ?? true) return save();
+    if (navigator.userActivation?.isActive ?? true) {
+      save();
+      return false;
+    }
+    if (onReady) {
+      onReady(save);
+      return true;
+    }
     const names = files.map(([n]) => n).join(", ");
     notify({ text: `${names} is ready`, short: "Ready to save", kind: "ok", action: { label: "Save", run: save } });
+    return true;
   };
   const downloadPart = async (what: PartWhat) => {
+    if (dl?.what === what && dl.state === "ready" && dl.save) {
+      const save = dl.save;
+      setDl({ what, state: "done" });
+      save();
+      return;
+    }
     if (dl?.state === "busy") return;
     const base = downloadName(mainTab, values, isRO(mainTab));
     const squeeze = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
@@ -1032,8 +1050,17 @@ export default function App() {
           settings: designNumbers(params, values),
         },
       );
-      deliver([[`${name}.stl`, stlData]], `Downloaded ${name}.stl`);
-      setDl({ what, state: "done" });
+      const waitingForClick = deliver(
+        [[`${name}.stl`, stlData]],
+        `Downloaded ${name}.stl`,
+        what === "cap"
+          ? (save) => {
+              setNotice(null);
+              setDl({ what, state: "ready", save });
+            }
+          : undefined,
+      );
+      if (!waitingForClick || what !== "cap") setDl({ what, state: "done" });
       if (mouthpiece) setPrinted(true);
     } catch (err) {
       fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
@@ -1048,6 +1075,12 @@ export default function App() {
       <>
         <span className="spinner btn-spinner" aria-hidden="true" /> Preparing…
       </>
+    ) : dl.state === "ready" ? (
+      what === "cap" ? (
+        "Save cap STL"
+      ) : (
+        "Save"
+      )
     ) : dl.state === "done" ? (
       "✓ Downloaded"
     ) : (
