@@ -978,8 +978,8 @@ export default function App() {
 
   // ---- downloads
   // Hand finished files to the browser. A page may start a download only shortly after a click
-  // (Chrome otherwise holds it behind its "download multiple files" prompt), so after a long render
-  // a cap waits on its download button and other files wait on Save in the status line.
+  // (Chrome otherwise holds it behind its "download multiple files" prompt), so a single STL waits
+  // on its download button and multi-file downloads wait on Save in the status line.
   const deliver = (files: [string, BlobPart][], text: string, onReady?: (save: () => void) => void) => {
     const save = () => {
       for (const [n, data] of files)
@@ -1050,17 +1050,11 @@ export default function App() {
           settings: designNumbers(params, values),
         },
       );
-      const waitingForClick = deliver(
-        [[`${name}.stl`, stlData]],
-        `Downloaded ${name}.stl`,
-        what === "cap"
-          ? (save) => {
-              setNotice(null);
-              setDl({ what, state: "ready", save });
-            }
-          : undefined,
-      );
-      if (!waitingForClick || what !== "cap") setDl({ what, state: "done" });
+      const waitingForClick = deliver([[`${name}.stl`, stlData]], `Downloaded ${name}.stl`, (save) => {
+        setNotice(null);
+        setDl({ what, state: "ready", save });
+      });
+      if (!waitingForClick) setDl({ what, state: "done" });
       if (mouthpiece) setPrinted(true);
     } catch (err) {
       fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
@@ -1078,8 +1072,12 @@ export default function App() {
     ) : dl.state === "ready" ? (
       what === "cap" ? (
         "Save cap STL"
+      ) : what === "ligature" ? (
+        "Save ligature STL"
+      ) : what === "ring" ? (
+        "Save test ring STL"
       ) : (
-        "Save"
+        "Save STL"
       )
     ) : dl.state === "done" ? (
       "✓ Downloaded"
@@ -1910,8 +1908,8 @@ export default function App() {
               Check the fit first: a shank test ring prints in minutes and slides on your cork like the mouthpiece will.
               No calipers? The value here suits a typical neck; the ring shows if yours differs.
             </p>
-            <button onClick={() => downloadPart("ring")} disabled={!stl || dlBusy("ring")}>
-              Download a shank test ring
+            <button onClick={() => downloadPart("ring")} disabled={!stl || dlBusy("ring")} aria-live="polite">
+              {dlLabel("ring", "Download a shank test ring")}
             </button>
           </div>
         )
