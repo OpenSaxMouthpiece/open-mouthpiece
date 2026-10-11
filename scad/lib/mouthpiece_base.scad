@@ -2696,7 +2696,9 @@ module cap_part() {
   t_z = t_mid - (both ? (i_len + 2) / 2 : 0);
   a_ring = lig_ring(cap_h_at(Ho, t_mid), t_mid, cap_wall);
   y_lo = a_ring[LIG_N / 4][1];
-  y_hi = max([for (p = a_ring) p[1]]) + cap_art_depth + 5;
+  // above the cap's top anywhere (it rises toward the rim: art behind t_mid was cut off at the
+  // middle's height)
+  y_hi = max([for (R = out_rings, p = R) p[1]]) + cap_art_depth + 5;
   module prisms() {
     if (has_text(CAP_IMAGE))
       translate([0, y_lo, i_z]) rotate([-90, 0, 0]) linear_extrude(height = y_hi - y_lo)
