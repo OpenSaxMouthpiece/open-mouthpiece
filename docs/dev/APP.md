@@ -8,8 +8,10 @@ OpenSCAD runs in the browser, the project comes from the site, and the user's fi
 stay in their browser. Nothing may be saved on a server. `npm run dev` is plain Vite; a build is a
 static site (docs/HOSTING.md).
 
-- **Code map**: `src/api.ts` (the `Api` interface; `api` = `browserApi`). `App.tsx` holds the state
-  (tabs, values, layout, B) and both layouts; `src/app/files.ts` (tabs, names, labels, downloads),
+- **Code map**: `src/api.ts` (the `Api` interface; `api` = `browserApi`). `App.tsx` holds shared
+  state (tabs, values, layout, B) and wires both layouts; `src/app/useFileActions.ts` handles
+  opening, switching, closing, editing and saving files and tabs; `src/app/files.ts` (tab models,
+  names, labels, downloads),
   `src/app/session.ts` (what is kept in this browser); hooks in `src/hooks/`: `useModelRender` (the
   render loop: one render per change, the readouts' reports, the ligature, download renders),
   `useParamFocus`, `useValueHistory` (undo/redo), `useMediaQuery`; toolbar and panel pieces in
@@ -74,8 +76,9 @@ static site (docs/HOSTING.md).
   voice file with the values, `include <../lib/` rewritten to `include <lib/`); more than one file = one zip (fflate: Chrome holds back a second download); one
   Download (`downloadFiles`), "Tick all" = the print kit. Ticks persist (`downloads` pref). The main
   button still downloads the part tab's part (and shows any download's progress). A file finished
-  after the click's activation expired (`navigator.userActivation`) waits for a Save button in the
-  status line (`deliver`): browsers block late script downloads.
+  after the click's activation expired (`navigator.userActivation`) waits for a click on that part's
+  download button; file bundles and the print kit change the main Download button to “Save download”
+  (`deliver`): browsers block late script downloads.
 - **Print kit** (`downloadKit` = `downloadFiles(DOWNLOAD_ALL)`, src/printKit.ts; Printing section):
   one zip with the mouthpiece, shank test rings at squeeze 0.10 / 0.20 / 0.30 (plus the design's own),
   the ligature and cap if made, the design file, and `<name>_check_card.txt` (tip, facing, length, air, thinnest wall, cork /

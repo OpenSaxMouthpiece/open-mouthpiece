@@ -56,7 +56,6 @@ import { imageRefs, isUserArt, receiveArt, sharedArt, userArtFiles } from "./use
 import { DONATE_URL, GLOSSARY_URL, PRINTING_GUIDE_URL, REPO_URL } from "./links";
 import { setSectionsOpen, usePref } from "./uiPrefs";
 import {
-  presetFor,
   DEFAULT_FILE,
   GENERATOR,
   LOCAL,
@@ -67,7 +66,6 @@ import {
   downloadName,
   fileName,
   includesGenerator,
-  rebaseGenerator,
   isDirty,
   isLibrary,
   isExtra,
@@ -76,7 +74,6 @@ import {
   otherPartOf,
   projectTab,
   reportDesign,
-  scadFileName,
   tabLabel,
   voiceLabel,
   type Tab,
@@ -96,6 +93,7 @@ import { useMediaQuery, useWindowWidth } from "./hooks/useMediaQuery";
 import { useValueHistory } from "./hooks/useValueHistory";
 import { useParamFocus } from "./hooks/useParamFocus";
 import { useModelRender, type RenderState, type Status } from "./hooks/useModelRender";
+import { useFileActions } from "./app/useFileActions";
 
 const HINT_KEY = "open-mouthpiece-hint-v1";
 const PHONE_VIEW_KEY = "open-mouthpiece-phone-view-v1";
@@ -344,169 +342,47 @@ export default function App() {
     });
   }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig, capV, partTab]);
 
-  // ---- tabs
-  const refreshFiles = useCallback(async () => {
-    const r = await api.files();
-    setFiles(r.files);
-    setReadOnly(new Set(r.readOnly ?? []));
-    setOwnFiles(new Set(r.own ?? []));
-    return r;
-  }, []);
-
-  const activate = useCallback((key: string, tabsNow?: Tab[]) => {
-    setActiveKey(key);
-    const t = (tabsNow ?? live.current.tabs).find((x) => x.key === key);
-    if (t && !isLibrary(t)) setMainKey(key); // library files render through whichever file includes them
-  }, []);
-
-  const openTab = useCallback(
-    (t: Tab) => {
-      setTabs((old) => {
-        const next = old.some((x) => x.key === t.key) ? old : [...old, t];
-        activate(t.key, next);
-        return next;
-      });
-    },
-    [activate],
-  );
-
-  const openProjectFile = useCallback(
-    async (p: string): Promise<boolean> => {
-      if (live.current.tabs.some((t) => t.key === p)) {
-        activate(p);
-        return true;
-      }
-      try {
-        openTab(projectTab(p, (await api.file(p)).source));
-        return true;
-      } catch (err) {
-        fail({ text: `Could not open ${p}: ${(err as Error).message}`, kind: "error" });
-        return false;
-      }
-    },
-    [activate, openTab, fail],
-  );
-
-  const taken = (key: string) => live.current.tabs.some((t) => t.key === key);
-  const openLocalFile = async (file: File) => {
+  // ---- file and tab actions (implementation in app/useFileActions.ts)
+  const fileOperations = useFileActions({
+    state: live,
+    tabs,
+    setTabs,
+    setFiles,
+    setReadOnly,
+    setOwnFiles,
+    activeKey,
+    setActiveKey,
+    mainKey,
+    setMainKey,
+    valuesByKey,
+    setValuesByKey,
+    activeTab,
+    armedClose,
+    setArmedClose,
+    setSaveAs,
+    notify,
+    fail,
+  });
+  const {
+    refreshFiles,
+    activate,
+    openProjectFile,
+    openLocalFile: readLocalFile,
+    replaceWithPreset,
+    closeTab,
+    updateSource,
+    revertTab,
+    saveTab,
+    doSaveAs,
+    dropValues,
+  } = fileOperations;
+  const openLocalFile = (file: File) => {
     track("feature", "open_file");
-    openTab(localTab(file.name, migrateScad(await file.text()), taken));
+    return readLocalFile(file);
   };
 
-  // A preset or variant on screen has no × in the code column (the voice picker chooses the design;
-  // closing it as the only design left nothing to render, stuck on "Loading…"). Your own or an
-  // unsaved design on screen closes (its ×, or Close / Delete in the top bar) to its voice's preset.
+  // A project preset can't close as the design on screen; editable designs close to their preset.
   const canClose = (t: Tab) => t.key !== mainKey || !t.path || ownFiles.has(t.path);
-  // Swap the design on screen (key) for its voice's preset: the preset is loaded first, so there's
-  // never a moment with nothing to show.
-  const replaceWithPreset = async (key: string, source: string) => {
-    const p = presetFor(source);
-    const open = live.current.tabs.find((x) => x.key === p);
-    const next = open ?? projectTab(p, (await api.file(p)).source);
-    setTabs((old) => {
-      const rest = [...old.filter((x) => x.key !== key), ...(open ? [] : [next])];
-      activate(next.key, rest);
-      return rest;
-    });
-  };
-  const closeTab = (key: string) => {
-    const t = tabs.find((x) => x.key === key);
-    if (!t) return;
-    if ((isDirty(t) || (t.path === null && t.source.trim() !== "")) && armedClose !== key) {
-      setArmedClose(key); // first click on a tab with unsaved text arms, second closes
-      notify({
-        text: `${t.name} isn't saved: close it again to discard it (or Save it first)`,
-        short: `Close again to discard ${t.name}`,
-        kind: "idle",
-      });
-      return;
-    }
-    setArmedClose(null);
-    if (key === mainKey) {
-      replaceWithPreset(key, t.source).catch((err) =>
-        fail({ text: `Close failed: ${(err as Error).message}`, kind: "error" }),
-      );
-      return;
-    }
-    const rest = tabs.filter((x) => x.key !== key);
-    setTabs(rest);
-    if (activeKey === key) activate(mainKey, rest);
-  };
-
-  const updateSource = useCallback((key: string, text: string) => {
-    if (live.current.readOnly.has(key)) return; // presets (project files are keyed by path)
-    setTabs((old) => old.map((t) => (t.key === key && t.source !== text ? { ...t, source: text } : t)));
-  }, []);
-
-  const revertTab = (t: Tab) => {
-    if (t.saved === null) return;
-    setTabs((old) => old.map((x) => (x.key === t.key ? { ...x, source: x.saved ?? x.source } : x)));
-    notify({ text: `Reverted ${t.path} to the saved file`, kind: "ok" });
-  };
-
-  const dropValues = (key: string) =>
-    setValuesByKey((v) => {
-      const n = { ...v };
-      delete n[key];
-      return n;
-    });
-
-  // ---- saving
-  const saveTab = useCallback(
-    async (t: Tab) => {
-      if (!t.path) {
-        setSaveAs(t.name.endsWith(".scad") ? t.name : `${t.name}.scad`);
-        return;
-      }
-      if (!live.current.ownFiles.has(t.path)) {
-        setSaveAs(t.path.replace(/([^/]+)$/, "my_$1"));
-        notify({ text: `${t.path} is part of the project: save your own copy (kept in this browser)`, kind: "idle" });
-        return;
-      }
-      const vals = live.current.valuesByKey[t.key] ?? {};
-      const source = Object.keys(vals).length ? withValues(t.source, vals) : t.source;
-      try {
-        await api.save(t.path, source);
-        setTabs((old) => old.map((x) => (x.key === t.key ? { ...x, source, saved: source } : x)));
-        dropValues(t.key);
-        notify({ text: `Saved ${voiceLabel(t.path)} in this browser`, kind: "ok" });
-      } catch (err) {
-        fail({ text: `Save failed: ${(err as Error).message}`, kind: "error" });
-      }
-    },
-    [notify, fail],
-  );
-
-  // Keeps a copy in this browser under a new name. The settings go into the saved file (it is the
-  // design); a preset goes back to as published, your own design keeps its changes until you save it too.
-  const doSaveAs = async (rel: string, t: Tab | undefined = activeTab) => {
-    const p = scadFileName(rel);
-    if (!t || !p) {
-      fail({ text: "Save as: give the design a name", kind: "error" });
-      return;
-    }
-    const fromPreset = isRO(t);
-    const source = rebaseGenerator(withValues(t.source, valuesByKey[t.key] ?? {}), p);
-    try {
-      await api.save(p, source);
-      setSaveAs(null);
-      const moved = projectTab(p, source);
-      setTabs((old) => [...old.filter((x) => x.key !== t.key && x.key !== p), moved]);
-      setValuesByKey((v) => {
-        const n = { ...v };
-        delete n[p];
-        if (fromPreset) delete n[t.key];
-        return n;
-      });
-      setActiveKey(p);
-      if (mainKey === t.key || !isLibrary(moved)) setMainKey(p);
-      refreshFiles().catch(() => {});
-      notify({ text: `Saved as “${voiceLabel(p)}” in this browser`, kind: "ok" });
-    } catch (err) {
-      fail({ text: `Save failed: ${(err as Error).message}`, kind: "error" });
-    }
-  };
-
   // ---- share link: the design (file + changed values, plus the text of a non-preset file).
   // The user's own pictures go along only with "Include picture"; otherwise a picture parameter
   // using one goes out as none.
@@ -1070,7 +946,9 @@ export default function App() {
         <span className="spinner btn-spinner" aria-hidden="true" /> Preparing…
       </>
     ) : dl.state === "ready" ? (
-      what === "cap" ? (
+      what === "files" || what === "kit" ? (
+        "Save download"
+      ) : what === "cap" ? (
         "Save cap STL"
       ) : what === "ligature" ? (
         "Save ligature STL"
@@ -1144,8 +1022,11 @@ export default function App() {
       const files: [string, BlobPart][] = zipped
         ? [[`${name}${kit ? "_print_kit" : ""}.zip`, zipSync(Object.fromEntries(out))]]
         : out;
-      deliver(files, `Downloaded ${files.map(([n]) => n).join(", ")}`);
-      setDl({ what, state: "done" });
+      const waitingForClick = deliver(files, `Downloaded ${files.map(([n]) => n).join(", ")}`, (save) => {
+        setNotice(null);
+        setDl({ what, state: "ready", save });
+      });
+      if (!waitingForClick) setDl({ what, state: "done" });
       if (sel.stl) setPrinted(true);
     } catch (err) {
       fail({ text: `Download failed: ${(err as Error).message}`, kind: "error" });
@@ -1161,7 +1042,11 @@ export default function App() {
         cap if made, the design file, and a check card with the numbers to measure the print against.
       </p>
       <div className="lig-actions">
-        <button onClick={downloadKit} disabled={!stl || dlBusy("kit")} aria-live="polite">
+        <button
+          onClick={() => (saveReadyDownload("kit") ? undefined : downloadKit())}
+          disabled={!stl || dlBusy("kit")}
+          aria-live="polite"
+        >
           {dlLabel("kit", "Download print kit (.zip)")}
         </button>
       </div>
@@ -1919,11 +1804,25 @@ export default function App() {
   // The download follows the part tab: the ligature or the cap once made, else the model on screen.
   const dlWhat: "model" | "ligature" | "cap" =
     tab === "ligature" && ligMade ? "ligature" : tab === "cap" && capMade ? "cap" : "model";
-  const downloadDisabled = (!stl && !svg) || dlBusy(dlWhat);
+  const downloadDisabled = (!stl && !svg) || dl?.state === "busy";
   const dlName = dlWhat === "model" ? (svg ? "SVG" : otherPart ? "STL" : "mouthpiece STL") : `${dlWhat} STL`;
   // The main button shows any download in progress (the menu closes when one starts).
   const dlMain = (label: string) =>
-    dl?.state === "busy" && dl.what !== dlWhat ? dlLabel(dl.what, label) : dlLabel(dlWhat, label);
+    (dl?.state === "busy" || dl?.state === "ready") && dl.what !== dlWhat
+      ? dlLabel(dl.what, label)
+      : dlLabel(dlWhat, label);
+  const saveReadyDownload = (what?: Download["what"]) => {
+    if (dl?.state !== "ready" || !dl.save || (what && dl.what !== what)) return false;
+    const readyWhat = dl.what;
+    const save = dl.save;
+    setDl({ what: readyWhat, state: "done" });
+    save();
+    return true;
+  };
+  const downloadMain = () => {
+    if (saveReadyDownload()) return;
+    downloadPart(dlWhat);
+  };
   // Everything there is to download, in one list (desktop: Download's ▾; phone: the ☰ menu).
   const squeezeNow = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
   const downloadItems = (close: () => void) => {
@@ -2077,12 +1976,16 @@ export default function App() {
           ) : (
             <button
               className="primary dl-button"
-              onClick={() => setMenuOpen(true)}
+              onClick={() => (dl?.state === "ready" ? downloadMain() : setMenuOpen(true))}
               disabled={downloadDisabled}
               aria-live="polite"
-              title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
+              title={
+                dl?.state === "ready" && (dl.what === "files" || dl.what === "kit")
+                  ? "Save the prepared download"
+                  : `Download the ${dlWhat === "model" ? "model" : dlWhat} to print`
+              }
             >
-              {dl?.state === "busy" ? dlMain("Download") : "Download"}
+              {dl?.state === "busy" || dl?.state === "ready" ? dlMain("Download") : "Download"}
             </button>
           )}
         </header>
@@ -2346,8 +2249,12 @@ export default function App() {
             <button
               className="primary dl-button"
               disabled={downloadDisabled}
-              onClick={() => downloadPart(dlWhat)}
-              title={`Download the ${dlWhat === "model" ? "model" : dlWhat} to print`}
+              onClick={downloadMain}
+              title={
+                dl?.state === "ready" && (dl.what === "files" || dl.what === "kit")
+                  ? "Save the prepared download"
+                  : `Download the ${dlWhat === "model" ? "model" : dlWhat} to print`
+              }
               aria-live="polite"
             >
               {dlMain(`Download ${dlName}`)}
