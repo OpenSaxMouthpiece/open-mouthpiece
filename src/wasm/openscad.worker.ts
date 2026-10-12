@@ -25,6 +25,10 @@ function load(base: string) {
     ]);
     return { factory: mod.default, module };
   })();
+  // A failed fetch (a dropped connection, iOS "Load failed") must not stay cached: the next job retries.
+  ready.catch(() => {
+    ready = null;
+  });
   return ready;
 }
 
