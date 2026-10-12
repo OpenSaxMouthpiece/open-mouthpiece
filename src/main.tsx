@@ -11,7 +11,11 @@ declare const __BUILD_TIME__: string;
 
 // The dev site (dev.<domain>, the `dev` branch): marked as such, with the commit it was built from
 // (so it's clear whether the latest is up), and kept out of search engines.
-if (location.hostname.startsWith("dev.") || location.search.includes("devtag")) {
+if (
+  location.hostname.startsWith("dev.") ||
+  location.hostname.startsWith("open-mouthpiece-test.") ||
+  location.search.includes("devtag")
+) {
   document.documentElement.classList.add("site-dev");
   const when = new Date(__BUILD_TIME__).toLocaleString(undefined, {
     month: "short",

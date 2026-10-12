@@ -44,6 +44,18 @@ function getWorker(l: LaneState) {
   return l.worker;
 }
 
+// The 11 MB wasm is fetched and compiled once here and handed to every worker, so a lane's fresh
+// worker (after an abort) starts without fetching or compiling it again. A failed fetch isn't kept
+// (the next job tries again); that job runs with the worker's own load.
+let compiled: Promise<WebAssembly.Module | undefined> | null = null;
+function sharedModule() {
+  compiled ??= WebAssembly.compileStreaming(fetch(`${BASE}openscad/openscad.wasm`)).catch(() => {
+    compiled = null;
+    return undefined;
+  });
+  return compiled;
+}
+
 function pump(l: LaneState) {
   while (!l.running && l.queue.length) {
     const p = l.queue.shift()!;
@@ -52,7 +64,11 @@ function pump(l: LaneState) {
       continue;
     }
     l.running = p;
-    getWorker(l).postMessage(p.job);
+    void sharedModule().then((module) => {
+      // aborted while the module was loading: the abort handler has already settled the job
+      if (l.running !== p) return;
+      getWorker(l).postMessage(module ? { ...p.job, module } : p.job);
+    });
   }
 }
 

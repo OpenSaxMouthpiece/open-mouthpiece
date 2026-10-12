@@ -27,5 +27,12 @@
       "routes": [{ "pattern": "dev.opensaxmouthpiece.org", "custom_domain": true }],
       "d1_databases": [],
     },
+    // A throwaway test site for a feature branch (`npx wrangler deploy --env test`), on its own
+    // *.workers.dev address so it can be tried on a phone without touching dev. No USAGE database.
+    "test": {
+      "name": "open-mouthpiece-test",
+      "workers_dev": true,
+      "d1_databases": [],
+    },
   },
 }

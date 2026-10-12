@@ -2,6 +2,7 @@
 export interface WasmJob {
   id: number;
   base: string; // site base URL, where openscad/ lives
+  module?: WebAssembly.Module; // the wasm, compiled once by the page; absent = the worker fetches its own
   files: Record<string, string | Uint8Array>; // absolute paths in the worker's filesystem
   cwd: string; // OpenSCAD names files in its messages relative to this
   args: string[]; // OpenSCAD command line

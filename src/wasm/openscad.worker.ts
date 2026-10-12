@@ -17,11 +17,13 @@ type Factory = (opts: Record<string, unknown>) => Promise<{
 
 let ready: Promise<{ factory: Factory; module: WebAssembly.Module }> | null = null;
 
-function load(base: string) {
+// `shared` is the module the page compiled once for all its workers; without it (that fetch failed)
+// the worker fetches and compiles its own.
+function load(base: string, shared?: WebAssembly.Module) {
   ready ??= (async () => {
     const [mod, module] = await Promise.all([
       import(/* @vite-ignore */ `${base}openscad/openscad.js`) as Promise<{ default: Factory }>,
-      WebAssembly.compileStreaming(fetch(`${base}openscad/openscad.wasm`)),
+      shared ?? WebAssembly.compileStreaming(fetch(`${base}openscad/openscad.wasm`)),
     ]);
     return { factory: mod.default, module };
   })();
@@ -36,7 +38,7 @@ self.onmessage = async (e: MessageEvent<WasmJob>) => {
   const job = e.data;
   const log: string[] = [];
   try {
-    const { factory, module } = await load(job.base);
+    const { factory, module } = await load(job.base, job.module);
     const inst = await factory({
       noInitialRun: true,
       print: (s: string) => log.push(s),
