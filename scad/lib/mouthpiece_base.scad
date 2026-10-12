@@ -99,14 +99,16 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = 0; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
-// A texture on the baffle: grooves along it, grooves across it, or dimples.
-baffle_texture = "none"; // [none, along, across, dimples]
+// A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.
+baffle_texture = "none"; // [none, along, across, curved, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]
 // How deep the texture cuts, or how far it stands out (mm); less where there is no room.
 baffle_texture_depth = 0.4; // [0.1:0.05:1]
 // Distance between the grooves or dimples (mm).
 baffle_texture_spacing = 3; // [1.5:0.1:8]
+// How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.
+baffle_texture_bend = 0.5; // [-1:0.05:1]
 
 /* [Window] */
 // Length of the opening under the reed (mm).
@@ -123,8 +125,8 @@ sidewall_angle = 0; // [-20:1:30]
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 2.0; // [0.3:0.02:3]
-// Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.
-tip_bevel = 0; // [0:0.05:0.6]
+// Slope the inside of the tip at 45 degrees so it prints without sagging.
+tip_bevel = false;
 // How round the tip is, seen from above: how far back its curve reaches (mm).
 tip_curve = 3.5; // [0.5:0.1:12]
 
@@ -530,8 +532,8 @@ socket_cone = max(1, (socket_d - bore_diameter) * 1.5);
 eff_window_length = min(window_length, L - max(0.3 * L, 20), max(15, L - (shank_depth + socket_cone + 6)));
 win_z0 = max(0, L - eff_window_length);   // rear of the window
 win_front_z = L - tip_rail_thickness;     // front of the window, on the centerline
-// Leave at least 0.3mm of the tip rail's sealing land; 0 keeps the original edge.
-TIP_BEVEL = max(0, min(tip_bevel, 0.6, tip_rail_thickness - 0.3));
+// Old links carry a number (0..0.6mm): any positive one turns it on.
+TIP_BEVEL = tip_bevel == true || (is_num(tip_bevel) && tip_bevel > 0);
 // Anatomical order per a labeled reference diagram and Ozdemir et al. (2021): bore -> throat
 // (narrowest point) -> chamber (widens again, in the beak region) -> baffle/tip.
 // The throat always comes before the window (bore -> throat -> chamber -> window); a throat at or
@@ -1220,8 +1222,8 @@ function btx_volume() =
   let(cells = [for (cz = [z0 : C : z1]) [for (cx = [x0 : C : x1])
       [for (g = G) if (min(g[0][0], g[1][0]) - BTX_R < cx + C && max(g[0][0], g[1][0]) + BTX_R > cx
                       && min(g[0][1], g[1][1]) - BTX_R < cz + C && max(g[0][1], g[1][1]) + BTX_R > cz) g]]])
-  let(hx = baffle_texture == "along" ? 0.2 : baffle_texture == "across" ? 0.5 : 0.25)
-  let(hz = baffle_texture == "along" ? 0.5 : baffle_texture == "across" ? 0.2 : 0.25)
+  let(hx = baffle_texture == "along" ? 0.2 : BTX_LINES ? 0.5 : 0.25)
+  let(hz = baffle_texture == "along" ? 0.5 : BTX_LINES ? 0.2 : 0.25)
   hx * hz * vsum([for (iz = [0 : len(cells) - 1], ix = [0 : len(cells[iz]) - 1]) let(near = cells[iz][ix])
     len(near) == 0 ? 0 : vsum([for (z = [z0 + iz * C + hz / 2 : hz : z0 + (iz + 1) * C], x = [x0 + ix * C + hx / 2 : hx : x0 + (ix + 1) * C])
       max([0, for (g = near) btx_piece_h(g, x, z)])])]);
@@ -1233,7 +1235,7 @@ module baffle_texture_solid() {
   } else if (baffle_texture == "along") {
     for (i = [0 : len(BTX_ROWS) - 2], k = [0 : len(BTX_ROWS[i]) - 1])
       if (BTX_ROWS[i][k][3] > 0 && BTX_ROWS[i + 1][k][3] > 0) hull() { btx_dent(BTX_ROWS[i][k]); btx_dent(BTX_ROWS[i + 1][k]); }
-  } else if (baffle_texture == "across") {
+  } else if (BTX_LINES) {
     for (row = BTX_ROWS, i = [0 : len(row) - 2])
       if (row[i][3] > 0 && row[i + 1][3] > 0) hull() { btx_dent(row[i]); btx_dent(row[i + 1]); }
   }
@@ -1276,9 +1278,6 @@ module validate() {
   if (tip_opening < tip_opening_range[0] || tip_opening > tip_opening_range[1])
     echo(str("WARNING: tip_opening ", tip_opening, "mm is outside the commercial range [",
               tip_opening_range[0], ", ", tip_opening_range[1], "]mm for this instrument"));
-  if (tip_bevel > TIP_BEVEL + 0.01)
-    echo(str("WARNING: tip_bevel ", tip_bevel, "mm limited to ", round(TIP_BEVEL * 100) / 100,
-      "mm: it leaves at least 0.3mm of the tip rail's sealing land"));
   gap_at_throat = baffle_roof(max(eff_throat_z, baffle_start_z)) - facing_height(min(F, max(0, eff_throat_z - break_z)));
   if (gap_at_throat < min_airgap)
     echo(str("WARNING: baffle/facing air gap near the throat is only ", gap_at_throat, "mm (min_airgap=", min_airgap, "mm)"));
@@ -1471,46 +1470,41 @@ function win_fit_cap(z) =
 AIR_RINGS = ACCESSORY_PART ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
   let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 
-// A true chamfer of the OPEN window/facing corner. Sweep its 1:1 profile along the
-// window's outward normal, around both corners and onto the side rails. A C2 taper
-// there ends flush with the window edge, not with a full-depth corner cap.
-// Both tip and side rails keep at least 0.3mm of sealing land; the outer shell stays.
-TIP_BEVEL_ARC_Z0 = max(win_z0 + 0.04, win_front_z - max(0.5, tip_curve - tip_rail_thickness));
-TIP_BEVEL_BLEND = max(1.2, 3 * TIP_BEVEL);
-TIP_BEVEL_Z0 = max(win_z0 + min(window_rear_radius, win_hw_rear) + 0.1, TIP_BEVEL_ARC_Z0 - TIP_BEVEL_BLEND);
-function tip_bevel_arc(a) =
-  let(z = win_front_z - (win_front_z - TIP_BEVEL_ARC_Z0) * (1 - cos(a)))
-  [sign(a) * window_half_width(z), z];
-function tip_bevel_normal(a) =
-  abs(a) >= 90 ? tip_bevel_side_normal(TIP_BEVEL_ARC_Z0, sign(a)) :
-  let(v = tip_bevel_arc(min(90, a + 0.05)) - tip_bevel_arc(max(-90, a - 0.05)))
-  [-v[1], v[0]] / max(1e-9, norm(v));
-function tip_bevel_side_normal(z, side) =
-  let(slope = (window_half_width(z + 0.01) - window_half_width(z - 0.01)) / 0.02)
-  [side, -slope] / sqrt(1 + slope * slope);
-function tip_bevel_ring(p, n, d) =
-  let(face = facing_at_z(p[1]), inside = [p[0] * 0.98, p[1] - 0.03],
-      overlap = (p - inside) * n, outside = p + n * (d + 0.1))
-  [[inside[0], face - 0.1, inside[1]],
-   [inside[0], face + d + overlap, inside[1]],
-   [outside[0], face - 0.1, outside[1]]];
-function tip_bevel_depth(n) =
-  max(0, smin(TIP_BEVEL, max(0, side_rail_width - 0.3) / max(0.001, abs(n[0])), min(0.05, TIP_BEVEL / 6)));
-TIP_BEVEL_RINGS = TIP_BEVEL <= 0 || ACCESSORY_PART ? [] : let(m = max(32, render_fn)) concat(
-  [for (i = [0 : 15]) let(z = lerp(min(TIP_BEVEL_Z0, TIP_BEVEL_ARC_Z0 - 0.01), TIP_BEVEL_ARC_Z0, i / 16),
-      n = tip_bevel_side_normal(z, -1), d = tip_bevel_depth(n) * smootherstep(i / 16))
-    tip_bevel_ring([-window_half_width(z), z], n, d)],
-  [for (i = [-m : m]) let(a = 90 * i / m, n = tip_bevel_normal(a))
-    tip_bevel_ring(tip_bevel_arc(a), n, tip_bevel_depth(n))],
-  [for (i = [1 : 16]) let(z = lerp(TIP_BEVEL_ARC_Z0, min(TIP_BEVEL_Z0, TIP_BEVEL_ARC_Z0 - 0.01), i / 16),
-      n = tip_bevel_side_normal(z, 1), d = tip_bevel_depth(n) * smootherstep(1 - i / 16))
-    tip_bevel_ring([window_half_width(z), z], n, d)]);
+// tip_bevel: the window's front, a flat ceiling over the opening when the part prints standing
+// on its shank, slopes instead. Above the reed plane the opening's outline moves toward the tip by
+// (height above the facing) / TB_M, up to the interior's roof, so every face it leaves is at least
+// 45 degrees from flat in the print frame (TB_M allows for the bore tilt and the facing's rise).
+// The reed side (tip rail on the facing, side rails) is untouched. Cut as a loft of z-stations:
+// at each, the shifted outline's half-width per height, from the window's at the reed plane to
+// the roof; ahead of the window front it is a wedge between the rising slope and the roof. Walls:
+// 0.6mm inside the exterior at every height (as the window cutter), the roof never higher than the
+// interior's own (clamped against the exterior), and held to descend no faster than 0.85 forward.
+// (43 degrees: a little margin; the facing's steepest rise over the cut's reach, it steepens to the tip)
+TB_M = max(0.3, tan(43 - max(0, bore_tilt)) - max([for (z = [win_front_z - 2 : 0.25 : min(L, win_front_z + 2)]) (facing_at_z(z + 0.25) - facing_at_z(z)) / 0.25]));
+TB_Z0 = max(win_z0 + min(window_rear_radius, win_hw_rear) + 0.1, win_front_z - max(0.5, tip_curve - tip_rail_thickness) - 1.5);
+TB_H = 0.1;
+TB_TOPS = !TIP_BEVEL || ACCESSORY_PART ? [] : [for (z = [TB_Z0 : TB_H : win_front_z + 3.05]) interior_ring_near(z)[1]];
+function tb_top_raw(z) = let(t = max(0, min(len(TB_TOPS) - 1.001, (z - TB_Z0) / TB_H)), i = floor(t)) lerp(TB_TOPS[i], TB_TOPS[i + 1], t - i);
+function tb_bottom(z) = facing_at_z(z) + (z <= win_front_z ? -0.1 : TB_M * (z - win_front_z));
+// where the slope meets the interior's roof; the descent hold looks only that far ahead (the roof
+// drops steeply at the very tip, past where the cut reaches)
+function tb_meet(dz) = dz > 3 || tb_top_raw(win_front_z + dz) - tb_bottom(win_front_z + dz) < 0.05 ? dz : tb_meet(dz + 0.05);
+TB_MEET = !TIP_BEVEL || ACCESSORY_PART ? 0 : win_front_z + tb_meet(0.05);
+function tb_top(z) = min([for (k = [0 : 20]) if (k == 0 || z + k * TB_H <= TB_MEET) tb_top_raw(z + k * TB_H) + 0.85 * k * TB_H]) - 0.02;
+function tb_end(dz) = dz > 3 || tb_top(win_front_z + dz) - tb_bottom(win_front_z + dz) < 0.03 ? dz - 0.05 : tb_end(dz + 0.05);
+function tb_ring(z) =
+  let(E = exterior_ring_at(z), f = facing_at_z(z), y0 = tb_bottom(z), y1 = tb_top(z), n = 10)
+  // behind the front, one height exactly on the facing: the slope starts there, not mid-segment
+  let(ys = z <= win_front_z ? concat([y0], [for (k = [0 : n - 1]) lerp(f, y1, k / (n - 1))]) : [for (k = [0 : n]) lerp(y0, y1, k / n)])
+  // walls leaning in: held inside them where the moved outline comes from (at the front itself
+  // the interior is only as wide as the window's tip)
+  let(side = [for (y = ys) let(zs = z - max(0, y - f) / TB_M, hw = window_half_width(zs),
+                lean = sidewall_angle < 0 ? sidewall_allowed(interior_ring_near(min(zs, win_front_z)), y) - 0.05 : 1e3)
+              [max(0.02, min(hw, ring_half_width_at_y(E, y) - 0.6, lean)), y]])
+  concat([[-side[0][0], side[0][1], z]], [for (q = side) [q[0], q[1], z]], [for (k = [n : -1 : 1]) [-side[k][0], side[k][1], z]]);
 module tip_bevel_cutter() {
-  if (TIP_BEVEL > 0) intersection() {
-    ring_loft(TIP_BEVEL_RINGS);
-    // Keep the outer shell even with narrow/ridged beaks; this is solely an inside cut.
-    exterior_offset(min(TIP_BEVEL_Z0, TIP_BEVEL_ARC_Z0 - 0.01) - 0.1, min(L - 0.02, win_front_z + TIP_BEVEL + 0.15), 0.6);
-  }
+  zs = concat(station_list(TB_Z0, win_front_z, tip_curve + 1, Z_STEP * 0.8), [for (dz = [0.05 : 0.05 : max(0.05, tb_end(0.05))]) win_front_z + dz]);
+  ring_loft([for (z = zs) tb_ring(z)]);
 }
 
 // ---- Exterior: tenon -> flare -> tapered body -> beak -> wide rounded tip, as one loft. The
@@ -1587,8 +1581,8 @@ module facing_cutter() {
 }
 
 // ---- Window cutter: the window planform extruded from well below the table up to the
-// interior's mid-height, as a ring loft. The optional bevel is a separate open-edge cutter;
-// without it, the window and interior retain the original square tip edge.
+// interior's mid-height, as a ring loft. Tall enough to clear the interior's rounded floor
+// corners, but always below its roof, so it opens the window without notching the baffle.
 // Full window width up to just above the facing (so the window outline is exact), then its upper
 // corners pull in to stay 0.6mm inside the exterior at their height — near the tip a rounded beak
 // can be narrower than the window there (a bari fit got two holes through its beak corners).
@@ -2252,11 +2246,20 @@ BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D)
 BTX_Z0 = baffle_start_z + 4;
 BTX_Z1 = L - tip_curve - 2;
 BTX_SPAN = BTX_Z1 - BTX_Z0;
+BTX_LINES = baffle_texture == "across" || baffle_texture == "curved";   // grooves running across
+// Curved grooves: a sample at x sits btx_bow(x) mm toward the tip from the groove's centre (a parabola)
+function btx_bow(x) = -baffle_texture_bend * 0.1 * x * x;
 BTX_ROWS = !BTX_ON || BTX_SPAN <= 2 ? [] :
   baffle_texture == "along" ? [for (z = [BTX_Z0 : 1 : BTX_Z1]) btx_row(z, [for (k = [-6 : 6]) k * BTX_S])] :
   baffle_texture == "across" ?
     let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
     [for (j = [0 : n]) btx_even(btx_row(BTX_Z0 + off + j * BTX_S, [for (x = [-12 : 0.75 : 12]) x]))] :
+  baffle_texture == "curved" ?
+    // the centres keep the spacing; each sample's z is shifted by the bow (clamped to the span, where
+    // the depth fades to nothing, so a bowed groove tapers out at its ends instead of running off)
+    let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
+    [for (j = [0 : n]) [for (x = [-12 : 0.75 : 12])
+       btx_row(min(BTX_Z1, max(BTX_Z0, BTX_Z0 + off + j * BTX_S + btx_bow(x))), [x])[0]]] :
   baffle_texture == "dimples" ?
     let(dz = BTX_S * 0.866) [for (j = [0 : floor(BTX_SPAN / dz)]) btx_row(BTX_Z0 + j * dz, [for (k = [-6 : 6]) (k + (j % 2) / 2) * BTX_S])] :
   [];
@@ -2820,7 +2823,7 @@ module mouthpiece_body() {
     else interior_solid();
     if (BTX_ON && !BTX_RAISED) baffle_texture_solid();
     window_cutter();
-    if (TIP_BEVEL > 0) tip_bevel_cutter();
+    if (TIP_BEVEL && !ACCESSORY_PART) tip_bevel_cutter();
     facing_cutter();
     if (HAS_LETTERING) lettering_cutter();
     if (HAS_SHANK_ART) shank_cutter();

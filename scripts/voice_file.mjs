@@ -60,10 +60,7 @@ export function buildVoiceFile({ values, header, filePath, base = fs.readFileSyn
   const inc = path.relative(path.dirname(filePath), BASE_PATH).split(path.sep).join('/');
   const customFilled = fill(custom, values, used);
   const hiddenFilled = fill(hidden, values, used);
-  // Retired prototype support is not a renamed bevel: adding and removing material differ.
-  const extra = Object.keys(values).filter(
-    (k) => !used.has(k) && !['tip_rail_chamfer', 'tip_support_coverage'].includes(k),
-  );
+  const extra = Object.keys(values).filter((k) => !used.has(k));
   return [
     header.trim(),
     '',

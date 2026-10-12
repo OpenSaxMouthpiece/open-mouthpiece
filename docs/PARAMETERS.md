@@ -83,11 +83,11 @@ Diameter of the tube behind the socket (mm), about your neck tip's inside diamet
 
 Range: 8 to 24, step 0.1.
 
-Presets: Alto `16.0` · Tenor `17.0` · Bari `16.9` · Soprano `13.6`.
+Presets: Alto `16.2` · Tenor `17.0` · Bari `16.9` · Soprano `13.6`.
 
-![bore_diameter: 12 → 20](images/params/bore_diameter.png)
+![bore_diameter: 12.2 → 20.2](images/params/bore_diameter.png)
 
-*12 → 20*
+*12.2 → 20.2*
 
 ### Table angle to the neck (`bore_tilt`)
 
@@ -439,17 +439,17 @@ Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
 
 *1 → 3*
 
-### Tip bevel (mm) (`tip_bevel`)
+### Slope the inside of the tip (`tip_bevel`)
 
-Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.
+Slope the inside of the tip at 45 degrees so it prints without sagging.
 
-Range: 0 to 0.6, step 0.05.
+Range: on / off.
 
-Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
 
-![tip_bevel: 0 → 0.6](images/params/tip_bevel.png)
+![tip_bevel: off → on](images/params/tip_bevel.png)
 
-*0 → 0.6*
+*off → on*
 
 ### Tip roundness (`tip_curve`)
 
@@ -948,6 +948,14 @@ How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall s
 Range: 0.3 to 1.2, step 0.05.
 
 Presets: Alto `0.6` · Tenor `0.6` · Bari `0.6` · Soprano `0.6`.
+
+### How far up the shank (`shank_detail_length`)
+
+How far up the shank decoration and text reach (mm); 0 = to the flare.
+
+Range: 0 to 30, step 1.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ## Profile overrides
 

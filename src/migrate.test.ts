@@ -1,12 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  CHAMBER_BEFORE,
-  chamberBefore,
-  migrateChamberValues,
-  migratePath,
-  migrateScad,
-  migrateValues,
-} from "./migrate";
+import { CHAMBER_BEFORE, chamberBefore, migrateChamberValues, migratePath, migrateScad } from "./migrate";
 
 describe("migratePath", () => {
   it("opens the variants under their new names", () => {
@@ -19,29 +12,6 @@ describe("migratePath", () => {
       '{"activeKey":"variants/tenor_flamma.scad","b":"alto.scad"}',
     );
     expect(migratePath("my_ash.scad")).toBe("my_ash.scad");
-  });
-});
-
-describe("retired tip support", () => {
-  it("drops saved support overrides without changing the independent bevel or other values", () => {
-    expect(migrateValues({ tip_rail_chamfer: 0.5, tip_support_coverage: 50, tip_bevel: 0.3, tip_opening: 2 })).toEqual({
-      tip_bevel: 0.3,
-      tip_opening: 2,
-    });
-    expect(migrateValues({ tip_rail_chamfer: 0.5 })).toEqual({});
-  });
-  it("removes retired settings from designs using today's generator, idempotently", () => {
-    const old =
-      "include <lib/mouthpiece_base.scad>\r\ntip_rail_chamfer = 0.5; // [0:0.05:0.6]\r\ntip_support_coverage = 100;\r\ntip_bevel = 0.3;\r\n";
-    const current = "include <lib/mouthpiece_base.scad>\r\ntip_bevel = 0.3;\r\n";
-    expect(migrateScad(old)).toBe(current);
-    expect(migrateScad(current)).toBe(current);
-  });
-  it("preserves self-contained downloads and unrelated files with their own parameter names", () => {
-    const bundled = "tip_rail_chamfer = 0.5;\nRENAMED_PARAMS = [];\n";
-    expect(migrateScad(bundled)).toBe(bundled);
-    const unrelated = "tip_rail_chamfer = 0.5;\ncube(1);";
-    expect(migrateScad(unrelated)).toBe(unrelated);
   });
 });
 

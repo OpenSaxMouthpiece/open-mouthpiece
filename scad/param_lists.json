@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "7372ff27-20793",
+  "hash": "bd13bbed-20947",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -278,7 +278,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -294,6 +294,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -337,6 +341,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -410,14 +424,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -2022,7 +2033,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "d8179305-21031",
+  "hash": "af83e4c3-21185",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2300,7 +2311,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -2316,6 +2327,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -2359,6 +2374,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -2432,14 +2457,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -4044,7 +4066,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "5be3cd8d-21703",
+  "hash": "c951b783-21857",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4322,7 +4344,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -4338,6 +4360,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -4381,6 +4407,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -4454,14 +4490,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -6066,7 +6099,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "22dcd172-20995",
+  "hash": "4d8799fe-21149",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6344,7 +6377,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -6360,6 +6393,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -6403,6 +6440,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -6476,14 +6523,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -8088,7 +8132,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "1d265ba2-21172",
+  "hash": "7d353cd4-21326",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8366,7 +8410,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -8382,6 +8426,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -8425,6 +8473,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -8498,14 +8556,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -10110,7 +10165,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "175d76a9-20887",
+  "hash": "158f3db7-21041",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10388,7 +10443,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -10404,6 +10459,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -10447,6 +10506,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -10520,14 +10589,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -12132,7 +12198,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "fdacfb2e-20922",
+  "hash": "efe5f7de-21076",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12410,7 +12476,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -12426,6 +12492,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -12469,6 +12539,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -12542,14 +12622,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -14154,7 +14231,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "d82eb7fc-20891",
+  "hash": "2106a026-21045",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14432,7 +14509,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -14448,6 +14525,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -14491,6 +14572,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -14564,14 +14655,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -16176,7 +16264,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "a6811e13-21076",
+  "hash": "4154ff1f-21230",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16454,7 +16542,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -16470,6 +16558,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -16513,6 +16605,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -16586,14 +16688,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -18198,7 +18297,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "848e3895-21105",
+  "hash": "9875c1b-21259",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18476,7 +18575,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -18492,6 +18591,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -18535,6 +18638,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -18608,14 +18721,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -20220,7 +20330,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "2b2fc9ac-21067",
+  "hash": "1b941e68-21221",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20498,7 +20608,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -20514,6 +20624,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -20557,6 +20671,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -20630,14 +20754,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -22242,7 +22363,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "ac7a69bb-21094",
+  "hash": "4c65ef3-21248",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22520,7 +22641,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -22536,6 +22657,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -22579,6 +22704,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -22652,14 +22787,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -24264,7 +24396,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "abe098ae-21120",
+  "hash": "ddbf99de-21274",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24542,7 +24674,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -24558,6 +24690,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -24601,6 +24737,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -24674,14 +24820,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -26286,7 +26429,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "5e59a61a-21091",
+  "hash": "ccd2339e-21245",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26564,7 +26707,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -26580,6 +26723,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -26623,6 +26770,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -26696,14 +26853,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -28308,7 +28462,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "80131582-21278",
+  "hash": "38971cca-21432",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28586,7 +28740,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -28602,6 +28756,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -28645,6 +28803,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -28718,14 +28886,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -30330,7 +30495,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "77deb98-21303",
+  "hash": "487e6764-21457",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30608,7 +30773,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -30624,6 +30789,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -30667,6 +30836,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -30740,14 +30919,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",
@@ -32352,7 +32528,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "9389d6a5-21271",
+  "hash": "b2a4dedf-21425",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32630,7 +32806,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -32646,6 +32822,10 @@
      {
       "name": "across",
       "value": "across"
+     },
+     {
+      "name": "curved",
+      "value": "curved"
      },
      {
       "name": "dimples",
@@ -32689,6 +32869,16 @@
     "min": 1.5,
     "name": "baffle_texture_spacing",
     "step": 0.1,
+    "type": "number"
+   },
+   {
+    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0.5,
+    "max": 1,
+    "min": -1,
+    "name": "baffle_texture_bend",
+    "step": 0.05,
     "type": "number"
    },
    {
@@ -32762,14 +32952,11 @@
     "type": "number"
    },
    {
-    "caption": "Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.",
+    "caption": "Slope the inside of the tip at 45 degrees so it prints without sagging.",
     "group": "Window",
-    "initial": 0,
-    "max": 0.6,
-    "min": 0,
+    "initial": false,
     "name": "tip_bevel",
-    "step": 0.05,
-    "type": "number"
+    "type": "boolean"
    },
    {
     "caption": "How round the tip is, seen from above: how far back its curve reaches (mm).",

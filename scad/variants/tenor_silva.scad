@@ -55,14 +55,16 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = -0.3; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0.4; // [0:0.1:3]
-// A texture on the baffle: grooves along it, grooves across it, or dimples.
-baffle_texture = "along"; // [none, along, across, dimples]
+// A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.
+baffle_texture = "along"; // [none, along, across, curved, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]
 // How deep the texture cuts, or how far it stands out (mm); less where there is no room.
 baffle_texture_depth = 0.4; // [0.1:0.05:1]
 // Distance between the grooves or dimples (mm).
 baffle_texture_spacing = 3; // [1.5:0.1:8]
+// How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.
+baffle_texture_bend = 0.5; // [-1:0.05:1]
 
 /* [Window] */
 // Length of the opening under the reed (mm).
@@ -79,8 +81,8 @@ sidewall_angle = -4; // [-20:1:30]
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 1.3; // [0.3:0.02:3]
-// Tip bevel (mm): can reduce sagging during printing; 0 = off. Narrows the seal.
-tip_bevel = 0; // [0:0.05:0.6]
+// Slope the inside of the tip at 45 degrees so it prints without sagging.
+tip_bevel = false;
 // How round the tip is, seen from above: how far back its curve reaches (mm).
 tip_curve = 3.8; // [0.5:0.1:12]
 

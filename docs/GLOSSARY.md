@@ -24,7 +24,7 @@ shank](images/glossary-table.svg)
 | **Break point** | Where the rails leave the flat table: the start of the facing. | **Facing length** sets how far it is from the tip |
 | **Facing length** | From the break point to the tip, in mm. | **Facing length** |
 | **Tip opening** | The gap between the reed and the tip rail, measured with a straightedge on the table. Often given in thousandths of an inch. | **Tip opening** |
-| **Chamfer** | A 45° cut on the window-side tip edge, fading smoothly into the side rails. It can reduce tip sagging during upright printing, but narrows the reed's sealing surface. | **Tip bevel (mm)** under Rails → More; 0 keeps the original edge |
+| **Chamfer** | A small bevel on the inside edge of the rails, around the window. | none: finish it by hand if you want one |
 
 ## Inside: the air path from tip to neck
 

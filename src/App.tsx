@@ -312,6 +312,8 @@ export default function App() {
     const t = setTimeout(() => setDl(null), dl.state === "done" ? 3000 : 5000);
     return () => clearTimeout(t);
   }, [dl]);
+  // A file waiting on its Save button was made for the design as it was: a change drops it.
+  useEffect(() => setDl((d) => (d?.state === "ready" ? null : d)), [values, mainTab?.key, mainTab?.source]);
   // CodeMirror re-measures once it's visible again.
   useEffect(() => {
     if ((isPhone && phonePanel === "code") || (!isPhone && codeOpen)) setTimeout(() => editor.current?.refresh(), 0);
@@ -855,7 +857,7 @@ export default function App() {
   // ---- downloads
   // Hand finished files to the browser. A page may start a download only shortly after a click
   // (Chrome otherwise holds it behind its "download multiple files" prompt), so a single STL waits
-  // on its download button and multi-file downloads wait on Save in the status line.
+  // on its download button and multi-file downloads on the main Download button ("Save download").
   const deliver = (files: [string, BlobPart][], text: string, onReady?: (save: () => void) => void) => {
     const save = () => {
       for (const [n, data] of files)

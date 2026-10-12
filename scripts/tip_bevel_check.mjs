@@ -1,21 +1,19 @@
-// Regression guard: even a watertight, genus-1 model can hide a slot above a lower tip lip.
-// A cut bevel must open into the window; check the finished mesh in its design frame.
-import { slice, hitsY } from './mesh_frame.mjs';
-
-// Sample forward of the original window edge, beyond its 0.02mm overlap skin.
-export function tipBevelPocket(triangles, front, depth) {
-  if (depth < 0.05) return 0;
-  // Slice just off the symmetry plane to avoid duplicate crossings on triangle edges.
-  const across = triangles.map((t) => t.map(([x, y, z]) => [z, y, x]));
-  let gap = 0;
-  const section = slice(across, 0.001);
-  for (const t of [0.2, 0.5, 0.8]) {
-    const crossings = hitsY(section, front + Math.max(0.03, depth * t)).filter(
-      (y, i, all) => i === 0 || y - all[i - 1] > 0.0001,
-    );
-    // One material interval is the continuous beak. Two intervals mean a lower lip and an
-    // upper baffle, with the unwanted air gap between them.
-    if (crossings.length >= 4) gap = Math.max(gap, crossings[2] - crossings[1]);
+// tip_bevel's promise: printed standing on its shank, nothing around the window's front hangs
+// flatter than 45 degrees. Measured on the design-frame mesh: the area of faces near the tip whose
+// normal, in the print frame (turned by the bore tilt as part = mouthpiece prints), points down
+// within ~43 degrees of straight down.
+export function tipOverhang(triangles, winFront, tilt) {
+  const c = Math.cos((tilt * Math.PI) / 180),
+    s = Math.sin((tilt * Math.PI) / 180);
+  let area = 0;
+  for (const [a, b, d] of triangles) {
+    if ((a[2] + b[2] + d[2]) / 3 < winFront - 4) continue;
+    const u = [b[0] - a[0], b[1] - a[1], b[2] - a[2]],
+      v = [d[0] - a[0], d[1] - a[1], d[2] - a[2]];
+    const n = [u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]];
+    const len = Math.hypot(...n);
+    if (!len) continue;
+    if ((n[2] * c - n[1] * s) / len < -0.73) area += len / 2;
   }
-  return gap;
+  return area;
 }

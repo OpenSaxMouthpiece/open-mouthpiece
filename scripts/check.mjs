@@ -13,7 +13,8 @@
 //   7. the cap made for it: the genus it announces (one per vent), stands on z = 0, clears the
 //      mouthpiece and the ligature (part = cap_clash with a slightly loose collar is empty: bar
 //      zero-thickness slivers), fingerprinted.
-//   8. a tip bevel opens into the window without a hollow slot in the centre section.
+//   8. with tip_bevel on: same genus, and the flat overhang around the window's front (as it
+//      prints) is mostly gone: at most 2.5 mm² and 30% of the design's own.
 //   Then the presets' settings lists for the app are refreshed (scripts/param_lists.mjs).
 //   npm run check                 # compare with the baselines (exit 1 on any failure/change)
 //   npm run check -- --update     # accept the current results as the new baselines
@@ -26,7 +27,7 @@ import { fileURLToPath } from 'node:url';
 import { runOpenscad, parseLog, pool, OPENSCAD } from './openscad.mjs';
 import { loadTris } from './mesh_frame.mjs';
 import { isVoiceFile, readAssignments } from './voice_file.mjs';
-import { tipBevelPocket } from './tip_bevel_check.mjs';
+import { tipOverhang } from './tip_bevel_check.mjs';
 import { updateParamLists } from './param_lists.mjs';
 import { transformSync } from 'esbuild';
 
@@ -200,11 +201,23 @@ async function checkFile(file) {
   const m = meshInfo(stl);
   Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
   if (isVoiceFile(text)) {
-    const front = Number(values.overall_length) - Number(values.tip_rail_thickness);
-    const bevel = Math.min(Number(values.tip_bevel), 0.6, Number(values.tip_rail_thickness) - 0.3);
-    if (bevel > 0 && Number.isFinite(front)) {
-      const pocket = tipBevelPocket(m.T, front, bevel);
-      if (pocket > 0.03) r.problems.push(`tip bevel leaves a hollow slot ${pocket.toFixed(3)}mm high`);
+    const front = Number(values.overall_length) - Number(values.tip_rail_thickness),
+      tilt = Number(values.bore_tilt);
+    const bstl = path.join(OUT, `${tag}_bevel.stl`);
+    const brun = await runOpenscad(['-o', bstl, '-D', 'print_orientation=false', '-D', 'tip_bevel=true', file], {
+      cwd: path.dirname(file),
+    });
+    const blog = parseLog(brun.log);
+    if (!blog.ok || brun.code !== 0) r.problems.push('tip_bevel render failed');
+    else {
+      if (blog.genus !== null && blog.genus !== genus)
+        r.problems.push(`tip_bevel: genus ${blog.genus} (expected ${genus})`);
+      const before = tipOverhang(m.T, front, tilt),
+        after = tipOverhang(loadTris(bstl), front, tilt);
+      if (after > 2.5 || after > 0.3 * before)
+        r.problems.push(
+          `tip_bevel leaves ${after.toFixed(2)} mm² of flat overhang at the tip (${before.toFixed(2)} without)`,
+        );
     }
   }
   // 3: print orientation

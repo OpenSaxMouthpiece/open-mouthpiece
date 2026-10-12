@@ -83,6 +83,7 @@ const TEXTURES: Record<string, string> = {
   none: "None",
   along: "Grooves along",
   across: "Grooves across",
+  curved: "Curved grooves across",
   dimples: "Dimples",
 };
 const PARTS: Record<string, string> = {
@@ -102,7 +103,7 @@ const grouped = (s: GroupedSection): DesignSection => ({
   items: s.groups.flatMap((g) => g.items),
   more: s.groups.flatMap((g) => g.more ?? []),
 });
-const TEXTURED = ["along", "across", "dimples"];
+const TEXTURED = ["along", "across", "curved", "dimples"];
 
 export const DESIGN_SECTIONS: DesignSection[] = [
   grouped({
@@ -169,6 +170,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           },
           { name: "baffle_texture_depth", label: "Texture depth", when: ["baffle_texture", TEXTURED] },
           { name: "baffle_texture_spacing", label: "Texture spacing", when: ["baffle_texture", TEXTURED] },
+          { name: "baffle_texture_bend", label: "Groove bend", when: ["baffle_texture", ["curved"]] },
         ],
         more: ["baffle_start", "baffle_curve"],
       },
@@ -535,7 +537,7 @@ const LABELS: Record<string, string> = {
   facing_model: "Facing curve",
   facing_exponent: "Where the curve opens",
   tip_curve: "Tip roundness",
-  tip_bevel: "Tip bevel (mm)",
+  tip_bevel: "Slope the inside of the tip",
   table_width_tip: "Table width at the tip",
   table_width_rear: "Table width at the back",
   table_concavity: "Table hollow",
@@ -548,6 +550,7 @@ const LABELS: Record<string, string> = {
   baffle_texture_style: "Texture style",
   baffle_texture_depth: "Texture depth",
   baffle_texture_spacing: "Texture spacing",
+  baffle_texture_bend: "Groove bend",
   window_taper: "Window narrows at the back",
   sidewall_angle: "Chamber side walls",
   window_rear_radius: "Window corner rounding",
@@ -599,7 +602,6 @@ const ENDS: Record<string, [string, string]> = {
   tip_opening: ["Closed", "Open"],
   facing_length: SHORT_LONG,
   tip_rail_thickness: THIN_THICK,
-  tip_bevel: ["Off", "Larger bevel"],
   side_rail_width: NARROW_WIDE,
   facing_exponent: ["Opens early", "Opens late"],
   tip_curve: ["Flat", "Round"],
@@ -630,6 +632,7 @@ const ENDS: Record<string, [string, string]> = {
   baffle_curve: ["Drops early", "Drops late"],
   baffle_texture_depth: ["Subtle", "Pronounced"],
   baffle_texture_spacing: ["Close together", "Far apart"],
+  baffle_texture_bend: ["Middle toward shank", "Middle toward tip"],
   window_length: SHORT_LONG,
   window_taper: ["Straight", "Tapered"],
   window_rear_radius: ["Square", "Round"],
@@ -777,6 +780,7 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
   baffle_texture_style: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   baffle_texture_depth: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   baffle_texture_spacing: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
+  baffle_texture_bend: (get) => (get("baffle_texture") !== "curved" ? "grooves are not curved" : null),
   floor_shape: (get) => (filled(get("floor_points")) ? "your own floor (floor_points) sets it" : null),
   // it shapes the stretch between the throat and the window (as the generator's chamber_weight)
   chamber_height: (get) =>

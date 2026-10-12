@@ -82,17 +82,19 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   rising toward the break (clamped by construction), [facing_length, 0]; no points = power.
 - **Window**: a slot (`window_width`, `window_taper`, `window_rear_radius`) whose front follows the
   reed-tip arc one `tip_rail_thickness` inside the tip; `window_cutter` (6-point rings) cuts it from
-  below the table to the interior's mid-height. The optional `tip_bevel` (default 0, up to 0.6mm)
-  is a separate triangular-profile loft along the window's outward normal. It cuts the open
-  window/facing corner at 45°, follows the curved tip and tapers C2 into both side rails, rather
-  than ending in a full-depth corner cap. The depth leaves at least 0.3mm of sealing land at the
-  centre and is smooth-min limited by side-rail width as it turns around the corners; an
-  `exterior_offset(.., 0.6)` intersection protects the outside shell. It narrows the inner sealing
-  surface but leaves the outer tip and facing curve intact. Removing the square inside corner
-  can reduce tip sagging when printed upright. At 0, all presets keep their exact
-  original mesh. The additive tip-support prototype and its coverage control are removed, not
-  mapped to a bevel; settings-only saved designs drop those obsolete values, while self-contained
-  downloads retain their embedded generator.
+  below the table to the interior's mid-height.
+- **Sloped tip** (`tip_bevel`, off by default; old links' numbers > 0 turn it on): printed standing
+  on the shank, the window's front (facing up to the roof, 0.4-0.8mm) is a flat ceiling. With it
+  on, `tip_bevel_cutter` moves the opening's outline toward the tip by (height above the facing) /
+  `TB_M` up to the interior's roof, so the faces it leaves are >= 45° from flat in the print frame
+  (`TB_M` = tan(43° - bore tilt) minus the facing's steepest rise near the tip). A loft of
+  z-stations, each the moved outline's half-width per height (one height exactly on the facing);
+  ahead of the front it is a wedge between the slope and the roof. By construction: the reed side
+  (rails on the facing) is untouched; 0.6mm inside the exterior at every height; never above the
+  interior's own roof, held to descend <= 0.85 forward (looking only as far as the cut reaches);
+  leaning-in walls held where the moved outline comes from. `npm run check` renders each design
+  with it on: same genus, flat overhang near the tip <= 2.5 mm² and 30% of the plain design's
+  (`scripts/tip_bevel_check.mjs`; ~90% less on every preset and variant).
 - **Socket**: `socket_d = neck_cork_diameter - shank_clearance` (a bigger "clearance" is a
   **tighter** fit: the cork's squeeze; the app calls it "Cork squeeze"), `eff_shank_depth` deep: the
   interior loft's first two rings (round, square to the tilted bore), then a short cone to the bore.

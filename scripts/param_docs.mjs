@@ -107,7 +107,7 @@ const PICS = {
   side_rail_width: { view: 'plan', y: 0.3, values: [0.8, 1.8] },
   // near the tip the rails are up at the tip opening: cut just above them
   tip_rail_thickness: { view: 'plan', y: 2.4, values: [1, 3] },
-  tip_bevel: { view: 'side_cut', box: [L_ALTO - 6, L_ALTO], y: [-0.5, 4.5], values: [0, 0.6] },
+  tip_bevel: { view: 'side_cut', box: [L_ALTO - 6, L_ALTO], y: [-0.5, 4.5], values: [false, true] },
   tip_curve: { view: 'plan', y: 2.4, values: [2, 6] },
   table_width_tip: { view: 'plan', y: 2.4 },
   table_width_rear: { view: 'plan', y: 0.3 },
@@ -284,6 +284,10 @@ async function main() {
           hi: o,
           caption: `\`${def}\` (the alto's) → \`${o}\`${stretched(pic)}`,
         });
+    } else if (!R && pic.values) {
+      // a yes/no setting: off, then on
+      const [lo, hi] = pic.values;
+      jobs.push({ file: `${p.name}.png`, p, pic, lo, hi, caption: `off → on${stretched(pic)}` });
     } else if (R) {
       const d = Number(alto),
         span = R.max - R.min,
