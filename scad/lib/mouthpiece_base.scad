@@ -1471,40 +1471,37 @@ AIR_RINGS = ACCESSORY_PART ? [] : [for (z = drop_first(station_list(eff_shank_de
   let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 
 // tip_bevel: the window's front, a flat ceiling over the opening when the part prints standing
-// on its shank, slopes instead. Above the reed plane the opening's outline moves toward the tip by
-// (height above the facing) / TB_M, up to the interior's roof, so every face it leaves is at least
-// 45 degrees from flat in the print frame (TB_M allows for the bore tilt and the facing's rise).
-// The reed side (tip rail on the facing, side rails) is untouched. Cut as a loft of z-stations:
-// at each, the shifted outline's half-width per height, from the window's at the reed plane to
-// the roof; ahead of the window front it is a wedge between the rising slope and the roof. Walls:
-// 0.6mm inside the exterior at every height (as the window cutter), the roof never higher than the
-// interior's own (clamped against the exterior), and held to descend no faster than 0.85 forward.
-// (43 degrees: a little margin; the facing's steepest rise over the cut's reach, it steepens to the tip)
-TB_M = max(0.3, tan(43 - max(0, bore_tilt)) - max([for (z = [win_front_z - 2 : 0.25 : min(L, win_front_z + 2)]) (facing_at_z(z + 0.25) - facing_at_z(z)) / 0.25]));
-TB_Z0 = max(win_z0 + min(window_rear_radius, win_hw_rear) + 0.1, win_front_z - max(0.5, tip_curve - tip_rail_thickness) - 1.5);
-TB_H = 0.1;
-TB_TOPS = !TIP_BEVEL || ACCESSORY_PART ? [] : [for (z = [TB_Z0 : TB_H : win_front_z + 3.05]) interior_ring_near(z)[1]];
-function tb_top_raw(z) = let(t = max(0, min(len(TB_TOPS) - 1.001, (z - TB_Z0) / TB_H)), i = floor(t)) lerp(TB_TOPS[i], TB_TOPS[i + 1], t - i);
-function tb_bottom(z) = facing_at_z(z) + (z <= win_front_z ? -0.1 : TB_M * (z - win_front_z));
-// where the slope meets the interior's roof; the descent hold looks only that far ahead (the roof
-// drops steeply at the very tip, past where the cut reaches)
-function tb_meet(dz) = dz > 3 || tb_top_raw(win_front_z + dz) - tb_bottom(win_front_z + dz) < 0.05 ? dz : tb_meet(dz + 0.05);
-TB_MEET = !TIP_BEVEL || ACCESSORY_PART ? 0 : win_front_z + tb_meet(0.05);
-function tb_top(z) = min([for (k = [0 : 20]) if (k == 0 || z + k * TB_H <= TB_MEET) tb_top_raw(z + k * TB_H) + 0.85 * k * TB_H]) - 0.02;
-function tb_end(dz) = dz > 3 || tb_top(win_front_z + dz) - tb_bottom(win_front_z + dz) < 0.03 ? dz - 0.05 : tb_end(dz + 0.05);
-function tb_ring(z) =
-  let(E = exterior_ring_at(z), f = facing_at_z(z), y0 = tb_bottom(z), y1 = tb_top(z), n = 10)
-  // behind the front, one height exactly on the facing: the slope starts there, not mid-segment
-  let(ys = z <= win_front_z ? concat([y0], [for (k = [0 : n - 1]) lerp(f, y1, k / (n - 1))]) : [for (k = [0 : n]) lerp(y0, y1, k / n)])
-  // walls leaning in: held inside them where the moved outline comes from (at the front itself
-  // the interior is only as wide as the window's tip)
-  let(side = [for (y = ys) let(zs = z - max(0, y - f) / TB_M, hw = window_half_width(zs),
-                lean = sidewall_angle < 0 ? sidewall_allowed(interior_ring_near(min(zs, win_front_z)), y) - 0.05 : 1e3)
-              [max(0.02, min(hw, ring_half_width_at_y(E, y) - 0.6, lean)), y]])
-  concat([[-side[0][0], side[0][1], z]], [for (q = side) [q[0], q[1], z]], [for (k = [n : -1 : 1]) [-side[k][0], side[k][1], z]]);
-module tip_bevel_cutter() {
-  zs = concat(station_list(TB_Z0, win_front_z, tip_curve + 1, Z_STEP * 0.8), [for (dz = [0.05 : 0.05 : max(0.05, tb_end(0.05))]) win_front_z + dz]);
-  ring_loft([for (z = zs) tb_ring(z)]);
+// on its shank, slopes instead. The ceiling hangs off the baffle (the facing side is open air), so
+// the corner between the baffle and the tip rail is filled: at height h above the facing, what is
+// cut stops h / TB_M short of the window front (the front's arc moved toward the shank), a 45 degree
+// ramp from the window's front edge on the facing up to the roof. Material is only added: the tip
+// rail, the facing and the window outline on the reed side are exactly as without it.
+// TB_M: 43 degrees (a little margin) less the bore tilt either way; the facing's rise near the tip
+// only makes the ramp steeper in the print frame.
+TB_M = tan(43 - abs(bore_tilt));
+TB_A = max(0.5, tip_curve - tip_rail_thickness);   // the window front's arc (window_side_hw)
+// how high the ceiling reaches: the roof over the arc, above the facing
+TB_HT = !TIP_BEVEL || ACCESSORY_PART ? 0 : 0.05 + max([for (z = [win_front_z - TB_A - 0.5 : 0.1 : win_front_z - 0.02])
+  interior_ring_near(z)[1] - facing_at_z(z)]);
+TB_Z0 = max(win_z0 + min(window_rear_radius, win_hw_rear) + 0.1, win_front_z - TB_A - TB_HT / TB_M - 0.3);
+// What may stay cut at height h above the facing: the window's width with its front arc moved back.
+function tb_keep_hw(z, h) = max(0.01, min(window_base_hw(z), window_rail_limit(z)) * tip_factor(win_front_z - z - h / TB_M, TB_A));
+function tb_keep_ring(z) =
+  let(f = facing_at_z(z), top = min(TB_HT + 0.2, TB_M * (win_front_z - z)), n = 14)
+  // finer toward the top, where the arc pinches the width to nothing
+  let(side = [for (k = [0 : n]) let(h = top * (1 - pow(1 - k / n, 2))) [tb_keep_hw(z, h), f + h]])
+  concat([[-side[0][0], f - 1, z], [side[0][0], f - 1, z]], [for (q = side) [q[0], q[1], z]], [for (k = [n : -1 : 0]) [-side[k][0], side[k][1], z]]);
+// The ramp: the band from the facing up to the ceiling's height, less what stays cut. Taken out
+// of the interior and window cutters (never the facing cutter, so the window stays open).
+module tip_ramp() {
+  X = max(win_hw_front, win_hw_rear) + 1;
+  z1 = win_front_z - 0.01;
+  zs = [for (j = [0 : 40]) TB_Z0 + (z1 - TB_Z0) * (1 - pow(1 - j / 40, 2))];
+  difference() {
+    ring_loft([for (z = [TB_Z0, each [for (j = [1 : 20]) TB_Z0 + (win_front_z + 0.3 - TB_Z0) * j / 20]])
+      let(f = facing_at_z(z)) [[-X, f, z], [X, f, z], [X, f + TB_HT, z], [-X, f + TB_HT, z]]]);
+    ring_loft([for (z = concat([TB_Z0 - 0.2], zs)) tb_keep_ring(z)]);
+  }
 }
 
 // ---- Exterior: tenon -> flare -> tapered body -> beak -> wide rounded tip, as one loft. The
@@ -2819,11 +2816,15 @@ module mouthpiece_body() {
       exterior_solid();
       if (HAS_SHANK_DETAIL && SHANK_RAISED) shank_raised();
     }
-    if (BTX_ON && BTX_RAISED) difference() { interior_solid(); baffle_texture_solid(); }
-    else interior_solid();
-    if (BTX_ON && !BTX_RAISED) baffle_texture_solid();
-    window_cutter();
-    if (TIP_BEVEL && !ACCESSORY_PART) tip_bevel_cutter();
+    difference() {
+      union() {
+        if (BTX_ON && BTX_RAISED) difference() { interior_solid(); baffle_texture_solid(); }
+        else interior_solid();
+        if (BTX_ON && !BTX_RAISED) baffle_texture_solid();
+        window_cutter();
+      }
+      if (TIP_BEVEL && !ACCESSORY_PART) tip_ramp();
+    }
     facing_cutter();
     if (HAS_LETTERING) lettering_cutter();
     if (HAS_SHANK_ART) shank_cutter();

@@ -84,17 +84,16 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   reed-tip arc one `tip_rail_thickness` inside the tip; `window_cutter` (6-point rings) cuts it from
   below the table to the interior's mid-height.
 - **Sloped tip** (`tip_bevel`, off by default; old links' numbers > 0 turn it on): printed standing
-  on the shank, the window's front (facing up to the roof, 0.4-0.8mm) is a flat ceiling. With it
-  on, `tip_bevel_cutter` moves the opening's outline toward the tip by (height above the facing) /
-  `TB_M` up to the interior's roof, so the faces it leaves are >= 45° from flat in the print frame
-  (`TB_M` = tan(43° - bore tilt) minus the facing's steepest rise near the tip). A loft of
-  z-stations, each the moved outline's half-width per height (one height exactly on the facing);
-  ahead of the front it is a wedge between the slope and the roof. By construction: the reed side
-  (rails on the facing) is untouched; 0.6mm inside the exterior at every height; never above the
-  interior's own roof, held to descend <= 0.85 forward (looking only as far as the cut reaches);
-  leaning-in walls held where the moved outline comes from. `npm run check` renders each design
-  with it on: same genus, flat overhang near the tip <= 2.5 mm² and 30% of the plain design's
-  (`scripts/tip_bevel_check.mjs`; ~90% less on every preset and variant).
+  on the shank, the window's front (facing up to the roof, 0.4-0.8mm) is a flat ceiling hanging
+  off the baffle (the facing side is open air). With it on, `tip_ramp()` fills that corner: it is
+  taken out of the interior and window cutters (not the facing cutter), so at height h above the
+  facing the cut stops h / `TB_M` short of the window front (the front's arc moved toward the
+  shank; `TB_M` = tan(43° - |bore tilt|)), a 45° ramp from the window's front edge on the facing up
+  to the roof. By construction it only adds material: the tip rail, the facing and the window
+  outline on the reed side are exactly as without it (an earlier version cut forward into the tip
+  rail and left a pocket there). `npm run check` renders each design with it on: same genus, no
+  less volume than the plain design, flat overhang near the tip <= 2.5 mm² and 30% of the plain
+  design's (`scripts/tip_bevel_check.mjs`; alto 10.4 -> 0.3 mm², +8 mm³).
 - **Socket**: `socket_d = neck_cork_diameter - shank_clearance` (a bigger "clearance" is a
   **tighter** fit: the cork's squeeze; the app calls it "Cork squeeze"), `eff_shank_depth` deep: the
   interior loft's first two rings (round, square to the tilted bore), then a short cone to the bore.
