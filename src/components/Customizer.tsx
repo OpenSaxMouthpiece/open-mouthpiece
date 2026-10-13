@@ -265,9 +265,10 @@ export function ParamRow({
                 href={docs}
                 target="_blank"
                 rel="noreferrer"
-                title="A picture of what it changes, and more about it (opens GitHub)"
+                title="More about this setting, with a picture (opens GitHub)"
+                aria-label="More about this setting (opens GitHub)"
               >
-                Details ↗
+                ↗
               </a>
             </>
           )}

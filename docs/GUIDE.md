@@ -93,10 +93,10 @@ design has changes that haven't been saved.
 
 Each setting has a slider and a box where you can type an exact number. The words under each end of
 the slider tell you what that direction does, such as Closed and Open or Short and Long. A short
-description under each setting gives the unit; its **Details ↗** link opens that setting's
+description under each setting gives the unit; the **↗** after it opens that setting's
 entry in [Every setting](PARAMETERS.md), with a picture of what it changes and, for some, more
 about how to measure or use it. If you'd rather not see the descriptions, turn them off under
-**Options** (each setting's **i** then shows its description and link).
+**Options** (each setting's **i** then shows its description and the ↗).
 
 The longer sections are split into small groups, one per part (for example Baffle, Chamber,
 Throat and Window), each under a small heading. A group shows its main settings first. Click
