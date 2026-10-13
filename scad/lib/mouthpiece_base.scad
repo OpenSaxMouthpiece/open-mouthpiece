@@ -1111,7 +1111,7 @@ function interior_ring_build(z, cap_s) =
   // walls leaning out need the ring wide enough to reach them at the roof (under the window from
   // the window width, before it from the chamber's own)
   let(la = wall_lean_at(z), lift = max(0, top - narrow_top) * tan(max(0, la)))
-  let(hw0w = la <= 0 ? hw0 : in_win ? max(hw0, narrow + lift) : hw0 + lift)
+  let(hw0w = la <= 0 ? hw0 : (in_win ? max(hw0, narrow) : hw0) + lift)
   let(hw1r = !in_win ? hw0w : max(min(hw0w, ring_half_width_at_y(E, top) - 0.8), min(narrow, hw0w)))
   // the smoothed limit, but never narrower than the window (the fit below still has the last word)
   let(hw1 = cap_s >= 1 ? hw1r : max(hw1r * cap_s, min(narrow, hw1r)))
@@ -1161,7 +1161,7 @@ function interior_points(dirs, z, I) =
     let(blend = lerp(min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0])))))))
     let(allowed = la < 0 ? min(blend, lean_in_allowed(I, p[1], la))
       : la == 0 ? blend
-      : I[5] < 1e3 ? sidewall_allowed(I, p[1], la)
+      : I[5] < 1e3 ? max(sidewall_allowed(I, p[1], la), min(out_allowed(I, p[1], la), blend))
       : out_allowed(I, p[1], la))
     [sign(p[0]) * min(abs(p[0]), allowed), p[1], p[2]]];
 // Height above narrow_top, the corner there rounded over 1mm.

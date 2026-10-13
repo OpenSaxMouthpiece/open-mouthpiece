@@ -1058,7 +1058,7 @@ export function Viewer({
             </label>
           )}
           {(autoRender || autoZoom || quality) && (
-            <Menu label="Auto ▾" title="Render on change, auto-zoom and quality" align="left" className="show-menu">
+            <Menu label="Behavior ▾" title="How the view behaves: render on change, auto-zoom, render quality" align="left" className="show-menu">
               {() => (
                 <div className="show-list">
                   {autoRender && (
