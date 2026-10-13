@@ -367,7 +367,9 @@ if (lists.length) console.log(`settings lists refreshed (scad/param_lists.json):
   const docs = new Set(JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'paramDocs.json'), 'utf8')));
   const undocumented = [...names].filter((n) => !docs.has(n));
   if (undocumented.length)
-    console.log(`FAIL settings docs: no section for ${undocumented.join(', ')} (node scripts/param_docs.mjs --no-images)`);
+    console.log(
+      `FAIL settings docs: no section for ${undocumented.join(', ')} (node scripts/param_docs.mjs --no-images)`,
+    );
   if (unplaced.length || unknown.length || undocumented.length) failed++;
 }
 console.log(`${results.length - failed}/${results.length} passed in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
