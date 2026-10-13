@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "93794d2e-21424",
+  "hash": "87780e3a-21435",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -99,6 +99,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -2076,7 +2080,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "cdcc3354-21662",
+  "hash": "9f48b47a-21673",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2175,6 +2179,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -4152,7 +4160,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "b7bfa9d0-22334",
+  "hash": "75e87df6-22345",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4251,6 +4259,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -6228,7 +6240,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "6a48a7ad-21626",
+  "hash": "d4aa97a1-21637",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6327,6 +6339,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -8304,7 +8320,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "c31b3ac1-21803",
+  "hash": "73054fe3-21814",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8403,6 +8419,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -10380,7 +10400,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "c39f6868-21518",
+  "hash": "4061aae4-21529",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10479,6 +10499,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -12456,7 +12480,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "1f757f7-21553",
+  "hash": "81232843-21564",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12555,6 +12579,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -14532,7 +14560,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "4d594477-21522",
+  "hash": "4b5a55f3-21533",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14631,6 +14659,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -16608,7 +16640,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "c3339172-21707",
+  "hash": "a033b676-21718",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16707,6 +16739,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -18684,7 +18720,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "ded2d174-21736",
+  "hash": "a21c3606-21747",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18783,6 +18819,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -20760,7 +20800,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "4c35ccf3-21698",
+  "hash": "7ae2b56d-21709",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20859,6 +20899,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -22836,7 +22880,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "5af7ac42-21725",
+  "hash": "d1da6d86-21736",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22935,6 +22979,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -24912,7 +24960,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "7e1ecbf5-21751",
+  "hash": "ebc0d439-21762",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25011,6 +25059,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -26988,7 +27040,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "3bc139bb-21722",
+  "hash": "9e8380f9-21733",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27087,6 +27139,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -29064,7 +29120,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "6c841f5d-21909",
+  "hash": "7056961-21920",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29163,6 +29219,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -31140,7 +31200,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "634d74ed-21934",
+  "hash": "aa5a70f1-21945",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31239,6 +31299,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"
@@ -33216,7 +33280,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "21bb2692-21902",
+  "hash": "4e13a51e-21913",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33315,6 +33379,10 @@
      {
       "name": "horseshoe",
       "value": "horseshoe"
+     },
+     {
+      "name": "trapezoid",
+      "value": "trapezoid"
      }
     ],
     "type": "string"

@@ -24,7 +24,7 @@ shank_diameter = 17.1; // [14:0.1:32]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
-chamber_shape = "round"; // [round, square, horseshoe]
+chamber_shape = "round"; // [round, square, horseshoe, trapezoid]
 // Width of the chamber after the throat (mm), whatever the throat's width.
 chamber_width = 9.5; // [4:0.1:36]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
