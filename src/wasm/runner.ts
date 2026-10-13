@@ -5,6 +5,9 @@
 // running OpenSCAD) and the lane's next job starts a fresh one, like the local server killing its
 // OpenSCAD process.
 import type { WasmJob, WasmResult } from "./types";
+// Inlined into the page's bundle: a fresh worker (after an abort) needs no file from the server, so a
+// deploy that replaces the hashed assets can't break a page that is already open.
+import OpenscadWorker from "./openscad.worker.ts?worker&inline";
 
 export type Lane = "render" | "quick" | "parts";
 type Pending = { job: WasmJob; resolve(r: WasmResult): void; reject(e: unknown): void; signal?: AbortSignal };
@@ -24,7 +27,7 @@ let nextId = 1;
 
 function getWorker(l: LaneState) {
   if (!l.worker) {
-    const w = new Worker(new URL("./openscad.worker.ts", import.meta.url), { type: "module" });
+    const w = new OpenscadWorker();
     w.onmessage = (e: MessageEvent<WasmResult>) => {
       const p = l.running;
       l.running = null;
