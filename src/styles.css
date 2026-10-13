@@ -3312,3 +3312,14 @@ a:focus-visible,
   border-bottom: none;
   padding-bottom: 4px;
 }
+.show-list .show-quality {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  color: var(--text);
+}
+.show-list > button.toggle {
+  justify-content: flex-start;
+  padding: 4px 6px;
+}

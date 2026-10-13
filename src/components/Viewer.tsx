@@ -952,6 +952,24 @@ export function Viewer({
                 >
                   Ghost after a change
                 </Check>
+                {ghostMode !== "none" && (
+                  <Check
+                    on={ghostMode === "held"}
+                    set={toggleLastShape}
+                    title="Show the shape from before your last change over the model (again)"
+                  >
+                    Last shape
+                  </Check>
+                )}
+                {onCompareOriginal && !compare && (
+                  <button
+                    className="toggle"
+                    onClick={onCompareOriginal}
+                    title="Compare with the design as it was: a preset as published, your design as saved (as B)"
+                  >
+                    Compare with original
+                  </button>
+                )}
                 {(onLigature || onCap) && (
                   <Check on={showA} set={setShowA} title="Show the mouthpiece (off: the ligature and cap alone)">
                     Mouthpiece
@@ -1009,24 +1027,6 @@ export function Viewer({
               </div>
             )}
           </Menu>
-          {ghostMode !== "none" && (
-            <Toggle
-              on={ghostMode === "held"}
-              set={toggleLastShape}
-              title="Show the shape from before your last change over the model (again)"
-            >
-              Last shape
-            </Toggle>
-          )}
-          {onCompareOriginal && !compare && (
-            <button
-              className="toggle"
-              onClick={onCompareOriginal}
-              title="Compare with the design as it was: a preset as published, your design as saved (as B)"
-            >
-              Compare with original
-            </button>
-          )}
           <select
             className={section !== "off" ? "on" : ""}
             value={section}
@@ -1057,31 +1057,37 @@ export function Viewer({
               <span>{secPos.toFixed(1)}</span>
             </label>
           )}
-          {quality}
-          {autoRender && (
-            <>
-              <Toggle
-                on={autoRender.on}
-                set={autoRender.set}
-                title="Render after every change. Off: changes wait until you press Render."
-              >
-                Render on change
-              </Toggle>
-              {!autoRender.on && (
-                <button className="primary" onClick={autoRender.render} title="Render now (F6 / Ctrl+Enter)">
-                  Render
-                </button>
+          {(autoRender || autoZoom || quality) && (
+            <Menu label="Auto ▾" title="Render on change, auto-zoom and quality" align="left" className="show-menu">
+              {() => (
+                <div className="show-list">
+                  {autoRender && (
+                    <Check
+                      on={autoRender.on}
+                      set={autoRender.set}
+                      title="Render after every change. Off: changes wait until you press Render."
+                    >
+                      Render on change
+                    </Check>
+                  )}
+                  {autoZoom && (
+                    <Check
+                      on={autoZoom.on}
+                      set={autoZoom.set}
+                      title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
+                    >
+                      Auto-zoom
+                    </Check>
+                  )}
+                  {quality && <div className="show-quality">Quality {quality}</div>}
+                </div>
               )}
-            </>
+            </Menu>
           )}
-          {autoZoom && (
-            <Toggle
-              on={autoZoom.on}
-              set={autoZoom.set}
-              title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
-            >
-              Auto-zoom
-            </Toggle>
+          {autoRender && !autoRender.on && (
+            <button className="primary" onClick={autoRender.render} title="Render now (F6 / Ctrl+Enter)">
+              Render
+            </button>
           )}
           <span className="sep" />
           <button
