@@ -157,17 +157,31 @@ descent from every point 16mm behind it, `baffle_shape_at`). The roof blends in 
 bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (`baffle_roof`).
 
 **Texture** (`baffle_texture` along / across / dimples, `_style` engraved / raised, `_depth`,
-`_spacing`; `baffle_texture_solid`, data `BTX_ROWS` after LETTERING_SPAN): dents cut up into the roof
-(engraved) or bumps standing down from it (raised), from 4mm past the baffle start to 2mm behind
-the tip curve (3mm fades). Each is a sphere cap (radius >= 3.5 x depth, so its sides stay under
-~45° and no overhang is wider than the depth), placed square to the roof's local slope; grooves are
-hulls of neighbouring spheres (1mm apart along, 0.75mm across). Per sample (`btx_row`): engraved,
+`_spacing`, `_thickness` = the width; `baffle_texture_solid`, data `BTX_ROWS` after LETTERING_SPAN):
+dents cut up into the roof (engraved) or bumps standing down from it (raised), from 4mm past the
+baffle start to 2mm behind the tip curve (3mm fades). Width `BTX_T` <= spacing - 0.3 (neighbours
+never merge); depth `BTX_D` <= (width - 0.1) / 2 (it gives way). Each dent is the hull of a sphere
+at the bottom (`BTX_R`, touched by 45° sides that reach the width at the roof at full depth; at the
+default 2mm x 0.4mm it is just the sphere's cap) and a disc on those sides `BTX_E` past the roof
+(`btx_disc`). The sides' axis is the roof's normal turned level as the part prints (`btx_axis`,
+square to `BTX_UP`): standing on its shank the baffle leans over, and 45° from the roof's normal
+left the side facing down at ~53° (the sphere caps before 2026-10-12 had ~40 mm² of such faces on
+grooves across; now none flatter than 43°, engraved or raised). Grooves are hulls of neighbouring
+dents (1mm apart along; across 1.5mm, bent ones 0.75mm). Per sample (`btx_row`): engraved,
 the wall over it keeps 1.2mm (`BTX_WALL`; less than `interior_wall`, so the texture reaches the tip on a scooped beak) (+ the lettering depth within `LETTERING_SPAN`); raised, the
-roof keeps 1mm above the floor and the reed line; either way the whole sphere stays within the air
-path's width (the window's width under the window), so it never reaches the side walls or rails.
+roof keeps 1mm above the floor and the reed line; either way the whole dent (`BTX_X` across) stays within the air
+path's width (the window's width under the window), so it never reaches the side walls or rails; grooves across may also run into the side walls (wall to wall) where they stay 0.5mm above the facing and leave `BTX_WALL` to the outside.
 A dent the wall cuts to under 40% of its depth there is left out (a faint one looks like a speck);
 grooves across take one even depth each, the shallowest along them (`btx_even`), so they end
 cleanly instead of breaking up where the wall over the middle thins (a scooped beak).
+Grooves across can be bent (`BTX_BENT`): each sample is shifted along z by `btx_bow(x, z)`: a
+parabola, or a V with `baffle_texture_shape` = v (as far out at x = 6mm); the bend is
+`baffle_texture_bend` plus `_bend_change` eased in toward the tip end, not capped: bend 0.5 +
+change -2 flips them, bowing toward the tip at the back and toward the shank near the tip.
+Always symmetric. `baffle_texture_extent` (0.2..1) keeps every dent's centre within that share
+of the roof's half-width (grooves across get shorter, along / dimples a narrower band). Clamped to the faded span, no even-depth rule, so they taper out at the ends. Older
+designs get the width they had (60% of the spacing, at least 2 x sqrt(6) x the depth; src/migrate.ts
+`migrateTexture`, links `tw`, sessions `textureW`).
 Raised bumps are cut from the interior before it is cut from the body (they only fill air). The air
 readout counts the texture (`BTX_AIR`, a grid integral of the caps, `btx_volume`; within ~20% of
 the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.07 cm³). Costs

@@ -55,16 +55,24 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = -0.3; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0.4; // [0:0.1:3]
-// A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.
-baffle_texture = "along"; // [none, along, across, curved, dimples]
+// A texture on the baffle: grooves along it, grooves across it, or dimples.
+baffle_texture = "along"; // [none, along, across, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]
+// Width of each groove or dimple (mm); kept under the spacing, the depth giving way.
+baffle_texture_thickness = 2; // [0.3:0.05:4]
 // How deep the texture cuts, or how far it stands out (mm); less where there is no room.
 baffle_texture_depth = 0.4; // [0.1:0.05:1]
 // Distance between the grooves or dimples (mm).
-baffle_texture_spacing = 3; // [1.5:0.1:8]
-// How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.
-baffle_texture_bend = 0.5; // [-1:0.05:1]
+baffle_texture_spacing = 3; // [1:0.1:8]
+// How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).
+baffle_texture_extent = 1; // [0.2:0.05:1]
+// How grooves across bend, when they do: a smooth curve or a V.
+baffle_texture_shape = "curved"; // [curved, v]
+// How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.
+baffle_texture_bend = 0; // [-1:0.05:1]
+// How the bend changes toward the tip end (added there, eased in along the baffle).
+baffle_texture_bend_change = 0; // [-2:0.05:2]
 
 /* [Window] */
 // Length of the opening under the reed (mm).

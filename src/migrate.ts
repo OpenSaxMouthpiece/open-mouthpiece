@@ -44,7 +44,7 @@ export function migrateScad(text: string): string {
   // declares the old names itself (`chamber_d = undef;`): renaming those would overwrite the
   // real settings with undef (the render then hangs). Such a file is current: leave it alone.
   if (text.includes("RENAMED_PARAMS")) return text;
-  return migrateChamber(migrateSizes(migrateNames(text)));
+  return migrateTexture(migrateChamber(migrateSizes(migrateNames(text))));
 }
 
 function migrateNames(text: string): string {
@@ -192,6 +192,41 @@ function migrateChamber(text: string): string {
         `${indent}// Width of the chamber after the throat (mm), whatever the throat's width.\n` +
         `${indent}chamber_width = ${width}; // [4:0.1:36]`,
     );
+}
+
+// Baffle texture width (2026-10-12): it came from the spacing (60% of it) and the depth (at least
+// 2 x sqrt(6) x it); now baffle_texture_thickness sets it. Older files and values get the width
+// they had. Defaults then: spacing 3, depth 0.4.
+const TEXTURE_KEYS = ["baffle_texture", "baffle_texture_spacing", "baffle_texture_depth"];
+export const textureWidth = (spacing: number, depth: number) =>
+  Math.min(4, Math.round(Math.max(0.6 * spacing, 2 * Math.sqrt(6) * depth) * 20) / 20);
+// A file text from then: its [spacing, depth] (null for any other text).
+export function textureBefore(text: string | undefined | null): [number, number] | null {
+  if (!text || text.includes("RENAMED_PARAMS") || assigned(text, "baffle_texture_thickness") !== null) return null;
+  if (!TEXTURE_KEYS.some((k) => assigned(text, k) !== null)) return null;
+  return [numberIn(text, "baffle_texture_spacing", 3), numberIn(text, "baffle_texture_depth", 0.4)];
+}
+// Changed values from then: a texture, spacing or depth set brings the width it had.
+export function migrateTextureValues(
+  values: Record<string, ParamValue>,
+  before: [number, number] | null | undefined,
+): Record<string, ParamValue> {
+  if ("baffle_texture_thickness" in values || !TEXTURE_KEYS.some((k) => k in values)) return values;
+  const spacing = Number(values.baffle_texture_spacing ?? before?.[0] ?? 3);
+  const depth = Number(values.baffle_texture_depth ?? before?.[1] ?? 0.4);
+  return Number.isFinite(spacing + depth)
+    ? { ...values, baffle_texture_thickness: textureWidth(spacing, depth) }
+    : values;
+}
+function migrateTexture(text: string): string {
+  const before = textureBefore(text);
+  if (!before) return text;
+  const line = `// Width of each groove or dimple (mm); kept under the spacing, the depth giving way.\nbaffle_texture_thickness = ${textureWidth(...before)}; // [0.3:0.05:4]`;
+  for (const key of ["baffle_texture_spacing", "baffle_texture_depth", "baffle_texture"]) {
+    const re = new RegExp(`^([ \\t]*)${key}\\s*=[^;]*;[^\\r\\n]*`, "m");
+    if (re.test(text)) return text.replace(re, (m, indent: string) => `${m}\n${line.replace(/^/gm, indent)}`);
+  }
+  return text;
 }
 
 function migrateSizes(text: string): string {

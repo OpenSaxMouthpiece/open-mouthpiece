@@ -99,16 +99,24 @@ baffle_start = 0; // [-15:0.5:15]
 baffle_curve = 0; // [-1:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
-// A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.
-baffle_texture = "none"; // [none, along, across, curved, dimples]
+// A texture on the baffle: grooves along it, grooves across it, or dimples.
+baffle_texture = "none"; // [none, along, across, dimples]
 // Texture cut into the baffle (engraved) or standing out of it (raised).
 baffle_texture_style = "engraved"; // [engraved, raised]
+// Width of each groove or dimple (mm); kept under the spacing, the depth giving way.
+baffle_texture_thickness = 2; // [0.3:0.05:4]
 // How deep the texture cuts, or how far it stands out (mm); less where there is no room.
 baffle_texture_depth = 0.4; // [0.1:0.05:1]
 // Distance between the grooves or dimples (mm).
-baffle_texture_spacing = 3; // [1.5:0.1:8]
-// How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.
-baffle_texture_bend = 0.5; // [-1:0.05:1]
+baffle_texture_spacing = 3; // [1:0.1:8]
+// How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).
+baffle_texture_extent = 1; // [0.2:0.05:1]
+// How grooves across bend, when they do: a smooth curve or a V.
+baffle_texture_shape = "curved"; // [curved, v]
+// How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.
+baffle_texture_bend = 0; // [-1:0.05:1]
+// How the bend changes toward the tip end (added there, eased in along the baffle).
+baffle_texture_bend_change = 0; // [-2:0.05:2]
 
 /* [Window] */
 // Length of the opening under the reed (mm).
@@ -1153,9 +1161,11 @@ function sidewall_allowed(I, y) =
 
 // ---- Baffle texture: shallow dents cut up into the roof (engraved) or bumps standing down from it
 // (raised), from 4mm past where the baffle begins to 2mm behind the tip curve (fading in and out
-// over 3mm). Each is the cap of a sphere of radius BTX_R (>= 3.5 x the depth, so its sides stay
-// under ~45 degrees and no overhang is wider than the depth: prints without support); grooves are
-// hulls of neighbouring spheres. Guarantees, per sample: engraved, the wall over the dent keeps
+// over 3mm). Each is a sphere at the bottom (radius BTX_R) with 45-degree sides out to the width at
+// the roof (at the usual width and depth that is just the sphere's cap). The sides' axis is the
+// roof's normal turned level as the part prints (standing on its shank, the baffle leans over), so
+// no side hangs flatter than 45 degrees: it prints without support. Grooves are hulls of
+// neighbouring dents. Guarantees, per sample: engraved, the wall over the dent keeps
 // interior_wall (and room for lettering where there is lettering); raised, the roof keeps 1mm above the floor and the
 // reed line; either way the whole sphere stays inside the air path's width (the window's width
 // under the window), so it can't reach the side walls or the rails. Raised bumps are cut out of the
@@ -1176,7 +1186,7 @@ function btx_row(z, xs) =
   // an engraved dent may thin the wall over it to BTX_WALL (the beak's own wall near the tip), so the
   // texture reaches the tip on a scooped beak too (where the wall is already at its minimum)
   let(keep = min(interior_wall(z), BTX_WALL) + (HAS_LETTERING && z > LETTERING_SPAN[0] - 1 && z < LETTERING_SPAN[1] + 1 ? eff_lettering_depth : 0))
-  let(low = max(I[2], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)))
+  let(low = max(I[2], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)), wsh = z > win_z0 ? window_side_hw(z) : 0)
   [for (x = xs)
     let(roof = se_top_y(I[0], I[1], cy, I[3], x), out = se_top_y(E[E_HW], E[E_TOP], E[E_CY], E[E_NT], x))
     // the roof's slope across (x) and along (z): depths are measured square to it, so a sphere
@@ -1186,19 +1196,36 @@ function btx_row(z, xs) =
     let(d0 = is_undef(roof) || is_undef(out) ? 0
            : max(0, min(BTX_D * fade, (BTX_RAISED ? roof - low : out - roof - keep) / k)))
     let(c = is_undef(roof) ? 0 : BTX_RAISED ? roof + (BTX_R - d0) * k : roof - (BTX_R - d0) * k)
-    let(lowest = is_undef(roof) ? 0 : BTX_RAISED ? roof - d0 * k : c - BTX_R)
-    let(room = z > win_z0 ? window_side_hw(z) : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[2], lowest)))
-    let(fits = !is_undef(roof) && abs(x) + BTX_R <= room && (BTX_RAISED || z > win_z0 || lowest >= I[2]))
+    // the roof's normal (up, into the wall), for the 45-degree sides
+    let(n = [sx * sign(x), 1, -sz] / k)
+    // the lowest the dent reaches: the sphere's bottom or the sides' base disc (engraved)
+    let(disc = is_undef(roof) || BTX_RAISED ? undef : btx_disc(x, c, z, d0, n))
+    let(lowest = is_undef(roof) ? 0 : BTX_RAISED ? roof - d0 * k
+      : min(c - BTX_R, disc[0][1] - disc[1] * sqrt(max(0, 1 - disc[2][1] * disc[2][1]))))
+    let(room = z > win_z0 ? wsh : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[2], lowest)))
+    // grooves across may also run into the side walls (wall to wall): above the rails (0.5mm over
+    // the facing), leaving the wall's keep to the outside at the roof's height
+    let(wall = BTX_LINES && !is_undef(roof) && min(lowest, roof - d0 * k) >= facing_at_z(z) + 0.5
+      ? ring_half_width_at_y(E, roof) - keep : 0)
+    // how far across: the dent's centre within that share of the roof's half-width
+    let(fits = !is_undef(roof) && abs(x) + BTX_X <= max(room, wall) && abs(x) <= baffle_texture_extent * I[0] + 0.01
+               && (BTX_RAISED || z > win_z0 || lowest >= I[2]))
     // left out where the wall allows under 40% of the depth meant there (a faint dent looks like a speck)
-    [x, c, z, fits && d0 >= max(0.05, 0.4 * BTX_D * fade) ? d0 : 0, roof, k, fits]];
+    [x, c, z, fits && d0 >= max(0.05, 0.4 * BTX_D * fade) ? d0 : 0, roof, k, fits, n]];
 // A groove across at one even depth: the shallowest any of its samples allows (none where that is
 // under 40% of the depth set: a faint line looks like a scratch), so it doesn't break up where the
 // wall over the middle gets thin.
 function btx_even(row) =
   let(ds = [for (p = row) if (p[6]) p[3]], d = len(ds) ? min(ds) : 0, e = d >= max(0.05, 0.4 * BTX_D) ? d : 0)
-  [for (p = row) p[6] ? [p[0], BTX_RAISED ? p[4] + (BTX_R - e) * p[5] : p[4] - (BTX_R - e) * p[5], p[2], e] : [p[0], 0, p[2], 0]];
-// Height of a sphere cap of depth d at distance r from its centre line (0 outside it).
-function btx_cap(d, r) = d <= 0 || r >= BTX_R ? 0 : max(0, d - (BTX_R - sqrt(BTX_R * BTX_R - r * r)));
+  [for (p = row) p[6] ? [p[0], BTX_RAISED ? p[4] + (BTX_R - e) * p[5] : p[4] - (BTX_R - e) * p[5], p[2], e, p[4], p[5], p[6], p[7]] : [p[0], 0, p[2], 0]];
+// Height of a dent of depth d at distance r from its centre line, square to the roof (0 outside it):
+// the sphere, then its 45-degree sides (reaching the roof at r0); where they would touch the sphere
+// outside the wall (shallow), the hull from the sphere's top out to r0.
+function btx_cap(d, r) =
+  let(r0 = d + (sqrt(2) - 1) * BTX_R, ball = r >= BTX_R ? 0 : d - (BTX_R - sqrt(BTX_R * BTX_R - r * r)))
+  d <= 0 || r >= r0 ? 0
+  : d >= (1 - 1 / sqrt(2)) * BTX_R ? (r <= BTX_R / sqrt(2) ? ball : r0 - r)
+  : max(ball, d * (1 - r / r0));
 // The texture as pieces in the x-z plane, [[x, z, depth], [x, z, depth]]: a groove's neighbouring
 // samples (as the hulls in baffle_texture_solid), a dimple twice the same point.
 function btx_pieces() =
@@ -1218,16 +1245,35 @@ function btx_piece_h(g, x, z) =
 function btx_volume() =
   let(G = btx_pieces()) len(G) == 0 ? 0 :
   let(xs = [for (g = G, e = g) e[0]], zs = [for (g = G, e = g) e[1]])
-  let(x0 = min(xs) - BTX_R, x1 = max(xs) + BTX_R, z0 = min(zs) - BTX_R, z1 = max(zs) + BTX_R, C = 2)
+  let(x0 = min(xs) - BTX_X, x1 = max(xs) + BTX_X, z0 = min(zs) - BTX_X, z1 = max(zs) + BTX_X, C = 2)
   let(cells = [for (cz = [z0 : C : z1]) [for (cx = [x0 : C : x1])
-      [for (g = G) if (min(g[0][0], g[1][0]) - BTX_R < cx + C && max(g[0][0], g[1][0]) + BTX_R > cx
-                      && min(g[0][1], g[1][1]) - BTX_R < cz + C && max(g[0][1], g[1][1]) + BTX_R > cz) g]]])
+      [for (g = G) if (min(g[0][0], g[1][0]) - BTX_X < cx + C && max(g[0][0], g[1][0]) + BTX_X > cx
+                      && min(g[0][1], g[1][1]) - BTX_X < cz + C && max(g[0][1], g[1][1]) + BTX_X > cz) g]]])
   let(hx = baffle_texture == "along" ? 0.2 : BTX_LINES ? 0.5 : 0.25)
   let(hz = baffle_texture == "along" ? 0.5 : BTX_LINES ? 0.2 : 0.25)
   hx * hz * vsum([for (iz = [0 : len(cells) - 1], ix = [0 : len(cells[iz]) - 1]) let(near = cells[iz][ix])
     len(near) == 0 ? 0 : vsum([for (z = [z0 + iz * C + hz / 2 : hz : z0 + (iz + 1) * C], x = [x0 + ix * C + hx / 2 : hx : x0 + (ix + 1) * C])
       max([0, for (g = near) btx_piece_h(g, x, z)])])]);
-module btx_dent(p) translate([p[0], p[1], p[2]]) sphere(r = BTX_R, $fn = 32);
+// Up as the part prints (standing on its shank), in the design frame.
+BTX_UP = [0, -sin(bore_tilt), cos(bore_tilt)];
+// The 45-degree sides' axis: the roof's normal n, turned level (square to BTX_UP) where the roof
+// leans over as printed, so the side facing down is no flatter than 45 degrees.
+function btx_axis(n) = let(t = n * BTX_UP) t <= 0 ? n : let(v = n - t * BTX_UP) v / norm(v);
+// [centre, radius, axis] of the sides' base: a disc on the 45-degree cone around the sphere at
+// [x, c, z], at least BTX_E past the roof everywhere (into the air engraved, the wall raised).
+function btx_disc(x, c, z, d, n) =
+  let(a = btx_axis(n), cb = a * n, sb = sqrt(max(0, 1 - cb * cb)))
+  let(h = (d - BTX_R + BTX_E + BTX_R * sqrt(2) * sb) / max(0.2, cb - sb))
+  [[x, c, z] + (BTX_RAISED ? 1 : -1) * h * a, h + BTX_R * sqrt(2), a];
+// One dent: the hull of its sphere and its sides' base disc.
+module btx_dent(p) {
+  disc = btx_disc(p[0], p[1], p[2], p[3], p[7]);
+  a = disc[2];
+  hull() {
+    translate([p[0], p[1], p[2]]) sphere(r = BTX_R, $fn = 32);
+    translate(disc[0]) rotate([0, acos(a[2]), atan2(a[1], a[0])]) cylinder(r = disc[1], h = 0.01, center = true, $fn = 32);
+  }
+}
 // The texture's spheres and hulls: cut from the body (engraved) or from the interior (raised).
 module baffle_texture_solid() {
   if (baffle_texture == "dimples") {
@@ -2148,7 +2194,7 @@ function param_focus() =
    ["throat_position", throat, "side", true], ["throat_width", throat, "side", true],
    ["throat_taper", throat, "side", true], ["throat_shape", throat, "side", true], ["floor_shape", chamber, "side", true],
    ["baffle_type", baffle, "side", true], ["baffle_height", baffle, "side", true], ["baffle_start", baffle, "side", true], ["baffle_hump", baffle, "side", true],
-   ["baffle_curve", baffle, "side", true], ["baffle_texture", window, "table", false], ["baffle_texture_style", window, "table", false], ["baffle_texture_depth", window, "table", false], ["baffle_texture_spacing", window, "table", false], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
+   ["baffle_curve", baffle, "side", true], ["baffle_texture", window, "table", false], ["baffle_texture_style", window, "table", false], ["baffle_texture_depth", window, "table", false], ["baffle_texture_spacing", window, "table", false], ["baffle_texture_thickness", window, "table", false], ["baffle_texture_bend", window, "table", false], ["baffle_texture_bend_change", window, "table", false], ["baffle_texture_shape", window, "table", false], ["baffle_texture_extent", window, "table", false], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
    ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],
    ["tip_rail_thickness", tip, "table", false], ["tip_bevel", tip, "table", false], ["tip_curve", tip, "table", false],
@@ -2237,26 +2283,37 @@ LETTERING_SPAN = let(ext = concat(
 BTX_ON = baffle_texture != "none" && len(AIR_RINGS) > 0 && part != "shank_test_ring";   // far from the shank
 BTX_RAISED = baffle_texture_style == "raised";
 BTX_WALL = 1.2;   // mm: the least wall left over an engraved dent
-BTX_D = baffle_texture_depth;
 BTX_S = baffle_texture_spacing;
-BTX_R = max(3.5 * BTX_D, (pow(0.6 * BTX_S, 2) / 4 + BTX_D * BTX_D) / (2 * BTX_D));
+// Width: under the spacing (at least 0.3mm of baffle between neighbours); the depth gives way to
+// at most half of it (45-degree sides need the width to be over twice the depth).
+BTX_T = max(0.2, min(baffle_texture_thickness, BTX_S - 0.3));
+BTX_D = min(baffle_texture_depth, (BTX_T - 0.1) / 2);
+// The sphere that 45-degree sides touch when they reach the width at the roof at full depth.
+BTX_R = max(0.05, (1 + sqrt(2)) * (BTX_T / 2 - BTX_D));
+BTX_E = 0.3;                                                     // the sides' base, past the roof
+BTX_X = max(BTX_R, 1.3 * (BTX_T / 2 + BTX_E));                   // how far a dent reaches across
 BTX_Z0 = baffle_start_z + 4;
 BTX_Z1 = L - tip_curve - 2;
 BTX_SPAN = BTX_Z1 - BTX_Z0;
-BTX_LINES = baffle_texture == "across" || baffle_texture == "curved";   // grooves running across
-// Curved grooves: a sample at x sits btx_bow(x) mm toward the tip from the groove's centre (a parabola)
-function btx_bow(x) = -baffle_texture_bend * 0.1 * x * x;
+BTX_LINES = baffle_texture == "across";   // grooves running across
+BTX_BENT = baffle_texture_bend != 0 || baffle_texture_bend_change != 0;
+// Bent grooves across: a sample at x sits btx_bow(x) mm toward the tip from the groove's centre: a
+// parabola, or a V (two straight halves meeting in the middle, as far out at x = 6mm); the bend is
+// baffle_texture_bend plus bend_change eased in toward the tip end. Always symmetric.
+function btx_bow(x, zc) =
+  let(bend = baffle_texture_bend + baffle_texture_bend_change * clamp01((zc - BTX_Z0) / max(0.1, BTX_SPAN)))
+  -bend * (baffle_texture_shape == "v" ? 0.6 * abs(x) : 0.1 * x * x);
 BTX_ROWS = !BTX_ON || BTX_SPAN <= 2 ? [] :
   baffle_texture == "along" ? [for (z = [BTX_Z0 : 1 : BTX_Z1]) btx_row(z, [for (k = [-6 : 6]) k * BTX_S])] :
-  baffle_texture == "across" ?
+  baffle_texture == "across" && !BTX_BENT ?
     let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
     [for (j = [0 : n]) btx_even(btx_row(BTX_Z0 + off + j * BTX_S, [for (x = [-12 : 0.75 : 12]) x]))] :
-  baffle_texture == "curved" ?
+  baffle_texture == "across" ?
     // the centres keep the spacing; each sample's z is shifted by the bow (clamped to the span, where
     // the depth fades to nothing, so a bowed groove tapers out at its ends instead of running off)
     let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
     [for (j = [0 : n]) [for (x = [-12 : 0.75 : 12])
-       btx_row(min(BTX_Z1, max(BTX_Z0, BTX_Z0 + off + j * BTX_S + btx_bow(x))), [x])[0]]] :
+       btx_row(min(BTX_Z1, max(BTX_Z0, BTX_Z0 + off + j * BTX_S + btx_bow(x, BTX_Z0 + off + j * BTX_S))), [x])[0]]] :
   baffle_texture == "dimples" ?
     let(dz = BTX_S * 0.866) [for (j = [0 : floor(BTX_SPAN / dz)]) btx_row(BTX_Z0 + j * dz, [for (k = [-6 : 6]) (k + (j % 2) / 2) * BTX_S])] :
   [];

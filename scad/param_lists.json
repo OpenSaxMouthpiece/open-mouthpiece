@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "bd13bbed-20947",
+  "hash": "93794d2e-21424",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -278,7 +278,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -294,10 +294,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -324,6 +320,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -338,18 +344,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -2033,7 +2076,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "af83e4c3-21185",
+  "hash": "cdcc3354-21662",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2311,7 +2354,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -2327,10 +2370,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -2357,6 +2396,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -2371,18 +2420,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -4066,7 +4152,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "c951b783-21857",
+  "hash": "b7bfa9d0-22334",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4344,7 +4430,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -4360,10 +4446,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -4390,6 +4472,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -4404,18 +4496,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -6099,7 +6228,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "4d8799fe-21149",
+  "hash": "6a48a7ad-21626",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6377,7 +6506,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -6393,10 +6522,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -6423,6 +6548,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -6437,18 +6572,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -8132,7 +8304,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "7d353cd4-21326",
+  "hash": "c31b3ac1-21803",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8410,7 +8582,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -8426,10 +8598,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -8456,6 +8624,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -8470,18 +8648,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -10165,7 +10380,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "158f3db7-21041",
+  "hash": "c39f6868-21518",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10443,7 +10658,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -10459,10 +10674,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -10489,6 +10700,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -10503,18 +10724,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -12198,7 +12456,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "efe5f7de-21076",
+  "hash": "1f757f7-21553",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12476,7 +12734,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -12492,10 +12750,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -12522,6 +12776,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -12536,18 +12800,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -14231,7 +14532,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "2106a026-21045",
+  "hash": "4d594477-21522",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14509,7 +14810,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -14525,10 +14826,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -14555,6 +14852,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -14569,18 +14876,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -16264,7 +16608,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "4154ff1f-21230",
+  "hash": "c3339172-21707",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16542,7 +16886,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -16558,10 +16902,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -16588,6 +16928,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -16602,18 +16952,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -18297,7 +18684,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "9875c1b-21259",
+  "hash": "ded2d174-21736",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18575,7 +18962,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -18591,10 +18978,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -18621,6 +19004,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -18635,18 +19028,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -20330,7 +20760,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "1b941e68-21221",
+  "hash": "4c35ccf3-21698",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20608,7 +21038,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -20624,10 +21054,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -20654,6 +21080,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -20668,18 +21104,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -22363,7 +22836,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "4c65ef3-21248",
+  "hash": "5af7ac42-21725",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22641,7 +23114,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -22657,10 +23130,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -22687,6 +23156,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -22701,18 +23180,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -24396,7 +24912,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "ddbf99de-21274",
+  "hash": "7e1ecbf5-21751",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24674,7 +25190,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -24690,10 +25206,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -24720,6 +25232,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -24734,18 +25256,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -26429,7 +26988,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "ccd2339e-21245",
+  "hash": "3bc139bb-21722",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26707,7 +27266,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -26723,10 +27282,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -26753,6 +27308,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -26767,18 +27332,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -28462,7 +29064,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "38971cca-21432",
+  "hash": "6c841f5d-21909",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28740,7 +29342,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "none",
     "name": "baffle_texture",
@@ -28756,10 +29358,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -28786,6 +29384,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -28800,18 +29408,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -30495,7 +31140,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "487e6764-21457",
+  "hash": "634d74ed-21934",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30773,7 +31418,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "along",
     "name": "baffle_texture",
@@ -30789,10 +31434,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -30819,6 +31460,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -30833,18 +31484,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },
@@ -32528,7 +33216,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "b2a4dedf-21425",
+  "hash": "21bb2692-21902",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32806,7 +33494,7 @@
     "type": "number"
    },
    {
-    "caption": "A texture on the baffle: grooves along it, grooves across it, curved grooves across it, or dimples.",
+    "caption": "A texture on the baffle: grooves along it, grooves across it, or dimples.",
     "group": "Baffle",
     "initial": "dimples",
     "name": "baffle_texture",
@@ -32822,10 +33510,6 @@
      {
       "name": "across",
       "value": "across"
-     },
-     {
-      "name": "curved",
-      "value": "curved"
      },
      {
       "name": "dimples",
@@ -32852,6 +33536,16 @@
     "type": "string"
    },
    {
+    "caption": "Width of each groove or dimple (mm); kept under the spacing, the depth giving way.",
+    "group": "Baffle",
+    "initial": 2,
+    "max": 4,
+    "min": 0.3,
+    "name": "baffle_texture_thickness",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "How deep the texture cuts, or how far it stands out (mm); less where there is no room.",
     "group": "Baffle",
     "initial": 0.4,
@@ -32866,18 +33560,55 @@
     "group": "Baffle",
     "initial": 3,
     "max": 8,
-    "min": 1.5,
+    "min": 1,
     "name": "baffle_texture_spacing",
     "step": 0.1,
     "type": "number"
    },
    {
-    "caption": "How much curved grooves bow: - the middle trails toward the shank, + it leads toward the tip.",
+    "caption": "How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).",
     "group": "Baffle",
-    "initial": 0.5,
+    "initial": 1,
+    "max": 1,
+    "min": 0.2,
+    "name": "baffle_texture_extent",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How grooves across bend, when they do: a smooth curve or a V.",
+    "group": "Baffle",
+    "initial": "curved",
+    "name": "baffle_texture_shape",
+    "options": [
+     {
+      "name": "curved",
+      "value": "curved"
+     },
+     {
+      "name": "v",
+      "value": "v"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.",
+    "group": "Baffle",
+    "initial": 0,
     "max": 1,
     "min": -1,
     "name": "baffle_texture_bend",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How the bend changes toward the tip end (added there, eased in along the baffle).",
+    "group": "Baffle",
+    "initial": 0,
+    "max": 2,
+    "min": -2,
+    "name": "baffle_texture_bend_change",
     "step": 0.05,
     "type": "number"
    },

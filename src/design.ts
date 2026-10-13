@@ -83,7 +83,6 @@ const TEXTURES: Record<string, string> = {
   none: "None",
   along: "Grooves along",
   across: "Grooves across",
-  curved: "Curved grooves across",
   dimples: "Dimples",
 };
 const PARTS: Record<string, string> = {
@@ -103,7 +102,7 @@ const grouped = (s: GroupedSection): DesignSection => ({
   items: s.groups.flatMap((g) => g.items),
   more: s.groups.flatMap((g) => g.more ?? []),
 });
-const TEXTURED = ["along", "across", "curved", "dimples"];
+const TEXTURED = ["along", "across", "dimples"];
 
 export const DESIGN_SECTIONS: DesignSection[] = [
   grouped({
@@ -161,6 +160,12 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           { name: "baffle_type", label: "Baffle shape", optionLabels: BAFFLES },
           { name: "baffle_height", label: "Baffle height" },
           { name: "baffle_hump", label: "Baffle hump" },
+        ],
+        more: ["baffle_start", "baffle_curve"],
+      },
+      {
+        title: "Texture",
+        items: [
           { name: "baffle_texture", label: "Baffle texture", optionLabels: TEXTURES },
           {
             name: "baffle_texture_style",
@@ -168,11 +173,19 @@ export const DESIGN_SECTIONS: DesignSection[] = [
             when: ["baffle_texture", TEXTURED],
             optionLabels: { engraved: "Engraved (cut in)", raised: "Raised (stands out)" },
           },
+          { name: "baffle_texture_thickness", label: "Texture width", when: ["baffle_texture", TEXTURED] },
           { name: "baffle_texture_depth", label: "Texture depth", when: ["baffle_texture", TEXTURED] },
           { name: "baffle_texture_spacing", label: "Texture spacing", when: ["baffle_texture", TEXTURED] },
-          { name: "baffle_texture_bend", label: "Groove bend", when: ["baffle_texture", ["curved"]] },
+          { name: "baffle_texture_extent", label: "How far across", when: ["baffle_texture", TEXTURED] },
+          {
+            name: "baffle_texture_shape",
+            label: "Groove shape",
+            when: ["baffle_texture", ["across"]],
+            optionLabels: { curved: "Curved", v: "V" },
+          },
+          { name: "baffle_texture_bend", label: "Groove bend", when: ["baffle_texture", ["across"]] },
         ],
-        more: ["baffle_start", "baffle_curve"],
+        more: ["baffle_texture_bend_change"],
       },
       {
         title: "Chamber",
@@ -550,7 +563,11 @@ const LABELS: Record<string, string> = {
   baffle_texture_style: "Texture style",
   baffle_texture_depth: "Texture depth",
   baffle_texture_spacing: "Texture spacing",
+  baffle_texture_thickness: "Texture width",
+  baffle_texture_extent: "How far across",
+  baffle_texture_shape: "Groove shape",
   baffle_texture_bend: "Groove bend",
+  baffle_texture_bend_change: "Bend change toward the tip",
   window_taper: "Window narrows at the back",
   sidewall_angle: "Chamber side walls",
   window_rear_radius: "Window corner rounding",
@@ -632,7 +649,10 @@ const ENDS: Record<string, [string, string]> = {
   baffle_curve: ["Drops early", "Drops late"],
   baffle_texture_depth: ["Subtle", "Pronounced"],
   baffle_texture_spacing: ["Close together", "Far apart"],
+  baffle_texture_thickness: NARROW_WIDE,
+  baffle_texture_extent: ["Middle only", "Wall to wall"],
   baffle_texture_bend: ["Middle toward shank", "Middle toward tip"],
+  baffle_texture_bend_change: ["More toward shank", "More toward tip"],
   window_length: SHORT_LONG,
   window_taper: ["Straight", "Tapered"],
   window_rear_radius: ["Square", "Round"],
@@ -780,7 +800,16 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
   baffle_texture_style: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   baffle_texture_depth: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
   baffle_texture_spacing: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
-  baffle_texture_bend: (get) => (get("baffle_texture") !== "curved" ? "grooves are not curved" : null),
+  baffle_texture_thickness: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
+  baffle_texture_extent: (get) => (get("baffle_texture") === "none" ? "no baffle texture" : null),
+  baffle_texture_bend: (get) => (get("baffle_texture") !== "across" ? "grooves are not across" : null),
+  baffle_texture_bend_change: (get) => (get("baffle_texture") !== "across" ? "grooves are not across" : null),
+  baffle_texture_shape: (get) =>
+    get("baffle_texture") !== "across"
+      ? "grooves are not across"
+      : Number(get("baffle_texture_bend")) === 0 && Number(get("baffle_texture_bend_change")) === 0
+        ? "the grooves are straight (no bend)"
+        : null,
   floor_shape: (get) => (filled(get("floor_points")) ? "your own floor (floor_points) sets it" : null),
   // it shapes the stretch between the throat and the window (as the generator's chamber_weight)
   chamber_height: (get) =>

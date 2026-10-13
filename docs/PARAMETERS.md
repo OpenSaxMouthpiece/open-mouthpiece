@@ -323,9 +323,9 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Baffle texture (`baffle_texture`)
 
-A texture on the baffle: grooves along it, grooves across it, or dimples.
+A texture on the baffle: grooves along it, across it, curved or slanted across it, or dimples.
 
-Range: `none`, `along`, `across`, `dimples`.
+Range: `none`, `along`, `across`, `curved`, `chevron`, `dimples`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
 
@@ -352,6 +352,14 @@ Distance between the grooves or dimples (mm).
 Range: 1.5 to 8, step 0.1.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+### Groove bend (`baffle_texture_bend`)
+
+How much curved or slanted grooves bend: - the middle trails toward the shank, + it leads toward the tip.
+
+Range: -1 to 1, step 0.05.
+
+Presets: Alto `0.5` · Tenor `0.5` · Bari `0.5` · Soprano `0.5`.
 
 ## Window
 

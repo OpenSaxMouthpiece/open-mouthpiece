@@ -7,6 +7,8 @@ import {
   CHAMBER_BEFORE,
   chamberBefore,
   migrateChamberValues,
+  migrateTextureValues,
+  textureBefore,
   migratePath,
   migrateScad,
   migrateValues,
@@ -19,6 +21,7 @@ export interface SharedDesign {
   source?: string; // the file's text, when it isn't a preset
   art?: Record<string, string>; // the user's own pictures, when they chose to include them
   cw?: 1; // made since chamber_width is in mm again (2026-10-10; older links are converted)
+  tw?: 1; // made since the baffle texture has its own width (2026-10-12; older links are converted)
 }
 
 const KEY = "d=";
@@ -43,7 +46,7 @@ function fromBase64Url(s: string) {
 }
 
 export async function encodeShare(d: Omit<SharedDesign, "v">): Promise<string> {
-  const json = new TextEncoder().encode(JSON.stringify({ v: 1, cw: 1, ...d }));
+  const json = new TextEncoder().encode(JSON.stringify({ v: 1, cw: 1, tw: 1, ...d }));
   const packed = await pipe(json, new CompressionStream("deflate-raw"));
   const url = new URL(location.href);
   url.hash = KEY + toBase64Url(packed);
@@ -60,7 +63,8 @@ export async function readShare(): Promise<SharedDesign | null> {
     throw new Error("not a design link");
   // links made before the parameter renames (migrate.ts)
   const file = migratePath(d.file);
-  const values = migrateValues(d.values);
+  const named = migrateValues(d.values);
+  const values = d.tw ? named : migrateTextureValues(named, textureBefore(d.source));
   return {
     ...d,
     file,

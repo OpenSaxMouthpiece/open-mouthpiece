@@ -341,6 +341,7 @@ export default function App() {
       cap: capV,
       partTab,
       chamberMm: true,
+      textureW: true,
     });
   }, [ready, tabs, activeKey, mainKey, valuesByKey, auto, zoom, editorW, pinned, quality, lig, capV, partTab]);
 

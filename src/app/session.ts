@@ -7,7 +7,9 @@ import {
   migrateChamberValues,
   migratePath,
   migrateScad,
+  migrateTextureValues,
   migrateValues,
+  textureBefore,
 } from "../migrate";
 import type { Tab, Values } from "./files";
 
@@ -44,6 +46,7 @@ export interface Session {
   cap?: Partial<CapView>;
   partTab?: PartTab; // the settings tab open
   chamberMm?: true; // saved since chamber_width is in mm again (2026-10-10; see migrate.ts)
+  textureW?: true; // saved since the baffle texture has its own width (2026-10-12; see migrate.ts)
 }
 
 export function loadSession(): Partial<Session> {
@@ -53,6 +56,16 @@ export function loadSession(): Partial<Session> {
       migratePath(localStorage.getItem(STORE_KEY) ?? localStorage.getItem(OLD_STORE_KEY) ?? "{}"),
     ) as Partial<Session>;
     // designs from before the parameter renames (migrate.ts)
+    // a session from before the texture's own width: each design's values against its file then
+    if (!s.textureW) {
+      const old = new Map((s.tabs ?? []).map((t) => [t.key, t.source]));
+      if (s.valuesByKey)
+        s.valuesByKey = Object.fromEntries(
+          Object.entries(s.valuesByKey).map(([k, v]) => [k, migrateTextureValues(v, textureBefore(old.get(k)))]),
+        );
+      if (s.pinned)
+        s.pinned = { ...s.pinned, values: migrateTextureValues(s.pinned.values, textureBefore(s.pinned.source)) };
+    }
     // a session from before chamber_width (mm): each design's values against its file as it was then
     if (!s.chamberMm) {
       const before = (key: string, text?: string | null) =>
