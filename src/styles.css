@@ -3298,31 +3298,3 @@ a:focus-visible,
 .baffle-sketches button.on .roof {
   stroke: var(--accent-fg);
 }
-
-/* the two view switches under the panel's find row: a chip, pressed = on */
-.view-toggles {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-.design-head.toggles {
-  padding: 0 10px 8px;
-  border-bottom: 1px solid var(--border);
-}
-.toggle-chip {
-  padding: 3px 10px;
-  border-radius: 14px;
-  color: var(--muted);
-  white-space: nowrap;
-}
-.toggle-chip.on {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-}
-/* Options: a labelled button you can see, not a quiet text link */
-.head-more > button {
-  border-color: var(--accent);
-  color: var(--accent);
-}

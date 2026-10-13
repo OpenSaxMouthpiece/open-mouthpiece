@@ -1581,6 +1581,8 @@ export default function App() {
       }
       overlay={hintEl}
       quality={isPhone ? undefined : qualityDropdown}
+      autoZoom={{ on: zoom, set: setZoom }}
+      autoRender={{ on: auto, set: setAuto, render }}
       ligature={
         ligOK
           ? { on: ligView.on, beside: lig.beside, reedOn: ligView.reed, stl: model.ligStl, reed: model.reedStl }
@@ -1768,9 +1770,6 @@ export default function App() {
       onCompareOriginal={compareOriginal}
       zoom={zoom}
       onZoomChange={setZoom}
-      auto={auto}
-      onAutoChange={setAuto}
-      onRender={render}
       onFocusParam={focusOn}
       readouts={withReadouts && !noReadouts ? readoutsEl : other}
       history={history}

@@ -112,6 +112,8 @@ interface Props {
   busyLabel?: string; // what it is making, if not the model on screen (a download)
   overlay?: ReactNode; // e.g. the first-visit hint
   quality?: ReactNode; // the render quality switch, with the view tools
+  autoZoom?: { on: boolean; set(on: boolean): void }; // a touched setting flies the view to the part it shapes
+  autoRender?: { on: boolean; set(on: boolean): void; render(): void }; // render after every change; off = the Render button
   labelA?: string; // names for the A/B legend and the labels under the models
   labelB?: string;
   compareKey?: string; // changes when a different B is pinned (-> side by side)
@@ -210,6 +212,8 @@ export function Viewer({
   busyLabel,
   overlay,
   quality,
+  autoZoom,
+  autoRender,
   labelA,
   labelB,
   compareKey,
@@ -1043,6 +1047,31 @@ export function Viewer({
             </label>
           )}
           {quality}
+          {autoRender && (
+            <>
+              <Toggle
+                on={autoRender.on}
+                set={autoRender.set}
+                title="Render after every change. Off: changes wait until you press Render."
+              >
+                Render on change
+              </Toggle>
+              {!autoRender.on && (
+                <button className="primary" onClick={autoRender.render} title="Render now (F6 / Ctrl+Enter)">
+                  Render
+                </button>
+              )}
+            </>
+          )}
+          {autoZoom && (
+            <Toggle
+              on={autoZoom.on}
+              set={autoZoom.set}
+              title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
+            >
+              Auto-zoom
+            </Toggle>
+          )}
           <span className="sep" />
           <button
             className="toggle picture"
