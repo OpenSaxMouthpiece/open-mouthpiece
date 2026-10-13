@@ -47,14 +47,16 @@ throat_shape = "chamber"; // [chamber, round, square, horseshoe]
 /* [Baffle] */
 // The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "flat"; // [measured, flat, rollover, step, concave]
-// Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.
-baffle_height = 0; // [-7:0.1:4]
+// Moves the baffle toward the reed (+) or away from it (-) (mm).
+baffle_height = 0; // [-3:0.1:4]
 // Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
 baffle_start = 0; // [-15:0.5:40]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = -0.4; // [-1:0.05:1]
 // How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
 step_sharpness = 1; // [0:0.05:1]
+// How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).
+step_size = 1; // [0:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
 // A texture on the baffle: grooves along it, grooves across it, or dimples.

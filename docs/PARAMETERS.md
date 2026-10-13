@@ -329,9 +329,9 @@ Presets: Alto `measured` · Tenor `measured` · Bari `measured` · Soprano `meas
 
 ### Baffle height (`baffle_height`)
 
-Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.
+Moves the baffle toward the reed (+) or away from it (-) (mm).
 
-Range: -7 to 4, step 0.1.
+Range: -3 to 4, step 0.1.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
@@ -372,6 +372,16 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ### Step sharpness (`step_sharpness`)
 
 How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
+
+Range: 0 to 1, step 0.05.
+
+Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+<a id="step_size"></a>
+
+### Step size (`step_size`)
+
+How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).
 
 Range: 0 to 1, step 0.05.
 

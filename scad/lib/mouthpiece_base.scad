@@ -91,14 +91,16 @@ throat_shape = "chamber"; // [chamber, round, square, horseshoe]
 /* [Baffle] */
 // The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "measured"; // [measured, flat, rollover, step, concave]
-// Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.
-baffle_height = 0; // [-7:0.1:4]
+// Moves the baffle toward the reed (+) or away from it (-) (mm).
+baffle_height = 0; // [-3:0.1:4]
 // Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
 baffle_start = 0; // [-15:0.5:40]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = 0; // [-1:0.05:1]
 // How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
 step_sharpness = 1; // [0:0.05:1]
+// How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).
+step_size = 1; // [0:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
 // A texture on the baffle: grooves along it, grooves across it, or dimples.
@@ -911,8 +913,7 @@ function window_half_width(z) =
 //   baffle_start    moves where it begins; the base curve is stretched/squeezed so the tip end
 //                   stays put (kept between the socket cone and 5mm before the tip);
 //   baffle_height   lowers the roof toward the reed (+) or raises it (-), easing in over the first
-//                   third of the baffle so it blends into the chamber; below -3 it flattens the
-//                   shape toward a plain slope instead (BAFFLE_FLATTEN);
+//                   third of the baffle so it blends into the chamber;
 //   baffle_hump a smooth hump centred ~80% of the way to the tip.
 // The roof is always smooth-maxed to stay >= 0.4mm above the reed line, so no setting can close
 // the channel at the tip (wall clearances are guaranteed separately by the interior clamps).
@@ -942,7 +943,7 @@ function baffle_type_at(z) =
   baffle_type == "step" ?
     let(zs = lerp(baffle_start_z, baffle_z1, 0.55), c0 = BAFFLE_Y1 + 0.15 * drop * 0.45, hm = (BAFFLE_Y0 + BAFFLE_Y1) / 2,
         zc = zs - (hm - c0) / 0.85, ramp = hm + lerp(0.25, 0.85, step_sharpness) * (zc - z))
-    -smin(-smin(BAFFLE_Y0, ramp, 2), -plateau, 1) :
+    lerp(flat, -smin(-smin(BAFFLE_Y0, ramp, 2), -plateau, 1), step_size) :
   baffle_type == "concave" ? flat + 0.22 * drop * bell(u, 0.62, 0.38) :
   baffle_base_at(z);
 function bell(u, c, w) = let(t = 1 - abs(u - c) / w) t > 0 ? smootherstep(t) : 0;
@@ -962,14 +963,9 @@ BAFFLE_TAB = [for (i = 0, v = baffle_edited_at(BT_Z0); i <= BT_N;
 function baffle_shape_at(z) = !BAFFLE_HELD ? baffle_type_at(z)
   : let(t = max(0, min(BT_N, (z - BT_Z0) / BT_H)), i = min(floor(t), BT_N - 1))
     lerp(BAFFLE_TAB[i], BAFFLE_TAB[i + 1], t - i);
-// Past -3 the baffle_height slider stops lifting and instead blends the shape toward the plain
-// slope from the chamber to the tip (-7 = that slope): the baffle all but disappears.
-BAFFLE_FLATTEN = clamp01((-3 - baffle_height) / 4);
-function baffle_flat_at(z) = lerp(BAFFLE_Y0, BAFFLE_Y1, baffle_warp(clamp01((z - baffle_start_z) / max(1, baffle_z1 - baffle_start_z))));
 function baffle_roof(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
-  let(shape = BAFFLE_FLATTEN == 0 ? baffle_shape_at(z) : lerp(baffle_shape_at(z), baffle_flat_at(z), smootherstep(BAFFLE_FLATTEN)))
-  let(raw = shape - max(baffle_height, -3) * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
+  let(raw = baffle_shape_at(z) - baffle_height * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
   -smin(-raw, -(facing_at_z(z) + 0.4), 0.5);
 
 // ===========================================================================================
