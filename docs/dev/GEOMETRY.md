@@ -160,7 +160,8 @@ base curve's start and tip heights; concave = a 0.22 x drop bell at 62%). Every 
 the reed at a slope under ~0.85 (the step's face is a fixed 0.85 ramp): steeper would be an
 unsupported ledge inside the part when printed standing up. Sliders: `baffle_height` (+ = closer to
 the reed; eases in over the first third; below -3 the lift stops and the shape blends toward the plain
-chamber-to-tip slope, -7 = that slope, so any type's baffle all but disappears), `baffle_start` (moves where it begins; the tip end stays),
+chamber-to-tip slope, -7 = that slope, so any type's baffle all but disappears), `baffle_start` (moves where it begins, up to +40; the tip end stays, so it is also the baffle's length),
+`step_sharpness` (step shape only: the face's slope, 0.25 to 0.85, pivoting about its midpoint),
 `baffle_hump` (a bell at 80% of the way to the tip), `baffle_curve` (u -> u^(2^c); held above a 0.85
 descent from every point 16mm behind it, `baffle_shape_at`). The roof blends in from the
 bore/chamber over 4mm and is smooth-maxed to stay >= 0.4mm above the reed line (`baffle_roof`).

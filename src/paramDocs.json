@@ -21,6 +21,7 @@
   "baffle_height",
   "baffle_start",
   "baffle_curve",
+  "step_sharpness",
   "baffle_hump",
   "baffle_texture",
   "baffle_texture_style",

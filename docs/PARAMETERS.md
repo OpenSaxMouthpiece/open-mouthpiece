@@ -345,7 +345,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
 
-Range: -15 to 15, step 0.5.
+Range: -15 to 40, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
@@ -366,6 +366,16 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![baffle_curve: -0.6 → 0.6](images/params/baffle_curve.png)
 
 *-0.6 → 0.6*
+
+<a id="step_sharpness"></a>
+
+### Step sharpness (`step_sharpness`)
+
+How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
+
+Range: 0 to 1, step 0.05.
+
+Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
 
 <a id="baffle_hump"></a>
 

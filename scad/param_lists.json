@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "43aac2f8-21459",
+  "hash": "1a9cd5a3-21579",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -251,7 +251,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -264,6 +264,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -2076,7 +2086,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "3a2d37d4-21697",
+  "hash": "d5245521-21817",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2327,7 +2337,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -2340,6 +2350,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -4152,7 +4172,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "8f37ed52-22369",
+  "hash": "f7870859-22489",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4403,7 +4423,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -4416,6 +4436,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -6228,7 +6258,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "90f1f471-21661",
+  "hash": "5f222a64-21781",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6479,7 +6509,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -6492,6 +6522,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -8304,7 +8344,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "6fd99339-21838",
+  "hash": "2606fb96-21958",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8555,7 +8595,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -8568,6 +8608,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -10380,7 +10430,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "30cbac10-21553",
+  "hash": "83a4a271-21673",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10631,7 +10681,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -10644,6 +10694,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -12456,7 +12516,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "4a3243b3-21588",
+  "hash": "3d01557e-21708",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12707,7 +12767,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -12720,6 +12780,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -14532,7 +14602,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "2021a295-21557",
+  "hash": "9a606520-21677",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14783,7 +14853,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -14796,6 +14866,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -16608,7 +16688,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "e28310a4-21742",
+  "hash": "7cad240b-21862",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16859,7 +16939,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -16872,6 +16952,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -18684,7 +18774,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "db4af8a0-21771",
+  "hash": "10b0dec1-21891",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18935,7 +19025,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -18948,6 +19038,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -20760,7 +20860,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "83f45bed-21733",
+  "hash": "34a03374-21853",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21011,7 +21111,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -21024,6 +21124,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -22836,7 +22946,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "5806aba6-21760",
+  "hash": "b86c656b-21880",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23087,7 +23197,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -23100,6 +23210,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -24912,7 +25032,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "6519a40b-21786",
+  "hash": "e0f0f84e-21906",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25163,7 +25283,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -25176,6 +25296,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -26988,7 +27118,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "5ed567f3-21757",
+  "hash": "ef7b0ff4-21877",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27239,7 +27369,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -27252,6 +27382,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -29064,7 +29204,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "24890a23-21944",
+  "hash": "832116a8-22064",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29315,7 +29455,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -29328,6 +29468,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -31140,7 +31290,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "d473943f-21969",
+  "hash": "b7e098f0-22089",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31391,7 +31541,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -31404,6 +31554,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },
@@ -33216,7 +33376,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "8e684f5a-21937",
+  "hash": "6ba3a755-22057",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33467,7 +33627,7 @@
     "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 15,
+    "max": 40,
     "min": -15,
     "name": "baffle_start",
     "step": 0.5,
@@ -33480,6 +33640,16 @@
     "max": 1,
     "min": -1,
     "name": "baffle_curve",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
+    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
+    "group": "Baffle",
+    "initial": 1,
+    "max": 1,
+    "min": 0,
+    "name": "step_sharpness",
     "step": 0.05,
     "type": "number"
    },

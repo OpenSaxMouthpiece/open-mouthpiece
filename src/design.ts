@@ -161,7 +161,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           { name: "baffle_height", label: "Baffle height" },
           { name: "baffle_hump", label: "Baffle hump" },
         ],
-        more: ["baffle_start", "baffle_curve"],
+        more: ["baffle_start", "baffle_curve", "step_sharpness"],
       },
       {
         title: "Texture",
@@ -560,6 +560,7 @@ const LABELS: Record<string, string> = {
   floor_shape: "Chamber floor",
   throat_taper: "Narrowing into the throat",
   baffle_start: "Where the baffle begins",
+  step_sharpness: "Step sharpness",
   baffle_texture_style: "Texture style",
   baffle_texture_depth: "Texture depth",
   baffle_texture_spacing: "Texture spacing",
@@ -647,6 +648,7 @@ const ENDS: Record<string, [string, string]> = {
   throat_taper: ["Abrupt", "Gradual"],
   baffle_start: ALONG,
   baffle_curve: ["Drops early", "Drops late"],
+  step_sharpness: ["Gentle", "Sharp"],
   baffle_texture_depth: ["Subtle", "Pronounced"],
   baffle_texture_spacing: ["Close together", "Far apart"],
   baffle_texture_thickness: NARROW_WIDE,
@@ -816,6 +818,7 @@ const INACTIVE: Record<string, (get: Getter) => string | null> = {
     Number(get("overall_length")) - Number(get("window_length")) - Number(get("throat_position")) < 3
       ? "the window starts right after the throat: Baffle height sets the height there"
       : null,
+  step_sharpness: (get) => (get("baffle_type") !== "step" ? "the baffle shape is not Step" : null),
   baffle_type: (get) => (filled(get("baffle_points_custom")) ? "your own baffle (baffle_points_custom) wins" : null),
   shank_bevel_depth: (get) =>
     Number(get("shank_bevel")) > 0 ? null : "the opening has no lead-in (Lead-in at the opening is 0)",

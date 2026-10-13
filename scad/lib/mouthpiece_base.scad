@@ -94,9 +94,11 @@ baffle_type = "measured"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.
 baffle_height = 0; // [-7:0.1:4]
 // Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
-baffle_start = 0; // [-15:0.5:15]
+baffle_start = 0; // [-15:0.5:40]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = 0; // [-1:0.05:1]
+// How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
+step_sharpness = 1; // [0:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
 // A texture on the baffle: grooves along it, grooves across it, or dimples.
@@ -928,7 +930,7 @@ function baffle_base_at(z) =
 // Classic baffle shapes between the base curve's start height Y0 and tip-end height Y1. A roof that
 // drops toward the reed faster than 45 degrees would be an unsupported ledge inside the part as it
 // prints (standing on its shank end), so every shape keeps its slope under ~1 by construction:
-// the step's face is a 0.85 ramp, the blends are wide enough.
+// the step's face is a 0.85 ramp at most (step_sharpness gentles it about its midpoint), the blends are wide enough.
 BAFFLE_Y0 = baffle_base_pts[0][1];
 BAFFLE_Y1 = baffle_base_pts[len(baffle_base_pts) - 1][1];
 function baffle_type_at(z) =
@@ -938,7 +940,8 @@ function baffle_type_at(z) =
   baffle_type == "flat" ? flat :
   baffle_type == "rollover" ? lerp(flat, plateau, smootherstep(clamp01((u - 0.45) / 0.45))) :
   baffle_type == "step" ?
-    let(zs = lerp(baffle_start_z, baffle_z1, 0.55), ramp = BAFFLE_Y1 + 0.15 * drop * 0.45 + 0.85 * (zs - z))
+    let(zs = lerp(baffle_start_z, baffle_z1, 0.55), c0 = BAFFLE_Y1 + 0.15 * drop * 0.45, hm = (BAFFLE_Y0 + BAFFLE_Y1) / 2,
+        zc = zs - (hm - c0) / 0.85, ramp = hm + lerp(0.25, 0.85, step_sharpness) * (zc - z))
     -smin(-smin(BAFFLE_Y0, ramp, 2), -plateau, 1) :
   baffle_type == "concave" ? flat + 0.22 * drop * bell(u, 0.62, 0.38) :
   baffle_base_at(z);
