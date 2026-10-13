@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "108840ec-21666",
+  "hash": "1dcd850c-21580",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -268,17 +268,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -2096,7 +2086,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "6b9073a6-21904",
+  "hash": "5b806d02-21818",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2364,17 +2354,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -4192,7 +4172,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "9c1b012e-22576",
+  "hash": "8303f1fa-22490",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4460,17 +4440,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -6288,7 +6258,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "e6dde64f-21868",
+  "hash": "b45ca3e9-21782",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6556,17 +6526,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -8384,7 +8344,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "c1f8987f-22045",
+  "hash": "15c3b3db-21959",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8652,17 +8612,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -10480,7 +10430,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "7137568e-21760",
+  "hash": "dbea17a-21674",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10748,17 +10698,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -12576,7 +12516,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "98a6c10b-21795",
+  "hash": "9bdaab9f-21709",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12844,17 +12784,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -14672,7 +14602,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "12b8a60f-21764",
+  "hash": "f06a5e6d-21678",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14940,17 +14870,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -16768,7 +16688,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "3b366f68-21949",
+  "hash": "e2dba352-21863",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17036,17 +16956,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -18864,7 +18774,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "1195d0a4-21978",
+  "hash": "e7504778-21892",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19132,17 +19042,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -20960,7 +20860,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "1d9434c7-21940",
+  "hash": "5fec60fb-21854",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21228,17 +21128,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -23056,7 +22946,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "873ae4c-21967",
+  "hash": "d089c076-21881",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23324,17 +23214,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -25152,7 +25032,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "e11ec2ed-21993",
+  "hash": "745e310f-21907",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25420,17 +25300,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -27248,7 +27118,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "c65bf40b-21964",
+  "hash": "d106fbd1-21878",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27516,17 +27386,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -29344,7 +29204,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "22fab347-22151",
+  "hash": "da63ed41-22065",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29612,17 +29472,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -31440,7 +31290,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "eeb0dd11-22176",
+  "hash": "55b78cc9-22090",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31708,17 +31558,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,
@@ -33536,7 +33376,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "8986b612-22144",
+  "hash": "81af1e2e-22058",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33804,17 +33644,7 @@
     "type": "number"
    },
    {
-    "caption": "How steeply the step baffle drops: gentle slope to a sharp face (step shape only).",
-    "group": "Baffle",
-    "initial": 1,
-    "max": 1,
-    "min": 0,
-    "name": "step_sharpness",
-    "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).",
+    "caption": "How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).",
     "group": "Baffle",
     "initial": 1,
     "max": 1,

@@ -367,21 +367,11 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-0.6 → 0.6*
 
-<a id="step_sharpness"></a>
-
-### Step sharpness (`step_sharpness`)
-
-How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
-
-Range: 0 to 1, step 0.05.
-
-Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
-
 <a id="step_size"></a>
 
-### Step size (`step_size`)
+### Step (`step_size`)
 
-How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).
+How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).
 
 Range: 0 to 1, step 0.05.
 

@@ -53,9 +53,7 @@ baffle_height = 0.1; // [-3:0.1:4]
 baffle_start = 0; // [-15:0.5:40]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = -0.3; // [-1:0.05:1]
-// How steeply the step baffle drops: gentle slope to a sharp face (step shape only).
-step_sharpness = 1; // [0:0.05:1]
-// How big the step baffle's drop is; 0 = no step, just a plain slope (step shape only).
+// How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).
 step_size = 1; // [0:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0.4; // [0:0.1:3]
@@ -389,3 +387,6 @@ shape_baffle = [[0.487, 18.2], [0.555, 15.9], [0.728, 9.6], [0.795, 7.2], [0.924
 tip_opening_range = [1.40, 2.80];
 // Smallest baffle-to-reed gap near the throat (mm); only warns.
 min_airgap = 0.5;
+
+// Other values
+step_sharpness = 1;
