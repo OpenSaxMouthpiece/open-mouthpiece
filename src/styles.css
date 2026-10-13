@@ -3298,3 +3298,17 @@ a:focus-visible,
 .baffle-sketches button.on .roof {
   stroke: var(--accent-fg);
 }
+/* "Show descriptions" under the find row */
+.head-captions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px 6px;
+  color: var(--muted);
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.design-head.single:has(+ .head-captions) {
+  border-bottom: none;
+  padding-bottom: 4px;
+}

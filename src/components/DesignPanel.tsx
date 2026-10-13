@@ -22,7 +22,6 @@ import { shapeParams } from "../shapeEdit";
 import { BaffleSketches } from "./BaffleSketches";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
-import { Menu } from "./Menu";
 import { usePref } from "../uiPrefs";
 import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL } from "../links";
 
@@ -213,53 +212,49 @@ export function DesignPanel({
       )}
       {only ? (
         !unmade && (
-          <div className="design-head single">
-            <input
-              type="search"
-              className="design-find"
-              placeholder="Find a setting"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Find a setting"
-            />
-            {history && (
-              <span className="undo-redo">
-                <button
-                  disabled={!history.canUndo}
-                  onClick={() => history.step(false)}
-                  title="Undo the last change (Ctrl+Z)"
-                  aria-label="Undo"
-                >
-                  ↶
-                </button>
-                <button
-                  disabled={!history.canRedo}
-                  onClick={() => history.step(true)}
-                  title="Redo (Ctrl+Y)"
-                  aria-label="Redo"
-                >
-                  ↷
-                </button>
-              </span>
-            )}
-            <button
-              disabled={!changed}
-              onClick={onResetAll}
-              title="Back to the values in the file (a ligature or cap made here goes too)"
-            >
-              Reset{changed ? ` (${changed})` : ""}
-            </button>
-            <Menu label="Options ▾" title="Show or hide the descriptions" className="head-more">
-              {() => (
-                <div className="menu-list">
-                  <label title="Show what each setting does under it">
-                    <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
-                    descriptions
-                  </label>
-                </div>
+          <>
+            <div className="design-head single">
+              <input
+                type="search"
+                className="design-find"
+                placeholder="Find a setting"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Find a setting"
+              />
+              {history && (
+                <span className="undo-redo">
+                  <button
+                    disabled={!history.canUndo}
+                    onClick={() => history.step(false)}
+                    title="Undo the last change (Ctrl+Z)"
+                    aria-label="Undo"
+                  >
+                    ↶
+                  </button>
+                  <button
+                    disabled={!history.canRedo}
+                    onClick={() => history.step(true)}
+                    title="Redo (Ctrl+Y)"
+                    aria-label="Redo"
+                  >
+                    ↷
+                  </button>
+                </span>
               )}
-            </Menu>
-          </div>
+              <button
+                disabled={!changed}
+                onClick={onResetAll}
+                title="Back to the values in the file (a ligature or cap made here goes too)"
+              >
+                Reset{changed ? ` (${changed})` : ""}
+              </button>
+            </div>
+            <label className="head-captions" title="Show what each setting does under it">
+              <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
+              descriptions
+            </label>
+          </>
         )
       ) : (
         <>
