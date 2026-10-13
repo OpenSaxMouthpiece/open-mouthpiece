@@ -89,6 +89,10 @@ You can't overwrite the built-in designs, but you can change them as much as you
 use **Save as…** to keep your version under a new name. If "(edited)" appears after the name, the
 design has changes that haven't been saved.
 
+To copy a mouthpiece you own, start from the preset for your saxophone and follow
+[Matching a mouthpiece you have](MATCHING.md): what to measure, with what, and which setting
+each measurement goes into.
+
 ## 4. Changing settings
 
 Each setting has a slider and a box where you can type an exact number. The words under each end of
@@ -122,6 +126,8 @@ thin, the app limits it and a note under the measurements tells you.
 
 For a full list of settings with before-and-after pictures, see [Every setting](PARAMETERS.md).
 The [glossary](GLOSSARY.md) explains the parts of a mouthpiece and which settings change each one.
+The app doesn't describe how settings change the sound; after a test print, the
+[play-test table](PRINTING.md#5-play-test-and-adjust) suggests what to try for what you hear.
 
 **Tip & facing.** *Tip opening & facing*: the tip opening is in thousandths of an inch, but you
 can type a value in mm too. The facing length is measured from the tip back to the break, where the
@@ -361,6 +367,10 @@ kit includes three). If none of them fit, measure your cork with calipers in two
 enter the new diameter. See step 1 of the
 [printing guide](PRINTING.md#1-check-the-cork-fit-15-minutes).
 
+**My copy doesn't play like the original.** Check the print's tip opening and facing first
+([printing guide, step 4](PRINTING.md#4-check-it-against-the-design)), then compare the air
+volume and the baffle ([matching guide](MATCHING.md)). Change one thing at a time.
+
 **I found a problem or have a suggestion.** Please let us know on
 [GitHub](https://github.com/OpenSaxMouthpiece/open-mouthpiece/issues).
 
@@ -368,5 +378,6 @@ enter the new diameter. See step 1 of the
 
 - [Printing guide](PRINTING.md): printing, finishing, checking and play-testing.
 - [Glossary](GLOSSARY.md): the parts of a mouthpiece, with diagrams.
+- [Matching a mouthpiece you have](MATCHING.md): measuring one and copying it in the app.
 - [Every setting](PARAMETERS.md): each setting, with pictures.
 - [Hosting the app](HOSTING.md) and [contributing to the project](../CONTRIBUTING.md).

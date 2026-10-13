@@ -72,6 +72,7 @@ npm run dev            # the app (OpenSCAD runs in the browser)
 - The parts of a mouthpiece, and which settings change each: [docs/GLOSSARY.md](docs/GLOSSARY.md)
 - Every setting, with pictures of what it changes: [docs/PARAMETERS.md](docs/PARAMETERS.md)
 - Printing and play-testing: [docs/PRINTING.md](docs/PRINTING.md)
+- Measuring a mouthpiece you have and matching it: [docs/MATCHING.md](docs/MATCHING.md)
 - Putting the app online: [docs/HOSTING.md](docs/HOSTING.md)
 - Working on the code: [CONTRIBUTING.md](CONTRIBUTING.md)
 

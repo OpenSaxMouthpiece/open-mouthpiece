@@ -9,5 +9,5 @@ exactly **Tip opening** at the tip and 0 at the break.
 - **Gauge points**: your own measurements (where each feeler gauge stops), joined by a smooth
   curve that never closes toward the break. Use it to copy a facing you've measured.
 
-**Shape charts** (under the view) -> **Facing curve** shows the curve and where standard feeler
+**Shape charts** (bottom left of the 3D view) -> **Facing curve** shows the curve and where standard feeler
 gauges would stop.

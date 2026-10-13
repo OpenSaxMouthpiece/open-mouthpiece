@@ -26,7 +26,7 @@ Your neck cork's diameter (mm), measured with calipers.
 Measure the cork with calipers across two directions (corks are often slightly oval) and use the
 average. The socket is made this much minus **Cork squeeze**.
 
-Not sure? Print the three shank test rings first: [Check the cork fit](../PRINTING.md#1-check-the-cork-fit-15-minutes).
+Not sure? Print the three shank test rings first: [Check the cork fit](PRINTING.md#1-check-the-cork-fit-15-minutes).
 
 Range: 10 to 27, step 0.05.
 
@@ -46,7 +46,7 @@ The socket is made this much smaller than **Neck cork diameter**, so the cork is
 goes in: 0 = the socket is exactly the cork's size. 0.1-0.3 mm suits most corks.
 
 The quickest way to find yours is the three shank test rings (0.10, 0.20, 0.30): see
-[Check the cork fit](../PRINTING.md#1-check-the-cork-fit-15-minutes).
+[Check the cork fit](PRINTING.md#1-check-the-cork-fit-15-minutes).
 
 Range: 0 to 0.6, step 0.01.
 
@@ -685,7 +685,7 @@ Makers usually quote it in thousandths of an inch: .076" = 76 thou = 1.93 mm (1 
 The app shows both. Some makers use their own numbers (5, 7*, ...), which mean different openings
 from maker to maker: look up the opening in mm or thousandths.
 
-After printing, the tip may come out slightly different: [Check it against the design](../PRINTING.md#4-check-it-against-the-design).
+After printing, the tip may come out slightly different: [Check it against the design](PRINTING.md#4-check-it-against-the-design).
 
 Range: 0.5 to 4.5, step 0.01.
 
@@ -732,7 +732,7 @@ exactly **Tip opening** at the tip and 0 at the break.
 - **Gauge points**: your own measurements (where each feeler gauge stops), joined by a smooth
   curve that never closes toward the break. Use it to copy a facing you've measured.
 
-**Shape charts** (under the view) -> **Facing curve** shows the curve and where standard feeler
+**Shape charts** (bottom left of the 3D view) -> **Facing curve** shows the curve and where standard feeler
 gauges would stop.
 
 Range: `power`, `arc`, `gauge`.

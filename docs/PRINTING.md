@@ -88,7 +88,7 @@ fairer test of the design.
 The app's readouts give the targets:
 
 - **Tip opening:** the readout's tip opening, in mm and thousandths of an inch.
-- **Facing:** **Shape charts** (under the view) -> **Facing curve** -> **Feeler gauge stops** lists
+- **Facing:** **Shape charts** (bottom left of the 3D view) -> **Facing curve** -> **Feeler gauge stops** lists
   where standard feeler gauges should stop along the facing, if you want to check a print against it.
 - **Air volume:** the air between the end of the neck and the tip. It stands in for the missing
   tip of the horn's cone, so it mostly decides where the mouthpiece plays in tune on the cork: more
@@ -158,12 +158,12 @@ in tune (a tuner at A = 440). Then change one thing at a time:
 
 | What you hear or feel | Try |
 |---|---|
-| Too bright, harsh, edgy | lower `baffle_height` (negative), a positive `baffle_curve`, or a wider `chamber_width` / positive `sidewall_angle` |
-| Too dark, dull, doesn't project | raise `baffle_height`, add `baffle_hump`, or a negative `baffle_curve` |
-| Stuffy, resistant | wider `throat_width`; check the facing for leaks first |
-| Too free, spread, hard to control | a slightly smaller `tip_opening` or a shorter `facing_length` |
-| Low notes hard to get out | a longer `facing_length`; check the rails seal (step 4) |
-| Squeaks, reed chirps | the facing is uneven: check both rails; then `tip_rail_thickness` |
+| Too bright, harsh, edgy | lower [Baffle height](PARAMETERS.md#baffle_height) (negative), a positive [Baffle curve](PARAMETERS.md#baffle_curve), or a wider [Chamber width](PARAMETERS.md#chamber_width) / positive [Chamber side walls](PARAMETERS.md#sidewall_angle) |
+| Too dark, dull, doesn't project | raise [Baffle height](PARAMETERS.md#baffle_height), add [Baffle hump](PARAMETERS.md#baffle_hump), or a negative [Baffle curve](PARAMETERS.md#baffle_curve) |
+| Stuffy, resistant | wider [Throat width](PARAMETERS.md#throat_width); check the facing for leaks first |
+| Too free, spread, hard to control | a slightly smaller [Tip opening](PARAMETERS.md#tip_opening) or a shorter [Facing length](PARAMETERS.md#facing_length) |
+| Low notes hard to get out | a longer [Facing length](PARAMETERS.md#facing_length); check the rails seal (step 4) |
+| Squeaks, reed chirps | the facing is uneven: check both rails; then [Tip rail thickness](PARAMETERS.md#tip_rail_thickness) |
 | Plays flat: pushed far onto the cork | less inside air (smaller chamber, or raise the baffle) |
 | Plays sharp: pulled far out | more inside air (bigger chamber, or lower the baffle) |
 | Upper register sharp when the low one is in tune (octaves wide) | more inside air, or a softer reed |

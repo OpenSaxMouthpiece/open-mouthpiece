@@ -2,7 +2,7 @@
 
 The names players and refacers use for the parts of a mouthpiece, and the settings in the app that
 change each one. Settings are given by their name in the app; [PARAMETERS.md](PARAMETERS.md) has
-every setting with pictures. Besides the sliders, **Shape charts** (under the view) show the facing,
+every setting with pictures. Besides the sliders, **Shape charts** (bottom left of the 3D view) show the facing,
 the outside and the inside, and **Edit shape** lets you drag their lines.
 
 ![Side view of the alto preset cut down the middle, with the reed in place: tip rail, tip opening,
