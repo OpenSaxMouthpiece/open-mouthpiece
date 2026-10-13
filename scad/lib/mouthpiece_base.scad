@@ -127,7 +127,7 @@ window_width = 15.1; // [6:0.1:22]
 window_taper = 3.3; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 5.5; // [0:0.1:10]
-// Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
+// Chamber side walls over the window (degrees): + lean out, - in; trapezoid: 10 more in.
 sidewall_angle = 0; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]
@@ -1047,9 +1047,17 @@ function interior_bottom_y(z, E, hw) =
 // throat_shape: "chamber" = the chamber's own shape is reached across the throat narrowing (as
 // above); otherwise the throat gets that section (over the narrowing), then eases into the
 // chamber's shape by where the chamber reaches full width (or the window, if sooner).
-// "trapezoid" = the horseshoe with side walls leaning in toward the roof (10 degrees unless
-// sidewall_angle is set): wide at the window, narrower at the rounded baffle side.
-eff_sidewall_angle = chamber_shape == "trapezoid" && sidewall_angle == 0 ? -10 : sidewall_angle;
+// "trapezoid" = the horseshoe with side walls leaning in toward the roof, wide at the window and
+// narrower at the rounded baffle side, along the whole chamber (faded in from the throat; issue
+// #3). Its lean is TRAPEZOID_LEAN degrees plus sidewall_angle (one slider, no jump at 0): leaning
+// in it is trap_angle (every station), leaning out it is the window-only scoop below.
+TRAPEZOID_LEAN = 10;
+is_trapezoid = chamber_shape == "trapezoid";
+trap_angle = is_trapezoid ? min(0, sidewall_angle - TRAPEZOID_LEAN) : 0;
+eff_sidewall_angle = is_trapezoid ? max(0, sidewall_angle - TRAPEZOID_LEAN) : sidewall_angle;
+// full lean where the chamber reaches its shape (as throat_shape's easing: full width or the window)
+TRAP_Z2 = max(eff_throat_z + 2, min(chamber_peak_z, win_z0));
+function trap_lean(z) = trap_angle * ease(clamp01((z - eff_throat_z) / (TRAP_Z2 - eff_throat_z)));
 function section_exps(s, t) = s == "square" ? [lerp(2, 8, t), lerp(2, 8, t)] : (s == "horseshoe" || s == "trapezoid") ? [lerp(2, 2.5, t), lerp(2, 8, t)] : [2, 2];
 function interior_exps_shape(z) =
   throat_shape == "chamber" ? interior_exps_chamber(z) :
@@ -1150,17 +1158,22 @@ function interior_fit(z, E, I, in_win, lo) =
 // instead of making a shelf over the rails, issue #1) (I[5] = 1e3 before the window).
 // With eff_sidewall_angle (under the window only) the walls above narrow_top lean out (+, scooped
 // out toward the chamber width) or in (-, the chamber narrower than the window toward the roof)
-// at that angle from vertical.
+// at that angle from vertical. A trapezoid chamber's walls also lean in from its full width
+// (trap_allowed), before the window too, so its shape runs back to the throat without a step.
 function interior_points(dirs, z, I) =
+  let(ta = trap_lean(z))
   [for (p = sring(dirs, z, I[0], I[1], I[2], I[3], I[4], (I[1] + I[2]) / 2))
     let(allowed = eff_sidewall_angle == 0 || I[5] >= 1e3
       ? lerp(min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0]))))))
       : sidewall_allowed(I, p[1]))
-    [sign(p[0]) * min(abs(p[0]), allowed), p[1], p[2]]];
-// Half-width the leaning walls allow at height y (the corner at narrow_top rounded over 1mm).
+    [sign(p[0]) * min(abs(p[0]), allowed, trap_allowed(I, p[1], ta)), p[1], p[2]]];
+// Height above narrow_top, the corner there rounded over 1mm.
+function wall_rise(I, y) = let(d = y - I[6]) d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4;
+// Half-width the leaning walls allow at height y.
 function sidewall_allowed(I, y) =
-  let(d = y - I[6], rise = d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4)
-  min(I[0], max(0.3 * I[5], min(I[5], I[0]) + rise * tan(eff_sidewall_angle)));
+  min(I[0], max(0.3 * I[5], min(I[5], I[0]) + wall_rise(I, y) * tan(eff_sidewall_angle)));
+// Half-width a trapezoid chamber's walls allow at height y (lean ta <= 0; never under 30% of the width).
+function trap_allowed(I, y, ta) = ta == 0 ? 1e3 : max(0.3 * I[0], I[0] + wall_rise(I, y) * tan(ta));
 
 // ---- Baffle texture: shallow dents cut up into the roof (engraved) or bumps standing down from it
 // (raised), from 4mm past where the baffle begins to 2mm behind the tip curve (fading in and out
@@ -1642,8 +1655,8 @@ function air_find(z, lo, hi) = hi - lo <= 1 ? lo :
 module window_cutter() {
   ring_loft([for (z = station_list(win_z0 + 0.01, win_front_z - 0.02, tip_curve + 1, Z_STEP * 0.8))
     let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[1] + I[2]) / 2)
-    // walls leaning in (eff_sidewall_angle < 0): the cutter's upper corners stay inside them
-    let(lean = eff_sidewall_angle < 0 ? sidewall_allowed(I, top) - 0.05 : 1e3)
+    // walls leaning in (eff_sidewall_angle < 0, a trapezoid): the cutter's upper corners stay inside them
+    let(lean = min(eff_sidewall_angle < 0 ? sidewall_allowed(I, top) : 1e3, trap_allowed(I, top, trap_lean(z))) - 0.05)
     let(y_rail = min(facing_at_z(z) + 0.1, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
     [[-hw, -10, z], [hw, -10, z], [hw, y_rail, z], [hw_top, top, z], [-hw_top, top, z], [-hw, y_rail, z]]]);
 }

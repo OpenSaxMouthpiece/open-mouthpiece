@@ -83,7 +83,7 @@ window_width = 16.2; // [6:0.1:22]
 window_taper = 4.3; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 3; // [0:0.1:10]
-// Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
+// Chamber side walls over the window (degrees): + lean out, - in; trapezoid: 10 more in.
 sidewall_angle = -4; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]

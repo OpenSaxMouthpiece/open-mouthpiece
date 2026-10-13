@@ -119,7 +119,7 @@ Presets: Alto `22` · Tenor `23` · Bari `24.1` · Soprano `17.8`.
 
 Cross-section of the chamber after the throat.
 
-Range: `round`, `square`, `horseshoe`.
+Range: `round`, `square`, `horseshoe`, `trapezoid`.
 
 Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 
@@ -130,6 +130,10 @@ Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 ![chamber_shape: horseshoe (the alto's) → square](images/params/chamber_shape-square.png)
 
 *`horseshoe` (the alto's) → `square`*
+
+![chamber_shape: horseshoe (the alto's) → trapezoid](images/params/chamber_shape-trapezoid.png)
+
+*`horseshoe` (the alto's) → `trapezoid`*
 
 ### Chamber width (`chamber_width`)
 
@@ -323,9 +327,9 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Baffle texture (`baffle_texture`)
 
-A texture on the baffle: grooves along it, across it, curved or slanted across it, or dimples.
+A texture on the baffle: grooves along it, grooves across it, or dimples.
 
-Range: `none`, `along`, `across`, `curved`, `chevron`, `dimples`.
+Range: `none`, `along`, `across`, `dimples`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
 
@@ -336,6 +340,14 @@ Texture cut into the baffle (engraved) or standing out of it (raised).
 Range: `engraved`, `raised`.
 
 Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
+
+### Texture width (`baffle_texture_thickness`)
+
+Width of each groove or dimple (mm); kept under the spacing, the depth giving way.
+
+Range: 0.3 to 4, step 0.05.
+
+Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
 ### Texture depth (`baffle_texture_depth`)
 
@@ -349,17 +361,41 @@ Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
 
 Distance between the grooves or dimples (mm).
 
-Range: 1.5 to 8, step 0.1.
+Range: 1 to 8, step 0.1.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
 
+### How far across (`baffle_texture_extent`)
+
+How far across the baffle the texture reaches, as a share of its width (1 = wall to wall).
+
+Range: 0.2 to 1, step 0.05.
+
+Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+### Groove shape (`baffle_texture_shape`)
+
+How grooves across bend, when they do: a smooth curve or a V.
+
+Range: `curved`, `v`.
+
+Presets: Alto `curved` · Tenor `curved` · Bari `curved` · Soprano `curved`.
+
 ### Groove bend (`baffle_texture_bend`)
 
-How much curved or slanted grooves bend: - the middle trails toward the shank, + it leads toward the tip.
+How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.
 
 Range: -1 to 1, step 0.05.
 
-Presets: Alto `0.5` · Tenor `0.5` · Bari `0.5` · Soprano `0.5`.
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+### Bend change toward the tip (`baffle_texture_bend_change`)
+
+How the bend changes toward the tip end (added there, eased in along the baffle).
+
+Range: -2 to 2, step 0.05.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ## Window
 
@@ -413,7 +449,7 @@ Presets: Alto `5.5` · Tenor `5.3` · Bari `6.3` · Soprano `4.8`.
 
 ### Chamber side walls (`sidewall_angle`)
 
-Chamber side walls over the window (degrees): + lean out (scooped), - lean in.
+Chamber side walls over the window (degrees): + lean out, - in; trapezoid: 10 more in.
 
 Range: -20 to 30, step 1.
 
