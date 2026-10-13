@@ -112,6 +112,7 @@ interface Props {
   busyLabel?: string; // what it is making, if not the model on screen (a download)
   overlay?: ReactNode; // e.g. the first-visit hint
   quality?: ReactNode; // the render quality switch, with the view tools
+  onCompareOriginal?(): void; // pin the design as it was (published / saved) as B
   autoZoom?: { on: boolean; set(on: boolean): void }; // a touched setting flies the view to the part it shapes
   autoRender?: { on: boolean; set(on: boolean): void; render(): void }; // render after every change; off = the Render button
   labelA?: string; // names for the A/B legend and the labels under the models
@@ -214,6 +215,7 @@ export function Viewer({
   quality,
   autoZoom,
   autoRender,
+  onCompareOriginal,
   labelA,
   labelB,
   compareKey,
@@ -1015,6 +1017,15 @@ export function Viewer({
             >
               Last shape
             </Toggle>
+          )}
+          {onCompareOriginal && !compare && (
+            <button
+              className="toggle"
+              onClick={onCompareOriginal}
+              title="Compare with the design as it was: a preset as published, your design as saved (as B)"
+            >
+              Compare with original
+            </button>
           )}
           <select
             className={section !== "off" ? "on" : ""}

@@ -1582,6 +1582,7 @@ export default function App() {
       overlay={hintEl}
       quality={isPhone ? undefined : qualityDropdown}
       autoZoom={{ on: zoom, set: setZoom }}
+      onCompareOriginal={stl ? compareOriginal : undefined}
       autoRender={{ on: auto, set: setAuto, render }}
       ligature={
         ligOK

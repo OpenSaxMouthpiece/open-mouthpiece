@@ -249,25 +249,13 @@ export function DesignPanel({
             >
               Reset{changed ? ` (${changed})` : ""}
             </button>
-            <Menu label="Options ▾" title="Descriptions, compare with the original" className="head-more">
-              {(close) => (
+            <Menu label="Options ▾" title="Show or hide the descriptions" className="head-more">
+              {() => (
                 <div className="menu-list">
                   <label title="Show what each setting does under it">
                     <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
                     descriptions
                   </label>
-                  {onCompareOriginal && (
-                    <button
-                      disabled={!changed}
-                      onClick={() => {
-                        close();
-                        onCompareOriginal();
-                      }}
-                      title="The design as it was (a preset as published, yours as saved), as B"
-                    >
-                      Compare with the original
-                    </button>
-                  )}
                 </div>
               )}
             </Menu>
