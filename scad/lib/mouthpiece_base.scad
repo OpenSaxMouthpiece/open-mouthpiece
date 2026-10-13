@@ -1161,7 +1161,7 @@ function interior_points(dirs, z, I) =
     let(blend = lerp(min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0])))))))
     let(allowed = la < 0 ? min(blend, lean_in_allowed(I, p[1], la))
       : la == 0 ? blend
-      : I[5] < 1e3 ? max(sidewall_allowed(I, p[1], la), min(out_allowed(I, p[1], la), blend))
+      : I[5] < 1e3 ? max(sidewall_allowed(I, p[1], la), min(out_allowed(I, p[1], la), out_blend(I, p[1], la)))
       : out_allowed(I, p[1], la))
     [sign(p[0]) * min(abs(p[0]), allowed), p[1], p[2]]];
 // Height above narrow_top, the corner there rounded over 1mm.
@@ -1174,6 +1174,11 @@ function sidewall_allowed(I, y, la) =
 function out_allowed(I, y, la) =
   let(base = max(0.3 * I[0], I[0] - max(0, I[1] - I[6]) * tan(la)))
   min(I[0], base + wall_rise(I, y) * tan(la));
+// Under the window, walls leaning out keep the rails as the plain chamber does: held to the window
+// width below narrow_top, opening out over the step to the chamber's own (unwidened) width.
+function out_blend(I, y, la) =
+  let(n = min(I[5], I[0]), base = max(0.3 * I[0], I[0] - max(0, I[1] - I[6]) * tan(la)))
+  lerp(n, I[0], smootherstep(clamp01((y - I[6]) / max(1.5, 2 * (base - n)))));
 // Half-width walls leaning in (ta <= 0) allow at height y (never under 30% of the width).
 function lean_in_allowed(I, y, ta) = ta == 0 ? 1e3 : max(0.3 * I[0], I[0] + wall_rise(I, y) * tan(ta));
 

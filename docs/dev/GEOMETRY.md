@@ -129,7 +129,8 @@ readout and the clearance report.
   chamber (`lean_in_allowed`, never under 30% of the width; the window cutter's upper corners
   follow), smooth through the window start. Leaning out (+) widens the ring toward the roof: from
   the window width under the window (`sidewall_allowed`), from the chamber's width before it
-  (`out_allowed`), so there is a small kink at the window start. The wall fit still clamps it.
+  (`out_allowed`); under the window the rails are kept as for the plain chamber (`out_blend`, from
+  the unwidened width, so no kink at the window start). The wall fit still clamps it.
   A "trapezoid" chamber_shape (dev only, 2026-10-12) migrates to horseshoe + 10 degrees more in.
 - **`chamber_height`** (0 = round) acts between the throat and the window: full after the first 40%
   of that stretch, faded out over its last <= 4mm; where the baffle is already the roof the floor

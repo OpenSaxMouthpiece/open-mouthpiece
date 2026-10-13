@@ -1084,7 +1084,7 @@ export function Viewer({
                       Auto-zoom
                     </Check>
                   )}
-                  {quality && <div className="show-quality">Quality {quality}</div>}
+                  {quality && <div className="show-quality">{quality}</div>}
                 </div>
               )}
             </Menu>
