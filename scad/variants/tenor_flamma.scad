@@ -47,8 +47,8 @@ throat_shape = "round"; // [chamber, round, square, horseshoe]
 /* [Baffle] */
 // The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "concave"; // [measured, flat, rollover, step, concave]
-// Moves the baffle toward the reed (+) or away from it (-) (mm).
-baffle_height = 0.3; // [-3:0.1:4]
+// Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.
+baffle_height = 0.3; // [-7:0.1:4]
 // Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
 baffle_start = 0; // [-15:0.5:15]
 // Bends the baffle: - comes down early, + stays up and drops late.

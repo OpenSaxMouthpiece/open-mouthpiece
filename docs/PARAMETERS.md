@@ -329,9 +329,9 @@ Presets: Alto `measured` · Tenor `measured` · Bari `measured` · Soprano `meas
 
 ### Baffle height (`baffle_height`)
 
-Moves the baffle toward the reed (+) or away from it (-) (mm).
+Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.
 
-Range: -3 to 4, step 0.1.
+Range: -7 to 4, step 0.1.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 

@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "e8ca33a3-21428",
+  "hash": "43aac2f8-21459",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -238,11 +238,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -2076,7 +2076,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "8e35898f-21666",
+  "hash": "3a2d37d4-21697",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2314,11 +2314,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -4152,7 +4152,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "44120fa9-22338",
+  "hash": "8f37ed52-22369",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4390,11 +4390,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -6228,7 +6228,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "97bc9cd6-21630",
+  "hash": "90f1f471-21661",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6466,11 +6466,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -8304,7 +8304,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "c79c97a8-21807",
+  "hash": "6fd99339-21838",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8542,11 +8542,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -10380,7 +10380,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "9858905b-21522",
+  "hash": "30cbac10-21553",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10618,11 +10618,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -12456,7 +12456,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "b44a943a-21557",
+  "hash": "4a3243b3-21588",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12694,11 +12694,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0.1,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -14532,7 +14532,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "f0184fb6-21526",
+  "hash": "2021a295-21557",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14770,11 +14770,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -16608,7 +16608,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "2a8e1307-21711",
+  "hash": "e28310a4-21742",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16846,11 +16846,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -18684,7 +18684,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "1bc82a0d-21740",
+  "hash": "db4af8a0-21771",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18922,11 +18922,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0.6,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -20760,7 +20760,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "332d8ef6-21702",
+  "hash": "83f45bed-21733",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20998,11 +20998,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -22836,7 +22836,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "46abcd59-21729",
+  "hash": "5806aba6-21760",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23074,11 +23074,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0.7,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -24912,7 +24912,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "31995fa4-21755",
+  "hash": "6519a40b-21786",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25150,11 +25150,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0.1,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -26988,7 +26988,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "1fc44218-21726",
+  "hash": "5ed567f3-21757",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27226,11 +27226,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -29064,7 +29064,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "2109f660-21913",
+  "hash": "24890a23-21944",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29302,11 +29302,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0.3,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -31140,7 +31140,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "1170987e-21938",
+  "hash": "d473943f-21969",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31378,11 +31378,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0.1,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
@@ -33216,7 +33216,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "2918a239-21906",
+  "hash": "8e684f5a-21937",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33454,11 +33454,11 @@
     "type": "string"
    },
    {
-    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm).",
+    "caption": "Moves the baffle toward the reed (+) or away from it (-) (mm); below -3 it also flattens out.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
-    "min": -3,
+    "min": -7,
     "name": "baffle_height",
     "step": 0.1,
     "type": "number"
