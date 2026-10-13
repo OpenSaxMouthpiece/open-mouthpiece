@@ -457,8 +457,8 @@ export default function App() {
   }, [ready, targetSig]);
 
   // ---- auto-render: quick after a parameter change or a switch of main file, slower while typing.
-  // The Render button and Auto live with the code: without it open, every change renders.
-  const autoOn = auto || !coding;
+  // "Render on change" (the panel header, and Auto by the code): off = changes wait for the Render button.
+  const autoOn = auto;
   const lastMain = useRef("");
   useEffect(() => {
     if (!ready || !autoOn || !mainTab) return;
@@ -1768,6 +1768,9 @@ export default function App() {
       onCompareOriginal={compareOriginal}
       zoom={zoom}
       onZoomChange={setZoom}
+      auto={auto}
+      onAutoChange={setAuto}
+      onRender={render}
       onFocusParam={focusOn}
       readouts={withReadouts && !noReadouts ? readoutsEl : other}
       history={history}
@@ -1972,7 +1975,7 @@ export default function App() {
             <span className="name">Open Mouthpiece</span>
           </span>
           {voicePicker}
-          {coding && !auto ? (
+          {!auto ? (
             <button className="primary" onClick={render}>
               Render
             </button>

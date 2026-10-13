@@ -35,6 +35,9 @@ interface Props {
   onCompareOriginal?(): void; // the design as it was (published / saved) as B
   zoom: boolean;
   onZoomChange(on: boolean): void;
+  auto: boolean; // render on every change; off = the Render button
+  onAutoChange(on: boolean): void;
+  onRender(): void;
   onFocusParam(name: string): void;
   readouts?: ReactNode; // shown above the controls, not scrolling (desktop)
   facing?: ReactNode; // the facing chart, under "Tip & facing"
@@ -71,6 +74,9 @@ export function DesignPanel({
   onCompareOriginal,
   zoom,
   onZoomChange,
+  auto,
+  onAutoChange,
+  onRender,
   onFocusParam,
   readouts,
   facing,
@@ -98,6 +104,32 @@ export function DesignPanel({
     if (q) onChange(name, same(v, q.initial) ? undefined : v);
   };
   const changed = changedCount(values);
+  // The two view switches, in plain sight (a pressed chip = on), not tucked into a menu.
+  const viewToggles = (
+    <div className="view-toggles">
+      <button
+        className={`toggle-chip${zoom ? " on" : ""}`}
+        aria-pressed={zoom}
+        onClick={() => onZoomChange(!zoom)}
+        title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
+      >
+        ⌖ Auto-zoom
+      </button>
+      <button
+        className={`toggle-chip${auto ? " on" : ""}`}
+        aria-pressed={auto}
+        onClick={() => onAutoChange(!auto)}
+        title="Render the model after every change. Off: changes wait until you press Render."
+      >
+        ⟳ Render on change
+      </button>
+      {!auto && (
+        <button className="primary" onClick={onRender} title="Render now (F6 / Ctrl+Enter)">
+          Render
+        </button>
+      )}
+    </div>
+  );
   const [captions, setCaptions] = usePref("captions", true);
   // the rail on the ligature or cap before it is made: only its "make" button
   const unmade = (only === "Ligature" && !ligature?.on) || (only === "Cap" && !cap?.on);
@@ -213,69 +245,68 @@ export function DesignPanel({
       )}
       {only ? (
         !unmade && (
-          <div className="design-head single">
-            <input
-              type="search"
-              className="design-find"
-              placeholder="Find a setting"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              aria-label="Find a setting"
-            />
-            {history && (
-              <span className="undo-redo">
-                <button
-                  disabled={!history.canUndo}
-                  onClick={() => history.step(false)}
-                  title="Undo the last change (Ctrl+Z)"
-                  aria-label="Undo"
-                >
-                  ↶
-                </button>
-                <button
-                  disabled={!history.canRedo}
-                  onClick={() => history.step(true)}
-                  title="Redo (Ctrl+Y)"
-                  aria-label="Redo"
-                >
-                  ↷
-                </button>
-              </span>
-            )}
-            <button
-              disabled={!changed}
-              onClick={onResetAll}
-              title="Back to the values in the file (a ligature or cap made here goes too)"
-            >
-              Reset{changed ? ` (${changed})` : ""}
-            </button>
-            <Menu label="Options ▾" title="Auto-zoom, descriptions, compare with the original" className="head-more">
-              {(close) => (
-                <div className="menu-list">
-                  <label title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)">
-                    <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
-                    to the part a setting shapes
-                  </label>
-                  <label title="Show what each setting does under it">
-                    <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
-                    descriptions
-                  </label>
-                  {onCompareOriginal && (
-                    <button
-                      disabled={!changed}
-                      onClick={() => {
-                        close();
-                        onCompareOriginal();
-                      }}
-                      title="The design as it was (a preset as published, yours as saved), as B"
-                    >
-                      Compare with the original
-                    </button>
-                  )}
-                </div>
+          <>
+            <div className="design-head single">
+              <input
+                type="search"
+                className="design-find"
+                placeholder="Find a setting"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                aria-label="Find a setting"
+              />
+              {history && (
+                <span className="undo-redo">
+                  <button
+                    disabled={!history.canUndo}
+                    onClick={() => history.step(false)}
+                    title="Undo the last change (Ctrl+Z)"
+                    aria-label="Undo"
+                  >
+                    ↶
+                  </button>
+                  <button
+                    disabled={!history.canRedo}
+                    onClick={() => history.step(true)}
+                    title="Redo (Ctrl+Y)"
+                    aria-label="Redo"
+                  >
+                    ↷
+                  </button>
+                </span>
               )}
-            </Menu>
-          </div>
+              <button
+                disabled={!changed}
+                onClick={onResetAll}
+                title="Back to the values in the file (a ligature or cap made here goes too)"
+              >
+                Reset{changed ? ` (${changed})` : ""}
+              </button>
+              <Menu label="⚙ Options ▾" title="Show descriptions, compare with the original" className="head-more">
+                {(close) => (
+                  <div className="menu-list">
+                    <label title="Show what each setting does under it">
+                      <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
+                      descriptions
+                    </label>
+                    {onCompareOriginal && (
+                      <button
+                        disabled={!changed}
+                        onClick={() => {
+                          close();
+                          onCompareOriginal();
+                        }}
+                        title="The design as it was (a preset as published, yours as saved), as B"
+                      >
+                        Compare with the original
+                      </button>
+                    )}
+                  </div>
+                )}
+              </Menu>
+            </div>
+            <div className="design-head toggles">{viewToggles}</div>
+          </>
         )
       ) : (
         <>
@@ -288,12 +319,7 @@ export function DesignPanel({
               onChange={(e) => setQuery(e.target.value)}
               aria-label="Find a setting"
             />
-            <label
-              className="zoom-toggle"
-              title="Auto-zoom: when you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
-            >
-              <input type="checkbox" checked={zoom} onChange={(e) => onZoomChange(e.target.checked)} /> Auto-zoom
-            </label>
+            {viewToggles}
             {history && (
               <span className="undo-redo">
                 <button
