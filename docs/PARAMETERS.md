@@ -119,7 +119,7 @@ Presets: Alto `22` · Tenor `23` · Bari `24.1` · Soprano `17.8`.
 
 Cross-section of the chamber after the throat.
 
-Range: `round`, `square`, `horseshoe`, `trapezoid`.
+Range: `round`, `square`, `horseshoe`.
 
 Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 
@@ -130,10 +130,6 @@ Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 ![chamber_shape: horseshoe (the alto's) → square](images/params/chamber_shape-square.png)
 
 *`horseshoe` (the alto's) → `square`*
-
-![chamber_shape: horseshoe (the alto's) → trapezoid](images/params/chamber_shape-trapezoid.png)
-
-*`horseshoe` (the alto's) → `trapezoid`*
 
 ### Chamber width (`chamber_width`)
 
@@ -449,7 +445,7 @@ Presets: Alto `5.5` · Tenor `5.3` · Bari `6.3` · Soprano `4.8`.
 
 ### Chamber side walls (`sidewall_angle`)
 
-Chamber side walls over the window (degrees): + lean out, - in; trapezoid: 10 more in.
+Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid).
 
 Range: -20 to 30, step 1.
 

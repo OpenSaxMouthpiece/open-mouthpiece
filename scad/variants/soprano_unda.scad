@@ -24,7 +24,7 @@ shank_diameter = 17.8; // [14:0.1:32]
 
 /* [Chamber] */
 // Cross-section of the chamber after the throat.
-chamber_shape = "horseshoe"; // [round, square, horseshoe, trapezoid]
+chamber_shape = "horseshoe"; // [round, square, horseshoe]
 // Width of the chamber after the throat (mm), whatever the throat's width.
 chamber_width = 9.5; // [4:0.1:36]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
@@ -83,7 +83,7 @@ window_width = 12.5; // [6:0.1:22]
 window_taper = 2.7; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 4.8; // [0:0.1:10]
-// Chamber side walls over the window (degrees): + lean out, - in; trapezoid: 10 more in.
+// Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid).
 sidewall_angle = 0; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.2; // [0.8:0.05:2.5]

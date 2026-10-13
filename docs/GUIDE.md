@@ -137,8 +137,8 @@ settings are the bevel at the opening of the socket, the bore size and the angle
 **Chamber & baffle.** The inside of the mouthpiece, in four groups. *Baffle*: its shape, height and
 hump, and a texture on it (grooves along it, grooves across it, or dimples, engraved or raised, with
 their depth and spacing); More has where the baffle starts and how it curves. *Chamber*: its shape
-(round, square, horseshoe or trapezoid: a horseshoe with its sides leaning in) and width; More has its height and floor, how it widens past the
-throat and the angle of its side walls. *Throat*: its width; More has its position, the narrowing
+(round, square or horseshoe) and width; More has its height and floor, how it widens past the
+throat and the angle of its side walls (leaning in makes a trapezoid chamber). *Throat*: its width; More has its position, the narrowing
 into it and its shape. *Window*: its width; More has its length and corners.
 
 **Body & beak.** The outside, in three groups. *Size*: overall length and the width and height of

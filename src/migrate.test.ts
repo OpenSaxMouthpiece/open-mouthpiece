@@ -5,6 +5,7 @@ import {
   migrateChamberValues,
   migratePath,
   migrateScad,
+  migrateValues,
   migrateTextureValues,
   textureBefore,
 } from "./migrate";
@@ -91,5 +92,17 @@ describe("baffle texture width (2026-10-12)", () => {
       baffle_texture_spacing: 4,
       baffle_texture_thickness: 1,
     });
+  });
+});
+
+describe("trapezoid chamber", () => {
+  it("becomes a horseshoe with its walls leaning 10 degrees further in", () => {
+    expect(migrateValues({ chamber_shape: "trapezoid" })).toEqual({ chamber_shape: "horseshoe", sidewall_angle: -10 });
+    expect(migrateValues({ chamber_shape: "trapezoid", sidewall_angle: 4 })).toMatchObject({ sidewall_angle: -6 });
+    const text =
+      'chamber_shape = "trapezoid"; // [round, square, horseshoe, trapezoid]\nsidewall_angle = -15; // [-20:1:30]\n';
+    expect(migrateScad(text)).toBe(
+      'chamber_shape = "horseshoe"; // [round, square, horseshoe, trapezoid]\nsidewall_angle = -20; // [-20:1:30]\n',
+    );
   });
 });

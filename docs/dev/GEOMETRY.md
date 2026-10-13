@@ -121,15 +121,16 @@ readout and the clearance report.
   1mm and smoothed (lowest within 2mm, averaged over 1mm), so the width follows the outside in one
   curve instead of ribbing where ring points cross the window width. The fit still checks every ring.
 - **Under the window** the walls rise straight from the window edge for 2mm (rails keep full
-  thickness), then open out to the chamber width (`interior_points`); `sidewall_angle` (!= 0) leans
-  them out or in from there (`sidewall_allowed`; leaning in, the window cutter's upper corners
-  follow). The floor there is a 0.8mm skin above the facing that the window cutter removes.
-- **Trapezoid chamber** (issue #3): `chamber_shape = trapezoid` = the horseshoe section with its
-  side walls leaning in from the full chamber width above narrow_top, wide at the table and narrower
-  at the rounded baffle side (`trap_allowed`). The lean is `TRAPEZOID_LEAN` (10) degrees plus
-  `sidewall_angle` (one slider, no jump at 0): leaning in it acts along the whole chamber, faded in
-  from the throat to where the chamber has its shape (`trap_lean`, `TRAP_Z2`), so there is no step
-  at the window start; leaning out it is the window-only scoop. Never under 30% of the width.
+  thickness), then open out to the chamber width (`interior_points`). The floor there is a 0.8mm
+  skin above the facing that the window cutter removes.
+- **Side walls** (`sidewall_angle`, issue #3): the walls above narrow_top lean at that angle along
+  the whole chamber, faded in from the throat to where the chamber has its shape (`wall_lean_at`,
+  `LEAN_Z2`). Leaning in (-) narrows from the chamber's full width toward the roof, a trapezoid
+  chamber (`lean_in_allowed`, never under 30% of the width; the window cutter's upper corners
+  follow), smooth through the window start. Leaning out (+) widens the ring toward the roof: from
+  the window width under the window (`sidewall_allowed`), from the chamber's width before it
+  (`out_allowed`), so there is a small kink at the window start. The wall fit still clamps it.
+  A "trapezoid" chamber_shape (dev only, 2026-10-12) migrates to horseshoe + 10 degrees more in.
 - **`chamber_height`** (0 = round) acts between the throat and the window: full after the first 40%
   of that stretch, faded out over its last <= 4mm; where the baffle is already the roof the floor
   takes all of it (`chamber_roof_share`), so its effect is modest (alto 8.7 -> 9.1 cm³ from 8 to

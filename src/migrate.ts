@@ -31,6 +31,9 @@ const chamberLength = (v: ParamValue) => (v === 0 ? 40 : v);
 export function migrateValues(values: Record<string, ParamValue>): Record<string, ParamValue> {
   // shank_detail "ring" (2026-10-08) became rings, just one.
   if (values.shank_detail === "ring") values = { ...values, shank_detail: "rings", shank_detail_count: 1 };
+  // chamber_shape "trapezoid" (dev only, 2026-10-12) became a horseshoe with its walls leaning in.
+  if (values.chamber_shape === "trapezoid")
+    values = { ...values, chamber_shape: "horseshoe", sidewall_angle: trapezoidLean(values.sidewall_angle) };
   if (!Object.keys(values).some((n) => n in RENAMED)) return values;
   return Object.fromEntries(
     Object.entries(values).map(([n, v]) =>
@@ -44,7 +47,20 @@ export function migrateScad(text: string): string {
   // declares the old names itself (`chamber_d = undef;`): renaming those would overwrite the
   // real settings with undef (the render then hangs). Such a file is current: leave it alone.
   if (text.includes("RENAMED_PARAMS")) return text;
-  return migrateTexture(migrateChamber(migrateSizes(migrateNames(text))));
+  return migrateTrapezoid(migrateTexture(migrateChamber(migrateSizes(migrateNames(text)))));
+}
+
+// Trapezoid = the horseshoe with 10 degrees more lean in (not under the slider's -20).
+const trapezoidLean = (v: ParamValue | undefined) => Math.max(-20, (Number(v ?? 0) || 0) - 10);
+function migrateTrapezoid(text: string): string {
+  const shape = /^([ \t]*chamber_shape\s*=\s*)"trapezoid"/m;
+  if (!shape.test(text)) return text;
+  const lean = trapezoidLean(assigned(text, "sidewall_angle") ?? 0);
+  const out = text.replace(shape, '$1"horseshoe"');
+  const angle = /^([ \t]*sidewall_angle\s*=\s*)[^;]*;/m;
+  return angle.test(out)
+    ? out.replace(angle, `$1${lean};`)
+    : out.replace(/^([ \t]*)(chamber_shape\s*=[^\r\n]*)/m, `$1$2\n$1sidewall_angle = ${lean};`);
 }
 
 function migrateNames(text: string): string {
