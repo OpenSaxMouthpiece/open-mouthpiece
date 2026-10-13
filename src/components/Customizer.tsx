@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { api, type ParamValue, type ScadParam } from "../api";
 import { setSectionsOpen, usePref } from "../uiPrefs";
 import { Fold } from "./Fold";
+import { paramDocUrl } from "../links";
 import { isLetteringText, TextField } from "./TextField";
 import {
   mmToThou,
@@ -217,6 +218,7 @@ export function ParamRow({
   const [allCaptions] = usePref("captions", true);
   const [own, setOwn] = useState(false); // this row's ⓘ
   const text = caption ?? p.caption;
+  const docs = paramDocUrl(p.name); // its picture and longer notes on GitHub
   return (
     <div
       className={`param${changed ? " changed" : ""}${inactive ? " inactive" : ""}`}
@@ -235,7 +237,7 @@ export function ParamRow({
           {label ?? paramLabel(p.name)}
           {showName && <code className="param-name">{p.name}</code>}
         </span>
-        {text && !allCaptions && (
+        {(text || docs) && !allCaptions && (
           <button
             className={`info${own ? " on" : ""}`}
             aria-expanded={own}
@@ -252,7 +254,25 @@ export function ParamRow({
           </button>
         )}
       </div>
-      {text && (allCaptions || own) && <div className="param-caption">{text}</div>}
+      {(text || docs) && (allCaptions || own) && (
+        <div className="param-caption">
+          {text}
+          {docs && (
+            <>
+              {text && " "}
+              <a
+                className="param-docs"
+                href={docs}
+                target="_blank"
+                rel="noreferrer"
+                title="A picture of what it changes, and more about it (opens GitHub)"
+              >
+                Details ↗
+              </a>
+            </>
+          )}
+        </div>
+      )}
       {inactive && <div className="param-inactive">Not used now: {inactive}</div>}
       <ParamInput
         p={p}

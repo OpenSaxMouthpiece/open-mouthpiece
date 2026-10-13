@@ -17,9 +17,16 @@ Sections: [Shank](#shank) · [Chamber](#chamber) · [Baffle](#baffle) · [Window
 
 ## Shank
 
+<a id="neck_cork_diameter"></a>
+
 ### Neck cork diameter (`neck_cork_diameter`)
 
 Your neck cork's diameter (mm), measured with calipers.
+
+Measure the cork with calipers across two directions (corks are often slightly oval) and use the
+average. The socket is made this much minus **Cork squeeze**.
+
+Not sure? Print the three shank test rings first: [Check the cork fit](../PRINTING.md#1-check-the-cork-fit-15-minutes).
 
 Range: 10 to 27, step 0.05.
 
@@ -29,9 +36,17 @@ Presets: Alto `16.2` · Tenor `17.2` · Bari `18.0` · Soprano `13.8`.
 
 *15 → 17.5*
 
+<a id="shank_clearance"></a>
+
 ### Cork squeeze (`shank_clearance`)
 
 How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.
+
+The socket is made this much smaller than **Neck cork diameter**, so the cork is squeezed when it
+goes in: 0 = the socket is exactly the cork's size. 0.1-0.3 mm suits most corks.
+
+The quickest way to find yours is the three shank test rings (0.10, 0.20, 0.30): see
+[Check the cork fit](../PRINTING.md#1-check-the-cork-fit-15-minutes).
 
 Range: 0 to 0.6, step 0.01.
 
@@ -40,6 +55,8 @@ Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
 ![shank_clearance: 0 → 0.5](images/params/shank_clearance.png)
 
 *0 → 0.5*
+
+<a id="shank_bevel"></a>
 
 ### Lead-in at the opening (`shank_bevel`)
 
@@ -53,6 +70,8 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 *0.3 → 1.8*
 
+<a id="shank_bevel_depth"></a>
+
 ### Lead-in length (`shank_bevel_depth`)
 
 How far in the socket's lead-in goes (mm).
@@ -64,6 +83,8 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 ![shank_bevel_depth: 0.2 → 6](images/params/shank_bevel_depth.png)
 
 *0.2 → 6*
+
+<a id="shank_depth"></a>
 
 ### How far the cork goes in (`shank_depth`)
 
@@ -77,6 +98,8 @@ Presets: Alto `22.0` · Tenor `26.0` · Bari `30.0` · Soprano `25.5`.
 
 *10 → 37*
 
+<a id="bore_diameter"></a>
+
 ### Bore (behind the cork) (`bore_diameter`)
 
 Diameter of the tube behind the socket (mm), about your neck tip's inside diameter.
@@ -89,9 +112,14 @@ Presets: Alto `16.2` · Tenor `17.0` · Bari `16.9` · Soprano `13.6`.
 
 *12.2 → 20.2*
 
+<a id="bore_tilt"></a>
+
 ### Table angle to the neck (`bore_tilt`)
 
 Angle between the neck's line and the reed table (degrees); about 4 is typical.
+
+The neck goes into the mouthpiece at a slight angle to the reed table. This is that angle; about
+4 degrees is typical. More tilts the table further from the neck's line.
 
 Range: -3 to 8, step 0.1.
 
@@ -100,6 +128,8 @@ Presets: Alto `4.4` · Tenor `4.1` · Bari `4.8` · Soprano `4.1`.
 ![bore_tilt: 1.7 → 7.2](images/params/bore_tilt.png)
 
 *1.7 → 7.2*
+
+<a id="shank_diameter"></a>
 
 ### Shank outside diameter (`shank_diameter`)
 
@@ -114,6 +144,8 @@ Presets: Alto `22` · Tenor `23` · Bari `24.1` · Soprano `17.8`.
 *19 → 25*
 
 ## Chamber
+
+<a id="chamber_shape"></a>
 
 ### Chamber shape (`chamber_shape`)
 
@@ -131,6 +163,8 @@ Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
 
 *`horseshoe` (the alto's) → `square`*
 
+<a id="chamber_width"></a>
+
 ### Chamber width (`chamber_width`)
 
 Width of the chamber after the throat (mm), whatever the throat's width.
@@ -142,6 +176,8 @@ Presets: Alto `13.8` · Tenor `14.5` · Bari `15.4` · Soprano `9.5`.
 ![chamber_width: 13.2 → 18](images/params/chamber_width.png)
 
 *13.2 → 18*
+
+<a id="chamber_flare"></a>
 
 ### Widening after the throat (`chamber_flare`)
 
@@ -155,6 +191,8 @@ Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
 
 *0.15 → 0.8*
 
+<a id="chamber_full_length"></a>
+
 ### How far the full width runs (`chamber_full_length`)
 
 How far the full width runs toward the tip (mm); 40 = as far as it can.
@@ -166,6 +204,8 @@ Presets: Alto `40` · Tenor `40` · Bari `40` · Soprano `40`.
 ![chamber_full_length: 5 → 40](images/params/chamber_full_length.png)
 
 *5 → 40*
+
+<a id="chamber_height"></a>
 
 ### Chamber height (`chamber_height`)
 
@@ -179,6 +219,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *0 → 18*
 
+<a id="floor_shape"></a>
+
 ### Chamber floor (`floor_shape`)
 
 Floor from throat to window: - drops early (deeper), + stays high (a ramp).
@@ -190,6 +232,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![floor_shape: -0.8 → 0.8](images/params/floor_shape.png)
 
 *-0.8 → 0.8*
+
+<a id="throat_position"></a>
 
 ### Throat position (`throat_position`)
 
@@ -203,6 +247,8 @@ Presets: Alto `43.5` · Tenor `53.0` · Bari `86.5` · Soprano `34.5`.
 
 *26 → 61*
 
+<a id="throat_width"></a>
+
 ### Throat width (`throat_width`)
 
 Width of the throat, the narrowest point inside (mm).
@@ -215,6 +261,8 @@ Presets: Alto `14.2` · Tenor `14.9` · Bari `14.8` · Soprano `9.3`.
 
 *9.4 → 18.9*
 
+<a id="throat_taper"></a>
+
 ### Narrowing into the throat (`throat_taper`)
 
 Length of the bore's narrowing into the throat (mm). Short = an abrupt step.
@@ -226,6 +274,8 @@ Presets: Alto `9` · Tenor `11` · Bari `55` · Soprano `3`.
 ![throat_taper: 2 → 16](images/params/throat_taper.png)
 
 *2 → 16*
+
+<a id="throat_shape"></a>
 
 ### Throat shape (`throat_shape`)
 
@@ -248,6 +298,8 @@ Presets: Alto `chamber` · Tenor `chamber` · Bari `chamber` · Soprano `chamber
 *`chamber` (the alto's) → `horseshoe`*
 
 ## Baffle
+
+<a id="baffle_type"></a>
 
 ### Baffle shape (`baffle_type`)
 
@@ -273,6 +325,8 @@ Presets: Alto `measured` · Tenor `measured` · Bari `measured` · Soprano `meas
 
 *`measured` (the alto's) → `concave`*
 
+<a id="baffle_height"></a>
+
 ### Baffle height (`baffle_height`)
 
 Moves the baffle toward the reed (+) or away from it (-) (mm).
@@ -284,6 +338,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![baffle_height: -1 → 1.5](images/params/baffle_height.png)
 
 *-1 → 1.5*
+
+<a id="baffle_start"></a>
 
 ### Where the baffle begins (`baffle_start`)
 
@@ -297,6 +353,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-6 → 6*
 
+<a id="baffle_curve"></a>
+
 ### Baffle curve (`baffle_curve`)
 
 Bends the baffle: - comes down early, + stays up and drops late.
@@ -308,6 +366,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![baffle_curve: -0.6 → 0.6](images/params/baffle_curve.png)
 
 *-0.6 → 0.6*
+
+<a id="baffle_hump"></a>
 
 ### Baffle hump (`baffle_hump`)
 
@@ -321,6 +381,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *0 → 1.5*
 
+<a id="baffle_texture"></a>
+
 ### Baffle texture (`baffle_texture`)
 
 A texture on the baffle: grooves along it, grooves across it, or dimples.
@@ -328,6 +390,8 @@ A texture on the baffle: grooves along it, grooves across it, or dimples.
 Range: `none`, `along`, `across`, `dimples`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
+
+<a id="baffle_texture_style"></a>
 
 ### Texture style (`baffle_texture_style`)
 
@@ -337,6 +401,8 @@ Range: `engraved`, `raised`.
 
 Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
 
+<a id="baffle_texture_thickness"></a>
+
 ### Texture width (`baffle_texture_thickness`)
 
 Width of each groove or dimple (mm); kept under the spacing, the depth giving way.
@@ -344,6 +410,8 @@ Width of each groove or dimple (mm); kept under the spacing, the depth giving wa
 Range: 0.3 to 4, step 0.05.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
+<a id="baffle_texture_depth"></a>
 
 ### Texture depth (`baffle_texture_depth`)
 
@@ -353,6 +421,8 @@ Range: 0.1 to 1, step 0.05.
 
 Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
 
+<a id="baffle_texture_spacing"></a>
+
 ### Texture spacing (`baffle_texture_spacing`)
 
 Distance between the grooves or dimples (mm).
@@ -360,6 +430,8 @@ Distance between the grooves or dimples (mm).
 Range: 1 to 8, step 0.1.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+<a id="baffle_texture_extent"></a>
 
 ### How far across (`baffle_texture_extent`)
 
@@ -369,6 +441,8 @@ Range: 0.2 to 1, step 0.05.
 
 Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
 
+<a id="baffle_texture_shape"></a>
+
 ### Groove shape (`baffle_texture_shape`)
 
 How grooves across bend, when they do: a smooth curve or a V.
@@ -377,6 +451,8 @@ Range: `curved`, `v`.
 
 Presets: Alto `curved` · Tenor `curved` · Bari `curved` · Soprano `curved`.
 
+<a id="baffle_texture_bend"></a>
+
 ### Groove bend (`baffle_texture_bend`)
 
 How much grooves across bend: - the middle trails toward the shank, + it leads toward the tip.
@@ -384,6 +460,8 @@ How much grooves across bend: - the middle trails toward the shank, + it leads t
 Range: -1 to 1, step 0.05.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+<a id="baffle_texture_bend_change"></a>
 
 ### Bend change toward the tip (`baffle_texture_bend_change`)
 
@@ -394,6 +472,8 @@ Range: -2 to 2, step 0.05.
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ## Window
+
+<a id="window_length"></a>
 
 ### Window length (`window_length`)
 
@@ -407,6 +487,8 @@ Presets: Alto `39.0` · Tenor `42.0` · Bari `54.3` · Soprano `28.3`.
 
 *23.5 → 54.5*
 
+<a id="window_width"></a>
+
 ### Window width (`window_width`)
 
 Width of the opening under the reed (mm); kept inside the rails automatically.
@@ -418,6 +500,8 @@ Presets: Alto `15.1` · Tenor `16.2` · Bari `17.2` · Soprano `12.5`.
 ![window_width: 11.1 → 19.1](images/params/window_width.png)
 
 *11.1 → 19.1*
+
+<a id="window_taper"></a>
 
 ### Window narrows at the back (`window_taper`)
 
@@ -431,6 +515,8 @@ Presets: Alto `3.3` · Tenor `4.3` · Bari `4.3` · Soprano `2.7`.
 
 *0.3 → 6.3*
 
+<a id="window_rear_radius"></a>
+
 ### Window corner rounding (`window_rear_radius`)
 
 Rounding of the window's back corners (mm).
@@ -443,9 +529,21 @@ Presets: Alto `5.5` · Tenor `5.3` · Bari `6.3` · Soprano `4.8`.
 
 *1 → 8*
 
+<a id="sidewall_angle"></a>
+
 ### Chamber side walls (`sidewall_angle`)
 
 Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid).
+
+Tilts the chamber's side walls along the whole chamber, starting gently at the throat.
+
+- **0**: upright walls.
+- **Negative** (lean in): narrower toward the roof, a trapezoid chamber. About -10 degrees gives
+  the classic trapezoid.
+- **Positive** (lean out): wider toward the roof.
+
+The walls never get thinner than the generator's minimum, so at large angles it stops leaning
+further where there isn't room.
 
 Range: -20 to 30, step 1.
 
@@ -454,6 +552,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![sidewall_angle: -10 → 15](images/params/sidewall_angle.png)
 
 *-10 → 15*
+
+<a id="side_rail_width"></a>
 
 ### Side rail width (`side_rail_width`)
 
@@ -467,6 +567,8 @@ Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 *0.8 → 1.8*
 
+<a id="tip_rail_thickness"></a>
+
 ### Tip rail thickness (`tip_rail_thickness`)
 
 Thickness of the tip rail (mm).
@@ -479,9 +581,18 @@ Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
 
 *1 → 3*
 
+<a id="tip_bevel"></a>
+
 ### Slope the inside of the tip (`tip_bevel`)
 
 Slope the inside of the tip at 45 degrees so it prints without sagging.
+
+Standing on its shank on the print bed, the inside of the tip is a small flat ceiling with nothing
+under it, and it can sag. On, it fills that corner with a 45 degree slope from the window's front
+edge up to the baffle, so it prints cleanly.
+
+It only adds material inside the tip: the tip rail, the facing and the window on the reed side are
+exactly as with it off. Leave it off if you print lying down or with supports.
 
 Range: on / off.
 
@@ -490,6 +601,8 @@ Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
 ![tip_bevel: off → on](images/params/tip_bevel.png)
 
 *off → on*
+
+<a id="tip_curve"></a>
 
 ### Tip roundness (`tip_curve`)
 
@@ -505,6 +618,8 @@ Presets: Alto `3.5` · Tenor `3.8` · Bari `4.3` · Soprano `3.5`.
 
 ## Table
 
+<a id="table_width_tip"></a>
+
 ### Table width at the tip (`table_width_tip`)
 
 Width of the reed seat at the tip (mm). Match your reed.
@@ -516,6 +631,8 @@ Presets: Alto `16.8` · Tenor `17.6` · Bari `19.5` · Soprano `14.9`.
 ![table_width_tip: 11.3 → 22.3](images/params/table_width_tip.png)
 
 *11.3 → 22.3*
+
+<a id="table_width_rear"></a>
 
 ### Table width at the back (`table_width_rear`)
 
@@ -529,6 +646,8 @@ Presets: Alto `13.2` · Tenor `14.7` · Bari `13.9` · Soprano `11.3`.
 
 *8 → 18.7*
 
+<a id="table_length"></a>
+
 ### Table length (`table_length`)
 
 From the tip to the table's back end (mm), facing included; longer than the reed is normal.
@@ -541,6 +660,8 @@ Presets: Alto `71.8` · Tenor `77.7` · Bari `101.5` · Soprano `55.44`.
 
 *66 → 76*
 
+<a id="table_concavity"></a>
+
 ### Table hollow (`table_concavity`)
 
 A slight hollow along the reed seat (mm) so the reed seals at both ends.
@@ -551,9 +672,20 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ## Facing
 
+<a id="tip_opening"></a>
+
 ### Tip opening (`tip_opening`)
 
 Gap at the tip, from the tip rail to a straightedge on the table (mm).
+
+Lay a straightedge on the table so it reaches past the tip; the tip opening is the gap between it
+and the inside edge of the tip rail.
+
+Makers usually quote it in thousandths of an inch: .076" = 76 thou = 1.93 mm (1 thou = 0.0254 mm).
+The app shows both. Some makers use their own numbers (5, 7*, ...), which mean different openings
+from maker to maker: look up the opening in mm or thousandths.
+
+After printing, the tip may come out slightly different: [Check it against the design](../PRINTING.md#4-check-it-against-the-design).
 
 Range: 0.5 to 4.5, step 0.01.
 
@@ -563,9 +695,17 @@ Presets: Alto `1.93` · Tenor `2.41` · Bari `2.79` · Soprano `1.65`.
 
 *1.5 → 2.6 (heights stretched 6x)*
 
+<a id="facing_length"></a>
+
 ### Facing length (`facing_length`)
 
 From the tip back to the break, where the rails leave the flat table (mm).
+
+The facing is the part of the table that curves away from the reed, from the **break** (where
+the rails leave the flat table) to the tip. This is its length, measured along the table.
+
+With the mouthpiece on a glass plate, the break is where a very thin feeler gauge slid in from the
+tip stops. Longer = the curve starts further back.
 
 Range: 10 to 45, step 0.1.
 
@@ -575,9 +715,25 @@ Presets: Alto `23.8` · Tenor `25.2` · Bari `28.0` · Soprano `20.0`.
 
 *20 → 28 (heights stretched 6x)*
 
+<a id="facing_model"></a>
+
 ### Facing curve (`facing_model`)
 
 How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.
+
+How the gap between the table line and the rails grows from the break to the tip. All three reach
+exactly **Tip opening** at the tip and 0 at the break.
+
+- **Power curve**: the gap at a point is the tip opening times (how far along the facing it is)
+  to the power of **Where the curve opens**: 2 opens evenly; lower opens sooner after the break,
+  higher later.
+- **Radius**: a circle that touches the table at the break and passes through the tip opening, as
+  traditional facing tables describe it. Its radius follows from the length and the opening.
+- **Gauge points**: your own measurements (where each feeler gauge stops), joined by a smooth
+  curve that never closes toward the break. Use it to copy a facing you've measured.
+
+**Shape charts** (under the view) -> **Facing curve** shows the curve and where standard feeler
+gauges would stop.
 
 Range: `power`, `arc`, `gauge`.
 
@@ -586,6 +742,8 @@ Presets: Alto `power` · Tenor `power` · Bari `power` · Soprano `power`.
 ![facing_model: power (the alto's) → arc (heights stretched 6x)](images/params/facing_model-arc.png)
 
 *`power` (the alto's) → `arc` (heights stretched 6x)*
+
+<a id="facing_exponent"></a>
 
 ### Where the curve opens (`facing_exponent`)
 
@@ -601,6 +759,8 @@ Presets: Alto `1.8` · Tenor `1.8` · Bari `1.8` · Soprano `1.8`.
 
 ## Exterior
 
+<a id="overall_length"></a>
+
 ### Length (`overall_length`)
 
 Total length, neck end to tip (mm). Also changes the inside volume.
@@ -612,6 +772,8 @@ Presets: Alto `89.3` · Tenor `96.7` · Bari `142.0` · Soprano `66.0`.
 ![overall_length: 82 → 96](images/params/overall_length.png)
 
 *82 → 96*
+
+<a id="body_width"></a>
 
 ### Body width (`body_width`)
 
@@ -625,6 +787,8 @@ Presets: Alto `29` · Tenor `30.7` · Bari `31.7` · Soprano `23.6`.
 
 *26 → 32*
 
+<a id="body_height"></a>
+
 ### Body height (`body_height`)
 
 Height of the body's top above the reed table, at its tallest (mm).
@@ -636,6 +800,8 @@ Presets: Alto `27.6` · Tenor `29.3` · Bari `30.5` · Soprano `22.5`.
 ![body_height: 25 → 30](images/params/body_height.png)
 
 *25 → 30*
+
+<a id="beak_tip_height"></a>
 
 ### Beak height at the tip (`beak_tip_height`)
 
@@ -649,6 +815,8 @@ Presets: Alto `3.6` · Tenor `3.6` · Bari `4.8` · Soprano `3.0`.
 
 *2.8 → 5*
 
+<a id="body_squareness"></a>
+
 ### Body cross-section (`body_squareness`)
 
 Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
@@ -660,6 +828,8 @@ Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 ![body_squareness: 1.5 → 4](images/params/body_squareness.png)
 
 *1.5 → 4*
+
+<a id="beak_squareness"></a>
 
 ### Beak top (`beak_squareness`)
 
@@ -673,6 +843,8 @@ Presets: Alto `1.6` · Tenor `1.5` · Bari `1.4` · Soprano `1.5`.
 
 *1.2 → 4*
 
+<a id="beak_curve"></a>
+
 ### Beak curve (`beak_curve`)
 
 The beak's line from the side: full (bulging) or scooped (hollowed).
@@ -684,6 +856,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![beak_curve: -0.8 → 0.8](images/params/beak_curve.png)
 
 *-0.8 → 0.8*
+
+<a id="beak_length"></a>
 
 ### Beak length (`beak_length`)
 
@@ -697,6 +871,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-8 → 8*
 
+<a id="shoulder_smoothness"></a>
+
 ### Shoulder smoothness (`shoulder_smoothness`)
 
 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
@@ -708,6 +884,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![shoulder_smoothness: 0 → 1](images/params/shoulder_smoothness.png)
 
 *0 → 1*
+
+<a id="beak_top_width"></a>
 
 ### Beak top width (`beak_top_width`)
 
@@ -721,6 +899,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-1 → 1*
 
+<a id="shoulder_sweep"></a>
+
 ### Shoulder sweep (`shoulder_sweep`)
 
 How far the shoulder line runs down the sides toward the tip (mm); 0 = straight across.
@@ -732,6 +912,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ![shoulder_sweep: 0 → 12](images/params/shoulder_sweep.png)
 
 *0 → 12*
+
+<a id="underside_squareness"></a>
 
 ### Sides near the table (`underside_squareness`)
 
@@ -749,6 +931,8 @@ Presets: Alto `1.2` · Tenor `1.2` · Bari `1.2` · Soprano `1.2`.
 
 Text and pictures on the outside. The app's **Personalize** section has the main ones.
 
+<a id="top_text"></a>
+
 ### Text on top (`top_text`)
 
 Text on top (empty = none), several lines OK; {tip} puts in the tip size.
@@ -756,6 +940,8 @@ Text on top (empty = none), several lines OK; {tip} puts in the tip size.
 Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+<a id="top_text_size"></a>
 
 ### Text size (`top_text_size`)
 
@@ -765,6 +951,8 @@ Range: 2 to 20, step 0.5.
 
 Presets: Alto `5` · Tenor `5` · Bari `5` · Soprano `5`.
 
+<a id="top_text_angle"></a>
+
 ### Text direction (`top_text_angle`)
 
 Which way the text reads: along the mouthpiece or across it (flipped = upside down).
@@ -772,6 +960,8 @@ Which way the text reads: along the mouthpiece or across it (flipped = upside do
 Range: 0 to 270, step 90.
 
 Presets: Alto `90` · Tenor `90` · Bari `90` · Soprano `90`.
+
+<a id="top_text_position"></a>
 
 ### Text position (`top_text_position`)
 
@@ -781,6 +971,8 @@ Range: -50 to 50, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+<a id="top_image"></a>
+
 ### Picture on top (`top_image`)
 
 A picture (SVG file) on top; solid shapes work, thin line drawings don't.
@@ -788,6 +980,8 @@ A picture (SVG file) on top; solid shapes work, thin line drawings don't.
 Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+<a id="top_image_width"></a>
 
 ### Picture size (`top_image_width`)
 
@@ -797,6 +991,8 @@ Range: 4 to 90, step 0.5.
 
 Presets: Alto `14` · Tenor `14` · Bari `14` · Soprano `14`.
 
+<a id="top_image_aspect"></a>
+
 ### Picture height / width (`top_image_aspect`)
 
 Picture height / width, for spacing (the app fills it in).
@@ -804,6 +1000,8 @@ Picture height / width, for spacing (the app fills it in).
 Range: 0.1 to 10, step 0.01.
 
 Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+<a id="top_image_angle"></a>
 
 ### Picture rotation (`top_image_angle`)
 
@@ -813,6 +1011,8 @@ Range: 0 to 345, step 15.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+<a id="top_image_position"></a>
+
 ### Picture position (`top_image_position`)
 
 Moves the picture toward the tip (+) or the shank (-) (mm).
@@ -820,6 +1020,8 @@ Moves the picture toward the tip (+) or the shank (-) (mm).
 Range: -50 to 50, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+<a id="top_image_wrap"></a>
 
 ### Wrap picture around to the table (`top_image_wrap`)
 
@@ -829,6 +1031,8 @@ Range: on / off.
 
 Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
 
+<a id="side_text_right"></a>
+
 ### Text, right side (`side_text_right`)
 
 Text on the right side (seen from above, tip away). Lines, variables as on top.
@@ -836,6 +1040,8 @@ Text on the right side (seen from above, tip away). Lines, variables as on top.
 Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+<a id="side_text_left"></a>
 
 ### Text, left side (`side_text_left`)
 
@@ -845,6 +1051,8 @@ Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
 
+<a id="side_text_size"></a>
+
 ### Side text size (`side_text_size`)
 
 Side letter height (mm).
@@ -852,6 +1060,8 @@ Side letter height (mm).
 Range: 1.5 to 10, step 0.5.
 
 Presets: Alto `3.5` · Tenor `3.5` · Bari `3.5` · Soprano `3.5`.
+
+<a id="side_text_position"></a>
 
 ### Side text position (`side_text_position`)
 
@@ -861,6 +1071,8 @@ Range: -50 to 50, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+<a id="side_text_vertical"></a>
+
 ### Side text up / down (`side_text_vertical`)
 
 Moves the side text up (+) or down (-) (mm).
@@ -868,6 +1080,8 @@ Moves the side text up (+) or down (-) (mm).
 Range: -10 to 10, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+<a id="lettering_style"></a>
 
 ### Lettering style (`lettering_style`)
 
@@ -877,6 +1091,8 @@ Range: `engraved`, `raised`.
 
 Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
 
+<a id="lettering_depth"></a>
+
 ### Lettering depth (`lettering_depth`)
 
 How deep the letters go, or how far they stand out (mm).
@@ -884,6 +1100,8 @@ How deep the letters go, or how far they stand out (mm).
 Range: 0.2 to 1.5, step 0.05.
 
 Presets: Alto `0.5` · Tenor `0.5` · Bari `0.5` · Soprano `0.5`.
+
+<a id="lettering_font"></a>
 
 ### Font (`lettering_font`)
 
@@ -893,6 +1111,8 @@ Range: `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, 
 
 Presets: Alto `Sans Bold` · Tenor `Sans Bold` · Bari `Sans Bold` · Soprano `Sans Bold`.
 
+<a id="lettering_tip_clearance"></a>
+
 ### Lettering distance from the tip (`lettering_tip_clearance`)
 
 Keeps lettering this far back from the tip (mm).
@@ -900,6 +1120,8 @@ Keeps lettering this far back from the tip (mm).
 Range: 5 to 60, step 0.5.
 
 Presets: Alto `22` · Tenor `22` · Bari `22` · Soprano `22`.
+
+<a id="top_text_font"></a>
 
 ### Top text font (`top_text_font`)
 
@@ -909,6 +1131,8 @@ Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
+<a id="side_text_font"></a>
+
 ### Side text font (`side_text_font`)
 
 The side texts' own typeface; same = the Font above.
@@ -916,6 +1140,8 @@ The side texts' own typeface; same = the Font above.
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+<a id="shank_text"></a>
 
 ### Text around the shank (`shank_text`)
 
@@ -925,6 +1151,8 @@ Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
 
+<a id="shank_text_size"></a>
+
 ### Shank text size (`shank_text_size`)
 
 Shank letter height (mm); the band is short, so keep it small.
@@ -932,6 +1160,8 @@ Shank letter height (mm); the band is short, so keep it small.
 Range: 1.5 to 8, step 0.5.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+<a id="shank_text_around"></a>
 
 ### Shank text around (`shank_text_around`)
 
@@ -941,6 +1171,8 @@ Range: -180 to 180, step 15.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+<a id="shank_text_font"></a>
+
 ### Shank text font (`shank_text_font`)
 
 The shank text's own typeface; same = the Font above.
@@ -948,6 +1180,8 @@ The shank text's own typeface; same = the Font above.
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+<a id="shank_detail"></a>
 
 ### Shank decoration (`shank_detail`)
 
@@ -957,6 +1191,8 @@ Range: `none`, `rings`, `flutes`, `spiral`, `knurled`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
 
+<a id="shank_detail_style"></a>
+
 ### Cut in or raised (`shank_detail_style`)
 
 Shank decoration cut in (engraved) or standing out (raised).
@@ -964,6 +1200,8 @@ Shank decoration cut in (engraved) or standing out (raised).
 Range: `engraved`, `raised`.
 
 Presets: Alto `engraved` · Tenor `engraved` · Bari `engraved` · Soprano `engraved`.
+
+<a id="shank_detail_count"></a>
 
 ### How many (`shank_detail_count`)
 
@@ -973,6 +1211,8 @@ Range: 1 to 40, step 1.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
 
+<a id="shank_detail_position"></a>
+
 ### Ring position (`shank_detail_position`)
 
 Where a single ring sits: 0 = by the neck end, 1 = by the flare.
@@ -981,6 +1221,8 @@ Range: 0 to 1, step 0.05.
 
 Presets: Alto `0.25` · Tenor `0.25` · Bari `0.25` · Soprano `0.25`.
 
+<a id="shank_detail_depth"></a>
+
 ### Shank decoration depth (`shank_detail_depth`)
 
 How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall stays.
@@ -988,6 +1230,8 @@ How deep the rings or flutes go, or how far they stand out (mm); 1.2mm of wall s
 Range: 0.3 to 1.2, step 0.05.
 
 Presets: Alto `0.6` · Tenor `0.6` · Bari `0.6` · Soprano `0.6`.
+
+<a id="shank_detail_length"></a>
 
 ### How far up the shank (`shank_detail_length`)
 
@@ -1001,6 +1245,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 Point lists that replace a built-in curve: `[[distance from the shank end, value], ...]`, `[]` = the built-in one. Edit them in the app's **Curves** panel (OpenSCAD's Customizer can't edit lists).
 
+<a id="bore_axis_height"></a>
+
 ### Bore axis height (`bore_axis_height`)
 
 Only with your own top outline: bore height at the neck end (mm).
@@ -1008,6 +1254,8 @@ Only with your own top outline: bore height at the neck end (mm).
 Range: 4 to 30, step 0.1.
 
 Presets: Alto `14.5` · Tenor `14.5` · Bari `14.5` · Soprano `14.5`.
+
+<a id="ext_width_points"></a>
 
 ### Ext width points (`ext_width_points`)
 
@@ -1017,6 +1265,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="ext_top_points"></a>
+
 ### Ext top points (`ext_top_points`)
 
 Advanced: top outline along the length, [[distance, height], ...].
@@ -1024,6 +1274,8 @@ Advanced: top outline along the length, [[distance, height], ...].
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="ext_bottom_points"></a>
 
 ### Ext bottom points (`ext_bottom_points`)
 
@@ -1033,6 +1285,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="ext_widest_points"></a>
+
 ### Ext widest points (`ext_widest_points`)
 
 Advanced: height of each section's widest point, [[distance, height], ...].
@@ -1040,6 +1294,8 @@ Advanced: height of each section's widest point, [[distance, height], ...].
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="ext_top_squareness_points"></a>
 
 ### Ext top squareness points (`ext_top_squareness_points`)
 
@@ -1049,6 +1305,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="ext_bottom_squareness_points"></a>
+
 ### Ext bottom squareness points (`ext_bottom_squareness_points`)
 
 Advanced: squareness of the lower outside, [[distance, squareness], ...].
@@ -1056,6 +1314,8 @@ Advanced: squareness of the lower outside, [[distance, squareness], ...].
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="table_width_points"></a>
 
 ### Table width points (`table_width_points`)
 
@@ -1065,6 +1325,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="interior_width_points"></a>
+
 ### Interior width points (`interior_width_points`)
 
 Advanced: inside width along the length, [[distance, width], ...].
@@ -1072,6 +1334,8 @@ Advanced: inside width along the length, [[distance, width], ...].
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="interior_top_squareness_points"></a>
 
 ### Interior top squareness points (`interior_top_squareness_points`)
 
@@ -1081,6 +1345,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="interior_bottom_squareness_points"></a>
+
 ### Interior bottom squareness points (`interior_bottom_squareness_points`)
 
 Advanced: squareness of the lower inside, [[distance, squareness], ...].
@@ -1088,6 +1354,8 @@ Advanced: squareness of the lower inside, [[distance, squareness], ...].
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="floor_points"></a>
 
 ### Floor points (`floor_points`)
 
@@ -1097,6 +1365,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[[40, 3.4], [46, 3.2], [52, 2.9], [54, 1.8]]` · Bari `[]` · Soprano `[[29, 2.3], [31, 2.2], [33, 2.9], [35, 2.7], [37, 2.0]]`.
 
+<a id="baffle_points_custom"></a>
+
 ### Baffle points custom (`baffle_points_custom`)
 
 Advanced: your own baffle, [[distance, height above the table], ...]; wins over the shape.
@@ -1104,6 +1374,8 @@ Advanced: your own baffle, [[distance, height above the table], ...]; wins over 
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="facing_gauge_points"></a>
 
 ### Facing gauge points (`facing_gauge_points`)
 
@@ -1113,6 +1385,8 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="top_adjust"></a>
+
 ### Top adjust (`top_adjust`)
 
 Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there.
@@ -1121,11 +1395,15 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="underside_adjust"></a>
+
 ### Underside adjust (`underside_adjust`)
 
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="width_adjust"></a>
 
 ### Width adjust (`width_adjust`)
 
@@ -1133,17 +1411,23 @@ Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="baffle_adjust"></a>
+
 ### Baffle adjust (`baffle_adjust`)
 
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
+<a id="floor_adjust"></a>
+
 ### Floor adjust (`floor_adjust`)
 
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
+
+<a id="chamber_width_adjust"></a>
 
 ### Chamber width adjust (`chamber_width_adjust`)
 
@@ -1153,6 +1437,8 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
 ## Manufacturing
 
+<a id="min_wall"></a>
+
 ### Thinnest wall (`min_wall`)
 
 Thinnest wall allowed (mm). The inside shrinks to keep it.
@@ -1160,6 +1446,8 @@ Thinnest wall allowed (mm). The inside shrinks to keep it.
 Range: 1.2 to 4, step 0.1.
 
 Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
+
+<a id="print_stock"></a>
 
 ### Extra to sand off (`print_stock`)
 
@@ -1179,6 +1467,8 @@ A ligature made to fit this mouthpiece (the app's **Ligature** section). See [th
 
 ![A ligature on the alto](images/ligature.png)
 
+<a id="ligature_made"></a>
+
 ### Ligature made (`ligature_made`)
 
 A ligature is made for this design (the app shows it and offers its download).
@@ -1186,6 +1476,8 @@ A ligature is made for this design (the app shows it and offers its download).
 Range: on / off.
 
 Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
+
+<a id="ligature_length"></a>
 
 ### Band length (`ligature_length`)
 
@@ -1195,6 +1487,8 @@ Range: 6 to 30, step 0.5.
 
 Presets: Alto `12` · Tenor `12` · Bari `12` · Soprano `10`.
 
+<a id="ligature_position"></a>
+
 ### Position (`ligature_position`)
 
 Band's front edge (mm): 0 = just behind the window, minus = over the window.
@@ -1202,6 +1496,8 @@ Band's front edge (mm): 0 = just behind the window, minus = over the window.
 Range: -10 to 40, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
+<a id="ligature_wall"></a>
 
 ### Thickness (`ligature_wall`)
 
@@ -1211,6 +1507,8 @@ Range: 1.2 to 5, step 0.1.
 
 Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 
+<a id="ligature_shape"></a>
+
 ### Shape (`ligature_shape`)
 
 D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's shape.
@@ -1218,6 +1516,8 @@ D hugs the reed flat underneath; Round is a plain ring; Follows takes the body's
 Range: `d`, `round`, `conform`.
 
 Presets: Alto `d` · Tenor `d` · Bari `d` · Soprano `d`.
+
+<a id="ligature_tongue"></a>
 
 ### Tail toward the shank (`ligature_tongue`)
 
@@ -1227,6 +1527,8 @@ Range: 0 to 15, step 0.5.
 
 Presets: Alto `7` · Tenor `7` · Bari `7` · Soprano `5`.
 
+<a id="ligature_tongue_side"></a>
+
 ### Tail side (`ligature_tongue_side`)
 
 Which side the tail runs along: the top, or under the reed.
@@ -1234,6 +1536,8 @@ Which side the tail runs along: the top, or under the reed.
 Range: `top`, `reed`.
 
 Presets: Alto `top` · Tenor `top` · Bari `top` · Soprano `top`.
+
+<a id="ligature_fit"></a>
 
 ### Gap to the body (`ligature_fit`)
 
@@ -1243,6 +1547,8 @@ Range: -0.4 to 0.5, step 0.05.
 
 Presets: Alto `0.1` · Tenor `0.1` · Bari `0.1` · Soprano `0.1`.
 
+<a id="ligature_reed_grip"></a>
+
 ### Reed grip (`ligature_reed_grip`)
 
 How hard the band presses the reed onto the table (mm): bigger = tighter.
@@ -1250,6 +1556,8 @@ How hard the band presses the reed onto the table (mm): bigger = tighter.
 Range: 0 to 0.6, step 0.05.
 
 Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
+
+<a id="ligature_text"></a>
 
 ### Text on the ligature (`ligature_text`)
 
@@ -1259,6 +1567,8 @@ Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
 
+<a id="ligature_text_font"></a>
+
 ### Ligature text font (`ligature_text_font`)
 
 The ligature text's own typeface; same = the Font in Personalize.
@@ -1266,6 +1576,8 @@ The ligature text's own typeface; same = the Font in Personalize.
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+<a id="ligature_text_size"></a>
 
 ### Text size (`ligature_text_size`)
 
@@ -1275,6 +1587,8 @@ Range: 2 to 12, step 0.5.
 
 Presets: Alto `4` · Tenor `4` · Bari `4` · Soprano `4`.
 
+<a id="ligature_text_angle"></a>
+
 ### Text direction (`ligature_text_angle`)
 
 Which way the ligature's text reads: along or across (flipped = upside down).
@@ -1282,6 +1596,8 @@ Which way the ligature's text reads: along or across (flipped = upside down).
 Range: 0 to 270, step 90.
 
 Presets: Alto `90` · Tenor `90` · Bari `90` · Soprano `90`.
+
+<a id="ligature_image"></a>
 
 ### Picture on the ligature (`ligature_image`)
 
@@ -1291,6 +1607,8 @@ Range: text.
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
+<a id="ligature_image_width"></a>
+
 ### Picture size (`ligature_image_width`)
 
 Ligature picture width (mm).
@@ -1298,6 +1616,8 @@ Ligature picture width (mm).
 Range: 3 to 30, step 0.5.
 
 Presets: Alto `8` · Tenor `8` · Bari `8` · Soprano `8`.
+
+<a id="ligature_image_aspect"></a>
 
 ### Picture height / width (`ligature_image_aspect`)
 
@@ -1307,6 +1627,8 @@ Range: 0.1 to 10, step 0.01.
 
 Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
 
+<a id="ligature_image_angle"></a>
+
 ### Picture rotation (`ligature_image_angle`)
 
 Ligature picture rotation (degrees).
@@ -1314,6 +1636,8 @@ Ligature picture rotation (degrees).
 Range: 0 to 345, step 15.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+<a id="ligature_lettering_position"></a>
 
 ### Text and picture position (`ligature_lettering_position`)
 
@@ -1325,6 +1649,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ## Cap
 
+<a id="cap_made"></a>
+
 ### Cap made (`cap_made`)
 
 A cap is made for this design (the app shows it and offers its download).
@@ -1332,6 +1658,8 @@ A cap is made for this design (the app shows it and offers its download).
 Range: on / off.
 
 Presets: Alto `false` · Tenor `false` · Bari `false` · Soprano `false`.
+
+<a id="cap_ligature"></a>
 
 ### Goes over (`cap_ligature`)
 
@@ -1341,6 +1669,8 @@ Range: `printed`, `metal`.
 
 Presets: Alto `printed` · Tenor `printed` · Bari `printed` · Soprano `printed`.
 
+<a id="cap_grip"></a>
+
 ### Grip squeeze (`cap_grip`)
 
 How hard the rim squeezes the ligature (mm): bigger = tighter; 0 = no squeeze.
@@ -1348,6 +1678,8 @@ How hard the rim squeezes the ligature (mm): bigger = tighter; 0 = no squeeze.
 Range: 0 to 0.5, step 0.05.
 
 Presets: Alto `0.15` · Tenor `0.15` · Bari `0.15` · Soprano `0.15`.
+
+<a id="cap_slot_side"></a>
 
 ### Slot side (`cap_slot_side`)
 
@@ -1357,6 +1689,8 @@ Range: `reed`, `top`.
 
 Presets: Alto `reed` · Tenor `reed` · Bari `reed` · Soprano `reed`.
 
+<a id="cap_slot_length"></a>
+
 ### Slot length (`cap_slot_length`)
 
 Slot up from the rim, for air and so the rim clips on: length (mm); 0 = none.
@@ -1364,6 +1698,8 @@ Slot up from the rim, for air and so the rim clips on: length (mm); 0 = none.
 Range: 0 to 80, step 1.
 
 Presets: Alto `30` · Tenor `30` · Bari `30` · Soprano `30`.
+
+<a id="cap_slot_width"></a>
 
 ### Slot width (`cap_slot_width`)
 
@@ -1373,6 +1709,8 @@ Range: 1 to 8, step 0.5.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
 
+<a id="cap_end_vents"></a>
+
 ### Air holes in the end (`cap_end_vents`)
 
 Air holes through the closed end, in a row (0 = none).
@@ -1380,6 +1718,8 @@ Air holes through the closed end, in a row (0 = none).
 Range: 0 to 7, step 1.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
+
+<a id="cap_end_vent_size"></a>
 
 ### End hole size (`cap_end_vent_size`)
 
@@ -1389,6 +1729,8 @@ Range: 1 to 4, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
+<a id="cap_side_vents"></a>
+
 ### Side vents (`cap_side_vents`)
 
 Air vents on both sides, between the rim and the tip: slots along the cap, round holes, or none.
@@ -1396,6 +1738,8 @@ Air vents on both sides, between the rim and the tip: slots along the cap, round
 Range: `none`, `slots`, `holes`.
 
 Presets: Alto `none` · Tenor `none` · Bari `none` · Soprano `none`.
+
+<a id="cap_side_vent_count"></a>
 
 ### Vents on each side (`cap_side_vent_count`)
 
@@ -1405,6 +1749,8 @@ Range: 1 to 5, step 1.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
 
+<a id="cap_side_vent_size"></a>
+
 ### Vent size (`cap_side_vent_size`)
 
 Vent width, or a hole's diameter (mm).
@@ -1412,6 +1758,8 @@ Vent width, or a hole's diameter (mm).
 Range: 1.5 to 5, step 0.5.
 
 Presets: Alto `2.5` · Tenor `2.5` · Bari `2.5` · Soprano `2.5`.
+
+<a id="cap_side_vent_gap"></a>
 
 ### Space between vents (`cap_side_vent_gap`)
 
@@ -1421,6 +1769,8 @@ Range: 1 to 10, step 0.5.
 
 Presets: Alto `3` · Tenor `3` · Bari `3` · Soprano `3`.
 
+<a id="cap_wall"></a>
+
 ### Wall thickness (`cap_wall`)
 
 Wall thickness (mm).
@@ -1428,6 +1778,8 @@ Wall thickness (mm).
 Range: 1.2 to 4, step 0.1.
 
 Presets: Alto `1.6` · Tenor `1.6` · Bari `1.6` · Soprano `1.6`.
+
+<a id="cap_shape"></a>
 
 ### Shape (`cap_shape`)
 
@@ -1437,6 +1789,8 @@ Range: `conform`, `round`.
 
 Presets: Alto `conform` · Tenor `conform` · Bari `conform` · Soprano `conform`.
 
+<a id="cap_extend"></a>
+
 ### Extra length (toward the shank) (`cap_extend`)
 
 Lengthens the cap toward the shank (mm); the most covers the whole mouthpiece.
@@ -1444,6 +1798,8 @@ Lengthens the cap toward the shank (mm); the most covers the whole mouthpiece.
 Range: 0 to 120, step 1.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+<a id="cap_end_gap"></a>
 
 ### Space at the end (`cap_end_gap`)
 
@@ -1453,6 +1809,8 @@ Range: 1 to 20, step 0.5.
 
 Presets: Alto `4` · Tenor `4` · Bari `4` · Soprano `4`.
 
+<a id="cap_end_dome"></a>
+
 ### End shape (`cap_end_dome`)
 
 Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lower needs supports).
@@ -1460,6 +1818,8 @@ Closed end's shape: 0.6 = a low dome, 1 = a full dome as tall as the end gap (lo
 Range: 0.6 to 1, step 0.1.
 
 Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+<a id="cap_rim_bead"></a>
 
 ### Rim bead (`cap_rim_bead`)
 
@@ -1469,6 +1829,8 @@ Range: 0 to 1.5, step 0.1.
 
 Presets: Alto `0.6` · Tenor `0.6` · Bari `0.6` · Soprano `0.6`.
 
+<a id="cap_text"></a>
+
 ### Text on the cap (`cap_text`)
 
 Text on the cap's top (empty = none). Lines, variables as on the top text.
@@ -1476,6 +1838,8 @@ Text on the cap's top (empty = none). Lines, variables as on the top text.
 Range: text.
 
 Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)`.
+
+<a id="cap_text_font"></a>
 
 ### Cap text font (`cap_text_font`)
 
@@ -1485,6 +1849,8 @@ Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
+<a id="cap_text_size"></a>
+
 ### Text size (`cap_text_size`)
 
 Cap letter height (mm).
@@ -1492,6 +1858,8 @@ Cap letter height (mm).
 Range: 2 to 14, step 0.5.
 
 Presets: Alto `5` · Tenor `5` · Bari `5` · Soprano `5`.
+
+<a id="cap_text_angle"></a>
 
 ### Text direction (`cap_text_angle`)
 
@@ -1501,6 +1869,8 @@ Range: 0 to 270, step 90.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+<a id="cap_image"></a>
+
 ### Picture on the cap (`cap_image`)
 
 A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = none.
@@ -1508,6 +1878,8 @@ A picture (SVG file) on the cap; same = the mouthpiece's top picture; empty = no
 Range: text.
 
 Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
+
+<a id="cap_image_width"></a>
 
 ### Picture size (`cap_image_width`)
 
@@ -1517,6 +1889,8 @@ Range: 3 to 40, step 0.5.
 
 Presets: Alto `10` · Tenor `10` · Bari `10` · Soprano `10`.
 
+<a id="cap_image_aspect"></a>
+
 ### Picture height / width (`cap_image_aspect`)
 
 Picture height / width, for spacing (the app fills it in).
@@ -1524,6 +1898,8 @@ Picture height / width, for spacing (the app fills it in).
 Range: 0.1 to 10, step 0.01.
 
 Presets: Alto `1` · Tenor `1` · Bari `1` · Soprano `1`.
+
+<a id="cap_image_angle"></a>
 
 ### Picture rotation (`cap_image_angle`)
 
@@ -1533,6 +1909,8 @@ Range: 0 to 345, step 15.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+<a id="cap_lettering_position"></a>
+
 ### Text and picture position (`cap_lettering_position`)
 
 Moves the cap's text and picture toward the tip (+) or the shank (-) (mm).
@@ -1540,6 +1918,8 @@ Moves the cap's text and picture toward the tip (+) or the shank (-) (mm).
 Range: -30 to 30, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
+<a id="cap_metal_length"></a>
 
 ### Band length (`cap_metal_length`)
 
@@ -1549,6 +1929,8 @@ Range: 6 to 30, step 0.5.
 
 Presets: Alto `16` · Tenor `16` · Bari `16` · Soprano `16`.
 
+<a id="cap_metal_position"></a>
+
 ### Band position (`cap_metal_position`)
 
 Metal ligature: front edge, mm behind the window's back end.
@@ -1556,6 +1938,8 @@ Metal ligature: front edge, mm behind the window's back end.
 Range: -10 to 25, step 0.5.
 
 Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
+<a id="cap_metal_proud"></a>
 
 ### Band thickness (`cap_metal_proud`)
 
@@ -1565,6 +1949,8 @@ Range: 0 to 4, step 0.1.
 
 Presets: Alto `1.2` · Tenor `1.2` · Bari `1.2` · Soprano `1.2`.
 
+<a id="cap_metal_screw_width"></a>
+
 ### Screws, width across (`cap_metal_screw_width`)
 
 Metal ligature: width of its screws and their posts, across (mm); the slot widens to clear it.
@@ -1572,6 +1958,8 @@ Metal ligature: width of its screws and their posts, across (mm); the slot widen
 Range: 4 to 30, step 0.5.
 
 Presets: Alto `14` · Tenor `14` · Bari `14` · Soprano `14`.
+
+<a id="cap_metal_screw_length"></a>
 
 ### Screws, length along (`cap_metal_screw_length`)
 
@@ -1585,6 +1973,8 @@ Presets: Alto `12` · Tenor `12` · Bari `12` · Soprano `12`.
 
 What the file makes. The debug parts show the pieces the mouthpiece is built from.
 
+<a id="part"></a>
+
 ### What to print (`part`)
 
 What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
@@ -1593,6 +1983,8 @@ Range: `mouthpiece`, `shank_test_ring`, `ligature`, `cap`, `ligature_seated`, `c
 
 Presets: Alto `mouthpiece` · Tenor `mouthpiece` · Bari `mouthpiece` · Soprano `mouthpiece`.
 
+<a id="render_fn"></a>
+
 ### Smoothness (`render_fn`)
 
 Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.
@@ -1600,6 +1992,8 @@ Overrides the Quality menu once changed: higher is smoother but slower; 64 print
 Range: 16 to 128, step 8.
 
 Presets: Alto `64` · Tenor `64` · Bari `64` · Soprano `64`.
+
+<a id="print_orientation"></a>
 
 ### Download standing on its neck end (`print_orientation`)
 

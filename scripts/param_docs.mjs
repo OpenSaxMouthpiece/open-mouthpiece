@@ -19,6 +19,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SCAD = path.join(ROOT, 'scad');
 const DOC = path.join(ROOT, 'docs', 'PARAMETERS.md');
 const IMG_DIR = path.join(ROOT, 'docs', 'images', 'params');
+const NOTES_DIR = path.join(ROOT, 'docs', 'params'); // hand-written notes: <name>.md, put under the setting
+const NAMES = path.join(ROOT, 'src', 'paramDocs.json'); // the settings this page has, for the app's links
 const WORK = path.join(ROOT, 'test', 'out', 'param_docs');
 const args = process.argv.slice(2);
 const ONLY = args.filter((a) => !a.startsWith('--'));
@@ -343,8 +345,11 @@ async function main() {
     for (const p of params.filter((x) => x.group === g)) {
       const R = parseRange(p.range);
       const label = paramLabel(p.name);
-      out.push(`### ${label} (\`${p.name}\`)`, '');
+      // a fixed target (#name) for the app's links, whatever the label becomes
+      out.push(`<a id="${p.name}"></a>`, '', `### ${label} (\`${p.name}\`)`, '');
       if (p.desc) out.push(p.desc, '');
+      const note = path.join(NOTES_DIR, `${p.name}.md`);
+      if (fs.existsSync(note)) out.push(fs.readFileSync(note, 'utf8').replace(/\r\n/g, '\n').trim(), '');
       out.push(`Range: ${rangeText(p, R)}.`, '');
       out.push('Presets: ' + VOICES.map(([v, n]) => `${n} ${cell(voiceVals[v][p.name])}`).join(' · ') + '.', '');
       for (const j of jobs.filter((x) => x.p === p))
@@ -353,6 +358,14 @@ async function main() {
     }
   }
   fs.writeFileSync(DOC, out.join('\n').replace(/\n{3,}/g, '\n\n'));
+  fs.writeFileSync(
+    NAMES,
+    JSON.stringify(
+      params.map((p) => p.name),
+      null,
+      2,
+    ) + '\n',
+  );
   console.log(`wrote ${path.relative(ROOT, DOC)} (${params.length} parameters, ${jobs.length} pictures)`);
 }
 
