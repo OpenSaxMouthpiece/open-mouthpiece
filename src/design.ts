@@ -120,8 +120,9 @@ export const DESIGN_SECTIONS: DesignSection[] = [
               'Gap at the tip, from the tip rail to a straightedge on the table, in thousandths (76 = .076"; mm works too).',
           },
           { name: "facing_length", label: "Facing length" },
+          { name: "facing_model", label: "Facing curve" },
+          { name: "facing_exponent", label: "Where the curve opens" },
         ],
-        more: ["facing_model", "facing_exponent"],
         chart: true,
       },
       {
@@ -129,10 +130,18 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         items: [
           { name: "tip_rail_thickness", label: "Tip rail thickness" },
           { name: "side_rail_width", label: "Side rail width" },
+          { name: "tip_curve", label: "Tip roundness" },
         ],
-        more: ["tip_bevel", "tip_curve"],
+        more: ["tip_bevel"],
       },
-      { title: "Table", items: [], more: ["table_length", "table_width_tip", "table_width_rear", "table_concavity"] },
+      {
+        title: "Table",
+        items: [
+          { name: "table_concavity", label: "Table hollow" },
+          { name: "table_length", label: "Table length" },
+        ],
+        more: ["table_width_tip", "table_width_rear"],
+      },
     ],
   }),
   {
@@ -161,8 +170,9 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           { name: "step_size", label: "Step", when: ["baffle_type", "step"] },
           { name: "baffle_height", label: "Baffle height" },
           { name: "baffle_length", label: "Baffle length" },
+          { name: "baffle_hump", label: "Baffle hump" },
         ],
-        more: ["baffle_curve", "baffle_hump"],
+        more: ["baffle_curve"],
       },
       {
         title: "Texture",
