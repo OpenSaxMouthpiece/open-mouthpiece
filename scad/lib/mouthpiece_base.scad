@@ -93,8 +93,8 @@ throat_shape = "chamber"; // [chamber, round, square, horseshoe]
 baffle_type = "measured"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
 baffle_height = 0; // [-3:0.1:4]
-// Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
-baffle_start = 0; // [-15:0.5:40]
+// Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).
+baffle_length = 0; // [-40:0.5:15]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = 0; // [-1:0.05:1]
 // How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).
@@ -460,6 +460,9 @@ chamber_width_extra = undef;
 // reed_length before 2026-10-05 (renamed table_length, the same length): an older file's value
 // still applies.
 reed_length = undef;
+// baffle_start before 2026-10-13 (now baffle_length, the other way round: + was later, shorter): an
+// older file's value still applies.
+baffle_start = undef;
 // (legacy names: end)
 RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
@@ -908,7 +911,7 @@ function window_half_width(z) =
 // bore/chamber roof to the tip. Base curve: baffle_points_custom if given, else the measured table
 // (shape_baffle), PCHIP-joined; baffle_type can replace it with a classic shape spanning the same
 // start and tip heights (baffle_type_at). The three knobs then shape it:
-//   baffle_start    moves where it begins; the base curve is stretched/squeezed so the tip end
+//   baffle_length   moves where it begins (longer = earlier, the old baffle_start the other way round); the base curve is stretched/squeezed so the tip end
 //                   stays put (kept between the socket cone and 5mm before the tip);
 //   baffle_height   lowers the roof toward the reed (+) or raises it (-), easing in over the first
 //                   third of the baffle so it blends into the chamber;
@@ -919,7 +922,7 @@ baffle_base_pts = has_pts(baffle_points_custom) ? baffle_points_custom : [for (p
 BAFFLE_BASE_C = pchip_prep(baffle_base_pts);
 baffle_z0 = baffle_base_pts[0][0];
 baffle_z1 = baffle_base_pts[len(baffle_base_pts) - 1][0];
-baffle_start_z = max(shank_taper_end_z + 2, min(baffle_z0 + baffle_start, baffle_z1 - 5));
+baffle_start_z = max(shank_taper_end_z + 2, min(baffle_z0 - (is_undef(baffle_start) ? baffle_length : -baffle_start), baffle_z1 - 5));
 // baffle_curve bends any baffle along its length (0 = as is): below 0 it comes down toward the
 // reed early and runs flatter to the tip, above 0 it stays up and drops late. u -> u^(2^c).
 function baffle_warp(u) = baffle_curve == 0 ? u : pow(u, pow(2, baffle_curve));
@@ -2219,7 +2222,7 @@ function param_focus() =
    ["chamber_full_length", chamber, "side", true], ["chamber_height", chamber, "side", true],
    ["throat_position", throat, "side", true], ["throat_width", throat, "side", true],
    ["throat_taper", throat, "side", true], ["throat_shape", throat, "side", true], ["floor_shape", chamber, "side", true],
-   ["baffle_type", baffle, "side", true], ["baffle_height", baffle, "side", true], ["baffle_start", baffle, "side", true], ["baffle_hump", baffle, "side", true],
+   ["baffle_type", baffle, "side", true], ["baffle_height", baffle, "side", true], ["baffle_length", baffle, "side", true], ["baffle_hump", baffle, "side", true],
    ["baffle_curve", baffle, "side", true], ["baffle_texture", window, "table", false], ["baffle_texture_style", window, "table", false], ["baffle_texture_depth", window, "table", false], ["baffle_texture_spacing", window, "table", false], ["baffle_texture_thickness", window, "table", false], ["baffle_texture_bend", window, "table", false], ["baffle_texture_bend_change", window, "table", false], ["baffle_texture_shape", window, "table", false], ["baffle_texture_extent", window, "table", false], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
    ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],

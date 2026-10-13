@@ -159,7 +159,8 @@ classic shape from `baffle_type` (flat / rollover / step / concave, `baffle_type
 base curve's start and tip heights; concave = a 0.22 x drop bell at 62%). Every shape descends toward
 the reed at a slope under ~0.85 (the step's face is a fixed 0.85 ramp): steeper would be an
 unsupported ledge inside the part when printed standing up. Sliders: `baffle_height` (+ = closer to
-the reed; eases in over the first third), `baffle_start` (moves where it begins, up to +40; the tip end stays, so it is also the baffle's length),
+the reed; eases in over the first third), `baffle_length` (moves where it begins, +15 longer to -40 shorter; the tip end stays; it was `baffle_start`,
+the other way round, until 2026-10-13),
 `step_size` (step shape only, one slider: blends the step toward the plain chamber-to-tip slope by size^1.5,
 0 = none, and gentles the face's slope, 0.25 to 0.85 about its midpoint, up to 0.6),
 `baffle_hump` (a bell at 80% of the way to the tip), `baffle_curve` (u -> u^(2^c); held above a 0.85

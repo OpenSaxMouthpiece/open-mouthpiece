@@ -25,7 +25,7 @@ const params = (src) => {
 const B = params(tenor);
 
 const geo = (a, b) => (a > 0 && b > 0 ? a * Math.pow(b / a, T) : a + T * (b - a));
-const LINEAR = new Set(['bore_tilt', 'baffle_height', 'baffle_start', 'baffle_curve']);
+const LINEAR = new Set(['bore_tilt', 'baffle_height', 'baffle_length', 'baffle_curve']);
 const roundStep = (v, rest) => {
   const s = rest.match(/\[\s*-?[\d.]+\s*:\s*([\d.]+)\s*:/);
   if (!s) return +v.toFixed(2);

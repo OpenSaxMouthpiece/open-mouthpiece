@@ -19,7 +19,7 @@
   "throat_shape",
   "baffle_type",
   "baffle_height",
-  "baffle_start",
+  "baffle_length",
   "baffle_curve",
   "step_size",
   "baffle_hump",

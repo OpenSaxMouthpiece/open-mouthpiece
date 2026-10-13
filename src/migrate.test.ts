@@ -106,3 +106,16 @@ describe("trapezoid chamber", () => {
     );
   });
 });
+
+describe("baffle length", () => {
+  it("is the old baffle start the other way round", () => {
+    expect(migrateValues({ baffle_start: 4, baffle_height: 1 })).toEqual({ baffle_height: 1, baffle_length: -4 });
+    expect(migrateValues({ baffle_start: 0 })).toEqual({ baffle_length: 0 });
+    expect(migrateValues({ baffle_start: 4, baffle_length: 2 })).toEqual({ baffle_length: 2 });
+    const text =
+      "// Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).\nbaffle_start = 6; // [-15:0.5:40]\n";
+    expect(migrateScad(text)).toBe(
+      "// Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).\nbaffle_length = -6; // [-40:0.5:15]\n",
+    );
+  });
+});

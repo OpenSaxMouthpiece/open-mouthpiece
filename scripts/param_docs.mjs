@@ -98,7 +98,7 @@ const PICS = {
   throat_shape: { view: 'xsec', zFrom: 'throat' },
   baffle_type: { view: 'side_cut' },
   baffle_height: { view: 'side_cut', values: [-1, 1.5] },
-  baffle_start: { view: 'side_cut', values: [-6, 6] },
+  baffle_length: { view: 'side_cut', values: [-6, 6] },
   baffle_curve: { view: 'side_cut', values: [-0.6, 0.6] },
   baffle_hump: { view: 'side_cut', values: [0, 1.5] },
   window_length: { view: 'plan', y: 0.3 },

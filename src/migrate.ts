@@ -29,6 +29,11 @@ const OLD = new RegExp(`\\b(${Object.keys(RENAMED).join("|")})\\b`, "g");
 const chamberLength = (v: ParamValue) => (v === 0 ? 40 : v);
 
 export function migrateValues(values: Record<string, ParamValue>): Record<string, ParamValue> {
+  // baffle_start (until 2026-10-13) became baffle_length, the other way round.
+  if ("baffle_start" in values) {
+    const { baffle_start: start, ...rest } = values;
+    values = "baffle_length" in rest ? rest : { ...rest, baffle_length: 0 - (Number(start) || 0) };
+  }
   // shank_detail "ring" (2026-10-08) became rings, just one.
   if (values.shank_detail === "ring") values = { ...values, shank_detail: "rings", shank_detail_count: 1 };
   // chamber_shape "trapezoid" (dev only, 2026-10-12) became a horseshoe with its walls leaning in.
@@ -47,7 +52,21 @@ export function migrateScad(text: string): string {
   // declares the old names itself (`chamber_d = undef;`): renaming those would overwrite the
   // real settings with undef (the render then hangs). Such a file is current: leave it alone.
   if (text.includes("RENAMED_PARAMS")) return text;
-  return migrateTrapezoid(migrateTexture(migrateChamber(migrateSizes(migrateNames(text)))));
+  return migrateBaffleStart(migrateTrapezoid(migrateTexture(migrateChamber(migrateSizes(migrateNames(text))))));
+}
+
+// baffle_start = 4; (+ = later) became baffle_length = -4; (+ = longer).
+function migrateBaffleStart(text: string): string {
+  const line = /^([ \t]*)baffle_start\s*=\s*([^;]*);[^\r\n]*/m;
+  const m = line.exec(text);
+  if (!m) return text;
+  const v = 0 - (Number(m[2]) || 0);
+  return text
+    .replace(
+      /^[ \t]*\/\/ Moves where the baffle begins[^\r\n]*\r?\n/m,
+      m[1] + "// Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).\n",
+    )
+    .replace(line, "$1baffle_length = " + v + "; // [-40:0.5:15]");
 }
 
 // Trapezoid = the horseshoe with 10 degrees more lean in (not under the slider's -20).

@@ -49,8 +49,8 @@ throat_shape = "square"; // [chamber, round, square, horseshoe]
 baffle_type = "rollover"; // [measured, flat, rollover, step, concave]
 // Moves the baffle toward the reed (+) or away from it (-) (mm).
 baffle_height = 0.6; // [-3:0.1:4]
-// Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
-baffle_start = 0; // [-15:0.5:40]
+// Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).
+baffle_length = 0; // [-40:0.5:15]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = -0.7; // [-1:0.05:1]
 // How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).
@@ -387,6 +387,3 @@ shape_baffle = [[0.609, 17.6], [0.683, 14.2], [0.736, 9.9], [0.75, 8.7], [0.824,
 tip_opening_range = [1.80, 3.90];
 // Smallest baffle-to-reed gap near the throat (mm); only warns.
 min_airgap = 0.5;
-
-// Other values
-step_sharpness = 1;

@@ -339,19 +339,15 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 *-1 → 1.5*
 
-<a id="baffle_start"></a>
+<a id="baffle_length"></a>
 
-### Where the baffle begins (`baffle_start`)
+### Baffle length (`baffle_length`)
 
-Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).
+Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).
 
-Range: -15 to 40, step 0.5.
+Range: -40 to 15, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
-
-![baffle_start: -6 → 6](images/params/baffle_start.png)
-
-*-6 → 6*
 
 <a id="baffle_curve"></a>
 

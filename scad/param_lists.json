@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "1dcd850c-21580",
+  "hash": "bc04b09a-21564",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -248,12 +248,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -2086,7 +2086,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "5b806d02-21818",
+  "hash": "805a1814-21802",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2334,12 +2334,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -4172,7 +4172,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "8303f1fa-22490",
+  "hash": "76696524-22474",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4420,12 +4420,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -6258,7 +6258,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "b45ca3e9-21782",
+  "hash": "ed894af1-21766",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6506,12 +6506,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -8344,7 +8344,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "15c3b3db-21959",
+  "hash": "e984bf19-21943",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8592,12 +8592,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -10430,7 +10430,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "dbea17a-21674",
+  "hash": "4014344c-21658",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10678,12 +10678,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -12516,7 +12516,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "9bdaab9f-21709",
+  "hash": "f3f1cc17-21693",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12764,12 +12764,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -14602,7 +14602,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "f06a5e6d-21678",
+  "hash": "88a4d475-21662",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14850,12 +14850,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -16688,7 +16688,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "e2dba352-21863",
+  "hash": "9c18e2d8-21847",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16936,12 +16936,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -18774,7 +18774,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "e7504778-21892",
+  "hash": "8df4ac14-21876",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19022,12 +19022,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -20860,7 +20860,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "5fec60fb-21854",
+  "hash": "a58f91cb-21838",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21108,12 +21108,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -22946,7 +22946,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "d089c076-21881",
+  "hash": "5fc34552-21865",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23194,12 +23194,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -25032,7 +25032,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "745e310f-21907",
+  "hash": "20fba5c5-21891",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25280,12 +25280,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -27118,7 +27118,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "d106fbd1-21878",
+  "hash": "a1b25b05-21862",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27366,12 +27366,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -29204,7 +29204,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "da63ed41-22065",
+  "hash": "3eb839af-22049",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29452,12 +29452,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -31290,7 +31290,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "55b78cc9-22090",
+  "hash": "27e7ca99-22074",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31538,12 +31538,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
@@ -33376,7 +33376,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "81af1e2e-22058",
+  "hash": "894aae2c-22042",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33624,12 +33624,12 @@
     "type": "number"
    },
    {
-    "caption": "Moves where the baffle begins, toward the tip (+) or the neck (-) (mm).",
+    "caption": "Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).",
     "group": "Baffle",
     "initial": 0,
-    "max": 40,
-    "min": -15,
-    "name": "baffle_start",
+    "max": 15,
+    "min": -40,
+    "name": "baffle_length",
     "step": 0.5,
     "type": "number"
    },
