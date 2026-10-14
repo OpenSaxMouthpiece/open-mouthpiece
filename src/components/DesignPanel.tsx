@@ -1,7 +1,7 @@
 // The settings panel: the sections from design.ts, in sax terms, with the file's own ranges and
 // descriptions: each section's main settings, then the rest under its "More". A file that isn't the
 // generator's shows its settings by its own groups.
-import { Fragment, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import type { ParamValue, ScadParam } from "../api";
 import {
   DESIGN_ELSEWHERE,
@@ -57,6 +57,18 @@ interface Props {
   only?: string;
   fitNote?: ReactNode; // under "Fit on the horn": the test ring, to check the fit first
   charts?: boolean; // with `only`: the section's chart inline all the same (the phone has no dock)
+  // Demo: with `only` on a mouthpiece section, every mouthpiece section is listed in one scroll; `only`
+  // then marks where the view is (the rail scrolls to it, scrolling reports the section at the top by onSpy).
+  onSpy?(title: string): void;
+}
+
+// The nearest ancestor that scrolls (or the element itself when none does).
+function scroller(el: HTMLElement): HTMLElement {
+  for (let p: HTMLElement | null = el; p; p = p.parentElement) {
+    const y = getComputedStyle(p).overflowY;
+    if ((y === "auto" || y === "scroll") && p.scrollHeight > p.clientHeight + 1) return p;
+  }
+  return el;
 }
 
 const same = (a: ParamValue, b: ParamValue) => JSON.stringify(a) === JSON.stringify(b);
@@ -90,6 +102,7 @@ export function DesignPanel({
   only,
   fitNote,
   charts = false,
+  onSpy,
 }: Props) {
   const byName = new Map(params.map((p) => [p.name, p]));
   const setParam = (name: string, v: ParamValue) => {
@@ -98,9 +111,60 @@ export function DesignPanel({
   };
   const changed = changedCount(values);
   const [captions, setCaptions] = usePref("captions", true);
+  const [all, setAll] = usePref("oneList", true);
   // the rail on the ligature or cap before it is made: only its "make" button
-  const unmade = (only === "Ligature" && !ligature?.on) || (only === "Cap" && !cap?.on);
+  const unmade = (!all && only === "Ligature" && !ligature?.on) || (only === "Cap" && !cap?.on);
   const [query, setQuery] = useState("");
+  const listRef = useRef<HTMLDivElement>(null);
+  const spied = useRef<string | undefined>(undefined);
+  const mute = useRef(0);
+  const spy = useRef(onSpy); // the latest handler, so the scroll listener isn't re-made every render
+  spy.current = onSpy;
+  const [pad, setPad] = useState(0); // room under the last section so it too can sit at the top
+  const list = all && !!only;
+  const loaded = params.length > 0; // the list's box only exists once the settings are known
+  // The rail picked a section: scroll to it (a pick made by scrolling itself is left alone).
+  useEffect(() => {
+    if (!list || !only || spied.current === only) return;
+    const el = listRef.current?.querySelector<HTMLElement>(`[data-sec="${CSS.escape(only)}"]`);
+    if (!el) return;
+    mute.current = Date.now() + 700;
+    el.scrollIntoView({ block: "start", behavior: spied.current === undefined ? "auto" : "smooth" });
+    spied.current = only;
+  }, [list, only, loaded]);
+  useEffect(() => {
+    const sections = listRef.current;
+    if (!list || !sections) return;
+    const box = scroller(sections); // the desktop's list box; on the phone an outer pane scrolls it
+    const onScroll = () => {
+      if (Date.now() < mute.current) return;
+      const top = box.getBoundingClientRect().top + 24;
+      let cur: string | undefined;
+      for (const el of sections.querySelectorAll<HTMLElement>("[data-sec]"))
+        if (el.getBoundingClientRect().top <= top) cur = el.dataset.sec;
+      if (cur && cur !== spied.current) {
+        spied.current = cur;
+        spy.current?.(cur);
+      }
+    };
+    const fit = () => {
+      const last = [...sections.querySelectorAll<HTMLElement>("[data-sec]")].pop();
+      if (last) setPad(Math.max(0, Math.round(box.clientHeight - last.offsetHeight)));
+    };
+    fit();
+    const watch = new ResizeObserver(fit);
+    watch.observe(box);
+    const last = [...sections.querySelectorAll<HTMLElement>("[data-sec]")].pop();
+    if (last) watch.observe(last);
+    box.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      watch.disconnect();
+      box.removeEventListener("scroll", onScroll);
+    };
+  }, [list, loaded]);
+  useEffect(() => {
+    if (!list) spied.current = undefined;
+  }, [list]);
 
   if (params.length === 0)
     return (
@@ -250,10 +314,15 @@ export function DesignPanel({
                 Reset{changed ? ` (${changed})` : ""}
               </button>
             </div>
-            <label className="head-captions" title="Show what each setting does under it">
-              <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
-              descriptions
-            </label>
+            <div className="head-captions">
+              <label title="Show what each setting does under it">
+                <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
+                descriptions
+              </label>
+              <label title="Every section in one scrolling list; the rail jumps to a section">
+                <input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} /> One list
+              </label>
+            </div>
           </>
         )
       ) : (
@@ -313,7 +382,7 @@ export function DesignPanel({
           <PanelOptions ids={ids} />
         </>
       )}
-      <div className="design-scroll">
+      <div className="design-scroll" ref={listRef}>
         {printed && (
           <div className="printed-note">
             <span>
@@ -362,7 +431,7 @@ export function DesignPanel({
           if (s.ligature && (!ligature || !s.items.some((i) => byName.has(i.name)))) return null;
           if (s.cap && !cap) return null;
           if (!onTabNow(s)) return null;
-          if (only && !q && s.title !== only) return null;
+          if (only && !q && !list && s.title !== only) return null;
           if (!s.items.some((i) => byName.has(i.name))) return null;
           // The rest of the section (or of a group), under More (the ligature's and cap's once made,
           // like their rows).
@@ -425,7 +494,7 @@ export function DesignPanel({
               {ps.map((p) => row(p))}
             </Fold>
           );
-          return (
+          const fold = (
             <Fold
               key={s.title}
               id={`d:${s.title}`}
@@ -481,6 +550,13 @@ export function DesignPanel({
               {!s.groups && more.length > 0 && moreFold(`m:${s.title}`, "More settings", more)}
             </Fold>
           );
+          return list && !q ? (
+            <div key={s.title} data-sec={s.title}>
+              {fold}
+            </div>
+          ) : (
+            fold
+          );
         })}
         {others.length > 0 && (!only || !!q) && (
           <Customizer
@@ -500,6 +576,7 @@ export function DesignPanel({
         )}
         {!q && tab === "mouthpiece" && deeper}
         {noMatch && <p className="design-nomatch muted">No setting matches “{query}”.</p>}
+        {list && !q && pad > 0 && <div style={{ height: pad }} aria-hidden="true" />}
         {!only && <Credits />}
       </div>
     </div>

@@ -218,6 +218,14 @@ static site (docs/HOSTING.md).
   Hide / Beside / Download cap STL / Remove; the print kit and Download ▾ take `<name>_cap.stl` when made.
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
+- **One list** (pref `oneList`, on by default; the "One list" tick beside "Show descriptions"): with it
+  the panel lists every section (ligature and cap included) in one scroll, each in a `data-sec` wrapper
+  (`DesignPanel`, the `list` flag). A rail pick sets `only` and scrolls there; scrolling reports the
+  section at the top by `onSpy` (App's `spy`: sets the rail place and opens the ligature's / cap's
+  tab once made, like its rail button). The scrolling box is found by `scroller()` (the phone's
+  outer pane, not `.design-scroll`); a spacer under the last section lets it reach the top. Styling
+  (sticky section bars, filled slider tracks via `--a`/`--b` from `fillOf` in Customizer.tsx, a bar on
+  changed rows) is the "settings polish" block at the end of styles.css, for the rail layout and the phone.
 - **Part tabs** (no tab bar since layout B: the rail's Ligature and Cap open theirs, every other place
   the mouthpiece's; `partTab` in the session): each
   `DesignSection` has a `tab` (default mouthpiece); other settings hide the other tabs' groups

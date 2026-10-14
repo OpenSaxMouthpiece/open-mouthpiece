@@ -3311,12 +3311,18 @@ a:focus-visible,
 /* "Show descriptions" under the find row */
 .head-captions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px 16px;
   padding: 0 10px 6px;
   color: var(--muted);
   font-size: 12px;
   border-bottom: 1px solid var(--border);
+}
+.head-captions label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 .design-head.single:has(+ .head-captions) {
   border-bottom: none;
@@ -3332,4 +3338,205 @@ a:focus-visible,
 .show-list > button.toggle {
   justify-content: flex-start;
   padding: 4px 6px;
+}
+
+/* settings polish (rail layout and phone): section bars, calmer rows, slimmer sliders */
+:is(.workspace.rail-mode .right, .phone-pane) .design-section {
+  border-bottom: none;
+  margin-top: 6px;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-section > .fold-head:disabled {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 12px 12px 10px 14px;
+  background: var(--panel-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-section > .fold-head:disabled .fold-title {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-section > .fold-head:disabled .fold-plain {
+  font-size: 12px;
+  line-height: 1.35;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-section > .fold-head:disabled .fold-summary {
+  font-size: 11.5px;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-section > .fold-body {
+  padding-top: 4px;
+  padding-bottom: 12px;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-group-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 12px 4px;
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-group-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-group + .design-group {
+  border-top: none;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param {
+  padding: 7px 12px 9px;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param-label > span:first-child {
+  font-size: 13px;
+  font-weight: 500;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param-caption {
+  margin: 1px 0 6px;
+  font-size: 11.5px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param .number input[type="number"] {
+  width: 64px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  background: var(--bg);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param .slider-ends {
+  margin-top: 1px;
+  font-size: 10.5px;
+  opacity: 0.8;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 18px;
+  background: transparent;
+  cursor: pointer;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--panel);
+  box-shadow: 0 0 0 1px var(--accent);
+  transition: transform 0.1s;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]:hover::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--panel);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+:is(.workspace.rail-mode .right, .phone-pane) .fold.design-more > .fold-head,
+:is(.workspace.rail-mode .right, .phone-pane) .design-group .fold.design-more > .fold-head {
+  padding-left: 12px;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .design-section .fit-note {
+  margin: 4px 12px 8px;
+}
+
+/* the slider's filled part (--a to --b, in percent) is painted on the input itself, so every browser shows it; a bar on a row changed from the file */
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"] {
+  --pa: calc(var(--a, 0) * 1% + (50 - var(--a, 0)) * 0.14px);
+  --pb: calc(var(--b, 0) * 1% + (50 - var(--b, 0)) * 0.14px);
+  background:
+    linear-gradient(
+        to right,
+        transparent var(--pa),
+        var(--slider-fill, var(--accent)) var(--pa),
+        var(--slider-fill, var(--accent)) var(--pb),
+        transparent var(--pb)
+      )
+      center / 100% 4px no-repeat,
+    linear-gradient(var(--slider-track, var(--border)), var(--slider-track, var(--border))) center / calc(100% - 4px)
+      4px no-repeat;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]::-webkit-slider-runnable-track,
+:is(.workspace.rail-mode .right, .phone-pane) .param input[type="range"]::-moz-range-track {
+  background: transparent;
+}
+:is(.workspace.rail-mode .right, .phone-pane) .param.changed {
+  box-shadow: inset 2px 0 0 var(--accent);
+}
+
+/* the rail layout's section titles, on the phone too */
+.phone-pane .design-section > .fold-head:disabled .fold-chevron {
+  display: none;
+}
+.phone-pane .design-section > .fold-head:disabled .fold-title {
+  font-size: 15px;
+}
+/* the phone keeps its touch sizes */
+.phone .phone-pane .design-panel .param {
+  padding: 8px 12px 12px;
+}
+.phone .phone-pane .design-panel .param .number input[type="range"] {
+  height: 32px;
+}
+.phone .phone-pane .design-panel .param .number input[type="range"]::-webkit-slider-thumb {
+  width: 22px;
+  height: 22px;
+  margin-top: -9px;
+}
+.phone .phone-pane .design-panel .param .number input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+}
+.phone .phone-pane .design-panel .param .number input[type="number"] {
+  width: 84px;
+  min-height: 34px;
+}
+.phone .phone-pane .design-panel .design-section > .fold-head:disabled {
+  padding: 12px 12px 10px 14px;
+}
+/* inside the end-words wrapper a slider kept shrinking to its 4px track: keep its full height */
+:is(.workspace.rail-mode .right, .phone-pane) .param .slider input[type="range"] {
+  flex: none;
+}
+
+/* the light theme's sliders: darker track and a darker rim on the thumb */
+:root[data-theme="light"] .param input[type="range"] {
+  --slider-track: #c5cad4;
+  --slider-fill: #e0a400;
+}
+:root[data-theme="light"] .param input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1px var(--accent-fg);
+}
+:root[data-theme="light"] .param input[type="range"]::-moz-range-thumb {
+  box-shadow: 0 0 0 1px var(--accent-fg);
+}
+/* narrow phones: the bottom bar's buttons take the room their words need (Personalize is the widest),
+   and a section's title line may wrap */
+.rail.horizontal .rail-item {
+  flex: 1 1 auto;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.phone-pane .design-section > .fold-head:disabled .fold-title {
+  flex: 1 1 0;
+  min-width: 0;
 }

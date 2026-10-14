@@ -1786,6 +1786,7 @@ export default function App() {
       tabs={only === undefined ? partTabs : undefined}
       onTab={openPartTab}
       only={only || undefined}
+      onSpy={spy}
       charts={charts}
       printKit={kitOK ? printKitButton : undefined}
       showNames={coding}
@@ -1923,6 +1924,14 @@ export default function App() {
     </a>
   );
 
+  // Scrolling the one list into a part's section opens that part's tab (as its rail button does);
+  // the ligature's and cap's only once made, so passing an empty one doesn't change the view.
+  const spy = (title: string) => {
+    setRailSel(title);
+    const part: PartTab = title === "Ligature" ? "ligature" : title === "Cap" ? "cap" : "mouthpiece";
+    const ready = part === "mouthpiece" || (part === "ligature" ? ligMade : capMade);
+    if (part !== tab && ready) openPartTab(part);
+  };
   const rail = buildRail({
     selected: railSel,
     tools: !isPhone,

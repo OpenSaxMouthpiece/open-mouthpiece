@@ -62,8 +62,11 @@ The **icon bar** down the left side opens each group of settings: Tip, Fit, Cham
 Personalize for the mouthpiece, then Ligature, Cap and Print. Compare, Points, Code and About are
 at the bottom. A dot or number on a button means you've changed something in that group.
 
-The **settings panel** next to it shows the measurements at the top and the settings for the group
-you picked below them.
+The **settings panel** next to it shows the measurements at the top and every group of settings in
+one list below them. Clicking a button in the icon bar scrolls to that group, and scrolling the list
+moves the highlight along. A bar at the top of the list names the group you're in. Untick **One
+list** (under the search box) to see one group at a time. On a phone the buttons are along the
+bottom and work the same way.
 
 The **3D view** shows the mouthpiece. The view controls are along its top, and the **Shape charts**
 button is at the bottom left.

@@ -288,6 +288,14 @@ export function ParamRow({
   );
 }
 
+// The slider's filled part, as percentages for the track (from zero when the range crosses it).
+function fillOf(min: number, max: number, v: number): React.CSSProperties {
+  const at = (x: number) => (max > min ? Math.min(100, Math.max(0, ((x - min) / (max - min)) * 100)) : 0);
+  const a = min < 0 && max > 0 ? at(0) : 0,
+    b = at(v);
+  return { "--a": Math.min(a, b), "--b": Math.max(a, b) } as React.CSSProperties;
+}
+
 function ParamInput({
   p,
   value,
@@ -363,6 +371,7 @@ function ParamInput({
             max={p.max}
             step={p.step ?? "any"}
             value={n}
+            style={fillOf(p.min!, p.max!, n)}
             onChange={(e) => onChange(Number(e.target.value))}
           />
         </SliderEnds>
@@ -533,6 +542,7 @@ function ThouInput({ p, value, onChange }: { p: ScadParam; value: number; onChan
             max={p.max}
             step={p.step ?? "any"}
             value={value}
+            style={fillOf(p.min!, p.max!, value)}
             onChange={(e) => onChange(Number(e.target.value))}
           />
         </SliderEnds>
