@@ -137,10 +137,9 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         title: "Table",
         items: [
-          { name: "table_concavity", label: "Table hollow" },
           { name: "table_length", label: "Table length" },
         ],
-        more: ["table_width_tip", "table_width_rear"],
+        more: ["table_concavity", "table_width_tip", "table_width_rear"],
       },
     ],
   }),

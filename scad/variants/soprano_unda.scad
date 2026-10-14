@@ -104,7 +104,7 @@ table_width_rear = 11.3; // [8:0.1:30]
 // From the tip to the table's back end (mm), facing included; longer than the reed is normal.
 table_length = 55.44; // [50:0.5:120]
 // A slight hollow along the reed seat (mm) so the reed seals at both ends.
-table_concavity = 0; // [0:0.005:0.1]
+table_concavity = 0; // [0:0.005:0.3]
 
 /* [Facing] */
 // Gap at the tip, from the tip rail to a straightedge on the table (mm).

@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "bc04b09a-21564",
+  "hash": "48c41e60-21564",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -527,7 +527,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -2086,7 +2086,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "805a1814-21802",
+  "hash": "8b5cd2fa-21802",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2613,7 +2613,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -4172,7 +4172,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "76696524-22474",
+  "hash": "7ed8f9de-22474",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4699,7 +4699,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -6258,7 +6258,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "ed894af1-21766",
+  "hash": "ed996dff-21766",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6785,7 +6785,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -8344,7 +8344,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "e984bf19-21943",
+  "hash": "a98b9d33-21943",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8871,7 +8871,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -10430,7 +10430,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "4014344c-21658",
+  "hash": "a41c7446-21658",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10957,7 +10957,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -12516,7 +12516,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "f3f1cc17-21693",
+  "hash": "6eab005-21693",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13043,7 +13043,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -14602,7 +14602,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "88a4d475-21662",
+  "hash": "ee339dcb-21662",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15129,7 +15129,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -16688,7 +16688,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "9c18e2d8-21847",
+  "hash": "d42c5f5a-21847",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17215,7 +17215,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -18774,7 +18774,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "8df4ac14-21876",
+  "hash": "1a603a6e-21876",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19301,7 +19301,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -20860,7 +20860,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "a58f91cb-21838",
+  "hash": "11180f5d-21838",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21387,7 +21387,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -22946,7 +22946,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "5fc34552-21865",
+  "hash": "f4cc3e10-21865",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23473,7 +23473,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -25032,7 +25032,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "20fba5c5-21891",
+  "hash": "647529ff-21891",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25559,7 +25559,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -27118,7 +27118,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "a1b25b05-21862",
+  "hash": "f98c2373-21862",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27645,7 +27645,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -29204,7 +29204,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "3eb839af-22049",
+  "hash": "c41ea69d-22049",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29731,7 +29731,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -31290,7 +31290,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "27e7ca99-22074",
+  "hash": "32f5c40b-22074",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31817,7 +31817,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,
@@ -33376,7 +33376,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "894aae2c-22042",
+  "hash": "9cb6d296-22042",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33903,7 +33903,7 @@
     "caption": "A slight hollow along the reed seat (mm) so the reed seals at both ends.",
     "group": "Table",
     "initial": 0,
-    "max": 0.1,
+    "max": 0.3,
     "min": 0,
     "name": "table_concavity",
     "step": 0.005,

@@ -672,7 +672,7 @@ Presets: Alto `71.8` · Tenor `77.7` · Bari `101.5` · Soprano `55.44`.
 
 A slight hollow along the reed seat (mm) so the reed seals at both ends.
 
-Range: 0 to 0.1, step 0.005.
+Range: 0 to 0.3, step 0.005.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
