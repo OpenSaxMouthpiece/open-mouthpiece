@@ -964,18 +964,21 @@ BAFFLE_TAB = [for (i = 0, v = baffle_edited_at(BT_Z0); i <= BT_N;
 function baffle_shape_at(z) = !BAFFLE_HELD ? baffle_type_at(z)
   : let(t = max(0, min(BT_N, (z - BT_Z0) / BT_H)), i = min(floor(t), BT_N - 1))
     lerp(BAFFLE_TAB[i], BAFFLE_TAB[i + 1], t - i);
-TIP_EASE = 8;
 TIP_GAP = 0.05;
+TIP_RAMP = 0.3;
 function baffle_roof_held(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
   let(raw = baffle_shape_at(z) - baffle_height * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
   -smin(-raw, -(facing_at_z(z) + 0.4), 0.5);
-// The roof comes down by what is left of the gap at the window front (beyond TIP_GAP), eased in
-// over the last TIP_EASE mm: the rail's inside edge is a blend, not a wall as high as the
-// baffle's last gap. The baffle keeps its own shape; only that last bit of height goes.
-TIP_DROP = max(0, baffle_roof_held(win_front_z) - facing_at_z(win_front_z) - TIP_GAP);
+// Into the tip rail the roof is a straight ramp (TIP_RAMP: 0.3 = about 17 degrees) that meets the
+// rail face (TIP_GAP above it) at the window front, where it would otherwise be a wall as high as
+// the baffle's last gap, or a flat shelf parallel to the reed. Where the baffle is above that line
+// it comes down onto it, fully within 4mm of the window front and fading out by 8mm, so the chamber
+// and the rest of the baffle keep their shape; a baffle already below the line is left as it is.
+TIP_RAMP_Y = facing_at_z(win_front_z) + TIP_GAP;
 function baffle_roof(z) =
-  baffle_roof_held(z) - TIP_DROP * smootherstep(clamp01((z - (win_front_z - TIP_EASE)) / TIP_EASE));
+  let(h = baffle_roof_held(z), d = win_front_z - z)
+  h - max(0, h - max(TIP_RAMP_Y + TIP_RAMP * d, facing_at_z(z) + TIP_GAP)) * (1 - smootherstep(clamp01((d - 4) / 4)));
 
 // ===========================================================================================
 // 6. Interior profile: bore -> throat (narrowest) -> chamber (widens again) -> window/baffle
