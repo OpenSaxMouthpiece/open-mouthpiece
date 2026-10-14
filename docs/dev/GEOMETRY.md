@@ -194,9 +194,17 @@ of the roof's half-width (grooves across get shorter, along / dimples a narrower
 designs get the width they had (60% of the spacing, at least 2 x sqrt(6) x the depth; src/migrate.ts
 `migrateTexture`, links `tw`, sessions `textureW`).
 Raised bumps are cut from the interior before it is cut from the body (they only fill air). The air
-readout counts the texture (`BTX_AIR`, a grid integral of the caps, `btx_volume`; within ~20% of
-the mesh at 1mm deep / 1.5mm apart, the arch of the roof unmodelled, i.e. <= 0.07 cm³). Costs
-~0.3-1.3s per render.
+readout counts the texture (`BTX_AIR`, `btx_volume`: a dent's cross-section area times each piece's
+length, a dimple as a solid of revolution, plus the rounded ends of grooves across; within ~1% of
+the grid integral it replaced, which was within ~20% of the mesh at 1mm deep / 1.5mm apart, the
+arch of the roof unmodelled, i.e. <= 0.07 cm³). Speed (2026-10-13, browser wasm, baritone):
+what the render follows is the cutters' triangle count and the table work in the evaluation.
+Spheres and discs are $fn 16 (32 doubled the render; the groove bottom is within ~0.05mm of
+round). Keep the hulls nested (`hull() { btx_dent(a); btx_dent(b); }`): one hull of all four
+parts was ~60% slower, the inner hull drops the sphere's hidden points. The volume used to be a
+grid of every cap (~1s of evaluation); bent rows look the rings up once per +x/-x pair. Grooves
+across 17 -> 7s, bent 30 -> 14s. The shank detail's radius table (`SD_RGRID`) has stations 1mm
+apart (was 0.5; same geometry to 0.0002% of volume), the other big evaluation cost of shank art.
 
 ### Readouts
 

@@ -1269,20 +1269,25 @@ function btx_piece_h(g, x, z) =
   let(a = g[0], b = g[1], v = [b[0] - a[0], b[1] - a[1]], l2 = v * v)
   let(t = l2 == 0 ? 0 : clamp01(([x - a[0], z - a[1]] * v) / l2))
   btx_cap(lerp(a[2], b[2], t), norm([x - a[0] - t * v[0], z - a[1] - t * v[1]]));
-// Volume of the texture (mm^3): the union of its pieces' caps on a grid (0.2mm across a groove,
-// 0.5mm along it; 0.25mm for dimples), each 2mm cell checking only the pieces that can reach it.
+// Volume of the texture (mm^3), without building the union: the cross-section of one dent (btx_area)
+// times each piece's length (a dimple, a piece of no length, is a solid of revolution), plus the
+// round ends of a groove across. Neighbouring grooves never overlap (the width stays under the
+// spacing), only a groove's own pieces at their joints, which a sweep counts once. About 10x fewer evaluations than a grid of the whole texture.
+function btx_area(d) =
+  d <= 0 ? 0 :
+  let(n = 12, h = (d + (sqrt(2) - 1) * BTX_R) / n)
+  2 * h * vsum([for (i = [0 : n - 1]) btx_cap(d, (i + 0.5) * h)]);
+function btx_dimple(d) =
+  d <= 0 ? 0 :
+  let(n = 12, h = (d + (sqrt(2) - 1) * BTX_R) / n)
+  2 * PI * h * vsum([for (i = [0 : n - 1]) let(r = (i + 0.5) * h) r * btx_cap(d, r)]);
 function btx_volume() =
-  let(G = btx_pieces()) len(G) == 0 ? 0 :
-  let(xs = [for (g = G, e = g) e[0]], zs = [for (g = G, e = g) e[1]])
-  let(x0 = min(xs) - BTX_X, x1 = max(xs) + BTX_X, z0 = min(zs) - BTX_X, z1 = max(zs) + BTX_X, C = 2)
-  let(cells = [for (cz = [z0 : C : z1]) [for (cx = [x0 : C : x1])
-      [for (g = G) if (min(g[0][0], g[1][0]) - BTX_X < cx + C && max(g[0][0], g[1][0]) + BTX_X > cx
-                      && min(g[0][1], g[1][1]) - BTX_X < cz + C && max(g[0][1], g[1][1]) + BTX_X > cz) g]]])
-  let(hx = baffle_texture == "along" ? 0.2 : BTX_LINES ? 0.5 : 0.25)
-  let(hz = baffle_texture == "along" ? 0.5 : BTX_LINES ? 0.2 : 0.25)
-  hx * hz * vsum([for (iz = [0 : len(cells) - 1], ix = [0 : len(cells[iz]) - 1]) let(near = cells[iz][ix])
-    len(near) == 0 ? 0 : vsum([for (z = [z0 + iz * C + hz / 2 : hz : z0 + (iz + 1) * C], x = [x0 + ix * C + hx / 2 : hx : x0 + (ix + 1) * C])
-      max([0, for (g = near) btx_piece_h(g, x, z)])])]);
+  let(G = btx_pieces(), n = len(G))
+  vsum([for (i = [0 : n - 1]) let(a = G[i][0], b = G[i][1], l = norm([b[0] - a[0], b[1] - a[1]]))
+    l < 0.001 ? btx_dimple(a[2]) : l * (btx_area(a[2]) + btx_area(b[2])) / 2])
+  // a groove across ends in half a dimple each side (counted per piece, less each shared joint)
+  + (baffle_texture != "across" ? 0 : vsum([for (i = [0 : n - 1]) let(g = G[i])
+      (btx_dimple(g[0][2]) + btx_dimple(g[1][2])) / 2 - (i < n - 1 && G[i + 1][0] == g[1] ? btx_dimple(g[1][2]) : 0)]));
 // Up as the part prints (standing on its shank), in the design frame.
 BTX_UP = [0, -sin(bore_tilt), cos(bore_tilt)];
 // The 45-degree sides' axis: the roof's normal n, turned level (square to BTX_UP) where the roof
@@ -1294,13 +1299,16 @@ function btx_disc(x, c, z, d, n) =
   let(a = btx_axis(n), cb = a * n, sb = sqrt(max(0, 1 - cb * cb)))
   let(h = (d - BTX_R + BTX_E + BTX_R * sqrt(2) * sb) / max(0.2, cb - sb))
   [[x, c, z] + (BTX_RAISED ? 1 : -1) * h * a, h + BTX_R * sqrt(2), a];
-// One dent: the hull of its sphere and its sides' base disc.
+// One dent: the hull of its sphere and its sides' base disc. Hulls stay nested (a groove's segment
+// hulls two dents): the inner hull drops the sphere's hidden points, so the outer one is much faster
+// than one hull of all four parts. The facets are coarse on purpose ($fn 16): the bottom of a groove
+// is within about 0.05mm of round, and the cutters' triangle count is what the render time follows.
 module btx_dent(p) {
   disc = btx_disc(p[0], p[1], p[2], p[3], p[7]);
   a = disc[2];
   hull() {
-    translate([p[0], p[1], p[2]]) sphere(r = BTX_R, $fn = 32);
-    translate(disc[0]) rotate([0, acos(a[2]), atan2(a[1], a[0])]) cylinder(r = disc[1], h = 0.01, center = true, $fn = 32);
+    translate([p[0], p[1], p[2]]) sphere(r = BTX_R, $fn = 16);
+    translate(disc[0]) rotate([0, acos(a[2]), atan2(a[1], a[0])]) cylinder(r = disc[1], h = 0.01, center = true, $fn = 16);
   }
 }
 // The texture's spheres and hulls: cut from the body (engraved) or from the interior (raised).
@@ -1990,14 +1998,14 @@ function shank_r_at(z) = let(E = exterior_ring_at(max(0, z)), c = bah_at(z)) min
 // placed around one circle (its smallest radius) cut deeper and wider at the corners. Every detail
 // is instead laid on the surface at its own angle: SD_RGRID holds the surface's distance from the
 // bore axis in the bore frame (the details' frame, tilted from the design's: on a steep flare that
-// matters) per station (0.5mm apart, z + 1 along the axis) and angle (5 degrees; 90 = top), found by
+// matters) per station (1mm apart, z + 1 along the axis) and angle (5 degrees; 90 = top), found by
 // bisection along the ray through the exterior rings, tabulated every 0.25mm (SD_EROWS); the table
 // plane cuts the underside, as in shank_r_at.
 function sd_inside(E, x, y) = y >= max(0, E[E_BOT]) &&
   (let(up = y >= E[E_CY], n = up ? E[E_NT] : E[E_NB], h = up ? E[E_TOP] - E[E_CY] : E[E_CY] - E[E_BOT])
   pow(abs(x) / E[E_HW], n) + pow(min(1.5, abs(y - E[E_CY]) / max(0.01, h)), n) <= 1);
 SD_GZ = [min(SD_SPAN[0], SHANK_BAND[0]) - 1.5, SHANK_BAND[1] + 2];
-SD_GN = ceil((SD_GZ[1] - SD_GZ[0]) / 0.5);
+SD_GN = ceil((SD_GZ[1] - SD_GZ[0]) / 1);
 SD_EZ0 = SD_GZ[0] - 3;
 // (skipped on the accessory parts, which have no shank, like AIR_RINGS)
 SD_EROWS = !HAS_SHANK_ART || ACCESSORY_PART ? [] : [for (z = [SD_EZ0 : 0.25 : SD_GZ[1] + 4]) exterior_ring_at(max(0, z))];
@@ -2341,8 +2349,10 @@ BTX_ROWS = !BTX_ON || BTX_SPAN <= 2 ? [] :
     // the centres keep the spacing; each sample's z is shifted by the bow (clamped to the span, where
     // the depth fades to nothing, so a bowed groove tapers out at its ends instead of running off)
     let(n = floor(BTX_SPAN / BTX_S), off = (BTX_SPAN - n * BTX_S) / 2)
-    [for (j = [0 : n]) [for (x = [-12 : 0.75 : 12])
-       btx_row(min(BTX_Z1, max(BTX_Z0, BTX_Z0 + off + j * BTX_S + btx_bow(x, BTX_Z0 + off + j * BTX_S))), [x])[0]]] :
+    // (the bow is symmetric, so +x and -x share a z: one row call serves both and looks the rings up once)
+    [for (j = [0 : n]) let(zc = BTX_Z0 + off + j * BTX_S,
+       pr = [for (k = [0 : 16]) let(x = k * 0.75, z = min(BTX_Z1, max(BTX_Z0, zc + btx_bow(x, zc)))) btx_row(z, k == 0 ? [0] : [x, -x])])
+     concat([for (k = [16 : -1 : 1]) pr[k][1]], [pr[0][0]], [for (k = [1 : 16]) pr[k][0]])] :
   baffle_texture == "dimples" ?
     let(dz = BTX_S * 0.866) [for (j = [0 : floor(BTX_SPAN / dz)]) btx_row(BTX_Z0 + j * dz, [for (k = [-6 : 6]) (k + (j % 2) / 2) * BTX_S])] :
   [];
