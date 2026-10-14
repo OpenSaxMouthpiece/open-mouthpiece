@@ -10,18 +10,25 @@ import type { WasmJob, WasmResult } from "./types";
 import OpenscadWorker from "./openscad.worker.ts?worker&inline";
 
 export type Lane = "render" | "quick" | "parts";
-type Pending = { job: WasmJob; resolve(r: WasmResult): void; reject(e: unknown): void; signal?: AbortSignal };
+type Pending = {
+  job: WasmJob;
+  resolve(r: WasmResult): void;
+  reject(e: unknown): void;
+  signal?: AbortSignal;
+  retried?: boolean;
+};
 interface LaneState {
   worker: Worker | null;
   running: Pending | null;
   queue: Pending[];
+  done: number; // jobs this lane's current worker has answered (0 = it died before doing any work)
 }
 
 const BASE = new URL(import.meta.env.BASE_URL, location.href).href;
 const lanes: Record<Lane, LaneState> = {
-  render: { worker: null, running: null, queue: [] },
-  quick: { worker: null, running: null, queue: [] },
-  parts: { worker: null, running: null, queue: [] },
+  render: { worker: null, running: null, queue: [], done: 0 },
+  quick: { worker: null, running: null, queue: [], done: 0 },
+  parts: { worker: null, running: null, queue: [], done: 0 },
 };
 let nextId = 1;
 
@@ -31,6 +38,7 @@ function getWorker(l: LaneState) {
     w.onmessage = (e: MessageEvent<WasmResult>) => {
       const p = l.running;
       l.running = null;
+      l.done++;
       if (p && p.job.id === e.data.id) p.resolve(e.data);
       pump(l);
     };
@@ -39,7 +47,19 @@ function getWorker(l: LaneState) {
       l.running = null;
       w.terminate();
       l.worker = null;
-      p?.reject(new Error(`OpenSCAD worker failed: ${e.message}`));
+      const done = l.done;
+      l.done = 0;
+      // One automatic retry on a fresh worker: most of these deaths are one-off (a dropped load).
+      if (p && !p.retried && !p.signal?.aborted) {
+        p.retried = true;
+        l.queue.unshift(p);
+      } else {
+        // e.message is empty when the worker never started (script blocked or failed to load)
+        const where = e.filename ? ` @ ${e.filename.slice(-40)}:${e.lineno}` : "";
+        p?.reject(
+          new Error(`OpenSCAD worker failed: ${e.message || "no message"}${where} (${done} jobs done, retried)`),
+        );
+      }
       pump(l);
     };
     l.worker = w;
