@@ -975,10 +975,11 @@ function baffle_roof_held(z) =
 // the baffle's last gap, or a flat shelf parallel to the reed. Where the baffle is above that line
 // it comes down onto it, fully within 4mm of the window front and fading out by 8mm, so the chamber
 // and the rest of the baffle keep their shape; a baffle already below the line is left as it is.
+TIP_ROUND = 0.5;   // rounds the corner where the ramp meets the baffle (a crease straight across otherwise)
 TIP_RAMP_Y = facing_at_z(win_front_z) + TIP_GAP;
 function baffle_roof(z) =
   let(h = baffle_roof_held(z), d = win_front_z - z)
-  h - max(0, h - max(TIP_RAMP_Y + TIP_RAMP * d, facing_at_z(z) + TIP_GAP)) * (1 - smootherstep(clamp01((d - 4) / 4)));
+  h + smin(0, -(h - max(TIP_RAMP_Y + TIP_RAMP * d, facing_at_z(z) + TIP_GAP)), TIP_ROUND) * (1 - smootherstep(clamp01((d - 4) / 4)));
 
 // ===========================================================================================
 // 6. Interior profile: bore -> throat (narrowest) -> chamber (widens again) -> window/baffle
