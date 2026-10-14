@@ -349,6 +349,10 @@ Range: -40 to 15, step 0.5.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
+![baffle_length: -6 → 6](images/params/baffle_length.png)
+
+*-6 → 6*
+
 <a id="baffle_curve"></a>
 
 ### Baffle curve (`baffle_curve`)
@@ -581,7 +585,7 @@ Thickness of the tip rail (mm).
 
 Range: 0.3 to 3, step 0.02.
 
-Presets: Alto `2.0` · Tenor `1.4` · Bari `1.8` · Soprano `1.76`.
+Presets: Alto `0.9` · Tenor `0.9` · Bari `0.9` · Soprano `0.9`.
 
 ![tip_rail_thickness: 1 → 3](images/params/tip_rail_thickness.png)
 

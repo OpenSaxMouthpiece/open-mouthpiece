@@ -136,9 +136,9 @@ The app doesn't describe how settings change the sound; after a test print, the
 can type a value in mm too. The facing length is measured from the tip back to the break, where the
 rails leave the flat table; its More has the shape of the facing curve. *Rails*: the thickness of
 the tip rail and the width of the side rails, with the roundness of the tip under More. More also
-has *Slope the inside of the tip*: printed standing up, the inside of the tip rail is a flat
-ceiling over the window and can sag; this slopes it at 45° up to the baffle. The rails the reed
-sits on don't change. *Table*: the table's length, width and hollow.
+has *Slope the inside of the tip*: the roof already comes down smoothly onto the tip rail, but
+printed standing up a small flat patch can remain at the inside edge of the rail and sag; this
+slopes it at 45° up to the baffle. The rails the reed sits on don't change. *Table*: the table's length, width and hollow.
 
 **Fit on the horn.** Enter your neck cork's diameter here, and set the cork squeeze, which is how
 much smaller the socket is than the cork. A bigger number gives a tighter fit, and 0.1 to 0.3 mm is

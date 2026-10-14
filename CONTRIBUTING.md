@@ -148,6 +148,9 @@ Geometry:
     (interior rings) dominates, and every extra OpenSCAD run costs a full evaluation.
 11. When a clamp looks wrong, append echo loops to a copy of the file, or view it in the app with a
     section cut.
+12. **Shape a feature as one curve, not two joined shapes.** The roof into the tip rail went through a flat shelf, an S-shaped dip, a min() crease straight across the tip and a rounded patch of it before it 
+    became a single Hermite cubic from the baffle's own height and slope (GEOMETRY.md "Roof into the tip rail"). A ramp applied everywhere also cut the chamber roof: bound its reach.
+    Compare against a reference slice at the centreline (`hits` of x = 0 per z) before and after.
 
 App:
 
