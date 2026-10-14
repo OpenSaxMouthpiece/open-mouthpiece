@@ -90,7 +90,7 @@ sidewall_angle = 8; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
 side_rail_width = 1.0; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
-tip_rail_thickness = 2.2; // [0.3:0.02:3]
+tip_rail_thickness = 1; // [0.3:0.02:3]
 // Slope the inside of the tip at 45 degrees so it prints without sagging.
 tip_bevel = false;
 // How round the tip is, seen from above: how far back its curve reaches (mm).

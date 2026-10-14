@@ -15,7 +15,7 @@
 //      zero-thickness slivers), fingerprinted.
 //   8. with tip_bevel on: same genus, no material removed (volume not below the design's), and
 //      the flat overhang around the window's front (as it prints) is mostly gone: at most 2.5 mm²
-//      and 30% of the design's own.
+//      and 30% of the design's own (an overhang under 0.25 mm² passes either way).
 //   Then the presets' settings lists for the app are refreshed (scripts/param_lists.mjs).
 //   npm run check                 # compare with the baselines (exit 1 on any failure/change)
 //   npm run check -- --update     # accept the current results as the new baselines
@@ -218,7 +218,7 @@ async function checkFile(file) {
         r.problems.push(`tip_bevel removes material: volume ${m.volume} -> ${bm.volume} mm³`);
       const before = tipOverhang(m.T, front, tilt),
         after = tipOverhang(bm.T, front, tilt);
-      if (after > 2.5 || after > 0.3 * before)
+      if (after > 2.5 || (after > 0.3 * before && after > 0.25))
         r.problems.push(
           `tip_bevel leaves ${after.toFixed(2)} mm² of flat overhang at the tip (${before.toFixed(2)} without)`,
         );

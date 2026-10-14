@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "48c41e60-21564",
+  "hash": "a16fe1d7-21564",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -469,7 +469,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 2,
+    "initial": 0.9,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -2086,7 +2086,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "8b5cd2fa-21802",
+  "hash": "f2ca56c6-21802",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2555,7 +2555,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.8,
+    "initial": 0.9,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -4172,7 +4172,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "7ed8f9de-22474",
+  "hash": "85b9961c-22473",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4641,7 +4641,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.62,
+    "initial": 0.9,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -6258,7 +6258,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "ed996dff-21766",
+  "hash": "77096700-21765",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6727,7 +6727,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.76,
+    "initial": 0.9,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -8344,7 +8344,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "a98b9d33-21943",
+  "hash": "d2fb5cfb-21943",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8813,7 +8813,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.4,
+    "initial": 0.9,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -10430,7 +10430,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "a41c7446-21658",
+  "hash": "4d12660b-21656",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10899,7 +10899,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 2.2,
+    "initial": 1,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -12516,7 +12516,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "6eab005-21693",
+  "hash": "620f5749-21694",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12985,7 +12985,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.6,
+    "initial": 0.72,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -14602,7 +14602,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "ee339dcb-21662",
+  "hash": "6926d0-21660",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15071,7 +15071,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 2.2,
+    "initial": 1,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -16688,7 +16688,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "d42c5f5a-21847",
+  "hash": "c7769045-21847",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17157,7 +17157,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 2,
+    "initial": 1,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -18774,7 +18774,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "1a603a6e-21876",
+  "hash": "d0b83f4-21877",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19243,7 +19243,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.5,
+    "initial": 0.75,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -20860,7 +20860,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "11180f5d-21838",
+  "hash": "43c8bf2a-21838",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21329,7 +21329,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 2,
+    "initial": 1,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -22946,7 +22946,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "f4cc3e10-21865",
+  "hash": "e52cef9b-21866",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23415,7 +23415,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.9,
+    "initial": 1.02,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -25032,7 +25032,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "647529ff-21891",
+  "hash": "e80c33bd-21892",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25501,7 +25501,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.5,
+    "initial": 0.77,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -27118,7 +27118,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "f98c2373-21862",
+  "hash": "3f2ee228-21865",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27587,7 +27587,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 2,
+    "initial": 1.02,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -29204,7 +29204,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "c41ea69d-22049",
+  "hash": "6614aacf-22049",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29673,7 +29673,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.7,
+    "initial": 1.1,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -31290,7 +31290,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "32f5c40b-22074",
+  "hash": "251da529-22075",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31759,7 +31759,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.3,
+    "initial": 0.84,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",
@@ -33376,7 +33376,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "9cb6d296-22042",
+  "hash": "f0a583cb-22043",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33845,7 +33845,7 @@
    {
     "caption": "Thickness of the tip rail (mm).",
     "group": "Window",
-    "initial": 1.8,
+    "initial": 1.16,
     "max": 3,
     "min": 0.3,
     "name": "tip_rail_thickness",

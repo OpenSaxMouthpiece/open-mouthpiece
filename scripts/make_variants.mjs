@@ -45,7 +45,7 @@ const VOICES = {
       baffle_type: 'concave',
       baffle_height: 0,
       throat_width: 14.4,
-      tip_rail_thickness: 2.2,
+      tip_rail_thickness: 1.0,
     },
     silva: {
       tip_opening: inch(80),
@@ -61,7 +61,7 @@ const VOICES = {
       throat_width: 14.8,
       sidewall_angle: -4,
       window_rear_radius: 3,
-      tip_rail_thickness: 1.6,
+      tip_rail_thickness: 0.72,
     },
     unda: {
       tip_opening: inch(68),
@@ -69,7 +69,7 @@ const VOICES = {
       baffle_type: 'flat',
       side_rail_width: 1.2,
       throat_width: 14.8,
-      tip_rail_thickness: 2.2,
+      tip_rail_thickness: 1.0,
     },
   },
   tenor: {
@@ -82,7 +82,7 @@ const VOICES = {
       baffle_type: 'concave',
       baffle_height: 0.3,
       baffle_curve: -0.5,
-      tip_rail_thickness: 1.7,
+      tip_rail_thickness: 1.1,
     },
     silva: {
       tip_opening: inch(100),
@@ -98,7 +98,7 @@ const VOICES = {
       throat_width: 15.5,
       sidewall_angle: -4,
       window_rear_radius: 3,
-      tip_rail_thickness: 1.3,
+      tip_rail_thickness: 0.84,
     },
     unda: {
       tip_opening: inch(85),
@@ -106,7 +106,7 @@ const VOICES = {
       baffle_type: 'flat',
       side_rail_width: 1.2,
       throat_width: 15.5,
-      tip_rail_thickness: 1.8,
+      tip_rail_thickness: 1.16,
     },
   },
   baritone: {
@@ -119,7 +119,7 @@ const VOICES = {
       baffle_type: 'concave',
       baffle_height: 0,
       baffle_curve: -0.7,
-      tip_rail_thickness: 2.0,
+      tip_rail_thickness: 1.0,
     },
     silva: {
       tip_opening: inch(115),
@@ -133,7 +133,7 @@ const VOICES = {
       chamber_height: 17.6,
       sidewall_angle: -4,
       window_rear_radius: 3,
-      tip_rail_thickness: 1.5,
+      tip_rail_thickness: 0.75,
     },
     unda: {
       tip_opening: inch(100),
@@ -141,7 +141,7 @@ const VOICES = {
       baffle_type: 'flat',
       baffle_curve: -0.3,
       side_rail_width: 1.2,
-      tip_rail_thickness: 2.0,
+      tip_rail_thickness: 1.0,
     },
   },
   soprano: {
@@ -154,7 +154,7 @@ const VOICES = {
       baffle_type: 'concave',
       baffle_height: 0.7,
       baffle_curve: -0.8,
-      tip_rail_thickness: 1.9,
+      tip_rail_thickness: 1.02,
     },
     silva: {
       tip_opening: inch(70),
@@ -169,7 +169,7 @@ const VOICES = {
       throat_width: 9.9,
       sidewall_angle: -4,
       window_rear_radius: 3,
-      tip_rail_thickness: 1.5,
+      tip_rail_thickness: 0.77,
     },
     unda: {
       tip_opening: inch(59),
@@ -178,7 +178,7 @@ const VOICES = {
       baffle_type: 'flat',
       baffle_curve: -0.4,
       side_rail_width: 1.2,
-      tip_rail_thickness: 2.0,
+      tip_rail_thickness: 1.02,
     },
   },
 };
