@@ -970,16 +970,23 @@ function baffle_roof_held(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
   let(raw = baffle_shape_at(z) - baffle_height * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
   -smin(-raw, -(facing_at_z(z) + 0.4), 0.5);
-// Into the tip rail the roof is a straight ramp (TIP_RAMP: 0.3 = about 17 degrees) that meets the
-// rail face (TIP_GAP above it) at the window front, where it would otherwise be a wall as high as
-// the baffle's last gap, or a flat shelf parallel to the reed. Where the baffle is above that line
-// it comes down onto it, fully within 4mm of the window front and fading out by 8mm, so the chamber
-// and the rest of the baffle keep their shape; a baffle already below the line is left as it is.
-TIP_ROUND = 0.5;   // rounds the corner where the ramp meets the baffle (a crease straight across otherwise)
-TIP_RAMP_Y = facing_at_z(win_front_z) + TIP_GAP;
+// Into the tip rail the roof is one smooth cubic that leaves the baffle at its own height and slope
+// and arrives at the rail face (TIP_GAP above it) at the window front going down at TIP_RAMP (0.3 =
+// about 17 degrees): no wall as high as the baffle's last gap, no flat shelf parallel to the reed,
+// and no crease where it joins the baffle. It starts TIP_D mm before the front (4mm, more when the
+// baffle is still high there, so it never gets steeper than the baffle's own limit). A baffle that
+// is already at the rail face there is left as it is.
+TIP_YF = facing_at_z(win_front_z) + TIP_GAP;
+TIP_GF = baffle_roof_held(win_front_z) - TIP_YF;
+TIP_D = max(4, min(9, 4 + 2 * TIP_GF));
+TIP_ZS = win_front_z - TIP_D;
+TIP_HS = baffle_roof_held(TIP_ZS);
+TIP_MS = (baffle_roof_held(TIP_ZS + 0.1) - baffle_roof_held(TIP_ZS - 0.1)) / 0.2;
 function baffle_roof(z) =
-  let(h = baffle_roof_held(z), d = win_front_z - z)
-  h + smin(0, -(h - max(TIP_RAMP_Y + TIP_RAMP * d, facing_at_z(z) + TIP_GAP)), TIP_ROUND) * (1 - smootherstep(clamp01((d - 4) / 4)));
+  TIP_GF <= 0 || z <= TIP_ZS ? baffle_roof_held(z)
+  : let(t = clamp01((z - TIP_ZS) / TIP_D), t2 = t * t, t3 = t2 * t)
+    max((2 * t3 - 3 * t2 + 1) * TIP_HS + (t3 - 2 * t2 + t) * TIP_D * TIP_MS + (-2 * t3 + 3 * t2) * TIP_YF + (t3 - t2) * TIP_D * -TIP_RAMP,
+        facing_at_z(z) + TIP_GAP);
 
 // ===========================================================================================
 // 6. Interior profile: bore -> throat (narrowest) -> chamber (widens again) -> window/baffle
