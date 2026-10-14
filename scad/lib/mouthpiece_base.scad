@@ -965,7 +965,7 @@ function baffle_shape_at(z) = !BAFFLE_HELD ? baffle_type_at(z)
   : let(t = max(0, min(BT_N, (z - BT_Z0) / BT_H)), i = min(floor(t), BT_N - 1))
     lerp(BAFFLE_TAB[i], BAFFLE_TAB[i + 1], t - i);
 TIP_EASE = 8;
-TIP_GAP = 0.2;
+TIP_GAP = 0.05;
 function baffle_roof_held(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
   let(raw = baffle_shape_at(z) - baffle_height * smootherstep(clamp01(u / 0.35)) - baffle_hump * bell(u, 0.8, 0.18))
