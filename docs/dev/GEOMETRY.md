@@ -83,7 +83,7 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 - **Window**: a slot (`window_width`, `window_taper`, `window_rear_radius`) whose front follows the
   reed-tip arc one `tip_rail_thickness` inside the tip; `window_cutter` (6-point rings) cuts it from
   below the table to the interior's mid-height.
-- **Roof onto the facing at the tip** (`TIP_EASE` 3 mm, `TIP_GAP` 0.2 mm, in `baffle_roof`): over the last 3mm before the window front the roof eases down to 0.2mm above the facing, so the rail's inside edge is a blend, not a ~0.7mm wall as high as the baffle (issue #8; the reference slices have no step there). Only removes interior; volume changes <= 0.1%.
+- **Roof onto the facing at the tip** (`TIP_EASE` 8 mm, `TIP_GAP` 0.2 mm, `TIP_DROP`, in `baffle_roof`): the roof comes down by what is left of its gap above the facing at the window front (beyond 0.2mm), eased in (smootherstep) over the last 8mm, so the rail's inside edge is a blend, not a ~0.7mm wall (issue #8; the reference slices have no step there). A shorter ease (3mm) made an S-shaped dip in the roof; scaling the gap instead of shifting it pulled the whole baffle down. Only removes interior; volume changes <= 0.1%.
 - **Sloped tip** (`tip_bevel`, off by default; old links' numbers > 0 turn it on): printed standing
   on the shank, the window's front (facing up to the roof, 0.4-0.8mm) is a flat ceiling hanging
   off the baffle (the facing side is open air). With it on, `tip_ramp()` fills that corner: it is
