@@ -95,6 +95,10 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   ring toward the table (an undercut skin under the floor). `rim_round` rounds the table edge around the
   rear arc (`RIM_R` 0.6mm quarter circle on the solid side, clamped to `window_side_hw`; behind the
   window start only up to the height its offset still reaches, else it cuts a slot).
+  Under the window's last 11mm the roof also arches across (`dome_y`: heights above the facing are scaled down toward the sides,
+  only ever adding material). The arch fades out where the air above the facing is thin (< 0.8mm): a baritone with
+  `beak_tip_height` 2-2.6 left loose slivers at the tip corners when the arch squeezed the air to a micron-thin film (a fixed
+  minimum height only moved the failures around).
 - **Roof into the tip rail** (`TIP_RAMP` 0.3, `TIP_GAP` 0.05 mm, `TIP_D`, in `baffle_roof`): over the last `TIP_D` mm (4mm, up to 9 when the baffle is still high at the window front) the roof is one cubic (Hermite) from the baffle's own height and slope to the rail face at the window front, arriving at 0.3 (about 17 degrees); a baffle already at the rail face is left alone. Without it the window front was a ~0.7mm wall (issue #8; the reference slices have no step there). Tried and dropped: an eased drop (flat shelf parallel to the reed before the rail), a short ease (S-shaped dip), a straight ramp with min() (crease straight across the tip, then a rounded corner that moved the roof off the reference), scaling the gap or a ramp applied everywhere (lowered the whole chamber roof). The alto's roof tracks a reference slice within ~0.1mm over the last 6mm. Contours are still straight across; the reference's follow the tip arc (not done). Only removes interior; volume changes <= 0.15%.
 - **Sloped tip** (`tip_bevel`, off by default; old links' numbers > 0 turn it on): printed standing
   on the shank, the window's front (facing up to the roof, 0.4-0.8mm) is a flat ceiling hanging

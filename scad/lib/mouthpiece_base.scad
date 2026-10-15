@@ -1204,7 +1204,7 @@ function interior_points(dirs, z, I) =
 function dome_y(z, x, y, I) =
   I[5] >= 1e3 || z <= L - 11 ? y
   : let(lo = facing_at_z(z) + TIP_GAP) y <= lo || I[1] <= lo + 0.05 ? y
-  : let(dip = 0.095 * x * x / max(3, I[0]) * smootherstep(clamp01((z - (L - 11)) / 7)) * (0.55 + 0.45 * clamp01((win_front_z - z) / 4.4)))
+  : let(dip = 0.095 * x * x / max(3, I[0]) * smootherstep(clamp01((z - (L - 11)) / 7)) * (0.55 + 0.45 * clamp01((win_front_z - z) / 4.4)) * smootherstep(clamp01((I[1] - lo - 0.3) / 0.5)))
     lo + (y - lo) * max(0.05, (I[1] - lo - dip) / (I[1] - lo));
 // Height above narrow_top, the corner there rounded over 1mm.
 function wall_rise(I, y) = let(d = y - I[6]) d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4;

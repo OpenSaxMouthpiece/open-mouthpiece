@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "a16fe1d7-21564",
+  "hash": "1d069b79-21576",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -459,7 +459,7 @@
    {
     "caption": "Width of the side rails the reed seals on (mm).",
     "group": "Window",
-    "initial": 1,
+    "initial": 0.85,
     "max": 2.5,
     "min": 0.8,
     "name": "side_rail_width",
@@ -2012,6 +2012,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -2086,7 +2090,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "f2ca56c6-21802",
+  "hash": "e7a0ec7a-21813",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4098,6 +4102,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -4172,7 +4180,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "85b9961c-22473",
+  "hash": "723096d8-22484",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6184,6 +6192,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -6258,7 +6270,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "77096700-21765",
+  "hash": "7cbdadd2-21776",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8270,6 +8282,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -8344,7 +8360,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "d2fb5cfb-21943",
+  "hash": "8a4f862f-21954",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10356,6 +10372,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -10430,7 +10450,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "4d12660b-21656",
+  "hash": "7ea2d30f-21667",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12442,6 +12462,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -12516,7 +12540,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "620f5749-21694",
+  "hash": "a8e3e215-21705",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14528,6 +14552,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -14602,7 +14630,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "6926d0-21660",
+  "hash": "e9aec32-21671",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16614,6 +16642,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -16688,7 +16720,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "c7769045-21847",
+  "hash": "5bb2a25b-21858",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18700,6 +18732,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -18774,7 +18810,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "d0b83f4-21877",
+  "hash": "8b87ddd0-21888",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20786,6 +20822,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -20860,7 +20900,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "43c8bf2a-21838",
+  "hash": "5286c1de-21849",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22872,6 +22912,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -22946,7 +22990,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "e52cef9b-21866",
+  "hash": "b7abc54f-21877",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24958,6 +25002,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -25032,7 +25080,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "e80c33bd-21892",
+  "hash": "4fd7a6a9-21903",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27044,6 +27092,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -27118,7 +27170,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "3f2ee228-21865",
+  "hash": "21dd67ca-21876",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29130,6 +29182,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -29204,7 +29260,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "6614aacf-22049",
+  "hash": "d3fb8663-22060",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31216,6 +31272,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -31290,7 +31350,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "251da529-22075",
+  "hash": "e5c566a5-22086",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33302,6 +33362,10 @@
       "value": "metal_ligature_model"
      },
      {
+      "name": "air_model",
+      "value": "air_model"
+     },
+     {
       "name": "interior_only",
       "value": "interior_only"
      },
@@ -33376,7 +33440,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "f0a583cb-22043",
+  "hash": "992316df-22054",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -35386,6 +35450,10 @@
      {
       "name": "metal_ligature_model",
       "value": "metal_ligature_model"
+     },
+     {
+      "name": "air_model",
+      "value": "air_model"
      },
      {
       "name": "interior_only",
