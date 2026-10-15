@@ -198,11 +198,18 @@ static site (docs/HOSTING.md).
 
 - Z-up, camera kept across re-renders. Floating tools: views 3D / Table / Top / Left / Right / Tip
   (left from +X, right from -X: the player's sides as the lettering names them), Quality, Show ▾
-  (Edges, Wireframe, See-through, Ligature, Reed), A/B, a camera icon (PNG of the view).
+  (Edges, Wireframe, See-through, Air space only, Ligature, Reed), A/B, a camera icon (PNG of the view).
 - **Section view**: lengthwise clips x <= pos (x >= pos after the Right view, `secFlip`, so both
   side views look at the cut), across clips z <= pos; a BackSide flat-coloured cap
   mesh makes cut walls read solid. **See-through** (`applyLook`). Dev-only `window.__viewer` for
   scripted cameras.
+- **Air space only** (`airG` in Viewer.tsx, `airOn` in App.tsx, offered for files that can make a
+  ligature): the air as a blue solid, everything else hidden. The mesh is built in the browser
+  (`src/airMesh.ts`) from `air_view_rings()`, which every full render echoes (`AIR_ECHO`, part of
+  `REPORTS_ECHO` / `FACING_ECHO`; the line is kept out of the console), so it costs no render of its
+  own. Only when the echo is missing does `loadParts` run `part = air_model` (negative space cut at the
+  shank end face; settings it ignores: the accessories', `partSignature`). `useModelRender` returns
+  `airStl` (echo first, part second) and the app shows the busy bar while it is on its way.
 - **Zoom to parameter** ("Auto-zoom", persisted): touching a parameter row or picking a Curves list
   uses `param_focus()` (fetched after each final render; a touch uses the latest data at once) and
   the camera flies there (450ms, cancelled by orbiting); parts inside turn the lengthwise section on

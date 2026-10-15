@@ -224,7 +224,8 @@ The buttons along the top of the view do the following:
 
 - **3D, Table, Top, Left, Right** and **Tip** switch to a standard view.
 - **Show** lets you turn edges, wireframe and see-through on or off, and choose which parts are
-  visible. When **Ghost after a change** is on (it starts off), the previous shape shows faintly for a moment
+  visible. **Air space only** hides the mouthpiece and shows just the air inside it (bore, chamber and
+  throat) as a blue solid, which makes the chamber shape easy to judge; it follows your changes. When **Ghost after a change** is on (it starts off), the previous shape shows faintly for a moment
   after each change.
 - **Last shape** shows the previous shape again, until you turn it off.
 - **Cut open** cuts the model in half lengthwise or crosswise, so you can see inside.

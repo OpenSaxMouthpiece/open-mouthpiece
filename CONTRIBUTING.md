@@ -138,6 +138,10 @@ Geometry:
 4. **Watch for mutual recursion** among interior functions; OpenSCAD reports it on an unrelated name.
 5. **Blend into lines, not endpoints**; PCHIP tables are C1 by construction.
 6. **Avoid coplanar faces between booleans**; better, build features into a loft.
+7. **Never squeeze a gap to a film.** Scaling air down toward a surface until it is a few microns thick
+   (the tip roof's arch on a low baritone beak) leaves loose slivers; fade the feature out where the
+   space is thin instead, and scan the slider's whole range, not just its ends (failures came and
+   went between neighbouring values).
 7. **Pointwise clamps distort shapes**; prefer shape-level definitions (the window is a slot + arcs).
 8. **Functions and modules can be used before they are defined; top-level variables cannot**: one
    read before its assignment is undef, silently. Define inputs above their users. Top-level

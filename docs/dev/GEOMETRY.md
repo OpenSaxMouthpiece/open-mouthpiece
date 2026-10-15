@@ -230,7 +230,8 @@ apart (was 0.5; same geometry to 0.0002% of volume), the other big evaluation co
   text longer than the room (estimated at 0.62 x size per letter).
 - "Inside air volume: X cm3" on every render (socket depth to tip, reed closing the window).
 - Echo-only parts: `clearance_report` (thinnest wall), `facing_report` (facing gap per mm from the
-  tip). `part` also has `shank_test_ring`, `interior_only` and `debug_*` pieces.
+  tip). `part` also has `shank_test_ring`, `interior_only`, `air_model` (the air, for the app's "Air space only"; the app
+  normally builds it from the `AIR_SOLID` echo of `air_view_rings()` instead) and `debug_*` pieces.
 - `curve_editor_curves()`: every `*_points` override's curve as the model has it (interior curves
   sampled from `AIR_RINGS`, i.e. after the clamps); only evaluated when echoed (the app's Points
   panel). Add new overrides to it.
