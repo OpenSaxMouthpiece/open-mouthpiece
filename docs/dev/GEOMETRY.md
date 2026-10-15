@@ -83,6 +83,12 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 - **Window**: a slot (`window_width`, `window_taper`, `window_rear_radius`) whose front follows the
   reed-tip arc one `tip_rail_thickness` inside the tip; `window_cutter` (6-point rings) cuts it from
   below the table to the interior's mid-height.
+  The rails' inner face is one slope (`rail_wall_x`: window width at the reed plane to the chamber
+  width 2mm above, faded out over the last 4mm before the front); the cutter has an extra ring point
+  `[xf, yf]` on that line, with `yf` kept below its first top point (above it the ring folds and leaves
+  loose specks). The interior's rail offset is 0.06 x rail (0.3 left a shelf). The sharp table edge
+  around the rounded rear end is rounded by `rim_round` (`RIM_R` 0.6mm quarter circle, clamped to
+  `window_side_hw` so it never thins a rail).
 - **Roof into the tip rail** (`TIP_RAMP` 0.3, `TIP_GAP` 0.05 mm, `TIP_D`, in `baffle_roof`): over the last `TIP_D` mm (4mm, up to 9 when the baffle is still high at the window front) the roof is one cubic (Hermite) from the baffle's own height and slope to the rail face at the window front, arriving at 0.3 (about 17 degrees); a baffle already at the rail face is left alone. Without it the window front was a ~0.7mm wall (issue #8; the reference slices have no step there). Tried and dropped: an eased drop (flat shelf parallel to the reed before the rail), a short ease (S-shaped dip), a straight ramp with min() (crease straight across the tip, then a rounded corner that moved the roof off the reference), scaling the gap or a ramp applied everywhere (lowered the whole chamber roof). The alto's roof tracks a reference slice within ~0.1mm over the last 6mm. Contours are still straight across; the reference's follow the tip arc (not done). Only removes interior; volume changes <= 0.15%.
 - **Sloped tip** (`tip_bevel`, off by default; old links' numbers > 0 turn it on): printed standing
   on the shank, the window's front (facing up to the roof, 0.4-0.8mm) is a flat ceiling hanging

@@ -1737,6 +1737,27 @@ module window_cutter() {
      [-xf, yf, z], [-hw, y_rail, z]]]);
 }
 
+// The sharp edge where the table meets the window's rounded rear end is rounded off (RIM_R, a
+// quarter circle in section): a thin cutter that follows the rear arc, offset outward by the fillet
+// (o) at each depth. It is clamped to the nominal window width (window_side_hw), so it can only widen
+// the opening where the arc is narrower than the straight sides: the rails are never thinned.
+RIM_R = 0.6;
+RIM_K = 8;
+function rim_x(z, y, r, zc) =
+  let(o = RIM_R - sqrt(max(0, RIM_R * RIM_R - (y + RIM_R) * (y + RIM_R))), d = z - zc)
+  max(0.02, min(window_side_hw(z), (window_base_hw(z) - r) + sqrt(max(0, (r + o) * (r + o) - d * d))));
+module rim_round() {
+  r = max(0.3, min(window_rear_radius, win_hw_rear)); zc = win_z0 + r;
+  zs = concat([for (z = [win_z0 - RIM_R : 0.25 : zc - 0.01]) z], [zc]);
+  ring_loft([for (z = zs)
+    let(yt = facing_at_z(max(z, win_z0)),
+        ys = [for (k = [0 : RIM_K]) yt - RIM_R + k * RIM_R / RIM_K],
+        right = [for (y = ys) [rim_x(z, y - yt, r, zc), y, z]])
+    concat(right, [[right[RIM_K][0], yt + 0.05, z], [-right[RIM_K][0], yt + 0.05, z]],
+           [for (k = [RIM_K : -1 : 0]) [-right[k][0], right[k][1], z]])
+  ]);
+}
+
 // Window outline as a flat plate (for eyeballing the planform).
 module window_planform() {
   n = 24;
@@ -2973,6 +2994,7 @@ module mouthpiece_body() {
         else interior_solid();
         if (BTX_ON && !BTX_RAISED) baffle_texture_solid();
         window_cutter();
+        rim_round();
       }
       if (TIP_BEVEL && !ACCESSORY_PART) tip_ramp();
     }
