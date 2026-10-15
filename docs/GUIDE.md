@@ -118,7 +118,7 @@ Use the ↶ and ↷ buttons (or Ctrl+Z and Ctrl+Y) to undo and redo. **Reset** t
 to how it was when you opened or last saved it, and the number on the button shows how many
 settings you've changed.
 
-Two more options are in the **Options** menu. **Auto-zoom** moves the view to whatever part a
+Two more options are in the **Behavior** menu (**More** on a narrow screen). **Auto-zoom** moves the view to whatever part a
 setting affects, and cuts the model open for parts on the inside. Turn it off if you'd rather the
 view stayed put. **Compare with the original** puts the unchanged design next to yours.
 
@@ -134,9 +134,9 @@ The app doesn't describe how settings change the sound; after a test print, the
 
 **Tip & facing.** *Tip opening & facing*: the tip opening is in thousandths of an inch, but you
 can type a value in mm too. The facing length is measured from the tip back to the break, where the
-rails leave the flat table; its More has the shape of the facing curve. *Rails*: the thickness of
-the tip rail and the width of the side rails, with the roundness of the tip under More. More also
-has *Slope the inside of the tip*: the roof already comes down smoothly onto the tip rail, but
+rails leave the flat table; the facing curve and where it opens come right below. *Rails*: the
+thickness of the tip rail, the width of the side rails and the roundness of the tip. More has
+*Slope the inside of the tip*: the roof already comes down smoothly onto the tip rail, but
 printed standing up a small flat patch can remain at the inside edge of the rail and sag; this
 slopes it at 45° up to the baffle. The rails the reed sits on don't change. *Table*: the table's length, width and hollow.
 
@@ -147,10 +147,10 @@ settings are the bevel at the opening of the socket, the bore size and the angle
 
 **Chamber & baffle.** The inside of the mouthpiece, in four groups. *Baffle*: its shape, height and
 hump, and a texture on it (grooves along it, grooves across it, or dimples, engraved or raised, with
-their depth and spacing); More has where the baffle starts and how it curves. *Chamber*: its shape
+their depth and spacing); its length sets where it starts, and More has how it curves. *Chamber*: its shape
 (round, square or horseshoe) and width; More has its height and floor, how it widens past the
 throat and the angle of its side walls (leaning in makes a trapezoid chamber). *Throat*: its width; More has its position, the narrowing
-into it and its shape. *Window*: its width; More has its length and corners.
+into it and its shape. *Window*: its width; More has its length, how much it narrows toward the back, and the rounding of its corners.
 
 **Body & beak.** The outside, in three groups. *Size*: overall length and the width and height of
 the body, with the shank's outside diameter under More. *Beak*: its height at the tip, curve,
