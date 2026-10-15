@@ -88,7 +88,7 @@ window_rear_radius = 5.5; // [0:0.1:10]
 // Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid).
 sidewall_angle = 0; // [-20:1:30]
 // Width of the side rails the reed seals on (mm).
-side_rail_width = 1.0; // [0.8:0.05:2.5]
+side_rail_width = 0.85; // [0.8:0.05:2.5]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 0.9; // [0.3:0.02:3]
 // Slope the inside of the tip at 45 degrees so it prints without sagging.

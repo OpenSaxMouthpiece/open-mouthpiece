@@ -1132,7 +1132,7 @@ function interior_ring_build(z, cap_s) =
   let(rail_t = clamp01((bot - facing_at_z(z)) / 0.4))  // 0 once the floor is down at the reed plane
   // Under the window the lower part of the ring is held to the window width (straight side walls,
   // so the rails keep their full thickness); above narrow_top it may open out to the chamber.
-  let(narrow = in_win ? window_side_hw(z) + 0.3 * rail_t : 1e3, narrow_top = facing_at_z(z) + 2)
+  let(narrow = in_win ? window_side_hw(z) + 0.06 * rail_t : 1e3, narrow_top = facing_at_z(z) + 2)
   // walls leaning out need the ring wide enough to reach them at the roof (under the window from
   // the window width, before it from the chamber's own)
   let(la = wall_lean_at(z), lift = max(0, top - narrow_top) * tan(max(0, la)))
@@ -1180,10 +1180,17 @@ function interior_fit(z, E, I, in_win, lo) =
 // With sidewall_angle the walls above narrow_top lean at that angle from vertical (wall_lean_at):
 // in (-) from the chamber's full width (lean_in_allowed), out (+) from the window width under the
 // window (sidewall_allowed) and from the chamber's width before it (out_allowed).
+// Under the window the rails' inner face is one slope, not a vertical wall that kinks out: from the
+// window width at the reed plane (I[6] - 2 is the facing) to the chamber's own width 2mm above it.
+// The window cutter follows the same line, so no ledge is left where the two meet. It fades out over
+// the last 4mm before the window front (the tip rail is left as it was).
+function rail_wall_x(I, y, z) =
+  let(n = min(I[5], I[0]), wt = min(I[0], int_hw_at_y(I, I[6])))
+  n + max(0, wt - n) * smootherstep(clamp01((y - (I[6] - 2)) / 2)) * smootherstep(clamp01((win_front_z - z) / 4));
 function interior_points(dirs, z, I) =
   let(la = wall_lean_at(z))
   [for (p = sring(dirs, z, I[0], I[1], I[2], I[3], I[4], (I[1] + I[2]) / 2))
-    let(blend = lerp(min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0])))))))
+    let(blend = lerp(I[5] < 1e3 ? rail_wall_x(I, p[1], z) : min(I[5], I[0]), I[0], smootherstep(clamp01((p[1] - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0])))))))
     let(allowed = la < 0 ? min(blend, lean_in_allowed(I, p[1], la))
       : la == 0 ? blend
       : I[5] < 1e3 ? max(sidewall_allowed(I, p[1], la), min(out_allowed(I, p[1], la), out_blend(I, p[1], la)))
@@ -1710,9 +1717,10 @@ module window_cutter() {
     let(y_rail = min(facing_at_z(z) + 0.04, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
     // the dome (dome_y) lowers the ring toward the sides, mid-height included: the cutter's ceiling follows it
     // (nine points across), never under the rail line
-    [[-hw, -10, z], [hw, -10, z], [hw, y_rail, z],
+    let(y0 = max(y_rail + 0.02, dome_y(z, hw_top, top, I)), yf = min(I[6], y_rail + 0.5 * (y0 - y_rail)), xf = max(hw, min(rail_wall_x(I, yf, z), ring_half_width_at_y(E, yf) - 0.6)))
+    [[-hw, -10, z], [hw, -10, z], [hw, y_rail, z], [xf, yf, z],
      for (k = [0 : 8]) let(x = hw_top * (1 - k / 4)) [x, max(y_rail + 0.02, dome_y(z, abs(x), top, I)), z],
-     [-hw, y_rail, z]]]);
+     [-xf, yf, z], [-hw, y_rail, z]]]);
 }
 
 // Window outline as a flat plate (for eyeballing the planform).
