@@ -571,7 +571,7 @@ Width of the side rails the reed seals on (mm).
 
 Range: 0.8 to 2.5, step 0.05.
 
-Presets: Alto `1.0` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
+Presets: Alto `0.85` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 
 ![side_rail_width: 0.8 → 1.8](images/params/side_rail_width.png)
 
@@ -1989,7 +1989,7 @@ What the file makes. The debug parts show the pieces the mouthpiece is built fro
 
 What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
 
-Range: `mouthpiece`, `shank_test_ring`, `ligature`, `cap`, `ligature_seated`, `cap_seated`, `reed_model`, `ligature_clash`, `cap_clash`, `metal_ligature_model`, `interior_only`, `debug_exterior`, `debug_interior`, `debug_window_cutter`, `debug_window_only`, `debug_window_planform`, `debug_facing_cutter`, `debug_facing_only`, `debug_ext_minus_interior`, `debug_ext_minus_window`, `debug_ext_minus_facing`, `clearance_report`, `facing_report`.
+Range: `mouthpiece`, `shank_test_ring`, `ligature`, `cap`, `ligature_seated`, `cap_seated`, `reed_model`, `ligature_clash`, `cap_clash`, `metal_ligature_model`, `air_model`, `interior_only`, `debug_exterior`, `debug_interior`, `debug_window_cutter`, `debug_window_only`, `debug_window_planform`, `debug_facing_cutter`, `debug_facing_only`, `debug_ext_minus_interior`, `debug_ext_minus_window`, `debug_ext_minus_facing`, `clearance_report`, `facing_report`.
 
 Presets: Alto `mouthpiece` · Tenor `mouthpiece` · Bari `mouthpiece` · Soprano `mouthpiece`.
 
