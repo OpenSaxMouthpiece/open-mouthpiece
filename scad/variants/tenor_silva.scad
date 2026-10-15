@@ -356,7 +356,7 @@ cap_metal_screw_length = 12; // [4:0.5:30]
 
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
-part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
+part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, air_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
 // Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.
 render_fn = 64; // [16:8:128]
 // Stand it on its neck end, as printed. Off: lie it on the reed table.

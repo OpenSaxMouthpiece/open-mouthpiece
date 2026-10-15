@@ -400,7 +400,7 @@ cap_metal_screw_length = 12; // [4:0.5:30]
 
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
-part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
+part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, air_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
 // Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.
 render_fn = 64; // [16:8:128]
 // Stand it on its neck end, as printed. Off: lie it on the reed table.
@@ -1375,6 +1375,20 @@ function air_volume() =
   let(areas = [for (r = AIR_RINGS) let(z = r[0], I = r[1])
                  poly_area(r[2]) + (z > win_z0 ? 2 * window_half_width(z) * max(0, I[2] - facing_at_z(z)) : 0)])
   vsum([for (i = [0 : 1 : len(zs) - 2]) (zs[i + 1] - zs[i]) * (areas[i] + areas[i + 1]) / 2]) + BTX_AIR;
+
+// The air as the viewer draws it (the app's "Air space only"): the interior's own rings, from the
+// shank end face (a ring following it, round socket) through the socket to the window front, in the
+// frame of the rendered model (print orientation applied), rounded to 0.01mm. The app builds the
+// mesh from this echo (echo(AIR_SOLID = air_view_rings())), so the view costs no render of its own.
+function air_view_rings() =
+  let(r = socket_d / 2, ry = r / cos(bore_tilt), a = -bore_tilt)
+  let(f = function(p) let(q = print_orientation ? [p[0], p[1] * cos(a) - p[2] * sin(a), p[1] * sin(a) + p[2] * cos(a) + end_face_lift] : p)
+        [round(q[0] * 100) / 100, round(q[1] * 100) / 100, round(q[2] * 100) / 100])
+  [for (ring = concat(
+      [[for (p = sring(INT_DIRS, -1, r, bah_at(-1) + ry, bah_at(-1) - ry, 2, 2, bah_at(-1))) [p[0], p[1], end_face_z(p[1])]]],
+      [sring(INT_DIRS, eff_shank_depth, r, bah_at(eff_shank_depth) + ry, bah_at(eff_shank_depth) - ry, 2, 2, bah_at(eff_shank_depth))],
+      [for (q = AIR_RINGS) q[2]]))
+    [for (p = ring) f(p)]];
 
 module validate() {
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
@@ -2989,6 +3003,7 @@ else if (part == "ligature_clash")           intersection() { ligature_band(); m
 else if (part == "clearance_report")         clearance_report();
 else if (part == "facing_report")            facing_report();
 else if (part == "interior_only")            interior_solid(with_socket = false);
+else if (part == "air_model")                intersection() { interior_solid(); exterior_solid(); }   // the negative space, cut off at the shank end face (the app's "Air space only")
 else if (part == "debug_exterior")           exterior_solid();
 else if (part == "debug_interior")           { interior_solid(); % exterior_solid(); }
 else if (part == "debug_window_cutter")      { window_cutter(); % exterior_solid(); }

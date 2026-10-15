@@ -92,6 +92,7 @@ interface Ctx {
   lig: THREE.Group;
   reed: THREE.Group;
   capG: THREE.Group; // the cap made for A
+  airG: THREE.Group; // the air space (negative space) of A
   ghost: THREE.Group; // the previous shape of A, for a moment after a change
   grid: THREE.GridHelper;
   axes: THREE.AxesHelper;
@@ -132,6 +133,9 @@ interface Props {
   // The cap made for A, seated on it (see-through, so A and the ligature show), or beside it.
   cap?: { on: boolean; beside: boolean; stl: ArrayBuffer | null } | null;
   onCap?(change: { on?: boolean; beside?: boolean }): void;
+  // The air inside A as a solid (the negative space): shown alone when on.
+  air?: { on: boolean; stl: ArrayBuffer | null } | null;
+  onAir?(on: boolean): void;
   // Whether this design (A) is shown, when the app controls it (to look at the ligature or cap alone).
   showModel?: boolean;
   onShowModel?(on: boolean): void;
@@ -190,6 +194,7 @@ const LIG_COLOR = 0x7d848f; // graphite: neutral on any mouthpiece colour (blue 
 const LIG_CUT = 0x33373d;
 const REED_COLOR = 0xe6dcbc;
 const REED_CUT = 0x9a8f6c;
+const AIR_COLOR = 0x8fb8ff;
 const CAP_COLOR = 0x3fbfae;
 const CAP_CUT = 0x1d6b61;
 const CAP_SEATED_OPACITY = 0.38;
@@ -224,6 +229,8 @@ export function Viewer({
   onLigature,
   cap = null,
   onCap,
+  air,
+  onAir,
   showModel,
   onShowModel,
 }: Props) {
@@ -331,8 +338,9 @@ export function Viewer({
       lig = new THREE.Group(),
       reed = new THREE.Group(),
       capG = new THREE.Group(),
+      airG = new THREE.Group(),
       ghost = new THREE.Group();
-    model.add(a, b, lig, reed, capG);
+    model.add(a, b, lig, reed, capG, airG);
     // the ghost has its own pass, drawn over everything else
     const ghostScene = new THREE.Scene();
     ghostScene.add(ghost);
@@ -383,7 +391,7 @@ export function Viewer({
       draw();
     });
     ro.observe(host);
-    ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, capG, ghost, grid, axes, draw };
+    ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, capG, airG, ghost, grid, axes, draw };
     // Dev-only handle for scripted inspection (e.g. from browser automation).
     if (import.meta.env.DEV) (window as unknown as { __viewer: Ctx }).__viewer = ctxRef.current;
     return () => {
@@ -394,6 +402,7 @@ export function Viewer({
       clearModel(lig);
       clearModel(reed);
       clearModel(capG);
+      clearModel(airG);
       clearModel(ghost);
       renderer.dispose();
       host.removeChild(renderer.domElement);
@@ -768,15 +777,28 @@ export function Viewer({
       if (o instanceof THREE.Mesh) (o.material as THREE.MeshStandardMaterial).wireframe = wire;
       if (o.name === "edges") o.visible = edges && !wire;
     });
-    ctx.a.visible = showA;
-    ctx.reed.visible = showA;
+    const airOnly = !!air?.on && !!air.stl; // the mouthpiece stays until the air space is made
+    ctx.a.visible = showA && !airOnly;
+    ctx.reed.visible = showA && !airOnly;
+    ctx.lig.visible = !airOnly;
+    ctx.capG.visible = !airOnly;
+    ctx.airG.visible = airOnly;
     ctx.b.visible = showB;
     applyLook(ctx);
     placeB(ctx);
     applySection(ctx);
     ctx.draw();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [edges, wire, seeThrough, showA, showB, section, secPos, secFlip]);
+  }, [edges, wire, seeThrough, showA, showB, section, secPos, secFlip, air?.on, air?.stl]);
+  useEffect(() => {
+    const ctx = ctxRef.current;
+    if (!ctx) return;
+    fill(ctx.airG, air?.on ? air.stl : null, AIR_COLOR);
+    ctx.airG.visible = !!air?.on;
+    applySection(ctx);
+    ctx.draw();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [air?.on, air?.stl]);
 
   // Once rendering is quiet, the ghost stays a moment, then fades out (and is kept, hidden).
   useEffect(() => {
@@ -938,6 +960,15 @@ export function Viewer({
                 <Check on={wire} set={setWire} title="Show the triangles">
                   Wireframe
                 </Check>
+                {air && onAir && (
+                  <Check
+                    on={air.on}
+                    set={onAir}
+                    title="Show only the air inside: the chamber, throat and bore as a solid"
+                  >
+                    Air space only
+                  </Check>
+                )}
                 <Check
                   on={seeThrough}
                   set={setSeeThrough}

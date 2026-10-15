@@ -6,6 +6,7 @@ import { useCallback, useRef, useState, type RefObject } from "react";
 import { api, base64ToBuffer, type RenderResult, type RenderTarget, type ScadParam } from "../api";
 import { parseAirVolume } from "../compare";
 import { FOCUS_ECHO, parseFocusEcho, type FocusData } from "../focus";
+import { AIR_ECHO, buildAirStl, parseAirEcho } from "../airMesh";
 import { parseShapeEcho, SHAPE_ECHO, type ShapeLines } from "../shapeEdit";
 import {
   parseCap,
@@ -39,6 +40,7 @@ export interface RenderState {
   ligOK: boolean; // the file can make a ligature
   cap: CapView; // whether the cap is shown
   capOK: boolean; // the file can make a cap
+  air: boolean; // the air space (negative space) is shown
 }
 
 interface Options {
@@ -50,8 +52,8 @@ interface Options {
 
 const SLOW_RENDER_S = 45; // reported to the site's log when a render takes longer
 // The "Edit shape" lines ride along with the reports (no measurable cost).
-const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n" + SHAPE_ECHO;
-const FACING_ECHO = "\nfacing_report();\n" + SHAPE_ECHO;
+const REPORTS_ECHO = "\nfacing_report();\nclearance_report();\n" + SHAPE_ECHO + AIR_ECHO;
+const FACING_ECHO = "\nfacing_report();\n" + SHAPE_ECHO + AIR_ECHO;
 // The reports' lines stay out of the console, and so do the WebAssembly build's harmless startup
 // complaints (no locale files, no fontconfig file: the generator registers its fonts itself).
 const NOISE = /^(Could not initialize localization|Fontconfig error: Cannot load default config file)/;
@@ -63,7 +65,7 @@ const withoutNoise = (log: string) =>
 const withoutReports = (log: string) =>
   withoutNoise(log)
     .split("\n")
-    .filter((l) => !/^ECHO: (PARAM_FOCUS|SHAPE_EDIT|"(FACING|CLEARANCE))/.test(l))
+    .filter((l) => !/^ECHO: (PARAM_FOCUS|SHAPE_EDIT|AIR_SOLID|"(FACING|CLEARANCE))/.test(l))
     .join("\n");
 // Settings that only the accessories read: changing them leaves the mouthpiece as it is (checked by
 // rendering the alto with ligature_made, cap_made and several ligature_* / cap_* values changed: the
@@ -78,13 +80,20 @@ const targetSig = (t: RenderTarget) =>
   JSON.stringify([t.path, t.name, t.source, Object.entries(t.files).map(([k, v]) => [k, v.length, v])]);
 // The other accessories' settings each part ignores (checked the same way: the ligature with cap_*
 // changed, the reed with ligature_* and cap_* changed, byte-identical). The cap reads ligature_*.
-const IGNORES: Record<string, RegExp> = { ligature_seated: /^cap_/, reed_model: ACCESSORY_KEY };
+const IGNORES: Record<string, RegExp> = {
+  ligature_seated: /^cap_/,
+  reed_model: ACCESSORY_KEY,
+  air_model: ACCESSORY_KEY,
+};
 const partSignature = (t: RenderTarget, vals: Values, fn: number | null, part: string) =>
   JSON.stringify([
     targetSig(t),
     part,
     fn,
-    withoutKeys(vals, (k) => INTERIOR_PREFIXES.some((p) => k.startsWith(p)) || !!IGNORES[part]?.test(k)),
+    withoutKeys(
+      vals,
+      (k) => (part !== "air_model" && INTERIOR_PREFIXES.some((p) => k.startsWith(p))) || !!IGNORES[part]?.test(k),
+    ),
   ]);
 const withFn = (vals: Values, fn: number | null): Values => (fn === null ? vals : { ...vals, render_fn: fn });
 
@@ -113,6 +122,10 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const [air, setAir] = useState<number | null>(null); // inside air volume of the last render
   const [ligStl, setLigStl] = useState<ArrayBuffer | null>(null);
   const [reedStl, setReedStl] = useState<ArrayBuffer | null>(null);
+  // The negative space: made from the main render's echo of the interior rings (airEchoStl), else by a render of its own.
+  const [airPartStl, setAirPartStl] = useState<ArrayBuffer | null>(null);
+  const [airEchoStl, setAirEchoStl] = useState<ArrayBuffer | null>(null);
+  const airEchoed = useRef(false);
   const [ligInfo, setLigInfo] = useState<LigatureInfo | null>(null);
   const [capStl, setCapStl] = useState<ArrayBuffer | null>(null);
   const [capInfo, setCapInfo] = useState<CapInfo | null>(null);
@@ -227,11 +240,21 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   );
 
   // The accessories that are shown, for these values.
-  const loadParts = (t: RenderTarget, vals: Values, fn: number | null) => {
+  // skipAir: the main render brings the air space (its echo), so it needs no render of its own.
+  const loadParts = (t: RenderTarget, vals: Values, fn: number | null, skipAir = airEchoed.current) => {
     const s = state.current!;
     if ((s.lig.on || s.lig.reed) && s.ligOK) loadLigature(t, vals, fn);
     if (s.cap.on && s.capOK) loadCap(t, vals, fn);
+    if (s.air && s.ligOK && !skipAir)
+      runPart("air", "air_model", t, vals, fn, (r) => setAirPartStl(r.ok && r.stl ? base64ToBuffer(r.stl) : null));
   };
+
+  // The air space from a render's echo of the interior rings.
+  const takeAirEcho = useCallback((log: string) => {
+    const rings = parseAirEcho(log);
+    airEchoed.current = !!rings;
+    setAirEchoStl(rings ? buildAirStl(rings) : null);
+  }, []);
 
   // The readouts' reports on their own (facing curve, thinnest wall), for when the readouts come
   // into view after a render made without them: one echo run.
@@ -259,11 +282,12 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         setFacing(parseFacing(f.log));
         setWall(parseClearance(f.log));
         setShape(parseShapeEcho(f.log, vals));
+        takeAirEcho(f.log);
       } catch {
         // superseded or failed: the cards keep their last values
       }
     },
-    [state, setFocusData],
+    [state, setFocusData, takeAirEcho],
   );
 
   const renderPass = useCallback(
@@ -276,7 +300,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
       lastMain.current = null;
       const fn = qualityFn(q, vals);
       // The accessories start with the render, on their own lane (not behind it).
-      if (s.ligOK || s.capOK) loadParts(t, vals, fn);
+      if (s.ligOK || s.capOK) loadParts(t, vals, fn, s.reportsOn);
       setStatus({ text: `Rendering ${t.name}…`, short: "Rendering…", kind: "busy" });
       renderStarted(reportDesign(t.path));
       // Time spent in the background doesn't count (a phone pauses the page while another app is
@@ -322,6 +346,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
           setFacing(parseFacing(r.log));
           setWall(parseClearance(r.log));
           setShape(parseShapeEcho(r.log, vals));
+          takeAirEcho(r.log);
         }
         const airCm3 = r.ok ? parseAirVolume(r.log) : null;
         setAir(airCm3);
@@ -468,6 +493,9 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     sigs.current = {};
     setLigStl(null);
     setReedStl(null);
+    setAirPartStl(null);
+    setAirEchoStl(null);
+    airEchoed.current = false;
     setLigInfo(null);
     setCapStl(null);
     setCapInfo(null);
@@ -485,6 +513,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     air,
     ligStl,
     reedStl,
+    airStl: airEchoStl ?? airPartStl,
     ligInfo,
     capStl,
     capInfo,

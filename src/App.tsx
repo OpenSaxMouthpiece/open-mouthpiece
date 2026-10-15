@@ -198,6 +198,7 @@ export default function App() {
   const [partTab, setPartTab] = useState<PartTab>(saved.partTab ?? "mouthpiece");
   // The mouthpiece shown in the view (off: the ligature or cap alone); the Mouthpiece tab brings it back.
   const [showMp, setShowMp] = useState(true);
+  const [airOn, setAirOn] = useState(false); // the view shows only the air space (negative space)
   const [pinned, setPinned] = useState<Snapshot | null>(null); // model B
 
   // ---- the design on screen
@@ -277,6 +278,7 @@ export default function App() {
     ligOK,
     cap: capView,
     capOK,
+    air: airOn,
   };
   const live = useRef(liveState);
   live.current = liveState;
@@ -284,6 +286,7 @@ export default function App() {
   // ---- rendering (hooks/useModelRender.ts) and zoom to parameter (hooks/useParamFocus.ts)
   const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
+  const makingAir = airOn && !model.airStl && model.partsBusy.includes("air"); // the air space is on its way
   const { stl, svg, log, facing, wall, air, render, renderPass, partStl, capPrintStl, kitReports } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
   const textVars = useMemo(() => (log ? parseTextVariables(log) : []), [log]);
@@ -494,7 +497,7 @@ export default function App() {
   useEffect(() => {
     if (ready && stl) model.ensureParts();
     // eslint-disable-next-line react-hooks/exhaustive-deps -- ensureParts reads the latest state itself
-  }, [ready, stl, ligView.on, ligView.reed, capView.on, ligOK, capOK]);
+  }, [ready, stl, ligView.on, ligView.reed, capView.on, ligOK, capOK, airOn]);
   // Another design: its own ligature comes with its first render.
   // eslint-disable-next-line react-hooks/exhaustive-deps -- clearLigature only sets state
   useEffect(() => model.clearLigature(), [mainKey]);
@@ -1569,7 +1572,7 @@ export default function App() {
       labelB={labelB}
       compareKey={pinned ? `${pinned.path ?? ""}|${pinned.name}` : undefined}
       onClearB={clearB}
-      busy={status.kind === "busy" || notice?.kind === "busy"}
+      busy={status.kind === "busy" || notice?.kind === "busy" || makingAir}
       busyLabel={
         dlBusy("ligature")
           ? "Making the ligature for download…"
@@ -1598,6 +1601,8 @@ export default function App() {
           : undefined
       }
       cap={capOK ? { on: capView.on, beside: capV.beside, stl: model.capStl } : null}
+      air={ligOK ? { on: airOn, stl: model.airStl } : null}
+      onAir={ligOK ? setAirOn : undefined}
       showModel={ligOK || capOK ? showMp : undefined}
       onShowModel={ligOK || capOK ? setShowMp : undefined}
       onCap={
