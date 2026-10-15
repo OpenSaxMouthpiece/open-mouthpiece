@@ -1568,6 +1568,20 @@ function station_list(z0, z1, dense = 3, step = 1) =
   concat([for (i = [0 : n - 1]) z0 + (zm - z0) * i / n],
          [for (j = [0 : m]) zm + (z1 - zm) * (1 - pow(1 - j / m, 2))]);
 function drop_first(v) = [for (i = [1 : len(v) - 1]) v[i]];
+// The window's rounded rear end is an arc whose width changes fastest at its start, so its slices are
+// spaced by angle (dense where it turns, ~1mm apart at the end) instead of evenly: a smooth rim and
+// rear wall instead of flat facets. REAR_R = the arc's radius, REAR_ZC its end (where the straight sides begin).
+REAR_N = 14;
+REAR_R = max(0.3, min(window_rear_radius, win_hw_rear));
+REAR_ZC = win_z0 + REAR_R;
+// (stations closer than 0.06mm to the ends are dropped: a small radius must not put them out of order)
+REAR_Z = [for (k = [2 : REAR_N - 1]) let(z = win_z0 + REAR_R * (1 - cos(90 * k / REAR_N))) if (z >= win_z0 + 0.1 && z <= REAR_ZC - 0.06) z];
+// ... and a lead-out along the straight sides (0.5mm), where the wall still settles into the chamber
+REAR_LEAD = 4;
+REAR_END = REAR_ZC + REAR_LEAD;
+// (all kept 1mm behind the window front, for a short window)
+REAR_ALL = [for (z = concat([win_z0 + 0.05], REAR_Z, [REAR_ZC], [for (z = [REAR_ZC + 0.5 : 0.5 : REAR_END - 0.01]) z], [REAR_END])) if (z < win_z0 + max(0.2, win_front_z - win_z0 - 1)) z];
+REAR_LAST = REAR_ALL[len(REAR_ALL) - 1];
 
 // Resolution, all from render_fn: ring point counts, and the spacing between rings along Z (1mm
 // at the default 64 — the profiles are smooth enough that finer only costs CGAL time).
@@ -1600,7 +1614,10 @@ function win_fit_cap(z) =
   t <= 0 ? WIN_FIT_TAB[0][1] : t >= n - 1 ? WIN_FIT_TAB[n - 1][1]
   : let(i = floor(t)) lerp(WIN_FIT_TAB[i][1], WIN_FIT_TAB[i + 1][1], t - i);
 
-AIR_RINGS = ACCESSORY_PART ? [] : [for (z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP)))
+AIR_BASE_Z = drop_first(station_list(eff_shank_depth, win_front_z, tip_curve + 1, Z_STEP));
+AIR_Z = win_z0 < eff_shank_depth + 1 ? AIR_BASE_Z
+  : concat([for (z = AIR_BASE_Z) if (z < win_z0 - 0.2) z], [win_z0], REAR_ALL, [for (z = AIR_BASE_Z) if (z > REAR_LAST + 0.3) z]);
+AIR_RINGS = ACCESSORY_PART ? [] : [for (z = AIR_Z)
   let(R = interior_ring_pts_at(z)) [z, R[0], R[1]]];
 
 // tip_bevel: the window's front, a flat ceiling over the opening when the part prints standing
@@ -1723,38 +1740,59 @@ function interior_ring_near(z) =
     lerp(a[1], b[1], (z - a[0]) / max(1e-9, b[0] - a[0]));
 function air_find(z, lo, hi) = hi - lo <= 1 ? lo :
   let(m = floor((lo + hi) / 2)) AIR_RINGS[m][0] <= z ? air_find(z, m, hi) : air_find(z, lo, m);
+FLARE_UP = 1.5;
+// One ring of the window cutter at z. The window's wall is a cone around its outline: it flares
+// outward by CONE_C per mm of height above the table (a smooth bowl, not a vertical wall and a
+// ledge), but never past the chamber wall (so the rails keep their thickness). Around the rounded
+// rear end the same cone slopes the rear wall: the rings start before the window does (win_z0), where
+// only the upper part of the cone reaches, so the cut runs out as a scoop instead of a flat wall.
+CONE_C = 0.5;
+FLARE_N = 6;
+SCOOP_LEN = 2.4;
+function cone_x(z, hw, o) =
+  z >= REAR_ZC ? hw + o
+  : (window_base_hw(z) - REAR_R) + sqrt(max(0, (REAR_R + o) * (REAR_R + o) - (z - REAR_ZC) * (z - REAR_ZC)));
+function window_cutter_ring(z) =
+  let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[1] + I[2]) / 2)
+  // walls leaning in (walls leaning in): the cutter's upper corners stay inside them
+  let(lean = lean_in_allowed(I, top, min(0, wall_lean_at(z))) - 0.05)
+  let(y_rail = min(facing_at_z(z) + 0.04, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
+  // the dome (dome_y) lowers the ring toward the sides, mid-height included: the cutter's ceiling follows it
+  // (nine points across), never under the rail line
+  let(y0 = max(y_rail + 0.02, dome_y(z, hw_top, top, I)), yf = min(I[6] + FLARE_UP, y_rail + 0.7 * (y0 - y_rail)))
+  // before the window starts: the lowest height the cone reaches at this z
+  let(rear = z <= win_z0, o_min = rear ? max(0, abs(z - REAR_ZC) - REAR_R) + 0.02 : 0, ys = min(yf - 0.2, y_rail + o_min / CONE_C))
+  let(xlo = rear ? window_base_hw(z) - REAR_R + 0.02 : hw)
+  let(flare = [for (k = [0 : FLARE_N]) let(y = ys + (yf - ys) * k / FLARE_N,
+        cap = min(max(rail_wall_x(I, y, z), int_hw_at_y(I, y)), ring_half_width_at_y(E, y) - 0.6) - 0.12)
+      [max(xlo, min(cone_x(z, hw, CONE_C * (y - y_rail)), cap)), y]])
+  concat([[-flare[0][0], rear ? ys : -10, z], [flare[0][0], rear ? ys : -10, z]],
+   [for (p = flare) [p[0], p[1], z]],
+   [for (k = [0 : 8]) let(x = hw_top * (1 - k / 4)) [x, max(yf + 0.02, dome_y(z, abs(x), top, I)), z]],
+   [for (k = [FLARE_N : -1 : 0]) [-flare[k][0], flare[k][1], z]]
+  );
 module window_cutter() {
-  ring_loft([for (z = station_list(win_z0 + 0.01, win_front_z - 0.02, tip_curve + 1, Z_STEP * 0.8))
-    let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[1] + I[2]) / 2)
-    // walls leaning in (walls leaning in): the cutter's upper corners stay inside them
-    let(lean = lean_in_allowed(I, top, min(0, wall_lean_at(z))) - 0.05)
-    let(y_rail = min(facing_at_z(z) + 0.04, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
-    // the dome (dome_y) lowers the ring toward the sides, mid-height included: the cutter's ceiling follows it
-    // (nine points across), never under the rail line
-    let(y0 = max(y_rail + 0.02, dome_y(z, hw_top, top, I)), yf = min(I[6], y_rail + 0.5 * (y0 - y_rail)), xf = max(hw, min(rail_wall_x(I, yf, z), ring_half_width_at_y(E, yf) - 0.6)))
-    [[-hw, -10, z], [hw, -10, z], [hw, y_rail, z], [xf, yf, z],
-     for (k = [0 : 8]) let(x = hw_top * (1 - k / 4)) [x, max(y_rail + 0.02, dome_y(z, abs(x), top, I)), z],
-     [-xf, yf, z], [-hw, y_rail, z]]]);
+  ring_loft([for (z = concat([for (j = [0 : 11]) win_z0 - SCOOP_LEN * (1 - j / 12)], [win_z0, win_z0 + 0.01], drop_first(REAR_ALL), drop_first(station_list(REAR_LAST, win_front_z - 0.02, tip_curve + 1, Z_STEP * 0.8)))) window_cutter_ring(z)]);
 }
 
 // The sharp edge where the table meets the window's rounded rear end is rounded off (RIM_R, a
-// quarter circle in section): a thin cutter that follows the rear arc, offset outward by the fillet
+// quarter circle in section, the solid lies above the table face): a thin cutter that follows the rear arc, offset outward by the fillet
 // (o) at each depth. It is clamped to the nominal window width (window_side_hw), so it can only widen
 // the opening where the arc is narrower than the straight sides: the rails are never thinned.
 RIM_R = 0.6;
 RIM_K = 8;
 function rim_x(z, y, r, zc) =
-  let(o = RIM_R - sqrt(max(0, RIM_R * RIM_R - (y + RIM_R) * (y + RIM_R))), d = z - zc)
+  let(o = RIM_R - sqrt(max(0, RIM_R * RIM_R - (RIM_R - y) * (RIM_R - y))), d = z - zc)
   max(0.02, min(window_side_hw(z), (window_base_hw(z) - r) + sqrt(max(0, (r + o) * (r + o) - d * d))));
 module rim_round() {
-  r = max(0.3, min(window_rear_radius, win_hw_rear)); zc = win_z0 + r;
-  zs = concat([for (z = [win_z0 - RIM_R : 0.25 : zc - 0.01]) z], [zc]);
+  r = REAR_R; zc = REAR_ZC;
+  zs = concat([for (zd = [0.55, 0.45, 0.3, 0.15]) win_z0 - min(zd, RIM_R - 0.05)], [win_z0, win_z0 + 0.05], REAR_Z, [zc]);
   ring_loft([for (z = zs)
-    let(yt = facing_at_z(max(z, win_z0)),
-        ys = [for (k = [0 : RIM_K]) yt - RIM_R + k * RIM_R / RIM_K],
-        right = [for (y = ys) [rim_x(z, y - yt, r, zc), y, z]])
-    concat(right, [[right[RIM_K][0], yt + 0.05, z], [-right[RIM_K][0], yt + 0.05, z]],
-           [for (k = [RIM_K : -1 : 0]) [-right[k][0], right[k][1], z]])
+    // behind the window start the fillet only reaches up to the height where its offset still gets here
+    let(yt = facing_at_z(max(z, win_z0)), zd = max(0, win_z0 - z), tmax = RIM_R - sqrt(max(0, RIM_R * RIM_R - (RIM_R - zd) * (RIM_R - zd))),
+        right = concat([[rim_x(z, 0, r, zc), yt - 0.05, z]],
+                       [for (k = [0 : RIM_K]) let(t = k * tmax / RIM_K) [rim_x(z, t, r, zc), yt + t, z]]))
+    concat(right, [for (k = [RIM_K + 1 : -1 : 0]) [-right[k][0], right[k][1], z]])
   ]);
 }
 
