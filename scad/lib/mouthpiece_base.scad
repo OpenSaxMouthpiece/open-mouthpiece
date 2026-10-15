@@ -964,7 +964,7 @@ BAFFLE_TAB = [for (i = 0, v = baffle_edited_at(BT_Z0); i <= BT_N;
 function baffle_shape_at(z) = !BAFFLE_HELD ? baffle_type_at(z)
   : let(t = max(0, min(BT_N, (z - BT_Z0) / BT_H)), i = min(floor(t), BT_N - 1))
     lerp(BAFFLE_TAB[i], BAFFLE_TAB[i + 1], t - i);
-TIP_GAP = 0.05;
+TIP_GAP = 0.02;
 TIP_RAMP = 0.3;
 function baffle_roof_held(z) =
   let(u = clamp01((z - baffle_start_z) / max(1, L - baffle_start_z)))
@@ -1188,7 +1188,17 @@ function interior_points(dirs, z, I) =
       : la == 0 ? blend
       : I[5] < 1e3 ? max(sidewall_allowed(I, p[1], la), min(out_allowed(I, p[1], la), out_blend(I, p[1], la)))
       : out_allowed(I, p[1], la))
-    [sign(p[0]) * min(abs(p[0]), allowed), p[1], p[2]]];
+    let(x = sign(p[0]) * min(abs(p[0]), allowed))
+    [x, dome_y(z, abs(x), p[1], I), p[2]]];
+// Under the window's last 11mm the roof arches across, dipping toward the sides (a smooth dome, not
+// a flat roof with square corners), so it comes down to the facing along the sides all the way to the
+// tip. Heights above the facing are scaled down about it, never up, so only material is added.
+// dip = 0.095 x^2 / half-width, fading in over 7mm.
+function dome_y(z, x, y, I) =
+  I[5] >= 1e3 || z <= L - 11 ? y
+  : let(lo = facing_at_z(z) + TIP_GAP) y <= lo || I[1] <= lo + 0.05 ? y
+  : let(dip = 0.095 * x * x / max(3, I[0]) * smootherstep(clamp01((z - (L - 11)) / 7)) * (0.55 + 0.45 * clamp01((win_front_z - z) / 4.4)))
+    lo + (y - lo) * max(0.05, (I[1] - lo - dip) / (I[1] - lo));
 // Height above narrow_top, the corner there rounded over 1mm.
 function wall_rise(I, y) = let(d = y - I[6]) d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4;
 // Half-width walls leaning out (la > 0) under the window allow at height y.
@@ -1697,8 +1707,12 @@ module window_cutter() {
     let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[1] + I[2]) / 2)
     // walls leaning in (walls leaning in): the cutter's upper corners stay inside them
     let(lean = lean_in_allowed(I, top, min(0, wall_lean_at(z))) - 0.05)
-    let(y_rail = min(facing_at_z(z) + 0.1, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
-    [[-hw, -10, z], [hw, -10, z], [hw, y_rail, z], [hw_top, top, z], [-hw_top, top, z], [-hw, y_rail, z]]]);
+    let(y_rail = min(facing_at_z(z) + 0.04, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
+    // the dome (dome_y) lowers the ring toward the sides, mid-height included: the cutter's ceiling follows it
+    // (nine points across), never under the rail line
+    [[-hw, -10, z], [hw, -10, z], [hw, y_rail, z],
+     for (k = [0 : 8]) let(x = hw_top * (1 - k / 4)) [x, max(y_rail + 0.02, dome_y(z, abs(x), top, I)), z],
+     [-hw, y_rail, z]]]);
 }
 
 // Window outline as a flat plate (for eyeballing the planform).
