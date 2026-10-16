@@ -29,6 +29,7 @@ import { runOpenscad, parseLog, pool, OPENSCAD } from './openscad.mjs';
 import { loadTris } from './mesh_frame.mjs';
 import { isVoiceFile, readAssignments } from './voice_file.mjs';
 import { tipOverhang } from './tip_bevel_check.mjs';
+import { geometryChecks, parseFacingLines } from './geometry_check.mjs';
 import { updateParamLists } from './param_lists.mjs';
 import { transformSync } from 'esbuild';
 
@@ -201,6 +202,14 @@ async function checkFile(file) {
     );
   const m = meshInfo(stl);
   Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
+  if (isVoiceFile(text)) {
+    // 2b: measurements taken from the mesh itself (length, symmetry, facing, rails, tip opening)
+    const echo = path.join(OUT, `${tag}_facing.echo`);
+    await runOpenscad(['-o', echo, '-D', 'part="facing_report"', file], { cwd: path.dirname(file) });
+    const facing = fs.existsSync(echo) ? parseFacingLines(fs.readFileSync(echo, 'utf8')) : [];
+    if (!facing.length) r.problems.push('facing report gave no FACING lines');
+    r.problems.push(...geometryChecks(m.T, values, facing).problems);
+  }
   if (isVoiceFile(text)) {
     const front = Number(values.overall_length) - Number(values.tip_rail_thickness),
       tilt = Number(values.bore_tilt);

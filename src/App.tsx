@@ -625,7 +625,7 @@ export default function App() {
         values: {},
         params: [],
         air: null,
-        summary: len !== null ? { length: len, tip: null, facing: null, air: null, notes: [] } : null,
+        summary: len !== null ? { length: len, tip: null, facing: null, air: null, notes: [], adjusted: [] } : null,
         stl: design ? null : buf,
         mesh: { tris: design ?? raw, aligned: !!design },
       });

@@ -1390,6 +1390,36 @@ function air_view_rings() =
       [for (q = AIR_RINGS) q[2]]))
     [for (p = ring) f(p)]];
 
+// What the generator changed by itself, as data: [setting, asked, got, why] (mm). The same cases as the
+// "limited to" warnings in validate(); the app shows them as "you asked X, the model has Y". Part of
+// the REPORT echo.
+function adjustments() =
+  let(chamber_got = 2 * max([0, for (r = AIR_RINGS) if (r[0] > eff_throat_z) r[1][0]]))
+  [
+    if (shank_diameter > 1.3 * shape_width[0][1])
+      ["shank_diameter", shank_diameter, 1.3 * shape_width[0][1], "1.3x this outline's shank end"],
+    if (eff_shank_depth < shank_depth)
+      ["shank_depth", shank_depth, eff_shank_depth, "the socket can't run past the bore into the throat or window"],
+    if (eff_window_length < window_length)
+      ["window_length", window_length, eff_window_length, "the window must start 30% of the length (and 20mm) from the shank end"],
+    if (eff_throat_z < throat_position)
+      ["throat_position", throat_position, eff_throat_z, "it must come before the window starts"],
+    if (eff_throat_z > throat_position)
+      ["throat_position", throat_position, eff_throat_z, "it must come after the socket"],
+    if (shank_bevel > 0 && SHANK_BEVEL < shank_bevel - 0.01)
+      ["shank_bevel", shank_bevel, SHANK_BEVEL, "0.8mm of the tenon's wall stays at the opening"],
+    if (shank_bevel > 0 && SHANK_BEVEL_DEPTH < shank_bevel_depth - 0.01)
+      ["shank_bevel_depth", shank_bevel_depth, SHANK_BEVEL_DEPTH, "3mm of full-size socket stays"],
+    if (eff_throat_length < throat_taper)
+      ["throat_taper", throat_taper, eff_throat_length, "the bore can only narrow after the socket"],
+    if (len(AIR_RINGS) > 0 && chamber_got < CHAMBER_W - 0.3)
+      ["chamber_width", CHAMBER_W, chamber_got, str("the side walls keep min_wall (", min_wall, "mm)")],
+    if ((ligature_made || part == "ligature" || part == "ligature_seated") && win_z0 - lig_z1 < ligature_position - 0.01)
+      ["ligature_position", ligature_position, win_z0 - lig_z1, "the band has to stay on the reed"],
+    if (HAS_LETTERING && eff_lettering_depth < lettering_depth)
+      ["lettering_depth", lettering_depth, eff_lettering_depth, str("at least 0.8mm of the ", lettering_wall, "mm wall there must remain")]
+  ];
+
 module validate() {
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
     echo(str("WARNING: ", r[0], " was renamed ", r[2], " — this value is ignored; rename it in the file"));
@@ -1454,9 +1484,14 @@ module validate() {
   echo(str("Overall length: ", L, "mm, tip_opening: ", T, "mm, facing_length: ", F, "mm"));
   // the lettering variables and their values now (the app lists them by the text fields)
   echo(str("Text variables: ", join_str([for (t = LETTERING_TOKENS) str(t[0], " ", t[1])], "; ")));
-  echo(str("Inside air volume: ", round(air_volume() / 100) / 10, " cm3 (from where the neck ends to the tip, with the reed closing the window)"));
+  air_cm3 = round(air_volume() / 100) / 10;
+  echo(str("Inside air volume: ", air_cm3, " cm3 (from where the neck ends to the tip, with the reed closing the window)"));
   // the socket the neck fills (the app turns a change of air into mm along the cork with it)
   echo(str("Socket: ", eff_shank_depth, "mm deep, ", socket_d, "mm across, voice ", voice));
+  // The same numbers as data, for the app (src/readouts.ts parseReport). Add fields, don't rename;
+  // change "version" only when a field's meaning changes.
+  echo(REPORT = [["version", 1], ["length", L], ["tip", T], ["facing", F], ["air", air_cm3],
+                 ["socket", [eff_shank_depth, socket_d, voice]], ["adjusted", adjustments()]]);
 }
 validate();
 

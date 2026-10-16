@@ -3,7 +3,8 @@
 // card also shows B's number.
 import { formatThou } from "../design";
 import { corkShift, corkShiftText } from "../corkFit";
-import { isAdjustment, type Summary, type Wall } from "../readouts";
+import { adjustmentText, isAdjustment, type Adjustment, type Summary, type Wall } from "../readouts";
+import { paramLabel } from "../design";
 
 interface Props {
   summary: Summary | null;
@@ -101,17 +102,23 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
           </div>
         ))}
       </div>
-      <Notes notes={summary.notes} />
+      <Notes notes={summary.notes} adjusted={summary.adjusted} />
     </div>
   );
 }
 
 // The generator's notes: the ones that ask you to do something in yellow; the values it adjusted by
 // itself to keep the model sound (nothing to do) folded away in one quiet line.
-export function Notes({ notes }: { notes: string[] }) {
+// An adjustment the generator reported as data reads "Chamber width: you asked 22 mm, the model has 18.4
+// mm — ..."; its older text note (the same case) is left out. Other adjustment notes stay as text.
+export function Notes({ notes, adjusted = [] }: { notes: string[]; adjusted?: Adjustment[] }) {
+  const covered = (n: string) => adjusted.some((a) => n.toLowerCase().startsWith(a.param.replace(/_/g, " ")));
   const act = notes.filter((n) => !isAdjustment(n));
-  const auto = notes.filter(isAdjustment);
-  if (!notes.length) return null;
+  const auto = [
+    ...adjusted.map((a) => adjustmentText(a, paramLabel(a.param))),
+    ...notes.filter((n) => isAdjustment(n) && !covered(n)),
+  ];
+  if (!notes.length && !adjusted.length) return null;
   return (
     <>
       {act.length > 0 && (

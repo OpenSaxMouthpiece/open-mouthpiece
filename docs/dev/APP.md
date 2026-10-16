@@ -133,6 +133,7 @@ static site (docs/HOSTING.md).
   only); the filter also searches descriptions; hides the "Not yet implemented" group. A string
   param named `*_image` gets `ImagePicker` (scad/art/ SVGs plus the user's own, "Upload SVG…");
   picking one also sets `<name>_aspect`.
+- **REPORT echo**: `validate()` ends with `echo(REPORT = [["version", 1], ["length", ..], ["tip", ..], ["facing", ..], ["air", ..], ["socket", [depth, across, voice]], ["adjusted", [[setting, asked, got, why], ..]]])`; `parseReport` (src/readouts.ts) reads it and `parseSummary` falls back to the text lines without it. Add fields, never rename; bump `version` (both sides) only when a meaning changes. `adjusted` comes from `adjustments()` in the base file (same cases as the "limited to" warnings) and shows in Readouts as "Chamber width: you asked 22 mm, the model has 18.4 mm - ...". `scripts/geometry_check.mjs` (used by `npm run check`) measures the mesh itself: length, symmetry, facing against the FACING lines, rail widths, tip opening.
 - **Readouts**: cards from the render log (`parseSummary`: length/tip/facing/air; the Air card turns the air into mm on the cork vs the voice's preset, src/corkFit.ts, whose `PRESET_AIR` `npm run check` keeps current) and two echo-only
   reports (`facing_report()` -> facing chart + feeler-gauge stops, `clearance_report()` -> thinnest
   wall). Facing has one meaning everywhere: the facing length, tip to the break (the Facing length

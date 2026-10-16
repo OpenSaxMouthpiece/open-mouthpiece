@@ -10,9 +10,68 @@ export interface Summary {
   air: number | null; // cm3
   socket?: Socket | null; // where the neck goes (for the cork readout)
   notes: string[]; // validate() warnings, in plain words
+  adjusted: Adjustment[]; // settings the generator changed by itself (from the REPORT echo)
+}
+
+// A setting the generator changed to keep the model sound: you asked `asked`, the model has `got` (mm).
+export interface Adjustment {
+  param: string;
+  asked: number;
+  got: number;
+  why: string;
+}
+
+// The REPORT echo (validate() in the base file): the summary numbers and the adjustments as data,
+// `echo(REPORT = [["version", 1], ["length", ..], ..., ["adjusted", [[param, asked, got, why], ..]]])`.
+// Null when the log has none (an old file's include, another version): the text lines are the fallback.
+export interface Report {
+  length: number;
+  tip: number;
+  facing: number;
+  air: number;
+  socket: Socket | null;
+  adjusted: Adjustment[];
+}
+export const REPORT_VERSION = 1;
+export function parseReport(log: string): Report | null {
+  const m = /ECHO: REPORT = (.*)$/m.exec(log);
+  if (!m) return null;
+  try {
+    const raw = JSON.parse(m[1].replace(/\bundef\b|-?\binf\b|\bnan\b/g, "null")) as [string, unknown][];
+    const f = new Map(raw);
+    if (f.get("version") !== REPORT_VERSION) return null;
+    const num = (k: string) => Number(f.get(k));
+    const [depth, across, voice] = (f.get("socket") as [number, number, string]) ?? [];
+    const adjusted = ((f.get("adjusted") as [string, number, number, string][]) ?? [])
+      .filter((a) => a.length === 4 && Number.isFinite(a[1]) && Number.isFinite(a[2]))
+      .map(([param, asked, got, why]) => ({ param, asked, got, why }));
+    const r: Report = {
+      length: num("length"),
+      tip: num("tip"),
+      facing: num("facing"),
+      air: num("air"),
+      socket: Number.isFinite(depth) ? { depth, diameter: across, voice } : null,
+      adjusted,
+    };
+    return [r.length, r.tip, r.facing, r.air].every(Number.isFinite) ? r : null;
+  } catch {
+    return null;
+  }
 }
 
 export function parseSummary(log: string): Summary {
+  const rep = parseReport(log);
+  const notes0 = [...log.matchAll(/ECHO: "WARNING: ([^"]*)"/g)].map((w) => plainNote(w[1]));
+  if (rep)
+    return {
+      length: rep.length,
+      tip: rep.tip,
+      facing: rep.facing,
+      air: rep.air,
+      socket: rep.socket,
+      notes: [...new Set(notes0)],
+      adjusted: rep.adjusted,
+    };
   const m = /Overall length: ([\d.]+)mm, tip_opening: ([\d.]+)mm, facing_length: ([\d.]+)mm/.exec(log);
   const notes = [...log.matchAll(/ECHO: "WARNING: ([^"]*)"/g)].map((w) => plainNote(w[1]));
   return {
@@ -22,7 +81,14 @@ export function parseSummary(log: string): Summary {
     air: parseAirVolume(log),
     socket: parseSocket(log),
     notes: [...new Set(notes)],
+    adjusted: [],
   };
+}
+
+// "you asked X, the model has Y" for an adjustment, in plain words.
+export function adjustmentText(a: Adjustment, label: string): string {
+  const mm = (v: number) => `${Math.round(v * 100) / 100} mm`;
+  return `${label}: you asked ${mm(a.asked)}, the model has ${mm(a.got)} — ${a.why}`;
 }
 
 // The lettering variables and their values: "Text variables: {tip} .076; {tip_mm} 1.93; ..."
