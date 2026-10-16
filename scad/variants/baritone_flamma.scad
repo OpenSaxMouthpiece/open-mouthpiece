@@ -29,15 +29,15 @@ chamber_shape = "round"; // [round, square, horseshoe]
 chamber_width = 15.4; // [4:0.1:36]
 // How gradually the chamber widens after the throat: low = quickly, high = slowly.
 chamber_flare = 0.4; // [0.1:0.05:0.9]
-// How far the full width runs toward the tip (mm); 40 = as far as it can.
+// Length of the full-width run (mm); 40 = Auto: it ends short of the tip.
 chamber_full_length = 40; // [0:0.5:40]
-// Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.
+// Target chamber height before the window (mm); 0 = Auto (no extra height).
 chamber_height = 0; // [0:0.1:30]
-// Floor from throat to window: - drops early (deeper), + stays high (a ramp).
+// Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.
 floor_shape = 0; // [-1:0.05:1]
-// Where the throat (the narrowest point inside) sits, from the neck end (mm).
+// Where the bore opens into the chamber (the throat), from the neck end (mm).
 throat_position = 81.7; // [20:0.5:90]
-// Width of the throat, the narrowest point inside (mm).
+// Width of the throat, where the bore opens into the chamber (mm).
 throat_width = 14.8; // [5:0.1:24]
 // Length of the bore's narrowing into the throat (mm). Short = an abrupt step.
 throat_taper = 50.2; // [1:0.5:80]
@@ -47,13 +47,13 @@ throat_shape = "round"; // [chamber, round, square, horseshoe]
 /* [Baffle] */
 // The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "concave"; // [measured, flat, rollover, step, concave]
-// Moves the baffle toward the reed (+) or away from it (-) (mm).
+// Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.
 baffle_height = 0; // [-3:0.1:4]
-// Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).
+// Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.
 baffle_length = 0; // [-40:0.5:15]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = -0.7; // [-1:0.05:1]
-// How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).
+// How big and abrupt the step is; 0 = a plain slope (Step baffle only).
 step_size = 1; // [0:0.05:1]
 // Height of a smooth hump on the baffle just behind the tip (mm).
 baffle_hump = 0; // [0:0.1:3]
@@ -113,7 +113,7 @@ tip_opening = 2.67; // [0.5:0.01:4.5]
 facing_length = 29; // [10:0.1:45]
 // How the facing curves (the chart's buttons set it too): Power curve, Radius or Gauge points.
 facing_model = "arc"; // [power, arc, gauge]
-// For the Power curve: 2 opens evenly; lower opens sooner, higher later.
+// Power facing only: 2 opens evenly; lower opens sooner, higher later.
 facing_exponent = 1.8; // [1.5:0.05:3]
 
 /* [Exterior] */
@@ -123,7 +123,7 @@ overall_length = 137.2; // [55:0.1:160]
 body_width = 30.1; // [18:0.1:40]
 // Height of the body's top above the reed table, at its tallest (mm).
 body_height = 29.9; // [18:0.1:40]
-// Height of the beak at the tip (mm).
+// Height of the beak above the table plane at the tip (mm).
 beak_tip_height = 5.1; // [2:0.1:8]
 // Body cross-section: 2 = round, higher = boxier, lower = pointed sides.
 body_squareness = 1.7; // [1.2:0.1:8]
@@ -131,7 +131,7 @@ body_squareness = 1.7; // [1.2:0.1:8]
 beak_squareness = 1.4; // [1.2:0.1:8]
 // The beak's line from the side: full (bulging) or scooped (hollowed).
 beak_curve = -0.3; // [-1:0.05:1]
-// Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).
+// Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.
 beak_length = 11; // [-15:0.5:15]
 // 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
 shoulder_smoothness = 1; // [0:0.05:1]
@@ -237,11 +237,17 @@ baffle_points_custom = [];
 facing_gauge_points = [];
 // Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders
 // keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there.
+// Shape edit: mm added to the top outline at that fraction of the length (+ = higher).
 top_adjust = [];
+// Shape edit: mm added to the underside height (+ = underside moves up).
 underside_adjust = [];
+// Shape edit: mm added to the full outside width (not per side).
 width_adjust = [];
+// Shape edit: mm added to the baffle's height above the table (+ = roof away from the reed).
 baffle_adjust = [];
+// Shape edit: mm added to the floor height (+ = floor higher).
 floor_adjust = [];
+// Shape edit: mm added to the chamber's full width (not per side).
 chamber_width_adjust = [];
 
 /* [Manufacturing] */

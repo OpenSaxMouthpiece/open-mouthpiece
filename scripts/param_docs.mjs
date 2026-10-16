@@ -95,7 +95,7 @@ const PICS = {
   throat_position: { view: 'side_cut' },
   throat_width: { view: 'side_cut' },
   throat_taper: { view: 'side_cut', values: [2, 16] },
-  throat_shape: { view: 'xsec', zFrom: 'throat' },
+  throat_shape: { view: 'xsec', zFrom: 'throat', skipOptions: ['horseshoe'] }, // the alto's chamber is a horseshoe: no change
   baffle_type: { view: 'side_cut' },
   baffle_height: { view: 'side_cut', values: [-1, 1.5] },
   baffle_length: { view: 'side_cut', values: [-6, 6] },
@@ -133,7 +133,9 @@ const PICS = {
   print_stock: { view: 'facing', values: [0, 0.3] },
 };
 
-const stretched = (pic) => (pic.view === 'facing' ? ' (heights stretched 6x)' : '');
+const stretched = (pic) =>
+  (pic.view === 'facing' ? ' (heights stretched 6x)' : '') +
+  (pic.context ? ` (with ${Object.entries(pic.context).map(([k, v]) => `${k} ${v}`).join(', ')}, to make it visible)` : '');
 const scadValue = (v) => (typeof v === 'string' ? JSON.stringify(v) : String(v));
 const fmtNum = (v) => String(+Number(v).toFixed(3));
 const winPath = (f) => f.split(path.sep).join('/');
@@ -317,8 +319,16 @@ async function main() {
     "section of its settings panel (the main ones first, the rest under the section's More), under",
     'friendlier names; the name in brackets is the one in the `.scad` file. Lengths are in mm, angles in degrees.',
     '',
-    'Each picture is the alto preset at two values of one setting, the rest unchanged, seen where the',
-    'setting acts (a section when it acts inside):',
+    'Where to look: the **fit on the horn** (neck, shank, bore), the **inside passage** (throat, chamber, floor,',
+    'baffle), the **reed seat** (window, rails, table, facing), the **outside** (body, beak) and the **advanced',
+    'profiles** (point lists and shape edits, last). The sections below follow the file; the app groups them a',
+    'little differently. The [guide](GUIDE.md) covers the Shape charts and Readouts.',
+    '',
+    'Measuring: *from the shank end* / *from the tip* is always named; "+" and "-" on a length or height are a',
+    '**change from the preset** (0 = as the preset); a setting with no unit is a shape factor, not a dimension.',
+    '',
+    'Each picture is the alto preset at two values of one setting, the rest unchanged (unless its caption says',
+    'otherwise), seen where the setting acts (a section when it acts inside):',
     '',
     '- **gray**: in both',
     '- **blue**: added going from the first value to the second',
@@ -332,8 +342,20 @@ async function main() {
   const NOTES = {
     Lettering: "Text and pictures on the outside. The app's **Personalize** section has the main ones.",
     'Profile overrides':
-      'Point lists that replace a built-in curve: `[[distance from the shank end, value], ...]`, `[]` = the built-in one. ' +
-      "Edit them in the app's **Curves** panel (OpenSCAD's Customizer can't edit lists).",
+      "Point lists (OpenSCAD's Customizer can't edit them; the app does, under **Points → Exact points** and in " +
+      '**Shape charts**). Three kinds, all with the points in increasing order, joined by a smooth curve that does not ' +
+      'overshoot the points; the wall and clearance limits still apply:\n\n' +
+      '- **Replacement profiles** (`ext_*`, `table_width_points`, `interior_*`, `floor_points`, `baffle_points_custom`): ' +
+      '`[[mm from the shank end, value], ...]`; the value is an absolute height or width, or a squareness. They replace ' +
+      'the built-in curve; `[]` keeps it. Example: `floor_points = [[40, 3.4], [46, 3.2], [52, 2.9]]` is a floor at ' +
+      '3.4 mm at 40 mm, falling to 2.9 mm at 52 mm.\n' +
+      '- **Gauge facing** (`facing_gauge_points`): `[[mm back from the tip, gap in mm], ...]`, used only with the Gauge ' +
+      'facing. Example: `[[0, 0], [10, 0.18], [20, 0.52]]` is a gap of 0.18 mm at 10 mm from the tip.\n' +
+      '- **Shape edits** (`*_adjust`, from **Shape charts → Edit shape**): `[[fraction of the length 0-1, change in mm], ...]`, ' +
+      'added to the shape the sliders give (so the sliders keep working), 0 at both ends unless given. They follow the ' +
+      'overall length; a replacement profile for the same shape takes precedence. Example: `baffle_adjust = [[0.8, 0.3]]` ' +
+      'raises the roof 0.3 mm at 80% of the length. Signs: + `baffle_adjust` moves the roof away from the reed ' +
+      '(`baffle_height` + moves it toward the reed); width edits change the full width, not each side.',
     Ligature:
       "A ligature made to fit this mouthpiece (the app's **Ligature** section). See [the printing guide](PRINTING.md).",
     Output: 'What the file makes. The debug parts show the pieces the mouthpiece is built from.',

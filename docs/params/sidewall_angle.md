@@ -1,6 +1,6 @@
 Tilts the chamber's side walls along the whole chamber, starting gently at the throat.
 
-- **0**: upright walls.
+- **0**: no extra lean (the chamber shape can still curve the walls).
 - **Negative** (lean in): narrower toward the roof, a trapezoid chamber. About -10 degrees gives
   the classic trapezoid.
 - **Positive** (lean out): wider toward the roof.

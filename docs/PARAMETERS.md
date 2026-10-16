@@ -4,8 +4,16 @@ Every setting of the generator, as OpenSCAD's Customizer shows them. The app sho
 section of its settings panel (the main ones first, the rest under the section's More), under
 friendlier names; the name in brackets is the one in the `.scad` file. Lengths are in mm, angles in degrees.
 
-Each picture is the alto preset at two values of one setting, the rest unchanged, seen where the
-setting acts (a section when it acts inside):
+Where to look: the **fit on the horn** (neck, shank, bore), the **inside passage** (throat, chamber, floor,
+baffle), the **reed seat** (window, rails, table, facing), the **outside** (body, beak) and the **advanced
+profiles** (point lists and shape edits, last). The sections below follow the file; the app groups them a
+little differently. The [guide](GUIDE.md) covers the Shape charts and Readouts.
+
+Measuring: *from the shank end* / *from the tip* is always named; "+" and "-" on a length or height are a
+**change from the preset** (0 = as the preset); a setting with no unit is a shape factor, not a dimension.
+
+Each picture is the alto preset at two values of one setting, the rest unchanged (unless its caption says
+otherwise), seen where the setting acts (a section when it acts inside):
 
 - **gray**: in both
 - **blue**: added going from the first value to the second
@@ -151,6 +159,9 @@ Presets: Alto `22` · Tenor `23` · Bari `24.1` · Soprano `17.8`.
 
 Cross-section of the chamber after the throat.
 
+**round**: rounded sections that get boxier toward the window. **square**: rounded corners (never sharp).
+**horseshoe**: a rounder upper half over a flatter lower half.
+
 Range: `round`, `square`, `horseshoe`.
 
 Presets: Alto `horseshoe` · Tenor `round` · Bari `round` · Soprano `square`.
@@ -183,33 +194,48 @@ Presets: Alto `13.8` · Tenor `14.5` · Bari `15.4` · Soprano `9.5`.
 
 How gradually the chamber widens after the throat: low = quickly, high = slowly.
 
+A unitless position between the throat and the facing break, not an angle. If the chamber is narrower
+than the throat, it shapes that narrowing in the same way.
+
 Range: 0.1 to 0.9, step 0.05.
 
 Presets: Alto `0.4` · Tenor `0.4` · Bari `0.4` · Soprano `0.4`.
 
-![chamber_flare: 0.15 → 0.8](images/params/chamber_flare.png)
+![chamber_flare: 0.15 → 0.8 (with chamber_width 18, to make it visible)](images/params/chamber_flare.png)
 
-*0.15 → 0.8*
+*0.15 → 0.8 (with chamber_width 18, to make it visible)*
 
 <a id="chamber_full_length"></a>
 
 ### How far the full width runs (`chamber_full_length`)
 
-How far the full width runs toward the tip (mm); 40 = as far as it can.
+Length of the full-width run (mm); 40 = Auto: it ends short of the tip.
+
+Below 40 this is a length in mm, counted from where the chamber reaches its full width.
+At 40 the slider switches to **Auto**: the full-width run ends a set distance before the chamber closes
+(the larger of 4 mm and 12% of the overall length), so 40 is not a literal 40 mm, and it is a bit
+shorter than the value just below it. The finished passage is also limited by the window and the wall.
 
 Range: 0 to 40, step 0.5.
 
 Presets: Alto `40` · Tenor `40` · Bari `40` · Soprano `40`.
 
-![chamber_full_length: 5 → 40](images/params/chamber_full_length.png)
+![chamber_full_length: 5 → 40 (with chamber_width 18, to make it visible)](images/params/chamber_full_length.png)
 
-*5 → 40*
+*5 → 40 (with chamber_width 18, to make it visible)*
 
 <a id="chamber_height"></a>
 
 ### Chamber height (`chamber_height`)
 
-Chamber height before the window (mm); 0 = round. More lowers the floor, less raises it.
+Target chamber height before the window (mm); 0 = Auto (no extra height).
+
+**0 is Auto**: no extra height is asked for (the chamber keeps the shape its width and shape setting give,
+which is not necessarily round). Any value above 0 is a **target height** in mm, so going from 0 to 0.1
+asks for a much flatter passage, not a tiny change. The change is blended in from the throat, shared
+between roof and floor until the baffle takes over, and the floor takes the rest further on.
+Walls and the channel clearance still limit it, and it only acts in the space before the window
+(short on some presets, e.g. the tenor).
 
 Range: 0 to 30, step 0.1.
 
@@ -223,7 +249,11 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Chamber floor (`floor_shape`)
 
-Floor from throat to window: - drops early (deeper), + stays high (a ramp).
+Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.
+
+Bends the built-in floor between the throat and the window. It has **no effect while Floor points are set**:
+the supplied tenor and soprano have them, so use Shape charts → Edit shape (Floor) or clear their floor points
+to use this slider.
 
 Range: -1 to 1, step 0.05.
 
@@ -237,7 +267,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Throat position (`throat_position`)
 
-Where the throat (the narrowest point inside) sits, from the neck end (mm).
+Where the bore opens into the chamber (the throat), from the neck end (mm).
 
 Range: 20 to 90, step 0.5.
 
@@ -251,7 +281,10 @@ Presets: Alto `43.5` · Tenor `53.0` · Bari `86.5` · Soprano `34.5`.
 
 ### Throat width (`throat_width`)
 
-Width of the throat, the narrowest point inside (mm).
+Width of the throat, where the bore opens into the chamber (mm).
+
+The throat is where the bore opens into the chamber. A chamber narrower than the throat is allowed, so
+it is not always the narrowest place inside.
 
 Range: 5 to 24, step 0.1.
 
@@ -293,10 +326,6 @@ Presets: Alto `chamber` · Tenor `chamber` · Bari `chamber` · Soprano `chamber
 
 *`chamber` (the alto's) → `square`*
 
-![throat_shape: chamber (the alto's) → horseshoe](images/params/throat_shape-horseshoe.png)
-
-*`chamber` (the alto's) → `horseshoe`*
-
 ## Baffle
 
 <a id="baffle_type"></a>
@@ -329,7 +358,7 @@ Presets: Alto `measured` · Tenor `measured` · Bari `measured` · Soprano `meas
 
 ### Baffle height (`baffle_height`)
 
-Moves the baffle toward the reed (+) or away from it (-) (mm).
+Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.
 
 Range: -3 to 4, step 0.1.
 
@@ -343,7 +372,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Baffle length (`baffle_length`)
 
-Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).
+Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.
 
 Range: -40 to 15, step 0.5.
 
@@ -359,6 +388,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 Bends the baffle: - comes down early, + stays up and drops late.
 
+Walking from the chamber toward the tip: negative comes down to the reed earlier, positive later.
+
 Range: -1 to 1, step 0.05.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
@@ -371,7 +402,9 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Step (`step_size`)
 
-How big and abrupt the step is; 0 = no step, just a plain slope (step shape only).
+How big and abrupt the step is; 0 = a plain slope (Step baffle only).
+
+Only the **Step** baffle uses this. Custom baffle points bypass the baffle shape (and so this slider).
 
 Range: 0 to 1, step 0.05.
 
@@ -489,6 +522,9 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 Length of the opening under the reed (mm).
 
+Measured from the back of the window to the mouthpiece tip. The front rail takes part of it, so the
+clear opening on the centreline is this length minus the tip rail thickness.
+
 Range: 8 to 70, step 0.5.
 
 Presets: Alto `39.0` · Tenor `42.0` · Bari `54.3` · Soprano `28.3`.
@@ -547,7 +583,7 @@ Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid
 
 Tilts the chamber's side walls along the whole chamber, starting gently at the throat.
 
-- **0**: upright walls.
+- **0**: no extra lean (the chamber shape can still curve the walls).
 - **Negative** (lean in): narrower toward the roof, a trapezoid chamber. About -10 degrees gives
   the classic trapezoid.
 - **Positive** (lean out): wider toward the roof.
@@ -569,6 +605,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 Width of the side rails the reed seals on (mm).
 
+A clearance limit on the window's width, not a promise of a constant rail width along the whole window.
+
 Range: 0.8 to 2.5, step 0.05.
 
 Presets: Alto `0.85` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
@@ -582,6 +620,8 @@ Presets: Alto `0.85` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
 ### Tip rail thickness (`tip_rail_thickness`)
 
 Thickness of the tip rail (mm).
+
+Front-to-back distance of the rail at the tip, seen from the reed side. It is not the beak's thickness.
 
 Range: 0.3 to 3, step 0.02.
 
@@ -676,6 +716,9 @@ Presets: Alto `71.8` · Tenor `77.7` · Bari `101.5` · Soprano `55.44`.
 
 A slight hollow along the reed seat (mm) so the reed seals at both ends.
 
+A hollow along the length of the table (not across its width), deepest halfway between the table's rear
+end and the facing break.
+
 Range: 0 to 0.3, step 0.005.
 
 Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
@@ -757,7 +800,9 @@ Presets: Alto `power` · Tenor `power` · Bari `power` · Soprano `power`.
 
 ### Where the curve opens (`facing_exponent`)
 
-For the Power curve: 2 opens evenly; lower opens sooner, higher later.
+Power facing only: 2 opens evenly; lower opens sooner, higher later.
+
+Used by the **Power** facing, and by Gauge when it has no usable points yet (it then falls back to Power).
 
 Range: 1.5 to 3, step 0.05.
 
@@ -815,7 +860,10 @@ Presets: Alto `27.6` · Tenor `29.3` · Bari `30.5` · Soprano `22.5`.
 
 ### Beak height at the tip (`beak_tip_height`)
 
-Height of the beak at the tip (mm).
+Height of the beak above the table plane at the tip (mm).
+
+Height above the flat table plane at the tip. The facing rises toward the tip, so this is not the
+material left above the facing.
 
 Range: 2 to 8, step 0.1.
 
@@ -845,6 +893,8 @@ Presets: Alto `2.0` · Tenor `2.0` · Bari `2.0` · Soprano `2.0`.
 
 The beak's top, seen from the tip: ridged (a peak along it) or flat.
 
+Low is pointed (a ridge), 2 is an ellipse, high is boxy.
+
 Range: 1.2 to 8, step 0.1.
 
 Presets: Alto `1.6` · Tenor `1.5` · Bari `1.4` · Soprano `1.5`.
@@ -871,7 +921,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Beak length (`beak_length`)
 
-Moves the shoulder (the chart's shoulder dot) back for a longer beak, forward for shorter (mm).
+Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.
 
 Range: -15 to 15, step 0.5.
 
@@ -928,6 +978,8 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 ### Sides near the table (`underside_squareness`)
 
 The lower sides near the tip, seen from the tip: tucked in (curved) or straight down.
+
+Low is pointed, 2 is an ellipse, high is boxy.
 
 Range: 1.2 to 8, step 0.1.
 
@@ -1253,7 +1305,11 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ## Profile overrides
 
-Point lists that replace a built-in curve: `[[distance from the shank end, value], ...]`, `[]` = the built-in one. Edit them in the app's **Curves** panel (OpenSCAD's Customizer can't edit lists).
+Point lists (OpenSCAD's Customizer can't edit them; the app does, under **Points → Exact points** and in **Shape charts**). Three kinds, all with the points in increasing order, joined by a smooth curve that does not overshoot the points; the wall and clearance limits still apply:
+
+- **Replacement profiles** (`ext_*`, `table_width_points`, `interior_*`, `floor_points`, `baffle_points_custom`): `[[mm from the shank end, value], ...]`; the value is an absolute height or width, or a squareness. They replace the built-in curve; `[]` keeps it. Example: `floor_points = [[40, 3.4], [46, 3.2], [52, 2.9]]` is a floor at 3.4 mm at 40 mm, falling to 2.9 mm at 52 mm.
+- **Gauge facing** (`facing_gauge_points`): `[[mm back from the tip, gap in mm], ...]`, used only with the Gauge facing. Example: `[[0, 0], [10, 0.18], [20, 0.52]]` is a gap of 0.18 mm at 10 mm from the tip.
+- **Shape edits** (`*_adjust`, from **Shape charts → Edit shape**): `[[fraction of the length 0-1, change in mm], ...]`, added to the shape the sliders give (so the sliders keep working), 0 at both ends unless given. They follow the overall length; a replacement profile for the same shape takes precedence. Example: `baffle_adjust = [[0.8, 0.3]]` raises the roof 0.3 mm at 80% of the length. Signs: + `baffle_adjust` moves the roof away from the reed (`baffle_height` + moves it toward the reed); width edits change the full width, not each side.
 
 <a id="bore_axis_height"></a>
 
@@ -1399,7 +1455,7 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
 ### Top adjust (`top_adjust`)
 
-Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there.
+Shape edits (the app's "Edit shape"): mm added to the outline after the sliders, so the sliders keep working, [[fraction of the length, mm], ...]; 0 at both ends unless given there. Shape edit: mm added to the top outline at that fraction of the length (+ = higher).
 
 Range: text.
 
@@ -1409,6 +1465,8 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
 ### Underside adjust (`underside_adjust`)
 
+Shape edit: mm added to the underside height (+ = underside moves up).
+
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
@@ -1416,6 +1474,8 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 <a id="width_adjust"></a>
 
 ### Width adjust (`width_adjust`)
+
+Shape edit: mm added to the full outside width (not per side).
 
 Range: text.
 
@@ -1425,6 +1485,8 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
 ### Baffle adjust (`baffle_adjust`)
 
+Shape edit: mm added to the baffle's height above the table (+ = roof away from the reed).
+
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
@@ -1433,6 +1495,8 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 
 ### Floor adjust (`floor_adjust`)
 
+Shape edit: mm added to the floor height (+ = floor higher).
+
 Range: text.
 
 Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
@@ -1440,6 +1504,8 @@ Presets: Alto `[]` · Tenor `[]` · Bari `[]` · Soprano `[]`.
 <a id="chamber_width_adjust"></a>
 
 ### Chamber width adjust (`chamber_width_adjust`)
+
+Shape edit: mm added to the chamber's full width (not per side).
 
 Range: text.
 
