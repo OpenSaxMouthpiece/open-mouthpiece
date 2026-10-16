@@ -2,6 +2,7 @@
 // worker), the project comes from the site's project/ folder, and the user's own files and
 // pictures stay in this browser (browserApi.ts, userArt.ts).
 import { browserApi } from "./browserApi";
+import type { Lane } from "./wasm/runner";
 
 export type ParamValue = number | string | boolean | number[] | number[][];
 
@@ -44,12 +45,7 @@ export interface Api {
   save(path: string, source: string): Promise<{ ok: boolean }>;
   remove(path: string): Promise<{ ok: boolean }>; // one of the user's saved files
   params(t: RenderTarget, signal?: AbortSignal): Promise<{ parameters: ScadParam[]; log: string }>;
-  render(
-    t: RenderTarget,
-    values: Record<string, ParamValue>,
-    signal?: AbortSignal,
-    lane?: "render" | "parts",
-  ): Promise<RenderResult>;
+  render(t: RenderTarget, values: Record<string, ParamValue>, signal?: AbortSignal, lane?: Lane): Promise<RenderResult>;
   // Evaluate without geometry; the log holds the ECHO lines.
   echo(
     t: RenderTarget,

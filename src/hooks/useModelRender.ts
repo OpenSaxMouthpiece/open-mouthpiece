@@ -6,6 +6,7 @@ import { useCallback, useRef, useState, type RefObject } from "react";
 import { api, base64ToBuffer, type RenderResult, type RenderTarget, type ScadParam } from "../api";
 import { parseAirVolume } from "../compare";
 import { FOCUS_ECHO, parseFocusEcho, type FocusData } from "../focus";
+import type { Lane } from "../wasm/runner";
 import { AIR_ECHO, buildAirStl, parseAirEcho } from "../airMesh";
 import { parseShapeEcho, SHAPE_ECHO, type ShapeLines } from "../shapeEdit";
 import {
@@ -95,6 +96,14 @@ const partSignature = (t: RenderTarget, vals: Values, fn: number | null, part: s
       (k) => (part !== "air_model" && INTERIOR_PREFIXES.some((p) => k.startsWith(p))) || !!IGNORES[part]?.test(k),
     ),
   ]);
+const sameValues = (a: Values, b: Values) => {
+  const ka = Object.keys(a);
+  return (
+    ka.length === Object.keys(b).length && ka.every((k) => k in b && JSON.stringify(a[k]) === JSON.stringify(b[k]))
+  );
+};
+const shownIsCurrent = (last: { tsig: string; vals: Values } | null, t: RenderTarget, vals: Values) =>
+  !!last && last.tsig === targetSig(t) && sameValues(last.vals, vals);
 const withFn = (vals: Values, fn: number | null): Values => (fn === null ? vals : { ...vals, render_fn: fn });
 
 function translateStlZ(stl: ArrayBuffer, dz: number): ArrayBuffer {
@@ -138,6 +147,9 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   const shownReports = useRef(false);
   // What the mouthpiece on screen was last rendered from, and whether a render of it is running.
   const lastMain = useRef<{ tsig: string; vals: Values } | null>(null);
+  // The reports (summary, facing, wall) that came with the last main render, for the print kit's
+  // check card: what they were made from, so a kit for other settings runs its own.
+  const lastReports = useRef<{ tsig: string; vals: Values; fn: number | null; log: string } | null>(null);
   const mainBusy = useRef(false);
 
   // The render_fn the quality selector puts in, or null when the file has no render_fn parameter
@@ -283,6 +295,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
         setWall(parseClearance(f.log));
         setShape(parseShapeEcho(f.log, vals));
         takeAirEcho(f.log);
+        lastReports.current = { tsig: targetSig(t), vals, fn: null, log: f.log };
       } catch {
         // superseded or failed: the cards keep their last values
       }
@@ -298,6 +311,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
       const ac = restart(renderAbort);
       mainBusy.current = true;
       lastMain.current = null;
+      lastReports.current = null;
       const fn = qualityFn(q, vals);
       // The accessories start with the render, on their own lane (not behind it).
       if (s.ligOK || s.capOK) loadParts(t, vals, fn, s.reportsOn);
@@ -373,6 +387,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
             kind: "ok",
           });
           lastMain.current = { tsig: targetSig(t), vals };
+          if (withReports) lastReports.current = { tsig: targetSig(t), vals, fn, log: r.log };
           if (!withReports && s.zoom) prefetchFocus(t, vals);
         } else if (r.kind === "2d" && r.svg) {
           setSvg(r.svg);
@@ -428,16 +443,46 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   // at least; the model on screen when it already is that. extra: settings on top
   // (the print kit's test rings at other clearances).
   const partStl = useCallback(
-    async (part: string | null, extra?: Values): Promise<ArrayBuffer> => {
+    async (part: string | null, extra?: Values, lane?: Lane): Promise<ArrayBuffer> => {
       const { target: t, values: vals, quality: q } = state.current!;
       if (!t) throw new Error("no model yet");
       const fn = qualityFn(q === "draft" ? "normal" : q, vals);
-      if (!part && !extra && stl && (fn === null || fn === shownFn.current)) return stl;
-      const r = await api.render(t, withFn({ ...vals, ...extra, ...(part ? { part } : {}) }, fn));
+      // the model on screen only when it was rendered from exactly these settings (a newer render may be pending)
+      if (
+        !part &&
+        !extra &&
+        stl &&
+        (fn === null || fn === shownFn.current) &&
+        shownIsCurrent(lastMain.current, t, vals)
+      )
+        return stl;
+      const r = await api.render(t, withFn({ ...vals, ...extra, ...(part ? { part } : {}) }, fn), undefined, lane);
       if (!r.ok || !r.stl) throw new Error("the render failed (the console says why)");
       return base64ToBuffer(r.stl);
     },
     [state, qualityFn, stl],
+  );
+
+  // Several parts for a download at once, on up to three workers of their own (fewer on a phone or
+  // a machine with few cores: each worker holds a whole OpenSCAD). Results come back in order.
+  const partStls = useCallback(
+    async (jobs: [string | null, Values?][]): Promise<ArrayBuffer[]> => {
+      const phone = window.matchMedia?.("(pointer: coarse)").matches;
+      const n = Math.max(1, Math.min(3, phone ? 1 : (navigator.hardwareConcurrency || 2) - 1, jobs.length));
+      const lanes: Lane[] = ["kit0", "kit1", "kit2"];
+      const out: ArrayBuffer[] = new Array(jobs.length);
+      let next = 0;
+      await Promise.all(
+        lanes.slice(0, n).map(async (lane) => {
+          while (next < jobs.length) {
+            const i = next++;
+            out[i] = await partStl(jobs[i][0], jobs[i][1], lane);
+          }
+        }),
+      );
+      return out;
+    },
+    [partStl],
   );
 
   // The cap preview is the same shell as the printable cap, still at its seated z position.
@@ -458,8 +503,18 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
   // The numbers for the print kit's check card, fresh for the settings now: one echo-only run
   // (the summary, the facing and the thinnest wall).
   const kitReports = useCallback(async () => {
-    const { target: t, values: vals } = state.current!;
+    const { target: t, values: vals, params } = state.current!;
     if (!t) throw new Error("no model yet");
+    // The main render already carried these reports when it was made from the same settings at the
+    // file's own resolution (the echo below runs without a render_fn of its own).
+    const have = lastReports.current;
+    if (
+      have &&
+      have.tsig === targetSig(t) &&
+      sameValues(have.vals, vals) &&
+      (have.fn === null || have.fn === (params.find((p) => p.name === "render_fn")?.initial ?? null))
+    )
+      return { log: have.log, facing: parseFacing(have.log), wall: parseClearance(have.log) };
     const r = await api.echo(
       { ...t, source: t.source + "\nfacing_report();\n" },
       { ...vals, part: "clearance_report" },
@@ -526,6 +581,7 @@ export function useModelRender({ state, setStatus, setFocusData, prefetchFocus }
     ensureReports,
     ensureParts,
     partStl,
+    partStls,
     capPrintStl,
     kitReports,
     showModel,

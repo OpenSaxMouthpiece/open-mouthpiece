@@ -4,6 +4,7 @@
 // or uploads is kept in this browser's localStorage (pictures: userArt.ts). Nothing is saved
 // anywhere else. The presets are read-only, renders fall back to SVG for 2D results, log paths are
 // project-relative.
+import type { Lane } from "./wasm/runner";
 import type { Api, ParamValue, RenderResult, RenderTarget, ScadParam } from "./api";
 import { rebaseGenerator } from "./app/files";
 import { migrateScad } from "./migrate";
@@ -224,7 +225,7 @@ export const browserApi: Api = {
     t: RenderTarget,
     values: Record<string, ParamValue>,
     signal?: AbortSignal,
-    lane: "render" | "parts" = "render",
+    lane: Lane = "render",
   ): Promise<RenderResult> => {
     const t0 = performance.now();
     const w = await workspace(t);

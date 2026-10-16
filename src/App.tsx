@@ -287,7 +287,7 @@ export default function App() {
   const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
   const makingAir = airOn && !model.airStl && model.partsBusy.includes("air"); // the air space is on its way
-  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, capPrintStl, kitReports } = model;
+  const { stl, svg, log, facing, wall, air, render, renderPass, partStl, partStls, capPrintStl, kitReports } = model;
   const summary = useMemo(() => (log ? parseSummary(log) : null), [log]);
   const textVars = useMemo(() => (log ? parseTextVariables(log) : []), [log]);
 
@@ -467,7 +467,7 @@ export default function App() {
     if (!ready || !autoOn || !mainTab) return;
     const switched = lastMain.current !== mainTab.key;
     lastMain.current = mainTab.key;
-    const t = setTimeout(render, switched ? 0 : 250);
+    const t = setTimeout(render, switched ? 0 : 120);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps -- valuesSig stands for values
   }, [ready, autoOn, valuesSig, mainTab?.key, render]);
@@ -988,12 +988,18 @@ export default function App() {
     });
     try {
       const out: [string, Uint8Array<ArrayBuffer>][] = [];
-      if (sel.stl) out.push([`${name}.stl`, new Uint8Array(await partStl(otherPart ? "mouthpiece" : null))]);
+      // the STLs are made side by side (the cap from its preview when that is current), then filed in order
+      const jobs: [string, string | null, Values?][] = [];
+      if (sel.stl) jobs.push([`${name}.stl`, otherPart ? "mouthpiece" : null]);
       if (sel.rings)
         for (const c of kitSqueezes(Number(get("shank_clearance"))))
-          out.push([ringFile(name, c), new Uint8Array(await partStl("shank_test_ring", { shank_clearance: c }))]);
-      if (withLigature) out.push([`${name}_ligature.stl`, new Uint8Array(await partStl("ligature"))]);
-      if (withCap) out.push([`${name}_cap.stl`, new Uint8Array(await partStl("cap"))]);
+          jobs.push([ringFile(name, c), "shank_test_ring", { shank_clearance: c }]);
+      if (withLigature) jobs.push([`${name}_ligature.stl`, "ligature"]);
+      const cachedCap = withCap ? capPrintStl() : null;
+      if (withCap && !cachedCap) jobs.push([`${name}_cap.stl`, "cap"]);
+      const made = await partStls(jobs.map(([, part, extra]) => [part, extra]));
+      jobs.forEach(([file], i) => out.push([file, new Uint8Array(made[i])]));
+      if (cachedCap) out.push([`${name}_cap.stl`, new Uint8Array(cachedCap)]);
       if (sel.full) out.push([`${name}.scad`, enc.encode(await fullScad())], ...(await pictureFiles()));
       // settings-only: the voice file with these values; its include as the site resolves it
       if (sel.settings)

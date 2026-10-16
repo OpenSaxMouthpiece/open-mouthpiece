@@ -9,7 +9,8 @@ import type { WasmJob, WasmResult } from "./types";
 // deploy that replaces the hashed assets can't break a page that is already open.
 import OpenscadWorker from "./openscad.worker.ts?worker&inline";
 
-export type Lane = "render" | "quick" | "parts";
+// kit0..kit2: extra workers for the print kit's files, so they are made side by side
+export type Lane = "render" | "quick" | "parts" | "kit0" | "kit1" | "kit2";
 type Pending = {
   job: WasmJob;
   resolve(r: WasmResult): void;
@@ -29,6 +30,9 @@ const lanes: Record<Lane, LaneState> = {
   render: { worker: null, running: null, queue: [], done: 0 },
   quick: { worker: null, running: null, queue: [], done: 0 },
   parts: { worker: null, running: null, queue: [], done: 0 },
+  kit0: { worker: null, running: null, queue: [], done: 0 },
+  kit1: { worker: null, running: null, queue: [], done: 0 },
+  kit2: { worker: null, running: null, queue: [], done: 0 },
 };
 let nextId = 1;
 
