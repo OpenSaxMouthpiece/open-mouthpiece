@@ -46,7 +46,7 @@ import {
 import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
 import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
-import { LEGACY_WINDOW, legacyRails, windowChange, withWindowParams, withWindowValues } from "./rails";
+import { LEGACY_WINDOW, legacyRails, railsInText, windowChange, withWindowParams, withWindowValues } from "./rails";
 import { TextVariables } from "./components/TextField";
 import { checkCard, kitSqueezes, ringFile } from "./printKit";
 import { designNumbers, track, trackSetting, trackVisit } from "./usage";
@@ -850,12 +850,23 @@ export default function App() {
   // An older design's window_width / window_taper become its rails once the generator has worked
   // them out (src/rails.ts): same window, and the rail and window controls work on it.
   useEffect(() => {
-    const conv = mainTab && legacyRails(summary?.rails, values, params);
-    if (conv)
+    const conv = mainTab && legacyRails(summary?.rails, values, mainTab.source);
+    if (!conv) return;
+    const key = mainTab.key;
+    // an older file: its own lines become rails (it opens as it is, not as edited)
+    if (conv.inFile)
+      setTabs((ts) =>
+        ts.map((t) => {
+          const source = t.key === key ? railsInText(t.source, conv.rail, conv.widen) : null;
+          return source === null ? t : { ...t, source, saved: t.saved === t.source ? source : t.saved };
+        }),
+      );
+    // an older link's values become rails settings
+    else
       setValuesByKey((all) => {
-        const next: Values = { ...(all[mainTab.key] ?? {}), ...conv.set };
-        for (const k of conv.remove) delete next[k];
-        return { ...all, [mainTab.key]: next };
+        const next: Values = { ...(all[key] ?? {}), side_rail_width: conv.rail, side_rail_widening: conv.widen };
+        for (const k of LEGACY_WINDOW) delete next[k];
+        return { ...all, [key]: next };
       });
   }, [summary]); // eslint-disable-line react-hooks/exhaustive-deps
   // The settings panel's window controls: two more ways to set the rails.
@@ -1536,7 +1547,9 @@ export default function App() {
       onRun={render}
     />
   );
-  const consoleEl = <Console log={log} onGoto={goto} onClear={() => model.setLog("")} />;
+  // the REPORT line is data for the readouts and the window controls, not for reading
+  const consoleLog = log.replace(/^ECHO: REPORT = .*\n?/m, "");
+  const consoleEl = <Console log={consoleLog} onGoto={goto} onClear={() => model.setLog("")} />;
   const gotIt = () => {
     setHintSeen(true);
     writeFlag(HINT_KEY);

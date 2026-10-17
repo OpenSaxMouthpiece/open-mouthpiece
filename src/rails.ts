@@ -83,19 +83,40 @@ export function windowChange(
   return [target, r2(clampTo(p, raw))];
 }
 
-// An older design (its file or link sets window_width / window_taper): the rails the generator
-// worked out from them, as settings, and the old values gone: removed from the values, or turned
-// off (-1 = not set) where the file itself still has them. The rails and the window controls then
-// work on it as on any design; its window stays as it was. Null when the design is in rails.
+// An older design (its link's values or its file's text set window_width / window_taper): the rails
+// the generator worked out from them (rounded as the sliders are), and which of the two has them
+// (a file's lines are rewritten by railsInText, a link's values become rails settings). Its window
+// stays as it was. Null when neither has them: the report may be from a design shown before.
 export function legacyRails(
   r: RailsReport | null | undefined,
   values: Values,
-  params: ScadParam[],
-): { set: Values; remove: string[] } | null {
-  if (!r?.legacy || values[WINDOW_WIDTH] === -1) return null;
-  const inFile = params.some((p) => LEGACY_WINDOW.includes(p.name));
-  return {
-    set: { [RAIL]: r2(r.rail), [WIDEN]: r2(r.widen), ...(inFile ? { [WINDOW_WIDTH]: -1, [WINDOW_TAPER]: -1 } : {}) },
-    remove: inFile ? [] : LEGACY_WINDOW,
+  source: string,
+): { rail: number; widen: number; inFile: boolean } | null {
+  if (!r?.legacy) return null;
+  const inValues = LEGACY_WINDOW.some((k) => k in values);
+  const inFile = !inValues && /^window_(?:width|taper)\s*=/m.test(source);
+  return inValues || inFile ? { rail: r2(r.rail), widen: r2(r.widen), inFile } : null;
+}
+
+// An older file's text with its window lines (and the comment above each) replaced by its rails:
+// the file then opens as it is, not as edited. Null when it has no window lines.
+export function railsInText(text: string, rail: number, widen: number): string | null {
+  const windowLine = /^(?:\/\/[^\n]*\n)?window_(?:width|taper)\s*=[^\n]*(?:\n|$)/gm;
+  if (!windowLine.test(text)) return null;
+  let t = text.replace(windowLine, "");
+  const set = (name: string, v: number) => {
+    const re = new RegExp(`^(${name}\\s*=\\s*)[^;\\n]*;`, "m");
+    if (re.test(t)) t = t.replace(re, `$1${v};`);
+    else return false;
+    return true;
   };
+  if (!set(RAIL, rail)) t += `\n${RAIL} = ${rail};\n`;
+  if (!set(WIDEN, widen)) {
+    const line =
+      "// How much wider the side rails get toward the back of the window (mm); 0 = even.\n" +
+      `${WIDEN} = ${widen}; // [-1:0.05:2]`;
+    const after = new RegExp(`^${RAIL}\\s*=[^\\n]*$`, "m");
+    t = after.test(t) ? t.replace(after, (m) => `${m}\n${line}`) : `${t}\n${line}\n`;
+  }
+  return t;
 }

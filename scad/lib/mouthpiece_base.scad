@@ -902,8 +902,8 @@ function rail_edge_at(z) = z >= L ? 0 : ring_half_width_at_y(exterior_ring_at(z)
 WIN_REF_Z = min(win_front_z, max(win_z0 + 1, L - tip_curve - 1));
 EDGE_F = 2 * rail_edge_at(WIN_REF_Z);
 EDGE_R = 2 * rail_edge_at(win_z0);
-// The rails: the settings, or worked out from an older design's window_width / window_taper (a
-// negative value = not set: the app's way to turn them off once it has the rails, see src/rails.ts).
+// The rails: the settings, or worked out from an older design's window_width / window_taper (the
+// app then rewrites them as rails, src/rails.ts; a negative value counts as not set).
 // The older window, as it was built: its width capped one side rail inside the table (and the
 // exterior where the tip curve starts), narrowing straight to its back end.
 LEGACY_WW = !is_undef(window_width) && window_width >= 0;

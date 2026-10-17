@@ -66,7 +66,7 @@ const withoutNoise = (log: string) =>
 const withoutReports = (log: string) =>
   withoutNoise(log)
     .split("\n")
-    .filter((l) => !/^ECHO: (PARAM_FOCUS|SHAPE_EDIT|AIR_SOLID|REPORT|"(FACING|CLEARANCE))/.test(l))
+    .filter((l) => !/^ECHO: (PARAM_FOCUS|SHAPE_EDIT|AIR_SOLID|"(FACING|CLEARANCE))/.test(l))
     .join("\n");
 // Settings that only the accessories read: changing them leaves the mouthpiece as it is (checked by
 // rendering the alto with ligature_made, cap_made and several ligature_* / cap_* values changed: the
