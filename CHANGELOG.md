@@ -6,6 +6,10 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- Smoother joins from the throat into the window, with no sudden pinch or ledge.
+- Chamber side walls blend smoothly around the rear of the window.
+- Development checks find OpenSCAD on Linux and macOS and accept equivalent meshes from
+  different OpenSCAD builds.
 - Click a spot on the model to go to the setting that shapes it: the panel jumps to it, and a
   small note by the click names the spot and offers the other settings there. Works with the
   model cut open too; turn it off in the view's Behavior menu.
