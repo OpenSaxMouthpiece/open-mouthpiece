@@ -29,7 +29,10 @@ node scripts/bundle_scad.mjs scad/alto.scad -o alto_flat.scad   # one-file versi
 
 `check` and `sweep` need a recent OpenSCAD nightly (Manifold backend): set `OPENSCAD` to its
 command-line program (on Windows `openscad.com`, for console output), or have `openscad` on the
-PATH.
+PATH. Without `OPENSCAD` the scripts also look for the usual install places: a portable nightly in
+`%LOCALAPPDATA%\Programs\OpenSCAD-Nightly\`, on Linux a nightly AppImage in `~/Applications/`
+(`OpenSCAD-*.AppImage`, or unpacked with `--appimage-extract` into `~/Applications/openscad/` with an
+`openscad` launcher script), and the macOS app in `/Applications`.
 
 ## Layout
 
@@ -68,6 +71,9 @@ Read `docs/dev/GEOMETRY.md` before changing the generator and `docs/dev/APP.md` 
    each file's values. Then `npm run docs:params` (docs/PARAMETERS.md follows the base file).
 2. **Run `npm run check` before and after geometry changes.** It fails on any change; after an
    *intended* change run `npm run check -- --update` and commit the new `test/baselines.json`.
+   The fingerprint is exact for one OpenSCAD build on one platform; on another, a file whose mesh
+   differs but whose volume, size and centroid match passes with a note. Don't `--update` just for
+   such notes.
    Run `npm run sweep` after changing clamps or adding parameters (new Customizer params are swept
    automatically).
 3. **`.scad` files stay LF-only** (`.gitattributes` enforces it). With CRLF the app's Customizer

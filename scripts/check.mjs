@@ -2,7 +2,10 @@
 // base, and the experiments in scad/experiments/; name any other file to check it):
 //   1. renders cleanly: no errors / OpenSCAD warnings, genus 1 (one through-bore, no holes, no
 //      loose pieces);
-//   2. geometry matches test/baselines.json (vertex-set fingerprint; volume change reported);
+//   2. geometry matches test/baselines.json (vertex-set fingerprint; volume change reported). The
+//      fingerprint is exact only for one build of OpenSCAD on one platform: Windows and Linux
+//      builds of the same nightly can triangulate a few faces differently. A file whose fingerprint
+//      differs but whose volume, size and centroid match passes, with a note;
 //   3. print orientation: the part stands on z = 0 on its shank end ring;
 //   4. the bundled single-file version (scripts/bundle_scad.mjs) renders identically, and the
 //      app's opening of it (src/migrate.ts, "Open .scad") leaves its text unchanged;
@@ -92,13 +95,16 @@ const expectedGenus = (log) => Number(/EXPECTED GENUS (\d+)/.exec(log)?.[1] ?? 1
 function meshInfo(stlPath) {
   const T = loadTris(stlPath);
   let vol = 0;
+  const cen = [0, 0, 0]; // volume-weighted centroid (sum of the tetrahedra to the origin)
   const mn = [Infinity, Infinity, Infinity],
     mx = [-Infinity, -Infinity, -Infinity];
   const keys = new Set();
   for (const [a, b, c] of T) {
-    vol +=
+    const v =
       (a[0] * (b[1] * c[2] - b[2] * c[1]) - a[1] * (b[0] * c[2] - b[2] * c[0]) + a[2] * (b[0] * c[1] - b[1] * c[0])) /
       6;
+    vol += v;
+    for (let i = 0; i < 3; i++) cen[i] += (v * (a[i] + b[i] + c[i])) / 4;
     for (const p of [a, b, c]) {
       keys.add(p.map((x) => x.toFixed(3)).join(','));
       p.forEach((x, i) => {
@@ -116,6 +122,7 @@ function meshInfo(stlPath) {
     tris: T.length,
     volume: +Math.abs(vol).toFixed(3),
     size: mx.map((x, i) => +(x - mn[i]).toFixed(3)),
+    centroid: cen.map((x) => +(x / vol).toFixed(3)),
     hash,
     T,
     zmin: mn[2],
@@ -201,7 +208,14 @@ async function checkFile(file) {
       `PRESET_AIR in src/corkFit.ts is out of date: ${sock.voice}: { air: ${air}, depth: ${sock.depth} }`,
     );
   const m = meshInfo(stl);
-  Object.assign(r, { genus: log.genus, tris: m.tris, volume: m.volume, size: m.size, hash: m.hash });
+  Object.assign(r, {
+    genus: log.genus,
+    tris: m.tris,
+    volume: m.volume,
+    size: m.size,
+    centroid: m.centroid,
+    hash: m.hash,
+  });
   if (isVoiceFile(text)) {
     // 2b: measurements taken from the mesh itself (length, symmetry, facing, rails, tip opening)
     const echo = path.join(OUT, `${tag}_facing.echo`);
@@ -305,6 +319,17 @@ const results = await pool(files, 4, (f) =>
   checkFile(f).catch((e) => ({ file: rel(f), problems: [String(e.message ?? e)], notes: [] })),
 );
 
+// Same shape, other mesh: what another OpenSCAD build or platform may give for unchanged geometry
+// (a few faces triangulated differently, a vertex rounding the other way in the fingerprint). Volume
+// to 0.005 mm³, size and centroid to 0.002 mm (when the baseline has them), triangles within 0.5%.
+const near = (a, b, tol) => a === undefined || b === undefined || a.every((x, i) => Math.abs(x - b[i]) <= tol);
+const sameShape = (b, r) =>
+  Math.abs(b.volume - r.volume) <= 0.005 &&
+  near(b.size, r.size, 0.002) &&
+  near(b.centroid, r.centroid, 0.002) &&
+  Math.abs(b.tris - r.tris) <= 0.005 * b.tris;
+const sameVolume = (bv, rv) => bv !== undefined && Math.abs(bv - rv) <= 0.005;
+
 const baselines = fs.existsSync(BASELINES) ? JSON.parse(fs.readFileSync(BASELINES, 'utf8')) : {};
 const scores = fs.existsSync(REF_SCORES) ? JSON.parse(fs.readFileSync(REF_SCORES, 'utf8')) : {};
 let failed = 0;
@@ -313,15 +338,23 @@ for (const r of results) {
   const bIou = scores[r.file];
   if (!UPDATE && r.hash) {
     if (!b) r.problems.push('no baseline yet (run with --update to record one)');
+    else if (b.hash !== r.hash && sameShape(b, r))
+      r.notes.push(
+        `same shape, different mesh (another OpenSCAD build or platform?): triangles ${b.tris} -> ${r.tris}`,
+      );
     else if (b.hash !== r.hash) {
       const dv = b.volume ? ((r.volume - b.volume) / b.volume) * 100 : 0;
       r.problems.push(
         `geometry changed: volume ${b.volume} -> ${r.volume} mm³ (${dv >= 0 ? '+' : ''}${dv.toFixed(3)}%), triangles ${b.tris} -> ${r.tris}`,
       );
     }
-    if (b && r.capHash && b.capHash !== r.capHash)
+    if (b && r.capHash && b.capHash !== r.capHash && sameVolume(b.capVolume, r.capVolume))
+      r.notes.push('cap: same volume, different mesh');
+    else if (b && r.capHash && b.capHash !== r.capHash)
       r.problems.push(`cap changed: volume ${b.capVolume ?? '?'} -> ${r.capVolume} mm³`);
-    if (b && r.ligHash && b.ligHash !== r.ligHash)
+    if (b && r.ligHash && b.ligHash !== r.ligHash && sameVolume(b.ligVolume, r.ligVolume))
+      r.notes.push('ligature: same volume, different mesh');
+    else if (b && r.ligHash && b.ligHash !== r.ligHash)
       r.problems.push(`ligature changed: volume ${b.ligVolume ?? '?'} -> ${r.ligVolume} mm³`);
     if (bIou !== undefined && r.iou !== undefined && r.iou < bIou - 0.002)
       r.problems.push(`reference IoU dropped ${bIou} -> ${r.iou}`);
@@ -344,6 +377,7 @@ if (UPDATE) {
       tris: r.tris,
       volume: r.volume,
       size: r.size,
+      centroid: r.centroid,
       hash: r.hash,
       ...(r.ligHash ? { ligHash: r.ligHash, ligVolume: r.ligVolume } : {}),
       ...(r.capHash ? { capHash: r.capHash, capVolume: r.capVolume } : {}),

@@ -1,24 +1,36 @@
 // Locate and run the OpenSCAD CLI (shared by the check/sweep scripts). Preference order: $OPENSCAD,
 // the newest portable nightly under %LOCALAPPDATA%\Programs\OpenSCAD-Nightly (Manifold backend),
-// an installed nightly, the 2021.01 release, then PATH.
+// an installed nightly, the 2021.01 release; on Linux the newest nightly AppImage in ~/Applications
+// (as a file, or unpacked with --appimage-extract into a folder with an `openscad` launcher); the
+// macOS app; then PATH.
 import { spawn } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
+
+// Entries of `dir` matching `re`, newest version first (names carry the date: 2026.10.15).
+const newest = (dir, re) =>
+  fs.existsSync(dir)
+    ? fs
+        .readdirSync(dir)
+        .filter((d) => re.test(d))
+        .sort()
+        .reverse()
+        .map((d) => path.join(dir, d))
+    : [];
 
 export function findOpenscad() {
   const nightlyDir = path.join(process.env.LOCALAPPDATA ?? '', 'Programs', 'OpenSCAD-Nightly');
-  const nightlies = fs.existsSync(nightlyDir)
-    ? fs
-        .readdirSync(nightlyDir)
-        .filter((d) => d.startsWith('OpenSCAD-'))
-        .sort()
-        .reverse()
-    : [];
+  const apps = path.join(os.homedir(), 'Applications');
   const candidates = [
     process.env.OPENSCAD,
-    ...nightlies.map((d) => path.join(nightlyDir, d, 'openscad.com')),
+    ...newest(nightlyDir, /^OpenSCAD-/).map((d) => path.join(d, 'openscad.com')),
     'C:\\Program Files\\OpenSCAD (Nightly)\\openscad.com',
     'C:\\Program Files\\OpenSCAD\\openscad.com',
+    ...(process.platform === 'linux'
+      ? [path.join(apps, 'openscad', 'openscad'), ...newest(apps, /^OpenSCAD-.*\.AppImage$/)]
+      : []),
+    '/Applications/OpenSCAD.app/Contents/MacOS/OpenSCAD',
   ].filter(Boolean);
   return candidates.find((c) => fs.existsSync(c)) ?? 'openscad';
 }
