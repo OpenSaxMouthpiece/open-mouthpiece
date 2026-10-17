@@ -23,6 +23,7 @@ interface LaneState {
   running: Pending | null;
   queue: Pending[];
   done: number; // jobs this lane's current worker has answered (0 = it died before doing any work)
+  idleStop?: boolean; // its worker stops once the lane runs dry (each holds a whole OpenSCAD in memory)
 }
 
 const BASE = new URL(import.meta.env.BASE_URL, location.href).href;
@@ -30,9 +31,9 @@ const lanes: Record<Lane, LaneState> = {
   render: { worker: null, running: null, queue: [], done: 0 },
   quick: { worker: null, running: null, queue: [], done: 0 },
   parts: { worker: null, running: null, queue: [], done: 0 },
-  kit0: { worker: null, running: null, queue: [], done: 0 },
-  kit1: { worker: null, running: null, queue: [], done: 0 },
-  kit2: { worker: null, running: null, queue: [], done: 0 },
+  kit0: { worker: null, running: null, queue: [], done: 0, idleStop: true },
+  kit1: { worker: null, running: null, queue: [], done: 0, idleStop: true },
+  kit2: { worker: null, running: null, queue: [], done: 0, idleStop: true },
 };
 let nextId = 1;
 
@@ -45,6 +46,12 @@ function getWorker(l: LaneState) {
       l.done++;
       if (p && p.job.id === e.data.id) p.resolve(e.data);
       pump(l);
+      // the print kit's extra workers go once the kit is made
+      if (l.idleStop && !l.running && !l.queue.length && l.worker === w) {
+        w.terminate();
+        l.worker = null;
+        l.done = 0;
+      }
     };
     w.onerror = (e) => {
       const p = l.running;
