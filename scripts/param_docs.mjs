@@ -134,7 +134,11 @@ const PICS = {
 
 const stretched = (pic) =>
   (pic.view === 'facing' ? ' (heights stretched 6x)' : '') +
-  (pic.context ? ` (with ${Object.entries(pic.context).map(([k, v]) => `${k} ${v}`).join(', ')}, to make it visible)` : '');
+  (pic.context
+    ? ` (with ${Object.entries(pic.context)
+        .map(([k, v]) => `${k} ${v}`)
+        .join(', ')}, to make it visible)`
+    : '');
 const scadValue = (v) => (typeof v === 'string' ? JSON.stringify(v) : String(v));
 const fmtNum = (v) => String(+Number(v).toFixed(3));
 const winPath = (f) => f.split(path.sep).join('/');
