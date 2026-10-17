@@ -2035,6 +2035,9 @@ button.link:hover {
   stroke: var(--echo);
   stroke-width: 1.5;
 }
+.facing-chart .stop.passive {
+  pointer-events: none;
+}
 .facing-chart svg.editable {
   touch-action: none;
   cursor: crosshair;
@@ -2121,6 +2124,15 @@ button.link:hover {
 .gauge-table td:first-child {
   text-align: left;
   color: var(--muted);
+}
+.gauge-table .stop-input {
+  width: 4.2em;
+  padding: 1px 3px;
+  font-size: 11.5px;
+  text-align: right;
+}
+.gauge-hint {
+  margin-top: 4px;
 }
 .readout-notes {
   margin: 10px 0 0;

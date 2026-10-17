@@ -71,6 +71,33 @@ type Drag = { i: number; moved: boolean; x: number; y: number; dom: { maxD: numb
 // A feeler gauge by its thickness in inches, as printed on it (.0015, .010).
 const gaugeName = (g: number) => g.toFixed(g < 0.01 ? 4 : 3).replace(/^0/, "");
 
+// Where one feeler stops (mm), typed in; applied on Enter or leaving the box, put back if it doesn't fit.
+function StopInput({ gauge, at, onSet }: { gauge: number; at: number; onSet(mm: number): boolean }) {
+  const shown = at.toFixed(1);
+  const [text, setText] = useState(shown);
+  useEffect(() => setText(shown), [shown]);
+  const apply = () => {
+    const v = parseFloat(text);
+    if (text !== shown && !(Number.isFinite(v) && onSet(round(v, 10)))) setText(shown);
+  };
+  return (
+    <input
+      type="number"
+      className="stop-input"
+      inputMode="decimal"
+      step={0.1}
+      value={text}
+      aria-label={`Where the ${gaugeName(gauge)}" feeler stops, mm from the tip`}
+      onChange={(e) => setText(e.target.value)}
+      onBlur={apply}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") apply();
+        if (e.key === "Escape") setText(shown);
+      }}
+    />
+  );
+}
+
 export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: Props) {
   // The knots: the tip, the points in between (the gauge points, or four points on the smooth
   // curve to start from), the break.
@@ -126,7 +153,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
   const tTicks = Array.from({ length: Math.floor(dom.maxT / tStep) + 1 }, (_, i) => i * tStep);
 
   // ---- editing
-  const commitInner = (pts: Pt[]) => edit?.onGauge(pts.map(([d, g]) => [round(d, 10), round(g, 1000)] as Pt));
+  const commitInner = (pts: Pt[]) => edit?.onGauge(pts.map(([d, g]) => [round(d, 10), round(g, 10000)] as Pt));
   const onDown = (i: number, e: React.PointerEvent) => {
     if (!edit) return;
     e.stopPropagation();
@@ -199,6 +226,27 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
   };
   const remove = (i: number) => {
     if (edit && i > 0 && i < knots.length - 1) commitInner(inner.filter((_, j) => j !== i - 1));
+  };
+  // A feeler stop typed in (measured on a mouthpiece to copy): the points become the feeler stops,
+  // so the curve goes through each of them. They can be typed in any order: a thicker feeler always
+  // stops nearer the tip, so the others move along to keep it so (each is typed in its turn), and a
+  // stop at or past the break moves the break out with it, the same distance behind the thinnest
+  // stop as before. False if it can't fit (at the tip, or past the longest facing).
+  const setStop = (gauge: number, at: number) => {
+    if (!edit) return false;
+    const byTip = stops.slice().sort((a, b) => b.gauge - a.gauge); // the thickest first: nearest the tip
+    const k = byTip.findIndex((s) => s.gauge === gauge);
+    const d = byTip.map((s) => s.at);
+    d[k] = at;
+    for (let j = k + 1; j < d.length; j++) d[j] = Math.max(d[j], d[j - 1] + 0.2);
+    for (let j = k - 1; j >= 0; j--) d[j] = Math.min(d[j], d[j + 1] - 0.2);
+    const last = d[d.length - 1];
+    const tail = Math.max(0.5, F - byTip[byTip.length - 1].at);
+    const f = last > F - 0.2 ? round(last + tail, 10) : F;
+    if (!(d[0] > 0) || f > edit.lengthRange[1]) return false;
+    if (f !== F) edit.onLength(f);
+    commitInner(byTip.map((s, j) => [d[j], s.gauge * 25.4] as Pt));
+    return true;
   };
 
   return (
@@ -285,11 +333,6 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
           />
         )}
         <path className="curve" d={path} />
-        {stops.map((s) => (
-          <circle key={s.gauge} className="stop" cx={x(s.at)} cy={y(s.gauge * 1000)} r={2.5}>
-            <title>{`A ${gaugeName(s.gauge)}" feeler gauge stops here`}</title>
-          </circle>
-        ))}
         {edit &&
           shown.map(([d, g], i) => (
             <g
@@ -309,6 +352,12 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
               </title>
             </g>
           ))}
+        {/* over the points, so a point never hides a stop; while editing they let the pointer through to the point */}
+        {stops.map((s) => (
+          <circle key={s.gauge} className={`stop${edit ? " passive" : ""}`} cx={x(s.at)} cy={y(s.gauge * 1000)} r={2.5}>
+            <title>{`A ${gaugeName(s.gauge)}" feeler gauge stops here`}</title>
+          </circle>
+        ))}
         {draft && drag.current && (
           <text className="drag-label" x={W - MR - 4} y={MT + 12} textAnchor="end">
             {drag.current.i === 0
@@ -351,7 +400,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
       )}
       {stops.length > 0 && (
         <details className="gauge-check">
-          <summary>Feeler gauge stops (the small dots; to check a print)</summary>
+          <summary>Feeler gauge stops (the small dots; to check a print{edit ? " or copy a mouthpiece" : ""})</summary>
           <table className="gauge-table">
             <thead>
               <tr>
@@ -363,13 +412,24 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
             </thead>
             <tbody>
               <tr>
-                <td>stops at</td>
+                <td>{edit ? "stops at (mm)" : "stops at"}</td>
                 {stops.map((s) => (
-                  <td key={s.gauge}>{s.at.toFixed(1)} mm</td>
+                  <td key={s.gauge}>
+                    {edit ? (
+                      <StopInput gauge={s.gauge} at={s.at} onSet={(v) => setStop(s.gauge, v)} />
+                    ) : (
+                      `${s.at.toFixed(1)} mm`
+                    )}
+                  </td>
                 ))}
               </tr>
             </tbody>
           </table>
+          {edit && (
+            <div className="gauge-hint">
+              Type where each feeler stops on a mouthpiece you measured: the curve goes through those points.
+            </div>
+          )}
         </details>
       )}
     </div>

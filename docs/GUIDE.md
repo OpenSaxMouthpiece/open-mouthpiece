@@ -188,7 +188,9 @@ can pick a ready-made curve (As designed, Opens early, Even, Opens late or Radiu
 points yourself. The point at the tip sets the tip opening and the point at the flat end sets the
 facing length. Click on the curve to add a point and double-click a point to remove it. Open
 **Feeler gauge stops** to see where standard feeler gauges should stop, which is useful for
-checking a print.
+checking a print. To copy a mouthpiece you measured, type where each feeler stops on it (mm from
+the tip, in any order): the curve then goes through those stops. A .0015" stop past the break
+moves the break back with it.
 
 **Outside** shows the mouthpiece from the side and a cross-section of it. To move the
 cross-section, drag the line on the side view or use the **Where to slice** slider.
