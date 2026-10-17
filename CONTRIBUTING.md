@@ -161,6 +161,11 @@ Geometry:
 12. **Shape a feature as one curve, not two joined shapes.** The roof into the tip rail went through a flat shelf, an S-shaped dip, a min() crease straight across the tip and a rounded patch of it before it 
     became a single Hermite cubic from the baffle's own height and slope (GEOMETRY.md "Roof into the tip rail"). A ramp applied everywhere also cut the chamber roof: bound its reach.
     Compare against a reference slice at the centreline (`hits` of x = 0 per z) before and after.
+13. **A rule that differs before and under the window fades across its rear end, never switches
+    there.** Leaning side walls, the roof-height width clamp and the window-width hold each switched
+    at `win_z0` in one step: ledges and a slot round the window's rear end (Flamma). They now fade
+    in over `win_blend` (the throat to the window, at least 4mm). Find such steps by echoing ring
+    widths every 0.1mm and looking for jumps; a mesh with genus 1 can still be full of them.
 
 App:
 
