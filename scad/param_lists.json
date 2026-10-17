@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "9541654-22014",
+  "hash": "9be562db-22013",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -439,7 +439,7 @@
    {
     "caption": "Width of the side rails the reed seals on (mm); the window fills the rest.",
     "group": "Window",
-    "initial": 1.35,
+    "initial": 0.85,
     "max": 2.5,
     "min": 0.8,
     "name": "side_rail_width",
@@ -449,7 +449,7 @@
    {
     "caption": "How much wider the side rails get toward the back of the window (mm); 0 = even.",
     "group": "Window",
-    "initial": 0.15,
+    "initial": 0.3,
     "max": 2,
     "min": -1,
     "name": "side_rail_widening",

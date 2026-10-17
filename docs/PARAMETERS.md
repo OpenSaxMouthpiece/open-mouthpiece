@@ -577,11 +577,11 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 Width of the side rails the reed seals on (mm); the window fills the rest.
 
-A clearance limit on the window's width, not a promise of a constant rail width along the whole window.
+Measured just behind the tip curve, from the window's edge to the body's side; the window is what the rails leave. Toward the back it changes by Side rails widen toward the back.
 
-Range: 0.5 to 2.5, step 0.05.
+Range: 0.8 to 2.5, step 0.05.
 
-Presets: Alto `1.35` · Tenor `1.6` · Bari `2.05` · Soprano `1.95`.
+Presets: Alto `0.85` · Tenor `1.6` · Bari `2.05` · Soprano `1.95`.
 
 ![side_rail_width: 0.8 → 1.8](images/params/side_rail_width.png)
 
@@ -593,9 +593,11 @@ Presets: Alto `1.35` · Tenor `1.6` · Bari `2.05` · Soprano `1.95`.
 
 How much wider the side rails get toward the back of the window (mm); 0 = even.
 
+The rails at the back of the window are Side rail width plus this. Between the tip end and the back the window's sides run straight, as on a milled window, so the rails in between follow the body.
+
 Range: -1 to 2, step 0.05.
 
-Presets: Alto `0.15` · Tenor `0.45` · Bari `-0.25` · Soprano `-0.3`.
+Presets: Alto `0.3` · Tenor `0.45` · Bari `-0.25` · Soprano `-0.3`.
 
 <a id="tip_rail_thickness"></a>
 
