@@ -8,7 +8,13 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 - When the model can't build a setting exactly as asked (a limit keeps a wall thick enough, for
   example), the Adjusted note says what you asked for and what the model has.
+- Side rails keep their set width all the way to the tip, and the window controls set the rails;
+  alto side rails 0.85 mm at the tip, widening 0.3 mm toward the back.
+- Facing chart: feeler stops drawn over the points, and typed in to copy a mouthpiece you measured.
+- Wall readout at the side rails warns only below 0.8 mm.
+- Old design files open unchanged.
 - Faster start for the first render and the print kit.
+- Shorter hints for the floor shape, baffle and beak length.
 - Clearer descriptions in the settings docs, with notes on units and on settings that override
   others.
 
