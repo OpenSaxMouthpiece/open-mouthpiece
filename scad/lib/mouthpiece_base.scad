@@ -1057,10 +1057,16 @@ function window_floor_y(z) = facing_at_z(z) + 0.8;
 
 // Highest the interior roof can be at z (worked out without the interior width, so no
 // recursion): the exterior top less the wall, or the baffle where that is lower. The window-region
-// width clamp is taken at this height, where the roof corners are.
+// width clamp is taken at this height, where the roof corners are. The baffle comes in over the
+// same 4mm as the roof itself (interior_ring_build): switched on in one step, it moved the clamp's
+// height, and the width with it, by over a millimetre (a ledge on the bari Flamma's sidewalls).
 function roof_cap_y(z, E) =
   let(cap = E[E_TOP] - interior_wall(z))
-  z >= baffle_start_z ? min(cap, baffle_roof(z)) : cap;
+  z < baffle_start_z ? cap : lerp(cap, min(cap, baffle_roof(z)), smootherstep(clamp01((z - baffle_start_z) / 4)));
+// The width-at-the-roof clamps under the window fade in over its first 4mm: applied in one step at
+// the window start, they narrowed a throat that meets the window there (the baritone's) by over a
+// millimetre in one slice. The wall fit in interior_ring_build still checks every point.
+function win_clamp_t(z) = smootherstep(clamp01((z - win_z0) / 4));
 
 // Mid-height half-width. E = exterior_ring_at(z).
 CHAMBER_W_ADJ_C = adjust_prep(chamber_width_adjust);
@@ -1085,7 +1091,8 @@ function interior_half_w(z, E) =
     : max(z > win_z0 ? window_side_hw(z) + 0.3 : 1, raw0 + adjust_at(z, CHAMBER_W_ADJ_C) / 2))
   z <= win_z0
     ? min(raw, E[E_HW] - min_wall)
-    : min(raw, E[E_HW] - RAIL_THIN * 0.6, ring_half_width_at_y(E, roof_cap_y(z, E)) - 0.8);
+    : let(roof_lim = ring_half_width_at_y(E, roof_cap_y(z, E)) - 0.8)
+      min(raw, E[E_HW] - RAIL_THIN * 0.6, lerp(max(raw, roof_lim), roof_lim, win_clamp_t(z)));
 
 // How much of chamber_height applies at z: 0 at the throat, full after the first 40% of the way
 // to the window, faded out over the last stretch before it (at most 4mm; the window's floor is a
@@ -1122,16 +1129,16 @@ function interior_bottom_y(z, E, hw) =
 // chamber's shape by where the chamber reaches full width (or the window, if sooner).
 // sidewall_angle leans the side walls (+ out, - in: a trapezoid chamber, issue #3) along the whole
 // chamber, faded in from the throat to full where the chamber has its shape (as throat_shape's
-// easing: full width or the window, if sooner).
-LEAN_Z2 = max(eff_throat_z + 2, min(chamber_peak_z, win_z0));
+// easing: full width or the window, if sooner), over at least 6mm: a throat that meets the window
+// (the baritone's) had all of it in 2mm, a ledge on the sidewalls.
+LEAN_Z2 = max(eff_throat_z + 6, min(chamber_peak_z, win_z0));
 function wall_lean_at(z) = sidewall_angle * ease(clamp01((z - eff_throat_z) / (LEAN_Z2 - eff_throat_z)));
 function section_exps(s, t) = s == "square" ? [lerp(2, 8, t), lerp(2, 8, t)] : s == "horseshoe" ? [lerp(2, 2.5, t), lerp(2, 8, t)] : [2, 2];
 function interior_exps_shape(z) =
   throat_shape == "chamber" ? interior_exps_chamber(z) :
   let(eT = section_exps(throat_shape, 1))
   z <= eff_throat_z ? lerp([2, 2], eT, ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) :
-  let(z2 = max(eff_throat_z + 2, min(chamber_peak_z, win_z0)))
-  lerp(eT, interior_exps_chamber(z), ease(clamp01((z - eff_throat_z) / (z2 - eff_throat_z))));
+  lerp(eT, interior_exps_chamber(z), ease(clamp01((z - eff_throat_z) / (LEAN_Z2 - eff_throat_z))));
 function interior_exps_chamber(z) =
   chamber_shape == "square" ? let(t = ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) [lerp(2, 8, t), lerp(2, 8, t)] :
   chamber_shape == "horseshoe" ? let(t = ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) [lerp(2, 2.5, t), lerp(2, 8, t)] :
@@ -1185,7 +1192,8 @@ function interior_ring_build(z, cap_s) =
   // the window width, before it from the chamber's own)
   let(la = wall_lean_at(z), lift = max(0, top - narrow_top) * tan(max(0, la)))
   let(hw0w = la <= 0 ? hw0 : (in_win ? max(hw0, narrow) : hw0) + lift)
-  let(hw1r = !in_win ? hw0w : max(min(hw0w, ring_half_width_at_y(E, top) - 0.8), min(narrow, hw0w)))
+  let(top_lim = ring_half_width_at_y(E, top) - 0.8)
+  let(hw1r = !in_win ? hw0w : max(min(hw0w, lerp(max(hw0w, top_lim), top_lim, win_clamp_t(z))), min(narrow, hw0w)))
   // the smoothed limit, but never narrower than the window (the fit below still has the last word)
   let(hw1 = cap_s >= 1 ? hw1r : max(hw1r * cap_s, min(narrow, hw1r)))
   // Last guarantee: every point of the ring keeps the side wall (min_wall before the window, the
