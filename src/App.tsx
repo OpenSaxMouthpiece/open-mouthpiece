@@ -46,6 +46,7 @@ import {
 import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
 import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
+import { LEGACY_WINDOW, legacyRails, windowChange, withWindowParams, withWindowValues } from "./rails";
 import { TextVariables } from "./components/TextField";
 import { checkCard, kitSqueezes, ringFile } from "./printKit";
 import { designNumbers, track, trackSetting, trackVisit } from "./usage";
@@ -439,10 +440,15 @@ export default function App() {
         const r = await api.params(target, ac.signal);
         setParams(r.parameters);
         setParamsKey(key);
-        // values of parameters the file no longer has go (except Curves edits and their point lists)
+        // values of parameters the file no longer has go (except Curves edits and their point lists,
+        // and an older design's window width / taper until the rails stand for them: src/rails.ts)
         const names = new Set(r.parameters.map((p) => p.name));
         const lists = new Set(findPointLists(source).map((l) => l.name));
-        const keep = (k: string) => names.has(k) || lists.has(k) || (k in POINT_VALUES && names.has(POINT_VALUES[k]));
+        const keep = (k: string) =>
+          names.has(k) ||
+          lists.has(k) ||
+          LEGACY_WINDOW.includes(k) ||
+          (k in POINT_VALUES && names.has(POINT_VALUES[k]));
         setValuesByKey((all) => {
           const v = all[key] ?? {};
           const kept = Object.fromEntries(Object.entries(v).filter(([k]) => keep(k)));
@@ -840,6 +846,24 @@ export default function App() {
       else next[n] = v;
       return { ...all, [key]: next };
     });
+  };
+  // An older design's window_width / window_taper become its rails once the generator has worked
+  // them out (src/rails.ts): same window, and the rail and window controls work on it.
+  useEffect(() => {
+    const conv = mainTab && legacyRails(summary?.rails, values, params);
+    if (conv)
+      setValuesByKey((all) => {
+        const next: Values = { ...(all[mainTab.key] ?? {}), ...conv.set };
+        for (const k of conv.remove) delete next[k];
+        return { ...all, [mainTab.key]: next };
+      });
+  }, [summary]); // eslint-disable-line react-hooks/exhaustive-deps
+  // The settings panel's window controls: two more ways to set the rails.
+  const designParams = useMemo(() => withWindowParams(params, summary?.rails), [params, summary?.rails]);
+  const designValues = useMemo(() => withWindowValues(values, summary?.rails), [values, summary?.rails]);
+  const setDesignValue = (n: string, v: ParamValue | undefined) => {
+    const [name, value] = windowChange(n, v, params, summary?.rails);
+    setValue(name, params.find((p) => p.name === name)?.initial, value);
   };
   const history = useValueHistory(mainTab?.key ?? "", values, (key, v) =>
     setValuesByKey((all) => ({ ...all, [key]: v })),
@@ -1772,12 +1796,12 @@ export default function App() {
   // generator's): no part tabs or deeper sections there, the rail has them.
   const designEl = (withReadouts: boolean, other?: React.ReactNode, only?: string, charts = false) => (
     <DesignPanel
-      params={params}
-      values={values}
+      params={designParams}
+      values={designValues}
       failed={status.kind === "error" && params.length === 0}
       loading={paramsKey !== mainTab.key}
       title={voiceLabel(mainTab.path ?? mainTab.name)}
-      onChange={(n, v) => setValue(n, undefined, v)}
+      onChange={setDesignValue}
       onResetAll={() => setValuesByKey((all) => ({ ...all, [mainTab.key]: {} }))}
       onCompareOriginal={compareOriginal}
       zoom={zoom}

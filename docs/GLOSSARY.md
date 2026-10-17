@@ -18,7 +18,7 @@ shank](images/glossary-table.svg)
 |---|---|---|
 | **Table** (reed seat) | The flat where the reed's back lies and the ligature holds it. | **Table length**, **Table width at the tip**, **Table width at the back**, **Table hollow** |
 | **Window** | The opening in the table under the reed, between the rails. | **Window length**, **Window width**, **Window narrows at the back**, **Window corner rounding** |
-| **Side rails** | The two edges along the window that the reed seals on. | **Side rail width** |
+| **Side rails** | The two edges along the window that the reed seals on. | **Side rail width**, **Side rails widen toward the back** (Window width and Window narrows at the back set them too) |
 | **Tip rail** (front rail) | The edge across the front that the reed closes against. | **Tip rail thickness**, **Tip roundness** |
 | **Facing** (lay) | The rails' gentle curve away from the reed, from the break point to the tip. Both rails need the same curve. | **Facing curve**, **Where the curve opens**, or drag the points on the **Facing curve** chart |
 | **Break point** | Where the rails leave the flat table: the start of the facing. | **Facing length** sets how far it is from the tip |

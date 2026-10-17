@@ -80,8 +80,16 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   (`facing_model` power/arc/gauge), lowered by `print_stock` when set. Gauge = PCHIP through
   `GAUGE_PTS`: [0, tip_opening], the user's points inside (0, facing_length) in order and never
   rising toward the break (clamped by construction), [facing_length, 0]; no points = power.
-- **Window**: a slot (`window_width`, `window_taper`, `window_rear_radius`) whose front follows the
-  reed-tip arc one `tip_rail_thickness` inside the tip; `window_cutter` (6-point rings) cuts it from
+- **Window**: what the rails leave. The rails' outer edge (`rail_edge_at`: the body's side at the
+  facing's height, tip arc included) is moved in by the rails: from `WIN_REF_Z` (1mm behind the tip
+  curve) forward by `side_rail_width`, blending to `tip_rail_thickness` where the edge faces forward
+  (so the window's front follows the tip's own curve whatever the tip rail); behind it straight sides
+  (a milled slot) to the back end, where the rails are `side_rail_width + side_rail_widening`, with
+  `WIN_MIN_RAIL` (0.5mm) as the floor in between. Tabulated once (`WIN_EDGE`, `WIN_C`); the back
+  corners round by `window_rear_radius`. The app's Window width / Window taper are the same rails
+  seen from the window (src/rails.ts, REPORT "rails"). Older designs' `window_width` /
+  `window_taper` still give their window (`LEGACY_*`: the old capped, straight-tapered slot, rails
+  worked out from it); the app turns them into rails. `window_cutter` (6-point rings) cuts it from
   below the table to the interior's mid-height.
   The window wall is a cone around its outline (`window_cutter_ring`, `CONE_C` 0.5mm out per mm up,
   `cone_x`), capped 0.12mm inside the chamber wall (`rail_wall_x` / `int_hw_at_y`) so the rails keep

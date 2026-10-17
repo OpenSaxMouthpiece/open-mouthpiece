@@ -130,6 +130,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
         items: [
           { name: "tip_rail_thickness", label: "Tip rail thickness" },
           { name: "side_rail_width", label: "Side rail width" },
+          { name: "side_rail_widening", label: "Side rails widen toward the back" },
           { name: "tip_curve", label: "Tip roundness" },
         ],
         more: ["tip_bevel"],
@@ -627,6 +628,7 @@ const ENDS: Record<string, [string, string]> = {
   facing_length: SHORT_LONG,
   tip_rail_thickness: THIN_THICK,
   side_rail_width: NARROW_WIDE,
+  side_rail_widening: ["Wider at the tip", "Wider at the back"],
   facing_exponent: ["Opens early", "Opens late"],
   tip_curve: ["Flat", "Round"],
   table_length: SHORT_LONG,
@@ -662,7 +664,7 @@ const ENDS: Record<string, [string, string]> = {
   baffle_texture_bend: ["Middle toward shank", "Middle toward tip"],
   baffle_texture_bend_change: ["More toward shank", "More toward tip"],
   window_length: SHORT_LONG,
-  window_taper: ["Straight", "Tapered"],
+  window_taper: ["Wider at the back", "Narrower at the back"],
   window_rear_radius: ["Square", "Round"],
   sidewall_angle: ["Lean in", "Lean out (scooped)"],
   // Body & beak

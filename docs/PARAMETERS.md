@@ -533,34 +533,6 @@ Presets: Alto `39.0` · Tenor `42.0` · Bari `54.3` · Soprano `28.3`.
 
 *23.5 → 54.5*
 
-<a id="window_width"></a>
-
-### Window width (`window_width`)
-
-Width of the opening under the reed (mm); kept inside the rails automatically.
-
-Range: 6 to 22, step 0.1.
-
-Presets: Alto `15.1` · Tenor `16.2` · Bari `17.2` · Soprano `12.5`.
-
-![window_width: 11.1 → 19.1](images/params/window_width.png)
-
-*11.1 → 19.1*
-
-<a id="window_taper"></a>
-
-### Window narrows at the back (`window_taper`)
-
-How much narrower the window is at the back (mm).
-
-Range: 0 to 12, step 0.1.
-
-Presets: Alto `3.3` · Tenor `4.3` · Bari `4.3` · Soprano `2.7`.
-
-![window_taper: 0.3 → 6.3](images/params/window_taper.png)
-
-*0.3 → 6.3*
-
 <a id="window_rear_radius"></a>
 
 ### Window corner rounding (`window_rear_radius`)
@@ -603,17 +575,27 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Side rail width (`side_rail_width`)
 
-Width of the side rails the reed seals on (mm).
+Width of the side rails the reed seals on (mm); the window fills the rest.
 
 A clearance limit on the window's width, not a promise of a constant rail width along the whole window.
 
-Range: 0.8 to 2.5, step 0.05.
+Range: 0.5 to 2.5, step 0.05.
 
-Presets: Alto `0.85` · Tenor `1.0` · Bari `1.0` · Soprano `1.0`.
+Presets: Alto `1.35` · Tenor `1.6` · Bari `2.05` · Soprano `1.95`.
 
 ![side_rail_width: 0.8 → 1.8](images/params/side_rail_width.png)
 
 *0.8 → 1.8*
+
+<a id="side_rail_widening"></a>
+
+### Side rails widen toward the back (`side_rail_widening`)
+
+How much wider the side rails get toward the back of the window (mm); 0 = even.
+
+Range: -1 to 2, step 0.05.
+
+Presets: Alto `0.15` · Tenor `0.45` · Bari `-0.25` · Soprano `-0.3`.
 
 <a id="tip_rail_thickness"></a>
 

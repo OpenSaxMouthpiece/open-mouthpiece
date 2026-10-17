@@ -366,10 +366,12 @@ if (lists.length) console.log(`settings lists refreshed (scad/param_lists.json):
 // and every name the sections list is one of the generator's.
 {
   const { PLACED } = await importTs('design.ts');
+  // the app's own controls (Window width / taper set the rails: src/rails.ts)
+  const { WINDOW_CONTROLS } = await importTs('rails.ts');
   const base = JSON.parse(fs.readFileSync(path.join(SCAD, 'param_lists.json'), 'utf8'))['alto.scad'];
   const names = new Set((base?.parameters ?? []).map((p) => p.name));
   const unplaced = [...names].filter((n) => !PLACED.has(n));
-  const unknown = names.size ? [...PLACED].filter((n) => !names.has(n)) : [];
+  const unknown = names.size ? [...PLACED].filter((n) => !names.has(n) && !WINDOW_CONTROLS.includes(n)) : [];
   if (unplaced.length) console.log(`FAIL settings panel: no section for ${unplaced.join(', ')} (src/design.ts)`);
   if (unknown.length) console.log(`FAIL settings panel: not the generator's: ${unknown.join(', ')} (src/design.ts)`);
   // ... and a section in docs/PARAMETERS.md, which each row's "Details" link opens

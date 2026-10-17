@@ -11,6 +11,17 @@ export interface Summary {
   socket?: Socket | null; // where the neck goes (for the cork readout)
   notes: string[]; // validate() warnings, in plain words
   adjusted: Adjustment[]; // settings the generator changed by itself (from the REPORT echo)
+  rails?: RailsReport | null; // the side rails and their outer edge (src/rails.ts)
+}
+
+// The side rails as built and the rails' outer edge (mm): the window is the edge less the rails.
+// legacy: an older design's window_width / window_taper gave them (src/rails.ts converts it).
+export interface RailsReport {
+  rail: number; // side rail width at the front (just behind the tip curve)
+  widen: number; // how much wider at the back of the window
+  edgeFront: number; // outer edge, across, where the window's width is measured
+  edgeRear: number; // outer edge, across, at the window's back end
+  legacy: boolean;
 }
 
 // A setting the generator changed to keep the model sound: you asked `asked`, the model has `got` (mm).
@@ -31,8 +42,16 @@ export interface Report {
   air: number;
   socket: Socket | null;
   adjusted: Adjustment[];
+  rails: RailsReport | null;
 }
 export const REPORT_VERSION = 1;
+function parseRails(v: unknown): RailsReport | null {
+  if (!Array.isArray(v) || v.length < 5) return null;
+  const [rail, widen, edgeFront, edgeRear] = v.slice(0, 4).map(Number);
+  return [rail, widen, edgeFront, edgeRear].every(Number.isFinite)
+    ? { rail, widen, edgeFront, edgeRear, legacy: v[4] === true }
+    : null;
+}
 export function parseReport(log: string): Report | null {
   const m = /ECHO: REPORT = (.*)$/m.exec(log);
   if (!m) return null;
@@ -52,6 +71,7 @@ export function parseReport(log: string): Report | null {
       air: num("air"),
       socket: Number.isFinite(depth) ? { depth, diameter: across, voice } : null,
       adjusted,
+      rails: parseRails(f.get("rails")),
     };
     return [r.length, r.tip, r.facing, r.air].every(Number.isFinite) ? r : null;
   } catch {
@@ -71,6 +91,7 @@ export function parseSummary(log: string): Summary {
       socket: rep.socket,
       notes: [...new Set(notes0)],
       adjusted: rep.adjusted,
+      rails: rep.rails,
     };
   const m = /Overall length: ([\d.]+)mm, tip_opening: ([\d.]+)mm, facing_length: ([\d.]+)mm/.exec(log);
   const notes = [...log.matchAll(/ECHO: "WARNING: ([^"]*)"/g)].map((w) => plainNote(w[1]));

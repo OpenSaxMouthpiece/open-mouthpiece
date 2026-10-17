@@ -79,16 +79,14 @@ baffle_texture_bend_change = 0; // [-2:0.05:2]
 /* [Window] */
 // Length of the opening under the reed (mm).
 window_length = 28.3; // [8:0.5:70]
-// Width of the opening under the reed (mm); kept inside the rails automatically.
-window_width = 12.5; // [6:0.1:22]
-// How much narrower the window is at the back (mm).
-window_taper = 2.7; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 4.8; // [0:0.1:10]
 // Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid).
 sidewall_angle = 0; // [-20:1:30]
-// Width of the side rails the reed seals on (mm).
-side_rail_width = 1.0; // [0.8:0.05:2.5]
+// Width of the side rails the reed seals on (mm); the window fills the rest.
+side_rail_width = 1.95; // [0.8:0.05:2.5]
+// How much wider the side rails get toward the back of the window (mm); 0 = even.
+side_rail_widening = -0.3; // [-1:0.05:2]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 0.9; // [0.3:0.02:3]
 // Slope the inside of the tip at 45 degrees so it prints without sagging.

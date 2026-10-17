@@ -102,11 +102,10 @@ const PICS = {
   baffle_curve: { view: 'side_cut', values: [-0.6, 0.6] },
   baffle_hump: { view: 'side_cut', values: [0, 1.5] },
   window_length: { view: 'plan', y: 0.3 },
-  window_width: { view: 'plan', y: 0.3 },
-  window_taper: { view: 'plan', y: 0.3 },
   window_rear_radius: { view: 'plan', y: 0.3, values: [1, 8] },
   sidewall_angle: { view: 'xsec', zFrom: 'window', values: [-10, 15] },
   side_rail_width: { view: 'plan', y: 0.3, values: [0.8, 1.8] },
+  side_rail_widening: { view: 'plan', y: 0.3, values: [-0.5, 1] },
   // near the tip the rails are up at the tip opening: cut just above them
   tip_rail_thickness: { view: 'plan', y: 2.4, values: [1, 3] },
   tip_bevel: { view: 'side_cut', box: [L_ALTO - 6, L_ALTO], y: [-0.5, 4.5], values: [false, true] },

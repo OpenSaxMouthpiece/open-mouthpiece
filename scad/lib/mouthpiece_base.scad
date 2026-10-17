@@ -123,16 +123,14 @@ baffle_texture_bend_change = 0; // [-2:0.05:2]
 /* [Window] */
 // Length of the opening under the reed (mm).
 window_length = 39.0; // [8:0.5:70]
-// Width of the opening under the reed (mm); kept inside the rails automatically.
-window_width = 15.1; // [6:0.1:22]
-// How much narrower the window is at the back (mm).
-window_taper = 3.3; // [0:0.1:12]
 // Rounding of the window's back corners (mm).
 window_rear_radius = 5.5; // [0:0.1:10]
 // Chamber side walls (degrees): + lean out toward the roof, - lean in (a trapezoid).
 sidewall_angle = 0; // [-20:1:30]
-// Width of the side rails the reed seals on (mm).
+// Width of the side rails the reed seals on (mm); the window fills the rest.
 side_rail_width = 1.0; // [0.8:0.05:2.5]
+// How much wider the side rails get toward the back of the window (mm); 0 = even.
+side_rail_widening = 0; // [-1:0.05:2]
 // Thickness of the tip rail (mm).
 tip_rail_thickness = 2.0; // [0.3:0.02:3]
 // Slope the inside of the tip at 45 degrees so it prints without sagging.
@@ -469,6 +467,11 @@ reed_length = undef;
 // baffle_start before 2026-10-13 (now baffle_length, the other way round: + was later, shorter): an
 // older file's value still applies.
 baffle_start = undef;
+// window_width / window_taper before 2026-10-17 (the window's width near the tip and how much
+// narrower it was at the back; the rails were what was left): an older file's or link's values
+// still give its window, with the rails worked out from them (EFF_RAIL, EFF_WIDEN).
+window_width = undef;
+window_taper = undef;
 // (legacy names: end)
 RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
@@ -750,8 +753,6 @@ max_body_w = max([for (c = EXT_WIDTH_C) c[1]]);
 TOP_SQ_TABLE_C = pchip_prep(shoulder_smoothed(beak_remapped(shape_top_squareness), SHOULDER_SMOOTH));     // indexed by fraction of L
 BOTTOM_SQ_TABLE_C = pchip_prep(shape_bottom_squareness);
 
-// Exterior width where the tip rounding starts.
-tip_half_w = pchip_at(L - tip_curve, EXT_WIDTH_C) / 2;
 // Bore axis: at the shank end, sloping down toward the tip by bore_tilt. The built-in shape
 // centers it in its tenon; with ext_top_points, bore_axis_height is taken as given.
 bore_tan = tan(bore_tilt);
@@ -891,22 +892,63 @@ function sweep_ring(pts, z, hw, top, cy, n) = shoulder_sweep <= 0 ? pts : [for (
 
 // ===========================================================================================
 // 5. Window planform (looking at the table): a long slot, slightly wider toward the tip, rear end
-// squared off with rounded corners, front edge following the reed-tip arc one tip rail inside the
-// exterior's own tip arc. Side rails stay an even width along its length.
+// squared off with rounded corners. It is what the rails leave: the rails' outer edge moved in by
+// the side rails and, at the front, the tip rail, so the rails keep their set width to the tip.
 // ===========================================================================================
 
-// The window always stays inside the reed table with side rails left (a window wider than the
-// table used to break out through the side walls).
-function window_rail_limit(z) = max(0.5, min(table_half_w(z), tip_half_w) - side_rail_width);
-win_hw_front = min(window_width / 2, window_rail_limit(win_front_z));
-win_hw_rear = min(win_hw_front, (window_width - window_taper) / 2, window_rail_limit(win_z0));
+// The rails' outer edge: where the facing meets the body's side (the tip arc included).
+function rail_edge_at(z) = z >= L ? 0 : ring_half_width_at_y(exterior_ring_at(z), facing_at_z(z));
+// Where the window's width is measured: just behind the tip curve (its widest), and its back end.
+WIN_REF_Z = min(win_front_z, max(win_z0 + 1, L - tip_curve - 1));
+EDGE_F = 2 * rail_edge_at(WIN_REF_Z);
+EDGE_R = 2 * rail_edge_at(win_z0);
+// The rails: the settings, or worked out from an older design's window_width / window_taper (a
+// negative value = not set: the app's way to turn them off once it has the rails, see src/rails.ts).
+// The older window, as it was built: its width capped one side rail inside the table (and the
+// exterior where the tip curve starts), narrowing straight to its back end.
+LEGACY_WW = !is_undef(window_width) && window_width >= 0;
+LEGACY_WT = !is_undef(window_taper) && window_taper >= 0;
+function legacy_limit(z) = max(0.5, min(table_half_w(z), pchip_at(L - tip_curve, EXT_WIDTH_C) / 2) - side_rail_width);
+LEGACY_F = LEGACY_WW ? min(window_width / 2, legacy_limit(win_front_z)) : EDGE_F / 2 - side_rail_width;
+LEGACY_R = LEGACY_WW ? min(LEGACY_F, LEGACY_WT ? (window_width - window_taper) / 2 : 1e3, legacy_limit(win_z0)) : LEGACY_F - (LEGACY_WT ? window_taper / 2 : 0);
+LEGACY_AT_REF = min(lerp(LEGACY_R, LEGACY_F, clamp01((WIN_REF_Z - win_z0) / max(0.001, win_front_z - win_z0))), legacy_limit(WIN_REF_Z));
+EFF_RAIL = LEGACY_WW ? max(0.5, EDGE_F / 2 - LEGACY_AT_REF) : side_rail_width;
+EFF_WIDEN = LEGACY_WT ? max(0.5 - EFF_RAIL, EDGE_R / 2 - LEGACY_R - EFF_RAIL) : side_rail_widening;
+// The thinner end's rail, for the interior's wall beside the window (interior_fit).
+RAIL_THIN = min(EFF_RAIL, EFF_RAIL + EFF_WIDEN);
+// Side rail width along the window: EFF_RAIL from WIN_REF_Z forward, EFF_RAIL + EFF_WIDEN at the back.
+function side_rail_at(z) = EFF_RAIL + EFF_WIDEN * (1 - clamp01((z - win_z0) / max(0.001, WIN_REF_Z - win_z0)));
 
-function window_base_hw(z) = lerp(win_hw_rear, win_hw_front, clamp01((z - win_z0) / max(0.001, win_front_z - win_z0)));
+// The window: from WIN_REF_Z forward, the rails' outer edge moved in by the rails, so the side rails
+// keep their width to the tip and the window's front follows the tip's own curve (each edge point
+// keeps a circle clear: the side rail where the edge runs lengthwise, tip_rail_thickness where it
+// faces forward, blended by the edge's direction). Behind it, straight sides (a milled window) to
+// the back end, where the rails are their back width. In between the rails are what the body
+// leaves (on most bodies a little thinner mid-window), never under WIN_MIN_RAIL.
+WIN_DZ = 0.05;
+WIN_Z0E = max(0, win_z0 - 3);
+WIN_EDGE = let(n = ceil((L - WIN_Z0E) / WIN_DZ), e = [for (i = [0 : n + 1]) rail_edge_at(min(L, WIN_Z0E + i * WIN_DZ))])
+  // (an edge point with no width, at the very tip, faces forward)
+  [for (i = [0 : n]) let(z = WIN_Z0E + i * WIN_DZ, s = (e[min(n, i + 1)] - e[max(0, i - 1)]) / (2 * WIN_DZ), w = e[i] < 0.01 ? 1 : abs(s) / sqrt(1 + s * s))
+     [z, e[i], lerp(side_rail_at(z), tip_rail_thickness, w * w)]];
+WIN_RMAX = max([for (p = WIN_EDGE) p[2]]);
+// r: one width all round instead of the rails (the straight part's floor).
+function window_from_edge(z, r = undef) =
+  let(rm = is_undef(r) ? WIN_RMAX : r, n = len(WIN_EDGE) - 1, i0 = max(0, floor((z - rm - WIN_Z0E) / WIN_DZ)), i1 = min(n, ceil((z + rm - WIN_Z0E) / WIN_DZ)))
+  max(0, min([for (i = [i0 : i1]) let(p = WIN_EDGE[i], q = is_undef(r) ? p[2] : r, dz = z - p[0]) if (abs(dz) <= q) p[1] - sqrt(max(0, q * q - dz * dz))]));
+WIN_F0 = window_from_edge(WIN_REF_Z);
+WIN_R0 = window_from_edge(win_z0);
+WIN_MIN_RAIL = 0.5;
+function window_straight(z) = z >= WIN_REF_Z ? window_from_edge(z)
+  : min(window_from_edge(z, WIN_MIN_RAIL), lerp(WIN_R0, WIN_F0, clamp01((z - win_z0) / max(0.001, WIN_REF_Z - win_z0))));
+WIN_C = pchip_prep([for (z = concat([for (z = [win_z0 : 0.5 : win_front_z - 5.25]) z], [for (z = [max(win_z0, win_front_z - 5) : 0.05 : win_front_z - 0.025]) z], [win_front_z])) [z, window_straight(z)]]);
 
 // Window width ignoring the rear corner rounding — also what the interior sidewalls follow, so
-// the interior stays full-width across the window's rounded rear end. Front edge: the reed-tip
-// ellipse, shrunk by the rails so the tip rail stays an even width.
-function window_side_hw(z) = max(0, min(window_base_hw(z), window_rail_limit(z)) * tip_factor(win_front_z - z, max(0.5, tip_curve - tip_rail_thickness)));
+// the interior stays full-width across the window's rounded rear end.
+function window_side_hw(z) = z >= win_front_z ? 0 : max(0, pchip_at(max(win_z0, z), WIN_C));
+function window_base_hw(z) = window_side_hw(z);
+win_hw_front = window_side_hw(WIN_REF_Z);
+win_hw_rear = window_side_hw(win_z0);
 
 function window_half_width(z) =
   let(r = min(window_rear_radius, win_hw_rear), d = z - win_z0)
@@ -1043,7 +1085,7 @@ function interior_half_w(z, E) =
     : max(z > win_z0 ? window_side_hw(z) + 0.3 : 1, raw0 + adjust_at(z, CHAMBER_W_ADJ_C) / 2))
   z <= win_z0
     ? min(raw, E[E_HW] - min_wall)
-    : min(raw, E[E_HW] - side_rail_width * 0.6, ring_half_width_at_y(E, roof_cap_y(z, E)) - 0.8);
+    : min(raw, E[E_HW] - RAIL_THIN * 0.6, ring_half_width_at_y(E, roof_cap_y(z, E)) - 0.8);
 
 // How much of chamber_height applies at z: 0 at the throat, full after the first 40% of the way
 // to the window, faded out over the last stretch before it (at most 4mm; the window's floor is a
@@ -1166,7 +1208,7 @@ function interior_ring_build(z, cap_s) =
   [I, I == I2 ? f2[1] : interior_points(INT_DIRS, z, I), hw1r];
 
 // Width scale (<= 1) that makes every ring point keep its wall at its own height: min_wall before
-// the window; under the window 0.6 x side_rail_width for the part within the window width (the
+// the window; under the window 0.6 x the side rail (RAIL_THIN) for the part within the window width (the
 // rails) but the full min_wall for a chamber scooped out wider than the window above them.
 // Returns [scale, the points of ring I].
 function interior_fit(z, E, I, in_win, lo) =
@@ -1174,8 +1216,8 @@ function interior_fit(z, E, I, in_win, lo) =
   let(ratios = [for (p = pts) if (abs(p[0]) > 0.05 && p[1] > lo && p[1] > E[E_BOT] && p[1] < E[E_TOP])
                   let(ext = ring_half_width_at_y(E, p[1]))
                   let(limit = !in_win ? ext - min_wall
-                            : abs(p[0]) <= I[5] + 0.01 ? ext - side_rail_width * 0.6
-                            : max(min(I[5], ext - side_rail_width * 0.6), ext - min_wall))
+                            : abs(p[0]) <= I[5] + 0.01 ? ext - RAIL_THIN * 0.6
+                            : max(min(I[5], ext - RAIL_THIN * 0.6), ext - min_wall))
                   limit / abs(p[0])])
   [len(ratios) ? max(0.05, min(1, min(ratios))) : 1, pts];
 
@@ -1497,7 +1539,8 @@ module validate() {
   // The same numbers as data, for the app (src/readouts.ts parseReport). Add fields, don't rename;
   // change "version" only when a field's meaning changes.
   echo(REPORT = [["version", 1], ["length", L], ["tip", T], ["facing", F], ["air", air_cm3],
-                 ["socket", [eff_shank_depth, socket_d, voice]], ["adjusted", adjustments()]]);
+                 ["socket", [eff_shank_depth, socket_d, voice]], ["adjusted", adjustments()],
+                 ["rails", [EFF_RAIL, EFF_WIDEN, EDGE_F, EDGE_R, LEGACY_WW || LEGACY_WT]]]);
 }
 validate();
 
@@ -1676,7 +1719,7 @@ TB_HT = !TIP_BEVEL || ACCESSORY_PART ? 0 : 0.05 + max([for (z = [win_front_z - T
   interior_ring_near(z)[1] - facing_at_z(z)]);
 TB_Z0 = max(win_z0 + min(window_rear_radius, win_hw_rear) + 0.1, win_front_z - TB_A - TB_HT / TB_M - 0.3);
 // What may stay cut at height h above the facing: the window's width with its front arc moved back.
-function tb_keep_hw(z, h) = max(0.01, min(window_base_hw(z), window_rail_limit(z)) * tip_factor(win_front_z - z - h / TB_M, TB_A));
+function tb_keep_hw(z, h) = max(0.01, window_side_hw(z + h / TB_M));
 function tb_keep_ring(z) =
   let(f = facing_at_z(z), top = min(TB_HT + 0.2, TB_M * (win_front_z - z)), n = 14)
   // finer toward the top, where the arc pinches the width to nothing
@@ -1685,7 +1728,7 @@ function tb_keep_ring(z) =
 // The ramp: the band from the facing up to the ceiling's height, less what stays cut. Taken out
 // of the interior and window cutters (never the facing cutter, so the window stays open).
 module tip_ramp() {
-  X = max(win_hw_front, win_hw_rear) + 1;
+  X = max([for (p = WIN_EDGE) p[1]]) + 1;
   z1 = win_front_z - 0.01;
   zs = [for (j = [0 : 40]) TB_Z0 + (z1 - TB_Z0) * (1 - pow(1 - j / 40, 2))];
   difference() {
@@ -2388,7 +2431,7 @@ function param_focus() =
    ["baffle_type", baffle, "side", true], ["baffle_height", baffle, "side", true], ["baffle_length", baffle, "side", true], ["baffle_hump", baffle, "side", true],
    ["baffle_curve", baffle, "side", true], ["baffle_texture", window, "table", false], ["baffle_texture_style", window, "table", false], ["baffle_texture_depth", window, "table", false], ["baffle_texture_spacing", window, "table", false], ["baffle_texture_thickness", window, "table", false], ["baffle_texture_bend", window, "table", false], ["baffle_texture_bend_change", window, "table", false], ["baffle_texture_shape", window, "table", false], ["baffle_texture_extent", window, "table", false], ["sidewall_angle", window, "table", false], ["shank_diameter", socket, "side", false],
    ["window_length", window, "table", false], ["window_width", window, "table", false], ["window_taper", window, "table", false],
-   ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false],
+   ["window_rear_radius", window, "table", false], ["side_rail_width", window, "table", false], ["side_rail_widening", window, "table", false],
    ["tip_rail_thickness", tip, "table", false], ["tip_bevel", tip, "table", false], ["tip_curve", tip, "table", false],
    ["table_width_tip", table, "table", false], ["table_width_rear", table, "table", false], ["table_length", table, "table", false],
    ["tip_opening", facing, "side", false], ["facing_length", facing, "side", false], ["facing_model", facing, "side", false],

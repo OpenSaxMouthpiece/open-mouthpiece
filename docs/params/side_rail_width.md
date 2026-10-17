@@ -1,1 +1,1 @@
-A clearance limit on the window's width, not a promise of a constant rail width along the whole window.
+Measured just behind the tip curve, from the window's edge to the body's side; the window is what the rails leave. Toward the back it changes by Side rails widen toward the back.

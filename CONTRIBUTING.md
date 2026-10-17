@@ -111,12 +111,12 @@ The generator clamps, so no parameter set can break the model:
    fit on the horn, so the window (to >= 15mm), the throat position and its narrowing give way
    first; the socket only shortens on very short bodies.
 3. Every interior ring point keeps its wall at its own height (`interior_fit`, two passes):
-   `min_wall` before the window; under the window 0.6 x `side_rail_width` beside the window-width
+   `min_wall` before the window; under the window 0.6 x the thinner side rail beside the window-width
    part and the full `min_wall` for a chamber scooped out wider than the window.
 4. The roof is capped one wall below the exterior and never pushed up by the floor; the floor gives
    way instead (min channel 1.2mm before the window, 0.3 in it).
-5. The window stays inside the reed table minus the rails (`window_rail_limit`); the window cutter's
-   upper corners stay 0.6mm inside the exterior.
+5. The window is the rails' outer edge less the rails (side rails, tip rail), never closer than
+   0.5mm to it (`WIN_MIN_RAIL`); the window cutter's upper corners stay 0.6mm inside the exterior.
 6. The throat comes at least 1mm before the window (`eff_throat_z`; real mouthpieces come close to
    that, so don't raise the margin); the window starts >= max(0.3 L, 20mm) from the shank end.
 7. The exterior underside is floored at -40 (the table solve heads to -infinity where the tip

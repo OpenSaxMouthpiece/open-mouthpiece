@@ -135,7 +135,10 @@ The app doesn't describe how settings change the sound; after a test print, the
 **Tip & facing.** *Tip opening & facing*: the tip opening is in thousandths of an inch, but you
 can type a value in mm too. The facing length is measured from the tip back to the break, where the
 rails leave the flat table; the facing curve and where it opens come right below. *Rails*: the
-thickness of the tip rail, the width of the side rails and the roundness of the tip. More has
+thickness of the tip rail, the width of the side rails just behind the tip, how much wider they get
+toward the back of the window, and the roundness of the tip. The window is what the rails leave, so
+*Window width* and *Window narrows at the back* (Chamber, Window) are the same two settings seen
+from the window: move one and the rail beside it follows. More has
 *Slope the inside of the tip*: the roof already comes down smoothly onto the tip rail, but
 printed standing up a small flat patch can remain at the inside edge of the rail and sag; this
 slopes it at 45° up to the baffle. The rails the reed sits on don't change. *Table*: the table's length, width and hollow.

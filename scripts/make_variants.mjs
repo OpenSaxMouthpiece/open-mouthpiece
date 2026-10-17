@@ -17,7 +17,8 @@ const inch = (x) => +(x * 0.0254).toFixed(2);
 const r1 = (x) => Math.round(x * 10) / 10,
   r05 = (x) => Math.round(x * 2) / 2; // the sliders' 0.5mm steps
 
-// Per voice: the interior values per family (absolute).
+// Per voice: the interior values per family (absolute). The rails keep each variant's window as it
+// was before the window followed the rails (2026-10-17).
 // Each family's interior follows one design tradition, so the settings belong together:
 //   flamma    the big-chamber recipe: round chamber and throat, concave (scooped) baffle, sidewalls
 //          scooped out over the window, a circle (arc) facing as a hand refacer would cut.
@@ -36,6 +37,8 @@ const r1 = (x) => Math.round(x * 10) / 10,
 const VOICES = {
   alto: {
     flamma: {
+      side_rail_width: 1.3,
+      side_rail_widening: 0.25,
       tip_opening: inch(70),
       facing_length: 24.5,
       facing_model: 'arc',
@@ -48,6 +51,8 @@ const VOICES = {
       tip_rail_thickness: 1.0,
     },
     silva: {
+      side_rail_width: 1.75,
+      side_rail_widening: -0.2,
       tip_opening: inch(80),
       facing_length: 24.5,
       chamber_shape: 'square',
@@ -64,16 +69,19 @@ const VOICES = {
       tip_rail_thickness: 0.72,
     },
     unda: {
+      side_rail_width: 1.8,
+      side_rail_widening: -0.3,
       tip_opening: inch(68),
       facing_length: 22.5,
       baffle_type: 'flat',
-      side_rail_width: 1.2,
       throat_width: 14.8,
       tip_rail_thickness: 1.0,
     },
   },
   tenor: {
     flamma: {
+      side_rail_width: 1.35,
+      side_rail_widening: 0.7,
       tip_opening: inch(90),
       facing_length: 26.0,
       facing_model: 'arc',
@@ -85,6 +93,8 @@ const VOICES = {
       tip_rail_thickness: 1.1,
     },
     silva: {
+      side_rail_width: 1.8,
+      side_rail_widening: 0.25,
       tip_opening: inch(100),
       facing_length: 26.5,
       chamber_shape: 'square',
@@ -101,16 +111,19 @@ const VOICES = {
       tip_rail_thickness: 0.84,
     },
     unda: {
+      side_rail_width: 1.95,
+      side_rail_widening: 0.1,
       tip_opening: inch(85),
       facing_length: 24.3,
       baffle_type: 'flat',
-      side_rail_width: 1.2,
       throat_width: 15.5,
       tip_rail_thickness: 1.16,
     },
   },
   baritone: {
     flamma: {
+      side_rail_width: 1.7,
+      side_rail_widening: 0.1,
       tip_opening: inch(105),
       facing_length: 29.0,
       facing_model: 'arc',
@@ -122,6 +135,8 @@ const VOICES = {
       tip_rail_thickness: 1.0,
     },
     silva: {
+      side_rail_width: 2.45,
+      side_rail_widening: -0.65,
       tip_opening: inch(115),
       facing_length: 29.5,
       chamber_shape: 'square',
@@ -136,16 +151,19 @@ const VOICES = {
       tip_rail_thickness: 0.75,
     },
     unda: {
+      side_rail_width: 2.3,
+      side_rail_widening: -0.5,
       tip_opening: inch(100),
       facing_length: 27.3,
       baffle_type: 'flat',
       baffle_curve: -0.3,
-      side_rail_width: 1.2,
       tip_rail_thickness: 1.0,
     },
   },
   soprano: {
     flamma: {
+      side_rail_width: 1.7,
+      side_rail_widening: -0.05,
       tip_opening: inch(62),
       facing_length: 20.5,
       facing_model: 'arc',
@@ -157,6 +175,8 @@ const VOICES = {
       tip_rail_thickness: 1.02,
     },
     silva: {
+      side_rail_width: 2.4,
+      side_rail_widening: -0.75,
       tip_opening: inch(70),
       facing_length: 20.5,
       chamber_shape: 'square',
@@ -172,12 +192,13 @@ const VOICES = {
       tip_rail_thickness: 0.77,
     },
     unda: {
+      side_rail_width: 2.1,
+      side_rail_widening: -0.45,
       tip_opening: inch(59),
       facing_length: 19.3,
       chamber_shape: 'horseshoe',
       baffle_type: 'flat',
       baffle_curve: -0.4,
-      side_rail_width: 1.2,
       tip_rail_thickness: 1.02,
     },
   },
