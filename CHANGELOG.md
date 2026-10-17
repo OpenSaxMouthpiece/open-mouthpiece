@@ -6,7 +6,9 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
-- Nothing yet.
+- Click a spot on the model to go to the setting that shapes it: the panel jumps to it, and a
+  small note by the click names the spot and offers the other settings there. Works with the
+  model cut open too; turn it off in the view's Behavior menu.
 
 ## 2026-10-17
 

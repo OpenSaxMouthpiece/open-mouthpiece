@@ -118,9 +118,14 @@ Use the ↶ and ↷ buttons (or Ctrl+Z and Ctrl+Y) to undo and redo. **Reset** t
 to how it was when you opened or last saved it, and the number on the button shows how many
 settings you've changed.
 
-Two more options are in the **Behavior** menu (**More** on a narrow screen). **Auto-zoom** moves the view to whatever part a
+Click a spot on the model (the beak, the table, the shank, or inside the chamber with the model cut
+open) to go to the setting that shapes it: the panel jumps to it and flashes it, and a small note by
+the click names the spot and offers the other settings there.
+
+More options are in the **Behavior** menu (**More** on a narrow screen). **Auto-zoom** moves the view to whatever part a
 setting affects, and cuts the model open for parts on the inside. Turn it off if you'd rather the
-view stayed put. **Compare with the original** puts the unchanged design next to yours.
+view stayed put. **Click to find a setting** turns the click on the model on or off. **Compare with
+the original** puts the unchanged design next to yours.
 
 The app won't let you make a mouthpiece that can't be printed. If a setting would make a wall too
 thin, the app limits it and a note under the measurements tells you.
