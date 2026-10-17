@@ -49,20 +49,29 @@ inch (.076" = 76 thou = 1.93 mm); their own tip numbers (5, 7\*, ...) mean diffe
 maker to maker, so look up the opening itself. Enter it in **Tip & facing** -> **Tip opening**
 (thousandths, or type mm).
 
-**Facing length.** Put the mouthpiece table-down on the glass. Slide the 0.0015" strip in from the
+**Feeler stops.** Put the mouthpiece table-down on the glass. Slide the 0.0015" strip in from the
 tip between the glass and one side rail until it stops. Mark the stop and measure from it to the
-tip: that is the facing length. Do both rails; they should agree within about 0.5 mm. Enter it in
-**Facing length**.
+tip, in mm. Do both rails; they should agree within about 0.5 mm. Do the same with each thicker
+gauge (0.010", 0.024", 0.034", 0.050"): a thicker one stops nearer the tip.
 
-**Facing curve.** For a close copy, measure where each thicker gauge stops too (0.010", 0.024",
-0.034", 0.050"), as distances from the tip. Then either:
+If you use a glass facing gauge with a printed scale, put its 0 line on the tip and check what its
+numbers mean: some show twice the distance for finer readings (a mark of 42 is 21 mm). The app
+wants plain mm from the tip.
 
-- open **Shape charts** (bottom left of the 3D view) -> **Facing curve**, try the ready-made
-  curves (Opens early, Even, Opens late, Radius) and pick the one whose **Feeler gauge stops**
-  are closest to yours, or
-- copy the stops in exactly: set **Facing curve** (under Tip & facing's More) to **Gauge points**,
-  then in **Points** (icon bar) -> **Facing (gauge)** enter one point per gauge: the distance
-  back from the tip (mm) and the gauge's thickness in mm (thou x 0.0254: 0.010" = 0.254 mm).
+**Facing length.** Refacers often call the 0.0015" stop the facing length. In the app, **Facing
+length** goes on to the break, where the gap reaches zero: a little behind that stop, where the
+gap is too small to measure. Enter your 0.0015" stop in **Facing length** first; when you type the
+stops (below), the break moves a little behind it, so the **Facing** readout comes out a little
+longer than your 0.0015" stop. That is expected.
+
+**Facing curve.** Then either:
+
+- copy the stops in exactly: open **Shape charts** (bottom left of the 3D view) -> **Facing
+  curve** -> **Feeler gauge stops** and type each stop (mm from the tip, in any order). The curve
+  goes through them, and a 0.0015" stop past the break moves the break back with it. The same
+  points show in **Points** (icon bar) -> **Facing (gauge)**, or
+- try the ready-made curves there (Opens early, Even, Opens late, Radius) and pick the one whose
+  stops are closest to yours.
 
 ## 4. Table, window and rails
 
@@ -144,7 +153,9 @@ settings, or with **How far the cork goes in**. More about this in
 
 ## 8. Check and compare
 
-- The readouts (**Tip**, **Facing**, **Length**, **Air**) should match what you measured.
+- The readouts (**Tip**, **Facing**, **Length**, **Air**) should match what you measured (**Facing**
+  a little longer than your 0.0015" stop; see [Tip and facing](#3-tip-and-facing)), and the
+  **Feeler gauge stops** should show your stops.
 - **Compare** shows every setting that differs from B, and both designs side by side or overlaid.
 - Print it, check the print against the design ([printing guide, step 4](PRINTING.md#4-check-it-against-the-design)),
   then play it next to the original and adjust ([step 5](PRINTING.md#5-play-test-and-adjust)).
@@ -158,8 +169,7 @@ Copy this and fill it in as you measure.
 |---|---|---|
 | Neck cork diameter | | Neck cork diameter |
 | Tip opening (thou or mm) | | Tip opening |
-| Facing length | | Facing length |
-| Gauge stops 0.010 / 0.024 / 0.034 / 0.050" (mm from the tip) | | Facing (gauge) points |
+| Feeler stops 0.0015 / 0.010 / 0.024 / 0.034 / 0.050" (mm from the tip) | | Feeler gauge stops (Facing curve chart) |
 | Table length | | Table length |
 | Window length / width | | Window length / Window width |
 | Side rail / tip rail | | Side rail width / Tip rail thickness |
