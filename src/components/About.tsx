@@ -1,6 +1,6 @@
 // The About panel (the rail's About; the phone's ☰ "About and help"): what the app is, how to use it,
 // where designs live, where to get help, and the credits.
-import { DOCS_URL, DONATE_URL, PRINTING_GUIDE_URL, REPO_URL } from "../links";
+import { CHANGELOG_URL, DOCS_URL, DONATE_URL, PRINTING_GUIDE_URL, REPO_URL } from "../links";
 import { Credits } from "./DesignPanel";
 
 declare const __BUILD__: string;
@@ -43,6 +43,14 @@ export function About() {
           <a href={DOCS_URL} {...ext}>
             Documentation
           </a>
+          {CHANGELOG_URL && (
+            <>
+              {" · "}
+              <a href={CHANGELOG_URL} {...ext}>
+                What&apos;s new
+              </a>
+            </>
+          )}
         </p>
       )}
 

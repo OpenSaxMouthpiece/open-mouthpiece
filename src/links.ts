@@ -17,6 +17,8 @@ const DOCS_BRANCH =
   import.meta.env.DEV || (typeof location !== "undefined" && location.hostname.startsWith("dev.")) ? "dev" : "master";
 export const paramDocUrl = (name: string) =>
   REPO_URL && DOCUMENTED.has(name) ? `${REPO_URL}/blob/${DOCS_BRANCH}/docs/PARAMETERS.md#${name}` : "";
+// What changed, newest first (About's "What's new"); the dev site shows what's coming next.
+export const CHANGELOG_URL = REPO_URL ? `${REPO_URL}/blob/${DOCS_BRANCH}/CHANGELOG.md` : "";
 
 // Donation page (Ko-fi). Empty hides every donation link.
 export const DONATE_URL = "https://ko-fi.com/opensaxmouthpiece";

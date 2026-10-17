@@ -9,6 +9,7 @@ starts with a comment saying what it does; this page collects those in one place
 |---|---|
 | `README.md` | What the project is, how to run it, credits, license |
 | `CONTRIBUTING.md` | How to work on it: commands, rules, the generator's guarantees, lessons learned |
+| `CHANGELOG.md` | What changed, newest first (About's "What's new"); add a line when a change goes live |
 | `LICENSE` | GPL-3.0 |
 | `package.json`, `package-lock.json` | npm scripts and dependencies (React, CodeMirror, three.js, Vite) |
 | `index.html` | The page the app is built into |

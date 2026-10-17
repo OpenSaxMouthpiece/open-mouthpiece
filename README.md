@@ -74,6 +74,7 @@ npm run dev            # the app (OpenSCAD runs in the browser)
 - Printing and play-testing: [docs/PRINTING.md](docs/PRINTING.md)
 - Measuring a mouthpiece you have and matching it: [docs/MATCHING.md](docs/MATCHING.md)
 - Putting the app online: [docs/HOSTING.md](docs/HOSTING.md)
+- What changed, newest first: [CHANGELOG.md](CHANGELOG.md)
 - Working on the code: [CONTRIBUTING.md](CONTRIBUTING.md)
 
 The live site collects anonymous usage and error reports to improve the app: which designs and
