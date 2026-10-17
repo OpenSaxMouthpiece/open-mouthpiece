@@ -33,8 +33,11 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
     );
   const b = compare?.summary;
   const atRails = !!wall && /beside the window/.test(wall.where);
-  // under 1 mm a printer lays only a line or two there: worth a look before printing
-  const thin = !!wall && wall.wall < 1;
+  // under 1 mm a printer lays only a line or two there: worth a look before printing. At the rails
+  // the wall is the side rail as set, so only below Side rail width's own minimum (cut thinner by
+  // something else).
+  const thinBelow = atRails ? 0.8 : 1;
+  const thin = !!wall && wall.wall < thinBelow;
   // the air as a spot on the cork, next to the preset's (more air: further on)
   const socket = summary.socket;
   const shift = summary.air !== null && socket ? corkShift(summary.air, socket) : null;
@@ -77,7 +80,7 @@ export function Readouts({ summary, wall, busy, compact = false, compare }: Prop
       compact ? "Wall" : "Thinnest wall",
       wall ? `${wall.wall.toFixed(2)} mm` : "…",
       wall
-        ? wallText(wall, summary.length) + (thin ? " Under 1 mm: it may print weak or with gaps there." : "")
+        ? wallText(wall, summary.length) + (thin ? ` Under ${thinBelow} mm: it may print weak or with gaps there.` : "")
         : "measuring the thinnest wall…",
       undefined,
       thin ? "thin to print" : atRails ? "at the rails" : undefined,
