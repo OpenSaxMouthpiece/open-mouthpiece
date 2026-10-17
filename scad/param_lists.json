@@ -2080,7 +2080,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "4146432d-22253",
+  "hash": "8cc186a5-22196",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2224,7 +2224,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -2318,7 +2318,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -2328,7 +2328,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -2725,7 +2725,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -4160,7 +4160,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "ce0fea33-22924",
+  "hash": "77bfe037-22867",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4304,7 +4304,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -4398,7 +4398,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -4408,7 +4408,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -4805,7 +4805,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -6240,7 +6240,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "8dfc3f93-22215",
+  "hash": "ae5093ed-22158",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6384,7 +6384,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -6478,7 +6478,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -6488,7 +6488,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -6885,7 +6885,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 0,
     "max": 15,
@@ -10400,7 +10400,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "26713d9e-22105",
+  "hash": "3abb8be-22048",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10544,7 +10544,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -10638,7 +10638,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -10648,7 +10648,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -11045,7 +11045,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 7,
     "max": 15,
@@ -12480,7 +12480,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "7d47bb5b-22144",
+  "hash": "3f20a57b-22087",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12624,7 +12624,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -12718,7 +12718,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0.1,
     "max": 4,
@@ -12728,7 +12728,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -13125,7 +13125,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": -3,
     "max": 15,
@@ -14560,7 +14560,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "b86b5fd-22109",
+  "hash": "43abb443-22052",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14704,7 +14704,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -14798,7 +14798,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -14808,7 +14808,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -15205,7 +15205,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 2,
     "max": 15,
@@ -16640,7 +16640,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "aff3706a-22295",
+  "hash": "49010318-22238",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16784,7 +16784,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -16878,7 +16878,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -16888,7 +16888,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -17285,7 +17285,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 11,
     "max": 15,
@@ -18720,7 +18720,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "1981a369-22328",
+  "hash": "6533ac41-22271",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18864,7 +18864,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -18958,7 +18958,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0.6,
     "max": 4,
@@ -18968,7 +18968,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -19365,7 +19365,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": -4.5,
     "max": 15,
@@ -20800,7 +20800,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "6eeab7a7-22287",
+  "hash": "f021d92b-22230",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20944,7 +20944,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -21038,7 +21038,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -21048,7 +21048,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -21445,7 +21445,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 3,
     "max": 15,
@@ -22880,7 +22880,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "4190ce95-22316",
+  "hash": "386a58b-22259",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23024,7 +23024,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -23118,7 +23118,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0.7,
     "max": 4,
@@ -23128,7 +23128,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -23525,7 +23525,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 5.5,
     "max": 15,
@@ -24960,7 +24960,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "b3cedb3c-22342",
+  "hash": "60722710-22285",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25104,7 +25104,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -25198,7 +25198,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0.1,
     "max": 4,
@@ -25208,7 +25208,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -25605,7 +25605,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": -2,
     "max": 15,
@@ -27040,7 +27040,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "d4655ad-22315",
+  "hash": "e4135709-22258",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27184,7 +27184,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -27278,7 +27278,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -27288,7 +27288,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -27685,7 +27685,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 1.5,
     "max": 15,
@@ -29120,7 +29120,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "21d57f68-22498",
+  "hash": "1cb51af2-22441",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29264,7 +29264,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -29358,7 +29358,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0.3,
     "max": 4,
@@ -29368,7 +29368,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -29765,7 +29765,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 7.5,
     "max": 15,
@@ -31200,7 +31200,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "487d9778-22524",
+  "hash": "92c6deae-22467",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31344,7 +31344,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -31438,7 +31438,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0.1,
     "max": 4,
@@ -31448,7 +31448,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -31845,7 +31845,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": -3,
     "max": 15,
@@ -33280,7 +33280,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "bf669914-22492",
+  "hash": "be6c29fe-22435",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33424,7 +33424,7 @@
     "type": "number"
    },
    {
-    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.",
+    "caption": "Floor from throat to window: - drops early (deeper), + stays high (a ramp).",
     "group": "Chamber",
     "initial": 0,
     "max": 1,
@@ -33518,7 +33518,7 @@
     "type": "string"
    },
    {
-    "caption": "Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.",
+    "caption": "Baffle height change (mm): + toward the reed, - away; 0 = as the preset.",
     "group": "Baffle",
     "initial": 0,
     "max": 4,
@@ -33528,7 +33528,7 @@
     "type": "number"
    },
    {
-    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.",
+    "caption": "Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.",
     "group": "Baffle",
     "initial": 0,
     "max": 15,
@@ -33925,7 +33925,7 @@
     "type": "number"
    },
    {
-    "caption": "Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.",
+    "caption": "Beak length change (mm): + longer (shoulder toward the shank), - shorter.",
     "group": "Exterior",
     "initial": 2,
     "max": 15,
