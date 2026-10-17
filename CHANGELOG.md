@@ -6,6 +6,10 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- Nothing yet.
+
+## 2026-10-17
+
 - When the model can't build a setting exactly as asked (a limit keeps a wall thick enough, for
   example), the Adjusted note says what you asked for and what the model has.
 - Side rails keep their set width all the way to the tip, and the window controls set the rails;
