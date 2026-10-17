@@ -115,6 +115,7 @@ interface Props {
   quality?: ReactNode; // the render quality switch, with the view tools
   onCompareOriginal?(): void; // pin the design as it was (published / saved) as B
   autoZoom?: { on: boolean; set(on: boolean): void }; // a touched setting flies the view to the part it shapes
+  clickPick?: { on: boolean; set(on: boolean): void }; // a click on the model goes to the setting that shapes it
   autoRender?: { on: boolean; set(on: boolean): void; render(): void }; // render after every change; off = the Render button
   labelA?: string; // names for the A/B legend and the labels under the models
   labelB?: string;
@@ -139,6 +140,14 @@ interface Props {
   // Whether this design (A) is shown, when the app controls it (to look at the ligature or cap alone).
   showModel?: boolean;
   onShowModel?(on: boolean): void;
+  // A click (not a drag) on this design (A): the spot and its face's outward normal in A's own
+  // (STL) frame, and where on the view it was (px from the view's top left).
+  onPick?(hit: {
+    point: [number, number, number];
+    normal: [number, number, number];
+    inside: boolean; // a face of the air space (chamber, bore, socket), not the outside
+    at: [number, number];
+  }): void;
 }
 
 // View settings outlive the viewer: the desktop and phone layouts each mount their own, and a
@@ -219,6 +228,7 @@ export function Viewer({
   overlay,
   quality,
   autoZoom,
+  clickPick,
   autoRender,
   onCompareOriginal,
   labelA,
@@ -233,6 +243,7 @@ export function Viewer({
   onAir,
   showModel,
   onShowModel,
+  onPick,
 }: Props) {
   const hostRef = useRef<HTMLDivElement>(null);
   // Appearance (the ⚙ menu): model colour, background, grid, axes.
@@ -242,6 +253,8 @@ export function Viewer({
   const modelColor = useRef(model);
   modelColor.current = model;
   const ctxRef = useRef<Ctx | null>(null);
+  const pickRef = useRef(onPick);
+  pickRef.current = onPick;
   const framedFor = useRef<string | null>(null);
   const [edges, setEdges] = useState(viewPrefs.edges);
   const [wire, setWire] = useState(viewPrefs.wire);
@@ -391,11 +404,89 @@ export function Viewer({
       draw();
     });
     ro.observe(host);
+    // A click on A (a press and release that barely moved: not an orbit): the front face under it,
+    // skipping what a section cut hides.
+    let down: { x: number; y: number; t: number } | null = null;
+    const onDown = (e: PointerEvent) => {
+      down = e.isPrimary && e.button === 0 ? { x: e.clientX, y: e.clientY, t: performance.now() } : null;
+    };
+    const onUp = (e: PointerEvent) => {
+      const d = down;
+      down = null;
+      if (!d || !pickRef.current || !a.visible || performance.now() - d.t > 500) return;
+      if (Math.hypot(e.clientX - d.x, e.clientY - d.y) > 5) return;
+      const r = renderer.domElement.getBoundingClientRect();
+      const ray = new THREE.Raycaster();
+      ray.setFromCamera(
+        new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1),
+        camera,
+      );
+      // A's outside (front faces) and, with a cut, its back faces: one of those first is the cut face.
+      const bodies: THREE.Object3D[] = [],
+        caps: THREE.Object3D[] = [];
+      a.traverse((o) => {
+        if (o instanceof THREE.Mesh && o.name === "body") bodies.push(o);
+        if (o instanceof THREE.Mesh && o.name === "cap" && o.visible) caps.push(o);
+      });
+      const planesOf = (h: THREE.Intersection) =>
+        ((h.object as THREE.Mesh).material as THREE.Material).clippingPlanes ?? [];
+      const kept = (h: THREE.Intersection) => planesOf(h).every((pl) => pl.distanceToPoint(h.point) >= 0);
+      const first = (rc: THREE.Raycaster) => rc.intersectObjects([...bodies, ...caps], false).find(kept);
+      // An inside face (the chamber's floor, walls, roof, the bore) looks across the air at another
+      // face of the model (more than a lettering groove away), the half a cut hides included; an
+      // outside one looks out at nothing.
+      const isInside = (p: THREE.Vector3, n: THREE.Vector3) =>
+        new THREE.Raycaster(p.clone().addScaledVector(n, 0.05), n.clone())
+          .intersectObjects(bodies, false)
+          .some((h) => h.distance > 1.5);
+      let hit = first(ray);
+      if (!hit?.face) return;
+      let inside = false;
+      if (hit.object.name === "cap") {
+        // the cut face, in the wall: it stands for the nearest face of the air space (the floor under
+        // the chamber, the roof over it), else the nearest outside face
+        const plane = planesOf(hit)[0];
+        const p = plane && ray.ray.intersectPlane(plane, new THREE.Vector3());
+        if (!p) return;
+        p.addScaledVector(plane.normal, 0.05); // just inside the half that is shown
+        const dirs = [
+          [0, 1, 0],
+          [0, -1, 0],
+          [1, 0, 0],
+          [-1, 0, 0],
+          [0, 0, 1],
+          [0, 0, -1],
+        ].map(([x, y, z]) => new THREE.Vector3(x, y, z));
+        // the faces the wall ends at; an inside one wins when it is almost as near as the nearest
+        const ends: { h: THREE.Intersection; inside: boolean }[] = [];
+        for (const d of dirs) {
+          const h = first(new THREE.Raycaster(p.clone().addScaledVector(d, -0.01), d));
+          if (h?.face && h.object.name === "cap") ends.push({ h, inside: isInside(h.point, h.face.normal) }); // leaving the wall
+        }
+        ends.sort((u, w) => u.h.distance - w.h.distance);
+        const best = ends.find((u) => u.inside && u.h.distance < (ends[0]?.h.distance ?? 0) + 3) ?? ends[0];
+        if (!best) return;
+        hit = best.h;
+        inside = best.inside;
+      } else inside = isInside(hit.point, hit.face!.normal);
+      const local = a.worldToLocal(hit.point.clone());
+      const n = hit.face!.normal; // the geometry's own frame: A is only ever moved, never turned
+      pickRef.current({
+        point: [local.x, local.y, local.z],
+        normal: [n.x, n.y, n.z],
+        inside,
+        at: [e.clientX - host.getBoundingClientRect().left, e.clientY - host.getBoundingClientRect().top],
+      });
+    };
+    renderer.domElement.addEventListener("pointerdown", onDown);
+    renderer.domElement.addEventListener("pointerup", onUp);
     ctxRef.current = { renderer, scene, camera, controls, model, a, b, lig, reed, capG, airG, ghost, grid, axes, draw };
     // Dev-only handle for scripted inspection (e.g. from browser automation).
     if (import.meta.env.DEV) (window as unknown as { __viewer: Ctx }).__viewer = ctxRef.current;
     return () => {
       ro.disconnect();
+      renderer.domElement.removeEventListener("pointerdown", onDown);
+      renderer.domElement.removeEventListener("pointerup", onUp);
       controls.dispose();
       clearModel(a);
       clearModel(b);
@@ -1088,10 +1179,10 @@ export function Viewer({
               <span>{secPos.toFixed(1)}</span>
             </label>
           )}
-          {(autoRender || autoZoom || quality) && (
+          {(autoRender || autoZoom || clickPick || quality) && (
             <Menu
               label="Behavior ▾"
-              title="How the view behaves: render on change, auto-zoom, render quality"
+              title="How the view behaves: render on change, auto-zoom, click to find a setting, render quality"
               align="left"
               className="show-menu"
             >
@@ -1113,6 +1204,15 @@ export function Viewer({
                       title="When you touch a setting, the view flies to the part it shapes (and cuts the model open for parts inside)"
                     >
                       Auto-zoom
+                    </Check>
+                  )}
+                  {clickPick && (
+                    <Check
+                      on={clickPick.on}
+                      set={clickPick.set}
+                      title="Click a spot on the model to go to the setting that shapes it"
+                    >
+                      Click to find a setting
                     </Check>
                   )}
                   {quality && <div className="show-quality">{quality}</div>}

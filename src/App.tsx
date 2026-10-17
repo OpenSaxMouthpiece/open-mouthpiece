@@ -43,7 +43,8 @@ import {
   writeStl,
   type PrintFrame,
 } from "./meshFrame";
-import { FACING_CHOICES, fileAbout, hasDesignParams, type PartTab } from "./design";
+import { FACING_CHOICES, fileAbout, hasDesignParams, paramLabel, type PartTab } from "./design";
+import { useModelPick } from "./hooks/useModelPick";
 import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
 import { LEGACY_WINDOW, legacyRails, railsInText, windowChange, withWindowParams, withWindowValues } from "./rails";
@@ -139,6 +140,7 @@ export default function App() {
   const [codeOpen, setCodeOpen] = usePref("codeOpen", false); // the code editor + console column (desktop)
   // Desktop: the place open from the rail (a section's title, or a tool), and the shape dock under the view.
   const [railSel, setRailSel] = usePref("rail", "Tip & facing");
+  const [clickPick, setClickPick] = usePref("clickPick", true); // a click on the model goes to its setting
   const [dockOpen, setDockOpen] = usePref("shapeCard", false);
   const [dockTab, setDockTab] = usePref("dockTab", "body");
   const [viewCut, setViewCut] = useState(false); // the 3D view is cut open
@@ -285,7 +287,19 @@ export default function App() {
   live.current = liveState;
 
   // ---- rendering (hooks/useModelRender.ts) and zoom to parameter (hooks/useParamFocus.ts)
-  const { focus, focusOn, setFocusData, prefetchFocus } = useParamFocus(live);
+  const { focus, focusOn, setFocusData, prefetchFocus, getFocusData } = useParamFocus(live);
+  // A click on the model goes to the setting that shapes that spot (hooks/useModelPick.ts).
+  const picker = useModelPick({
+    getFocusData,
+    get: (n) => (n in values ? values[n] : param(n)?.initial),
+    has: (n) => !!param(n),
+    isPhone,
+    showSection: setRailSel,
+    showDesign: () => {
+      if (isPhone) setPhonePanel("design");
+      if (tab !== "mouthpiece") openPartTab("mouthpiece");
+    },
+  });
   const model = useModelRender({ state: live as React.RefObject<RenderState>, setStatus, setFocusData, prefetchFocus });
   const makingAir = airOn && !model.airStl && model.partsBusy.includes("air"); // the air space is on its way
   const { stl, svg, log, facing, wall, air, render, renderPass, partStl, partStls, capPrintStl, kitReports } = model;
@@ -1555,6 +1569,23 @@ export default function App() {
     writeFlag(HINT_KEY);
   };
   // Phone: one short line, so the model stays in view.
+  const pickEl = clickPick && picker.pick && (
+    <div
+      className="pick-chip"
+      style={{ left: picker.pick.at[0], top: picker.pick.at[1] }}
+      onPointerDown={(e) => e.stopPropagation()}
+    >
+      <b>{picker.pick.region.title}</b>
+      {picker.pick.region.params.map((n) => (
+        <button key={n} className={n === picker.pick!.shown ? "on" : ""} onClick={() => picker.goTo(n)}>
+          {paramLabel(n)}
+        </button>
+      ))}
+      <button className="pick-close" onClick={picker.close} aria-label="Close" title="Close">
+        ✕
+      </button>
+    </div>
+  );
   const hintEl =
     !hintSeen && isPhone ? (
       <div className="hint-card short">
@@ -1625,9 +1656,16 @@ export default function App() {
               ? "Making the STL for download…"
               : undefined
       }
-      overlay={hintEl}
+      overlay={
+        <>
+          {hintEl}
+          {pickEl}
+        </>
+      }
+      onPick={designOK && clickPick ? picker.onPick : undefined}
       quality={isPhone ? undefined : qualityDropdown}
       autoZoom={{ on: zoom, set: setZoom }}
+      clickPick={designOK ? { on: clickPick, set: setClickPick } : undefined}
       onCompareOriginal={stl ? compareOriginal : undefined}
       autoRender={{ on: auto, set: setAuto, render }}
       ligature={

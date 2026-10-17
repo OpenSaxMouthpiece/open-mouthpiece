@@ -66,5 +66,15 @@ export function useParamFocus(state: RefObject<FocusState>) {
     [state, prefetchFocus],
   );
 
-  return { focus, focusOn, setFocusData, prefetchFocus };
+  // The focus data for the open file (with Zoom off too: a click on the model needs it).
+  const getFocusData = useCallback(async () => {
+    const { target: t, values: vals } = state.current!;
+    if (!t) return null;
+    const known = latest.current;
+    if (known && known.file === (t.path ?? t.name)) return known.data;
+    if (pending.current?.sig !== sigOf(t, vals)) prefetchFocus(t, vals);
+    return pending.current!.data;
+  }, [state, prefetchFocus]);
+
+  return { focus, focusOn, setFocusData, prefetchFocus, getFocusData };
 }

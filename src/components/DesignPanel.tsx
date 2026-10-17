@@ -73,6 +73,13 @@ function scroller(el: HTMLElement): HTMLElement {
 
 const same = (a: ParamValue, b: ParamValue) => JSON.stringify(a) === JSON.stringify(b);
 
+// A jump to one setting (a click on the model) scrolls the list itself: the section it picked stays
+// picked, rather than the one that ends up at the top.
+let spyMutedUntil = 0;
+export const muteSectionSpy = (ms: number) => {
+  spyMutedUntil = Date.now() + ms;
+};
+
 export function DesignPanel({
   title,
   params,
@@ -137,7 +144,7 @@ export function DesignPanel({
     if (!list || !sections) return;
     const box = scroller(sections); // the desktop's list box; on the phone an outer pane scrolls it
     const onScroll = () => {
-      if (Date.now() < mute.current) return;
+      if (Date.now() < Math.max(mute.current, spyMutedUntil)) return;
       const top = box.getBoundingClientRect().top + 24;
       let cur: string | undefined;
       for (const el of sections.querySelectorAll<HTMLElement>("[data-sec]"))

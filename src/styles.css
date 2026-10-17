@@ -3552,3 +3552,47 @@ a:focus-visible,
   flex: 1 1 0;
   min-width: 0;
 }
+
+/* Click on the model: the spot's name and the settings that shape it, by the click. */
+.pick-chip {
+  position: absolute;
+  z-index: 5;
+  transform: translate(12px, -50%);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  max-width: min(320px, calc(100% - 24px));
+  padding: 6px 8px;
+  border-radius: 8px;
+  background: var(--overlay);
+  border: 1px solid var(--accent);
+  box-shadow: var(--shadow);
+  font-size: 12px;
+}
+.pick-chip b {
+  margin-right: 2px;
+}
+.pick-chip button {
+  padding: 2px 8px;
+  font-size: 12px;
+}
+.pick-chip button.on {
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+.pick-chip .pick-close {
+  padding: 2px 6px;
+}
+@keyframes param-flash {
+  from {
+    background: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  to {
+    background: transparent;
+  }
+}
+.param.param-flash {
+  animation: param-flash 1.6s ease-out;
+  border-radius: 6px;
+}

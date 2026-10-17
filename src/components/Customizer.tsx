@@ -222,6 +222,7 @@ export function ParamRow({
   return (
     <div
       className={`param${changed ? " changed" : ""}${inactive ? " inactive" : ""}`}
+      data-param={p.name}
       onPointerDown={onFocus}
       onFocus={onFocus}
     >
