@@ -33,7 +33,7 @@ chamber_flare = 0.4; // [0.1:0.05:0.9]
 chamber_full_length = 40; // [0:0.5:40]
 // Target chamber height before the window (mm); 0 = Auto (no extra height).
 chamber_height = 0; // [0:0.1:30]
-// Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.
+// Floor from throat to window: - drops early (deeper), + stays high (a ramp).
 floor_shape = 0; // [-1:0.05:1]
 // Where the bore opens into the chamber (the throat), from the neck end (mm).
 throat_position = 40.5; // [20:0.5:90]
@@ -47,9 +47,9 @@ throat_shape = "round"; // [chamber, round, square, horseshoe]
 /* [Baffle] */
 // The roof's shape over the reed (see the picture); Original = the preset's own.
 baffle_type = "concave"; // [measured, flat, rollover, step, concave]
-// Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.
+// Baffle height change (mm): + toward the reed, - away; 0 = as the preset.
 baffle_height = 0; // [-3:0.1:4]
-// Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.
+// Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.
 baffle_length = 0; // [-40:0.5:15]
 // Bends the baffle: - comes down early, + stays up and drops late.
 baffle_curve = 0; // [-1:0.05:1]
@@ -129,7 +129,7 @@ body_squareness = 1.7; // [1.2:0.1:8]
 beak_squareness = 1.4; // [1.2:0.1:8]
 // The beak's line from the side: full (bulging) or scooped (hollowed).
 beak_curve = -0.3; // [-1:0.05:1]
-// Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.
+// Beak length change (mm): + longer (shoulder toward the shank), - shorter.
 beak_length = 7; // [-15:0.5:15]
 // 0 = a crisp step (as designed), 1 = a smooth, gradual drop into the beak.
 shoulder_smoothness = 1; // [0:0.05:1]

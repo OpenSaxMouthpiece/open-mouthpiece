@@ -249,7 +249,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Chamber floor (`floor_shape`)
 
-Floor from throat to window: - drops early (deeper), + stays high (a ramp). Not with floor points.
+Floor from throat to window: - drops early (deeper), + stays high (a ramp).
 
 Bends the built-in floor between the throat and the window. It has **no effect while Floor points are set**:
 the supplied tenor and soprano have them, so use Shape charts → Edit shape (Floor) or clear their floor points
@@ -358,7 +358,7 @@ Presets: Alto `measured` · Tenor `measured` · Bari `measured` · Soprano `meas
 
 ### Baffle height (`baffle_height`)
 
-Baffle height change (mm): + toward the reed, - away from it; 0 = as the preset.
+Baffle height change (mm): + toward the reed, - away; 0 = as the preset.
 
 Range: -3 to 4, step 0.1.
 
@@ -372,7 +372,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Baffle length (`baffle_length`)
 
-Baffle length change (mm): + longer toward the shank, - shorter; the tip end stays.
+Baffle length change (mm): + longer toward the shank, - shorter; tip end stays.
 
 Range: -40 to 15, step 0.5.
 
@@ -905,7 +905,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Beak length (`beak_length`)
 
-Beak length change (mm): + moves the shoulder toward the shank (longer beak), - toward the tip.
+Beak length change (mm): + longer (shoulder toward the shank), - shorter.
 
 Range: -15 to 15, step 0.5.
 
