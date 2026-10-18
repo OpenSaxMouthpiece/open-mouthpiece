@@ -342,18 +342,19 @@ Edges (`lig_edge_cut`, `lig_ts`): the rear edge (on top when printed) rounded ou
   base file): the same band, its inside under the reed `LIG_PLATE_T` + `LIG_SLACK` deeper (so it
   slides on with the screw backed off), a boss under the reed side (`ligature_screw_band`: cylinder
   minus the inner void, then the nut = `lig_thread` grown by `LIG_CLR`), `lig_plate` (flat
-  underside, top = the reed's arch; styles lift the top 0.6mm except where they press, and a ball
-  socket) and `lig_screw` (twisted-extrude square thread, ball tip with a slit to snap into the
-  plate, knob). `ligature` (print) lays band, plate and screw side by side; `ligature_seated` =
+  underside, top = the reed's arch; styles lift the top 0.6mm except where they press; a dimple for the screw's end) and `lig_screw`
+  (twisted-extrude square thread, a solid rounded nose in the dimple, knob; the first version's slit
+  ball on a thin neck snapped off in a print). `lig_plate_rim`: a low rim round the plate's footprint
+  on the band's floor keeps a backed-off plate in place (it is dropped in through the band's end). `ligature` (print) lays band, plate and screw side by side; `ligature_seated` =
   all three. The band's minimum length is `LIG_SCREW_MINLEN` (boss). A printed cap gets a window
   the boss's width on the reed side (`cap_win_w`), whatever `cap_slot_side` says. Metal screw
   (`ligature_screw` nut | insert, `ligature_screw_size` M3-M5, `ligature_hardware_fit`): `HW_*` tables;
   the nut (hex pocket) or insert (round hole) goes in from inside the band so the screw's pull seats
-  it on a floor; the screw comes up through a clearance hole; the plate gets a dimple instead of a
-  ball socket (and is 2.2mm instead of 3.4); `lig_y_bot` sizes the boss; echo `LIGSCREW <size>
+  it on a floor; the screw comes up through a clearance hole; the plate is the same for both screws (2.2mm);
+  `lig_y_bot` sizes the boss; echo `LIGSCREW <size>
   <length> <kind>` (shortest standard length, 1mm to spare) feeds the readout; a stand-in screw
-  shows in `ligature_seated`. Not done: print test (thread clearance `LIG_CLR`, ball snap, pocket
-  fits), more plate styles, a retaining lip for the plate.
+  shows in `ligature_seated`. Not done: print test of the new nose and rim (thread clearance `LIG_CLR`, pocket
+  fits), more plate styles, a tethered plate.
 - `ligature` stands on its flat front edge for printing (tongue up); `ligature_seated` and
   `reed_model` get the mouthpiece's print transform so the app overlays them; `ligature_clash` =
   band ∩ mouthpiece, which `npm run check` requires to be empty. Module-local, so mouthpiece renders

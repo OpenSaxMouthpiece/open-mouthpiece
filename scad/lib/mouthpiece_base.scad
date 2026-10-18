@@ -2621,7 +2621,7 @@ function lig_sup(P) = [for (row = LIG_U * [[for (p = P) p[0]], [for (p = P) p[1]
 // The reed: any reed, so a nominal one, 3mm at the heel and as wide as the table (the band is a taper
 // fit: a thicker reed seats it a little further forward, a thinner one further back).
 LIG_REED_T = 3.0;
-LIG_PLATE_T = LIG_HW ? 2.2 : 3.4;   // the screw's plate under the reed, at its middle (mm)
+LIG_PLATE_T = 2.2;          // the screw's plate under the reed, at its middle (mm)
 LIG_SLACK = 1.2;            // room under the plate with the screw backed off (mm)
 lig_reed_hw = max([for (i = [0 : 4]) ring_half_width_at_y(exterior_ring_at(lig_z0 + lig_len * i / 4), 0)]);
 lig_step = (lig_z1 - lig_zt) / max(2, ceil(lig_z1 - lig_zt));  // ~1mm between stations
@@ -2845,14 +2845,12 @@ LIG_SDEPTH = 0.4 * LIG_SP;                   // thread depth
 LIG_BOSS_R = LIG_HW ? HW_BOSS_R : LIG_SD / 2 + 1.6;   // the boss's radius
 LIG_BOSS_H = 3.5;                            // how far the boss stands out under the band (mm)
 LIG_CLR = 0.25;                              // thread clearance (mm)
-LIG_BALL_R = 1.5;
-LIG_SOCKET_UP = 1.3;                         // the socket's centre above the plate's flat underside
+LIG_NOSE_R = 1.5;                            // the printed screw's rounded end, which sits in the plate's dimple
+LIG_NOSE_H = 2.1;                            // its height above the thread (0.6 straight + the dome)
+LIG_KNOB_GAP = 3.2;                          // the knob's room to wind in under the boss, seated (thick reeds)
 lig_zs = (lig_z0 + lig_z1) / 2;              // the screw's z
 LIG_Y_PLATE = -(LIG_REED_T + LIG_PLATE_T);   // the plate's flat underside, seated on the reed (y)
-LIG_Y_BALL = LIG_Y_PLATE + LIG_SOCKET_UP;    // the ball's centre, seated
-LIG_SHAFT = 7;                               // threaded length of the screw
 LIG_KNOB_H = 4;
-lig_screw_y0 = LIG_Y_BALL - (LIG_SHAFT + 1 + LIG_BALL_R);   // the knob's top face, seated
 
 // Plate half-width: where the band's inside (reed arch at LIG_REED_T + plate + slack) leaves the
 // plate's flat underside 0.3mm to spare.
@@ -2894,12 +2892,7 @@ module lig_plate() {
         }
       }
     }
-    if (LIG_HW) translate([0, LIG_Y_PLATE - 0.8, 0]) sphere(r = 1.6, $fn = 24);   // a dimple for the screw's end
-    else // the socket for the screw's ball, entered from underneath through a narrower neck
-    translate([0, LIG_Y_BALL, 0]) {
-      sphere(r = LIG_BALL_R + 0.15, $fn = 32);
-      rotate([90, 0, 0]) cylinder(r = LIG_BALL_R - 0.45, h = LIG_SOCKET_UP + 1, $fn = 24);
-    }
+    translate([0, LIG_Y_PLATE - 0.8, 0]) sphere(r = 1.6, $fn = 24);   // a dimple for the screw's end
   }
 }
 
@@ -2914,24 +2907,21 @@ module lig_thread(h, grow = 0) {
     }
 }
 
-// The screw, in the design frame, seated: knob underneath, axis +y, ball snapped into the plate.
+// The screw, in the design frame, seated: knob underneath (its top face LIG_KNOB_GAP under the boss),
+// axis +y, a solid rounded nose in the plate's dimple. (A slit ball on a thin neck broke off.)
+function lig_screw_y0() = lig_y_bot(lig_env()) - LIG_KNOB_GAP;     // the knob's top face
 module lig_screw() {
   r_k = max(7, 1.2 * LIG_SD);
-  translate([0, lig_screw_y0, lig_zs]) rotate([-90, 0, 0]) {
-    // the thread up from the knob's top face (the knob hangs below z = 0)
-    difference() {
-      union() {
-        lig_thread(LIG_SHAFT);
-        translate([0, 0, LIG_SHAFT - 0.01]) cylinder(r = LIG_BALL_R - 0.5, h = 1.02, $fn = 24);
-        translate([0, 0, LIG_SHAFT + 1 + LIG_BALL_R - 0.5]) sphere(r = LIG_BALL_R, $fn = 32);
-        // the knob: a disc with finger scallops
-        translate([0, 0, -LIG_KNOB_H]) linear_extrude(height = LIG_KNOB_H + 0.01) difference() {
-          circle(r = r_k, $fn = 72);
-          for (i = [0 : 7]) rotate(i * 45 + 22.5) translate([r_k + 0.6, 0]) circle(r = 2.2, $fn = 24);
-        }
-      }
-      // the slit that lets the ball spring into the plate
-      translate([-LIG_BALL_R - 1, -0.3, LIG_SHAFT + 0.3]) cube([2 * LIG_BALL_R + 2, 0.6, 2 * LIG_BALL_R + 2]);
+  y0 = lig_screw_y0();
+  sh = LIG_Y_TIP - LIG_NOSE_H - y0;       // the threaded length
+  translate([0, y0, lig_zs]) rotate([-90, 0, 0]) union() {
+    lig_thread(sh);
+    translate([0, 0, sh - 0.01]) cylinder(r = LIG_NOSE_R, h = 0.61, $fn = 24);
+    translate([0, 0, sh + 0.6]) sphere(r = LIG_NOSE_R, $fn = 24);
+    // the knob (it hangs below z = 0): a disc with finger scallops
+    translate([0, 0, -LIG_KNOB_H]) linear_extrude(height = LIG_KNOB_H + 0.01) difference() {
+      circle(r = r_k, $fn = 72);
+      for (i = [0 : 7]) rotate(i * 45 + 22.5) translate([r_k + 0.6, 0]) circle(r = 2.2, $fn = 24);
     }
   }
 }
@@ -2951,6 +2941,20 @@ LIG_Y_TIP = LIG_Y_PLATE + 0.7;
 function lig_hw_len(y_bot) = let(need = LIG_Y_TIP - y_bot + 1, l = [for (n = [6, 8, 10, 12, 16, 20, 25, 30]) if (n >= need) n])
   len(l) > 0 ? l[0] : ceil(need);
 
+// A low rim round the plate's footprint on the band's floor, so a backed-off plate stays put (it is
+// dropped in from inside the band, through the end opening).
+module lig_plate_rim(y_in) {
+  hw = lig_plate_hw() + 0.3;
+  hl = lig_plate_len / 2 + 0.3;
+  intersection() {
+    translate([-50, -50, lig_z0 + 0.3]) cube([100, 100, lig_len - 0.6]);
+    difference() {
+      translate([-hw - 0.9, y_in - 0.6, lig_zs - hl - 0.9]) cube([2 * hw + 1.8, 2.2, 2 * hl + 1.8]);
+      translate([-hw, y_in - 1, lig_zs - hl]) cube([2 * hw, 3, 2 * hl]);
+    }
+  }
+}
+
 module ligature_screw_band() {
   env = lig_env();
   y_in = lig_in_y(env);
@@ -2961,6 +2965,7 @@ module ligature_screw_band() {
   difference() {
     union() {
       ligature_ring();
+      lig_plate_rim(y_in);
       difference() {
         translate([0, y_bot, lig_zs]) rotate([-90, 0, 0]) cylinder(r = LIG_BOSS_R, h = y_in + 1.2 - y_bot, $fn = 48);
         ring_loft(void_rings);
@@ -3009,7 +3014,7 @@ module ligature_print_set() {
     // plate: underside down
     translate([off + lig_plate_hw(), 0, -LIG_Y_PLATE]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
     // screw: knob down
-    if (!LIG_HW) translate([off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD), 0, -(lig_screw_y0 - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
+    if (!LIG_HW) translate([off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD), 0, -(lig_screw_y0() - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
   }
 }
 
