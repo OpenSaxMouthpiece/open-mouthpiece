@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "ef8bd9c5-22661",
+  "hash": "2bda31e0-22794",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1445,6 +1445,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -2186,7 +2196,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "38346f33-22901",
+  "hash": "501a087e-23034",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3631,6 +3641,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -4372,7 +4392,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "4ef70f21-23572",
+  "hash": "f801df34-23705",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5817,6 +5837,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -6558,7 +6588,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "71025369-22863",
+  "hash": "d3a749b0-22996",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8003,6 +8033,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -8744,7 +8784,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "d11694b8-23040",
+  "hash": "593e5c27-23173",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10189,6 +10229,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -10930,7 +10980,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "45075060-22753",
+  "hash": "432aa517-22886",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12375,6 +12425,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -13116,7 +13176,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "93519347-22792",
+  "hash": "8741fb2-22925",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14561,6 +14621,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -15302,7 +15372,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "65788f7f-22757",
+  "hash": "17c6eaa-22890",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16747,6 +16817,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -17488,7 +17568,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "76509114-22943",
+  "hash": "9fdf0fff-23076",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18933,6 +19013,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -19674,7 +19764,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "51fdb557-22976",
+  "hash": "fe161fb2-23109",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21119,6 +21209,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -21860,7 +21960,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "23404f79-22935",
+  "hash": "cd92be34-23068",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23305,6 +23405,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -24046,7 +24156,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "f1c38a47-22964",
+  "hash": "e7b63736-23097",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25491,6 +25601,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -26232,7 +26352,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "46620222-22990",
+  "hash": "a21cfe35-23123",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27677,6 +27797,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -28418,7 +28548,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "af4a58cd-22963",
+  "hash": "494bb5c4-23096",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29863,6 +29993,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -30604,7 +30744,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "35fa9414-23146",
+  "hash": "96769d33-23279",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32049,6 +32189,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -32790,7 +32940,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "1e1a7388-23172",
+  "hash": "92797537-23305",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -34235,6 +34385,16 @@
     "type": "string"
    },
    {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
+   },
+   {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
     "group": "Ligature",
     "initial": "printed",
@@ -34976,7 +35136,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "363a4ff8-23140",
+  "hash": "852d39e7-23273",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -36419,6 +36579,16 @@
      }
     ],
     "type": "string"
+   },
+   {
+    "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
+    "group": "Ligature",
+    "initial": 1.8,
+    "max": 4,
+    "min": 0.5,
+    "name": "ligature_reed_room",
+    "step": 0.1,
+    "type": "number"
    },
    {
     "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",

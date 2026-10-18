@@ -321,6 +321,8 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_closure = "friction"; // [friction, screw]
 // Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
 ligature_plate = "full"; // [full, centre, edges, bars]
+// Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).
+ligature_reed_room = 1.8; // [0.5:0.1:4]
 // The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.
 ligature_screw = "printed"; // [printed, nut, insert]
 // Size of the metal screw.
@@ -2623,7 +2625,7 @@ function lig_sup(P) = [for (row = LIG_U * [[for (p = P) p[0]], [for (p = P) p[1]
 // fit: a thicker reed seats it a little further forward, a thinner one further back).
 LIG_REED_T = 3.0;
 LIG_PLATE_T = 2.2;          // the screw's plate under the reed, at its middle (mm)
-LIG_SLACK = 1.2;            // room under the plate with the screw backed off (mm)
+LIG_SLACK = ligature_reed_room;   // room under the plate with the screw backed off (mm)
 lig_reed_hw = max([for (i = [0 : 4]) ring_half_width_at_y(exterior_ring_at(lig_z0 + lig_len * i / 4), 0)]);
 lig_step = (lig_z1 - lig_zt) / max(2, ceil(lig_z1 - lig_zt));  // ~1mm between stations
 lig_nb = round((lig_z1 - lig_zt) / lig_step);                 // stations over the band, tongue included
