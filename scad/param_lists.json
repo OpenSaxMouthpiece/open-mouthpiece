@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "4511c340-22265",
+  "hash": "480b9052-22614",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1445,6 +1445,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -2122,7 +2174,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "9a7c0ab0-22505",
+  "hash": "6729b594-22854",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3567,6 +3619,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -4244,7 +4348,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "f896e5ce-23176",
+  "hash": "e4b1742e-23525",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5689,6 +5793,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -6366,7 +6522,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "56131a9c-22467",
+  "hash": "2b82c722-22816",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7811,6 +7967,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -8488,7 +8696,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "e6a76add-22644",
+  "hash": "60808ab1-22993",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9933,6 +10141,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -10610,7 +10870,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "946bf27d-22357",
+  "hash": "fb2b8cd9-22706",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12055,6 +12315,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -12732,7 +13044,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "454a49f6-22396",
+  "hash": "735e5f5c-22745",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14177,6 +14489,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -14854,7 +15218,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "aff930de-22361",
+  "hash": "11b96544-22710",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16299,6 +16663,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -16976,7 +17392,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "631b2fef-22547",
+  "hash": "f273ffed-22896",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18421,6 +18837,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -19098,7 +19566,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "d804f9b4-22580",
+  "hash": "4835b00-22929",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20543,6 +21011,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -21220,7 +21740,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "13b78a52-22539",
+  "hash": "30736c12-22888",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22665,6 +23185,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -23342,7 +23914,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "57c93d16-22568",
+  "hash": "af607a98-22917",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24787,6 +25359,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -25464,7 +26088,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "b3e4e42b-22594",
+  "hash": "e3f292ff-22943",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26909,6 +27533,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -27586,7 +28262,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "b6dc10c0-22567",
+  "hash": "1269b06e-22916",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29031,6 +29707,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -29708,7 +30436,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "2a8888b9-22750",
+  "hash": "48463555-23099",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -31153,6 +31881,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -31830,7 +32610,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "f698e24d-22776",
+  "hash": "cee781-23125",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -33275,6 +34055,58 @@
     "type": "string"
    },
    {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -33952,7 +34784,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "999dba1d-22744",
+  "hash": "b01f02f1-23093",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -35395,6 +36227,58 @@
      }
     ],
     "type": "string"
+   },
+   {
+    "caption": "The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.",
+    "group": "Ligature",
+    "initial": "printed",
+    "name": "ligature_screw",
+    "options": [
+     {
+      "name": "printed",
+      "value": "printed"
+     },
+     {
+      "name": "nut",
+      "value": "nut"
+     },
+     {
+      "name": "insert",
+      "value": "insert"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Size of the metal screw.",
+    "group": "Ligature",
+    "initial": "M3",
+    "name": "ligature_screw_size",
+    "options": [
+     {
+      "name": "M3",
+      "value": "M3"
+     },
+     {
+      "name": "M4",
+      "value": "M4"
+     },
+     {
+      "name": "M5",
+      "value": "M5"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.",
+    "group": "Ligature",
+    "initial": 0,
+    "max": 0.3,
+    "min": -0.3,
+    "name": "ligature_hardware_fit",
+    "step": 0.05,
+    "type": "number"
    },
    {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",

@@ -163,6 +163,7 @@ export interface LigatureInfo {
   girth: number; // inside, around, at the rear
   shift: number | null; // mm it seats further forward per 0.1mm thicker reed
   touch: number | null; // mm further forward it first touches the reed (then it's pushed on to squeeze it)
+  screw: { size: string; length: number; kind: string } | null; // a metal screw to buy: "LIGSCREW M3 8 nut"
   notes: string[];
 }
 export function parseLigature(log: string): LigatureInfo | null {
@@ -170,7 +171,9 @@ export function parseLigature(log: string): LigatureInfo | null {
   if (!m) return null;
   const n = m[1].trim().split(" ").map(Number);
   const notes = [...log.matchAll(/ECHO: "WARNING: (ligature[^"]*)"/g)].map((w) => plainNote(w[1]));
+  const sc = /LIGSCREW (M\d) (\d+) (nut|insert)/.exec(log);
   return {
+    screw: sc ? { size: sc[1], length: Number(sc[2]), kind: sc[3] } : null,
     length: n[0],
     front: n[1],
     rear: [n[2], n[3]],
@@ -231,6 +234,10 @@ export function ligatureText(g: LigatureInfo | null): string {
     ` Inside ${g.rear[0].toFixed(1)} × ${g.rear[1].toFixed(1)} mm at the back, ${g.girth.toFixed(1)} mm around;` +
       ` front edge ${front} the window's end.`,
   ];
+  if (g.screw)
+    parts.push(
+      ` Needs an ${g.screw.size} × ${g.screw.length} mm screw and ${g.screw.kind === "nut" ? "an " + g.screw.size + " nut" : "an " + g.screw.size + " heat-set insert"}.`,
+    );
   if (g.touch)
     parts.push(` It touches the reed ${g.touch.toFixed(1)} mm before this; push it the rest of the way to grip.`);
   if (g.shift !== null) parts.push(` A reed 0.1 mm thicker seats it ${g.shift.toFixed(1)} mm further forward.`);

@@ -382,6 +382,17 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           },
           { name: "ligature_reed_grip", label: "Reed grip", when: ["ligature_closure", "friction"] },
           {
+            name: "ligature_screw",
+            label: "Screw",
+            when: ["ligature_closure", "screw"],
+            optionLabels: {
+              printed: "Printed with the ligature",
+              nut: "Metal screw and nut",
+              insert: "Metal screw in a heat-set insert",
+            },
+          },
+          { name: "ligature_screw_size", label: "Screw size", when: ["ligature_screw", ["nut", "insert"]] },
+          {
             name: "ligature_plate",
             label: "Plate presses",
             when: ["ligature_closure", "screw"],
@@ -389,7 +400,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           },
           { name: "ligature_wall", label: "Thickness" },
         ],
-        more: ["ligature_fit"],
+        more: ["ligature_fit", "ligature_hardware_fit"],
       },
       {
         title: "Text & picture",

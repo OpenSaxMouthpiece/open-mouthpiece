@@ -8,7 +8,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 - Ligature: *Tightened by* can be a thumbscrew under the reed (a printed screw and a plate) instead of
   the band's press fit, with a choice of where the plate presses on the reed. The cap gets a window
-  for the screw.
+  for the screw. The screw can be metal (M3, M4 or M5) in a nut or a heat-set insert for a slimmer
+  ligature; the ligature's note says which screw length to buy.
 - Smoother joins from the throat into the window, with no sudden pinch or ledge.
 - Chamber side walls blend smoothly around the rear of the window.
 - Development checks find OpenSCAD on Linux and macOS and accept equivalent meshes from

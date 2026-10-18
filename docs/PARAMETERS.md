@@ -1637,6 +1637,36 @@ Range: `full`, `centre`, `edges`, `bars`.
 
 Presets: Alto `full` · Tenor `full` · Bari `full` · Soprano `full`.
 
+<a id="ligature_screw"></a>
+
+### Screw (`ligature_screw`)
+
+The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.
+
+Range: `printed`, `nut`, `insert`.
+
+Presets: Alto `printed` · Tenor `printed` · Bari `printed` · Soprano `printed`.
+
+<a id="ligature_screw_size"></a>
+
+### Screw size (`ligature_screw_size`)
+
+Size of the metal screw.
+
+Range: `M3`, `M4`, `M5`.
+
+Presets: Alto `M3` · Tenor `M3` · Bari `M3` · Soprano `M3`.
+
+<a id="ligature_hardware_fit"></a>
+
+### Ligature hardware fit (`ligature_hardware_fit`)
+
+Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.
+
+Range: -0.3 to 0.3, step 0.05.
+
+Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
+
 <a id="ligature_text"></a>
 
 ### Text on the ligature (`ligature_text`)

@@ -321,6 +321,12 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_closure = "friction"; // [friction, screw]
 // Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
 ligature_plate = "full"; // [full, centre, edges, bars]
+// The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.
+ligature_screw = "printed"; // [printed, nut, insert]
+// Size of the metal screw.
+ligature_screw_size = "M3"; // [M3, M4, M5]
+// Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.
+ligature_hardware_fit = 0; // [-0.3:0.05:0.3]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
 // The ligature text's own typeface; same = the Font in Personalize.
@@ -2524,7 +2530,20 @@ function param_focus() =
 // the tongue gives way first, then the length.
 lig_room = L - 8 - (table_rear_z + 1);
 LIG_SCREW = ligature_closure == "screw";
-LIG_SCREW_MINLEN = 9.4;     // room for the screw's boss across the band
+// Metal screw (nut in a pocket from inside the band, or a heat-set insert): M3, M4, M5 in turn.
+LIG_HW = LIG_SCREW && ligature_screw != "printed";
+LIG_SZ = ligature_screw_size == "M5" ? 2 : ligature_screw_size == "M4" ? 1 : 0;
+HW_D = [3, 4, 5][LIG_SZ];                // thread
+HW_HOLE = [3.4, 4.5, 5.5][LIG_SZ];       // clearance hole
+HW_NUT_AF = [5.5, 7, 8][LIG_SZ];         // nut across flats
+HW_NUT_T = [2.4, 3.2, 4][LIG_SZ];        // nut thickness
+HW_INS_D = [4.0, 5.1, 6.3][LIG_SZ];      // hole for a heat-set insert
+HW_INS_L = [5.7, 8.1, 9.5][LIG_SZ];      // insert length
+HW_HEAD_D = [6, 8, 10][LIG_SZ];          // a stand-in head for the seated view
+HW_HEAD_H = [2.5, 3.5, 4.5][LIG_SZ];
+HW_NUT_R = (HW_NUT_AF + 0.3 + ligature_hardware_fit) / (2 * cos(30));   // the pocket's corner radius
+HW_BOSS_R = (ligature_screw == "nut" ? HW_NUT_R : (HW_INS_D + ligature_hardware_fit) / 2) + 1.7;
+LIG_SCREW_MINLEN = LIG_HW ? 2 * HW_BOSS_R + 1 : 9.4;     // room for the screw's boss across the band
 lig_len = max(LIG_SCREW ? min(LIG_SCREW_MINLEN, lig_room) : 4, min(ligature_length, lig_room));
 lig_tongue = max(0, min(ligature_tongue, lig_room - lig_len));
 lig_z1 = min(L - 8, max(table_rear_z + 1 + lig_len + lig_tongue, win_z0 - ligature_position));  // front edge
@@ -2602,7 +2621,7 @@ function lig_sup(P) = [for (row = LIG_U * [[for (p = P) p[0]], [for (p = P) p[1]
 // The reed: any reed, so a nominal one, 3mm at the heel and as wide as the table (the band is a taper
 // fit: a thicker reed seats it a little further forward, a thinner one further back).
 LIG_REED_T = 3.0;
-LIG_PLATE_T = 3.4;          // the screw's plate under the reed, at its middle (mm)
+LIG_PLATE_T = LIG_HW ? 2.2 : 3.4;   // the screw's plate under the reed, at its middle (mm)
 LIG_SLACK = 1.2;            // room under the plate with the screw backed off (mm)
 lig_reed_hw = max([for (i = [0 : 4]) ring_half_width_at_y(exterior_ring_at(lig_z0 + lig_len * i / 4), 0)]);
 lig_step = (lig_z1 - lig_zt) / max(2, ceil(lig_z1 - lig_zt));  // ~1mm between stations
@@ -2811,7 +2830,7 @@ module ligature_ring() {
   slope = (dr[1] - df[1]) / lig_len;
   r2 = function(v) round(v * 100) / 100;
   echo(str("LIGATURE ", r2(lig_len), " ", r2(win_z0 - lig_z1), " ", r2(dr[0]), " ", r2(dr[1]), " ", r2(df[0]), " ", r2(df[1]), " ",
-           r2(ring_perimeter(rear)), " ", slope > 0.005 ? r2(0.1 / slope) : -1, " ", slope > 0.005 ? r2(ligature_reed_grip / slope) : -1));
+           r2(ring_perimeter(rear)), " ", slope > 0.005 && !LIG_SCREW ? r2(0.1 / slope) : -1, " ", slope > 0.005 && !LIG_SCREW ? r2(ligature_reed_grip / slope) : -1));
 }
 
 // ---- The thumbscrew version (ligature_closure = "screw"): the same band, with a boss under the
@@ -2823,7 +2842,7 @@ module ligature_ring() {
 LIG_SD = max(5, min(8, lig_len - 4.4));      // the screw's thread diameter (mm)
 LIG_SP = 0.19 * LIG_SD;                      // pitch
 LIG_SDEPTH = 0.4 * LIG_SP;                   // thread depth
-LIG_BOSS_R = LIG_SD / 2 + 1.6;               // the boss's radius
+LIG_BOSS_R = LIG_HW ? HW_BOSS_R : LIG_SD / 2 + 1.6;   // the boss's radius
 LIG_BOSS_H = 3.5;                            // how far the boss stands out under the band (mm)
 LIG_CLR = 0.25;                              // thread clearance (mm)
 LIG_BALL_R = 1.5;
@@ -2875,7 +2894,8 @@ module lig_plate() {
         }
       }
     }
-    // the socket for the screw's ball, entered from underneath through a narrower neck
+    if (LIG_HW) translate([0, LIG_Y_PLATE - 0.8, 0]) sphere(r = 1.6, $fn = 24);   // a dimple for the screw's end
+    else // the socket for the screw's ball, entered from underneath through a narrower neck
     translate([0, LIG_Y_BALL, 0]) {
       sphere(r = LIG_BALL_R + 0.15, $fn = 32);
       rotate([90, 0, 0]) cylinder(r = LIG_BALL_R - 0.45, h = LIG_SOCKET_UP + 1, $fn = 24);
@@ -2920,11 +2940,23 @@ module lig_screw() {
 function lig_in_y(env) = min([for (p = lig_ring(lig_h_at(env, lig_zs), lig_zs, ligature_fit)) p[1]]);
 function lig_out_y(env) = min([for (p = lig_ring(lig_h_at(env, lig_zs), lig_zs, ligature_fit + ligature_wall)) p[1]]);
 
+// The boss's lower end: printed, a fixed height under the band; metal, as deep as the nut's pocket
+// (from inside the band) or the insert's hole needs, with a floor of 1.2mm / 1mm.
+function lig_y_bot(env) =
+  LIG_HW ? min(lig_out_y(env) - 0.8, lig_in_y(env) - (ligature_screw == "nut" ? HW_NUT_T + 0.4 + 1.2 : HW_INS_L + 1))
+         : lig_out_y(env) - LIG_BOSS_H;
+// The metal screw's end, seated: in the plate's dimple.
+LIG_Y_TIP = LIG_Y_PLATE + 0.7;
+// The shortest standard length that reaches it with 1mm to spare under the boss.
+function lig_hw_len(y_bot) = let(need = LIG_Y_TIP - y_bot + 1, l = [for (n = [6, 8, 10, 12, 16, 20, 25, 30]) if (n >= need) n])
+  len(l) > 0 ? l[0] : ceil(need);
+
 module ligature_screw_band() {
   env = lig_env();
   y_in = lig_in_y(env);
   y_out = lig_out_y(env);
-  y_bot = y_out - LIG_BOSS_H;
+  y_bot = lig_y_bot(env);
+  if (LIG_HW) echo(str("LIGSCREW ", ligature_screw_size, " ", lig_hw_len(y_bot), " ", ligature_screw));
   void_rings = [for (i = [0 : 6]) let(z = max(lig_z0, min(lig_z1, lig_zs - LIG_BOSS_R - 0.5 + (2 * LIG_BOSS_R + 1) * i / 6))) lig_ring(lig_h_at(env, z), z, ligature_fit)];
   difference() {
     union() {
@@ -2934,8 +2966,17 @@ module ligature_screw_band() {
         ring_loft(void_rings);
       }
     }
-    // the nut: the thread's shape plus clearance, through the boss into the band
-    translate([0, y_bot - 0.01, lig_zs]) rotate([-90, 0, 0]) lig_thread(y_in - y_bot + 2, LIG_CLR);
+    if (!LIG_HW) // the nut: the thread's shape plus clearance, through the boss into the band
+      translate([0, y_bot - 0.01, lig_zs]) rotate([-90, 0, 0]) lig_thread(y_in - y_bot + 2, LIG_CLR);
+    else {
+      // the screw comes up through a clearance hole from below; its nut or insert goes in from
+      // inside the band, so the screw's pull seats it against the floor
+      translate([0, y_bot - 0.01, lig_zs]) rotate([-90, 0, 0]) cylinder(d = HW_HOLE, h = y_in - y_bot + 3, $fn = 32);
+      if (ligature_screw == "nut")
+        translate([0, y_in - HW_NUT_T - 0.4, lig_zs]) rotate([-90, 0, 0]) cylinder(r = HW_NUT_R, h = HW_NUT_T + 3.4, $fn = 6);
+      else
+        translate([0, y_in - HW_INS_L, lig_zs]) rotate([-90, 0, 0]) cylinder(d = HW_INS_D + ligature_hardware_fit, h = HW_INS_L + 3, $fn = 40);
+    }
   }
 }
 
@@ -2943,10 +2984,19 @@ module ligature_band() {
   if (LIG_SCREW) ligature_screw_band(); else ligature_ring();
 }
 
-// All three pieces seated (the design frame).
+// A stand-in for the metal screw (seated view only; not printed): its shaft up from the head to the plate's dimple.
+module lig_hw_standin() {
+  ls = lig_hw_len(lig_y_bot(lig_env()));
+  translate([0, LIG_Y_TIP - ls, lig_zs]) rotate([-90, 0, 0]) {
+    cylinder(d = HW_D, h = ls, $fn = 24);
+    translate([0, 0, -HW_HEAD_H]) cylinder(d = HW_HEAD_D, h = HW_HEAD_H + 0.01, $fn = 32);
+  }
+}
+
+// All the pieces seated (the design frame).
 module ligature_set() {
   ligature_band();
-  if (LIG_SCREW) { lig_plate(); lig_screw(); }
+  if (LIG_SCREW) { lig_plate(); if (LIG_HW) lig_hw_standin(); else lig_screw(); }
 }
 
 // The pieces laid out for printing: the band on its front edge (as before), the plate on its flat
@@ -2959,7 +3009,7 @@ module ligature_print_set() {
     // plate: underside down
     translate([off + lig_plate_hw(), 0, -LIG_Y_PLATE]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
     // screw: knob down
-    translate([off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD), 0, -(lig_screw_y0 - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
+    if (!LIG_HW) translate([off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD), 0, -(lig_screw_y0 - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
   }
 }
 

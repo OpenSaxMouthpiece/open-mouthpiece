@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { adjustmentText, parseReport, parseSummary } from "./readouts";
+import { adjustmentText, ligatureText, parseLigature, parseReport, parseSummary } from "./readouts";
 
 const REPORT =
   'ECHO: REPORT = [["version", 1], ["length", 89.3], ["tip", 1.93], ["facing", 23.8], ["air", 2.5], ' +
@@ -36,5 +36,15 @@ describe("adjustmentText", () => {
     expect(adjustmentText(a, "Chamber width")).toBe(
       "Chamber width: you asked 22 mm, the model has 18.38 mm — the side walls keep min_wall (2mm)",
     );
+  });
+});
+
+describe("parseLigature", () => {
+  it("names the metal screw to buy", () => {
+    const log = 'ECHO: "LIGSCREW M3 8 nut"\nECHO: "LIGATURE 12 2 28.1 32.9 26.6 31.2 95.3 -1 -1"\n';
+    const g = parseLigature(log);
+    expect(g?.screw).toEqual({ size: "M3", length: 8, kind: "nut" });
+    expect(ligatureText(g)).toContain("Needs an M3 × 8 mm screw and an M3 nut.");
+    expect(parseLigature('ECHO: "LIGATURE 12 2 28.1 32.9 26.6 31.2 95.3 0.7 1.4"')?.screw).toBeNull();
   });
 });

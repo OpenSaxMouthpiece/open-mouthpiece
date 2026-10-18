@@ -278,6 +278,12 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_closure = "friction"; // [friction, screw]
 // Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
 ligature_plate = "full"; // [full, centre, edges, bars]
+// The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.
+ligature_screw = "printed"; // [printed, nut, insert]
+// Size of the metal screw.
+ligature_screw_size = "M3"; // [M3, M4, M5]
+// Metal screw: extra room in the nut pocket or insert hole (mm); + = looser.
+ligature_hardware_fit = 0; // [-0.3:0.05:0.3]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
 // The ligature text's own typeface; same = the Font in Personalize.
