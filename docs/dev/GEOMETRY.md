@@ -342,8 +342,8 @@ Edges (`lig_edge_cut`, `lig_ts`): the rear edge (on top when printed) rounded ou
   base file): the same band, its inside under the reed `LIG_PLATE_T` + `LIG_SLACK` deeper (so it
   slides on with the screw backed off), a boss under the reed side (`ligature_screw_band`: cylinder
   minus the inner void, then the nut = `lig_thread` grown by `LIG_CLR`), `lig_plate` (top = the reed's
-  arch at nearly the reed's full width, underside = the arch moved down by `LIG_PLATE_T`; the
-  band's inside under the reed is the same arch moved down by the plate + `LIG_SLACK`; styles lift the top 0.6mm except where they press; a dimple for the screw's end) and `lig_screw`
+  arch at nearly the reed's full width, underside flat, `LIG_PLATE_T` under the reed's middle, so it
+  prints flat; the band's inside under the reed is the reed plus a flat floor the plate + `LIG_SLACK` below; styles lift the top 0.6mm except where they press; a dimple for the screw's end) and `lig_screw`
   (twisted-extrude square thread, a solid rounded nose in the dimple, knob; the first version's slit
   ball on a thin neck snapped off in a print). `lig_plate_rim`: a low rim round the plate's footprint
   on the band's floor keeps a backed-off plate in place (it is dropped in through the band's end). `ligature` (print) lays band, plate and screw side by side; `ligature_seated` =

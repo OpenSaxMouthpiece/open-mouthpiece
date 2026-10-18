@@ -2649,7 +2649,7 @@ function lig_body_pts(z) =
 // thinner, so after the band's ligature_fit gap it is squeezed by the grip (full thickness
 // otherwise, also ahead: conservative).
 function lig_support(z) =
-  let(Pb = lig_body_pts(z), Pr = LIG_SCREW ? [for (q = lig_reed_pts(z, LIG_REED_T)) [q[0], q[1] - LIG_PLATE_T - LIG_SLACK]] : lig_reed_pts(z, max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
+  let(Pb = lig_body_pts(z), Pr = LIG_SCREW ? lig_screw_floor_pts(z) : lig_reed_pts(z, max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
   let(hb = lig_sup(Pb), hr = lig_sup(Pr))
   [[for (i = [0 : LIG_N - 1]) max(hb[i], hr[i]) + m], [for (i = [0 : LIG_N - 1]) hb[i] + m]];
 function pmax(a, b) = [for (i = [0 : len(a) - 1]) max(a[i], b[i])];
@@ -2854,9 +2854,14 @@ lig_zs = (lig_z0 + lig_z1) / 2;              // the screw's z
 LIG_Y_PLATE = -(LIG_REED_T + LIG_PLATE_T);   // the plate's flat underside, seated on the reed (y)
 LIG_KNOB_H = 4;
 
-// The plate follows the reed's arched back at its full width (the narrowest of the band's span, less
-// 0.5mm each side) and is LIG_PLATE_T thick all over; the band's inside under the reed is that
-// arch moved down by the plate and LIG_SLACK. It is as long as the band less its rim (and ends).
+// The plate's top follows the reed's arched back at its full width (the narrowest of the band's span,
+// less 0.5mm each side); its underside is flat (so it prints flat), LIG_PLATE_T under the reed's
+// middle. It is as long as the band less its rim.
+// With the screw the band's inside under the reed is the reed plus a flat floor LIG_PLATE_T + LIG_SLACK
+// below its back (the plate lies on it, flat underside down, the arch of its top on the reed).
+function lig_screw_floor_pts(z) =
+  let(rw = max(0.3, lig_reed_hw * tip_factor(L - z, tip_curve)), y = -(LIG_REED_T + LIG_PLATE_T + LIG_SLACK))
+  concat(lig_reed_pts(z, LIG_REED_T), [[rw, y], [-rw, y]]);
 function lig_plate_hw() = max(2, max(0.3, lig_reed_hw * tip_factor(L - lig_z1, tip_curve)) - 0.5);
 lig_plate_len = max(4, lig_len - 2.3);
 
@@ -2864,12 +2869,12 @@ lig_plate_len = max(4, lig_len - 2.3);
 function lig_arch_y(x, rw, relief = 0) =
   let(te = 0.65 * LIG_REED_T) -(te + (LIG_REED_T - te) * (1 - pow(clamp01(abs(x) / rw), 2))) - relief;
 
-// The plate's body: its top the arch lifted by relief, its underside the arch moved down by the plate.
+// The plate's body: its top the arch lifted by relief, its underside flat.
 module lig_plate_prism(len, hw, rw, relief) {
   n = 12;
   xs = [for (i = [-n : n]) hw * i / n];
   translate([0, 0, -len / 2]) linear_extrude(height = len)
-    polygon(concat([for (x = xs) [x, lig_arch_y(x, rw, relief)]], [for (i = [n : -1 : -n]) [xs[i + n], lig_arch_y(xs[i + n], rw) - LIG_PLATE_T]]));
+    polygon(concat([for (x = xs) [x, lig_arch_y(x, rw, relief)]], [[hw, LIG_Y_PLATE], [-hw, LIG_Y_PLATE]]));
 }
 
 // The plate, in the design frame, centred on lig_zs: its top the reed's arch
@@ -3009,12 +3014,11 @@ module ligature_set() {
 // The pieces laid out for printing: the band on its front edge (as before), the plate on its flat
 // underside and the screw on its knob, beside it.
 // Each piece on its own, for printing: the band on its front edge (as before), the plate with its top
-// face down (the arch touches the bed at the edges), the screw on its knob. All at x = 0 (y = 0 is
+// underside down, the screw on its knob. All at x = 0 (y = 0 is
 // the band's middle for the plate and screw).
 module lig_band_print() { translate([0, 0, lig_z1]) rotate([180, 0, 0]) ligature_band(); }
 module lig_plate_print(x = 0) {
-  rw = max(0.3, lig_reed_hw * tip_factor(L - lig_zs, tip_curve));
-  translate([x, 0, lig_arch_y(lig_plate_hw(), rw)]) rotate([-90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
+  translate([x, 0, -LIG_Y_PLATE]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
 }
 module lig_screw_print(x = 0) {
   translate([x, 0, -(lig_screw_y0() - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();

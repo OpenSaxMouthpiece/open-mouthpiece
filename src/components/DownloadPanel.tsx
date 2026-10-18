@@ -104,7 +104,7 @@ export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, squeezes, pi
       {ligature && pieces && (
         <div className="dl-sub">
           <label title="The band on its front edge, ready to print">{box("ligBand")} Band alone</label>
-          <label title="The plate on its own, top face down, ready to print">{box("ligPlate")} Plate alone</label>
+          <label title="The plate on its own, flat side down, ready to print">{box("ligPlate")} Plate alone</label>
           {pieces.screw && (
             <label title="The screw on its knob, ready to print: to reprint just the screw">
               {box("ligScrew")} Screw alone
