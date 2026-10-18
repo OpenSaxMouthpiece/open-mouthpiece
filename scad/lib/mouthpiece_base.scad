@@ -317,6 +317,10 @@ ligature_tongue_side = "top"; // [top, reed]
 ligature_fit = 0.1; // [-0.4:0.05:0.5]
 // How hard the band presses the reed onto the table (mm): bigger = tighter.
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
+// How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.
+ligature_closure = "friction"; // [friction, screw]
+// Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
+ligature_plate = "full"; // [full, centre, edges, bars]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
 // The ligature text's own typeface; same = the Font in Personalize.
@@ -2519,7 +2523,9 @@ function param_focus() =
 // The band sits on the reed (behind its heel it would have nothing to hold) and behind the tip;
 // the tongue gives way first, then the length.
 lig_room = L - 8 - (table_rear_z + 1);
-lig_len = max(4, min(ligature_length, lig_room));
+LIG_SCREW = ligature_closure == "screw";
+LIG_SCREW_MINLEN = 9.4;     // room for the screw's boss across the band
+lig_len = max(LIG_SCREW ? min(LIG_SCREW_MINLEN, lig_room) : 4, min(ligature_length, lig_room));
 lig_tongue = max(0, min(ligature_tongue, lig_room - lig_len));
 lig_z1 = min(L - 8, max(table_rear_z + 1 + lig_len + lig_tongue, win_z0 - ligature_position));  // front edge
 lig_z0 = lig_z1 - lig_len;          // rear edge (the short side)
@@ -2596,6 +2602,8 @@ function lig_sup(P) = [for (row = LIG_U * [[for (p = P) p[0]], [for (p = P) p[1]
 // The reed: any reed, so a nominal one, 3mm at the heel and as wide as the table (the band is a taper
 // fit: a thicker reed seats it a little further forward, a thinner one further back).
 LIG_REED_T = 3.0;
+LIG_PLATE_T = 3.4;          // the screw's plate under the reed, at its middle (mm)
+LIG_SLACK = 1.2;            // room under the plate with the screw backed off (mm)
 lig_reed_hw = max([for (i = [0 : 4]) ring_half_width_at_y(exterior_ring_at(lig_z0 + lig_len * i / 4), 0)]);
 lig_step = (lig_z1 - lig_zt) / max(2, ceil(lig_z1 - lig_zt));  // ~1mm between stations
 lig_nb = round((lig_z1 - lig_zt) / lig_step);                 // stations over the band, tongue included
@@ -2621,7 +2629,7 @@ function lig_body_pts(z) =
 // thinner, so after the band's ligature_fit gap it is squeezed by the grip (full thickness
 // otherwise, also ahead: conservative).
 function lig_support(z) =
-  let(Pb = lig_body_pts(z), Pr = lig_reed_pts(z, max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
+  let(Pb = lig_body_pts(z), Pr = lig_reed_pts(z, LIG_SCREW ? LIG_REED_T + LIG_PLATE_T + LIG_SLACK : max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
   let(hb = lig_sup(Pb), hr = lig_sup(Pr))
   [[for (i = [0 : LIG_N - 1]) max(hb[i], hr[i]) + m], [for (i = [0 : LIG_N - 1]) hb[i] + m]];
 function pmax(a, b) = [for (i = [0 : len(a) - 1]) max(a[i], b[i])];
@@ -2762,7 +2770,7 @@ function lig_ring_edge(env, t, d, inside) =
     let(cut = inside ? max(0, LIG_EDGE_CI - (1 - t) * len) : -lig_edge_cut(t * len, (1 - t) * len))
     concat(lig_corner_at(env, z, i, d + cut), z)];
 
-module ligature_band() {
+module ligature_ring() {
   env = lig_env();
   outer = [for (t = lig_ts) lig_ring_edge(env, t, ligature_fit + ligature_wall, false)];
   inner = [for (t = lig_ts) lig_ring_edge(env, t, ligature_fit, true)];
@@ -2804,6 +2812,155 @@ module ligature_band() {
   r2 = function(v) round(v * 100) / 100;
   echo(str("LIGATURE ", r2(lig_len), " ", r2(win_z0 - lig_z1), " ", r2(dr[0]), " ", r2(dr[1]), " ", r2(df[0]), " ", r2(df[1]), " ",
            r2(ring_perimeter(rear)), " ", slope > 0.005 ? r2(0.1 / slope) : -1, " ", slope > 0.005 ? r2(ligature_reed_grip / slope) : -1));
+}
+
+// ---- The thumbscrew version (ligature_closure = "screw"): the same band, with a boss under the
+// reed side holding a printed screw whose tip (a ball, snapped into the plate) lifts a plate against
+// the reed; the band's other side is the counter-pressure. The band's inside is deeper under the
+// reed by the plate + LIG_SLACK, so the ring slides on with the screw backed off. Three pieces:
+// ligature_band() (band + boss, threaded), lig_plate(), lig_screw(). Axis of the screw: +y (up),
+// x = 0, at the middle of the band (not its tongue).
+LIG_SD = max(5, min(8, lig_len - 4.4));      // the screw's thread diameter (mm)
+LIG_SP = 0.19 * LIG_SD;                      // pitch
+LIG_SDEPTH = 0.4 * LIG_SP;                   // thread depth
+LIG_BOSS_R = LIG_SD / 2 + 1.6;               // the boss's radius
+LIG_BOSS_H = 3.5;                            // how far the boss stands out under the band (mm)
+LIG_CLR = 0.25;                              // thread clearance (mm)
+LIG_BALL_R = 1.5;
+LIG_SOCKET_UP = 1.3;                         // the socket's centre above the plate's flat underside
+lig_zs = (lig_z0 + lig_z1) / 2;              // the screw's z
+LIG_Y_PLATE = -(LIG_REED_T + LIG_PLATE_T);   // the plate's flat underside, seated on the reed (y)
+LIG_Y_BALL = LIG_Y_PLATE + LIG_SOCKET_UP;    // the ball's centre, seated
+LIG_SHAFT = 7;                               // threaded length of the screw
+LIG_KNOB_H = 4;
+lig_screw_y0 = LIG_Y_BALL - (LIG_SHAFT + 1 + LIG_BALL_R);   // the knob's top face, seated
+
+// Plate half-width: where the band's inside (reed arch at LIG_REED_T + plate + slack) leaves the
+// plate's flat underside 0.3mm to spare.
+function lig_plate_hw() =
+  let(rw = max(0.3, lig_reed_hw * tip_factor(L - lig_zs, tip_curve)), T = LIG_REED_T + LIG_PLATE_T + LIG_SLACK,
+      te = 0.65 * T, d = T - te, q = (LIG_REED_T + LIG_PLATE_T + 0.3 - ligature_fit - te) / d)
+  max(2, rw * sqrt(max(0, 1 - q)) - 0.2);
+lig_plate_len = max(4, LIG_BOSS_R * 2 - 1);
+
+// The reed's back across the plate: the same arch as reed_model (thickness LIG_REED_T), y(x).
+function lig_arch_y(x, rw, relief = 0) =
+  let(te = 0.65 * LIG_REED_T) -(te + (LIG_REED_T - te) * (1 - pow(clamp01(abs(x) / rw), 2))) - relief;
+
+module lig_plate_prism(len, hw, rw, relief) {
+  n = 12;
+  top = [for (i = [n : -1 : -n]) [hw * i / n, lig_arch_y(hw * i / n, rw, relief)]];
+  rotate([0, 0, 0]) translate([0, 0, -len / 2]) linear_extrude(height = len)
+    polygon(concat([[-hw, LIG_Y_PLATE], [hw, LIG_Y_PLATE]], top));
+}
+
+// The plate, in the design frame, centred on lig_zs: its underside flat, its top the reed's arch
+// (touching it, seated). Styles lift the rest of the top 0.6mm, leaving the contact where the
+// style says: all over, the middle, the edges, or two bars across.
+module lig_plate() {
+  hw = lig_plate_hw();
+  rw = max(0.3, lig_reed_hw * tip_factor(L - lig_zs, tip_curve));
+  len = lig_plate_len;
+  contact = ligature_plate;
+  translate([0, 0, lig_zs]) difference() {
+    union() {
+      if (contact == "full") lig_plate_prism(len, hw, rw, 0.02);
+      else {
+        lig_plate_prism(len, hw, rw, 0.6);
+        intersection() {
+          lig_plate_prism(len, hw, rw, 0.02);
+          if (contact == "centre") translate([-1.5, -20, -len]) cube([3, 40, 2 * len]);
+          else if (contact == "edges") union() { translate([hw - 3, -20, -len]) cube([3, 40, 2 * len]); translate([-hw, -20, -len]) cube([3, 40, 2 * len]); }
+          else union() { translate([-hw, -20, len / 2 - 2.5]) cube([2 * hw, 40, 2.5]); translate([-hw, -20, -len / 2]) cube([2 * hw, 40, 2.5]); }
+        }
+      }
+    }
+    // the socket for the screw's ball, entered from underneath through a narrower neck
+    translate([0, LIG_Y_BALL, 0]) {
+      sphere(r = LIG_BALL_R + 0.15, $fn = 32);
+      rotate([90, 0, 0]) cylinder(r = LIG_BALL_R - 0.45, h = LIG_SOCKET_UP + 1, $fn = 24);
+    }
+  }
+}
+
+// One thread profile: a core with a half-disc tooth, twisted along z (a square thread). grow
+// widens it (the nut's clearance). Height h from z = 0.
+module lig_thread(h, grow = 0) {
+  R = LIG_SD / 2;
+  linear_extrude(height = h, twist = -360 * h / LIG_SP, slices = max(8, ceil(h / LIG_SP * 24)), convexity = 6)
+    offset(delta = grow) union() {
+      circle(r = R - LIG_SDEPTH, $fn = 48);
+      intersection() { circle(r = R, $fn = 48); polygon(concat([[0, 0]], [for (a = [-80 : 20 : 80]) 2 * R * [cos(a), sin(a)]])); }
+    }
+}
+
+// The screw, in the design frame, seated: knob underneath, axis +y, ball snapped into the plate.
+module lig_screw() {
+  r_k = max(7, 1.2 * LIG_SD);
+  translate([0, lig_screw_y0, lig_zs]) rotate([-90, 0, 0]) {
+    // the thread up from the knob's top face (the knob hangs below z = 0)
+    difference() {
+      union() {
+        lig_thread(LIG_SHAFT);
+        translate([0, 0, LIG_SHAFT - 0.01]) cylinder(r = LIG_BALL_R - 0.5, h = 1.02, $fn = 24);
+        translate([0, 0, LIG_SHAFT + 1 + LIG_BALL_R - 0.5]) sphere(r = LIG_BALL_R, $fn = 32);
+        // the knob: a disc with finger scallops
+        translate([0, 0, -LIG_KNOB_H]) linear_extrude(height = LIG_KNOB_H + 0.01) difference() {
+          circle(r = r_k, $fn = 72);
+          for (i = [0 : 7]) rotate(i * 45 + 22.5) translate([r_k + 0.6, 0]) circle(r = 2.2, $fn = 24);
+        }
+      }
+      // the slit that lets the ball spring into the plate
+      translate([-LIG_BALL_R - 1, -0.3, LIG_SHAFT + 0.3]) cube([2 * LIG_BALL_R + 2, 0.6, 2 * LIG_BALL_R + 2]);
+    }
+  }
+}
+
+// The band's boss under the reed side and the threaded hole through it and the wall.
+function lig_in_y(env) = min([for (p = lig_ring(lig_h_at(env, lig_zs), lig_zs, ligature_fit)) p[1]]);
+function lig_out_y(env) = min([for (p = lig_ring(lig_h_at(env, lig_zs), lig_zs, ligature_fit + ligature_wall)) p[1]]);
+
+module ligature_screw_band() {
+  env = lig_env();
+  y_in = lig_in_y(env);
+  y_out = lig_out_y(env);
+  y_bot = y_out - LIG_BOSS_H;
+  void_rings = [for (i = [0 : 6]) let(z = max(lig_z0, min(lig_z1, lig_zs - LIG_BOSS_R - 0.5 + (2 * LIG_BOSS_R + 1) * i / 6))) lig_ring(lig_h_at(env, z), z, ligature_fit)];
+  difference() {
+    union() {
+      ligature_ring();
+      difference() {
+        translate([0, y_bot, lig_zs]) rotate([-90, 0, 0]) cylinder(r = LIG_BOSS_R, h = y_in + 1.2 - y_bot, $fn = 48);
+        ring_loft(void_rings);
+      }
+    }
+    // the nut: the thread's shape plus clearance, through the boss into the band
+    translate([0, y_bot - 0.01, lig_zs]) rotate([-90, 0, 0]) lig_thread(y_in - y_bot + 2, LIG_CLR);
+  }
+}
+
+module ligature_band() {
+  if (LIG_SCREW) ligature_screw_band(); else ligature_ring();
+}
+
+// All three pieces seated (the design frame).
+module ligature_set() {
+  ligature_band();
+  if (LIG_SCREW) { lig_plate(); lig_screw(); }
+}
+
+// The pieces laid out for printing: the band on its front edge (as before), the plate on its flat
+// underside and the screw on its knob, beside it.
+module ligature_print_set() {
+  translate([0, 0, lig_z1]) rotate([180, 0, 0]) ligature_band();
+  if (LIG_SCREW) {
+    gap = 6;
+    off = max([for (p = lig_ring(lig_h_at(lig_env(), lig_zs), lig_zs, ligature_fit + ligature_wall)) abs(p[0])]) + gap;
+    // plate: underside down
+    translate([off + lig_plate_hw(), 0, -LIG_Y_PLATE]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
+    // screw: knob down
+    translate([off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD), 0, -(lig_screw_y0 - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
+  }
 }
 
 // A plain reed for the fit view: flat on the table from its heel (the table's rear) to the tip,
@@ -2907,19 +3064,19 @@ function cap_h_at(H, z) =
 // their front end, then rounded: the screws come in at the rim as the cap slides on and ride in it,
 // so the cap needn't cover them. A prism from the table plane (y = 0, inside the cap at every
 // station) outward.
-cap_win_w = CAP_PRINTED ? 0 : cap_metal_screw_width + 1.6;
-cap_win_z1 = CAP_PRINTED ? 0 : (cap_m_z0 + cap_m_z1) / 2 + cap_metal_screw_length / 2 + 1.5 + cap_win_w / 2;
-module cap_slot_2d(z_slot1) {
-  module tab(w, z1) if (w > 0 && z1 - w / 2 > cap_z0) hull() {
-    translate([-w / 2, cap_z0 - 1]) square([w, 0.01]);
-    translate([0, z1 - w / 2]) circle(d = w, $fn = 24);
-  }
-  tab(cap_win_w, cap_win_z1);
-  if (cap_slot_length > 0) tab(cap_slot_width, z_slot1);
+// A printed screw ligature (ligature_closure = "screw") has its boss under the reed: the window is the
+// boss's width, always on the reed side whatever the slot's side.
+cap_win_w = CAP_PRINTED ? (LIG_SCREW ? 2 * LIG_BOSS_R + 1.6 : 0) : cap_metal_screw_width + 1.6;
+cap_win_z1 = CAP_PRINTED ? (LIG_SCREW ? lig_zs + LIG_BOSS_R + 1.5 + cap_win_w / 2 : 0)
+  : (cap_m_z0 + cap_m_z1) / 2 + cap_metal_screw_length / 2 + 1.5 + cap_win_w / 2;
+CAP_WIN_TOP = !CAP_PRINTED && cap_slot_side == "top";
+module cap_tab(w, z1) if (w > 0 && z1 - w / 2 > cap_z0) hull() {
+  translate([-w / 2, cap_z0 - 1]) square([w, 0.01]);
+  translate([0, z1 - w / 2]) circle(d = w, $fn = 24);
 }
 module cap_slot_cutter(z_slot1) {
-  if (cap_slot_length > 0 || cap_win_w > 0)
-    mirror([0, cap_slot_side == "top" ? 1 : 0, 0]) rotate([90, 0, 0]) linear_extrude(height = 80) cap_slot_2d(z_slot1);
+  if (cap_win_w > 0) mirror([0, CAP_WIN_TOP ? 1 : 0, 0]) rotate([90, 0, 0]) linear_extrude(height = 80) cap_tab(cap_win_w, cap_win_z1);
+  if (cap_slot_length > 0) mirror([0, cap_slot_side == "top" ? 1 : 0, 0]) rotate([90, 0, 0]) linear_extrude(height = 80) cap_tab(cap_slot_width, z_slot1);
 }
 // The end's air holes: a row across, straight along the axis through the dome, from inside the cap.
 module cap_end_vent_cutter(xs, y, z0, z1) {
@@ -3166,12 +3323,12 @@ module shank_test_ring() {
 
 module selected_part() {
 if      (part == "shank_test_ring")          shank_test_ring();
-else if (part == "ligature_seated")          ligature_band();
+else if (part == "ligature_seated")          ligature_set();
 else if (part == "cap_seated")               cap_part();
 else if (part == "metal_ligature_model")     metal_ligature_model();
-else if (part == "cap_clash")                { intersection() { cap_part(); mouthpiece_body(); } if (CAP_PRINTED) intersection() { cap_part(); ligature_band(); } else intersection() { cap_part(); metal_ligature_model(); } }
+else if (part == "cap_clash")                { intersection() { cap_part(); mouthpiece_body(); } if (CAP_PRINTED) intersection() { cap_part(); ligature_set(); } else intersection() { cap_part(); metal_ligature_model(); } }
 else if (part == "reed_model")               reed_model();
-else if (part == "ligature_clash")           intersection() { ligature_band(); mouthpiece_body(); }
+else if (part == "ligature_clash")           intersection() { ligature_set(); mouthpiece_body(); }
 else if (part == "clearance_report")         clearance_report();
 else if (part == "facing_report")            facing_report();
 else if (part == "interior_only")            interior_solid(with_socket = false);
@@ -3194,7 +3351,7 @@ else                                         mouthpiece_body();  // "mouthpiece"
 // then puts it on z = 0, so the part stands on the end the neck goes into.
 end_face_lift = bah_at(-1) * sin(bore_tilt) + cos(bore_tilt);
 // The ligature on its own is printed standing on its front edge (flat; the tongue points up).
-if (part == "ligature") { if (print_orientation) translate([0, 0, lig_z1]) rotate([180, 0, 0]) ligature_band(); else ligature_band(); }
+if (part == "ligature") { if (print_orientation) ligature_print_set(); else ligature_set(); }
 // The cap stands on its rim, open end down (the closed end is a dome: no supports needed).
 else if (part == "cap") { if (print_orientation) translate([0, 0, -cap_z0]) cap_part(); else cap_part(); }
 else if (print_orientation) translate([0, 0, end_face_lift]) rotate([-bore_tilt, 0, 0]) selected_part();

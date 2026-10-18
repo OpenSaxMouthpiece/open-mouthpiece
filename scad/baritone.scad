@@ -274,6 +274,10 @@ ligature_tongue_side = "top"; // [top, reed]
 ligature_fit = 0.1; // [-0.4:0.05:0.5]
 // How hard the band presses the reed onto the table (mm): bigger = tighter.
 ligature_reed_grip = 0.2; // [0:0.05:0.6]
+// How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.
+ligature_closure = "friction"; // [friction, screw]
+// Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
+ligature_plate = "full"; // [full, centre, edges, bars]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
 // The ligature text's own typeface; same = the Font in Personalize.

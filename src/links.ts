@@ -23,6 +23,13 @@ export const CHANGELOG_URL = REPO_URL ? `${REPO_URL}/blob/${DOCS_BRANCH}/CHANGEL
 // Donation page (Ko-fi). Empty hides every donation link.
 export const DONATE_URL = "https://ko-fi.com/opensaxmouthpiece";
 
+// The thumbscrew ligature follows this one's idea (credited in README.md and on the site).
+export const LIGATURE_SOURCE = {
+  label: "Saxophone / Clarinet Ligature by mouthpiecelabs",
+  url: "https://makerworld.com/en/models/2701081-saxophone-clarinet-ligature-fits-all-saxes",
+  licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+};
+
 // The mouthpieces the presets were measured from (rounded dimensions only; credited in README.md).
 export const PRESET_SOURCES: { label: string; url: string }[] = [
   { label: '"64" soprano', url: "https://www.thingiverse.com/thing:6645219" },

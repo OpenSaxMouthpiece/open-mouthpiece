@@ -23,7 +23,7 @@ import { BaffleSketches } from "./BaffleSketches";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
 import { usePref } from "../uiPrefs";
-import { DONATE_URL, PRESET_SOURCES, PRINTING_GUIDE_URL } from "../links";
+import { DONATE_URL, LIGATURE_SOURCE, PRESET_SOURCES, PRINTING_GUIDE_URL } from "../links";
 
 interface Props {
   title: string;
@@ -604,7 +604,15 @@ export function Credits({ donate = true }: { donate?: boolean } = {}) {
             </a>
           </span>
         ))}
-        ) the presets are based on.
+        ) the presets are based on. The thumbscrew ligature follows the idea of{" "}
+        <a href={LIGATURE_SOURCE.url} target="_blank" rel="noreferrer">
+          {LIGATURE_SOURCE.label}
+        </a>{" "}
+        (
+        <a href={LIGATURE_SOURCE.licenseUrl} target="_blank" rel="noreferrer">
+          CC BY-SA 4.0
+        </a>
+        ), redrawn for this generator.
       </p>
       <p className="preset-credit muted">
         Built with{" "}

@@ -272,6 +272,9 @@ To make a ligature, click **Ligature** in the icon bar, then **Make a ligature f
 mouthpiece**. It's a ring that's shaped to the mouthpiece, so it still fits after you make
 changes. It slides on over the tip and holds the reed in place by friction. You can adjust its
 shape, thickness, how tightly it grips the reed, its length and position, and add text or a picture.
+Under **Fit**, *Tightened by* can switch from the band alone to a thumbscrew under the reed: the
+download then holds three pieces (the band, a plate that sits against the reed, and the screw),
+and *Plate presses* sets where the plate touches the reed.
 Both start with the same picture as the mouthpiece, if it has one; you can choose another or none.
 
 To make a cap, click **Cap**, then **Make a cap for this mouthpiece**. The cap fits over the tip,

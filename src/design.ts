@@ -375,7 +375,18 @@ export const DESIGN_SECTIONS: DesignSection[] = [
       {
         title: "Fit",
         items: [
-          { name: "ligature_reed_grip", label: "Reed grip" },
+          {
+            name: "ligature_closure",
+            label: "Tightened by",
+            optionLabels: { friction: "The band alone (press fit)", screw: "A thumbscrew under the reed" },
+          },
+          { name: "ligature_reed_grip", label: "Reed grip", when: ["ligature_closure", "friction"] },
+          {
+            name: "ligature_plate",
+            label: "Plate presses",
+            when: ["ligature_closure", "screw"],
+            optionLabels: { full: "All over", centre: "The middle", edges: "The edges", bars: "Two bars across" },
+          },
           { name: "ligature_wall", label: "Thickness" },
         ],
         more: ["ligature_fit"],

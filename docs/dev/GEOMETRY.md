@@ -338,6 +338,16 @@ Edges (`lig_edge_cut`, `lig_ts`): the rear edge (on top when printed) rounded ou
   (rear >= table_rear_z + 1) and behind the tip (front <= L - 8), shortening with a WARNING if
   needed. Echo: `LIGATURE <length> <front vs window> <inside W H rear> <W H front> <girth> <mm
   forward per 0.1mm thicker reed> <mm forward of the seat at first reed contact>`.
+- **Thumbscrew** (`ligature_closure = screw`, `ligature_plate`; section after `ligature_ring` in the
+  base file): the same band, its inside under the reed `LIG_PLATE_T` + `LIG_SLACK` deeper (so it
+  slides on with the screw backed off), a boss under the reed side (`ligature_screw_band`: cylinder
+  minus the inner void, then the nut = `lig_thread` grown by `LIG_CLR`), `lig_plate` (flat
+  underside, top = the reed's arch; styles lift the top 0.6mm except where they press, and a ball
+  socket) and `lig_screw` (twisted-extrude square thread, ball tip with a slit to snap into the
+  plate, knob). `ligature` (print) lays band, plate and screw side by side; `ligature_seated` =
+  all three. The band's minimum length is `LIG_SCREW_MINLEN` (boss). A printed cap gets a window
+  the boss's width on the reed side (`cap_win_w`), whatever `cap_slot_side` says. Not done:
+  print test (thread clearance `LIG_CLR`, ball snap), M3 screw option, more plate styles.
 - `ligature` stands on its flat front edge for printing (tongue up); `ligature_seated` and
   `reed_model` get the mouthpiece's print transform so the app overlays them; `ligature_clash` =
   band ∩ mouthpiece, which `npm run check` requires to be empty. Module-local, so mouthpiece renders

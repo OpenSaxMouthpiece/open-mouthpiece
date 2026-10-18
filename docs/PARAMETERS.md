@@ -1617,6 +1617,26 @@ Range: 0 to 0.6, step 0.05.
 
 Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
 
+<a id="ligature_closure"></a>
+
+### Tightened by (`ligature_closure`)
+
+How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.
+
+Range: `friction`, `screw`.
+
+Presets: Alto `friction` · Tenor `friction` · Bari `friction` · Soprano `friction`.
+
+<a id="ligature_plate"></a>
+
+### Plate presses (`ligature_plate`)
+
+Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
+
+Range: `full`, `centre`, `edges`, `bars`.
+
+Presets: Alto `full` · Tenor `full` · Bari `full` · Soprano `full`.
+
 <a id="ligature_text"></a>
 
 ### Text on the ligature (`ligature_text`)

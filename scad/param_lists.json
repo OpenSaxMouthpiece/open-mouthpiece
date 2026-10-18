@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "95134ff9-21956",
+  "hash": "4511c340-22265",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1403,6 +1403,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -2080,7 +2122,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "8cc186a5-22196",
+  "hash": "9a7c0ab0-22505",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3483,6 +3525,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -4160,7 +4244,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "77bfe037-22867",
+  "hash": "f896e5ce-23176",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5563,6 +5647,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -6240,7 +6366,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "ae5093ed-22158",
+  "hash": "56131a9c-22467",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -7643,6 +7769,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -8320,7 +8488,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "8ac0373e-22335",
+  "hash": "e6a76add-22644",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -9723,6 +9891,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -10400,7 +10610,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "3abb8be-22048",
+  "hash": "946bf27d-22357",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -11803,6 +12013,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -12480,7 +12732,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "3f20a57b-22087",
+  "hash": "454a49f6-22396",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -13883,6 +14135,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -14560,7 +14854,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "43abb443-22052",
+  "hash": "aff930de-22361",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15963,6 +16257,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -16640,7 +16976,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "49010318-22238",
+  "hash": "631b2fef-22547",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -18043,6 +18379,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -18720,7 +19098,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "6533ac41-22271",
+  "hash": "d804f9b4-22580",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -20123,6 +20501,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -20800,7 +21220,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "f021d92b-22230",
+  "hash": "13b78a52-22539",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -22203,6 +22623,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -22880,7 +23342,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "386a58b-22259",
+  "hash": "57c93d16-22568",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -24283,6 +24745,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -24960,7 +25464,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "60722710-22285",
+  "hash": "b3e4e42b-22594",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -26363,6 +26867,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -27040,7 +27586,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "e4135709-22258",
+  "hash": "b6dc10c0-22567",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28443,6 +28989,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -29120,7 +29708,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "1cb51af2-22441",
+  "hash": "2a8888b9-22750",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30523,6 +31111,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -31200,7 +31830,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "92c6deae-22467",
+  "hash": "f698e24d-22776",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32603,6 +33233,48 @@
     "type": "number"
    },
    {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
+   },
+   {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",
     "group": "Ligature",
     "initial": "",
@@ -33280,7 +33952,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "be6c29fe-22435",
+  "hash": "999dba1d-22744",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -34681,6 +35353,48 @@
     "name": "ligature_reed_grip",
     "step": 0.05,
     "type": "number"
+   },
+   {
+    "caption": "How the ligature holds the reed: pressed on by the band alone, or by a thumbscrew under the reed.",
+    "group": "Ligature",
+    "initial": "friction",
+    "name": "ligature_closure",
+    "options": [
+     {
+      "name": "friction",
+      "value": "friction"
+     },
+     {
+      "name": "screw",
+      "value": "screw"
+     }
+    ],
+    "type": "string"
+   },
+   {
+    "caption": "Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.",
+    "group": "Ligature",
+    "initial": "full",
+    "name": "ligature_plate",
+    "options": [
+     {
+      "name": "full",
+      "value": "full"
+     },
+     {
+      "name": "centre",
+      "value": "centre"
+     },
+     {
+      "name": "edges",
+      "value": "edges"
+     },
+     {
+      "name": "bars",
+      "value": "bars"
+     }
+    ],
+    "type": "string"
    },
    {
     "caption": "Text on the ligature's top (empty = none). Lines, variables as on the top text.",

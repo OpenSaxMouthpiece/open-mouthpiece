@@ -108,6 +108,12 @@ are welcome.
   tables (a few to about 15 points per curve, smoothed by hand; the soprano's more finely) and
   rebuilt in this generator; no mesh from those models is included here. The ligature follows the
   idea of their printed friction-fit ligature. The site credits them too.
+- **Thumbscrew ligature**: the screw, plate and ball-and-socket idea follows "Saxophone / Clarinet
+  Ligature" by mouthpiecelabs on MakerWorld
+  (https://makerworld.com/en/models/2701081-saxophone-clarinet-ligature-fits-all-saxes), CC BY-SA 4.0
+  (https://creativecommons.org/licenses/by-sa/4.0/). It is redrawn here as parameters on this
+  generator's ligature band (own thread, plate and knob), so it fits any mouthpiece; the changes
+  are ours. The ligature's parts under the "screw" setting stay under that licence's terms.
 - **Fonts** in `scad/lib/fonts/` are under the SIL Open Font License (licence files alongside).
 - **OpenSCAD** (GPL-2.0-or-later, source at https://github.com/openscad/openscad) does the
   geometry; the app runs its official WebAssembly build.
