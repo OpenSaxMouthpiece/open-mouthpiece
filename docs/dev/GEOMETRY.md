@@ -341,12 +341,15 @@ Edges (`lig_edge_cut`, `lig_ts`): the rear edge (on top when printed) rounded ou
 - **Thumbscrew** (`ligature_closure = screw`, `ligature_plate`; section after `ligature_ring` in the
   base file): the same band, its inside under the reed `LIG_PLATE_T` + `LIG_SLACK` deeper (so it
   slides on with the screw backed off), a boss under the reed side (`ligature_screw_band`: cylinder
-  minus the inner void, then the nut = `lig_thread` grown by `LIG_CLR`), `lig_plate` (flat
-  underside, top = the reed's arch; styles lift the top 0.6mm except where they press; a dimple for the screw's end) and `lig_screw`
+  minus the inner void, then the nut = `lig_thread` grown by `LIG_CLR`), `lig_plate` (top = the reed's
+  arch at nearly the reed's full width, underside = the arch moved down by `LIG_PLATE_T`; the
+  band's inside under the reed is the same arch moved down by the plate + `LIG_SLACK`; styles lift the top 0.6mm except where they press; a dimple for the screw's end) and `lig_screw`
   (twisted-extrude square thread, a solid rounded nose in the dimple, knob; the first version's slit
   ball on a thin neck snapped off in a print). `lig_plate_rim`: a low rim round the plate's footprint
   on the band's floor keeps a backed-off plate in place (it is dropped in through the band's end). `ligature` (print) lays band, plate and screw side by side; `ligature_seated` =
-  all three. The band's minimum length is `LIG_SCREW_MINLEN` (boss). A printed cap gets a window
+  all three. `ligature_band`, `ligature_plate`, `ligature_screw` = one piece each in its print
+  orientation (the app's "Band only" / "Plate only" / "Screw only"; the screw is empty for a metal one). The
+  nut's thread is turned (`LIG_NUT_PHASE`) so the seated screw clears it. The band's minimum length is `LIG_SCREW_MINLEN` (boss). A printed cap gets a window
   the boss's width on the reed side (`cap_win_w`), whatever `cap_slot_side` says. Metal screw
   (`ligature_screw` nut | insert, `ligature_screw_size` M3-M5, `ligature_hardware_fit`): `HW_*` tables;
   the nut (hex pocket) or insert (round hole) goes in from inside the band so the screw's pull seats
