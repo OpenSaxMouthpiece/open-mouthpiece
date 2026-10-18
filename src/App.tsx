@@ -105,8 +105,7 @@ const POINT_VALUES: Record<string, string> = { facing_gauge_points: "facing_mode
 const QUALITY_HINT = "Model detail: Draft is fastest, Fine slowest. Downloads are always at least Normal.";
 
 // "model" = whatever is on screen; "mouthpiece" = the mouthpiece even while a test ring is shown.
-type PartWhat =
-  "model" | "mouthpiece" | "ring" | "ligature" | "ligature_band" | "ligature_plate" | "ligature_screw" | "cap";
+type PartWhat = "model" | "mouthpiece" | "ring" | "ligature" | "cap";
 type Download = {
   what: PartWhat | "kit" | "files";
   state: "busy" | "ready" | "done" | "error";
@@ -943,7 +942,7 @@ export default function App() {
     const name =
       what === "ring"
         ? ringFile(base, squeeze).replace(/\.stl$/, "")
-        : what.startsWith("ligature") || what === "cap"
+        : what === "ligature" || what === "cap"
           ? `${base}_${what}`
           : what === "model" && otherPart
             ? `${base}_${otherPart}`
@@ -963,7 +962,7 @@ export default function App() {
           ? await partStl("shank_test_ring", { shank_clearance: squeeze })
           : what === "cap" && cachedCap
             ? cachedCap
-            : what.startsWith("ligature") || what === "cap"
+            : what === "ligature" || what === "cap"
               ? await partStl(what)
               : await partStl(what === "mouthpiece" && otherPart ? "mouthpiece" : null);
       track(
@@ -1027,7 +1026,10 @@ export default function App() {
     const what = kit ? "kit" : "files";
     const name = downloadName(mainTab, values, isRO(mainTab));
     const get = (n: string) => (n in values ? values[n] : param(n)?.initial);
-    const withLigature = sel.ligature && !!param("ligature_length") && get("ligature_made") === true;
+    const withLigature =
+      (sel.ligature || sel.ligBand || sel.ligPlate || sel.ligScrew) &&
+      !!param("ligature_length") &&
+      get("ligature_made") === true;
     const withCap = sel.cap && !!param("cap_wall") && get("cap_made") === true;
     const enc = new TextEncoder();
     setDl({ what, state: "busy" });
@@ -1044,7 +1046,13 @@ export default function App() {
       if (sel.rings)
         for (const c of kitSqueezes(Number(get("shank_clearance"))))
           jobs.push([ringFile(name, c), "shank_test_ring", { shank_clearance: c }]);
-      if (withLigature) jobs.push([`${name}_ligature.stl`, "ligature"]);
+      if (withLigature && sel.ligature) jobs.push([`${name}_ligature.stl`, "ligature"]);
+      if (withLigature && get("ligature_closure") === "screw") {
+        if (sel.ligBand) jobs.push([`${name}_ligature_band.stl`, "ligature_band"]);
+        if (sel.ligPlate) jobs.push([`${name}_ligature_plate.stl`, "ligature_plate"]);
+        if (sel.ligScrew && get("ligature_screw") === "printed")
+          jobs.push([`${name}_ligature_screw.stl`, "ligature_screw"]);
+      }
       const cachedCap = withCap ? capPrintStl() : null;
       if (withCap && !cachedCap) jobs.push([`${name}_cap.stl`, "cap"]);
       const made = await partStls(jobs.map(([, part, extra]) => [part, extra]));
@@ -1791,16 +1799,6 @@ export default function App() {
       onRemove={() => setValue("cap_made", false, undefined)}
     />
   );
-  // With the thumbscrew, each piece can also be downloaded alone (to reprint just one); a metal screw isn't printed.
-  const ligVal = (n: string) => (n in values ? values[n] : param(n)?.initial);
-  const ligPieces: { what: PartWhat; label: string }[] =
-    ligMade && ligVal("ligature_closure") === "screw"
-      ? [
-          { what: "ligature_band", label: "Band only" },
-          { what: "ligature_plate", label: "Plate only" },
-          ...(ligVal("ligature_screw") === "printed" ? [{ what: "ligature_screw" as const, label: "Screw only" }] : []),
-        ]
-      : [];
   const ligHead = (
     <LigatureHead
       made={ligMade}
@@ -1809,13 +1807,7 @@ export default function App() {
       numbers={isPhone}
       alone={!showMp}
       onAlone={(a) => setShowMp(!a)}
-      downloadLabel={dlLabel("ligature", ligPieces.length ? "Download all pieces" : "Download ligature STL")}
-      pieces={ligPieces.map((p) => ({
-        id: p.what,
-        label: dlLabel(p.what, p.label),
-        busy: dlBusy(p.what),
-        onClick: () => downloadPart(p.what),
-      }))}
+      downloadLabel={dlLabel("ligature", "Download ligature STL")}
       downloading={dlBusy("ligature")}
       onMake={makeLigature}
       onView={(c) => setLig((l) => ({ ...l, ...c }))}
@@ -1963,6 +1955,7 @@ export default function App() {
         opts={{ ...DOWNLOAD_DEFAULTS, ...dlPicks }}
         onOpt={(k, v) => setDlPicks((o) => ({ ...DOWNLOAD_DEFAULTS, ...o, [k]: v }))}
         ligature={!!param("ligature_length") && get("ligature_made") === true}
+        pieces={get("ligature_closure") === "screw" ? { screw: get("ligature_screw") === "printed" } : null}
         cap={!!param("cap_wall") && get("cap_made") === true}
         squeezes={kitSqueezes(squeezeNow)
           .map((c) => c.toFixed(2))

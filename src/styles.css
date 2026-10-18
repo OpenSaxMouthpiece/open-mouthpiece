@@ -986,6 +986,9 @@ button.toggle.on {
   gap: 6px;
   white-space: nowrap;
 }
+.dl-panel .dl-sub {
+  margin-left: 1.5em;
+}
 .dl-panel label .muted {
   margin-left: auto;
   padding-left: 12px;

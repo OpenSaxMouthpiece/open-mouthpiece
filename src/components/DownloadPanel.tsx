@@ -6,6 +6,9 @@ export type DownloadOpts = {
   stl: boolean;
   rings: boolean;
   ligature: boolean;
+  ligBand: boolean; // a thumbscrew ligature's pieces, each on its own (to reprint just one)
+  ligPlate: boolean;
+  ligScrew: boolean;
   cap: boolean;
   full: boolean;
   settings: boolean;
@@ -15,6 +18,9 @@ export const DOWNLOAD_DEFAULTS: DownloadOpts = {
   stl: true,
   rings: false,
   ligature: false,
+  ligBand: false,
+  ligPlate: false,
+  ligScrew: false,
   cap: false,
   full: true,
   settings: false,
@@ -25,6 +31,9 @@ export const DOWNLOAD_ALL: DownloadOpts = {
   stl: true,
   rings: true,
   ligature: true,
+  ligBand: false,
+  ligPlate: false,
+  ligScrew: false,
   cap: true,
   full: true,
   settings: false,
@@ -33,12 +42,20 @@ export const DOWNLOAD_ALL: DownloadOpts = {
 
 // Whether the ticks download anything (the ligature and the cap only count when the design has one).
 export const wantsFiles = (o: DownloadOpts, ligature: boolean, cap: boolean) =>
-  o.stl || o.rings || (o.ligature && ligature) || (o.cap && cap) || o.full || o.settings || o.card;
+  o.stl ||
+  o.rings ||
+  (o.ligature && ligature) ||
+  ((o.ligBand || o.ligPlate || o.ligScrew) && ligature) ||
+  (o.cap && cap) ||
+  o.full ||
+  o.settings ||
+  o.card;
 
 interface Props {
   opts: DownloadOpts;
   onOpt: (k: keyof DownloadOpts, v: boolean) => void;
   ligature: boolean; // offer the ligature's STL
+  pieces: { screw: boolean } | null; // a thumbscrew ligature: offer its pieces one by one (screw: printed, not metal)
   cap: boolean; // offer the cap's STL
   squeezes: string; // the test rings' cork squeezes, "0.10 / 0.20 / 0.30"
   picture: boolean; // the design file has a picture beside it
@@ -46,14 +63,18 @@ interface Props {
   onDownload: () => void;
 }
 
-export function DownloadPanel({ opts, onOpt, ligature, cap, squeezes, picture, busy, onDownload }: Props) {
+export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, squeezes, picture, busy, onDownload }: Props) {
   const files = wantsFiles(opts, ligature, cap);
   const [moreOpen, setMoreOpen] = useState(opts.settings); // open while it is ticked
   const box = (k: keyof DownloadOpts, disabled = false) => (
     <input type="checkbox" checked={opts[k]} disabled={disabled} onChange={(e) => onOpt(k, e.target.checked)} />
   );
   const all = (Object.keys(DOWNLOAD_ALL) as (keyof DownloadOpts)[]).every(
-    (k) => opts[k] === DOWNLOAD_ALL[k] || (k === "ligature" && !ligature) || (k === "cap" && !cap),
+    (k) =>
+      opts[k] === DOWNLOAD_ALL[k] ||
+      (k === "ligature" && !ligature) ||
+      (k === "cap" && !cap) ||
+      (k.startsWith("lig") && k !== "ligature"),
   );
   return (
     <form
@@ -70,9 +91,26 @@ export function DownloadPanel({ opts, onOpt, ligature, cap, squeezes, picture, b
         {box("rings")} Shank test rings <span className="muted">squeeze {squeezes} mm</span>
       </label>
       {ligature && (
-        <label title="The ligature on its own, standing on its front edge, ready to print">
-          {box("ligature")} Ligature STL
+        <label
+          title={
+            pieces
+              ? "The band, the plate and the screw laid out together, each as printed"
+              : "The ligature on its own, standing on its front edge, ready to print"
+          }
+        >
+          {box("ligature")} Ligature STL {pieces && <span className="muted">all pieces together</span>}
         </label>
+      )}
+      {ligature && pieces && (
+        <div className="dl-sub">
+          <label title="The band on its front edge, ready to print">{box("ligBand")} Band alone</label>
+          <label title="The plate on its own, top face down, ready to print">{box("ligPlate")} Plate alone</label>
+          {pieces.screw && (
+            <label title="The screw on its knob, ready to print: to reprint just the screw">
+              {box("ligScrew")} Screw alone
+            </label>
+          )}
+        </div>
       )}
       {cap && <label title="The cap on its own, standing on its rim, ready to print">{box("cap")} Cap STL</label>}
       <label title="Your settings + the generator in one plain OpenSCAD file: opens in any OpenSCAD, and here with Open…. Its part setting (Output tab) also makes the ligature and cap">

@@ -13,7 +13,6 @@ interface Props {
   onAlone?: (on: boolean) => void;
   downloadLabel: ReactNode; // the download button's text, or its progress
   downloading: boolean;
-  pieces?: { id: string; label: ReactNode; busy: boolean; onClick: () => void }[]; // each piece alone (thumbscrew)
   onMake: () => void;
   onView: (change: Partial<LigatureView>) => void;
   onDownload: () => void;
@@ -29,7 +28,6 @@ export function LigatureHead({
   onAlone = () => {},
   downloadLabel,
   downloading,
-  pieces = [],
   onMake,
   onView,
   onDownload,
@@ -50,11 +48,6 @@ export function LigatureHead({
       {downloadLabel}
     </button>
   );
-  const pieceButtons = pieces.map((p) => (
-    <button key={p.id} onClick={p.onClick} disabled={p.busy} aria-live="polite">
-      {p.label}
-    </button>
-  ));
   const remove = (
     <button onClick={onRemove} title="This design no longer has a ligature">
       Remove
@@ -67,7 +60,6 @@ export function LigatureHead({
         <div className="lig-actions">
           <button onClick={() => onView({ on: true })}>Show it</button>
           {download}
-          {pieceButtons}
           {remove}
         </div>
       </div>
@@ -96,7 +88,6 @@ export function LigatureHead({
           <input type="checkbox" checked={view.reed} onChange={(e) => onView({ reed: e.target.checked })} /> Show a reed
         </label>
         {download}
-        {pieceButtons}
         <button onClick={() => onView({ on: false })}>Hide</button>
         {remove}
       </div>
