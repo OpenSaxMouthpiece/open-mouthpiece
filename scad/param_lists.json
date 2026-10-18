@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "961ce0d2-23056",
+  "hash": "df5693c3-23054",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1467,7 +1467,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -2216,7 +2216,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "3224a9bc-23296",
+  "hash": "3d18502f-23294",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3683,7 +3683,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -4432,7 +4432,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "9d5f40ae-23967",
+  "hash": "80e9ca9d-23965",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5899,7 +5899,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -6648,7 +6648,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "d5d6e652-23258",
+  "hash": "64a579f-23256",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8115,7 +8115,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -8864,7 +8864,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "4c3ff549-23435",
+  "hash": "971ebca4-23433",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10331,7 +10331,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -11080,7 +11080,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "42455ce1-23148",
+  "hash": "dfd3701c-23146",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12547,7 +12547,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -13296,7 +13296,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "a759b96c-23187",
+  "hash": "76434ebd-23185",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14763,7 +14763,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -15512,7 +15512,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "4d7d57e4-23152",
+  "hash": "b6b9ceb5-23150",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16979,7 +16979,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -17728,7 +17728,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "8a7e895d-23338",
+  "hash": "13650616-23336",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19195,7 +19195,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -19944,7 +19944,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "7dc4b038-23371",
+  "hash": "ab142683-23369",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21411,7 +21411,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -22160,7 +22160,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "f37521d2-23330",
+  "hash": "a159f35-23328",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23627,7 +23627,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -24376,7 +24376,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "d91992d8-23359",
+  "hash": "72d048d-23357",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25843,7 +25843,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -26592,7 +26592,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "39a3b757-23385",
+  "hash": "dc820a6-23383",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28059,7 +28059,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -28808,7 +28808,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "4d3ec7de-23358",
+  "hash": "7ad293a3-23356",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30275,7 +30275,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -31024,7 +31024,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "3e90fbad-23541",
+  "hash": "aaddc60-23539",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32491,7 +32491,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -33240,7 +33240,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "559269d9-23567",
+  "hash": "7a623814-23565",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -34707,7 +34707,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",
@@ -35456,7 +35456,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "e3b60909-23535",
+  "hash": "d8d3a64-23533",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -36923,7 +36923,7 @@
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
-    "initial": 1.8,
+    "initial": 2,
     "max": 4,
     "min": 0.5,
     "name": "ligature_reed_room",

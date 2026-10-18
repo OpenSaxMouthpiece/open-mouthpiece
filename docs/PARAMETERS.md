@@ -1657,6 +1657,16 @@ Range: 4 to 40, step 0.5.
 
 Presets: Alto `10` · Tenor `10` · Bari `10` · Soprano `10`.
 
+<a id="ligature_reed_room"></a>
+
+### Room for the plate (`ligature_reed_room`)
+
+Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).
+
+Range: 0.5 to 4, step 0.1.
+
+Presets: Alto `2` · Tenor `2` · Bari `2` · Soprano `2`.
+
 <a id="ligature_screw"></a>
 
 ### Screw (`ligature_screw`)

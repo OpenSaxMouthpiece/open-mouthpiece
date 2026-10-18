@@ -326,7 +326,7 @@ ligature_plate_width = 100; // [30:5:100]
 // Plate length along the reed (mm): it can reach up to 4mm past each end of the band.
 ligature_plate_length = 10; // [4:0.5:40]
 // Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).
-ligature_reed_room = 1.8; // [0.5:0.1:4]
+ligature_reed_room = 2; // [0.5:0.1:4]
 // The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.
 ligature_screw = "printed"; // [printed, nut, insert]
 // Size of the metal screw.
@@ -2548,7 +2548,7 @@ HW_INS_D = [4.0, 5.1, 6.3][LIG_SZ];      // hole for a heat-set insert
 HW_INS_L = [5.7, 8.1, 9.5][LIG_SZ];      // insert length
 HW_HEAD_D = [6, 8, 10][LIG_SZ];          // a stand-in head for the seated view
 HW_HEAD_H = [2.5, 3.5, 4.5][LIG_SZ];
-HW_NUT_R = (HW_NUT_AF + 0.3 + ligature_hardware_fit) / (2 * cos(30));   // the pocket's corner radius
+HW_NUT_R = (HW_NUT_AF + 0.2 + ligature_hardware_fit) / (2 * cos(30));   // the pocket's corner radius
 HW_BOSS_R = (ligature_screw == "nut" ? HW_NUT_R : (HW_INS_D + ligature_hardware_fit) / 2) + 1.7;
 LIG_SCREW_MINLEN = LIG_HW ? 2 * HW_BOSS_R + 1 : 9.4;     // room for the screw's boss across the band
 lig_len = max(LIG_SCREW ? min(LIG_SCREW_MINLEN, lig_room) : 4, min(ligature_length, lig_room));
