@@ -323,8 +323,8 @@ ligature_closure = "friction"; // [friction, screw]
 ligature_plate = "full"; // [full, centre, edges, bars]
 // Plate width (% of the reed's width, less a margin): narrower presses less of the reed.
 ligature_plate_width = 100; // [30:5:100]
-// Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.
-ligature_plate_length = 100; // [30:5:100]
+// Plate length along the reed (mm): it can reach up to 4mm past each end of the band.
+ligature_plate_length = 10; // [4:0.5:40]
 // Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).
 ligature_reed_room = 1.8; // [0.5:0.1:4]
 // The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.
@@ -2819,6 +2819,8 @@ module ligature_ring() {
     echo(str("WARNING: ligature lettering is about ", round(lig_art_len), "mm long but the band's top is about ", round(room_l), "mm long: the ends are cut off; make it smaller or turn it across"));
   if (LIG_HAS_ART && lig_art_depth < lettering_depth)
     echo(str("WARNING: ligature lettering depth ", lettering_depth, "mm limited to ", lig_art_depth, "mm: at least 0.8mm of the band's wall must remain"));
+  if (LIG_SCREW && lig_plate_len < ligature_plate_length - 0.01)
+    echo(str("WARNING: ligature_plate_length ", ligature_plate_length, "mm shortened to ", round(lig_plate_len * 10) / 10, "mm: the plate reaches at most 4mm past the band and stays on the table"));
   if (lig_len < ligature_length - 0.01)
     echo(str("WARNING: ligature_length ", ligature_length, "mm shortened to ", round(lig_len * 10) / 10, "mm: the band has to stay on the reed and behind the tip"));
   else if (lig_tongue < ligature_tongue - 0.01)
@@ -2862,14 +2864,18 @@ LIG_KNOB_H = 4;
 
 // The plate's top follows the reed's arched back at its full width (the narrowest of the band's span,
 // less 0.5mm each side); its underside is flat (so it prints flat), LIG_PLATE_T under the reed's
-// middle. It is as long as the band less its rim.
+// middle. It is ligature_plate_length long, so it can reach past the band.
 // With the screw the band's inside under the reed is the reed plus a flat floor LIG_PLATE_T + LIG_SLACK
 // below its back (the plate lies on it, flat underside down, the arch of its top on the reed).
 function lig_screw_floor_pts(z) =
   let(rw = max(0.3, lig_reed_hw * tip_factor(L - z, tip_curve)), y = -(LIG_REED_T + LIG_PLATE_T + LIG_SLACK))
   concat(lig_reed_pts(z, LIG_REED_T), [[rw, y], [-rw, y]]);
-function lig_plate_hw() = max(2, (max(0.3, lig_reed_hw * tip_factor(L - lig_z1, tip_curve)) - 0.5) * ligature_plate_width / 100);
-lig_plate_len = max(4, (lig_len - 2.3) * ligature_plate_length / 100);
+// The plate's length, centred on the screw: up to 4mm past each end of the band, on the table
+// (behind the facing's break, 1mm to spare) and not behind the reed's heel.
+lig_plate_half = max(2, min(ligature_plate_length / 2, lig_len / 2 + 4, L - F - 1 - lig_zs, lig_zs - table_rear_z));
+lig_plate_len = 2 * lig_plate_half;
+// Its half-width: the reed's at the plate's front end (the narrowest), less 0.5mm each side.
+function lig_plate_hw() = max(2, (max(0.3, lig_reed_hw * tip_factor(L - max(lig_z1, lig_zs + lig_plate_half), tip_curve)) - 0.5) * ligature_plate_width / 100);
 
 // The reed's back across the plate: the same arch as reed_model (thickness LIG_REED_T), y(x).
 function lig_arch_y(x, rw, relief = 0) =
@@ -2954,10 +2960,11 @@ function lig_hw_len(y_bot) = let(need = LIG_Y_TIP - y_bot + 1, l = [for (n = [6,
   len(l) > 0 ? l[0] : ceil(need);
 
 // A low rim round the plate's footprint on the band's floor, so a backed-off plate stays put (it is
-// dropped in from inside the band, through the end opening).
+// dropped in from inside the band, through the end opening). A plate too long for the rim's ends
+// inside the band gets the sides only (no slivers).
 module lig_plate_rim(y_in) {
   hw = lig_plate_hw() + 0.3;
-  hl = lig_plate_len / 2 + 0.3;
+  hl = lig_plate_len / 2 + 0.3 + 0.9 <= lig_len / 2 - 0.3 ? lig_plate_len / 2 + 0.3 : 100;
   intersection() {
     translate([-50, -50, lig_z0 + 0.3]) cube([100, 100, lig_len - 0.6]);
     difference() {
@@ -3109,7 +3116,10 @@ function cap_body_pts(z) =
 // Everything the cap has to clear at z: support values over LIG_U. A metal ligature's screws aren't
 // in it: they ride in the slot's window.
 function cap_S(z, env) =
-  let(P = concat(cap_body_pts(z), z >= table_rear_z ? lig_reed_pts(z, CAP_REED_T, CAP_REED_HW) : []))
+  let(P = concat(cap_body_pts(z), z >= table_rear_z ? lig_reed_pts(z, CAP_REED_T, CAP_REED_HW) : [],
+                 // a screw ligature's plate where it reaches past the band (1mm more: the stations' spacing)
+                 CAP_PRINTED && LIG_SCREW && abs(z - lig_zs) <= lig_plate_half + 1
+                   ? let(hw = lig_plate_hw()) [[hw, LIG_Y_PLATE], [-hw, LIG_Y_PLATE]] : []))
   let(h0 = cap_sup(P, lig_raise + LIG_MARGIN))
   let(hs = !CAP_PRINTED && z >= cap_m_z0 - 0.01 && z <= cap_m_z1 + 0.01 ? cap_add(h0, cap_metal_proud) : h0)
   CAP_PRINTED && z >= lig_zt - 0.01 && z <= lig_z1 + 0.01

@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "d7f3a448-23067",
+  "hash": "961ce0d2-23056",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1455,13 +1455,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -2216,7 +2216,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "1c8fe7b0-23307",
+  "hash": "3224a9bc-23296",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3671,13 +3671,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -4432,7 +4432,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "2606ff2e-23978",
+  "hash": "9d5f40ae-23967",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5887,13 +5887,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -6648,7 +6648,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "e81484fc-23269",
+  "hash": "d5d6e652-23258",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8103,13 +8103,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -8864,7 +8864,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "ef94bc3d-23446",
+  "hash": "4c3ff549-23435",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10319,13 +10319,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -11080,7 +11080,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "b54f707d-23159",
+  "hash": "42455ce1-23148",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12535,13 +12535,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -13296,7 +13296,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "1e500686-23198",
+  "hash": "a759b96c-23187",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14751,13 +14751,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -15512,7 +15512,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "8a29ec2e-23163",
+  "hash": "4d7d57e4-23152",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16967,13 +16967,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -17728,7 +17728,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "8ee36127-23349",
+  "hash": "8a7e895d-23338",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19183,13 +19183,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -19944,7 +19944,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "7cabef34-23382",
+  "hash": "7dc4b038-23371",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21399,13 +21399,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -22160,7 +22160,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "10efedd2-23341",
+  "hash": "f37521d2-23330",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23615,13 +23615,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -24376,7 +24376,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "eb05b52e-23370",
+  "hash": "d91992d8-23359",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25831,13 +25831,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -26592,7 +26592,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "26a9c46b-23396",
+  "hash": "39a3b757-23385",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28047,13 +28047,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -28808,7 +28808,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "901a5050-23369",
+  "hash": "4d3ec7de-23358",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30263,13 +30263,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -31024,7 +31024,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "db4b2cf9-23552",
+  "hash": "3e90fbad-23541",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32479,13 +32479,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -33240,7 +33240,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "b390694d-23578",
+  "hash": "559269d9-23567",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -34695,13 +34695,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {
@@ -35456,7 +35456,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "4a3d277d-23546",
+  "hash": "e3b60909-23535",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -36911,13 +36911,13 @@
     "type": "number"
    },
    {
-    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "caption": "Plate length along the reed (mm): it can reach up to 4mm past each end of the band.",
     "group": "Ligature",
     "initial": 100,
     "max": 100,
-    "min": 30,
+    "min": 4,
     "name": "ligature_plate_length",
-    "step": 5,
+    "step": 0.5,
     "type": "number"
    },
    {

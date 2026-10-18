@@ -1637,6 +1637,26 @@ Range: `full`, `centre`, `edges`, `bars`.
 
 Presets: Alto `full` · Tenor `full` · Bari `full` · Soprano `full`.
 
+<a id="ligature_plate_width"></a>
+
+### Plate width (`ligature_plate_width`)
+
+Plate width (% of the reed's width, less a margin): narrower presses less of the reed.
+
+Range: 30 to 100, step 5.
+
+Presets: Alto `100` · Tenor `100` · Bari `100` · Soprano `100`.
+
+<a id="ligature_plate_length"></a>
+
+### Plate length (`ligature_plate_length`)
+
+Plate length along the reed (mm): it can reach up to 4mm past each end of the band.
+
+Range: 4 to 40, step 0.5.
+
+Presets: Alto `10` · Tenor `10` · Bari `10` · Soprano `10`.
+
 <a id="ligature_screw"></a>
 
 ### Screw (`ligature_screw`)

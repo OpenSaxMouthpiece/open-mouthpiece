@@ -726,7 +726,7 @@ const ENDS: Record<string, [string, string]> = {
   ligature_reed_grip: ["Light", "Tight"],
   ligature_reed_room: ["Snug", "Roomy"],
   ligature_plate_width: ["Narrow", "Full width"],
-  ligature_plate_length: ["Short", "Full length"],
+  ligature_plate_length: SHORT_LONG,
   ligature_length: SHORT_LONG,
   ligature_position: ["Toward the tip", "Toward the shank"],
   ligature_tongue: ["None", "Long"],
