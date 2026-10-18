@@ -353,7 +353,7 @@ Edges (`lig_edge_cut`, `lig_ts`): the rear edge (on top when printed) rounded ou
   the boss's width on the reed side (`cap_win_w`), whatever `cap_slot_side` says. Metal screw
   (`ligature_screw` nut | insert, `ligature_screw_size` M3-M5, `ligature_hardware_fit`): `HW_*` tables;
   the nut (hex pocket) or insert (round hole) goes in from inside the band so the screw's pull seats
-  it on a floor; the screw comes up through a clearance hole; the plate is the same for both screws (2.2mm);
+  it on a floor; the screw comes up through a clearance hole; the plate is the same for both screws (2.2mm) but its dimple is a flat-bottomed pocket the screw's size (`HW_D` + 0.4, 0.8mm deep, lead-in) instead of the printed nose's round one;
   its length `ligature_plate_length` (mm, centred on the screw) is clamped to the band + 4mm each end,
   the table (1mm behind the facing's break) and the reed's heel (`lig_plate_half`); a plate too long
   for the rim's ends gets side rims only; a printed cap clears the overhang (`cap_S`);

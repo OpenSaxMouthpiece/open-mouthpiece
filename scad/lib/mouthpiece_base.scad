@@ -2910,7 +2910,13 @@ module lig_plate() {
         }
       }
     }
-    translate([0, LIG_Y_PLATE - 0.8, 0]) sphere(r = 1.6, $fn = 24);   // a dimple for the screw's end
+    // a dimple for the screw's end: round for the printed screw's nose; for a metal screw a
+    // flat-bottomed pocket its size (0.2mm a side to spare), 0.8mm deep, with a lead-in
+    if (!LIG_HW) translate([0, LIG_Y_PLATE - 0.8, 0]) sphere(r = 1.6, $fn = 24);
+    else translate([0, LIG_Y_PLATE - 0.01, 0]) rotate([-90, 0, 0]) {
+      cylinder(d = HW_D + 0.4, h = 0.81, $fn = 32);
+      cylinder(d1 = HW_D + 1.2, d2 = HW_D + 0.4, h = 0.41, $fn = 32);
+    }
   }
 }
 
