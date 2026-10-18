@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "480b9052-22614",
+  "hash": "ef8bd9c5-22661",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -2068,6 +2068,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -2174,7 +2186,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "6729b594-22854",
+  "hash": "38346f33-22901",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -4242,6 +4254,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -4348,7 +4372,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "e4b1742e-23525",
+  "hash": "4ef70f21-23572",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -6416,6 +6440,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -6522,7 +6558,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "2b82c722-22816",
+  "hash": "71025369-22863",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8590,6 +8626,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -8696,7 +8744,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "60808ab1-22993",
+  "hash": "d11694b8-23040",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10764,6 +10812,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -10870,7 +10930,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "fb2b8cd9-22706",
+  "hash": "45075060-22753",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12938,6 +12998,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -13044,7 +13116,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "735e5f5c-22745",
+  "hash": "93519347-22792",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -15112,6 +15184,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -15218,7 +15302,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "11b96544-22710",
+  "hash": "65788f7f-22757",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -17286,6 +17370,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -17392,7 +17488,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "f273ffed-22896",
+  "hash": "76509114-22943",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19460,6 +19556,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -19566,7 +19674,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "4835b00-22929",
+  "hash": "51fdb557-22976",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21634,6 +21742,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -21740,7 +21860,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "30736c12-22888",
+  "hash": "23404f79-22935",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23808,6 +23928,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -23914,7 +24046,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "af607a98-22917",
+  "hash": "f1c38a47-22964",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25982,6 +26114,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -26088,7 +26232,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "e3f292ff-22943",
+  "hash": "46620222-22990",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -28156,6 +28300,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -28262,7 +28418,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "1269b06e-22916",
+  "hash": "af4a58cd-22963",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -30330,6 +30486,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -30436,7 +30604,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "48463555-23099",
+  "hash": "35fa9414-23146",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32504,6 +32672,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -32610,7 +32790,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "cee781-23125",
+  "hash": "1e1a7388-23172",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -34678,6 +34858,18 @@
       "value": "ligature"
      },
      {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
+     },
+     {
       "name": "cap",
       "value": "cap"
      },
@@ -34784,7 +34976,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "b01f02f1-23093",
+  "hash": "363a4ff8-23140",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -36850,6 +37042,18 @@
      {
       "name": "ligature",
       "value": "ligature"
+     },
+     {
+      "name": "ligature_band",
+      "value": "ligature_band"
+     },
+     {
+      "name": "ligature_plate",
+      "value": "ligature_plate"
+     },
+     {
+      "name": "ligature_screw",
+      "value": "ligature_screw"
      },
      {
       "name": "cap",

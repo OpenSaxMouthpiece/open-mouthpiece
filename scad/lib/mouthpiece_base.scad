@@ -414,7 +414,7 @@ cap_metal_screw_length = 12; // [4:0.5:30]
 
 /* [Output] */
 // What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
-part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, air_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
+part = "mouthpiece"; // [mouthpiece, shank_test_ring, ligature, ligature_band, ligature_plate, ligature_screw, cap, ligature_seated, cap_seated, reed_model, ligature_clash, cap_clash, metal_ligature_model, air_model, interior_only, debug_exterior, debug_interior, debug_window_cutter, debug_window_only, debug_window_planform, debug_facing_cutter, debug_facing_only, debug_ext_minus_interior, debug_ext_minus_window, debug_ext_minus_facing, clearance_report, facing_report]
 // Overrides the Quality menu once changed: higher is smoother but slower; 64 prints fine.
 render_fn = 64; // [16:8:128]
 // Stand it on its neck end, as printed. Off: lie it on the reed table.
@@ -1490,7 +1490,7 @@ function adjustments() =
       ["throat_taper", throat_taper, eff_throat_length, "the bore can only narrow after the socket"],
     if (len(AIR_RINGS) > 0 && chamber_got < CHAMBER_W - 0.3)
       ["chamber_width", CHAMBER_W, chamber_got, str("the side walls keep min_wall (", min_wall, "mm)")],
-    if ((ligature_made || part == "ligature" || part == "ligature_seated") && win_z0 - lig_z1 < ligature_position - 0.01)
+    if ((ligature_made || LIG_PART) && win_z0 - lig_z1 < ligature_position - 0.01)
       ["ligature_position", ligature_position, win_z0 - lig_z1, "the band has to stay on the reed"],
     if (HAS_LETTERING && eff_lettering_depth < lettering_depth)
       ["lettering_depth", lettering_depth, eff_lettering_depth, str("at least 0.8mm of the ", lettering_wall, "mm wall there must remain")]
@@ -1553,7 +1553,7 @@ module validate() {
     echo(str("WARNING: the top picture is about ", round(top_image_len), "mm long and runs past the lettering area — its ends are cut off; make it smaller or move it"));
   if ((has_text(side_text_right) || has_text(side_text_left)) && side_text_long > lettering_z1 - lettering_z0 + 0.01)
     echo(str("WARNING: side text is about ", round(side_text_long), "mm long but there is room for about ", round(lettering_z1 - lettering_z0), "mm — the ends are cut off"));
-  if ((ligature_made || part == "ligature" || part == "ligature_seated") && win_z0 - lig_z1 < ligature_position - 0.01)
+  if ((ligature_made || LIG_PART) && win_z0 - lig_z1 < ligature_position - 0.01)
     echo(str("WARNING: ligature_position ", ligature_position, "mm limited to ", round((win_z0 - lig_z1) * 10) / 10, "mm — the band has to stay on the reed (behind its heel it holds nothing)"));
   if (HAS_LETTERING && eff_lettering_depth < lettering_depth)
     echo(str("WARNING: lettering_depth ", lettering_depth, "mm limited to ", eff_lettering_depth, "mm — at least 0.8mm of the ", lettering_wall, "mm wall there must remain"));
@@ -1705,7 +1705,8 @@ Z_STEP = 64 / render_fn;
 // The interior's rings, computed ONCE and shared by the interior loft, the air-volume readout and
 // the clearance report: [[z, ring, points], ...] from the end of the socket to the window front.
 // Not needed by the ligature, cap and reed parts: skipped there (each run evaluates the whole file).
-ACCESSORY_PART = part == "ligature_seated" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap"
+LIG_PART = part == "ligature" || part == "ligature_seated" || part == "ligature_band" || part == "ligature_plate" || part == "ligature_screw";
+ACCESSORY_PART = part == "ligature_seated" || part == "ligature_band" || part == "ligature_plate" || part == "ligature_screw" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap"
   || part == "metal_ligature_model";
 // The wall fit under the window, smoothed along Z. Ring by ring it jumps where ring points cross
 // the window width (the rails' allowance gives way to the full wall there): a chamber wider than
@@ -2648,7 +2649,7 @@ function lig_body_pts(z) =
 // thinner, so after the band's ligature_fit gap it is squeezed by the grip (full thickness
 // otherwise, also ahead: conservative).
 function lig_support(z) =
-  let(Pb = lig_body_pts(z), Pr = lig_reed_pts(z, LIG_SCREW ? LIG_REED_T + LIG_PLATE_T + LIG_SLACK : max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
+  let(Pb = lig_body_pts(z), Pr = LIG_SCREW ? [for (q = lig_reed_pts(z, LIG_REED_T)) [q[0], q[1] - LIG_PLATE_T - LIG_SLACK]] : lig_reed_pts(z, max(0.5, LIG_REED_T - ligature_reed_grip - ligature_fit)), m = lig_raise + LIG_MARGIN)
   let(hb = lig_sup(Pb), hr = lig_sup(Pr))
   [[for (i = [0 : LIG_N - 1]) max(hb[i], hr[i]) + m], [for (i = [0 : LIG_N - 1]) hb[i] + m]];
 function pmax(a, b) = [for (i = [0 : len(a) - 1]) max(a[i], b[i])];
@@ -2848,30 +2849,30 @@ LIG_CLR = 0.25;                              // thread clearance (mm)
 LIG_NOSE_R = 1.5;                            // the printed screw's rounded end, which sits in the plate's dimple
 LIG_NOSE_H = 2.1;                            // its height above the thread (0.6 straight + the dome)
 LIG_KNOB_GAP = 3.2;                          // the knob's room to wind in under the boss, seated (thick reeds)
+LIG_NUT_PHASE = 360 * (LIG_KNOB_GAP - 0.01) / LIG_SP;   // turns the nut's thread into step with the screw's, seated
 lig_zs = (lig_z0 + lig_z1) / 2;              // the screw's z
 LIG_Y_PLATE = -(LIG_REED_T + LIG_PLATE_T);   // the plate's flat underside, seated on the reed (y)
 LIG_KNOB_H = 4;
 
-// Plate half-width: where the band's inside (reed arch at LIG_REED_T + plate + slack) leaves the
-// plate's flat underside 0.3mm to spare.
-function lig_plate_hw() =
-  let(rw = max(0.3, lig_reed_hw * tip_factor(L - lig_zs, tip_curve)), T = LIG_REED_T + LIG_PLATE_T + LIG_SLACK,
-      te = 0.65 * T, d = T - te, q = (LIG_REED_T + LIG_PLATE_T + 0.3 - ligature_fit - te) / d)
-  max(2, rw * sqrt(max(0, 1 - q)) - 0.2);
-lig_plate_len = max(4, LIG_BOSS_R * 2 - 1);
+// The plate follows the reed's arched back at its full width (the narrowest of the band's span, less
+// 0.5mm each side) and is LIG_PLATE_T thick all over; the band's inside under the reed is that
+// arch moved down by the plate and LIG_SLACK. It is as long as the band less its rim (and ends).
+function lig_plate_hw() = max(2, max(0.3, lig_reed_hw * tip_factor(L - lig_z1, tip_curve)) - 0.5);
+lig_plate_len = max(4, lig_len - 2.3);
 
 // The reed's back across the plate: the same arch as reed_model (thickness LIG_REED_T), y(x).
 function lig_arch_y(x, rw, relief = 0) =
   let(te = 0.65 * LIG_REED_T) -(te + (LIG_REED_T - te) * (1 - pow(clamp01(abs(x) / rw), 2))) - relief;
 
+// The plate's body: its top the arch lifted by relief, its underside the arch moved down by the plate.
 module lig_plate_prism(len, hw, rw, relief) {
   n = 12;
-  top = [for (i = [n : -1 : -n]) [hw * i / n, lig_arch_y(hw * i / n, rw, relief)]];
-  rotate([0, 0, 0]) translate([0, 0, -len / 2]) linear_extrude(height = len)
-    polygon(concat([[-hw, LIG_Y_PLATE], [hw, LIG_Y_PLATE]], top));
+  xs = [for (i = [-n : n]) hw * i / n];
+  translate([0, 0, -len / 2]) linear_extrude(height = len)
+    polygon(concat([for (x = xs) [x, lig_arch_y(x, rw, relief)]], [for (i = [n : -1 : -n]) [xs[i + n], lig_arch_y(xs[i + n], rw) - LIG_PLATE_T]]));
 }
 
-// The plate, in the design frame, centred on lig_zs: its underside flat, its top the reed's arch
+// The plate, in the design frame, centred on lig_zs: its top the reed's arch
 // (touching it, seated). Styles lift the rest of the top 0.6mm, leaving the contact where the
 // style says: all over, the middle, the edges, or two bars across.
 module lig_plate() {
@@ -2972,7 +2973,8 @@ module ligature_screw_band() {
       }
     }
     if (!LIG_HW) // the nut: the thread's shape plus clearance, through the boss into the band
-      translate([0, y_bot - 0.01, lig_zs]) rotate([-90, 0, 0]) lig_thread(y_in - y_bot + 2, LIG_CLR);
+      translate([0, y_bot - 0.01, lig_zs]) rotate([-90, 0, 0]) rotate(LIG_NUT_PHASE)   // in step with the screw's thread, seated
+        lig_thread(y_in - y_bot + 2, LIG_CLR);
     else {
       // the screw comes up through a clearance hole from below; its nut or insert goes in from
       // inside the band, so the screw's pull seats it against the floor
@@ -3006,15 +3008,26 @@ module ligature_set() {
 
 // The pieces laid out for printing: the band on its front edge (as before), the plate on its flat
 // underside and the screw on its knob, beside it.
+// Each piece on its own, for printing: the band on its front edge (as before), the plate with its top
+// face down (the arch touches the bed at the edges), the screw on its knob. All at x = 0 (y = 0 is
+// the band's middle for the plate and screw).
+module lig_band_print() { translate([0, 0, lig_z1]) rotate([180, 0, 0]) ligature_band(); }
+module lig_plate_print(x = 0) {
+  rw = max(0.3, lig_reed_hw * tip_factor(L - lig_zs, tip_curve));
+  translate([x, 0, lig_arch_y(lig_plate_hw(), rw)]) rotate([-90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
+}
+module lig_screw_print(x = 0) {
+  translate([x, 0, -(lig_screw_y0() - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
+}
+
+// The pieces laid out for printing, side by side.
 module ligature_print_set() {
-  translate([0, 0, lig_z1]) rotate([180, 0, 0]) ligature_band();
+  lig_band_print();
   if (LIG_SCREW) {
     gap = 6;
     off = max([for (p = lig_ring(lig_h_at(lig_env(), lig_zs), lig_zs, ligature_fit + ligature_wall)) abs(p[0])]) + gap;
-    // plate: underside down
-    translate([off + lig_plate_hw(), 0, -LIG_Y_PLATE]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_plate();
-    // screw: knob down
-    if (!LIG_HW) translate([off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD), 0, -(lig_screw_y0() - LIG_KNOB_H)]) rotate([90, 0, 0]) translate([0, 0, -lig_zs]) lig_screw();
+    lig_plate_print(off + lig_plate_hw());
+    if (!LIG_HW) lig_screw_print(off + 2 * lig_plate_hw() + gap + max(7, 1.2 * LIG_SD));
   }
 }
 
@@ -3407,6 +3420,10 @@ else                                         mouthpiece_body();  // "mouthpiece"
 end_face_lift = bah_at(-1) * sin(bore_tilt) + cos(bore_tilt);
 // The ligature on its own is printed standing on its front edge (flat; the tongue points up).
 if (part == "ligature") { if (print_orientation) ligature_print_set(); else ligature_set(); }
+// the pieces one at a time (so one can be reprinted alone; the plate and screw only with ligature_closure = "screw")
+else if (part == "ligature_band") { if (print_orientation) lig_band_print(); else ligature_band(); }
+else if (part == "ligature_plate") { if (LIG_SCREW) { if (print_orientation) lig_plate_print(); else lig_plate(); } }
+else if (part == "ligature_screw") { if (LIG_SCREW && !LIG_HW) { if (print_orientation) lig_screw_print(); else lig_screw(); } }
 // The cap stands on its rim, open end down (the closed end is a dome: no supports needed).
 else if (part == "cap") { if (print_orientation) translate([0, 0, -cap_z0]) cap_part(); else cap_part(); }
 else if (print_orientation) translate([0, 0, end_face_lift]) rotate([-bore_tilt, 0, 0]) selected_part();
