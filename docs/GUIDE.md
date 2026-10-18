@@ -274,7 +274,7 @@ changes. It slides on over the tip and holds the reed in place by friction. You 
 shape, thickness, how tightly it grips the reed, its length and position, and add text or a picture.
 Under **Fit**, *Tightened by* can switch from the band alone to a thumbscrew under the reed: the
 download then holds three pieces (the band, a plate that follows the reed's back, and the screw); *Band only*,
-*Plate only* and *Screw only* download one piece, to reprint just that one. *Plate presses* sets where the plate touches the reed. *Screw* can also be a metal screw (M3, M4
+*Plate only* and *Screw only* download one piece, to reprint just that one. *Plate width* and *Plate length* resize it (a longer plate needs a longer band), and *Plate presses* sets where the plate touches the reed. *Screw* can also be a metal screw (M3, M4
 or M5) in a nut or a heat-set insert, which makes the ligature much slimmer under the reed; the
 ligature's note says which screw length to buy. If the nut or insert fits too tight or loose, change
 *Extra room for the nut or insert* under Fit's More.

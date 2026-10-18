@@ -277,6 +277,10 @@ ligature_reed_grip = 0.2; // [0:0.05:0.6]
 ligature_closure = "friction"; // [friction, screw]
 // Where the screw's plate presses on the reed: all over, the middle, the edges or two bars across.
 ligature_plate = "full"; // [full, centre, edges, bars]
+// Plate width (% of the reed's width, less a margin): narrower presses less of the reed.
+ligature_plate_width = 100; // [30:5:100]
+// Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.
+ligature_plate_length = 100; // [30:5:100]
 // Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).
 ligature_reed_room = 1.8; // [0.5:0.1:4]
 // The screw: printed with the ligature, or a metal one in a nut or a heat-set insert in the boss.

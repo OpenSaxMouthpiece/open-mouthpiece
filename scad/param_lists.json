@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "2bda31e0-22794",
+  "hash": "d7f3a448-23067",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -1445,6 +1445,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -2196,7 +2216,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "501a087e-23034",
+  "hash": "1c8fe7b0-23307",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -3641,6 +3661,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -4392,7 +4432,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "f801df34-23705",
+  "hash": "2606ff2e-23978",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -5837,6 +5877,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -6588,7 +6648,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "d3a749b0-22996",
+  "hash": "e81484fc-23269",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -8033,6 +8093,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -8784,7 +8864,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "593e5c27-23173",
+  "hash": "ef94bc3d-23446",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -10229,6 +10309,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -10980,7 +11080,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "432aa517-22886",
+  "hash": "b54f707d-23159",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -12425,6 +12525,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -13176,7 +13296,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "8741fb2-22925",
+  "hash": "1e500686-23198",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -14621,6 +14741,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -15372,7 +15512,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "17c6eaa-22890",
+  "hash": "8a29ec2e-23163",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -16817,6 +16957,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -17568,7 +17728,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "9fdf0fff-23076",
+  "hash": "8ee36127-23349",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -19013,6 +19173,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -19764,7 +19944,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "fe161fb2-23109",
+  "hash": "7cabef34-23382",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -21209,6 +21389,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -21960,7 +22160,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "cd92be34-23068",
+  "hash": "10efedd2-23341",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -23405,6 +23605,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -24156,7 +24376,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "e7b63736-23097",
+  "hash": "eb05b52e-23370",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -25601,6 +25821,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -26352,7 +26592,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "a21cfe35-23123",
+  "hash": "26a9c46b-23396",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -27797,6 +28037,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -28548,7 +28808,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "494bb5c4-23096",
+  "hash": "901a5050-23369",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -29993,6 +30253,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -30744,7 +31024,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "96769d33-23279",
+  "hash": "db4b2cf9-23552",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -32189,6 +32469,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -32940,7 +33240,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "92797537-23305",
+  "hash": "b390694d-23578",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -34385,6 +34685,26 @@
     "type": "string"
    },
    {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
+   },
+   {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",
     "group": "Ligature",
     "initial": 1.8,
@@ -35136,7 +35456,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "852d39e7-23273",
+  "hash": "4a3d277d-23546",
   "parameters": [
    {
     "caption": "Your neck cork's diameter (mm), measured with calipers.",
@@ -36579,6 +36899,26 @@
      }
     ],
     "type": "string"
+   },
+   {
+    "caption": "Plate width (% of the reed's width, less a margin): narrower presses less of the reed.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_width",
+    "step": 5,
+    "type": "number"
+   },
+   {
+    "caption": "Plate length (% of the band's length, less its rim): for a longer plate, make the band longer.",
+    "group": "Ligature",
+    "initial": 100,
+    "max": 100,
+    "min": 30,
+    "name": "ligature_plate_length",
+    "step": 5,
+    "type": "number"
    },
    {
     "caption": "Room under the reed for the plate to back off (mm): bigger = looser (and a deeper band).",

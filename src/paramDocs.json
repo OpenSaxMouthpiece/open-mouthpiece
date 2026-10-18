@@ -125,6 +125,8 @@
   "ligature_closure",
   "ligature_plate",
   "ligature_reed_room",
+  "ligature_plate_width",
+  "ligature_plate_length",
   "ligature_screw",
   "ligature_screw_size",
   "ligature_hardware_fit",

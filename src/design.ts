@@ -392,6 +392,8 @@ export const DESIGN_SECTIONS: DesignSection[] = [
             },
           },
           { name: "ligature_screw_size", label: "Screw size", when: ["ligature_screw", ["nut", "insert"]] },
+          { name: "ligature_plate_width", label: "Plate width", when: ["ligature_closure", "screw"] },
+          { name: "ligature_plate_length", label: "Plate length", when: ["ligature_closure", "screw"] },
           { name: "ligature_reed_room", label: "Room for the plate", when: ["ligature_closure", "screw"] },
           {
             name: "ligature_plate",
@@ -723,6 +725,8 @@ const ENDS: Record<string, [string, string]> = {
   // Ligature
   ligature_reed_grip: ["Light", "Tight"],
   ligature_reed_room: ["Snug", "Roomy"],
+  ligature_plate_width: ["Narrow", "Full width"],
+  ligature_plate_length: ["Short", "Full length"],
   ligature_length: SHORT_LONG,
   ligature_position: ["Toward the tip", "Toward the shank"],
   ligature_tongue: ["None", "Long"],
