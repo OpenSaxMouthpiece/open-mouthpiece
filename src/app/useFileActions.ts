@@ -1,4 +1,5 @@
 // File and tab actions used by the app shell: open, switch, close, edit, and save designs.
+import { unzipSync } from "fflate";
 import { useCallback, type Dispatch, type RefObject, type SetStateAction } from "react";
 import { api } from "../api";
 import { migrateScad } from "../migrate";
@@ -110,12 +111,44 @@ export function useFileActions({
     [state, activate, openTab, fail],
   );
 
+  // A .scad opens as a tab; an .svg is kept as one of this browser's pictures; a .zip (a design
+  // file with its art/ pictures) does both: pictures first, so the design finds them.
   const openLocalFile = useCallback(
     async (file: File) => {
       const taken = (key: string) => !!state.current?.tabs.some((t) => t.key === key);
-      openTab(localTab(file.name, migrateScad(await file.text()), taken));
+      const keepPicture = async (name: string, svg: string) => {
+        try {
+          return (await api.uploadArt(name, svg)).name;
+        } catch (err) {
+          fail({ text: `Could not keep the picture ${name}: ${(err as Error).message}`, kind: "error" });
+          return null;
+        }
+      };
+      if (/\.svg$/i.test(file.name)) {
+        const kept = await keepPicture(file.name, await file.text());
+        if (kept) notify({ text: `Kept the picture ${kept}: pick it in a picture setting`, kind: "ok" });
+        return;
+      }
+      if (!/\.zip$/i.test(file.name)) {
+        openTab(localTab(file.name, migrateScad(await file.text()), taken));
+        return;
+      }
+      let entries: Record<string, Uint8Array>;
+      try {
+        entries = unzipSync(new Uint8Array(await file.arrayBuffer()));
+      } catch (err) {
+        fail({ text: `Could not open ${file.name}: ${(err as Error).message}`, kind: "error" });
+        return;
+      }
+      const dec = new TextDecoder();
+      const names = Object.keys(entries).filter((n) => !n.startsWith("__MACOSX/"));
+      for (const n of names.filter((n) => /(^|\/)art\/[^/]+\.svg$/i.test(n)))
+        await keepPicture(n.split("/").pop()!, dec.decode(entries[n]));
+      const scads = names.filter((n) => /\.scad$/i.test(n));
+      if (!scads.length) fail({ text: `${file.name} has no .scad design in it`, kind: "error" });
+      for (const n of scads) openTab(localTab(n.split("/").pop()!, migrateScad(dec.decode(entries[n])), taken));
     },
-    [state, openTab],
+    [state, openTab, notify, fail],
   );
 
   const replaceWithPreset = useCallback(

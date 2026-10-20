@@ -3,6 +3,7 @@
 // Only values that differ from the file's defaults are sent to OpenSCAD (as -D overrides).
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { api, type ParamValue, type ScadParam } from "../api";
+import { ART_CHANGED } from "../userArt";
 import { setSectionsOpen, usePref } from "../uiPrefs";
 import { Fold } from "./Fold";
 import { paramDocUrl } from "../links";
@@ -417,6 +418,8 @@ export function ImagePicker({
   };
   useEffect(() => {
     refresh();
+    window.addEventListener(ART_CHANGED, refresh);
+    return () => window.removeEventListener(ART_CHANGED, refresh);
   }, []);
 
   async function upload(file: File) {

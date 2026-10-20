@@ -1252,7 +1252,7 @@ export default function App() {
       <input
         ref={fileInput}
         type="file"
-        accept=".scad"
+        accept=".scad,.zip,.svg"
         multiple
         hidden
         onChange={(e) => {
@@ -1493,7 +1493,7 @@ export default function App() {
       {!coding && (
         <button
           onClick={() => fileInput.current?.click()}
-          title="Open a design (.scad) from this device: a downloaded design file, or one from OpenSCAD"
+          title="Open a design (.scad, or a downloaded .zip with its pictures) from this device, or one from OpenSCAD"
         >
           Open…
         </button>
@@ -2006,7 +2006,9 @@ export default function App() {
     },
   };
   const dropHint = dragging && (
-    <div className="drop-hint">Drop .scad files to open them, or an .stl to compare with it</div>
+    <div className="drop-hint">
+      Drop a .scad or .zip design to open it, an .svg picture to keep, or an .stl to compare
+    </div>
   );
   const appClass = `app${coding ? "" : " design"}${dragging ? " dragging" : ""}`;
   const printingGuideLink = PRINTING_GUIDE_URL && (
@@ -2266,7 +2268,9 @@ export default function App() {
             Compare with the original
           </button>
           {coding && (
-            <button onClick={menuAction(close, () => fileInput.current?.click())}>Open .scad from this device…</button>
+            <button onClick={menuAction(close, () => fileInput.current?.click())}>
+              Open .scad / .zip from this device…
+            </button>
           )}
           <button onClick={menuAction(close, () => setCodeOpen(!codeOpen))}>
             {codeOpen ? "Hide the code editor" : "Show the code editor (OpenSCAD) and console"}

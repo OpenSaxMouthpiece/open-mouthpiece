@@ -121,8 +121,8 @@ export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, squeezes, pi
       </label>
       <details className="save-more" open={moreOpen} onToggle={(e) => setMoreOpen(e.currentTarget.open)}>
         <summary>More formats</summary>
-        <label title="Just your settings (a few KB); the geometry comes from this site when you open it here">
-          {box("settings")} Settings-only .scad <span className="muted">opens only on this site</span>
+        <label title="Just your settings (a few KB), without pictures; the geometry comes from this site when you open it here">
+          {box("settings")} Settings-only .scad <span className="muted">opens only on this site, no pictures</span>
         </label>
       </details>
       <p className="muted">More than one file comes as one .zip.</p>

@@ -3,6 +3,8 @@
 // share links leave them out. Each render sends them along as art/<name> beside the project's own
 // example pictures (a user's picture of the same name wins).
 const KEY = "open-mouthpiece-art-v1";
+// Fired on window when a picture is kept, so open picture lists refresh.
+export const ART_CHANGED = "open-mouthpiece-art-changed";
 
 interface Stored {
   text: string;
@@ -40,6 +42,7 @@ export function saveUserArt(name: string, text: string, aspect: number | null) {
   } catch {
     throw new Error("This browser's storage is full or blocked, so the picture can't be kept here.");
   }
+  window.dispatchEvent(new Event(ART_CHANGED));
 }
 
 // Checks shared by both APIs; returns the file name the generator will import.

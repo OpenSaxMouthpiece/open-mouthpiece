@@ -297,7 +297,8 @@ exists in this browser on this device, so it will be lost if you clear your brow
 browsers. To really keep a design, download its design file (.scad) from **Download ▾** (next
 section): it opens again in the app with **Open…**, or in OpenSCAD.
 
-To open a saved design file, click **Open…** or drag the file onto the page.
+To open a saved design file, click **Open…** or drag the file onto the page. A downloaded zip opens
+the same way, with its pictures; an .svg on its own is kept as one of your pictures.
 
 **Share** copies a link to your design. Anyone who opens the link sees your design. The design is
 stored inside the link itself, so nothing is uploaded. If you've added your own picture, you can
@@ -313,9 +314,11 @@ then **Download**:
 - **Shank test rings** at three cork squeezes (0.10, 0.20 and 0.30 mm), to check the fit first.
 - **Ligature STL** and **Cap STL**, if you made them.
 - **Design file (.scad)**, the safest way to keep a design: it opens again with **Open…** or in
-  OpenSCAD, and holds the ligature and cap too. A picture comes beside it in an `art` folder.
+  OpenSCAD, and holds the ligature and cap too. A picture comes beside it in an `art` folder (open
+  the zip with **Open…** to bring the picture back too).
 - **Check card**, the numbers to measure the print against.
-- Under **More formats**, a settings-only .scad file: much smaller, but it only opens in this app.
+- Under **More formats**, a settings-only .scad file: much smaller, but it only opens in this app
+  and leaves out your pictures.
 
 More than one file comes as one zip. **Tick all** ticks everything (the print kit). Your ticks are
 remembered.
