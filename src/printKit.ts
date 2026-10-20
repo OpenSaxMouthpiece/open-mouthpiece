@@ -63,10 +63,10 @@ export function checkCard({ name, title, log, facing, wall, get, files, date }: 
     ...(stops.length
       ? stops.map(
           (g) =>
-            `  ${g.gauge.toFixed(g.gauge < 0.01 ? 4 : 3).replace(/^0/, "")}" (${(g.gauge * 25.4).toFixed(2)} mm): ${g.at.toFixed(1)} mm`,
+            `  ${g.gauge.toFixed(3).replace(/^0/, "")}" (${(g.gauge * 25.4).toFixed(2)} mm): ${g.at.toFixed(1)} mm`,
         )
       : ["  ?"]),
-    '  The .0015" feeler stops a little short of the break: there the gap is too small to measure.',
+    '  The .002" feeler stops a little short of the break: there the gap is too small to measure.',
   ];
   if (s.notes.length) L.push("", "NOTES FROM THE GENERATOR", ...s.notes.map((t) => `  ${t}`));
   L.push("", `Files are named after the design: ${name}.`, "");

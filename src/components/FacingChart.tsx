@@ -68,8 +68,8 @@ const round = (v: number, k: number) => Math.round(v * k) / k;
 // grab: from the pointer to the point, in data units (a point grabbed off-centre doesn't jump to the pointer)
 type Drag = { i: number; moved: boolean; x: number; y: number; dom: { maxD: number; maxT: number }; grab: Pt };
 
-// A feeler gauge by its thickness in inches, as printed on it (.0015, .010).
-const gaugeName = (g: number) => g.toFixed(g < 0.01 ? 4 : 3).replace(/^0/, "");
+// A feeler gauge by its thickness in inches, as printed on it (.002, .010).
+const gaugeName = (g: number) => g.toFixed(3).replace(/^0/, "");
 
 // Where one feeler stops (mm), typed in; applied on Enter or leaving the box, put back if it doesn't fit.
 function StopInput({ gauge, at, onSet }: { gauge: number; at: number; onSet(mm: number): boolean }) {

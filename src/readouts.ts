@@ -207,7 +207,7 @@ export function capText(c: CapInfo | null): string {
 }
 
 // Feeler-gauge stops for checking a facing (inches); .075 and .100 reach into tenor and bari facings.
-export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05, 0.075, 0.1];
+export const GAUGES_IN = [0.002, 0.01, 0.024, 0.034, 0.05, 0.075, 0.1];
 
 // Where the facing gap equals a gauge's thickness (distance from the tip, mm), by interpolation.
 // A gauge about as thick as the tip opening (stopping within 0.5 mm of the tip) is left out.
