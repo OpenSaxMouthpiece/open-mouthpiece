@@ -273,11 +273,16 @@ mouthpiece**. It's a ring that's shaped to the mouthpiece, so it still fits afte
 changes. It slides on over the tip and holds the reed in place by friction. You can adjust its
 shape, thickness, how tightly it grips the reed, its length and position, and add text or a picture.
 Under **Fit**, *Tightened by* can switch from the band alone to a thumbscrew under the reed: the
-download then holds three pieces (the band, a plate that follows the reed's back, and the screw); *Band only*,
-*Plate only* and *Screw only* download one piece, to reprint just that one. *Plate width* and *Plate length* resize it (the plate can reach up to 4mm past each end of the band), and *Plate presses* sets where the plate touches the reed. *Screw* can also be a metal screw (M3, M4
+download then holds three pieces (the band, a plate that follows the reed's back, and the screw); *Band alone*,
+*Plate alone* and *Screw alone* (in **Download ▾**) download one piece, to reprint just that one. *Plate width* and *Plate length* resize it (the plate can reach up to 4mm past each end of the band), and *Plate presses* sets where the plate touches the reed. *Screw* can also be a metal screw (M3, M4
 or M5) in a nut or a heat-set insert, which makes the ligature much slimmer under the reed; the
 ligature's note says which screw length to buy. If the nut or insert fits too tight or loose, change
 *Extra room for the nut or insert* under Fit's More.
+
+| Thumbscrew ligature on the mouthpiece | On its own, from the tip |
+|---|---|
+| ![A thumbscrew ligature on the alto with its reed: the knob is under the reed](images/ligature-screw.png) | ![The thumbscrew ligature alone, seen from the tip: the plate inside the band, the screw and knob below](images/ligature-screw-alone.png) |
+
 Both start with the same picture as the mouthpiece, if it has one; you can choose another or none.
 
 To make a cap, click **Cap**, then **Make a cap for this mouthpiece**. The cap fits over the tip,
