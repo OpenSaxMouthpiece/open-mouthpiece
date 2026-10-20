@@ -206,10 +206,11 @@ export function capText(c: CapInfo | null): string {
   return ` ${c.length.toFixed(0)} mm long, inside ${c.inside[0].toFixed(1)} × ${c.inside[1].toFixed(1)} mm at the collar, which squeezes ${Math.max(0, c.squeeze).toFixed(2)} mm.`;
 }
 
-// Feeler-gauge stops for checking a facing (inches).
-export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05];
+// Feeler-gauge stops for checking a facing (inches); .075 and .100 reach into tenor and bari facings.
+export const GAUGES_IN = [0.0015, 0.01, 0.024, 0.034, 0.05, 0.075, 0.1];
 
 // Where the facing gap equals a gauge's thickness (distance from the tip, mm), by interpolation.
+// A gauge about as thick as the tip opening (stopping within 0.5 mm of the tip) is left out.
 export function gaugeStops(facing: [number, number][]): { gauge: number; at: number }[] {
   const out: { gauge: number; at: number }[] = [];
   for (const g of GAUGES_IN) {
@@ -218,7 +219,8 @@ export function gaugeStops(facing: [number, number][]): { gauge: number; at: num
       const [d0, h0] = facing[i - 1],
         [d1, h1] = facing[i];
       if ((h0 - h) * (h1 - h) <= 0 && h0 !== h1) {
-        out.push({ gauge: g, at: d0 + ((h0 - h) / (h0 - h1)) * (d1 - d0) });
+        const at = d0 + ((h0 - h) / (h0 - h1)) * (d1 - d0);
+        if (at >= 0.5) out.push({ gauge: g, at });
         break;
       }
     }

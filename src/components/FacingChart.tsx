@@ -401,30 +401,33 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
       {stops.length > 0 && (
         <details className="gauge-check">
           <summary>Feeler gauge stops (the small dots; to check a print{edit ? " or copy a mouthpiece" : ""})</summary>
-          <table className="gauge-table">
-            <thead>
-              <tr>
-                <th>Feeler</th>
-                {stops.map((s) => (
-                  <th key={s.gauge}>{gaugeName(s.gauge)}"</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{edit ? "stops at (mm)" : "stops at"}</td>
-                {stops.map((s) => (
-                  <td key={s.gauge}>
-                    {edit ? (
-                      <StopInput gauge={s.gauge} at={s.at} onSet={(v) => setStop(s.gauge, v)} />
-                    ) : (
-                      `${s.at.toFixed(1)} mm`
-                    )}
-                  </td>
-                ))}
-              </tr>
-            </tbody>
-          </table>
+          {/* seven feelers are wider than a phone: the row scrolls sideways */}
+          <div className="gauge-scroll">
+            <table className="gauge-table">
+              <thead>
+                <tr>
+                  <th>Feeler</th>
+                  {stops.map((s) => (
+                    <th key={s.gauge}>{gaugeName(s.gauge)}"</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{edit ? "stops at (mm)" : "stops at"}</td>
+                  {stops.map((s) => (
+                    <td key={s.gauge}>
+                      {edit ? (
+                        <StopInput gauge={s.gauge} at={s.at} onSet={(v) => setStop(s.gauge, v)} />
+                      ) : (
+                        `${s.at.toFixed(1)} mm`
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
           {edit && (
             <div className="gauge-hint">
               Type where each feeler stops on a mouthpiece you measured: the curve goes through those points.

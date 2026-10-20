@@ -2105,6 +2105,9 @@ button.link:hover {
 .gauge-check summary {
   cursor: pointer;
 }
+.gauge-scroll {
+  overflow-x: auto;
+}
 .gauge-table {
   width: 100%;
   border-collapse: collapse;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { adjustmentText, ligatureText, parseLigature, parseReport, parseSummary } from "./readouts";
+import { adjustmentText, gaugeStops, ligatureText, parseLigature, parseReport, parseSummary } from "./readouts";
 
 const REPORT =
   'ECHO: REPORT = [["version", 1], ["length", 89.3], ["tip", 1.93], ["facing", 23.8], ["air", 2.5], ' +
@@ -46,5 +46,19 @@ describe("parseLigature", () => {
     expect(g?.screw).toEqual({ size: "M3", length: 8, kind: "nut" });
     expect(ligatureText(g)).toContain("Needs an M3 × 8 mm screw and an M3 nut.");
     expect(parseLigature('ECHO: "LIGATURE 12 2 28.1 32.9 26.6 31.2 95.3 0.7 1.4"')?.screw).toBeNull();
+  });
+});
+
+describe("gaugeStops", () => {
+  it("lists the gauges the facing crosses, leaving out one about as thick as the tip", () => {
+    const inch = (v: number) => v * 25.4;
+    const facing: [number, number][] = [
+      [0, inch(0.1)],
+      [5, inch(0.05)],
+      [10, inch(0.01)],
+      [24, 0],
+    ];
+    expect(gaugeStops(facing).map((s) => s.gauge)).toEqual([0.0015, 0.01, 0.024, 0.034, 0.05, 0.075]);
+    expect(gaugeStops(facing).find((s) => s.gauge === 0.075)?.at).toBeCloseTo(2.5);
   });
 });

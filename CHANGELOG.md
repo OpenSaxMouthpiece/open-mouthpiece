@@ -8,6 +8,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 - **Open…** takes a downloaded zip: the design opens with its pictures (they no longer show as
   missing). An .svg opened or dropped on its own is kept as one of your pictures.
+- Feeler gauge stops include .075" and .100" for the wider tenor and baritone facings (on the
+  facing chart and the check card).
 - Ligature: *Tightened by* can be a thumbscrew under the reed (a printed screw and a plate) instead of
   the band's press fit, with a choice of where the plate presses on the reed. The cap gets a window
   for the screw. The screw can be metal (M3, M4 or M5) in a nut or a heat-set insert for a slimmer
