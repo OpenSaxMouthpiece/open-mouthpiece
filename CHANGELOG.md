@@ -6,8 +6,14 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- Nothing yet.
+
+## 2026-10-19
+
 - **Open…** takes a downloaded zip: the design opens with its pictures (they no longer show as
   missing). An .svg opened or dropped on its own is kept as one of your pictures.
+- The Save and Delete hints point at **Download ▾ → Design file** to keep a copy (Save as… keeps
+  one only in this browser).
 - Feeler gauge stops include .075" and .100" for the wider tenor and baritone facings (on the
   facing chart and the check card). The thinnest feeler is now .002" (was .0015").
 - Ligature: *Tightened by* can be a thumbscrew under the reed (a printed screw and a plate) instead of
