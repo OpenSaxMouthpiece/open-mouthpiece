@@ -360,7 +360,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           {
             name: "ligature_shape",
             label: "Shape",
-            optionLabels: { d: "D: round top, hugs the reed", round: "Round", conform: "Follows the mouthpiece" },
+            optionLabels: { d: "D: round top, hugs the reed", round: "Round (press fit only)", conform: "Follows the mouthpiece" },
           },
           { name: "ligature_length", label: "Band length" },
           { name: "ligature_position", label: "Position" },

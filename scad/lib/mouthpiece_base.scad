@@ -2537,6 +2537,8 @@ function param_focus() =
 // the tongue gives way first, then the length.
 lig_room = L - 8 - (table_rear_z + 1);
 LIG_SCREW = ligature_closure == "screw";
+// A round band can't reach a screw under the reed without standing off the sides: D instead.
+LIG_SHAPE = LIG_SCREW && ligature_shape == "round" ? "d" : ligature_shape;
 // Metal screw (nut in a pocket from inside the band, or a heat-set insert): M3, M4, M5 in turn.
 LIG_HW = LIG_SCREW && ligature_screw != "printed";
 LIG_SZ = ligature_screw_size == "M5" ? 2 : ligature_screw_size == "M4" ? 1 : 0;
@@ -2682,7 +2684,7 @@ function lig_env() =
   let(H = [for (z = zs) lig_support(z)], n = len(H) - 1)
   let(back = [for (i = n, acc = H[n]; i >= 0; acc = i > 0 ? pmax2(H[i - 1], acc) : acc, i = i - 1) acc])
   [for (j = [0 : lig_nb]) let(h = back[n - j])
-    ligature_shape == "conform" ? h[0] : ligature_shape == "round" ? lig_round(h[0]) : lig_d(h[0], h[1])];
+    LIG_SHAPE == "conform" ? h[0] : LIG_SHAPE == "round" ? lig_round(h[0]) : lig_d(h[0], h[1])];
 
 // Support values at any z in the band, between stations.
 function lig_h_at(env, z) =
