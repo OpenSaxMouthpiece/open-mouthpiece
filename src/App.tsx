@@ -1163,7 +1163,7 @@ export default function App() {
     if (armedDelete !== p) {
       setArmedDelete(p);
       notify({
-        text: `Delete “${voiceLabel(p)}” from this browser? Click Delete again (Save as… can download a copy first)`,
+        text: `Delete “${voiceLabel(p)}” from this browser? Click Delete again (to keep a copy first: Download ▾, Design file)`,
         short: `Click Delete again to delete “${voiceLabel(p)}”`,
         kind: "idle",
       });
@@ -1471,7 +1471,7 @@ export default function App() {
       {mainIsOwn && !mainTab.path && (
         <button
           onClick={() => doSaveAs(mainTab.name, mainTab)}
-          title="Keep this design in this browser (it then shows under Your designs; only here: Save as… downloads a file to really keep it)"
+          title="Keep this design in this browser (it then shows under Your designs; only here: to really keep it, Download ▾, Design file)"
         >
           Save
         </button>
@@ -1482,7 +1482,7 @@ export default function App() {
           disabled={!mainChanged}
           title={
             mainChanged
-              ? "Save your changes into this browser's copy (Ctrl+S). Only this browser has it: Save as… downloads a file"
+              ? "Save your changes into this browser's copy (Ctrl+S). Only this browser has it: to really keep it, Download ▾, Design file"
               : "No changes since it was saved"
           }
         >
