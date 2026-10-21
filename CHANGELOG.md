@@ -6,6 +6,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-10-20
+
 - Ligature: with a thumbscrew, a Round band is made as D (round top, hugging the reed), so it no
   longer stands off the mouthpiece's sides.
 
