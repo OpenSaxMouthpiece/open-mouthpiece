@@ -304,7 +304,9 @@ section): it opens again in the app with **Open…**, or in OpenSCAD.
 To open a saved design file, click **Open…** or drag the file onto the page. A downloaded zip opens
 the same way, with its pictures; an .svg on its own is kept as one of your pictures.
 
-**Share** copies a link to your design. Anyone who opens the link sees your design. The design is
+**Share** copies a link to your design; on a phone or tablet it opens the device's share menu
+instead (Messages, email, AirDrop and so on), which is also an easy way to send a design to your
+computer. Anyone who opens the link sees your design. The design is
 stored inside the link itself, so nothing is uploaded. If you've added your own picture, you can
 choose whether to include it.
 

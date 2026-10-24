@@ -8,6 +8,7 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 - **Shoulder sweep**: the swept shoulder line is smooth on the flanks; larger settings left a
   sawtooth of jagged facets along it.
+- **Share** on a phone or tablet opens the device's share menu instead of copying the link.
 
 ## 2026-11-08
 

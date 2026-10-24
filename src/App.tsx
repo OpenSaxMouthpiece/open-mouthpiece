@@ -427,6 +427,17 @@ export default function App() {
         ...(src === undefined ? {} : { source: src }),
         ...(Object.keys(art).length ? { art } : {}),
       });
+      // Phones and tablets: the device's own share sheet (Messages, mail, AirDrop, Copy...). Computers
+      // copy, as most sites do there.
+      if (navigator.share && matchMedia("(pointer: coarse)").matches) {
+        try {
+          await navigator.share({ title: `Open Mouthpiece: ${tabLabel(t)}`, url: link });
+          return;
+        } catch (err) {
+          if ((err as Error).name === "AbortError") return; // closed the sheet
+          // otherwise (e.g. no tap to share from any more): copy instead
+        }
+      }
       try {
         await navigator.clipboard.writeText(link);
         setShareLink(null);
@@ -2367,7 +2378,7 @@ export default function App() {
             </a>
           )}
           {shareArtToggle}
-          <button onClick={share} title="Copy a link that opens this design" aria-live="polite">
+          <button onClick={share} title="Share a link that opens this design" aria-live="polite">
             {copied ? "Copied ✓" : "Share"}
           </button>
           <div className="dl-split">
