@@ -11,7 +11,7 @@ import {
   migrateValues,
   textureBefore,
 } from "../migrate";
-import type { Tab, Values } from "./files";
+import { atTopLevel, type Tab, type Values } from "./files";
 
 const STORE_KEY = "open-mouthpiece-session-v1";
 const OLD_STORE_KEY = "scad-playground-v2"; // read once, then removed on the next save
@@ -88,7 +88,8 @@ export function loadSession(): Partial<Session> {
     if (s.tabs)
       s.tabs = s.tabs.map((t) => ({
         ...t,
-        source: migrateScad(t.source),
+        // (local tabs kept before their include was rebased on opening: src/app/files.ts localTab)
+        source: t.path === null ? atTopLevel(migrateScad(t.source)) : migrateScad(t.source),
         saved: t.saved === null ? null : migrateScad(t.saved),
       }));
     if (s.valuesByKey)

@@ -30,11 +30,12 @@ export const projectTab = (path: string, text: string): Tab => {
 };
 
 // A tab for text that isn't a project file, keyed "local:<name>.scad" ("<name> (2).scad" etc. when taken).
+// It renders from the top level, so a copy of a variant or fit ("../lib/...") gets its include rebased.
 export function localTab(name: string, source: string, taken: (key: string) => boolean): Tab {
   const base = baseName(name);
   let key = `${LOCAL}${base}.scad`;
   for (let i = 2; taken(key); i++) key = `${LOCAL}${base} (${i}).scad`;
-  return { key, path: null, name: key.slice(LOCAL.length), source, saved: null };
+  return { key, path: null, name: key.slice(LOCAL.length), source: atTopLevel(source), saved: null };
 }
 
 // A name typed for Save as -> a file name the browser store takes: spaces become "_", other odd
@@ -89,12 +90,15 @@ export const presetFor = (source: string) => {
 export const GENERATOR = "lib/mouthpiece_base.scad";
 export const includesGenerator = (source: string) => /include\s*<[^>]*mouthpiece_base\.scad>/.test(source);
 // A design copied to another folder (Save as from a variant or extra, "../lib/..."): its include
-// line pointed at the generator from the new place.
+// line pointed at the generator from the new place (only an include line: the generator's own
+// comments quote one, and a bundled file carries them).
 export const rebaseGenerator = (source: string, path: string) =>
   source.replace(
-    /include\s*<[^>]*mouthpiece_base\.scad>/,
-    `include <${"../".repeat(path.split("/").length - 1)}${GENERATOR}>`,
+    /^(\s*)include\s*<[^>]*mouthpiece_base\.scad>/m,
+    `$1include <${"../".repeat(path.split("/").length - 1)}${GENERATOR}>`,
   );
+// The same for a design that isn't a project file (opened from the computer, a link, model B).
+export const atTopLevel = (source: string) => rebaseGenerator(source, "");
 // A tab's name in the code column: "Generator", or the design's name ("Tenor", "Alto Flamma").
 export const tabLabel = (t: Tab) =>
   t.path === GENERATOR ? "Generator" : isLibrary(t) ? t.path! : voiceLabel(t.path ?? t.name);

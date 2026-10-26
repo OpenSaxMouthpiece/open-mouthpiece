@@ -63,6 +63,7 @@ import {
   LOCAL,
   NO_VALUES,
   PRESETS,
+  atTopLevel,
   baseName,
   download,
   downloadName,
@@ -1279,7 +1280,7 @@ export default function App() {
         onChange={async (e) => {
           const f = e.target.files?.[0];
           e.target.value = "";
-          if (f) pinSource(f.name, migrateScad(await f.text()), {});
+          if (f) pinSource(f.name, atTopLevel(migrateScad(await f.text())), {});
         }}
       />
     </>

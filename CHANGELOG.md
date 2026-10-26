@@ -6,6 +6,10 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- **Open…** renders a design file copied out of the project's folders (its first line
+  `include <../lib/mouthpiece_base.scad>`): it no longer opens to nothing with a "Can't find include
+  file" warning. The same for a .scad file picked to compare with.
+
 ## 2026-10-20
 
 - Ligature: with a thumbscrew, a Round band is made as D (round top, hugging the reed), so it no
