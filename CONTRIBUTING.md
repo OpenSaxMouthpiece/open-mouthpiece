@@ -166,6 +166,10 @@ Geometry:
     at `win_z0` in one step: ledges and a slot round the window's rear end (Flamma). They now fade
     in over `win_blend` (the throat to the window, at least 4mm). Find such steps by echoing ring
     widths every 0.1mm and looking for jumps; a mesh with genus 1 can still be full of them.
+14. **A feature edge slanting across the loft's grid needs the quads' diagonals along it.** The
+    shoulder sweep's line crossed `ring_loft`'s diagonals on both flanks: a sawtooth of facets that
+    blurring the line only softened. Turning the diagonals there (`flip_up`) and halving the
+    stations fixed it; measure the mesh against the exact rings, sliced every 0.1mm.
 
 App:
 

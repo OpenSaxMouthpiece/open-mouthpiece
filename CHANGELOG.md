@@ -6,6 +6,9 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- **Shoulder sweep**: the swept shoulder line is smooth on the flanks; larger settings left a
+  sawtooth of jagged facets along it.
+
 ## 2026-11-08
 
 - **Download ▾** shows every file again for a design file downloaded before 2026-11-01 (it offered

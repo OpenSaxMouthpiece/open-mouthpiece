@@ -95,8 +95,8 @@
     "capVolume": 9817.012
   },
   "variants/alto_silva.scad": {
-    "tris": 45598,
-    "volume": 26767.737,
+    "tris": 46750,
+    "volume": 26769.275,
     "size": [
       28.998,
       26.5,
@@ -105,9 +105,9 @@
     "centroid": [
       -0.001,
       11.912,
-      36.876
+      36.878
     ],
-    "hash": "b99c38ac18663663",
+    "hash": "d24ff1432115603d",
     "ligHash": "bc4a2292e5ec093c",
     "ligVolume": 2726.854,
     "capHash": "e6333e157324179b",
@@ -152,8 +152,8 @@
     "capVolume": 12606.17
   },
   "variants/baritone_silva.scad": {
-    "tris": 56312,
-    "volume": 51284.769,
+    "tris": 57986,
+    "volume": 51285.629,
     "size": [
       31.696,
       30.109,
@@ -164,7 +164,7 @@
       13.368,
       62.21
     ],
-    "hash": "4b7a132cfb24f5a4",
+    "hash": "ad62392155fa1cfc",
     "ligHash": "631a35817c09202a",
     "ligVolume": 2919.478,
     "capHash": "f1ac4c56e737db3f",
@@ -209,8 +209,8 @@
     "capVolume": 6878.4
   },
   "variants/soprano_silva.scad": {
-    "tris": 38422,
-    "volume": 14053.399,
+    "tris": 39558,
+    "volume": 14053.012,
     "size": [
       24.605,
       22.162,
@@ -219,9 +219,9 @@
     "centroid": [
       0,
       9.574,
-      28.54
+      28.539
     ],
-    "hash": "a1f89b1eace6fbb8",
+    "hash": "1424c47898b83d3b",
     "ligHash": "9f0a578f3c68d6a9",
     "ligVolume": 1894.073,
     "capHash": "5bfa3e97d6f2b596",
@@ -266,8 +266,8 @@
     "capVolume": 10744.793
   },
   "variants/tenor_silva.scad": {
-    "tris": 47060,
-    "volume": 33417.62,
+    "tris": 48428,
+    "volume": 33418.606,
     "size": [
       30.684,
       28.099,
@@ -275,10 +275,10 @@
     ],
     "centroid": [
       0.001,
-      12.726,
+      12.727,
       40.781
     ],
-    "hash": "18d46b2db41348da",
+    "hash": "57499dc3bdfbe427",
     "ligHash": "27d8280d3287bdea",
     "ligVolume": 2897.111,
     "capHash": "11e19b53312d3193",

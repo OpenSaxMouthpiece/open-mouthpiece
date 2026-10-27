@@ -908,6 +908,15 @@ function sweep_pt(p, z, hw, top, cy, n) = shoulder_sweep <= 0 || p[1] <= cy ? p
   : let(m = n + dn, rho = 1 / pow(pow(abs(u[0]) / hw, m) + pow(u[1] / (top - cy), m), 1 / m))
     concat([u[0] * rho, cy + u[1] * rho], len(p) > 2 ? [p[2]] : []);
 function sweep_ring(pts, z, hw, top, cy, n) = shoulder_sweep <= 0 ? pts : [for (p = pts) sweep_pt(p, z, hw, top, cy, n)];
+// The line slants across the loft's quads, and ring_loft's diagonals ran across it on both sides
+// (crest at the shoulder, widest point further on), so the step came out as a sawtooth of facets,
+// the longer the sweep the worse. Over the stretch where it acts (SWEEP_SPAN) the stations are
+// halved and the upper half's diagonals turned to run along the line (sweep_flips).
+SWEEP_SPAN = [SWEEP_Z0 - 1, SWEEP_Z0 + shoulder_sweep + SWEEP_BLUR / 2 + 1];
+function in_sweep_span(z0, z1) = shoulder_sweep > 0 && z1 > SWEEP_SPAN[0] && z0 < SWEEP_SPAN[1];
+function sweep_stations(zs) = shoulder_sweep <= 0 ? zs
+  : concat([for (i = [0 : len(zs) - 2]) each in_sweep_span(zs[i], zs[i + 1]) ? [zs[i], (zs[i] + zs[i + 1]) / 2] : [zs[i]]], [zs[len(zs) - 1]]);
+function sweep_flips(zs) = shoulder_sweep <= 0 ? [] : [for (i = [0 : len(zs) - 2]) in_sweep_span(zs[i], zs[i + 1])];
 
 // ===========================================================================================
 // 5. Window planform (looking at the table): a long slot, slightly wider toward the tip, rear end
@@ -1626,13 +1635,16 @@ module clearance_report() {
 // Each quad between rings is split along mirrored diagonals on the two halves of the ring (the
 // rings are symmetric about x = 0, starting at the bottom center), so the mesh is mirror-
 // symmetric too — one diagonal everywhere shaded as a thin crease along the crest near the tip.
-module ring_loft(rings) {
+// flip_up[i] = true turns the upper half's diagonals between rings i and i + 1 the other way
+// (shoulder_sweep's slanted line, see sweep_stations).
+module ring_loft(rings, flip_up = []) {
   m = len(rings) - 1;
   n = len(rings[0]);
   pts = [for (r = rings) each r];
   side_faces = [for (i = [0 : m - 1]) for (k = [0 : n - 1]) each
     let(a = i * n + k, b = i * n + (k + 1) % n, c = (i + 1) * n + (k + 1) % n, d = (i + 1) * n + k)
-    k < n / 2 ? [[a, c, b], [a, d, c]] : [[a, d, b], [b, d, c]]
+    let(flip = flip_up[i] == true && k >= n / 4 && k < 3 * n / 4)
+    (k < n / 2) != flip ? [[a, c, b], [a, d, c]] : [[a, d, b], [b, d, c]]
   ];
   back_cap = [[for (k = [0 : n - 1]) k]];
   front_cap = [[for (k = [n - 1 : -1 : 0]) m * n + k]];
@@ -1795,9 +1807,10 @@ module exterior_solid() {
   E0 = exterior_ring_at(0);
   end_ring = [for (p = sring(dirs, 0, E0[E_HW], E0[E_TOP], E0[E_BOT], E0[E_NT], E0[E_NB], E0[E_CY])) [p[0], p[1], end_face_z(p[1])]];
   z_first = max([for (p = end_ring) p[2]]);  // the regular stations start just in front of the end face
-  ring_loft(concat([end_ring], [for (z = drop_first(station_list(z_first, L - 0.02, tip_curve + 1, Z_STEP)))
-    let(E = exterior_ring_at(max(0, z)))
-    sweep_ring(sring(dirs, z, E[E_HW], E[E_TOP], E[E_BOT], E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), max(0, z), E[E_HW], E[E_TOP], E[E_CY], E[E_NT])]));
+  zs = sweep_stations(drop_first(station_list(z_first, L - 0.02, tip_curve + 1, Z_STEP)));
+  ring_loft(concat([end_ring], [for (z = zs) let(E = exterior_ring_at(max(0, z)))
+    sweep_ring(sring(dirs, z, E[E_HW], E[E_TOP], E[E_BOT], E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), max(0, z), E[E_HW], E[E_TOP], E[E_CY], E[E_NT])]),
+    concat([false], sweep_flips(zs)));
 }
 
 // ---- Interior: the shank socket, then the air path to the window front, as one loft. The socket
@@ -2024,8 +2037,10 @@ function font_name(choice) = !is_string(choice) || choice == "same" ? lettering_
 module exterior_offset(z0, z1, d) {
   dirs = ring_dirs(EXT_RING_POINTS);
   n = max(2, ceil((z1 - z0) / Z_STEP));
-  ring_loft([for (i = [0 : n]) let(z = z0 + (z1 - z0) * i / n, zc = max(0, min(L, z)), E = exterior_ring_at(zc))
-    sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])]);
+  zs = sweep_stations([for (i = [0 : n]) z0 + (z1 - z0) * i / n]);
+  ring_loft([for (z = zs) let(zc = max(0, min(L, z)), E = exterior_ring_at(zc))
+    sweep_ring(sring(dirs, z, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_BOT] + d, E[E_NT], E[E_NB], E[E_CY], exterior_arc_w(z)), zc, max(0.1, E[E_HW] - d), E[E_TOP] - d, E[E_CY], E[E_NT])],
+    sweep_flips(zs));
 }
 
 module lettering_text(s, size, font = undef) {

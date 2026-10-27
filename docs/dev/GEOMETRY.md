@@ -61,7 +61,11 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   (star-shaped, only ever larger), so everything measured on `exterior_ring_at` stays safe; every
   surface-following part goes through it (exterior loft, `exterior_offset`, tooth pocket,
   `ext_ring_pt`). Check sections, not only angled renders: a version that delayed the top's drop
-  dipped the crest into a channel.
+  dipped the crest into a channel. The line slants across the loft's quads, and `ring_loft`'s
+  diagonals ran across it on both flanks: a sawtooth of facets along it, worse the longer the sweep.
+  Over `SWEEP_SPAN` the lofts take half-spaced stations (`sweep_stations`) and turn the upper half's
+  diagonals to run along the line (`sweep_flips`, `ring_loft(..., flip_up)`); the shape is the same,
+  only the mesh changes, and at 0 nothing does.
 - **Bore axis** is centred in the table's tenon (`eff_bah`); `bore_axis_height` only applies with
   `ext_top_points`. The shank end face is square to the tilted bore, built into the loft's first
   ring (no trimming boolean).
