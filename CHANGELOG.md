@@ -6,6 +6,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-11-01
+
 - **Fit on the horn**: one setting, **Shank hole** (the hole the cork goes into, in mm), instead of
   Neck cork diameter and Cork squeeze. The test rings are your hole and 0.1 mm either side, named by
   their hole: set Shank hole to the one that fits. Older designs and links keep their fit.
