@@ -36,8 +36,8 @@ Open the app at https://opensaxmouthpiece.org.
 
 1. Open the app. The alto mouthpiece loads first.
 2. Choose your saxophone in the list at the top left (Soprano, Alto, Tenor or Baritone).
-3. Click **Fit** on the left and enter the diameter of your neck cork. If you don't know it, leave
-   the default, which suits most necks.
+3. Click **Fit** on the left. **Shank hole** is the hole the neck cork goes into. The default suits
+   most necks; if you know your old mouthpiece's, enter that.
 4. Make your changes. **Tip** has the tip opening and facing, **Chamber** has the inside and
    **Body** has the outside. The model updates a few seconds after each change.
 5. Before printing the whole mouthpiece, print a shank test ring to check the fit on your cork.
@@ -148,9 +148,8 @@ from the window: move one and the rail beside it follows. More has
 printed standing up a small flat patch can remain at the inside edge of the rail and sag; this
 slopes it at 45° up to the baffle. The rails the reed sits on don't change. *Table*: the table's length, width and hollow.
 
-**Fit on the horn.** Enter your neck cork's diameter here, and set the cork squeeze, which is how
-much smaller the socket is than the cork. A bigger number gives a tighter fit, and 0.1 to 0.3 mm is
-typical. You can also set how far the cork goes in, and download a shank test ring. Under More
+**Fit on the horn.** **Shank hole** is the inside diameter where the neck cork goes. A smaller hole
+gives a tighter fit. You can also set how far the cork goes in, and download a shank test ring. Under More
 settings are the bevel at the opening of the socket, the bore size and the angle of the table.
 
 **Chamber & baffle.** The inside of the mouthpiece, in four groups. *Baffle*: its shape, height and
@@ -316,7 +315,7 @@ ligature or cap when you're in their section. The arrow next to it lets you tick
 then **Download**:
 
 - **Mouthpiece STL**, oriented for printing.
-- **Shank test rings** at three cork squeezes (0.10, 0.20 and 0.30 mm), to check the fit first.
+- **Shank test rings** at your shank hole and 0.1 mm either side, to check the fit first.
 - **Ligature STL** and **Cap STL**, if you made them.
 - **Design file (.scad)**, the safest way to keep a design: it opens again with **Open…** or in
   OpenSCAD, and holds the ligature and cap too. A picture comes beside it in an `art` folder (open
@@ -390,9 +389,9 @@ design safe, download it as a design file (.scad).
 won't work. If part of the picture is cut off, you'll see a warning; try making it smaller or
 moving it.
 
-**The mouthpiece doesn't fit my cork.** Print test rings at a few different squeezes (the print
-kit includes three). If none of them fit, measure your cork with calipers in two directions and
-enter the new diameter. See step 1 of the
+**The mouthpiece doesn't fit my cork.** Print the test rings (the print kit includes three, each
+named by its hole) and set **Shank hole** to the one that fits. If none of them fit, move Shank hole
+further that way and print them again. See step 1 of the
 [printing guide](PRINTING.md#1-check-the-cork-fit-15-minutes).
 
 **My copy doesn't play like the original.** Check the print's tip opening and facing first

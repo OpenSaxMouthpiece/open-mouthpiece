@@ -83,7 +83,7 @@ kept under `test/out/performance/`, not applied to the generator, and was not sw
 
 2. **Build fit rings from just the shank.** `shank_test_ring()` calls `mouthpiece_body()` and
    intersects the full mouthpiece with a box. This pays for the entire chamber, window and facing
-   even though the ring retains only the socket end. A kit repeats this for every squeeze value.
+   even though the ring retains only the socket end. A kit repeats this for every ring size.
    Introduce a shank-bounded construction path, preserving its exterior, socket, bevel, print
    frame and applicable decoration. Simply skipping `AIR_RINGS` would be incorrect with the
    existing implementation, because it still builds the full mouthpiece first. Compare resulting

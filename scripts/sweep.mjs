@@ -49,7 +49,7 @@ const PART = opt('--part', null); // sweep this part (the cap) instead of the mo
 const PART_GROUPS = new Set(['Cap', 'Ligature']);
 
 // Not swept: output controls, informational or unimplemented parameters.
-const SKIP = new Set(['part', 'render_fn', 'print_orientation', 'shank_clearance', 'min_airgap']);
+const SKIP = new Set(['part', 'render_fn', 'print_orientation', 'min_airgap']);
 const SKIP_GROUPS = new Set(['Output']);
 
 fs.rmSync(OUT, { recursive: true, force: true });

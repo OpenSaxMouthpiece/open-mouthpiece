@@ -6,6 +6,9 @@ import type { ParamValue } from "./api";
 import {
   CHAMBER_BEFORE,
   chamberBefore,
+  corkBefore,
+  corkOfFile,
+  migrateCorkValues,
   migrateChamberValues,
   migrateTextureValues,
   textureBefore,
@@ -63,7 +66,7 @@ export async function readShare(): Promise<SharedDesign | null> {
     throw new Error("not a design link");
   // links made before the parameter renames (migrate.ts)
   const file = migratePath(d.file);
-  const named = migrateValues(d.values);
+  const named = migrateValues(migrateCorkValues(d.values, corkBefore(d.source) ?? corkOfFile(file)));
   const values = d.tw ? named : migrateTextureValues(named, textureBefore(d.source));
   return {
     ...d,

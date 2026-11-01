@@ -52,10 +52,10 @@ export function pickRegion(
   const num = (k: string, d: number) => (typeof get(k) === "number" ? (get(k) as number) : d);
 
   // the shank: its end face, the socket inside it, the band outside
-  if (z < 0.6 && nz < -0.6) return R("Shank end", "shank_clearance", "neck_cork_diameter", "shank_bevel");
+  if (z < 0.6 && nz < -0.6) return R("Shank end", "shank_hole", "shank_bevel", "shank_bevel_depth");
   if (inside) {
     // the air space, from the shank: socket, bore, throat, then the chamber's roof, floor and walls
-    if (z < socketEnd) return R("Socket", "shank_clearance", "neck_cork_diameter", "shank_depth");
+    if (z < socketEnd) return R("Socket", "shank_hole", "shank_depth");
     if (Math.abs(z - throatZ) < 4) return R("Throat", "throat_width", "throat_position", "throat_shape");
     if (z < throatZ) return R("Bore", "bore_diameter", "bore_axis_height", "bore_tilt");
     if (ny < -0.5)
@@ -69,7 +69,7 @@ export function pickRegion(
   if (z < socketEnd) {
     const sb = it.shank_depth!.box,
       cy = (sb[0][1] + sb[1][1]) / 2;
-    if (nx * x + ny * (y - cy) < 0) return R("Socket", "shank_clearance", "neck_cork_diameter", "shank_depth");
+    if (nx * x + ny * (y - cy) < 0) return R("Socket", "shank_hole", "shank_depth");
   }
   if (z < bandEnd) return R("Shank band", "shank_diameter", "shank_text", "shank_detail");
 

@@ -6,6 +6,9 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- **Fit on the horn**: one setting, **Shank hole** (the hole the cork goes into, in mm), instead of
+  Neck cork diameter and Cork squeeze. The test rings are your hole and 0.1 mm either side, named by
+  their hole: set Shank hole to the one that fits. Older designs and links keep their fit.
 - **Open…** renders a design file copied out of the project's folders (its first line
   `include <../lib/mouthpiece_base.scad>`): it no longer opens to nothing with a "Can't find include
   file" warning. The same for a .scad file picked to compare with.

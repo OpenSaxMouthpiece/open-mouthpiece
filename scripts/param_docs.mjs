@@ -78,8 +78,7 @@ function parseRange(r) {
 // focus box, or the whole length). context: other values for both renders.
 const L_ALTO = Number(readAssignments(fs.readFileSync(path.join(SCAD, 'alto.scad'), 'utf8')).overall_length);
 const PICS = {
-  neck_cork_diameter: { view: 'xsec', z: 8, values: [15, 17.5] },
-  shank_clearance: { view: 'xsec', z: 8, values: [0, 0.5] },
+  shank_hole: { view: 'xsec', z: 8, values: [15, 17.5] },
   shank_bevel: { view: 'side_cut' },
   shank_bevel_depth: { view: 'side_cut' },
   shank_depth: { view: 'side_cut' },

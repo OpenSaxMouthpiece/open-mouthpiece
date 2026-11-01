@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 import {
   CHAMBER_BEFORE,
   chamberBefore,
+  corkBefore,
+  corkOfFile,
   migrateChamberValues,
+  migrateCorkValues,
   migratePath,
   migrateScad,
   migrateValues,
@@ -117,5 +120,36 @@ describe("baffle length", () => {
     expect(migrateScad(text)).toBe(
       "// Makes the baffle longer (+) or shorter (-), moving where it begins; the tip end stays (mm).\nbaffle_length = -6; // [-40:0.5:15]\n",
     );
+  });
+});
+
+describe("shank hole (2026-11-01)", () => {
+  const old = [
+    "// Your neck cork's diameter (mm), measured with calipers.",
+    "neck_cork_diameter = 16.5; // [10:0.05:27]",
+    "// How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
+    "shank_clearance = 0.1; // [0:0.01:0.6]",
+    "shank_bevel = 1.0;",
+    "",
+  ].join("\n");
+  it("is the old cork less its squeeze, in a file", () => {
+    expect(corkBefore(old)).toEqual([16.5, 0.1]);
+    expect(migrateScad(old)).toBe(
+      "// Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.\n" +
+        "shank_hole = 16.4; // [10:0.05:27]\nshank_bevel = 1.0;\n",
+    );
+    expect(migrateScad(migrateScad(old))).toBe(migrateScad(old));
+  });
+  it("is the old cork less its squeeze, in changed values", () => {
+    expect(migrateValues({ neck_cork_diameter: 16, shank_clearance: 0.1 })).toEqual({ shank_hole: 15.9 });
+    expect(migrateValues({ neck_cork_diameter: 16 })).toEqual({ shank_hole: 15.8 });
+    expect(migrateCorkValues({ neck_cork_diameter: 16 }, [16.5, 0.1])).toEqual({ shank_hole: 15.9 });
+    expect(migrateCorkValues({ shank_clearance: 0.1 }, corkOfFile("tenor.scad"))).toEqual({ shank_hole: 17.1 });
+    expect(migrateCorkValues({ shank_clearance: 0.3 }, corkOfFile("variants/baritone_unda.scad"))).toEqual({
+      shank_hole: 17.7,
+    });
+    // a squeeze alone on an unknown file: left to the generator (its hole + 0.2, less the squeeze)
+    expect(migrateValues({ shank_clearance: 0.1 })).toEqual({ shank_clearance: 0.1 });
+    expect(corkOfFile("my_design.scad")).toBeNull();
   });
 });

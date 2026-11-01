@@ -80,7 +80,7 @@ static site (docs/HOSTING.md).
   download button; file bundles and the print kit change the main Download button to “Save download”
   (`deliver`): browsers block late script downloads.
 - **Print kit** (`downloadKit` = `downloadFiles(DOWNLOAD_ALL)`, src/printKit.ts; Printing section):
-  one zip with the mouthpiece, shank test rings at squeeze 0.10 / 0.20 / 0.30 (plus the design's own),
+  one zip with the mouthpiece, shank test rings at the design's `shank_hole` and 0.1 mm either side (`kitHoles`),
   the ligature and cap if made, the design file, and `<name>_check_card.txt` (tip, facing, length, air, thinnest wall, cork /
   socket, feeler-gauge stops) from one echo-only run (`kitReports`).
 - **Top bar**: Save (own design), Save as… (always), Open…; a saved design also Close and Delete
@@ -158,7 +158,7 @@ static site (docs/HOSTING.md).
   the Outside's outline (`crossOutline()`: rays up from the cut's bottom middle, closed along the
   reed side, so the window and bore don't show), the Inside's cut (`crossSection()`), before dashed
   and B; Edit shape dots there add an offset point at the slice. **Slider ends:** every directional slider has words under its ends (`paramEnds`,
-  `ENDS` in design.ts, e.g. Crisp / Smooth); measurements (cork diameter) have none.
+  `ENDS` in design.ts, e.g. Crisp / Smooth); measurements have none (Shank hole: Tight / Loose).
   **Edit shape** (`src/shapeEdit.ts`): the section's lines (Body & beak: top, underside, width;
   Chamber & baffle: baffle, floor, inside width) from `shape_edit_lines()`, which rides along with
   every full render's reports (`SHAPE_ECHO`, no measurable cost), mapped into the print frame; a few

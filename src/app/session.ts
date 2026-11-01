@@ -4,6 +4,9 @@ import type { Snapshot } from "../compare";
 import {
   CHAMBER_BEFORE,
   chamberBefore,
+  corkBefore,
+  corkOfFile,
+  migrateCorkValues,
   migrateChamberValues,
   migratePath,
   migrateScad,
@@ -56,6 +59,20 @@ export function loadSession(): Partial<Session> {
       migratePath(localStorage.getItem(STORE_KEY) ?? localStorage.getItem(OLD_STORE_KEY) ?? "{}"),
     ) as Partial<Session>;
     // designs from before the parameter renames (migrate.ts)
+    // the cork and squeeze (until 2026-11-01) become the hole they made, against each design's file then
+    {
+      const old = new Map((s.tabs ?? []).map((t) => [t.key, t.source]));
+      const before = (key: string, text?: string | null) => corkBefore(text) ?? corkOfFile(key);
+      if (s.valuesByKey)
+        s.valuesByKey = Object.fromEntries(
+          Object.entries(s.valuesByKey).map(([k, v]) => [k, migrateCorkValues(v, before(k, old.get(k)))]),
+        );
+      if (s.pinned)
+        s.pinned = {
+          ...s.pinned,
+          values: migrateCorkValues(s.pinned.values, before(s.pinned.path ?? "", s.pinned.source)),
+        };
+    }
     // a session from before the texture's own width: each design's values against its file then
     if (!s.textureW) {
       const old = new Map((s.tabs ?? []).map((t) => [t.key, t.source]));

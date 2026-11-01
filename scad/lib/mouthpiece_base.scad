@@ -49,10 +49,8 @@ use <fonts/KaushanScript-Regular.ttf>
 // ===========================================================================================
 
 /* [Shank] */
-// Your neck cork's diameter (mm), measured with calipers.
-neck_cork_diameter = 16.2; // [10:0.05:27]
-// How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.
-shank_clearance = 0.2; // [0:0.01:0.6]
+// Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.
+shank_hole = 16.0; // [10:0.05:27]
 // How much wider the socket's mouth is, per side (mm), to ease it onto the cork.
 shank_bevel = 1.0; // [0:0.1:3]
 // How far in the socket's lead-in goes (mm).
@@ -488,6 +486,10 @@ baffle_start = undef;
 // still give its window, with the rails worked out from them (EFF_RAIL, EFF_WIDEN).
 window_width = undef;
 window_taper = undef;
+// neck_cork_diameter / shank_clearance before 2026-11-01 (the cork's diameter and the squeeze taken
+// off it; every preset squeezed 0.2): an older file's or link's values still give its shank hole.
+neck_cork_diameter = undef;
+shank_clearance = undef;
 // (legacy names: end)
 RENAMED_PARAMS = [["chamber_d", chamber_d, "chamber_width"], ["bore_d", bore_d, "bore_diameter"], ["throat_z", throat_z, "throat_position"], ["throat_length", throat_length, "throat_taper"], ["chamber_position", chamber_position, "chamber_flare"], ["chamber_length", chamber_length, "chamber_full_length (0 = all the way is now 40)"], ["tip_thickness", tip_thickness, "beak_tip_height"], ["tip_round", tip_round, "tip_curve"], ["side_text_height", side_text_height, "side_text_vertical"], ["baffle_rollover", baffle_rollover, "baffle_hump"]];
 
@@ -561,7 +563,8 @@ GAUGE_PTS = let(p = facing_gauge_points, n = has_pts(p) ? len(p) : 0,
 GAUGE_C = len(GAUGE_PTS) > 2 ? pchip_prep(GAUGE_PTS) : [];
 // The socket's inside diameter and its cone down to the bore. Defined before everything that
 // keeps clear of the socket: a top-level variable read before its assignment is undef.
-socket_d = neck_cork_diameter - shank_clearance;
+socket_d = is_undef(neck_cork_diameter) && is_undef(shank_clearance) ? shank_hole
+  : (is_undef(neck_cork_diameter) ? shank_hole + 0.2 : neck_cork_diameter) - (is_undef(shank_clearance) ? 0.2 : shank_clearance);
 socket_cone = max(1, (socket_d - bore_diameter) * 1.5);
 // The window can't reach back over the socket/bore/throat: it starts at least 30% of the length
 // (and 20mm) from the shank end — real windows start at ~45-60%. It also leaves the socket its
@@ -2467,7 +2470,7 @@ function param_focus() =
       // the side text's shared settings look at the side that has text (the right one is on -x)
       side_view = has_text(side_text_right) && !has_text(side_text_left) ? "side_right" : "side")
   [["frame", [print_orientation, bore_tilt, end_face_lift]],
-   ["overall_length", whole, "iso", false], ["neck_cork_diameter", socket, "end", false], ["shank_clearance", socket, "end", false], ["shank_bevel", socket, "end", false], ["shank_bevel_depth", socket, "side", true],
+   ["overall_length", whole, "iso", false], ["shank_hole", socket, "end", false], ["shank_bevel", socket, "end", false], ["shank_bevel_depth", socket, "side", true],
    ["shank_depth", socket, "side", true], ["bore_diameter", bore, "side", true], ["bore_tilt", whole, "side", false],
    ["chamber_shape", chamber, "side", true], ["chamber_width", chamber, "side", true], ["chamber_flare", chamber, "side", true],
    ["chamber_full_length", chamber, "side", true], ["chamber_height", chamber, "side", true],

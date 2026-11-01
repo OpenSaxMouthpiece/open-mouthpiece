@@ -49,7 +49,7 @@ import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
 import { LEGACY_WINDOW, legacyRails, railsInText, windowChange, withWindowParams, withWindowValues } from "./rails";
 import { TextVariables } from "./components/TextField";
-import { checkCard, kitSqueezes, ringFile } from "./printKit";
+import { checkCard, kitHoles, ringFile } from "./printKit";
 import { designNumbers, track, trackSetting, trackVisit } from "./usage";
 import { findPointLists, type Pt } from "./curves";
 import { clearShare, encodeShare, readShare, type SharedDesign } from "./share";
@@ -939,10 +939,10 @@ export default function App() {
     }
     if (dl?.state === "busy") return;
     const base = downloadName(mainTab, values, isRO(mainTab));
-    const squeeze = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
+    const hole = Number("shank_hole" in values ? values.shank_hole : param("shank_hole")?.initial);
     const name =
       what === "ring"
-        ? ringFile(base, squeeze).replace(/\.stl$/, "")
+        ? ringFile(base, hole).replace(/\.stl$/, "")
         : what === "ligature" || what === "cap"
           ? `${base}_${what}`
           : what === "model" && otherPart
@@ -960,7 +960,7 @@ export default function App() {
       const cachedCap = what === "cap" ? capPrintStl() : null;
       const stlData =
         what === "ring"
-          ? await partStl("shank_test_ring", { shank_clearance: squeeze })
+          ? await partStl("shank_test_ring")
           : what === "cap" && cachedCap
             ? cachedCap
             : what === "ligature" || what === "cap"
@@ -1020,7 +1020,7 @@ export default function App() {
     );
   const dlBusy = (what: Download["what"]) => dl?.what === what && dl.state === "busy";
   // The files ticked in Download ▾ (one zip if more than one); the print kit = all of them, one zip: the
-  // mouthpiece, shank test rings at three cork squeezes (and the design's own), the ligature and cap
+  // mouthpiece, shank test rings at the design's shank hole and 0.1 mm either side, the ligature and cap
   // if made, the design file with its pictures, and a check card (printKit.ts).
   const downloadFiles = async (sel: DownloadOpts, kit = false) => {
     if (dl?.state === "busy") return;
@@ -1045,8 +1045,8 @@ export default function App() {
       const jobs: [string, string | null, Values?][] = [];
       if (sel.stl) jobs.push([`${name}.stl`, otherPart ? "mouthpiece" : null]);
       if (sel.rings)
-        for (const c of kitSqueezes(Number(get("shank_clearance"))))
-          jobs.push([ringFile(name, c), "shank_test_ring", { shank_clearance: c }]);
+        for (const h of kitHoles(Number(get("shank_hole"))))
+          jobs.push([ringFile(name, h), "shank_test_ring", { shank_hole: h }]);
       if (withLigature && sel.ligature) jobs.push([`${name}_ligature.stl`, "ligature"]);
       if (withLigature && get("ligature_closure") === "screw") {
         if (sel.ligBand) jobs.push([`${name}_ligature_band.stl`, "ligature_band"]);
@@ -1105,12 +1105,12 @@ export default function App() {
     }
   };
   const downloadKit = () => downloadFiles(DOWNLOAD_ALL, true);
-  const kitOK = !!param("shank_clearance") && !noReadouts;
+  const kitOK = !!param("shank_hole") && !noReadouts;
   const printKitButton = (
     <div className="lig-head print-kit">
       <p className="muted">
-        Everything in one zip: the mouthpiece, shank test rings at cork squeeze 0.10 / 0.20 / 0.30 mm, the ligature and
-        cap if made, the design file, and a check card with the numbers to measure the print against.
+        Everything in one zip: the mouthpiece, shank test rings at your shank hole and 0.1 mm either side, the ligature
+        and cap if made, the design file, and a check card with the numbers to measure the print against.
       </p>
       <div className="lig-actions">
         <button
@@ -1720,7 +1720,7 @@ export default function App() {
   // The side section (Chamber & baffle, Body & beak): the generator's mouthpiece only. Each
   // section's "Edit shape" drags its own lines (the generator's *_adjust offsets).
   const profileEl = (section: ShapeSection) =>
-    !otherPart && stl && param("shank_clearance") ? (
+    !otherPart && stl && param("shank_hole") ? (
       <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>
         <ProfileChart
           stl={stl}
@@ -1927,7 +1927,7 @@ export default function App() {
     downloadPart(dlWhat);
   };
   // Everything there is to download, in one list (desktop: Download's ▾; phone: the ☰ menu).
-  const squeezeNow = Number("shank_clearance" in values ? values.shank_clearance : param("shank_clearance")?.initial);
+  const holeNow = Number("shank_hole" in values ? values.shank_hole : param("shank_hole")?.initial);
   const downloadItems = (close: () => void) => {
     const hasPicture = designPictures(titled, mainTab.source).length > 0;
     const go = (fn: () => void) => () => {
@@ -1958,8 +1958,8 @@ export default function App() {
         ligature={!!param("ligature_length") && get("ligature_made") === true}
         pieces={get("ligature_closure") === "screw" ? { screw: get("ligature_screw") === "printed" } : null}
         cap={!!param("cap_wall") && get("cap_made") === true}
-        squeezes={kitSqueezes(squeezeNow)
-          .map((c) => c.toFixed(2))
+        holes={kitHoles(holeNow)
+          .map((h) => h.toFixed(2))
           .join(" / ")}
         picture={hasPicture}
         busy={!stl || dl?.state === "busy"}

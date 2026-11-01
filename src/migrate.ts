@@ -29,6 +29,7 @@ const OLD = new RegExp(`\\b(${Object.keys(RENAMED).join("|")})\\b`, "g");
 const chamberLength = (v: ParamValue) => (v === 0 ? 40 : v);
 
 export function migrateValues(values: Record<string, ParamValue>): Record<string, ParamValue> {
+  values = migrateCorkValues(values, null);
   // baffle_start (until 2026-10-13) became baffle_length, the other way round.
   if ("baffle_start" in values) {
     const { baffle_start: start, ...rest } = values;
@@ -52,7 +53,61 @@ export function migrateScad(text: string): string {
   // declares the old names itself (`chamber_d = undef;`): renaming those would overwrite the
   // real settings with undef (the render then hangs). Such a file is current: leave it alone.
   if (text.includes("RENAMED_PARAMS")) return text;
-  return migrateBaffleStart(migrateTrapezoid(migrateTexture(migrateChamber(migrateSizes(migrateNames(text))))));
+  return migrateCork(
+    migrateBaffleStart(migrateTrapezoid(migrateTexture(migrateChamber(migrateSizes(migrateNames(text)))))),
+  );
+}
+
+// neck_cork_diameter / shank_clearance (until 2026-11-01: the cork and the squeeze taken off it)
+// became shank_hole, the hole itself. Every project file then squeezed 0.2 off its voice's cork.
+const SQUEEZE = 0.2;
+const VOICE_CORK: Record<string, number> = {
+  alto: 16.2,
+  tenor: 17.2,
+  baritone: 18.0,
+  soprano: 13.8,
+  c_melody: 16.3,
+  mouthpiece_base: 16.2,
+};
+// A project file's [cork, squeeze] then, by its path (null for any other file).
+export function corkOfFile(path: string | undefined | null): [number, number] | null {
+  const m = /(?:^|\/)(alto|tenor|baritone|soprano|c_melody|mouthpiece_base)[_.]/.exec(path ?? "");
+  return m ? [VOICE_CORK[m[1]], SQUEEZE] : null;
+}
+// A file text from then: its [cork, squeeze] (null for any other text).
+export function corkBefore(text: string | undefined | null): [number, number] | null {
+  if (!text || text.includes("RENAMED_PARAMS") || assigned(text, "shank_hole") !== null) return null;
+  const cork = Number(assigned(text, "neck_cork_diameter"));
+  return assigned(text, "neck_cork_diameter") !== null && Number.isFinite(cork)
+    ? [cork, numberIn(text, "shank_clearance", SQUEEZE)]
+    : null;
+}
+// Changed values from then (`before` = their file's [cork, squeeze]): the hole they made. A squeeze
+// alone on an unknown file stays as it is: the generator still takes it off its hole + 0.2.
+export function migrateCorkValues(
+  values: Record<string, ParamValue>,
+  before: [number, number] | null | undefined,
+): Record<string, ParamValue> {
+  if (!("neck_cork_diameter" in values || "shank_clearance" in values)) return values;
+  const { neck_cork_diameter: cork, shank_clearance: squeeze, ...rest } = values;
+  if ("shank_hole" in rest) return rest;
+  const c = Number(cork ?? before?.[0]);
+  const s = Number(squeeze ?? before?.[1] ?? SQUEEZE);
+  return Number.isFinite(c + s) ? { ...rest, shank_hole: r2(c - s) } : values;
+}
+function migrateCork(text: string): string {
+  const before = corkBefore(text);
+  if (!before) return text;
+  return text
+    .replace(/^[ \t]*\/\/ How much smaller than your cork[^\r\n]*\r?\n/m, "")
+    .replace(/^[ \t]*shank_clearance\s*=[^;]*;[^\r\n]*\r?\n?/m, "")
+    .replace(/^[ \t]*\/\/ Your neck cork's diameter[^\r\n]*\r?\n/m, "")
+    .replace(
+      /^([ \t]*)neck_cork_diameter\s*=[^;]*;[^\r\n]*/m,
+      (_m, indent: string) =>
+        `${indent}// Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.\n` +
+        `${indent}shank_hole = ${r2(before[0] - before[1])}; // [10:0.05:27]`,
+    );
 }
 
 // baffle_start = 4; (+ = later) became baffle_length = -4; (+ = longer).

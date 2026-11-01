@@ -119,8 +119,9 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   rail and left a pocket there). `npm run check` renders each design with it on: same genus, no
   less volume than the plain design, flat overhang near the tip <= 2.5 mm² and 30% of the plain
   design's (`scripts/tip_bevel_check.mjs`; alto 10.4 -> 0.3 mm², +8 mm³).
-- **Socket**: `socket_d = neck_cork_diameter - shank_clearance` (a bigger "clearance" is a
-  **tighter** fit: the cork's squeeze; the app calls it "Cork squeeze"), `eff_shank_depth` deep: the
+- **Socket**: `socket_d = shank_hole` (smaller = **tighter**; until 2026-11-01 it was
+  `neck_cork_diameter - shank_clearance`, a "Cork squeeze": older files and links that set either
+  still get that, the squeeze 0.2 and the cork the hole + 0.2 when one is missing), `eff_shank_depth` deep: the
   interior loft's first two rings (round, square to the tilted bore), then a short cone to the bore.
   **Entry bevel** (`shank_bevel` wider per side at the mouth, `shank_bevel_depth` deep; 1 x 1mm =
   45°): two extra rings that follow the tilted end face (points moved onto `end_face_z(y) + d`), the

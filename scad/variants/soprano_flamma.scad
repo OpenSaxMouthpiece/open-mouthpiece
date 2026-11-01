@@ -5,10 +5,8 @@
 include <../lib/mouthpiece_base.scad>  // geometry + defaults; everything below overrides it (keep this line first)
 
 /* [Shank] */
-// Your neck cork's diameter (mm), measured with calipers.
-neck_cork_diameter = 13.8; // [10:0.05:27]
-// How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.
-shank_clearance = 0.2; // [0:0.01:0.6]
+// Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.
+shank_hole = 13.6; // [10:0.05:27]
 // How much wider the socket's mouth is, per side (mm), to ease it onto the cork.
 shank_bevel = 1.0; // [0:0.1:3]
 // How far in the socket's lead-in goes (mm).

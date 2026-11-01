@@ -1,25 +1,15 @@
 {
  "alto.scad": {
-  "hash": "df5693c3-23054",
+  "hash": "a584761d-22945",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 16.2,
+    "initial": 16,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -2216,26 +2206,16 @@
   ]
  },
  "baritone.scad": {
-  "hash": "3d18502f-23294",
+  "hash": "218b9fa-23185",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 18,
+    "initial": 17.8,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -4432,26 +4412,16 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "80e9ca9d-23965",
+  "hash": "7b1cf671-23856",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 16.3,
+    "initial": 16.1,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -6648,26 +6618,16 @@
   ]
  },
  "soprano.scad": {
-  "hash": "64a579f-23256",
+  "hash": "2cbd2c13-23147",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 13.8,
+    "initial": 13.6,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -8864,26 +8824,16 @@
   ]
  },
  "tenor.scad": {
-  "hash": "971ebca4-23433",
+  "hash": "c9785b42-23324",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 17.2,
+    "initial": 17,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -11080,26 +11030,16 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "dfd3701c-23146",
+  "hash": "17cfabb6-23037",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 16.2,
+    "initial": 16,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -13296,26 +13236,16 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "76434ebd-23185",
+  "hash": "9b63da6f-23076",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 16.2,
+    "initial": 16,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -15512,26 +15442,16 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "b6b9ceb5-23150",
+  "hash": "ca066273-23041",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 16.2,
+    "initial": 16,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -17728,26 +17648,16 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "13650616-23336",
+  "hash": "d4f3e58f-23227",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 18,
+    "initial": 17.8,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -19944,26 +19854,16 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "ab142683-23369",
+  "hash": "a98cffa0-23260",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 18,
+    "initial": 17.8,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -22160,26 +22060,16 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "a159f35-23328",
+  "hash": "928b84a2-23219",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 18,
+    "initial": 17.8,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -24376,26 +24266,16 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "72d048d-23357",
+  "hash": "25e50d31-23248",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 13.8,
+    "initial": 13.6,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -26592,26 +26472,16 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "dc820a6-23383",
+  "hash": "3a74ab62-23274",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 13.8,
+    "initial": 13.6,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -28808,26 +28678,16 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "7ad293a3-23356",
+  "hash": "8d42179b-23247",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 13.8,
+    "initial": 13.6,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -31024,26 +30884,16 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "aaddc60-23539",
+  "hash": "d160bed8-23430",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 17.2,
+    "initial": 17,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -33240,26 +33090,16 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "7a623814-23565",
+  "hash": "5b056e14-23456",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 17.2,
+    "initial": 17,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {
@@ -35456,26 +35296,16 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "d8d3a64-23533",
+  "hash": "11d9e240-23424",
   "parameters": [
    {
-    "caption": "Your neck cork's diameter (mm), measured with calipers.",
+    "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
     "group": "Shank",
-    "initial": 17.2,
+    "initial": 17,
     "max": 27,
     "min": 10,
-    "name": "neck_cork_diameter",
+    "name": "shank_hole",
     "step": 0.05,
-    "type": "number"
-   },
-   {
-    "caption": "How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.",
-    "group": "Shank",
-    "initial": 0.2,
-    "max": 0.6,
-    "min": 0,
-    "name": "shank_clearance",
-    "step": 0.01,
     "type": "number"
    },
    {

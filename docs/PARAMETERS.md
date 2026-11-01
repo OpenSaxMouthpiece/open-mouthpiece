@@ -25,44 +25,26 @@ Sections: [Shank](#shank) · [Chamber](#chamber) · [Baffle](#baffle) · [Window
 
 ## Shank
 
-<a id="neck_cork_diameter"></a>
+<a id="shank_hole"></a>
 
-### Neck cork diameter (`neck_cork_diameter`)
+### Shank hole (`shank_hole`)
 
-Your neck cork's diameter (mm), measured with calipers.
+Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.
 
-Measure the cork with calipers across two directions (corks are often slightly oval) and use the
-average. The socket is made this much minus **Cork squeeze**.
+The hole the neck cork goes into, measured across. A smaller hole squeezes the cork harder (a
+tighter fit).
 
-Not sure? Print the three shank test rings first: [Check the cork fit](PRINTING.md#1-check-the-cork-fit-15-minutes).
+To find yours, print the three shank test rings (your hole and 0.1 mm either side) and use the
+number of the one that fits: see [Check the cork fit](PRINTING.md#1-check-the-cork-fit-15-minutes).
+Printed holes often come out a little small, so go by the ring, not by your calipers.
 
 Range: 10 to 27, step 0.05.
 
-Presets: Alto `16.2` · Tenor `17.2` · Bari `18.0` · Soprano `13.8`.
+Presets: Alto `16.0` · Tenor `17.0` · Bari `17.8` · Soprano `13.6`.
 
-![neck_cork_diameter: 15 → 17.5](images/params/neck_cork_diameter.png)
+![shank_hole: 15 → 17.5](images/params/shank_hole.png)
 
 *15 → 17.5*
-
-<a id="shank_clearance"></a>
-
-### Cork squeeze (`shank_clearance`)
-
-How much smaller than your cork the socket is (mm): bigger = tighter. Try 0.1-0.3.
-
-The socket is made this much smaller than **Neck cork diameter**, so the cork is squeezed when it
-goes in: 0 = the socket is exactly the cork's size. 0.1-0.3 mm suits most corks.
-
-The quickest way to find yours is the three shank test rings (0.10, 0.20, 0.30): see
-[Check the cork fit](PRINTING.md#1-check-the-cork-fit-15-minutes).
-
-Range: 0 to 0.6, step 0.01.
-
-Presets: Alto `0.2` · Tenor `0.2` · Bari `0.2` · Soprano `0.2`.
-
-![shank_clearance: 0 → 0.5](images/params/shank_clearance.png)
-
-*0 → 0.5*
 
 <a id="shank_bevel"></a>
 
@@ -598,6 +580,10 @@ The rails at the back of the window are Side rail width plus this. Between the t
 Range: -1 to 2, step 0.05.
 
 Presets: Alto `0.3` · Tenor `0.45` · Bari `-0.25` · Soprano `-0.3`.
+
+![side_rail_widening: -0.5 → 1](images/params/side_rail_widening.png)
+
+*-0.5 → 1*
 
 <a id="tip_rail_thickness"></a>
 
@@ -1655,7 +1641,7 @@ Plate length along the reed (mm): it can reach up to 4mm past each end of the ba
 
 Range: 4 to 40, step 0.5.
 
-Presets: Alto `10` · Tenor `10` · Bari `10` · Soprano `10`.
+Presets: Alto `100` · Tenor `100` · Bari `100` · Soprano `100`.
 
 <a id="ligature_reed_room"></a>
 
@@ -2119,7 +2105,7 @@ What the file makes. The debug parts show the pieces the mouthpiece is built fro
 
 What to make: the mouthpiece, a shank test ring, a ligature, a cap, or debug pieces.
 
-Range: `mouthpiece`, `shank_test_ring`, `ligature`, `cap`, `ligature_seated`, `cap_seated`, `reed_model`, `ligature_clash`, `cap_clash`, `metal_ligature_model`, `air_model`, `interior_only`, `debug_exterior`, `debug_interior`, `debug_window_cutter`, `debug_window_only`, `debug_window_planform`, `debug_facing_cutter`, `debug_facing_only`, `debug_ext_minus_interior`, `debug_ext_minus_window`, `debug_ext_minus_facing`, `clearance_report`, `facing_report`.
+Range: `mouthpiece`, `shank_test_ring`, `ligature`, `ligature_band`, `ligature_plate`, `ligature_screw`, `cap`, `ligature_seated`, `cap_seated`, `reed_model`, `ligature_clash`, `cap_clash`, `metal_ligature_model`, `air_model`, `interior_only`, `debug_exterior`, `debug_interior`, `debug_window_cutter`, `debug_window_only`, `debug_window_planform`, `debug_facing_cutter`, `debug_facing_only`, `debug_ext_minus_interior`, `debug_ext_minus_window`, `debug_ext_minus_facing`, `clearance_report`, `facing_report`.
 
 Presets: Alto `mouthpiece` · Tenor `mouthpiece` · Bari `mouthpiece` · Soprano `mouthpiece`.
 

@@ -30,7 +30,7 @@ nothing is saved on a server.
   inside from the side and in a slice across; **Edit shape** lets you pull their lines.
 - **See the numbers**: tip, facing, length, inside air volume (and where that sits on the cork) and
   thinnest wall, and where feeler gauges stop along the facing.
-- **Fit your horn**: set your neck cork's diameter and how tight it should be; print a small test
+- **Fit your horn**: set the shank's hole for your neck cork; print a small test
   ring first to check.
 - **Make a matching ligature and cap**: a ring ligature and a cap built from the mouthpiece's own
   shape.

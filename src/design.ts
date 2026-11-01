@@ -145,10 +145,9 @@ export const DESIGN_SECTIONS: DesignSection[] = [
   {
     title: "Fit on the horn",
     plain: "How it fits your neck cork",
-    summary: (get) => join([num(get("neck_cork_diameter"), "mm cork"), num(get("shank_clearance"), "squeeze")]),
+    summary: (get) => join([num(get("shank_hole"), "mm hole")]),
     items: [
-      { name: "neck_cork_diameter", label: "Neck cork diameter" },
-      { name: "shank_clearance", label: "Cork squeeze" },
+      { name: "shank_hole", label: "Shank hole" },
       {
         name: "shank_depth",
         label: "How far the cork goes in",
@@ -665,7 +664,7 @@ const ENDS: Record<string, [string, string]> = {
   table_width_rear: NARROW_WIDE,
   table_concavity: ["Flat", "Hollow"],
   // Fit on the horn
-  shank_clearance: ["Loose", "Tight"],
+  shank_hole: ["Tight", "Loose"],
   shank_depth: SHALLOW_DEEP,
   shank_bevel: ["None", "Wide"],
   shank_bevel_depth: SHORT_LONG,

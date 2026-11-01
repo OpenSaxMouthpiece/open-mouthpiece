@@ -42,8 +42,7 @@ export function PartNote({
       ) : part === "shank_test_ring" ? (
         <>
           Shank test ring: print it first and push it onto your neck cork. It should go on snugly with a slight twist,
-          like a mouthpiece. Too tight: lower <b>Cork squeeze</b>; too loose: raise it (or set <b>Neck cork diameter</b>{" "}
-          to your cork).
+          like a mouthpiece. Too tight: raise <b>Shank hole</b>; too loose: lower it.
         </>
       ) : (
         <>

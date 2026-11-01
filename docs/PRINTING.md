@@ -16,19 +16,20 @@ file, and a check card with the numbers to measure the print against (tip openin
 
 ## 1. Check the cork fit (15 minutes)
 
-Print three shank test rings (the print kit has them): set **What to print** to *Shank test ring*,
-then download one at each **Cork squeeze** (Fit on the horn) of 0.10, 0.20 and 0.30 mm. Each is the
-socket end of the mouthpiece, with a socket that much smaller than the cork, so a bigger number is
-a tighter fit. **Mark each one with a pen as it comes off the plate**, since they look alike.
+The print kit has three shank test rings: the socket end of the mouthpiece with your **Shank
+hole** (Fit on the horn) and holes 0.1 mm smaller and larger. Each file is named by its hole, for
+example `alto_ring_15.90mm.stl`. A smaller hole is a tighter fit. **Mark each one with a pen as it
+comes off the plate**, since they look alike.
 
 Try them on your neck cork (lightly greased, as usual):
 
-- Too tight to push on: too much squeeze (try a smaller one).
+- Too tight to push on: try a bigger hole.
 - Slides on with a firm, even push and doesn't wobble: that's yours.
-- Wobbles or feels loose: not enough squeeze (try a bigger one).
+- Wobbles or feels loose: try a smaller hole.
 
-Set **Cork squeeze** to the one that fit. If none fits, measure your cork with calipers in two
-directions (corks are often slightly oval), set the cork diameter and print the rings again.
+Set **Shank hole** to the number of the one that fit. If none fits, move **Shank hole** past the end
+that came closest and print the rings again. Go by the fit, not by calipers: printed holes often come
+out a little smaller than the file.
 
 The socket's mouth has a bevel so it doesn't catch on the cork (Fit on the horn -> More:
 **Lead-in at the opening** and **Lead-in length**, 1 mm each). A bevel much wider than it is long

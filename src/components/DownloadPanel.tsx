@@ -57,13 +57,13 @@ interface Props {
   ligature: boolean; // offer the ligature's STL
   pieces: { screw: boolean } | null; // a thumbscrew ligature: offer its pieces one by one (screw: printed, not metal)
   cap: boolean; // offer the cap's STL
-  squeezes: string; // the test rings' cork squeezes, "0.10 / 0.20 / 0.30"
+  holes: string; // the test rings' shank holes, "15.90 / 16.00 / 16.10"
   picture: boolean; // the design file has a picture beside it
   busy: boolean;
   onDownload: () => void;
 }
 
-export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, squeezes, picture, busy, onDownload }: Props) {
+export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, holes, picture, busy, onDownload }: Props) {
   const files = wantsFiles(opts, ligature, cap);
   const [moreOpen, setMoreOpen] = useState(opts.settings); // open while it is ticked
   const box = (k: keyof DownloadOpts, disabled = false) => (
@@ -88,7 +88,7 @@ export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, squeezes, pi
         {box("stl")} Mouthpiece STL
       </label>
       <label title="Short rings of the shank to print first and try on your neck cork">
-        {box("rings")} Shank test rings <span className="muted">squeeze {squeezes} mm</span>
+        {box("rings")} Shank test rings <span className="muted">holes {holes} mm</span>
       </label>
       {ligature && (
         <label
