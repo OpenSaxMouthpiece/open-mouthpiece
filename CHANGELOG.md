@@ -6,6 +6,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- **Download ▾** shows every file again for a design file downloaded before 2026-11-01 (it offered
+  only the STL), including the design file itself. Only the three shank test rings need a newer file.
 ## 2026-11-01
 
 - **Fit on the horn**: one setting, **Shank hole** (the hole the cork goes into, in mm), instead of

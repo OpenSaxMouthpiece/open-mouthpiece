@@ -50,7 +50,9 @@ export function checkCard({ name, title, log, facing, wall, get, files, date }: 
     `  Overall length: ${s.length === null ? "?" : `${n(s.length, 1)} mm`}`,
     `  Inside air volume (neck end to tip, reed on): ${s.air === null ? "?" : `${s.air.toFixed(1)} cm³`}`,
     `  Thinnest wall: ${wall ? `${wall.wall.toFixed(2)} mm (${wall.where}, ${wall.z.toFixed(1)} mm from the shank end)` : "?"}`,
-    `  Shank hole: ${n(Number(get("shank_hole")))} mm across (printed holes often come out a little small)`,
+    ...(Number.isFinite(Number(get("shank_hole")))
+      ? [`  Shank hole: ${n(Number(get("shank_hole")))} mm across (printed holes often come out a little small)`]
+      : []),
     `  Socket depth: ${n(Number(get("shank_depth")), 1)} mm`,
     ...(stock > 0 ? [`  Extra to sand off: ${stock} mm on the table and facing (check after sanding)`] : []),
     "",

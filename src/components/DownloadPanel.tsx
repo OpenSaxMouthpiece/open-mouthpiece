@@ -57,14 +57,14 @@ interface Props {
   ligature: boolean; // offer the ligature's STL
   pieces: { screw: boolean } | null; // a thumbscrew ligature: offer its pieces one by one (screw: printed, not metal)
   cap: boolean; // offer the cap's STL
-  holes: string; // the test rings' shank holes, "15.90 / 16.00 / 16.10"
+  holes: string | null; // the test rings' shank holes, "15.90 / 16.00 / 16.10"; null: a design file older than Shank hole
   picture: boolean; // the design file has a picture beside it
   busy: boolean;
   onDownload: () => void;
 }
 
 export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, holes, picture, busy, onDownload }: Props) {
-  const files = wantsFiles(opts, ligature, cap);
+  const files = wantsFiles(holes ? opts : { ...opts, rings: false }, ligature, cap);
   const [moreOpen, setMoreOpen] = useState(opts.settings); // open while it is ticked
   const box = (k: keyof DownloadOpts, disabled = false) => (
     <input type="checkbox" checked={opts[k]} disabled={disabled} onChange={(e) => onOpt(k, e.target.checked)} />
@@ -74,6 +74,7 @@ export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, holes, pictu
       opts[k] === DOWNLOAD_ALL[k] ||
       (k === "ligature" && !ligature) ||
       (k === "cap" && !cap) ||
+      (k === "rings" && !holes) ||
       (k.startsWith("lig") && k !== "ligature"),
   );
   return (
@@ -88,7 +89,8 @@ export function DownloadPanel({ opts, onOpt, ligature, pieces, cap, holes, pictu
         {box("stl")} Mouthpiece STL
       </label>
       <label title="Short rings of the shank to print first and try on your neck cork">
-        {box("rings")} Shank test rings <span className="muted">holes {holes} mm</span>
+        {box("rings", !holes)} Shank test rings{" "}
+        <span className="muted">{holes ? `holes ${holes} mm` : "not in design files from before November 2026"}</span>
       </label>
       {ligature && (
         <label

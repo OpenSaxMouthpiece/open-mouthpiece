@@ -236,6 +236,9 @@ export default function App() {
   // Not a mouthpiece: no readouts (while the params load they're assumed, so the layout doesn't jump).
   const noReadouts = !designOK && !!mainTab && paramsKey === mainTab.key;
   const param = (n: string) => params.find((p) => p.name === n);
+  // A mouthpiece made by the generator. Design files downloaded before 2026-11-01 carry an older one:
+  // its fit is neck_cork_diameter + shank_clearance, so its test rings can't be made at a given hole.
+  const onGenerator = !!(param("shank_hole") || param("shank_clearance"));
   // The file has the ligature's settings (a mouthpiece made by the generator), and the mouthpiece is what's shown.
   const ligOK = !!param("ligature_length") && !otherPart;
   // A ligature is made when the design says so (ligature_made: kept in saves, downloads and links).
@@ -942,7 +945,9 @@ export default function App() {
     const hole = Number("shank_hole" in values ? values.shank_hole : param("shank_hole")?.initial);
     const name =
       what === "ring"
-        ? ringFile(base, hole).replace(/\.stl$/, "")
+        ? Number.isFinite(hole)
+          ? ringFile(base, hole).replace(/\.stl$/, "")
+          : `${base}_ring`
         : what === "ligature" || what === "cap"
           ? `${base}_${what}`
           : what === "model" && otherPart
@@ -1044,7 +1049,7 @@ export default function App() {
       // the STLs are made side by side (the cap from its preview when that is current), then filed in order
       const jobs: [string, string | null, Values?][] = [];
       if (sel.stl) jobs.push([`${name}.stl`, otherPart ? "mouthpiece" : null]);
-      if (sel.rings)
+      if (sel.rings && param("shank_hole"))
         for (const h of kitHoles(Number(get("shank_hole"))))
           jobs.push([ringFile(name, h), "shank_test_ring", { shank_hole: h }]);
       if (withLigature && sel.ligature) jobs.push([`${name}_ligature.stl`, "ligature"]);
@@ -1105,7 +1110,7 @@ export default function App() {
     }
   };
   const downloadKit = () => downloadFiles(DOWNLOAD_ALL, true);
-  const kitOK = !!param("shank_hole") && !noReadouts;
+  const kitOK = onGenerator && !noReadouts;
   const printKitButton = (
     <div className="lig-head print-kit">
       <p className="muted">
@@ -1720,7 +1725,7 @@ export default function App() {
   // The side section (Chamber & baffle, Body & beak): the generator's mouthpiece only. Each
   // section's "Edit shape" drags its own lines (the generator's *_adjust offsets).
   const profileEl = (section: ShapeSection) =>
-    !otherPart && stl && param("shank_hole") ? (
+    !otherPart && stl && onGenerator ? (
       <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>
         <ProfileChart
           stl={stl}
@@ -1958,9 +1963,13 @@ export default function App() {
         ligature={!!param("ligature_length") && get("ligature_made") === true}
         pieces={get("ligature_closure") === "screw" ? { screw: get("ligature_screw") === "printed" } : null}
         cap={!!param("cap_wall") && get("cap_made") === true}
-        holes={kitHoles(holeNow)
-          .map((h) => h.toFixed(2))
-          .join(" / ")}
+        holes={
+          param("shank_hole")
+            ? kitHoles(holeNow)
+                .map((h) => h.toFixed(2))
+                .join(" / ")
+            : null
+        }
         picture={hasPicture}
         busy={!stl || dl?.state === "busy"}
         onDownload={go(() => downloadFiles({ ...DOWNLOAD_DEFAULTS, ...dlPicks }))}
