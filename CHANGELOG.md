@@ -6,12 +6,11 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-11-08
+
 - **Shoulder sweep**: the swept shoulder line is smooth on the flanks; larger settings left a
   sawtooth of jagged facets along it.
 - **Share** on a phone or tablet opens the device's share menu instead of copying the link.
-
-## 2026-11-08
-
 - **Download ▾** shows every file again for a design file downloaded before 2026-11-01 (it offered
   only the STL), including the design file itself. Only the three shank test rings need a newer file.
 - **Your designs** has room for far more designs: they are kept in the browser's IndexedDB instead of
