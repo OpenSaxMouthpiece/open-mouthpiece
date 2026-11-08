@@ -40,7 +40,9 @@ static site (docs/HOSTING.md).
 
 ## Files and saving
 
-- **Storage**: the user's files in localStorage `open-mouthpiece-files-v1` ({path: {text}});
+- **Storage**: the user's files in IndexedDB `open-mouthpiece`, store `files` (path -> text;
+  `fileStore.ts`; until 2026-11 localStorage `open-mouthpiece-files-v1`, ~5 MB, full after 8-9
+  self-contained design files: moved over on first use, still the store where IndexedDB fails);
   pictures in `open-mouthpiece-art-v1` (`userArt.ts`, shown via data: URLs); the session in
   `open-mouthpiece-session-v1` (was `scad-playground-v2`, read once). `files()` returns `{files,
   readOnly, own}`. On a phone over the LAN, storage is the phone browser's.

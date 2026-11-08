@@ -1,12 +1,13 @@
 // The app's API (see api.ts), all in the browser: OpenSCAD runs as WebAssembly in a worker
 // (wasm/), the project files come from the site (project/: public/project/ from
 // scripts/build_static_project.mjs, or scad/ itself under `npm run dev`), and what the user saves
-// or uploads is kept in this browser's localStorage (pictures: userArt.ts). Nothing is saved
-// anywhere else. The presets are read-only, renders fall back to SVG for 2D results, log paths are
+// or uploads is kept in this browser (files: IndexedDB, fileStore.ts; pictures: localStorage,
+// userArt.ts). Nothing is saved anywhere else. The presets are read-only, renders fall back to SVG for 2D results, log paths are
 // project-relative.
 import type { Lane } from "./wasm/runner";
 import type { Api, ParamValue, RenderResult, RenderTarget, ScadParam } from "./api";
 import { rebaseGenerator } from "./app/files";
+import { deleteFile, readFiles, writeFile } from "./fileStore";
 import { migrateScad } from "./migrate";
 import { scadLiteral } from "./scadText";
 import { runOpenscad } from "./wasm/runner";
@@ -14,7 +15,6 @@ import { checkArt, NO_SHAPES, saveUserArt, userArtAspect, userArtFiles, userArtN
 
 const BASE = import.meta.env.BASE_URL;
 const ROOT = "/scad"; // the project's scad/ folder inside OpenSCAD's filesystem
-const STORE_KEY = "open-mouthpiece-files-v1";
 
 interface Manifest {
   files: string[];
@@ -25,7 +25,7 @@ interface Stored {
   text: string;
 }
 
-// ---- project files (from the site) and the user's files (localStorage) ------------------------
+// ---- project files (from the site) and the user's files (fileStore.ts) ------------------------
 
 let manifest: Promise<Manifest> | null = null;
 const getManifest = () =>
@@ -48,32 +48,18 @@ function projectFile(rel: string): Promise<Uint8Array> {
   return p;
 }
 
-function loadStore(): Record<string, Stored> {
-  try {
-    const s = JSON.parse(localStorage.getItem(STORE_KEY) ?? "{}") as Record<string, Stored>;
-    // files saved before the parameter renames (migrate.ts), and copies of a variant or extra saved
-    // before Save as rebased their include line; rewritten on their next save
-    for (const [p, f] of Object.entries(s))
-      if (f && typeof f.text === "string") f.text = rebaseGenerator(migrateScad(f.text), p);
-    return s;
-  } catch {
-    return {};
-  }
+async function loadStore(): Promise<Record<string, Stored>> {
+  // files saved before the parameter renames (migrate.ts), and copies of a variant or extra saved
+  // before Save as rebased their include line; rewritten on their next save
+  return Object.fromEntries(
+    Object.entries(await readFiles()).map(([p, text]) => [p, { text: rebaseGenerator(migrateScad(text), p) }]),
+  );
 }
 // The user's files; a stored copy of a project file (from an older version) is ignored, so the
 // project on the site always wins.
 async function ownFiles(): Promise<Record<string, Stored>> {
   const m = await getManifest();
-  return Object.fromEntries(Object.entries(loadStore()).filter(([p]) => !m.files.includes(p)));
-}
-function saveStore(s: Record<string, Stored>) {
-  try {
-    localStorage.setItem(STORE_KEY, JSON.stringify(s));
-  } catch {
-    throw new Error(
-      "This browser's storage is full or blocked, so the file can't be saved here. Use Download to keep a copy.",
-    );
-  }
+  return Object.fromEntries(Object.entries(await loadStore()).filter(([p]) => !m.files.includes(p)));
 }
 
 const decoder = new TextDecoder();
@@ -188,17 +174,13 @@ export const browserApi: Api = {
     if (!safeRel(path) || !path.endsWith(".scad"))
       throw new Error("need a .scad path like my_alto.scad or folder/name.scad");
     if (m.files.includes(path)) throw new Error(`${path} is part of the project: use "Save as…" to make your own copy`);
-    const s = loadStore();
-    s[path] = { text: source };
-    saveStore(s);
+    await writeFile(path, source);
     return { ok: true };
   },
 
   remove: async (path: string) => {
-    const s = loadStore();
-    if (!(path in s)) throw new Error(`${path} isn't one of your saved files`);
-    delete s[path];
-    saveStore(s);
+    if (!(path in (await readFiles()))) throw new Error(`${path} isn't one of your saved files`);
+    await deleteFile(path);
     return { ok: true };
   },
 
