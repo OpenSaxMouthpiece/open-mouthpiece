@@ -135,7 +135,7 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
 
 ### Interior
 
-`interior_ring_at(z)` -> `[hw, top, bot, n_top, n_bot, narrow_hw, narrow_top]`: bore -> throat ->
+`interior_ring_at(z)` -> `[hw, top, bot, n_top, n_bot, narrow_hw, narrow_top]` (read by name: `I_HW` ... `I_NARROW_Y`): bore -> throat ->
 chamber -> window region. `AIR_RINGS` (computed once) feeds the interior loft, the air-volume
 readout and the clearance report.
 

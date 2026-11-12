@@ -835,6 +835,12 @@ function exterior_bottom_from(z, hw, top, n_bot) =
 // The exterior cross-section at z, every term computed once:
 //   [half_width, top, bottom, widest_y, top_exponent, bottom_exponent]  (indices E_*)
 E_HW = 0; E_TOP = 1; E_BOT = 2; E_CY = 3; E_NT = 4; E_NB = 5;
+// The interior cross-section at z (interior_ring_at, section 6):
+//   [half_width, top, bottom, top_exponent, bottom_exponent, narrow, narrow_y]  (indices I_*)
+// narrow: under the window, the half-width the lower walls are held to (the window's), NO_WINDOW
+// before it; narrow_y: the height up to which they are held.
+I_HW = 0; I_TOP = 1; I_BOT = 2; I_NT = 3; I_NB = 4; I_NARROW = 5; I_NARROW_Y = 6;
+NO_WINDOW = 1e3;
 // A top exponent below 2 makes a ridge along the top center. Fine on the body, but where the beak
 // thins out toward the tip it becomes a spike, so it eases up to TIP_TOP_EXP before the tip curve:
 // 1.8, nearly round (2 made the top near the tip flatter and wider than real beaks; 1.8 shows no spike).
@@ -974,13 +980,12 @@ WIN_C = pchip_prep([for (z = concat([for (z = [win_z0 : 0.5 : win_front_z - 5.25
 // Window width ignoring the rear corner rounding — also what the interior sidewalls follow, so
 // the interior stays full-width across the window's rounded rear end.
 function window_side_hw(z) = z >= win_front_z ? 0 : max(0, pchip_at(max(win_z0, z), WIN_C));
-function window_base_hw(z) = window_side_hw(z);
 win_hw_front = window_side_hw(WIN_REF_Z);
 win_hw_rear = window_side_hw(win_z0);
 
 function window_half_width(z) =
   let(r = min(window_rear_radius, win_hw_rear), d = z - win_z0)
-  let(rear = d >= r ? 1e3 : (window_base_hw(z) - r) + sqrt(max(0, r * r - (r - d) * (r - d))))
+  let(rear = d >= r ? 1e3 : (window_side_hw(z) - r) + sqrt(max(0, r * r - (r - d) * (r - d))))
   (z < win_z0 || z > win_front_z) ? 0 : min(window_side_hw(z), rear);
 
 // Baffle: the interior roof above the reed, from where it takes over from the round
@@ -1088,10 +1093,10 @@ function window_floor_y(z) = facing_at_z(z) + 0.8;
 // below the exterior top. The window-region width clamp is taken at this height, where the roof
 // corners are. (Taking the cap alone until the baffle started, then the baffle in one step, made a
 // bari Flamma's chamber pinch in and out where its baffle starts just past the window's rear end.)
-function roof_cap_y(z, E, hw) =
-  let(cap = E[E_TOP] - interior_wall(z))
+function roof_raw_y(z, hw) =
   let(bore_roof = bah_at(z) + hw + chamber_extra * chamber_weight(z) * chamber_roof_share(z))
-  min(cap, z < baffle_start_z ? bore_roof : lerp(bore_roof, baffle_roof(z), smootherstep(clamp01((z - baffle_start_z) / 4))));
+  z < baffle_start_z ? bore_roof : lerp(bore_roof, baffle_roof(z), smootherstep(clamp01((z - baffle_start_z) / 4)));
+function roof_cap_y(z, E, hw) = min(E[E_TOP] - interior_wall(z), roof_raw_y(z, hw));
 
 // Mid-height half-width. E = exterior_ring_at(z).
 CHAMBER_W_ADJ_C = adjust_prep(chamber_width_adjust);
@@ -1172,8 +1177,8 @@ function interior_exps_shape(z) =
   z <= eff_throat_z ? lerp([2, 2], eT, ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) :
   lerp(eT, interior_exps_chamber(z), ease(clamp01((z - eff_throat_z) / (LEAN_Z2 - eff_throat_z))));
 function interior_exps_chamber(z) =
-  chamber_shape == "square" ? let(t = ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) [lerp(2, 8, t), lerp(2, 8, t)] :
-  chamber_shape == "horseshoe" ? let(t = ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) [lerp(2, 2.5, t), lerp(2, 8, t)] :
+  chamber_shape == "square" || chamber_shape == "horseshoe"
+    ? section_exps(chamber_shape, ease(clamp01((z - eff_throat_z + eff_throat_length) / eff_throat_length))) :
   // at least 6mm: a chamber peak at or past the window start boxed up in one step (a ledge)
   let(bt = ease(clamp01((z - chamber_peak_z) / max(6, win_z0 - chamber_peak_z)))) [lerp(2, 4, bt), lerp(2, 6, bt)];
 function interior_exps(z) =
@@ -1209,8 +1214,7 @@ function interior_ring_build(z, cap_s) =
   let(cap = E[E_TOP] - interior_wall(z))
   // the roof blends from the round bore/chamber into the baffle over 4mm (no step when the
   // baffle start is moved)
-  let(bore_roof = bah_at(z) + hw0 + chamber_extra * chamber_weight(z) * chamber_roof_share(z))
-  let(raw = z < baffle_start_z ? bore_roof : lerp(bore_roof, baffle_roof(z), smootherstep(clamp01((z - baffle_start_z) / 4))))
+  let(raw = roof_raw_y(z, hw0))
   let(in_win = z > win_z0)
   let(floor_lo = in_win ? -10 : max(E[E_BOT], 0) + min_wall)
   let(min_h = in_win ? lerp(1.2, 0.3, smootherstep(clamp01((z - win_z0) / max(1, window_rear_radius)))) : 1.2)
@@ -1219,7 +1223,7 @@ function interior_ring_build(z, cap_s) =
   let(rail_t = clamp01((bot - facing_at_z(z)) / 0.4))  // 0 once the floor is down at the reed plane
   // Under the window the lower part of the ring is held to the window width (straight side walls,
   // so the rails keep their full thickness); above narrow_top it may open out to the chamber.
-  let(narrow = in_win ? window_side_hw(z) + 0.06 * rail_t : 1e3, narrow_top = facing_at_z(z) + 2)
+  let(narrow = in_win ? window_side_hw(z) + 0.06 * rail_t : NO_WINDOW, narrow_top = facing_at_z(z) + 2)
   // walls leaning out need the ring wide enough to reach them at the roof (under the window from
   // the window width, before it from the chamber's own)
   // (over the WIN_BLEND before the window, the window's rules fade in, its width there standing in)
@@ -1243,9 +1247,9 @@ function interior_ring_build(z, cap_s) =
   let(I2 = [hw1 * s1, top, bot, ne[0], ne[1], narrow, narrow_top])
   let(f2 = s1 == 1 ? f1 : interior_fit(z, E, I2, in_win, lo), s2 = f2[0])
   let(hw = hw1 * s1 * s2)
-  // I[5] stays 1e3 before the window (it marks "no window here" for interior_points; clamped to
+  // I[I_NARROW] stays NO_WINDOW before the window (it marks "no window here" for interior_points; clamped to
   // the width, the leaning sidewalls reached back into the throat and bore)
-  let(I = [max(0.05, hw), top, bot, ne[0], ne[1], in_win ? min(narrow, max(0.05, hw)) : 1e3, narrow_top])
+  let(I = [max(0.05, hw), top, bot, ne[0], ne[1], in_win ? min(narrow, max(0.05, hw)) : NO_WINDOW, narrow_top])
   [I, I == I2 ? f2[1] : interior_points(INT_DIRS, z, I), hw1r];
 
 // Width scale (<= 1) that makes every ring point keep its wall at its own height: min_wall before
@@ -1257,38 +1261,38 @@ function interior_fit(z, E, I, in_win, lo) =
   let(ratios = [for (p = pts) if (abs(p[0]) > 0.05 && p[1] > lo && p[1] > E[E_BOT] && p[1] < E[E_TOP])
                   let(ext = ring_half_width_at_y(E, p[1]))
                   let(limit = !in_win ? ext - min_wall
-                            : abs(p[0]) <= I[5] + 0.01 ? ext - RAIL_THIN * 0.6
-                            : max(min(I[5], ext - RAIL_THIN * 0.6), ext - min_wall))
+                            : abs(p[0]) <= I[I_NARROW] + 0.01 ? ext - RAIL_THIN * 0.6
+                            : max(min(I[I_NARROW], ext - RAIL_THIN * 0.6), ext - min_wall))
                   limit / abs(p[0])])
   [len(ratios) ? max(0.05, min(1, min(ratios))) : 1, pts];
 
 // The interior ring's points: the superellipse, with x held within the window width below
 // narrow_top and blending out to the full width above it, over 1.5mm or 2 x the step out if that
 // is more (a chamber much wider than the window leans out, under ~45 degrees at the steepest,
-// instead of making a shelf over the rails, issue #1) (I[5] = 1e3 before the window).
+// instead of making a shelf over the rails, issue #1) (I[I_NARROW] = NO_WINDOW before the window).
 // With sidewall_angle the walls above narrow_top lean at that angle from vertical (wall_lean_at):
 // in (-) from the chamber's full width (lean_in_allowed), out (+) from the window width under the
 // window (sidewall_allowed) and from the chamber's width before it (out_allowed).
 // Under the window the rails' inner face is one slope, not a vertical wall that kinks out: from the
-// window width at the reed plane (I[6] - 2 is the facing) to the chamber's own width 2mm above it.
+// window width at the reed plane (I[I_NARROW_Y] - 2 is the facing) to the chamber's own width 2mm above it.
 // The window cutter follows the same line, so no ledge is left where the two meet. It fades out over
 // the last 4mm before the window front (the tip rail is left as it was).
 function rail_wall_x(I, y, z) =
-  let(n = min(I[5], I[0]), wt = min(I[0], int_hw_at_y(I, I[6])))
-  n + max(0, wt - n) * smootherstep(clamp01((y - (I[6] - 2)) / 2)) * smootherstep(clamp01((win_front_z - z) / 4));
+  let(n = min(I[I_NARROW], I[I_HW]), wt = min(I[I_HW], int_hw_at_y(I, I[I_NARROW_Y])))
+  n + max(0, wt - n) * smootherstep(clamp01((y - (I[I_NARROW_Y] - 2)) / 2)) * smootherstep(clamp01((win_front_z - z) / 4));
 // Walls leaning out before the window go over to the window's rule (from its width there) across
 // the WIN_BLEND (win_blend), so they don't step at its rear end.
 function interior_points(dirs, z, I) =
-  [for (p = sring(dirs, z, I[0], I[1], I[2], I[3], I[4], (I[1] + I[2]) / 2))
+  [for (p = sring(dirs, z, I[I_HW], I[I_TOP], I[I_BOT], I[I_NT], I[I_NB], (I[I_TOP] + I[I_BOT]) / 2))
     let(x = sign(p[0]) * min(abs(p[0]), wall_allowed_x(I, p[1], z)))
     [x, dome_y(z, abs(x), p[1], I), p[2]]];
 // The most the side wall lets the ring's half-width be at height y (before dome_y).
 function wall_allowed_x(I, y, z) =
   let(la = wall_lean_at(z))
   la < 0 || la == 0
-    ? let(blend = lerp(I[5] < 1e3 ? rail_wall_x(I, y, z) : min(I[5], I[0]), I[0], smootherstep(clamp01((y - I[6]) / max(1.5, 2 * (I[0] - min(I[5], I[0])))))))
+    ? let(blend = lerp(I[I_NARROW] < NO_WINDOW ? rail_wall_x(I, y, z) : min(I[I_NARROW], I[I_HW]), I[I_HW], smootherstep(clamp01((y - I[I_NARROW_Y]) / max(1.5, 2 * (I[I_HW] - min(I[I_NARROW], I[I_HW])))))))
       la < 0 ? min(blend, lean_in_allowed(I, y, la)) : blend
-    : let(wb = I[5] < 1e3 ? 1 : win_blend(z), Iw = [I[0], I[1], I[2], I[3], I[4], I[5] < 1e3 ? I[5] : WIN_HW0, I[6]])
+    : let(wb = I[I_NARROW] < NO_WINDOW ? 1 : win_blend(z), Iw = [I[I_HW], I[I_TOP], I[I_BOT], I[I_NT], I[I_NB], I[I_NARROW] < NO_WINDOW ? I[I_NARROW] : WIN_HW0, I[I_NARROW_Y]])
       let(win_rule = function() max(sidewall_allowed(Iw, y, la), min(out_allowed(Iw, y, la), out_blend(Iw, y, la))))
       wb >= 1 ? win_rule() : wb <= 0 ? out_allowed(I, y, la) : lerp(out_allowed(I, y, la), win_rule(), wb);
 // Under the window's last 11mm the roof arches across, dipping toward the sides (a smooth dome, not
@@ -1296,27 +1300,27 @@ function wall_allowed_x(I, y, z) =
 // tip. Heights above the facing are scaled down about it, never up, so only material is added.
 // dip = 0.095 x^2 / half-width, fading in over 7mm.
 function dome_y(z, x, y, I) =
-  I[5] >= 1e3 || z <= L - 11 ? y
-  : let(lo = facing_at_z(z) + TIP_GAP) y <= lo || I[1] <= lo + 0.05 ? y
-  : let(dip = 0.095 * x * x / max(3, I[0]) * smootherstep(clamp01((z - (L - 11)) / 7)) * (0.55 + 0.45 * clamp01((win_front_z - z) / 4.4)) * smootherstep(clamp01((I[1] - lo - 0.3) / 0.5)))
-    lo + (y - lo) * max(0.05, (I[1] - lo - dip) / (I[1] - lo));
+  I[I_NARROW] >= NO_WINDOW || z <= L - 11 ? y
+  : let(lo = facing_at_z(z) + TIP_GAP) y <= lo || I[I_TOP] <= lo + 0.05 ? y
+  : let(dip = 0.095 * x * x / max(3, I[I_HW]) * smootherstep(clamp01((z - (L - 11)) / 7)) * (0.55 + 0.45 * clamp01((win_front_z - z) / 4.4)) * smootherstep(clamp01((I[I_TOP] - lo - 0.3) / 0.5)))
+    lo + (y - lo) * max(0.05, (I[I_TOP] - lo - dip) / (I[I_TOP] - lo));
 // Height above narrow_top, the corner there rounded over 1mm.
-function wall_rise(I, y) = let(d = y - I[6]) d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4;
+function wall_rise(I, y) = let(d = y - I[I_NARROW_Y]) d <= -1 ? 0 : d >= 1 ? d : (d + 1) * (d + 1) / 4;
 // Half-width walls leaning out (la > 0) under the window allow at height y.
 function sidewall_allowed(I, y, la) =
-  min(I[0], max(0.3 * I[5], min(I[5], I[0]) + wall_rise(I, y) * tan(la)));
+  min(I[I_HW], max(0.3 * I[I_NARROW], min(I[I_NARROW], I[I_HW]) + wall_rise(I, y) * tan(la)));
 // Before the window, walls leaning out (la > 0) from the chamber's width at narrow_top to the
 // widened ring's width at the roof.
 function out_allowed(I, y, la) =
-  let(base = max(0.3 * I[0], I[0] - max(0, I[1] - I[6]) * tan(la)))
-  min(I[0], base + wall_rise(I, y) * tan(la));
+  let(base = max(0.3 * I[I_HW], I[I_HW] - max(0, I[I_TOP] - I[I_NARROW_Y]) * tan(la)))
+  min(I[I_HW], base + wall_rise(I, y) * tan(la));
 // Under the window, walls leaning out keep the rails as the plain chamber does: held to the window
 // width below narrow_top, opening out over the step to the chamber's own (unwidened) width.
 function out_blend(I, y, la) =
-  let(n = min(I[5], I[0]), base = max(0.3 * I[0], I[0] - max(0, I[1] - I[6]) * tan(la)))
-  lerp(n, I[0], smootherstep(clamp01((y - I[6]) / max(1.5, 2 * (base - n)))));
+  let(n = min(I[I_NARROW], I[I_HW]), base = max(0.3 * I[I_HW], I[I_HW] - max(0, I[I_TOP] - I[I_NARROW_Y]) * tan(la)))
+  lerp(n, I[I_HW], smootherstep(clamp01((y - I[I_NARROW_Y]) / max(1.5, 2 * (base - n)))));
 // Half-width walls leaning in (ta <= 0) allow at height y (never under 30% of the width).
-function lean_in_allowed(I, y, ta) = ta == 0 ? 1e3 : max(0.3 * I[0], I[0] + wall_rise(I, y) * tan(ta));
+function lean_in_allowed(I, y, ta) = ta == 0 ? 1e3 : max(0.3 * I[I_HW], I[I_HW] + wall_rise(I, y) * tan(ta));
 
 // ---- Baffle texture: shallow dents cut up into the roof (engraved) or bumps standing down from it
 // (raised), from 4mm past where the baffle begins to 2mm behind the tip curve (fading in and out
@@ -1334,23 +1338,23 @@ function lean_in_allowed(I, y, ta) = ta == 0 ? 1e3 : max(0.3 * I[0], I[0] + wall
 function se_top_y(hw, top, cy, n, x) = abs(x) >= hw ? undef : cy + (top - cy) * pow(1 - pow(abs(x) / hw, n), 1 / n);
 // half-width of the interior ring I at height y (I as in interior_ring_at)
 function int_hw_at_y(I, y) =
-  let(cy = (I[1] + I[2]) / 2, up = y >= cy, n = up ? I[3] : I[4])
-  let(rel = min(1, abs(y - cy) / max(0.01, up ? I[1] - cy : cy - I[2])))
-  I[0] * pow(1 - pow(rel, n), 1 / n);
+  let(cy = (I[I_TOP] + I[I_BOT]) / 2, up = y >= cy, n = up ? I[I_NT] : I[I_NB])
+  let(rel = min(1, abs(y - cy) / max(0.01, up ? I[I_TOP] - cy : cy - I[I_BOT])))
+  I[I_HW] * pow(1 - pow(rel, n), 1 / n);
 // One row of samples at z: [[x, sphere centre y, z, depth, roof y, k, fits], ...] (depth 0 =
 // nothing there; fits = the sphere has room across there, whatever the depth).
 function btx_row(z, xs) =
-  let(I = interior_ring_at(z), E = exterior_ring_at(z), cy = (I[1] + I[2]) / 2)
+  let(I = interior_ring_at(z), E = exterior_ring_at(z), cy = (I[I_TOP] + I[I_BOT]) / 2)
   let(fade = smootherstep(clamp01((z - BTX_Z0) / 3)) * smootherstep(clamp01((BTX_Z1 - z) / 3)))
   // an engraved dent may thin the wall over it to BTX_WALL (the beak's own wall near the tip), so the
   // texture reaches the tip on a scooped beak too (where the wall is already at its minimum)
   let(keep = min(interior_wall(z), BTX_WALL) + (HAS_LETTERING && z > LETTERING_SPAN[0] - 1 && z < LETTERING_SPAN[1] + 1 ? eff_lettering_depth : 0))
-  let(low = max(I[2], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)), wsh = z > win_z0 ? window_side_hw(z) : 0)
+  let(low = max(I[I_BOT], facing_at_z(z)) + 1, sz = (baffle_roof(z + 0.5) - baffle_roof(z - 0.5)), wsh = z > win_z0 ? window_side_hw(z) : 0)
   [for (x = xs)
-    let(roof = se_top_y(I[0], I[1], cy, I[3], x), out = se_top_y(E[E_HW], E[E_TOP], E[E_CY], E[E_NT], x))
+    let(roof = se_top_y(I[I_HW], I[I_TOP], cy, I[I_NT], x), out = se_top_y(E[E_HW], E[E_TOP], E[E_CY], E[E_NT], x))
     // the roof's slope across (x) and along (z): depths are measured square to it, so a sphere
     // sits (R - d) x k under (over) it, k = 1 / cos(tilt); vertically a dent reaches d x k
-    let(sx = is_undef(roof) ? 0 : let(u = min(0.99, abs(x) / I[0]), n = I[3]) (I[1] - cy) / I[0] * pow(u, n - 1) * pow(1 - pow(u, n), 1 / n - 1))
+    let(sx = is_undef(roof) ? 0 : let(u = min(0.99, abs(x) / I[I_HW]), n = I[I_NT]) (I[I_TOP] - cy) / I[I_HW] * pow(u, n - 1) * pow(1 - pow(u, n), 1 / n - 1))
     let(k = sqrt(1 + sx * sx + sz * sz))
     let(d0 = is_undef(roof) || is_undef(out) ? 0
            : max(0, min(BTX_D * fade, (BTX_RAISED ? roof - low : out - roof - keep) / k)))
@@ -1361,14 +1365,14 @@ function btx_row(z, xs) =
     let(disc = is_undef(roof) || BTX_RAISED ? undef : btx_disc(x, c, z, d0, n))
     let(lowest = is_undef(roof) ? 0 : BTX_RAISED ? roof - d0 * k
       : min(c - BTX_R, disc[0][1] - disc[1] * sqrt(max(0, 1 - disc[2][1] * disc[2][1]))))
-    let(room = z > win_z0 ? wsh : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[2], lowest)))
+    let(room = z > win_z0 ? wsh : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[I_BOT], lowest)))
     // grooves across may also run into the side walls (wall to wall): above the rails (0.5mm over
     // the facing), leaving the wall's keep to the outside at the roof's height
     let(wall = BTX_LINES && !is_undef(roof) && min(lowest, roof - d0 * k) >= facing_at_z(z) + 0.5
       ? ring_half_width_at_y(E, roof) - keep : 0)
     // how far across: the dent's centre within that share of the roof's half-width
-    let(fits = !is_undef(roof) && abs(x) + BTX_X <= max(room, wall) && abs(x) <= baffle_texture_extent * I[0] + 0.01
-               && (BTX_RAISED || z > win_z0 || lowest >= I[2]))
+    let(fits = !is_undef(roof) && abs(x) + BTX_X <= max(room, wall) && abs(x) <= baffle_texture_extent * I[I_HW] + 0.01
+               && (BTX_RAISED || z > win_z0 || lowest >= I[I_BOT]))
     // left out where the wall allows under 40% of the depth meant there (a faint dent looks like a speck)
     [x, c, z, fits && d0 >= max(0.05, 0.4 * BTX_D * fade) ? d0 : 0, roof, k, fits, n]];
 // A groove across at one even depth: the shallowest any of its samples allows (none where that is
@@ -1467,7 +1471,7 @@ function vsum(v, i = 0, acc = 0) = i >= len(v) ? acc : vsum(v, i + 1, acc + v[i]
 function air_volume() =
   let(zs = [for (r = AIR_RINGS) r[0]])
   let(areas = [for (r = AIR_RINGS) let(z = r[0], I = r[1])
-                 poly_area(r[2]) + (z > win_z0 ? 2 * window_half_width(z) * max(0, I[2] - facing_at_z(z)) : 0)])
+                 poly_area(r[2]) + (z > win_z0 ? 2 * window_half_width(z) * max(0, I[I_BOT] - facing_at_z(z)) : 0)])
   vsum([for (i = [0 : 1 : len(zs) - 2]) (zs[i + 1] - zs[i]) * (areas[i] + areas[i + 1]) / 2]) + BTX_AIR;
 
 // The air as the viewer draws it (the app's "Air space only"): the interior's own rings, from the
@@ -1599,7 +1603,7 @@ function clearance_rows() =
   [for (r = AIR_RINGS)
     let(z = r[0], E = exterior_ring_at(z), I = r[1], pts = r[2])
     let(inside = [for (p = pts) if (p[1] > E[E_BOT] && p[1] < E[E_TOP]) ring_half_width_at_y(E, p[1]) - abs(p[0])])
-    [len(inside) ? min(inside) : 1e9, E[E_TOP] - I[1], z < win_z0 ? I[2] - max(E[E_BOT], facing_at_z(z)) : 1e9, z]];
+    [len(inside) ? min(inside) : 1e9, E[E_TOP] - I[I_TOP], z < win_z0 ? I[I_BOT] - max(E[E_BOT], facing_at_z(z)) : 1e9, z]];
 // Facing report (part = "facing_report", echo only): the gap
 // between a flat reed and the rails at each distance back from the tip, for checking a printed
 // facing with a glass plate and feeler gauges. "FACING <mm from tip> <gap mm>".
@@ -1651,7 +1655,6 @@ module ring_loft(rings, flip_up = []) {
   polyhedron(points = pts, faces = concat(side_faces, back_cap, front_cap), convexity = 6);
 }
 
-// Unit-circle directions for an n-point ring, starting at the bottom (-90°) going counter-clockwise.
 // Ring sampling for n points (n divisible by 4), starting at the bottom center and running
 // counter-clockwise, so index k lines up across rings: [n, unit directions by angle, the upper
 // half traced RING_OVERSAMPLE times finer (for arc-length resampling, see sring)].
@@ -1726,9 +1729,10 @@ Z_STEP = 64 / render_fn;
 // The interior's rings, computed ONCE and shared by the interior loft, the air-volume readout and
 // the clearance report: [[z, ring, points], ...] from the end of the socket to the window front.
 // Not needed by the ligature, cap and reed parts: skipped there (each run evaluates the whole file).
-LIG_PART = part == "ligature" || part == "ligature_seated" || part == "ligature_band" || part == "ligature_plate" || part == "ligature_screw";
-ACCESSORY_PART = part == "ligature_seated" || part == "ligature_band" || part == "ligature_plate" || part == "ligature_screw" || part == "reed_model" || part == "cap_seated" || part == "ligature" || part == "cap"
-  || part == "metal_ligature_model";
+function part_in(names) = len([for (n = names) if (n == part) n]) > 0;
+LIG_PARTS = ["ligature", "ligature_seated", "ligature_band", "ligature_plate", "ligature_screw"];
+LIG_PART = part_in(LIG_PARTS);
+ACCESSORY_PART = LIG_PART || part_in(["reed_model", "cap_seated", "cap", "metal_ligature_model"]);
 // The wall fit under the window, smoothed along Z. Ring by ring it jumps where ring points cross
 // the window width (the rails' allowance gives way to the full wall there): a chamber wider than
 // the window came out ribbed (issue #1). The width scale each ring would get, sampled every 1mm,
@@ -1886,25 +1890,25 @@ FLARE_N = 6;
 SCOOP_LEN = 2.4;
 function cone_x(z, hw, o) =
   z >= REAR_ZC ? hw + o
-  : (window_base_hw(z) - REAR_R) + sqrt(max(0, (REAR_R + o) * (REAR_R + o) - (z - REAR_ZC) * (z - REAR_ZC)));
+  : (window_side_hw(z) - REAR_R) + sqrt(max(0, (REAR_R + o) * (REAR_R + o) - (z - REAR_ZC) * (z - REAR_ZC)));
 function window_cutter_ring(z) =
-  let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[1] + I[2]) / 2)
-  // walls leaning in (walls leaning in): the cutter's upper corners stay inside them
+  let(hw = max(0.05, window_half_width(z)), E = exterior_ring_at(z), I = interior_ring_near(z), top = (I[I_TOP] + I[I_BOT]) / 2)
+  // walls leaning in: the cutter's upper corners stay inside them
   let(lean = lean_in_allowed(I, top, min(0, wall_lean_at(z))) - 0.05)
   let(y_rail = min(facing_at_z(z) + 0.04, top - 0.05), hw_top = max(0.05, min(hw, ring_half_width_at_y(E, top) - 0.6, lean)))
   // the dome (dome_y) lowers the ring toward the sides, mid-height included: the cutter's ceiling follows it
   // (nine points across), never under the rail line
   // the flare goes up at least to where the interior's lower corner is as wide as the window (a round
   // chamber's corner, still above the facing near the rear end, left a lip over the flare's top)
-  let(y_wide = I[5] < 1e3 ? int_lower_y_at_x(I, min(I[5], I[0]) - 0.12) + 0.1 : 0)
-  let(y0 = max(y_rail + 0.02, dome_y(z, hw_top, top, I)), yf = min(max(I[6] + FLARE_UP, y_wide), y_rail + 0.7 * (y0 - y_rail)))
+  let(y_wide = I[I_NARROW] < NO_WINDOW ? int_lower_y_at_x(I, min(I[I_NARROW], I[I_HW]) - 0.12) + 0.1 : 0)
+  let(y0 = max(y_rail + 0.02, dome_y(z, hw_top, top, I)), yf = min(max(I[I_NARROW_Y] + FLARE_UP, y_wide), y_rail + 0.7 * (y0 - y_rail)))
   // before the window starts: the lowest height the cone reaches at this z
   let(rear = z <= win_z0, o_min = rear ? max(0, abs(z - REAR_ZC) - REAR_R) + 0.02 : 0, ys = min(yf - 0.2, y_rail + o_min / CONE_C))
-  let(xlo = rear ? window_base_hw(z) - REAR_R + 0.02 : hw)
+  let(xlo = rear ? window_side_hw(z) - REAR_R + 0.02 : hw)
   // the flare stays inside the interior's wall (walls leaning out are held in near the rails: capped
   // at the plain ring's width, the cone cut past them, leaving a groove along the window)
   let(flare = [for (k = [0 : FLARE_N]) let(y = ys + (yf - ys) * k / FLARE_N,
-        wall = wall_lean_at(z) > 0 ? max(min(int_hw_at_y(I, y), wall_allowed_x(I, y, z)), min(I[5], I[0]))
+        wall = wall_lean_at(z) > 0 ? max(min(int_hw_at_y(I, y), wall_allowed_x(I, y, z)), min(I[I_NARROW], I[I_HW]))
              : max(rail_wall_x(I, y, z), int_hw_at_y(I, y)),
         cap = min(wall, ring_half_width_at_y(E, y) - 0.6) - 0.12)
       [max(xlo, min(cone_x(z, hw, CONE_C * (y - y_rail)), cap)), y]])
@@ -1915,7 +1919,7 @@ function window_cutter_ring(z) =
   );
 // Height on the lower half of the interior ring I where its half-width is x.
 function int_lower_y_at_x(I, x) =
-  let(cy = (I[1] + I[2]) / 2) cy - (cy - I[2]) * pow(max(0, 1 - pow(clamp01(x / max(0.01, I[0])), I[4])), 1 / I[4]);
+  let(cy = (I[I_TOP] + I[I_BOT]) / 2) cy - (cy - I[I_BOT]) * pow(max(0, 1 - pow(clamp01(x / max(0.01, I[I_HW])), I[I_NB])), 1 / I[I_NB]);
 module window_cutter() {
   ring_loft([for (z = concat([for (j = [0 : 11]) win_z0 - SCOOP_LEN * (1 - j / 12)], [win_z0, win_z0 + 0.01], drop_first(REAR_ALL), drop_first(station_list(REAR_LAST, win_front_z - 0.02, tip_curve + 1, Z_STEP * 0.8)))) window_cutter_ring(z)]);
 }
@@ -1928,7 +1932,7 @@ RIM_R = 0.6;
 RIM_K = 8;
 function rim_x(z, y, r, zc) =
   let(o = RIM_R - sqrt(max(0, RIM_R * RIM_R - (RIM_R - y) * (RIM_R - y))), d = z - zc)
-  max(0.02, min(window_side_hw(z), (window_base_hw(z) - r) + sqrt(max(0, (r + o) * (r + o) - d * d))));
+  max(0.02, min(window_side_hw(z), (window_side_hw(z) - r) + sqrt(max(0, (r + o) * (r + o) - d * d))));
 module rim_round() {
   r = REAR_R; zc = REAR_ZC;
   zs = concat([for (zd = [0.55, 0.45, 0.3, 0.15]) win_z0 - min(zd, RIM_R - 0.05)], [win_z0, win_z0 + 0.05], REAR_Z, [zc]);

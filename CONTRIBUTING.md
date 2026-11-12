@@ -148,25 +148,25 @@ Geometry:
    (the tip roof's arch on a low baritone beak) leaves loose slivers; fade the feature out where the
    space is thin instead, and scan the slider's whole range, not just its ends (failures came and
    went between neighbouring values).
-7. **Pointwise clamps distort shapes**; prefer shape-level definitions (the window is a slot + arcs).
-8. **Functions and modules can be used before they are defined; top-level variables cannot**: one
+8. **Pointwise clamps distort shapes**; prefer shape-level definitions (the window is a slot + arcs).
+9. **Functions and modules can be used before they are defined; top-level variables cannot**: one
    read before its assignment is undef, silently. Define inputs above their users. Top-level
    variables are evaluated once, so share expensive lists through them (`AIR_RINGS`).
-9. **Don't space ring points by arc length in general**: between the closely spaced tip rings it
+10. **Don't space ring points by arc length in general**: between the closely spaced tip rings it
    slides points sideways (sawtooth folds). It's used only on ridged tops.
-10. **Profile before optimizing.** `-o x.csg` times evaluation alone; with Manifold, evaluation
+11. **Profile before optimizing.** `-o x.csg` times evaluation alone; with Manifold, evaluation
     (interior rings) dominates, and every extra OpenSCAD run costs a full evaluation.
-11. When a clamp looks wrong, append echo loops to a copy of the file, or view it in the app with a
+12. When a clamp looks wrong, append echo loops to a copy of the file, or view it in the app with a
     section cut.
-12. **Shape a feature as one curve, not two joined shapes.** The roof into the tip rail went through a flat shelf, an S-shaped dip, a min() crease straight across the tip and a rounded patch of it before it 
+13. **Shape a feature as one curve, not two joined shapes.** The roof into the tip rail went through a flat shelf, an S-shaped dip, a min() crease straight across the tip and a rounded patch of it before it 
     became a single Hermite cubic from the baffle's own height and slope (GEOMETRY.md "Roof into the tip rail"). A ramp applied everywhere also cut the chamber roof: bound its reach.
     Compare against a reference slice at the centreline (`hits` of x = 0 per z) before and after.
-13. **A rule that differs before and under the window fades across its rear end, never switches
+14. **A rule that differs before and under the window fades across its rear end, never switches
     there.** Leaning side walls, the roof-height width clamp and the window-width hold each switched
     at `win_z0` in one step: ledges and a slot round the window's rear end (Flamma). They now fade
     in over `win_blend` (the throat to the window, at least 4mm). Find such steps by echoing ring
     widths every 0.1mm and looking for jumps; a mesh with genus 1 can still be full of them.
-14. **A feature edge slanting across the loft's grid needs the quads' diagonals along it.** The
+15. **A feature edge slanting across the loft's grid needs the quads' diagonals along it.** The
     shoulder sweep's line crossed `ring_loft`'s diagonals on both flanks: a sawtooth of facets that
     blurring the line only softened. Turning the diagonals there (`flip_up`) and halving the
     stations fixed it; measure the mesh against the exact rings, sliced every 0.1mm.
