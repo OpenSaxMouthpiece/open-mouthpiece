@@ -1488,37 +1488,56 @@ function air_view_rings() =
       [for (q = AIR_RINGS) q[2]]))
     [for (p = ring) f(p)]];
 
-// What the generator changed by itself, as data: [setting, asked, got, why] (mm). The same cases as the
-// "limited to" warnings in validate(); the app shows them as "you asked X, the model has Y". Part of
-// the REPORT echo.
-function adjustments() =
-  let(chamber_got = 2 * max([0, for (r = AIR_RINGS) if (r[0] > eff_throat_z) r[1][0]]))
+// What the generator changed by itself, as data: [setting, asked, got, why, warning] (mm). One list
+// for both readers: validate() echoes each row's warning, and the first four fields go to the app in
+// the REPORT echo (adjustments(), shown as "you asked X, the model has Y"). A new limit is one row.
+function adjust_rows() =
+  // the chamber as built (the walls keep min_wall, so a chamber wider than the body allows is
+  // narrowed): its widest point after the throat
+  let(chamber_got = 2 * max([0, for (r = AIR_RINGS) if (r[0] > eff_throat_z) r[1][I_HW]]))
   [
     if (shank_diameter > 1.3 * shape_width[0][1])
-      ["shank_diameter", shank_diameter, 1.3 * shape_width[0][1], "1.3x this outline's shank end"],
+      ["shank_diameter", shank_diameter, 1.3 * shape_width[0][1], "1.3x this outline's shank end",
+       str("shank_diameter ", shank_diameter, "mm limited to ", 1.3 * shape_width[0][1], "mm (1.3x this outline's shank end)")],
     if (eff_shank_depth < shank_depth)
-      ["shank_depth", shank_depth, eff_shank_depth, "the socket can't run past the bore into the throat or window"],
+      ["shank_depth", shank_depth, eff_shank_depth, "the socket can't run past the bore into the throat or window",
+       str("shank_depth ", shank_depth, "mm limited to ", eff_shank_depth, "mm — the socket can't run past the bore into the throat/window")],
     if (eff_window_length < window_length)
-      ["window_length", window_length, eff_window_length, "the window must start 30% of the length (and 20mm) from the shank end"],
+      ["window_length", window_length, eff_window_length, "the window must start 30% of the length (and 20mm) from the shank end",
+       str("window_length ", window_length, "mm shortened to ", eff_window_length, "mm — the window must start at least 30% of the length (and 20mm) from the shank end, and leave room for the socket")],
     if (eff_throat_z < throat_position)
-      ["throat_position", throat_position, eff_throat_z, "it must come before the window starts"],
+      ["throat_position", throat_position, eff_throat_z, "it must come before the window starts",
+       str("throat_position ", throat_position, "mm moved to ", eff_throat_z, "mm — it must come before the window start (", win_z0, "mm); shorten window_length or move throat_position back")],
     if (eff_throat_z > throat_position)
-      ["throat_position", throat_position, eff_throat_z, "it must come after the socket"],
+      ["throat_position", throat_position, eff_throat_z, "it must come after the socket",
+       str("throat_position ", throat_position, "mm moved to ", eff_throat_z, "mm — it must come after the socket (", shank_depth, "mm deep)")],
     if (shank_bevel > 0 && SHANK_BEVEL < shank_bevel - 0.01)
-      ["shank_bevel", shank_bevel, SHANK_BEVEL, "0.8mm of the tenon's wall stays at the opening"],
+      ["shank_bevel", shank_bevel, SHANK_BEVEL, "0.8mm of the tenon's wall stays at the opening",
+       str("shank_bevel ", shank_bevel, "mm limited to ", round(SHANK_BEVEL * 10) / 10, "mm: it keeps 0.8mm of the tenon's wall at the opening")],
     if (shank_bevel > 0 && SHANK_BEVEL_DEPTH < shank_bevel_depth - 0.01)
-      ["shank_bevel_depth", shank_bevel_depth, SHANK_BEVEL_DEPTH, "3mm of full-size socket stays"],
+      ["shank_bevel_depth", shank_bevel_depth, SHANK_BEVEL_DEPTH, "3mm of full-size socket stays",
+       str("shank_bevel_depth ", shank_bevel_depth, "mm limited to ", round(SHANK_BEVEL_DEPTH * 10) / 10, "mm: it leaves 3mm of full-size socket")],
     if (eff_throat_length < throat_taper)
-      ["throat_taper", throat_taper, eff_throat_length, "the bore can only narrow after the socket"],
+      ["throat_taper", throat_taper, eff_throat_length, "the bore can only narrow after the socket",
+       str("throat_taper ", throat_taper, "mm shortened to ", round(eff_throat_length * 10) / 10, "mm — the bore can only start narrowing after the socket")],
     if (len(AIR_RINGS) > 0 && chamber_got < CHAMBER_W - 0.3)
-      ["chamber_width", CHAMBER_W, chamber_got, str("the side walls keep min_wall (", min_wall, "mm)")],
+      ["chamber_width", CHAMBER_W, chamber_got, str("the side walls keep min_wall (", min_wall, "mm)"),
+       str("the chamber (", CHAMBER_W, "mm wide) is limited to ", round(chamber_got * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)")],
     if ((ligature_made || LIG_PART) && win_z0 - lig_z1 < ligature_position - 0.01)
-      ["ligature_position", ligature_position, win_z0 - lig_z1, "the band has to stay on the reed"],
+      ["ligature_position", ligature_position, win_z0 - lig_z1, "the band has to stay on the reed",
+       str("ligature_position ", ligature_position, "mm limited to ", round((win_z0 - lig_z1) * 10) / 10, "mm — the band has to stay on the reed (behind its heel it holds nothing)")],
     if (HAS_LETTERING && eff_lettering_depth < lettering_depth)
-      ["lettering_depth", lettering_depth, eff_lettering_depth, str("at least 0.8mm of the ", lettering_wall, "mm wall there must remain")]
+      ["lettering_depth", lettering_depth, eff_lettering_depth, str("at least 0.8mm of the ", lettering_wall, "mm wall there must remain"),
+       str("lettering_depth ", lettering_depth, "mm limited to ", eff_lettering_depth, "mm — at least 0.8mm of the ", lettering_wall, "mm wall there must remain")]
   ];
+function adjustments(rows = undef) = [for (r = is_undef(rows) ? adjust_rows() : rows) [r[0], r[1], r[2], r[3]]];
+// The warnings of the rows for these settings, in the rows' order.
+module warn_adjusted(rows, settings) {
+  for (r = rows) if (len([for (n = settings) if (n == r[0]) n]) > 0) echo(str("WARNING: ", r[4]));
+}
 
 module validate() {
+  adjusted = adjust_rows();
   for (r = RENAMED_PARAMS) if (!is_undef(r[1]))
     echo(str("WARNING: ", r[0], " was renamed ", r[2], " — this value is ignored; rename it in the file"));
   if (SD_KIND == "rings" && SD_RINGS < SD_COUNT)
@@ -1532,8 +1551,7 @@ module validate() {
   body_h_got = size_at(BODY_AB_H, BODY_KH);
   if (!has_pts(ext_width_points) && body_width_scale == 1 && abs(body_w_got - body_width) > 0.05)
     echo(str("WARNING: body_width ", body_width, "mm can't be reached: the body is ", round(body_w_got * 10) / 10, "mm wide"));
-  if (shank_diameter > 1.3 * shape_width[0][1])
-    echo(str("WARNING: shank_diameter ", shank_diameter, "mm limited to ", 1.3 * shape_width[0][1], "mm (1.3x this outline's shank end)"));
+  warn_adjusted(adjusted, ["shank_diameter"]);
   if (!USER_TOP && body_height_scale == 1 && abs(body_h_got - body_height) > 0.05)
     echo(str("WARNING: body_height ", body_height, "mm can't be reached: the body is ", round(body_h_got * 10) / 10, "mm tall"));
   if (tip_opening < tip_opening_range[0] || tip_opening > tip_opening_range[1])
@@ -1542,25 +1560,7 @@ module validate() {
   gap_at_throat = baffle_roof(max(eff_throat_z, baffle_start_z)) - facing_height(min(F, max(0, eff_throat_z - break_z)));
   if (gap_at_throat < min_airgap)
     echo(str("WARNING: baffle/facing air gap near the throat is only ", gap_at_throat, "mm (min_airgap=", min_airgap, "mm)"));
-  if (eff_shank_depth < shank_depth)
-    echo(str("WARNING: shank_depth ", shank_depth, "mm limited to ", eff_shank_depth, "mm — the socket can't run past the bore into the throat/window"));
-  if (eff_window_length < window_length)
-    echo(str("WARNING: window_length ", window_length, "mm shortened to ", eff_window_length, "mm — the window must start at least 30% of the length (and 20mm) from the shank end, and leave room for the socket"));
-  if (eff_throat_z < throat_position)
-    echo(str("WARNING: throat_position ", throat_position, "mm moved to ", eff_throat_z, "mm — it must come before the window start (", win_z0, "mm); shorten window_length or move throat_position back"));
-  if (eff_throat_z > throat_position)
-    echo(str("WARNING: throat_position ", throat_position, "mm moved to ", eff_throat_z, "mm — it must come after the socket (", shank_depth, "mm deep)"));
-  if (shank_bevel > 0 && SHANK_BEVEL < shank_bevel - 0.01)
-    echo(str("WARNING: shank_bevel ", shank_bevel, "mm limited to ", round(SHANK_BEVEL * 10) / 10, "mm: it keeps 0.8mm of the tenon's wall at the opening"));
-  if (shank_bevel > 0 && SHANK_BEVEL_DEPTH < shank_bevel_depth - 0.01)
-    echo(str("WARNING: shank_bevel_depth ", shank_bevel_depth, "mm limited to ", round(SHANK_BEVEL_DEPTH * 10) / 10, "mm: it leaves 3mm of full-size socket"));
-  if (eff_throat_length < throat_taper)
-    echo(str("WARNING: throat_taper ", throat_taper, "mm shortened to ", round(eff_throat_length * 10) / 10, "mm — the bore can only start narrowing after the socket"));
-  // The chamber as built (the walls keep min_wall, so a chamber wider than the body allows is
-  // narrowed): its widest point after the throat.
-  chamber_built = 2 * max([0, for (r = AIR_RINGS) if (r[0] > eff_throat_z) r[1][0]]);
-  if (len(AIR_RINGS) > 0 && chamber_built < CHAMBER_W - 0.3)  // (no rings: a ligature/cap-only run)
-    echo(str("WARNING: the chamber (", CHAMBER_W, "mm wide) is limited to ", round(chamber_built * 10) / 10, "mm — the side walls keep min_wall (", min_wall, "mm)"));
+  warn_adjusted(adjusted, ["shank_depth", "window_length", "throat_position", "shank_bevel", "shank_bevel_depth", "throat_taper", "chamber_width"]);
   if (facing_model == "gauge" && len(GAUGE_PTS) <= 2)
     echo("WARNING: facing_model gauge has no facing_gauge_points yet — the power curve is used; add points under Exact points (or drag the facing chart)");
   if (L - TABLE_LEN < tenon_end_z + table_ramp - 0.01)
@@ -1575,10 +1575,7 @@ module validate() {
     echo(str("WARNING: the top picture is about ", round(top_image_len), "mm long and runs past the lettering area — its ends are cut off; make it smaller or move it"));
   if ((has_text(side_text_right) || has_text(side_text_left)) && side_text_long > lettering_z1 - lettering_z0 + 0.01)
     echo(str("WARNING: side text is about ", round(side_text_long), "mm long but there is room for about ", round(lettering_z1 - lettering_z0), "mm — the ends are cut off"));
-  if ((ligature_made || LIG_PART) && win_z0 - lig_z1 < ligature_position - 0.01)
-    echo(str("WARNING: ligature_position ", ligature_position, "mm limited to ", round((win_z0 - lig_z1) * 10) / 10, "mm — the band has to stay on the reed (behind its heel it holds nothing)"));
-  if (HAS_LETTERING && eff_lettering_depth < lettering_depth)
-    echo(str("WARNING: lettering_depth ", lettering_depth, "mm limited to ", eff_lettering_depth, "mm — at least 0.8mm of the ", lettering_wall, "mm wall there must remain"));
+  warn_adjusted(adjusted, ["ligature_position", "lettering_depth"]);
   echo(str("Overall length: ", L, "mm, tip_opening: ", T, "mm, facing_length: ", F, "mm"));
   // the lettering variables and their values now (the app lists them by the text fields)
   echo(str("Text variables: ", join_str([for (t = LETTERING_TOKENS) str(t[0], " ", t[1])], "; ")));
@@ -1589,7 +1586,7 @@ module validate() {
   // The same numbers as data, for the app (src/readouts.ts parseReport). Add fields, don't rename;
   // change "version" only when a field's meaning changes.
   echo(REPORT = [["version", 1], ["length", L], ["tip", T], ["facing", F], ["air", air_cm3],
-                 ["socket", [eff_shank_depth, socket_d, voice]], ["adjusted", adjustments()],
+                 ["socket", [eff_shank_depth, socket_d, voice]], ["adjusted", adjustments(adjusted)],
                  ["rails", [EFF_RAIL, EFF_WIDEN, EDGE_F, EDGE_R, LEGACY_WW || LEGACY_WT]]]);
 }
 validate();
