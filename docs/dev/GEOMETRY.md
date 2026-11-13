@@ -89,7 +89,7 @@ quad diagonals mirrored on the two halves so the mesh is symmetric). No `hull()`
   curve) forward by `side_rail_width`, blending to `tip_rail_thickness` where the edge faces forward
   (so the window's front follows the tip's own curve whatever the tip rail); behind it straight sides
   (a milled slot) to the back end, where the rails are `side_rail_width + side_rail_widening`, with
-  `WIN_MIN_RAIL` (0.5mm) as the floor in between. Tabulated once (`WIN_EDGE`, `WIN_C`); the back
+  `WIN_MIN_RAIL` (0.5mm) as the floor in between. Tabulated once (`WIN_EDGE`, `WIN_C`; between the back end and the tip region the edge is sampled only at `WIN_C`'s stations unless the floor could hold there, `WIN_MID_FINE`: the same window, less evaluation); the back
   corners round by `window_rear_radius`. The app's Window width / Window taper are the same rails
   seen from the window (src/rails.ts, REPORT "rails"). Older designs' `window_width` /
   `window_taper` still give their window (`LEGACY_*`: the old capped, straight-tapered slot, rails

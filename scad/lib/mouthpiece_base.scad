@@ -959,22 +959,55 @@ function side_rail_at(z) = EFF_RAIL + EFF_WIDEN * (1 - clamp01((z - win_z0) / ma
 // faces forward, blended by the edge's direction). Behind it, straight sides (a milled window) to
 // the back end, where the rails are their back width. In between the rails are what the body
 // leaves (on most bodies a little thinner mid-window), never under WIN_MIN_RAIL.
+// The edge is sampled every WIN_DZ: [z, half-width, the rail kept clear of it there]. The rails' own
+// widths are measured from it round the window's back end and from just behind WIN_REF_Z (and the
+// window's last 5mm, WIN_C's fine stations) to the tip, each with the largest rail's reach
+// (WIN_REACH) to spare: the fine zones. In between only the WIN_MIN_RAIL floor reads it, at WIN_C's
+// 0.5mm stations, and on most designs the floor is nowhere near (WIN_MID_FINE): then only every
+// WIN_SKIP-th sample is made there (the one at each station; the others are undef), which saves a
+// tenth of every run's evaluation and gives the same window. Where the floor may hold, every
+// sample is made, as before.
 WIN_DZ = 0.05;
-WIN_Z0E = max(0, win_z0 - 3);
-WIN_EDGE = let(n = ceil((L - WIN_Z0E) / WIN_DZ), e = [for (i = [0 : n + 1]) rail_edge_at(min(L, WIN_Z0E + i * WIN_DZ))])
-  // (an edge point with no width, at the very tip, faces forward)
-  [for (i = [0 : n]) let(z = WIN_Z0E + i * WIN_DZ, s = (e[min(n, i + 1)] - e[max(0, i - 1)]) / (2 * WIN_DZ), w = e[i] < 0.01 ? 1 : abs(s) / sqrt(1 + s * s))
-     [z, e[i], lerp(side_rail_at(z), tip_rail_thickness, w * w)]];
-WIN_RMAX = max([for (p = WIN_EDGE) p[2]]);
-// r: one width all round instead of the rails (the straight part's floor).
-function window_from_edge(z, r = undef) =
-  let(rm = is_undef(r) ? WIN_RMAX : r, n = len(WIN_EDGE) - 1, i0 = max(0, floor((z - rm - WIN_Z0E) / WIN_DZ)), i1 = min(n, ceil((z + rm - WIN_Z0E) / WIN_DZ)))
-  max(0, min([for (i = [i0 : i1]) let(p = WIN_EDGE[i], q = is_undef(r) ? p[2] : r, dz = z - p[0]) if (abs(dz) <= q) p[1] - sqrt(max(0, q * q - dz * dz))]));
-WIN_F0 = window_from_edge(WIN_REF_Z);
-WIN_R0 = window_from_edge(win_z0);
+WIN_SKIP = 10;
 WIN_MIN_RAIL = 0.5;
+WIN_Z0E = max(0, win_z0 - 3);
+WIN_N = ceil((L - WIN_Z0E) / WIN_DZ);
+WIN_REACH = max(EFF_RAIL, EFF_RAIL + EFF_WIDEN, tip_rail_thickness);
+WIN_FINE_A = win_z0 + WIN_REACH + 0.6;
+WIN_FINE_C = min(WIN_REF_Z - WIN_REACH, win_front_z - 5 - WIN_MIN_RAIL) - 0.6;
+function win_fine(i) = let(z = WIN_Z0E + i * WIN_DZ) i >= 0 && i <= WIN_N && (z <= WIN_FINE_A || z >= WIN_FINE_C);
+// prev: a table made before, whose samples are reused; all: every sample, not only the fine zones'.
+function win_edge_table(prev, all) =
+  let(n = WIN_N,
+      e = [for (i = [0 : n + 1]) !is_undef(prev[i]) ? prev[i][1]
+           // (a sample's direction needs its neighbours)
+           : all || win_fine(i - 1) || win_fine(i) || win_fine(i + 1) || i % WIN_SKIP == 0 ? rail_edge_at(min(L, WIN_Z0E + i * WIN_DZ)) : undef])
+  [for (i = [0 : n]) let(z = WIN_Z0E + i * WIN_DZ)
+     win_fine(i) && !is_undef(prev[i]) ? prev[i]
+     // (an edge point with no width, at the very tip, faces forward)
+     : all || win_fine(i) ? let(s = (e[min(n, i + 1)] - e[max(0, i - 1)]) / (2 * WIN_DZ), w = e[i] < 0.01 ? 1 : abs(s) / sqrt(1 + s * s))
+                            [z, e[i], lerp(side_rail_at(z), tip_rail_thickness, w * w)]
+     : i % WIN_SKIP == 0 ? [z, e[i], 0] : undef];
+WIN_EDGE_ZONES = win_edge_table([], false);
+// r: one width all round instead of the rails (the straight part's floor).
+function window_from_edge(z, r = undef, tab = undef) =
+  let(E = is_undef(tab) ? WIN_EDGE : tab, rm = is_undef(r) ? (is_undef(tab) ? WIN_RMAX : WIN_REACH) : r, n = len(E) - 1,
+      i0 = max(0, floor((z - rm - WIN_Z0E) / WIN_DZ)), i1 = min(n, ceil((z + rm - WIN_Z0E) / WIN_DZ)))
+  max(0, min([for (i = [i0 : i1]) if (!is_undef(E[i])) let(p = E[i], q = is_undef(r) ? p[2] : r, dz = z - p[0]) if (abs(dz) <= q) p[1] - sqrt(max(0, q * q - dz * dz))]));
+// (both read the fine zones only)
+WIN_F0 = window_from_edge(WIN_REF_Z, undef, WIN_EDGE_ZONES);
+WIN_R0 = window_from_edge(win_z0, undef, WIN_EDGE_ZONES);
+function window_line(z) = lerp(WIN_R0, WIN_F0, clamp01((z - win_z0) / max(0.001, WIN_REF_Z - win_z0)));
+// Could the floor hold anywhere between the fine zones? At a station there, the floor is no lower
+// than the edge's lowest of the three samples around it, less WIN_MIN_RAIL (0.05mm to spare for
+// what the edge does between samples); the window's straight line must stay inside that.
+WIN_MID_FINE = len([for (i = [0 : WIN_SKIP : WIN_N]) if (!win_fine(i))
+    let(T = WIN_EDGE_ZONES, m = min([for (j = [i - WIN_SKIP, i, i + WIN_SKIP]) if (!is_undef(T[j])) T[j][1]]))
+    if (window_line(WIN_Z0E + i * WIN_DZ) > m - WIN_MIN_RAIL - 0.05) i]) > 0;
+WIN_EDGE = WIN_MID_FINE ? win_edge_table(WIN_EDGE_ZONES, true) : WIN_EDGE_ZONES;
+WIN_RMAX = max([for (p = WIN_EDGE) if (!is_undef(p)) p[2]]);
 function window_straight(z) = z >= WIN_REF_Z ? window_from_edge(z)
-  : min(window_from_edge(z, WIN_MIN_RAIL), lerp(WIN_R0, WIN_F0, clamp01((z - win_z0) / max(0.001, WIN_REF_Z - win_z0))));
+  : min(window_from_edge(z, WIN_MIN_RAIL), window_line(z));
 WIN_C = pchip_prep([for (z = concat([for (z = [win_z0 : 0.5 : win_front_z - 5.25]) z], [for (z = [max(win_z0, win_front_z - 5) : 0.05 : win_front_z - 0.025]) z], [win_front_z])) [z, window_straight(z)]]);
 
 // Window width ignoring the rear corner rounding — also what the interior sidewalls follow, so
@@ -1779,7 +1812,7 @@ function tb_keep_ring(z) =
 // The ramp: the band from the facing up to the ceiling's height, less what stays cut. Taken out
 // of the interior and window cutters (never the facing cutter, so the window stays open).
 module tip_ramp() {
-  X = max([for (p = WIN_EDGE) p[1]]) + 1;
+  X = max([for (p = WIN_EDGE) if (!is_undef(p)) p[1]]) + 1;
   z1 = win_front_z - 0.01;
   zs = [for (j = [0 : 40]) TB_Z0 + (z1 - TB_Z0) * (1 - pow(1 - j / 40, 2))];
   difference() {
