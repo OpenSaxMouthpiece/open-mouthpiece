@@ -6,6 +6,11 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-11-13
+
+- **Faster**: a change shows up about 8% sooner (more with a ligature or cap). The mouthpieces
+  themselves are exactly the same.
+
 ## 2026-11-08
 
 - **Shoulder sweep**: the swept shoulder line is smooth on the flanks; larger settings left a
