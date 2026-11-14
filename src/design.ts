@@ -765,6 +765,23 @@ const ENDS: Record<string, [string, string]> = {
   render_fn: ["Faster", "Smoother"],
 };
 export const paramEnds = (name: string) => ENDS[name];
+// Extra words the settings search finds a setting by: players' words that aren't in its label or
+// description. Search only, never shown.
+const ALIAS_GROUPS: [string[], string[]][] = [
+  [
+    ["bite", "teeth"],
+    ["beak_tip_height", "beak_curve", "beak_length", "beak_squareness", "beak_top_width"],
+  ],
+  [
+    ["logo", "name", "letters", "engrave", "engraving", "initials"],
+    ["top_text", "top_image", "side_text_right", "side_text_left", "shank_text"],
+  ],
+  [["lay"], ["facing_length", "facing_model"]],
+  [["cork", "neck"], ["shank_hole"]],
+];
+const ALIASES: Record<string, string[]> = {};
+for (const [words, names] of ALIAS_GROUPS) for (const n of names) (ALIASES[n] ??= []).push(...words);
+export const paramAliases = (name: string): string[] => ALIASES[name] ?? [];
 // Dropdown values in words, the same everywhere: the curated rows' labels, then these for the
 // settings under More, else the value itself, capitalised ("shank_test_ring" -> "Shank test ring").
 const OPTION_LABELS: Record<string, Record<string, string>> = {

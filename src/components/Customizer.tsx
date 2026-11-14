@@ -12,6 +12,7 @@ import {
   mmToThou,
   optionLabel,
   paramCaption,
+  paramAliases,
   paramEnds,
   paramInactive,
   paramLabel,
@@ -65,7 +66,11 @@ export function Customizer({
     const map = new Map<string, ScadParam[]>();
     for (const p of params) {
       if (hideGroups.includes(p.group)) continue;
-      if (f && ![p.name, paramLabel(p.name), p.caption ?? ""].some((t) => t.toLowerCase().includes(f))) continue;
+      if (
+        f &&
+        ![p.name, paramLabel(p.name), p.caption ?? "", ...paramAliases(p.name)].some((t) => t.toLowerCase().includes(f))
+      )
+        continue;
       if (!map.has(p.group)) map.set(p.group, []);
       map.get(p.group)!.push(p);
     }
@@ -270,7 +275,7 @@ export function ParamRow({
                 title="More about this setting, with a picture (opens GitHub)"
                 aria-label="More about this setting (opens GitHub)"
               >
-                ↗
+                More ↗
               </a>
             </>
           )}

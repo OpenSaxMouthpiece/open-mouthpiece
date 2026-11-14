@@ -13,6 +13,7 @@ import {
   paramCaption,
   changedCount,
   paramInactive,
+  paramAliases,
   paramEnds,
   paramLabel,
   type DesignItem,
@@ -199,9 +200,14 @@ export function DesignPanel({
   const q = query.trim().toLowerCase();
   const matches = (name: string, label: string, caption?: string) =>
     !q ||
-    [name, label, caption ?? "", byName.get(name)?.caption ?? "", ...(paramEnds(name) ?? [])].some((t) =>
-      t.toLowerCase().includes(q),
-    );
+    [
+      name,
+      label,
+      caption ?? "",
+      byName.get(name)?.caption ?? "",
+      ...(paramEnds(name) ?? []),
+      ...paramAliases(name),
+    ].some((t) => t.toLowerCase().includes(q));
   // Point lists show only while the code is open (the Curves section edits them).
   const hidden = (p: ScadParam) => !showNames && DESIGN_HIDDEN_GROUPS.includes(p.group);
   // A search looks in every tab; otherwise only the open tab's sections and groups show.

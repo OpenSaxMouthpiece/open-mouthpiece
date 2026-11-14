@@ -37,7 +37,7 @@ export function Workspace({
   return (
     <main
       className="workspace rail-mode"
-      style={{ gridTemplateColumns: `64px ${open ? `${editorW}px 6px ` : ""}${panelW}px 5px 1fr` }}
+      style={{ gridTemplateColumns: `70px ${open ? `${editorW}px 6px ` : ""}${panelW}px 5px 1fr` }}
     >
       <Rail items={rail} onPick={onPick} />
       <section className="left" style={open ? undefined : { display: "none" }}>

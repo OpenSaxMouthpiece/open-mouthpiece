@@ -1,5 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { changedCount, optionLabel } from "./design";
+import { changedCount, DESIGN_SECTIONS, optionLabel, paramAliases } from "./design";
+
+describe("paramAliases", () => {
+  it("finds settings by players' words", () => {
+    expect(paramAliases("beak_tip_height")).toContain("bite");
+    expect(paramAliases("top_text")).toContain("logo");
+    expect(paramAliases("facing_length")).toContain("lay");
+    expect(paramAliases("shank_hole")).toContain("cork");
+    expect(paramAliases("tip_opening")).toEqual([]);
+  });
+  it("names only settings the panel places", () => {
+    const placed = JSON.stringify(DESIGN_SECTIONS);
+    for (const n of ["beak_tip_height", "beak_curve", "beak_length", "beak_squareness", "beak_top_width"])
+      expect(placed).toContain(`"${n}"`);
+    for (const n of ["top_text", "top_image", "side_text_right", "side_text_left", "shank_text"])
+      expect(placed).toContain(`"${n}"`);
+    for (const n of ["facing_length", "facing_model", "shank_hole"]) expect(placed).toContain(`"${n}"`);
+  });
+});
 
 describe("optionLabel", () => {
   it("prefers a section's own words for an option", () => {
