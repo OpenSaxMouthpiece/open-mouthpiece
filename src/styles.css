@@ -2936,13 +2936,28 @@ button.link:hover {
   flex-direction: column;
   min-height: 0;
   overflow-y: auto;
-  /* a short window scrolls the rail up and down (wheel or touch), never sideways; no scrollbar to
-     squeeze the labels */
+  /* a short window scrolls the rail up and down, never sideways; a slim scrollbar shows it scrolls
+     without squeezing the labels */
   overflow-x: hidden;
-  scrollbar-width: none;
   padding: 6px 0;
   background: var(--panel);
   border-right: 1px solid var(--border);
+}
+.rail::-webkit-scrollbar {
+  width: 5px;
+}
+.rail::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--muted) 45%, transparent);
+}
+.rail::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* Firefox has no ::-webkit-scrollbar (and in Chrome scrollbar-width would switch it off) */
+@supports (-moz-appearance: none) {
+  .rail {
+    scrollbar-width: thin;
+  }
 }
 .rail-item {
   position: relative;
