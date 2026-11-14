@@ -1,16 +1,18 @@
 // A toolbar button that opens a small panel under it (the "More" and ⚙ menus). Closes on a click
 // outside, on Escape, or when an item calls close().
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { track } from "../usage";
 
 interface Props {
   label: ReactNode;
   title: string;
   className?: string;
   align?: "left" | "right";
+  track?: string; // anonymous usage: logged as menu_<track> when it opens
   children: (close: () => void) => ReactNode;
 }
 
-export function Menu({ label, title, className = "", align = "right", children }: Props) {
+export function Menu({ label, title, className = "", align = "right", track: id, children }: Props) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -35,7 +37,10 @@ export function Menu({ label, title, className = "", align = "right", children }
         aria-expanded={open}
         aria-haspopup="true"
         title={title}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => {
+          if (!open && id) track("feature", `menu_${id}`);
+          setOpen((o) => !o);
+        }}
       >
         {label}
       </button>

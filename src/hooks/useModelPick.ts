@@ -7,6 +7,7 @@ import { pickRegion, placeOf, toDesign, type PickRegion } from "../pick";
 import { muteSectionSpy } from "../components/DesignPanel";
 import { ESSENTIALS, STORE_ESSENTIALS } from "../design";
 import { getPref, setPref, setSectionsOpen } from "../uiPrefs";
+import { track } from "../usage";
 
 export interface Pick {
   region: PickRegion;
@@ -36,7 +37,10 @@ export function useModelPick(o: Options) {
     if (!place) return;
     muteSectionSpy(1200);
     // a setting Essentials leaves out: back to All settings, so it can be shown
-    if (!ESSENTIALS.has(name) && getPref(STORE_ESSENTIALS, false)) setPref(STORE_ESSENTIALS, false);
+    if (!ESSENTIALS.has(name) && getPref(STORE_ESSENTIALS, false)) {
+      track("feature", "essentials_off_pick");
+      setPref(STORE_ESSENTIALS, false);
+    }
     showDesign();
     if (!isPhone) showSection(place.section);
     setSectionsOpen([...(isPhone ? [`d:${place.section}`] : []), ...(place.more ? [place.more] : [])], true);
@@ -73,6 +77,7 @@ export function useModelPick(o: Options) {
       );
       const params = region?.params.filter((n) => opts.current.has(n) && placeOf(n)) ?? [];
       if (!region || !params.length) return setPick(null);
+      track("feature", "model_pick");
       setPick({ region: { ...region, params }, at: hit.at, shown: params[0] });
       reveal(params[0]);
       window.clearTimeout(timer.current);

@@ -135,6 +135,7 @@ export function AppearanceMenu() {
   return (
     <Menu
       className="appearance-menu"
+      track="appearance"
       label={<span aria-hidden="true">⚙</span>}
       title="Appearance: light or dark, model colour, background; anonymous usage"
     >

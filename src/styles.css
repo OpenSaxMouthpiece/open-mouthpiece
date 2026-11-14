@@ -3344,23 +3344,7 @@ a:focus-visible,
 .baffle-sketches button.on .roof {
   stroke: var(--accent-fg);
 }
-/* "Show descriptions" under the find row */
-.head-captions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 16px;
-  padding: 0 10px 6px;
-  color: var(--muted);
-  font-size: 12px;
-  border-bottom: 1px solid var(--border);
-}
-.head-captions label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.design-head.single:has(+ .head-captions) {
+.design-head.single:has(+ .list-bar) {
   border-bottom: none;
   padding-bottom: 4px;
 }
@@ -3621,12 +3605,38 @@ a:focus-visible,
   border-radius: 6px;
 }
 
-/* Essentials | All settings, over the mouthpiece's settings */
-.essentials-switch {
-  padding: 6px 10px;
+/* Under the find row: Essentials | All settings, and ⋯ (descriptions, one list) */
+.list-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px 6px;
+  border-bottom: 1px solid var(--border);
 }
-.essentials-switch .segmented button {
+.list-bar .segmented button {
   padding: 3px 10px;
+}
+.list-bar .list-menu {
+  margin-left: auto;
+}
+.list-bar .list-menu > button {
+  padding: 2px 10px;
+  font-size: 16px;
+  line-height: 1;
+}
+/* the desktop's right pane is also ".right" (.workspace.rail-mode .right): keep this pop-up a pop-up */
+.workspace .list-bar .menu-pop.right {
+  position: absolute;
+  display: block;
+  overflow: visible;
+  border-left: 1px solid var(--border);
+}
+.list-menu .menu-list label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+  white-space: nowrap;
 }
 .essentials-left {
   display: block;

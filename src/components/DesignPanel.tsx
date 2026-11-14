@@ -26,6 +26,8 @@ import { shapeParams } from "../shapeEdit";
 import { BaffleSketches } from "./BaffleSketches";
 import { Customizer, PanelOptions, ParamRow } from "./Customizer";
 import { Fold } from "./Fold";
+import { Menu } from "./Menu";
+import { track } from "../usage";
 import { usePref } from "../uiPrefs";
 import { DONATE_URL, LIGATURE_SOURCE, PRESET_SOURCES, PRINTING_GUIDE_URL } from "../links";
 
@@ -263,6 +265,14 @@ export function DesignPanel({
   // Essentials: a short list of the most-changed settings (the generator's files only, not while searching)
   const hasEssentials = params.some((p) => ESSENTIALS.has(p.name));
   const essentialsNow = essentials && hasEssentials && !q;
+  const showSwitch = hasEssentials && !q && !unmade && tab === "mouthpiece";
+  const listMenu = !!only && !unmade; // the rail's panel: descriptions and one list, under ⋯
+  // Essentials on or off, logged with how (the switch, a section's "more here" link)
+  const pickEssentials = (on: boolean, how: string) => {
+    if (on === essentials) return;
+    track("feature", on ? "essentials_on" : `essentials_off_${how}`);
+    setEssentials(on);
+  };
   const noMatch =
     q &&
     !params.some(
@@ -334,15 +344,6 @@ export function DesignPanel({
                 Reset{changed ? ` (${changed})` : ""}
               </button>
             </div>
-            <div className="head-captions">
-              <label title="Show what each setting does under it">
-                <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
-                descriptions
-              </label>
-              <label title="Every section in one scrolling list; the rail jumps to a section">
-                <input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} /> One list
-              </label>
-            </div>
           </>
         )
       ) : (
@@ -402,26 +403,43 @@ export function DesignPanel({
           <PanelOptions ids={ids} />
         </>
       )}
-      {hasEssentials && !q && !unmade && tab === "mouthpiece" && (
-        <div className="essentials-switch">
-          <div className="segmented" role="group" aria-label="Settings shown">
-            {(
-              [
-                [true, "Essentials"],
-                [false, "All settings"],
-              ] as const
-            ).map(([on, text]) => (
-              <button
-                key={text}
-                className={essentials === on ? "active" : ""}
-                aria-pressed={essentials === on}
-                onClick={() => setEssentials(on)}
-                title={on ? "Only the settings changed most often" : "Every setting"}
-              >
-                {text}
-              </button>
-            ))}
-          </div>
+      {(showSwitch || listMenu) && (
+        <div className="list-bar">
+          {showSwitch && (
+            <div className="segmented" role="group" aria-label="Settings shown">
+              {(
+                [
+                  [true, "Essentials"],
+                  [false, "All settings"],
+                ] as const
+              ).map(([on, text]) => (
+                <button
+                  key={text}
+                  className={essentials === on ? "active" : ""}
+                  aria-pressed={essentials === on}
+                  onClick={() => pickEssentials(on, "switch")}
+                  title={on ? "Only the settings changed most often" : "Every setting"}
+                >
+                  {text}
+                </button>
+              ))}
+            </div>
+          )}
+          {listMenu && (
+            <Menu className="list-menu" label="⋯" title="List options: descriptions, one list" track="list">
+              {() => (
+                <div className="menu-list">
+                  <label title="Show what each setting does under it">
+                    <input type="checkbox" checked={captions} onChange={(e) => setCaptions(e.target.checked)} /> Show
+                    descriptions
+                  </label>
+                  <label title="Every section in one scrolling list; the rail jumps to a section">
+                    <input type="checkbox" checked={all} onChange={(e) => setAll(e.target.checked)} /> One list
+                  </label>
+                </div>
+              )}
+            </Menu>
+          )}
         </div>
       )}
       <div className="design-scroll" ref={listRef}>
@@ -599,7 +617,7 @@ export function DesignPanel({
               {s.title === "Fit on the horn" && !q && fitNote}
               {!s.groups && more.length > 0 && moreFold(`m:${s.title}`, "More settings", more)}
               {left > 0 && (
-                <button className="link essentials-left" onClick={() => setEssentials(false)}>
+                <button className="link essentials-left" onClick={() => pickEssentials(false, "link")}>
                   All settings: {left} more here
                 </button>
               )}

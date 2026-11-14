@@ -1,7 +1,7 @@
 // Anonymous usage, so we can see how the app is used and what people print (the Worker's
 // /api/usage -> the USAGE database; scripts/usage.mjs reads it). Small events: a visit (phone or
 // desktop, window width, language, the site it came from), the design opened (a preset's name or
-// "own design"), the NAMES of settings touched, sections opened, features used, and on a download
+// "own design"), the NAMES of settings touched, sections opened, features used (menus opened among them), and on a download
 // the design's numbers (numeric and dropdown settings, readouts). Never lettering, pictures, file
 // names or curve points; no IP address, no cookie, no ID that lasts past the page (a random visit
 // id links one visit's events, nothing links visits). Only on the published site, and off when the

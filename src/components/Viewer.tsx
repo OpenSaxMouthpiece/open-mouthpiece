@@ -14,6 +14,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 import type { FocusRequest } from "../focus";
 import { Menu } from "./Menu";
+import { track } from "../usage";
 import { luminance, useLook, useModelColor, useTheme, viewerBackground } from "../appearance";
 
 // Sides as the player sees them (the lettering's convention: looking down on the top with the tip
@@ -1039,6 +1040,7 @@ export function Viewer({
           <span className="sep" />
           <Menu
             label="Show ▾"
+            track="show"
             title="What the view shows: edges, see-through, the ligature and a reed"
             align="left"
             className="show-menu"
@@ -1182,6 +1184,7 @@ export function Viewer({
           {(autoRender || autoZoom || clickPick || quality) && (
             <Menu
               label="Behavior ▾"
+              track="behavior"
               title="How the view behaves: render on change, auto-zoom, click to find a setting, render quality"
               align="left"
               className="show-menu"
@@ -1315,7 +1318,14 @@ export function Viewer({
               />
             </label>
           )}
-          <button onClick={() => setToolsOpen((o) => !o)} aria-label="View options" aria-expanded={toolsOpen}>
+          <button
+            onClick={() => {
+              if (!toolsOpen) track("feature", "menu_phone_view");
+              setToolsOpen((o) => !o);
+            }}
+            aria-label="View options"
+            aria-expanded={toolsOpen}
+          >
             {toolsOpen ? "✕" : "⋯"}
           </button>
         </div>

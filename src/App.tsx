@@ -800,7 +800,10 @@ export default function App() {
       } catch {
         fail({ text: "That design link is damaged or incomplete: opened the usual files instead", kind: "error" });
       }
-      if (shared) clearShare();
+      if (shared) {
+        clearShare();
+        track("feature", "share_link_opened");
+      }
       let sharedKey: string | null = null;
       if (shared && shared.source !== undefined) {
         const t = localTab(shared.file, shared.source, has);
@@ -1992,6 +1995,7 @@ export default function App() {
       label="▾"
       title="Choose what to download: STLs, test rings, the design file, a check card"
       className="dl-menu"
+      track="download"
     >
       {(close) => <div className="menu-list">{downloadItems(close)}</div>}
     </Menu>
@@ -2092,7 +2096,10 @@ export default function App() {
         <header className="phone-bar">
           <button
             className="menu-btn"
-            onClick={() => setMenuOpen((o) => !o)}
+            onClick={() => {
+              if (!menuOpen) track("feature", "menu_phone");
+              setMenuOpen((o) => !o);
+            }}
             aria-label="Menu"
             aria-expanded={menuOpen}
           >
@@ -2110,7 +2117,11 @@ export default function App() {
           ) : (
             <button
               className="primary dl-button"
-              onClick={() => (dl?.state === "ready" ? downloadMain() : setMenuOpen(true))}
+              onClick={() => {
+                if (dl?.state === "ready") return downloadMain();
+                track("feature", "menu_phone_download");
+                setMenuOpen(true);
+              }}
               disabled={downloadDisabled}
               aria-live="polite"
               title={
@@ -2268,7 +2279,7 @@ export default function App() {
     fn();
   };
   const moreMenu = (
-    <Menu label="More ▾" title="Compare, the code editor">
+    <Menu label="More ▾" title="Compare, the code editor" track="more">
       {(close) => (
         <div className="menu-list">
           <div className="menu-item" onChange={close}>

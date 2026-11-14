@@ -233,7 +233,7 @@ static site (docs/HOSTING.md).
   changed most often, from the usage table, Nov 2026) and one "All settings: N more here" link each;
   Personalize, Printing, the ligature and the cap stay whole (`ESSENTIALS_WHOLE`). A search ignores it,
   and a click on the model to a left-out setting turns it off (`useModelPick`'s `reveal`).
-- **One list** (pref `oneList`, on by default; the "One list" tick beside "Show descriptions"): with it
+- **One list** (pref `oneList`, on by default; the "One list" tick, with "Show descriptions" under the ⋯ at the end of the Essentials row, `.list-bar`): with it
   the panel lists every section (ligature and cap included) in one scroll, each in a `data-sec` wrapper
   (`DesignPanel`, the `list` flag). A rail pick sets `only` and scrolls there; scrolling reports the
   section at the top by `onSpy` (App's `spy`: sets the rail place and opens the ligature's / cap's
@@ -275,7 +275,12 @@ static site (docs/HOSTING.md).
   user agent; no values or text, no IP.
 - **Usage** (`src/usage.ts` -> `POST /api/usage` -> D1, `worker/usage.sql`): visits, design,
   setting names, sections, features, quality, downloads with the design's numbers; never text,
-  pictures or file names; a random per-page visit id. Sent every 5s.
+  pictures or file names; a random per-page visit id. Sent every 5s. Features include the menus
+  opened (`menu_<id>`: Menu's `track` prop, plus `menu_phone`, `menu_phone_download`,
+  `menu_phone_view`), `share_link_opened`, `model_pick`, `essentials_on` and
+  `essentials_off_switch` / `_link` / `_pick`: they show in `scripts/usage.mjs`'s features table.
+  To see them locally: a production build on a host other than localhost (`vite preview --host
+  0.0.0.0`, open 127.0.0.2) and a stubbed `navigator.sendBeacon`.
 - Both off on localhost and with ⚙ "Share anonymous usage".
 
 ## Development
