@@ -275,7 +275,7 @@ export function ParamRow({
                 title="More about this setting, with a picture (opens GitHub)"
                 aria-label="More about this setting (opens GitHub)"
               >
-                More ↗
+                ↗
               </a>
             </>
           )}
