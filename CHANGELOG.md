@@ -6,6 +6,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-11-14
+
 - **Easier to read and find**: the readouts' notes no longer get cut off, the side bar no longer
   scrolls sideways, and the search finds settings by everyday words such as bite, lay, cork and
   logo.
