@@ -6,6 +6,9 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- **Share on phones**: a share button next to Download opens the phone's share menu with a link to
+  the design, for example to send it to your computer and print from there. It used to be inside
+  the ☰ menu only.
 - **Essentials**: a switch over the settings shows only the 16 that players change most often (tip
   opening, facing, rails, shank hole, baffle, chamber, throat, length, body width and height, and
   beak height). All settings is still one click away, and the search and a click on the model

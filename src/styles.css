@@ -1088,6 +1088,19 @@ button.toggle.on {
   padding: 0 12px;
   font-size: 20px;
 }
+.phone-bar .share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: 0 10px;
+}
+/* the smallest phones: the logo gives way, so the design's name still reads */
+@media (max-width: 359px) {
+  .phone-bar .phone-brand {
+    display: none;
+  }
+}
 .phone-viewer {
   position: relative;
   flex: 0 0 46dvh;

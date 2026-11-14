@@ -345,6 +345,8 @@ The app works on phones and tablets, with a few differences:
 - The groups of settings are in a bar at the bottom of the screen, and the settings appear below
   the 3D view.
 - The measurements are shown in one line above the view. Tap it to see the details.
+- The share button (a box with an arrow) next to **Download** opens your phone's share menu with a
+  link to the design: send it to yourself to open the design on your computer and print from there.
 - The **☰** menu at the top left has downloads, quality, saving, opening, sharing, comparing,
   appearance, the code editor and About.
 - The **⋯** button in the view has the view buttons and Cut open.

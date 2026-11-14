@@ -2110,6 +2110,31 @@ export default function App() {
             <span className="name">Open Mouthpiece</span>
           </span>
           {voicePicker}
+          <button
+            className="share-btn"
+            onClick={() => {
+              track("feature", "share_bar");
+              void share();
+            }}
+            aria-label="Share this design"
+            title="Share a link that opens this design"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M12 3v12" />
+              <path d="M8 7l4-4 4 4" />
+              <path d="M7 10H5.5a1 1 0 0 0-1 1v9a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-9a1 1 0 0 0-1-1H17" />
+            </svg>
+          </button>
           {!auto ? (
             <button className="primary" onClick={render}>
               Render
@@ -2149,7 +2174,7 @@ export default function App() {
               <hr />
               {qualitySelect}
               {fileActions}
-              <button onClick={act(share)}>Share this design (copy link)</button>
+              <button onClick={act(share)}>Share this design</button>
               {shareArtToggle}
               <hr />
               {compareSelect}

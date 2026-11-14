@@ -277,7 +277,7 @@ static site (docs/HOSTING.md).
   setting names, sections, features, quality, downloads with the design's numbers; never text,
   pictures or file names; a random per-page visit id. Sent every 5s. Features include the menus
   opened (`menu_<id>`: Menu's `track` prop, plus `menu_phone`, `menu_phone_download`,
-  `menu_phone_view`), `share_link_opened`, `model_pick`, `essentials_on` and
+  `menu_phone_view`), `share_bar` (the phone bar's share button; `share` counts every share), `share_link_opened`, `model_pick`, `essentials_on` and
   `essentials_off_switch` / `_link` / `_pick`: they show in `scripts/usage.mjs`'s features table.
   To see them locally: a production build on a host other than localhost (`vite preview --host
   0.0.0.0`, open 127.0.0.2) and a stubbed `navigator.sendBeacon`.
