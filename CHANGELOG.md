@@ -6,6 +6,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-11-14
+
 - **Share on phones**: a share button next to Download opens the phone's share menu with a link to
   the design, for example to send it to your computer and print from there. It used to be inside
   the ☰ menu only.
@@ -14,9 +16,6 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
   beak height). All settings is still one click away, and the search and a click on the model
   still reach every setting. "Show descriptions" and "One list" moved into the **⋯** at the end of
   that row, so the sliders start higher.
-
-## 2026-11-14
-
 - **Easier to read and find**: the readouts' notes no longer get cut off, the side bar no longer
   scrolls sideways, and the search finds settings by everyday words such as bite, lay, cork and
   logo.
