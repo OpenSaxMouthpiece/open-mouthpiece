@@ -49,4 +49,11 @@ describe("ESSENTIALS", () => {
     );
     for (const n of ESSENTIALS) expect(rows, n).toContain(n);
   });
+  it("leaves no trimmed section empty", () => {
+    for (const s of DESIGN_SECTIONS.filter((s) => !s.ligature && !s.cap && !ESSENTIALS_WHOLE.includes(s.title)))
+      expect(
+        s.items.some((i) => ESSENTIALS.has(i.name)),
+        s.title,
+      ).toBe(true);
+  });
 });

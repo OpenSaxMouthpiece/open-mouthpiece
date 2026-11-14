@@ -6,10 +6,11 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
-- **Essentials**: a switch over the settings shows only the 12 that players change most often (tip
-  opening, facing, rails, shank hole, baffle, chamber and throat). All settings is still one click
-  away, and the search and a click on the model still reach every setting. "Show descriptions"
-  and "One list" moved into the **⋯** at the end of that row, so the sliders start higher.
+- **Essentials**: a switch over the settings shows only the 16 that players change most often (tip
+  opening, facing, rails, shank hole, baffle, chamber, throat, length, body width and height, and
+  beak height). All settings is still one click away, and the search and a click on the model
+  still reach every setting. "Show descriptions" and "One list" moved into the **⋯** at the end of
+  that row, so the sliders start higher.
 
 ## 2026-11-14
 

@@ -557,7 +557,7 @@ export const DESIGN_SECTIONS: DesignSection[] = [
 // Set by the part tabs' heads (make the ligature / the cap), so they have no row.
 export const DESIGN_ELSEWHERE = ["ligature_made", "cap_made"];
 // Essentials: the mouthpiece settings changed most often (anonymous usage, Aug-Nov 2026), for a
-// short first view. Search and a click on the model still reach every setting; step_size shows
+// short first view; every trimmed section keeps at least one (Body & beak: its top four). Search and a click on the model still reach every setting; step_size shows
 // only with a step baffle, like in the full list.
 export const ESSENTIALS = new Set([
   "tip_opening",
@@ -573,6 +573,10 @@ export const ESSENTIALS = new Set([
   "baffle_length",
   "chamber_width",
   "throat_width",
+  "overall_length",
+  "body_width",
+  "body_height",
+  "beak_tip_height",
 ]);
 // Sections Essentials leaves whole: not the shape (lettering, printing).
 export const ESSENTIALS_WHOLE = ["Personalize", "Printing"];

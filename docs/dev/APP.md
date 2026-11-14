@@ -229,7 +229,7 @@ static site (docs/HOSTING.md).
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
 - **Essentials** (pref `essentials`, off by default; the Essentials | All settings switch over the
-  mouthpiece tab's sections): the shape sections show only `ESSENTIALS` (design.ts: the 12 settings
+  mouthpiece tab's sections): the shape sections show only `ESSENTIALS` (design.ts: the 16 settings
   changed most often, from the usage table, Nov 2026) and one "All settings: N more here" link each;
   Personalize, Printing, the ligature and the cap stay whole (`ESSENTIALS_WHOLE`). A search ignores it,
   and a click on the model to a left-out setting turns it off (`useModelPick`'s `reveal`).
