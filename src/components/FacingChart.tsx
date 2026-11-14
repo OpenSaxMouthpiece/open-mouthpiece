@@ -148,6 +148,8 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
   else curve = facing;
   const path = curve.map(([d, h], i) => `${i ? "L" : "M"}${x(d).toFixed(1)},${y(mmToThou(h)).toFixed(1)}`).join("");
   const stops = gaugeStops(curve);
+  // the table runs like the chart: the tip on the left, so the thickest feeler first
+  const stopsFromTip = stops.slice().sort((a, b) => a.at - b.at);
   const dTicks = Array.from({ length: Math.floor(dom.maxD / 5) + 1 }, (_, i) => i * 5);
   const tStep = [10, 20, 50, 100].find((s) => dom.maxT / s <= 7) ?? 100;
   const tTicks = Array.from({ length: Math.floor(dom.maxT / tStep) + 1 }, (_, i) => i * tStep);
@@ -407,7 +409,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
               <thead>
                 <tr>
                   <th>Feeler</th>
-                  {stops.map((s) => (
+                  {stopsFromTip.map((s) => (
                     <th key={s.gauge}>{gaugeName(s.gauge)}"</th>
                   ))}
                 </tr>
@@ -415,7 +417,7 @@ export function FacingChart({ facing, tip: T, length: F, edit, pick, compare }: 
               <tbody>
                 <tr>
                   <td>{edit ? "stops at (mm)" : "stops at"}</td>
-                  {stops.map((s) => (
+                  {stopsFromTip.map((s) => (
                     <td key={s.gauge}>
                       {edit ? (
                         <StopInput gauge={s.gauge} at={s.at} onSet={(v) => setStop(s.gauge, v)} />

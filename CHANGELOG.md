@@ -9,6 +9,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 - **Easier to read and find**: the readouts' notes no longer get cut off, the side bar no longer
   scrolls sideways, and the search finds settings by everyday words such as bite, lay, cork and
   logo.
+- **Feeler gauge stops** run the same way as the facing chart: the tip on the left, so the
+  thickest feeler comes first.
 
 ## 2026-11-13
 
