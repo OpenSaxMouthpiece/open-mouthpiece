@@ -8,6 +8,9 @@ import {
   DESIGN_HIDDEN_GROUPS,
   DESIGN_OPTIONS,
   DESIGN_SECTIONS,
+  ESSENTIALS,
+  ESSENTIALS_WHOLE,
+  STORE_ESSENTIALS,
   isPlaced,
   PART_GROUPS,
   paramCaption,
@@ -120,6 +123,7 @@ export function DesignPanel({
   const changed = changedCount(values);
   const [captions, setCaptions] = usePref("captions", true);
   const [all, setAll] = usePref("oneList", true);
+  const [essentials, setEssentials] = usePref(STORE_ESSENTIALS, false);
   // the rail on the ligature or cap before it is made: only its "make" button
   const unmade = (!all && only === "Ligature" && !ligature?.on) || (only === "Cap" && !cap?.on);
   const [query, setQuery] = useState("");
@@ -256,6 +260,9 @@ export function DesignPanel({
       inactive={paramInactive(p.name, get)}
     />
   );
+  // Essentials: a short list of the most-changed settings (the generator's files only, not while searching)
+  const hasEssentials = params.some((p) => ESSENTIALS.has(p.name));
+  const essentialsNow = essentials && hasEssentials && !q;
   const noMatch =
     q &&
     !params.some(
@@ -395,6 +402,28 @@ export function DesignPanel({
           <PanelOptions ids={ids} />
         </>
       )}
+      {hasEssentials && !q && !unmade && tab === "mouthpiece" && (
+        <div className="essentials-switch">
+          <div className="segmented" role="group" aria-label="Settings shown">
+            {(
+              [
+                [true, "Essentials"],
+                [false, "All settings"],
+              ] as const
+            ).map(([on, text]) => (
+              <button
+                key={text}
+                className={essentials === on ? "active" : ""}
+                aria-pressed={essentials === on}
+                onClick={() => setEssentials(on)}
+                title={on ? "Only the settings changed most often" : "Every setting"}
+              >
+                {text}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="design-scroll" ref={listRef}>
         {printed && (
           <div className="printed-note">
@@ -430,10 +459,13 @@ export function DesignPanel({
           const raw = (n: string) => String(values[n] ?? byName.get(n)?.initial ?? "").trim();
           // a picture set to "same" (ligature, cap) counts when the mouthpiece has one
           const filled = (n: string) => (raw(n) === "same" ? raw("top_image") : raw(n)) !== "";
-          const rowsOf = (items: DesignItem[]) =>
+          // Essentials on (and no search): the mouthpiece's shape sections show only their essential rows
+          const trimmed = essentialsNow && !s.ligature && !s.cap && !ESSENTIALS_WHOLE.includes(s.title);
+          const rowsOf = (items: DesignItem[], trim = trimmed) =>
             items.filter(
               (i) =>
                 byName.has(i.name) &&
+                (!trim || ESSENTIALS.has(i.name)) &&
                 (!i.showIf || i.showIf.some(filled)) &&
                 (!i.when || [i.when[1]].flat().includes(String(get(i.when[0])))) &&
                 (!s.ligature || ligature?.on) &&
@@ -448,12 +480,13 @@ export function DesignPanel({
           if (!s.items.some((i) => byName.has(i.name))) return null;
           // The rest of the section (or of a group), under More (the ligature's and cap's once made,
           // like their rows).
-          const moreOf = (names: string[] = []) =>
+          const moreOf = (names: string[] = [], trim = trimmed) =>
             names
               .map((n) => byName.get(n))
               .filter(
                 (p): p is ScadParam =>
                   !!p &&
+                  (!trim || ESSENTIALS.has(p.name)) &&
                   !hidden(p) &&
                   (!s.ligature || !!ligature?.on) &&
                   (!s.cap || !!cap?.on) &&
@@ -468,6 +501,10 @@ export function DesignPanel({
             !(s.cap && matches("cap", s.title))
           )
             return null;
+          // what Essentials leaves out of this section: offered as one link at its end
+          const left = trimmed
+            ? rowsOf(s.items, false).length + moreOf(s.more, false).length - rows.length - more.length
+            : 0;
           const summary = s.cap && !cap?.on ? undefined : s.summary?.(get); // the cap's only once made
           const moreChanged = more.filter((p) => p.name in values).length;
           const rowOf = (i: DesignItem) =>
@@ -561,6 +598,11 @@ export function DesignPanel({
               {s.title === "Printing" && !q && printKit}
               {s.title === "Fit on the horn" && !q && fitNote}
               {!s.groups && more.length > 0 && moreFold(`m:${s.title}`, "More settings", more)}
+              {left > 0 && (
+                <button className="link essentials-left" onClick={() => setEssentials(false)}>
+                  All settings: {left} more here
+                </button>
+              )}
             </Fold>
           );
           return list && !q ? (

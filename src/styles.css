@@ -3620,3 +3620,16 @@ a:focus-visible,
   animation: param-flash 1.6s ease-out;
   border-radius: 6px;
 }
+
+/* Essentials | All settings, over the mouthpiece's settings */
+.essentials-switch {
+  padding: 6px 10px;
+}
+.essentials-switch .segmented button {
+  padding: 3px 10px;
+}
+.essentials-left {
+  display: block;
+  margin: 4px 10px 6px;
+  font-size: 12px;
+}

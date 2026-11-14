@@ -5,7 +5,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { FocusData } from "../focus";
 import { pickRegion, placeOf, toDesign, type PickRegion } from "../pick";
 import { muteSectionSpy } from "../components/DesignPanel";
-import { setSectionsOpen } from "../uiPrefs";
+import { ESSENTIALS, STORE_ESSENTIALS } from "../design";
+import { getPref, setPref, setSectionsOpen } from "../uiPrefs";
 
 export interface Pick {
   region: PickRegion;
@@ -34,6 +35,8 @@ export function useModelPick(o: Options) {
     const place = placeOf(name);
     if (!place) return;
     muteSectionSpy(1200);
+    // a setting Essentials leaves out: back to All settings, so it can be shown
+    if (!ESSENTIALS.has(name) && getPref(STORE_ESSENTIALS, false)) setPref(STORE_ESSENTIALS, false);
     showDesign();
     if (!isPhone) showSection(place.section);
     setSectionsOpen([...(isPhone ? [`d:${place.section}`] : []), ...(place.more ? [place.more] : [])], true);

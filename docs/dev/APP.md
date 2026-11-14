@@ -228,6 +228,11 @@ static site (docs/HOSTING.md).
   Hide / Beside / Download cap STL / Remove; the print kit and Download ▾ take `<name>_cap.stl` when made.
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
+- **Essentials** (pref `essentials`, off by default; the Essentials | All settings switch over the
+  mouthpiece tab's sections): the shape sections show only `ESSENTIALS` (design.ts: the 12 settings
+  changed most often, from the usage table, Nov 2026) and one "All settings: N more here" link each;
+  Personalize, Printing, the ligature and the cap stay whole (`ESSENTIALS_WHOLE`). A search ignores it,
+  and a click on the model to a left-out setting turns it off (`useModelPick`'s `reveal`).
 - **One list** (pref `oneList`, on by default; the "One list" tick beside "Show descriptions"): with it
   the panel lists every section (ligature and cap included) in one scroll, each in a `data-sec` wrapper
   (`DesignPanel`, the `list` flag). A rail pick sets `only` and scrolls there; scrolling reports the

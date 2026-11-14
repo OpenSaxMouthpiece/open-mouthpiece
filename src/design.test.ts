@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { changedCount, DESIGN_SECTIONS, optionLabel, paramAliases } from "./design";
+import { changedCount, DESIGN_SECTIONS, ESSENTIALS, ESSENTIALS_WHOLE, optionLabel, paramAliases } from "./design";
 
 describe("paramAliases", () => {
   it("finds settings by players' words", () => {
@@ -37,5 +37,16 @@ describe("changedCount", () => {
   it("counts a dragged facing (points + its model) as one change", () => {
     expect(changedCount({ facing_gauge_points: [[0, 1]], facing_model: "gauge", tip_opening: 2 })).toBe(2);
     expect(changedCount({ facing_model: "arc" })).toBe(1);
+  });
+});
+
+describe("ESSENTIALS", () => {
+  it("lists only main rows of the sections Essentials trims", () => {
+    const rows = new Set(
+      DESIGN_SECTIONS.filter((s) => !s.ligature && !s.cap && !ESSENTIALS_WHOLE.includes(s.title)).flatMap((s) =>
+        s.items.map((i) => i.name),
+      ),
+    );
+    for (const n of ESSENTIALS) expect(rows, n).toContain(n);
   });
 });

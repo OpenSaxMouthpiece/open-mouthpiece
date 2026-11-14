@@ -112,6 +112,11 @@ Throat and Window), each under a small heading. A group shows its main settings 
 settings, like Table, shows only its own button. Settings that only matter after you pick
 something, such as a texture's depth, appear right under it once you do.
 
+To see fewer settings at once, pick **Essentials** at the top of the list (instead of **All
+settings**): each section then shows only the settings changed most often, such as tip opening,
+facing length, baffle and chamber, with a link at its end to the rest. Lettering and printing stay
+as they are. The search box and a click on the model still find every setting.
+
 To find a particular setting, type part of its name in the **Find a setting** box, for example
 "baffle" or "window".
 
