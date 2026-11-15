@@ -228,6 +228,18 @@ static site (docs/HOSTING.md).
   Hide / Beside / Download cap STL / Remove; the print kit and Download ▾ take `<name>_cap.stl` when made.
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
+- **Shuffle** (`src/shuffle.ts`, the die on the Essentials row; App's `shuffle`): `sampleDesign` draws
+  every `SHUFFLE_KEYS` setting for the design's voice (the report's socket voice; not the C-melody)
+  inside `SHUFFLE_DATA`'s ranges; `fitAir` sets the inside air with the fitted formula
+  (`predictAir`, `src/shuffleAir.json`; levers baffle height, baffle curve, throat width), within ±4%
+  or drawn again (instant), and it is applied as one change. Its render's air readout is the check:
+  outside ±8% of the preset, `correctAir` adjusts it (the formula scaled by the error, then the line
+  through two real readings), twice at most, each folded into the same undo step (`history.amend`).
+  No OpenSCAD runs before it shows: an echo in the browser costs as much as a render (~6s). A rare
+  design with every lever at its end stays a little outside (within ±10%). `npm run shuffle:check`
+  runs the same path with the CLI and renders each design; `node scripts/shuffle_fit.mjs` refits the
+  formula after a change to the interior or to the ranges. Soprano: never shorter, no knurling, no
+  baffle texture (each broke the mesh there). Usage: `shuffle`.
 - **Essentials** (pref `essentials`, off by default; the Essentials | All settings switch over the
   mouthpiece tab's sections): the shape sections show only `ESSENTIALS` (design.ts: the 16 settings
   changed most often, from the usage table, Nov 2026) and one "All settings: N more here" link each;

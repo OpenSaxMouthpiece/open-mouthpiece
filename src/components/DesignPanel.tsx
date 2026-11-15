@@ -66,6 +66,7 @@ interface Props {
   // Demo: with `only` on a mouthpiece section, every mouthpiece section is listed in one scroll; `only`
   // then marks where the view is (the rail scrolls to it, scrolling reports the section at the top by onSpy).
   onSpy?(title: string): void;
+  shuffle?: { run(): void; busy: boolean }; // a new design for this voice (src/shuffle.ts), on the Essentials row
 }
 
 // The nearest ancestor that scrolls (or the element itself when none does).
@@ -116,6 +117,7 @@ export function DesignPanel({
   fitNote,
   charts = false,
   onSpy,
+  shuffle,
 }: Props) {
   const byName = new Map(params.map((p) => [p.name, p]));
   const setParam = (name: string, v: ParamValue) => {
@@ -424,6 +426,32 @@ export function DesignPanel({
                 </button>
               ))}
             </div>
+          )}
+          {shuffle && showSwitch && (
+            <button
+              className="shuffle-btn"
+              onClick={shuffle.run}
+              disabled={shuffle.busy}
+              title="A new design for this voice, within the usual ranges (↶ undoes it)"
+              aria-label="Shuffle: a new design"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                <rect
+                  x="3.5"
+                  y="3.5"
+                  width="17"
+                  height="17"
+                  rx="3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                />
+                <circle cx="8.5" cy="8.5" r="1.4" fill="currentColor" />
+                <circle cx="15.5" cy="15.5" r="1.4" fill="currentColor" />
+                <circle cx="12" cy="12" r="1.4" fill="currentColor" />
+              </svg>
+              <span className="shuffle-label">{shuffle.busy ? "Shuffling…" : "Shuffle"}</span>
+            </button>
           )}
           {listMenu && (
             <Menu className="list-menu" label="⋯" title="List options: descriptions, one list" track="list">

@@ -47,6 +47,16 @@ import { FACING_CHOICES, fileAbout, hasDesignParams, paramLabel, type PartTab } 
 import { useModelPick } from "./hooks/useModelPick";
 import { LINES, type ShapeSection } from "./shapeEdit";
 import { parseFacing, parseSummary, parseTextVariables } from "./readouts";
+import {
+  AIR_BAND,
+  SHUFFLE_DATA,
+  correctAir,
+  predictAir,
+  shuffleDesign,
+  shuffleVoice,
+  type ShuffleVoice,
+} from "./shuffle";
+import AIR_MODEL from "./shuffleAir.json";
 import { LEGACY_WINDOW, legacyRails, railsInText, windowChange, withWindowParams, withWindowValues } from "./rails";
 import { TextVariables } from "./components/TextField";
 import { checkCard, kitHoles, ringFile } from "./printKit";
@@ -911,6 +921,87 @@ export default function App() {
   const history = useValueHistory(mainTab?.key ?? "", values, (key, v) =>
     setValuesByKey((all) => ({ ...all, [key]: v })),
   );
+  // Shuffle (src/shuffle.ts): a new design for this voice, its inside air set by the fitted formula
+  // (src/shuffleAir.json), applied at once as one step. Its render reports the real air: if that is
+  // outside the band, the formula is scaled by the error and the design corrected (at most twice), in
+  // the same undo step.
+  const shuffleFor = shuffleVoice(summary?.socket?.voice);
+  const [shuffling, setShuffling] = useState(false);
+  const shuffled = useRef<{
+    key: string;
+    voice: ShuffleVoice;
+    values: Values;
+    readings: { values: Values; air: number }[]; // its renders' real air
+  } | null>(null);
+  const predictFor =
+    (voice: ShuffleVoice, scale = 1) =>
+    (v: Values) => {
+      const a = predictAir(AIR_MODEL, voice, v);
+      return Promise.resolve(a === null ? null : a * scale);
+    };
+  const applyShuffle = (key: string, vals: Values) =>
+    setValuesByKey((all) => {
+      const next = { ...(all[key] ?? {}) };
+      for (const [n, v] of Object.entries(vals)) {
+        const p = params.find((q) => q.name === n);
+        if (!p) continue;
+        if (JSON.stringify(v) === JSON.stringify(p.initial)) delete next[n];
+        else next[n] = v;
+      }
+      return { ...all, [key]: next };
+    });
+  const shuffle = async () => {
+    if (!mainTab || !shuffleFor || shuffling) return;
+    track("feature", "shuffle");
+    const fit = await shuffleDesign(shuffleFor, Math.random, predictFor(shuffleFor));
+    if (!fit.ok || fit.air === null) {
+      notify({ text: "Shuffle couldn't find a design in range this time: try again", kind: "error" });
+      return;
+    }
+    setShuffling(true);
+    const s = { key: mainTab.key, voice: shuffleFor, values: fit.values, readings: [] };
+    shuffled.current = s;
+    applyShuffle(mainTab.key, fit.values);
+    // a render that never comes back (an error, a slow phone): the button doesn't stay off
+    setTimeout(() => {
+      if (shuffled.current?.values === s.values || shuffled.current?.readings.length) {
+        shuffled.current = null;
+        setShuffling(false);
+      }
+    }, 120000);
+  };
+  // the shuffled design's render: check its air, correct it if needed (twice at most; a rare design
+  // with every lever at its end stays a little outside the band)
+  useEffect(() => {
+    const s = shuffled.current;
+    if (!s || !summary) return;
+    const done = (text?: string) => {
+      shuffled.current = null;
+      setShuffling(false);
+      if (text) notify({ text, short: "Shuffled: a new design (↶ undoes it)", kind: "ok" });
+    };
+    const now = valuesByKey[s.key] ?? {};
+    const valueOf = (n: string) => (n in now ? now[n] : params.find((q) => q.name === n)?.initial);
+    // edited since, or another design: the check ends
+    if (
+      mainTab?.key !== s.key ||
+      Object.entries(s.values).some(([n, v]) => JSON.stringify(valueOf(n)) !== JSON.stringify(v))
+    )
+      return done();
+    // an older render's report (the shuffled one isn't in yet)
+    if (summary.tip === null || Math.abs(summary.tip - Number(s.values.tip_opening)) > 0.005 || summary.air === null)
+      return;
+    const target = SHUFFLE_DATA[s.voice].air;
+    const label = `Shuffled: a new ${s.voice.toLowerCase()} design within the usual ranges for this voice (↶ undoes it)`;
+    const readings = [...s.readings, { values: s.values, air: summary.air }];
+    if (Math.abs(summary.air / target - 1) <= AIR_BAND || readings.length > 2) return done(label);
+    void correctAir(AIR_MODEL, s.voice, readings).then((values) => {
+      if (shuffled.current !== s) return;
+      shuffled.current = { ...s, values, readings };
+      history.amend();
+      applyShuffle(s.key, values);
+    });
+  }, [summary]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!ready || !activeTab || !mainTab) return <div className="loading">Loading…</div>;
 
@@ -1889,6 +1980,7 @@ export default function App() {
       onFocusParam={focusOn}
       readouts={withReadouts && !noReadouts ? readoutsEl : other}
       history={history}
+      shuffle={shuffleFor && !otherPart ? { run: () => void shuffle(), busy: shuffling } : undefined}
       facing={
         facingEl ? (
           <div className={`design-facing${status.kind === "busy" ? " stale" : ""}`}>{facingEl}</div>

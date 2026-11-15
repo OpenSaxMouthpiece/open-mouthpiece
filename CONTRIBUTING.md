@@ -18,6 +18,7 @@ npm run build          # the site -> dist/ (docs/HOSTING.md); npm run preview to
 npm test               # unit tests (Vitest) for the app's pure logic, src/*.test.ts
 npm run check          # regression check of every param file; -- --update to accept changes
 npm run sweep          # robustness sweep, quick (~2 min); -- --full for every voice (~8 min)
+npm run shuffle:check  # Shuffle's designs: 100 per voice rendered (~4 min); -- --n 300 before a change ships
 npm run lint           # ESLint (TypeScript, React hooks); npm run typecheck for tsc alone
 npm run format         # Prettier (src/, scripts/); format:check only reports
 node scripts/sync_voice_files.mjs     # after changing parameters/descriptions in the base file
@@ -61,6 +62,10 @@ Read `docs/dev/GEOMETRY.md` before changing the generator and `docs/dev/APP.md` 
   one-file bundle renders the same. Needs OpenSCAD.
 - `npm run sweep`: every setting at its extremes plus random mixes; any failure is cut down to a
   small file in `scad/_sweep/`.
+- `npm run shuffle:check`: the app's Shuffle (`src/shuffle.ts`) run as the button runs it, its
+  designs rendered and checked (one closed solid, no design warnings, walls, inside air within ±8%
+  of the voice's preset). Run it after changing Shuffle's ranges or the generator's clamps; after a
+  change to the interior, refit Shuffle's air formula first (`node scripts/shuffle_fit.mjs`, ~4 min).
 - For the app itself, try it in the browser (`npm run dev`; add `?fresh` to start with empty
   storage).
 

@@ -25,6 +25,7 @@ const sameValues = (a: Values, b: Values) => {
 export function useValueHistory(key: string, values: Values, setValues: (key: string, v: Values) => void) {
   const hist = useRef(new Map<string, History>());
   const applying = useRef(false);
+  const amending = useRef(false); // the next change joins the last step (Shuffle's air correction)
   const [, bump] = useState(0);
 
   useEffect(() => {
@@ -35,6 +36,13 @@ export function useValueHistory(key: string, values: Values, setValues: (key: st
       return;
     }
     if (h.last === values) return;
+    if (amending.current) {
+      amending.current = false;
+      h.last = values;
+      h.future = [];
+      bump((n) => n + 1);
+      return;
+    }
     if (applying.current) {
       applying.current = false;
     } else {
@@ -90,5 +98,9 @@ export function useValueHistory(key: string, values: Values, setValues: (key: st
   }, []);
 
   const h = hist.current.get(key);
-  return { canUndo: !!h?.past.length, canRedo: !!h?.future.length, step };
+  // the next change of the values is part of the last step (one undo for both)
+  const amend = () => {
+    amending.current = true;
+  };
+  return { canUndo: !!h?.past.length, canRedo: !!h?.future.length, step, amend };
 }
