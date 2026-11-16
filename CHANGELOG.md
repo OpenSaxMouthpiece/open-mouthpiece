@@ -6,6 +6,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+## 2026-11-16
+
 - **Shuffle**: the die beside Essentials makes a new design for your saxophone, with new chamber,
   baffle and throat shapes, facing and outside (now and then a shank band or baffle texture), each
   within the usual ranges for that saxophone and with about the same inside air, and the saxophone's
