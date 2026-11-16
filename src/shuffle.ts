@@ -220,6 +220,9 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
   const d = SHUFFLE_DATA[voice];
   const p = d.preset;
   const u = (lo: number, hi: number) => lo + (hi - lo) * rand();
+  // mostly the presets' look (lo..mid), now and then the other (mid..hi): squareness drawn evenly made
+  // most shuffles boxier than any preset
+  const mostly = (lo: number, mid: number, hi: number, p: number) => (rand() < p ? u(lo, mid) : u(mid, hi));
   // length: ±3% (the soprano only longer: its table needs all of its body), and the throat moves with
   // the window, as make_variants.mjs does (else the generator has to move it, with a warning)
   const L = snap("overall_length", p.overall_length * (voice === "Soprano" ? u(1, 1.03) : u(0.97, 1.03)));
@@ -292,12 +295,12 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
     beak_tip_height: snap("beak_tip_height", p.beak_tip_height + u(-0.4, 0.4)),
     beak_curve: snap("beak_curve", u(-0.4, 0.8)),
     beak_length: snap("beak_length", L * u(-0.035, 0.085)),
-    beak_squareness: snap("beak_squareness", u(1.3, 3.2)),
+    beak_squareness: snap("beak_squareness", mostly(1.3, 2, 3.2, 0.75)),
     beak_top_width: snap("beak_top_width", u(-0.2, 0.6)),
     shoulder_smoothness: snap("shoulder_smoothness", u(0, 1)),
     shoulder_sweep: swept ? snap("shoulder_sweep", L * u(0.03, 0.08)) : 0,
-    body_squareness: snap("body_squareness", u(1.6, 3.4)),
-    underside_squareness: snap("underside_squareness", u(1.2, 2.4)),
+    body_squareness: snap("body_squareness", mostly(1.6, 2.4, 3.4, 0.75)),
+    underside_squareness: snap("underside_squareness", rand() < 0.5 ? 1.2 : u(1.2, 2.2)),
     shank_detail: band,
     shank_detail_style: BAND[band][0],
     shank_detail_count: BAND[band][1],

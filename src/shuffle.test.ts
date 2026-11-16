@@ -61,6 +61,13 @@ describe("sampleDesign", () => {
         }
       }
   });
+  it("keeps the outside mostly as round as the presets, now and then square", () => {
+    const ds = Array.from({ length: 400 }, (_, i) => sampleDesign("Alto", seeded(i)));
+    const share = (f: (d: (typeof ds)[number]) => boolean) => ds.filter(f).length / ds.length;
+    expect(share((d) => Number(d.body_squareness) <= 2.4)).toBeGreaterThan(0.65);
+    expect(share((d) => Number(d.beak_squareness) <= 2)).toBeGreaterThan(0.65);
+    expect(share((d) => Number(d.body_squareness) > 2.4)).toBeGreaterThan(0.1);
+  });
   it("makes different shapes, not one design", () => {
     const shapes = new Set(
       Array.from({ length: 60 }, (_, i) => sampleDesign("Tenor", seeded(i))).map(
