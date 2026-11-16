@@ -229,7 +229,7 @@ static site (docs/HOSTING.md).
   The Cap section's controls show once made. `part = cap` (an old link) still shows it alone, with
   `PartNote`. Items with `when` in `design.ts` show only for one value of another setting.
 - **Shuffle** (`src/shuffle.ts`, the die on the Essentials row; App's `shuffle`): `sampleDesign` draws
-  every `SHUFFLE_KEYS` setting for the design's voice (the report's socket voice; not the C-melody)
+  every `SHUFFLE_KEYS` setting for the design's voice (the tip a .005" size, .075, .080, ...) (the report's socket voice; not the C-melody)
   inside `SHUFFLE_DATA`'s ranges; `fitAir` sets the inside air with the fitted formula
   (`predictAir`, `src/shuffleAir.json`; levers baffle height, baffle curve, throat width), within ±4%
   or drawn again (instant), and it is applied as one change. Its render's air readout is the check:

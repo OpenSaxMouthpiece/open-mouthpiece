@@ -1,7 +1,8 @@
 // Shuffle: a new design for the open voice, inside the usual ranges for that voice. Every setting it
 // touches is drawn afresh (the chamber, baffle and throat shapes, the facing, the outside, sometimes a
 // shank band or baffle texture), within:
-//   - tip opening: the typical range for the voice (classical to jazz, reference spec section 5),
+//   - tip opening: a .005" size in the typical range for the voice (classical to jazz, reference spec
+//     section 5),
 //   - facing length: follows the tip (longer with a more open tip), near the voice's typical range,
 //   - inside air: within AIR_AIM of the voice's preset by the fitted formula (fitAir with predictAir:
 //     baffle height, then baffle curve, then throat width); the app corrects it after the render,
@@ -244,7 +245,11 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
   // length: ±3% (the soprano only longer: its table needs all of its body), and the throat moves with
   // the window, as make_variants.mjs does (else the generator has to move it, with a warning)
   const L = snap("overall_length", p.overall_length * (voice === "Soprano" ? u(1, 1.03) : u(0.97, 1.03)));
-  const tip = snap("tip_opening", u(...d.tip));
+  // the tip: a size in .005" steps (.075, .080, ...), as makers list them and as the side lettering shows
+  // it; stored to the micron, so {tip} engraves the round number
+  const STEP_MM = 0.127; // .005" (design.ts's MM_PER_THOU x 5)
+  const sizes = [Math.ceil(d.tip[0] / STEP_MM - 1e-9), Math.floor(d.tip[1] / STEP_MM + 1e-9)];
+  const tip = +(STEP_MM * Math.floor(u(sizes[0], sizes[1] + 1))).toFixed(3);
   // facing follows the tip: ~4mm longer per mm more opening, then ±4% either way
   const facingRaw = p.facing_length + 4 * (tip - p.tip_opening) + p.facing_length * u(-0.04, 0.04);
   const facing = snap("facing_length", Math.min(d.facing[1], Math.max(d.facing[0], facingRaw)));

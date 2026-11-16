@@ -53,6 +53,8 @@ describe("sampleDesign", () => {
         const [lo, hi] = SHUFFLE_DATA[v].tip;
         expect(d.tip_opening).toBeGreaterThanOrEqual(lo);
         expect(d.tip_opening).toBeLessThanOrEqual(hi);
+        const thou = Number(d.tip_opening) / 0.0254;
+        expect(Math.abs(thou - 5 * Math.round(thou / 5))).toBeLessThan(0.05); // .005" steps
         const [flo, fhi] = SHUFFLE_DATA[v].facing;
         expect(d.facing_length).toBeGreaterThanOrEqual(flo);
         expect(d.facing_length).toBeLessThanOrEqual(fhi);
