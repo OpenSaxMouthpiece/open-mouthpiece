@@ -13,6 +13,7 @@
 //   node scripts/shuffle_check.mjs                    100 per voice
 //   node scripts/shuffle_check.mjs --n 300 --jobs 12  before a change to the ranges ships
 //   node scripts/shuffle_check.mjs --voices Alto --n 20 --seed 3
+//   node scripts/shuffle_check.mjs --n 8 --font "Alfa Slab One"   the sides' lettering in one (wide) face
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -33,6 +34,7 @@ const N = Number(opt('--n', 100));
 const SEED = Number(opt('--seed', 1));
 const JOBS = Number(opt('--jobs', Math.max(1, os.cpus().length - 2)));
 const MIN_WALL = Number(opt('--min-wall', 1.2));
+const FONT = opt('--font', undefined); // the sides' typeface for every sample (else shuffled, as in the app)
 
 const importTs = (file) =>
   import(
@@ -41,7 +43,7 @@ const importTs = (file) =>
         transformSync(fs.readFileSync(path.join(ROOT, 'src', file), 'utf8'), { loader: 'ts', format: 'esm' }).code,
       ).toString('base64')
   );
-const { SHUFFLE_VOICES, SHUFFLE_DATA, AIR_BAND, seeded, shuffleDesign, correctAir, predictAir } =
+const { SHUFFLE_VOICES, SHUFFLE_DATA, AIR_BAND, seeded, shuffleDesign, shuffleLettering, correctAir, predictAir } =
   await importTs('shuffle.ts');
 const MODEL = JSON.parse(fs.readFileSync(path.join(ROOT, 'src', 'shuffleAir.json'), 'utf8'));
 const VOICES = (opt('--voices', '') || SHUFFLE_VOICES.join(',')).split(',');
@@ -85,6 +87,8 @@ async function checkOne(voice, i) {
     values = await correctAir(MODEL, voice, readings);
     air = airOf((await echo(base, values)).log);
   }
+  // the sides' lettering, as the app adds it (doesn't change the air); --font forces one typeface
+  values = { ...values, ...shuffleLettering(voice, {}, rand, FONT) };
   const fit = { values, air, samples: first.samples };
   const problems = [];
   // the band is the aim; a rare design with every lever at its end stays a little outside (up to ±10%)

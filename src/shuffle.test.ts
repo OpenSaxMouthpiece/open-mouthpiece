@@ -6,6 +6,7 @@ import AIR_MODEL from "./shuffleAir.json";
 import {
   AIR_BAND,
   SHUFFLE_DATA,
+  SHUFFLE_FONTS,
   SHUFFLE_KEYS,
   SHUFFLE_VOICES,
   correctAir,
@@ -14,6 +15,7 @@ import {
   sampleDesign,
   seeded,
   shuffleDesign,
+  shuffleLettering,
   shuffleVoice,
 } from "./shuffle";
 
@@ -143,5 +145,31 @@ describe("correctAir", () => {
     const next = await correctAir(AIR_MODEL, "Soprano", [a, b]);
     // 0.7 cm³ over 2.9mm: 2.9 cm³ at about 1.3mm
     expect(Number(next.baffle_height)).toBeCloseTo(1.3, 1);
+  });
+});
+
+describe("shuffleLettering", () => {
+  const r = seeded(1);
+  const empty = { right: "", left: "" };
+  it("letters the voice and the tip (thousandths, as variables) on the sides, in one of the generator's faces", () => {
+    const l = shuffleLettering("Alto", empty, r);
+    expect(l.side_text_right).toBe("{voice}");
+    expect(l.side_text_left).toBe("{tip}");
+    const base = readFileSync("scad/lib/mouthpiece_base.scad", "utf8");
+    expect(base).toMatch(/\["\{tip\}", fmt_inch\(tip_opening\)\]/);
+    expect(base).toMatch(/\["\{voice\}", voice\]/);
+    const faces = /^side_text_font = "same"; \/\/ \[same, ([^\]]+)\]/m.exec(base)![1].split(", ");
+    expect([...SHUFFLE_FONTS].sort()).toEqual(faces.sort());
+    expect(faces).toContain(l.side_text_font);
+  });
+  it("sets script faces 5mm tall, the generator's minimum for them; the soprano a size smaller", () => {
+    expect(shuffleLettering("Alto", empty, r, "Pacifico").side_text_size).toBe(5);
+    expect(shuffleLettering("Alto", empty, r, "Serif").side_text_size).toBe(3.5);
+    expect(shuffleLettering("Soprano", empty, r, "Serif").side_text_size).toBe(3);
+  });
+  it("re-letters its own lettering but leaves a player's side text alone", () => {
+    expect(shuffleLettering("Tenor", { right: "{voice}", left: "{tip}" }, r).side_text_font).toBeDefined();
+    expect(shuffleLettering("Tenor", { right: "Studio", left: "" }, r)).toEqual({});
+    expect(shuffleLettering("Tenor", { right: "", left: "No. 7" }, r)).toEqual({});
   });
 });

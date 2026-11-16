@@ -3,11 +3,12 @@
 // shank band or baffle texture), within:
 //   - tip opening: the typical range for the voice (classical to jazz, reference spec section 5),
 //   - facing length: follows the tip (longer with a more open tip), near the voice's typical range,
-//   - inside air: within AIR_BAND of the voice's preset (the variants' guardrail), by moving baffle
-//     height after an echo-only evaluation (fitAir),
+//   - inside air: within AIR_AIM of the voice's preset by the fitted formula (fitAir with predictAir:
+//     baffle height, then baffle curve, then throat width); the app corrects it after the render,
 //   - everything else: around the preset and the Flamma / Silva / Unda variants, a little wider.
+// The sides get the voice and the tip opening (shuffleLettering) unless the player has typed their own.
 // Never touched: the fit on the horn (shank hole, cork depth), the reed's settings (tip roundness,
-// table, window), the voice, lettering and pictures, the ligature and the cap.
+// table, window), the voice, top and shank lettering and pictures, the ligature and the cap.
 // scripts/shuffle_check.mjs renders hundreds per voice (genus, walls, air) before a change ships.
 import type { ParamValue } from "./api";
 
@@ -474,6 +475,48 @@ export async function correctAir(
   const scale = last.air / p;
   const fit = await fitAir(voice, last.values, (v) => Promise.resolve((predictAir(model, voice, v) ?? 0) * scale));
   return fit.values;
+}
+
+// Lettering on the sides: the voice on the right, the tip opening on the left in thousandths of an inch
+// (".073", as a maker marks it), in a shuffled typeface; as the lettering variables {voice} and {tip},
+// so the number follows the tip slider afterwards. Only when each side is empty or still holds a shuffle's
+// own lettering: a player's own side text (and its font and size) stays.
+export const SHUFFLE_FONTS = [
+  "Sans Bold",
+  "Sans",
+  "Serif Bold",
+  "Serif",
+  "Serif Italic",
+  "Mono Bold",
+  "Bebas Neue",
+  "Marcellus SC",
+  "Rozha One",
+  "Alfa Slab One",
+  "Audiowide",
+  "Black Ops One",
+  "Lobster",
+  "Pacifico",
+  "Kaushan Script",
+] as const;
+const SCRIPT_FONTS = new Set(["Lobster", "Pacifico", "Kaushan Script"]); // the generator: 5mm or taller
+export function shuffleLettering(
+  voice: ShuffleVoice,
+  sides: { right: ParamValue | undefined; left: ParamValue | undefined },
+  rand: () => number,
+  font?: string,
+): Record<string, ParamValue> {
+  const right = String(sides.right ?? ""),
+    left = String(sides.left ?? "");
+  if (!(right === "" || right === "{voice}") || !(left === "" || left === "{tip}")) return {};
+  const f = font ?? SHUFFLE_FONTS[Math.floor(rand() * SHUFFLE_FONTS.length)];
+  return {
+    side_text_right: "{voice}",
+    side_text_left: "{tip}",
+    side_text_font: f,
+    // (a size smaller on the soprano: "Soprano" in a wide face ran past its short body, genus -1)
+    side_text_size: (SCRIPT_FONTS.has(f) ? 5 : 3.5) - (voice === "Soprano" ? 0.5 : 0),
+    side_text_position: voice === "Soprano" ? 3 : 0,
+  };
 }
 
 // The voice a design is for, from its report's socket ("Alto", ...): only the four with variants.

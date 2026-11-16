@@ -53,6 +53,7 @@ import {
   correctAir,
   predictAir,
   shuffleDesign,
+  shuffleLettering,
   shuffleVoice,
   type ShuffleVoice,
 } from "./shuffle";
@@ -959,9 +960,19 @@ export default function App() {
       return;
     }
     setShuffling(true);
-    const s = { key: mainTab.key, voice: shuffleFor, values: fit.values, readings: [] };
+    const now = valuesByKey[mainTab.key] ?? {};
+    const valueOf = (n: string) => (n in now ? now[n] : params.find((q) => q.name === n)?.initial);
+    const vals = {
+      ...fit.values,
+      ...shuffleLettering(
+        shuffleFor,
+        { right: valueOf("side_text_right"), left: valueOf("side_text_left") },
+        Math.random,
+      ),
+    };
+    const s = { key: mainTab.key, voice: shuffleFor, values: vals, readings: [] };
     shuffled.current = s;
-    applyShuffle(mainTab.key, fit.values);
+    applyShuffle(mainTab.key, vals);
     // a render that never comes back (an error, a slow phone): the button doesn't stay off
     setTimeout(() => {
       if (shuffled.current?.values === s.values || shuffled.current?.readings.length) {
