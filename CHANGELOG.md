@@ -8,8 +8,8 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 - **Shuffle**: the die beside Essentials makes a new design for your saxophone, with new chamber,
   baffle and throat shapes, facing and outside, each within the usual ranges for that saxophone and
-  with about the same inside air, and the saxophone's name and tip opening engraved on the sides in
-  a new typeface (unless you've typed your own side text). Your shank hole and the reed's settings
+  with about the same inside air, and the saxophone's letter and tip opening ("B .106") engraved on
+  one side in a new typeface (unless you've typed your own side text). Your shank hole and the reed's settings
   stay as they are, and ↶ goes back.
 - The settings list no longer scrolls sideways once a section has changed settings.
 

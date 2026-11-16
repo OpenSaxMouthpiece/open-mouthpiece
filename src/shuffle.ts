@@ -477,10 +477,10 @@ export async function correctAir(
   return fit.values;
 }
 
-// Lettering on the sides: the voice on the right, the tip opening on the left in thousandths of an inch
-// (".073", as a maker marks it), in a shuffled typeface; as the lettering variables {voice} and {tip},
-// so the number follows the tip slider afterwards. Only when each side is empty or still holds a shuffle's
-// own lettering: a player's own side text (and its font and size) stays.
+// Lettering on one side: the voice's letter and the tip opening in thousandths of an inch ("B .106", as a
+// maker marks it), in a shuffled typeface; as the lettering variables, so the number follows the tip
+// slider afterwards. Only when both sides are empty or still hold a shuffle's own lettering (also the
+// earlier {voice} / {tip} pair): a player's own side text (and its font and size) stays.
 export const SHUFFLE_FONTS = [
   "Sans Bold",
   "Sans",
@@ -498,6 +498,7 @@ export const SHUFFLE_FONTS = [
   "Pacifico",
   "Kaushan Script",
 ] as const;
+const SIDE_TEXT = "{voice_letter} {tip}";
 const SCRIPT_FONTS = new Set(["Lobster", "Pacifico", "Kaushan Script"]); // the generator: 5mm or taller
 export function shuffleLettering(
   voice: ShuffleVoice,
@@ -507,13 +508,14 @@ export function shuffleLettering(
 ): Record<string, ParamValue> {
   const right = String(sides.right ?? ""),
     left = String(sides.left ?? "");
-  if (!(right === "" || right === "{voice}") || !(left === "" || left === "{tip}")) return {};
+  if (!["", SIDE_TEXT, "{voice}"].includes(right) || !["", "{tip}"].includes(left)) return {};
   const f = font ?? SHUFFLE_FONTS[Math.floor(rand() * SHUFFLE_FONTS.length)];
   return {
-    side_text_right: "{voice}",
-    side_text_left: "{tip}",
+    side_text_right: SIDE_TEXT,
+    side_text_left: "",
     side_text_font: f,
-    // (a size smaller on the soprano: "Soprano" in a wide face ran past its short body, genus -1)
+    // the soprano's a size smaller, 3mm toward the tip: nearer the shank, wide or script faces broke its
+    // mesh (genus 2), with "Soprano" and with "S .073" alike
     side_text_size: (SCRIPT_FONTS.has(f) ? 5 : 3.5) - (voice === "Soprano" ? 0.5 : 0),
     side_text_position: voice === "Soprano" ? 3 : 0,
   };

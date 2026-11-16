@@ -239,10 +239,10 @@ static site (docs/HOSTING.md).
   design with every lever at its end stays a little outside (within ±10%). `npm run shuffle:check`
   runs the same path with the CLI and renders each design; `node scripts/shuffle_fit.mjs` refits the
   formula after a change to the interior or to the ranges. Soprano: never shorter, no knurling, no
-  baffle texture (each broke the mesh there). `shuffleLettering` adds the side texts (voice right, tip
-  opening left in thousandths, ".073", a random `SHUFFLE_FONTS` face, script faces 5mm) when both sides are empty
-  or still a shuffle's own; the soprano's a size smaller and 3mm toward the tip ("Soprano" nearer the
-  shank broke its mesh, genus 2). `shuffle:check -- --font "Alfa Slab One"` tries one face. Usage: `shuffle`.
+  baffle texture (each broke the mesh there). `shuffleLettering` letters one side
+  `{voice_letter} {tip}` ("B .106"; a random `SHUFFLE_FONTS` face, script faces 5mm) when both sides are empty or still a shuffle's own; the soprano's a size smaller and
+  3mm toward the tip (nearer the shank, wide and script faces broke its mesh, genus 2).
+  `shuffle:check -- --font "Alfa Slab One"` tries one face. Usage: `shuffle`.
 - **Essentials** (pref `essentials`, off by default; the Essentials | All settings switch over the
   mouthpiece tab's sections): the shape sections show only `ESSENTIALS` (design.ts: the 16 settings
   changed most often, from the usage table, Nov 2026) and one "All settings: N more here" link each;
