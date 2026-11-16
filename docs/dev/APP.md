@@ -239,8 +239,12 @@ static site (docs/HOSTING.md).
   design with every lever at its end stays a little outside (within ±10%). `npm run shuffle:check`
   runs the same path with the CLI and renders each design; `node scripts/shuffle_fit.mjs` refits the
   formula after a change to the interior or to the ranges. Soprano: never shorter, no knurling, no
-  baffle texture (each broke the mesh there). `shuffleLettering` letters one side
-  `{voice_letter} {tip}` ("B .106"; a random `SHUFFLE_FONTS` face, script faces 5mm) when both sides are empty or still a shuffle's own; the soprano's a size smaller and
+  baffle texture (each broke the mesh there). Shank bands: rings (1-3), flutes, spiral, engraved or
+  raised, knurling raised. Baffle textures: along and dimples either style, across always raised and
+  0.2-0.3mm (engraved broke most baffle types, genus 3; 0.4mm raised on a 2.5mm baffle closed the
+  airway). `shuffle:check -- --where k=v,...` renders only designs with those values.
+  `shuffleLettering` letters one side `{voice_letter} {tip}` ("B .106"; a random `SHUFFLE_FONTS`
+  face, script faces 5mm) when both sides are empty or still a shuffle's own; the soprano's a size smaller and
   3mm toward the tip (nearer the shank, wide and script faces broke its mesh, genus 2).
   `shuffle:check -- --font "Alfa Slab One"` tries one face. Usage: `shuffle`.
 - **Essentials** (pref `essentials`, off by default; the Essentials | All settings switch over the

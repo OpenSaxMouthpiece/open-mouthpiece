@@ -66,6 +66,8 @@ Read `docs/dev/GEOMETRY.md` before changing the generator and `docs/dev/APP.md` 
   designs rendered and checked (one closed solid, no design warnings, walls, inside air within ±8%
   of the voice's preset). Run it after changing Shuffle's ranges or the generator's clamps; after a
   change to the interior, refit Shuffle's air formula first (`node scripts/shuffle_fit.mjs`, ~4 min).
+  Before Shuffle draws a new option (a texture, a band style), render designs that have it:
+  `-- --where baffle_texture=across,baffle_texture_style=raised`.
 - For the app itself, try it in the browser (`npm run dev`; add `?fresh` to start with empty
   storage).
 

@@ -93,12 +93,12 @@ use **Save as…** to keep your version under a new name. If "(edited)" appears 
 design has changes that haven't been saved.
 
 **Shuffle** (the die beside **Essentials | All settings**) makes a new design for the same
-saxophone: new chamber, baffle and throat shapes, a new facing and a new outside, each within the
-usual ranges for that saxophone, with about the same inside air as its standard mouthpiece. It
-never changes the fit on your horn (the shank hole) or the reed's settings (tip roundness, table and
-window). It engraves the saxophone's letter and the tip opening on one side ("B .106"), in a new
-typeface each time, unless you've typed your own side text: that stays. Shuffle again for another
-one, or **↶** to go back.
+saxophone: new chamber, baffle and throat shapes, a new facing and a new outside (now and then with
+a shank band or a baffle texture), each within the usual ranges for that saxophone, with about the
+same inside air as its standard mouthpiece. It never changes the fit on your horn (the shank hole)
+or the reed's settings (tip roundness, table and window). It engraves the saxophone's letter and the
+tip opening on one side ("B .106"), in a new typeface each time, unless you've typed your own side
+text: that stays. Shuffle again for another one, or **↶** to go back.
 
 To copy a mouthpiece you own, start from the preset for your saxophone and follow
 [Matching a mouthpiece you have](MATCHING.md): what to measure, with what, and which setting

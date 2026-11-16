@@ -158,7 +158,16 @@ export const SHUFFLE_KEYS = [
   "shank_detail_style",
   "shank_detail_count",
   "shank_detail_depth",
+  "shank_detail_position",
   "baffle_texture",
+  "baffle_texture_style",
+  "baffle_texture_thickness",
+  "baffle_texture_depth",
+  "baffle_texture_spacing",
+  "baffle_texture_extent",
+  "baffle_texture_shape",
+  "baffle_texture_bend",
+  "baffle_texture_bend_change",
 ] as const;
 export type ShuffleKey = (typeof SHUFFLE_KEYS)[number];
 
@@ -192,6 +201,14 @@ const STEP: Partial<Record<ShuffleKey, number>> = {
   shoulder_sweep: 0.5,
   body_squareness: 0.1,
   underside_squareness: 0.1,
+  shank_detail_depth: 0.05,
+  shank_detail_position: 0.05,
+  baffle_texture_thickness: 0.05,
+  baffle_texture_depth: 0.05,
+  baffle_texture_spacing: 0.1,
+  baffle_texture_extent: 0.05,
+  baffle_texture_bend: 0.05,
+  baffle_texture_bend_change: 0.05,
 };
 const snap = (k: ShuffleKey, x: number) => {
   const s = STEP[k] ?? 0.01;
@@ -242,19 +259,45 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
     ["step", 0.15],
     ["concave", 0.2],
   ]);
-  // (no knurling on the soprano: on its small shank, with other outside changes, it broke the mesh)
+  // The shank's band: rings, flutes and a spiral cut in or standing out, knurling raised. (No knurling
+  // on the soprano: on its small shank, with other outside changes, it broke the mesh; its flutes stay
+  // few, 40 broke it, and its spiral keeps the 3 starts at 0.7mm it was checked with.)
+  const sop = voice === "Soprano";
   const band = pick(rand, [
-    ["none", 0.4],
+    ["none", 0.3],
     ["rings", 0.2],
-    ["knurled", voice === "Soprano" ? 0 : 0.2],
-    ["spiral", 0.2],
+    ["flutes", 0.15],
+    ["spiral", 0.15],
+    ["knurled", sop ? 0 : 0.2],
   ]);
-  const BAND: Record<string, [string, number, number]> = {
-    none: ["engraved", 3, 0.6],
-    rings: ["engraved", 2, 0.5],
-    knurled: ["raised", 16, 0.6],
-    spiral: ["raised", voice === "Soprano" ? 3 : 2, voice === "Soprano" ? 0.7 : 0.5],
-  };
+  const bandStyle = band === "knurled" ? "raised" : band === "none" ? "engraved" : rand() < 0.5 ? "engraved" : "raised";
+  const bandCount =
+    band === "rings"
+      ? Math.floor(u(1, 4)) // 4 don't always fit the band
+      : band === "flutes"
+        ? Math.floor(sop ? u(8, 17) : u(8, 25))
+        : band === "spiral"
+          ? sop
+            ? 3
+            : Math.floor(u(1, 5))
+          : band === "knurled"
+            ? Math.floor(u(12, 21))
+            : 3;
+  const bandDepth = band === "spiral" && sop ? 0.7 : band === "none" ? 0.6 : snap("shank_detail_depth", u(0.4, 0.8));
+  // A texture on the baffle (none on the soprano: on its small, high baffle one cut through, genus 3,
+  // ~1 in 60): grooves along it or dimples, cut in or standing out, or raised grooves across it
+  // (straight, curved or a V, bending either way), of any size the baffle takes.
+  const texture = sop
+    ? "none"
+    : pick(rand, [
+        ["none", 0.5],
+        ["along", 0.15],
+        ["across", 0.15],
+        ["dimples", 0.2],
+      ]);
+  const tex = texture !== "none";
+  const across = texture === "across";
+  const groove = tex ? snap("baffle_texture_thickness", u(1, 2.5)) : 2;
   const swept = rand() < 0.4;
   return {
     tip_opening: tip,
@@ -303,18 +346,22 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
     body_squareness: snap("body_squareness", mostly(1.6, 2.4, 3.4, 0.75)),
     underside_squareness: snap("underside_squareness", rand() < 0.5 ? 1.2 : u(1.2, 2.2)),
     shank_detail: band,
-    shank_detail_style: BAND[band][0],
-    shank_detail_count: BAND[band][1],
-    shank_detail_depth: BAND[band][2],
-    // (none on the soprano: on its small, high baffle a texture cut through, genus 3, ~1 in 60)
-    baffle_texture:
-      voice === "Soprano"
-        ? "none"
-        : pick(rand, [
-            ["none", 0.6],
-            ["along", 0.2],
-            ["dimples", 0.2],
-          ]),
+    shank_detail_style: bandStyle,
+    shank_detail_count: bandCount,
+    shank_detail_depth: bandDepth,
+    // a single ring anywhere along the band
+    shank_detail_position: band === "rings" && bandCount === 1 ? snap("shank_detail_position", u(0.1, 0.9)) : 0.25,
+    baffle_texture: texture,
+    // grooves across always stand out: cut in, they broke the mesh on most baffle types (genus 3, ~1 in 10)
+    baffle_texture_style: across || (tex && rand() < 0.5) ? "raised" : "engraved",
+    baffle_texture_thickness: groove,
+    // (raised grooves across shallow: 0.4mm on a baffle at its highest closed the airway, genus 0)
+    baffle_texture_depth: tex ? snap("baffle_texture_depth", across ? u(0.2, 0.3) : u(0.25, 0.6)) : 0.4,
+    baffle_texture_spacing: tex ? snap("baffle_texture_spacing", groove + u(0.8, 2.5)) : 3,
+    baffle_texture_extent: tex ? snap("baffle_texture_extent", rand() < 0.5 ? 1 : u(0.6, 1)) : 1,
+    baffle_texture_shape: across && rand() < 0.4 ? "v" : "curved",
+    baffle_texture_bend: across && rand() < 0.7 ? snap("baffle_texture_bend", u(-0.6, 0.6)) : 0,
+    baffle_texture_bend_change: across && rand() < 0.3 ? snap("baffle_texture_bend_change", u(-0.5, 0.5)) : 0,
   };
 }
 

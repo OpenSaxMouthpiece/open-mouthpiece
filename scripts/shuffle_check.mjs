@@ -13,6 +13,7 @@
 //   node scripts/shuffle_check.mjs                    100 per voice
 //   node scripts/shuffle_check.mjs --n 300 --jobs 12  before a change to the ranges ships
 //   node scripts/shuffle_check.mjs --voices Alto --n 20 --seed 3
+//   node scripts/shuffle_check.mjs --n 8 --where shank_detail=flutes,shank_detail_style=raised
 //   node scripts/shuffle_check.mjs --n 8 --font "Alfa Slab One"   the sides' lettering in one (wide) face
 import fs from 'node:fs';
 import os from 'node:os';
@@ -34,6 +35,9 @@ const N = Number(opt('--n', 100));
 const SEED = Number(opt('--seed', 1));
 const JOBS = Number(opt('--jobs', Math.max(1, os.cpus().length - 2)));
 const MIN_WALL = Number(opt('--min-wall', 1.2));
+// only designs with these values, e.g. --where baffle_texture=across,baffle_texture_style=raised (redrawn
+// with the formula alone until one has them, so each option of a texture or band can be checked)
+const WHERE = (opt('--where', '') || '').split(',').filter(Boolean).map((kv) => kv.split('='));
 const FONT = opt('--font', undefined); // the sides' typeface for every sample (else shuffled, as in the app)
 
 const importTs = (file) =>
@@ -68,7 +72,7 @@ const airOf = (log) => {
 
 async function checkOne(voice, i) {
   const base = path.join(ROOT, 'scad', `${FILE[voice]}.scad`);
-  const rand = seeded(SEED * 1000 + i);
+  let rand = seeded(SEED * 1000 + i);
   // as the app does it: the formula picks the design; its render's air decides whether to correct it (twice at most)
   const predict = (scale) => (v) => {
     const a = predictAir(MODEL, voice, v);
@@ -76,7 +80,11 @@ async function checkOne(voice, i) {
   };
   const target = SHUFFLE_DATA[voice].air;
   const inBand = (a) => a !== null && Math.abs(a / target - 1) <= AIR_BAND;
-  const first = await shuffleDesign(voice, rand, predict(1));
+  let first = await shuffleDesign(voice, rand, predict(1));
+  for (let k = 1; WHERE.length && !WHERE.every(([n, v]) => String(first.values[n]) === v) && k < 500; k++) {
+    rand = seeded(SEED * 1000 + i + 1e6 * k);
+    first = await shuffleDesign(voice, rand, predict(1));
+  }
   let values = first.values;
   let air = airOf((await echo(base, values)).log);
   let corrected = 0;
