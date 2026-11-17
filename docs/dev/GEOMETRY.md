@@ -210,8 +210,21 @@ left the side facing down at ~53° (the sphere caps before 2026-10-12 had ~40 mm
 grooves across; now none flatter than 43°, engraved or raised). Grooves are hulls of neighbouring
 dents (1mm apart along; across 1.5mm, bent ones 0.75mm). Per sample (`btx_row`): engraved,
 the wall over it keeps 1.2mm (`BTX_WALL`; less than `interior_wall`, so the texture reaches the tip on a scooped beak) (+ the lettering depth within `LETTERING_SPAN`); raised, the
-roof keeps 1mm above the floor and the reed line; either way the whole dent (`BTX_X` across) stays within the air
-path's width (the window's width under the window), so it never reaches the side walls or rails; grooves across may also run into the side walls (wall to wall) where they stay 0.5mm above the facing and leave `BTX_WALL` to the outside.
+roof keeps 1mm above the floor and the reed line; either way the whole dent stays within the air
+path's width (the window's width under the window), so it never reaches the side walls or rails.
+The dent's reach is measured, not assumed (`BTX_X` is only the least): where the roof is steep as
+printed (a rollover, a step, the drop to the tip; the sides' axis then sits far off the roof's
+normal) the 45° sides run nearly along the roof and the base disc grows to several mm. Engraved,
+its reach across (`rx`) and along (`rz`) must fit: under the window within the window's width over
+the whole length it spans (none past the window's front), and a dent dipping under the floor into
+the window's slot must stay clear of the window's rear end. Grooves across may also run into the
+side walls (wall to wall), only where the whole dent is in the airway's upper half, 0.5mm above the
+facing, leaving `BTX_WALL` to the outside at its top and bottom. (Before 2026-11-16 a fixed reach of
+`BTX_X` let a disc ~4mm wide on a steep roof cut round the corner where the floor meets the side
+wall or the window's slot, leaving a bar of wall along it: genus 3, ~1 in 10 grooves across.)
+Raised, the disc's far edges (along z either way, and across) must be `BTX_E`/2 inside the wall,
+measured on the roof there (`btx_rim_in_wall`): on a steep roof the disc is a plate reaching along
+it, and one that grazed a rollover's crest left a sliver of the bump loose (genus 0).
 A dent the wall cuts to under 40% of its depth there is left out (a faint one looks like a speck);
 grooves across take one even depth each, the shallowest along them (`btx_even`), so they end
 cleanly instead of breaking up where the wall over the middle thins (a scooped beak).

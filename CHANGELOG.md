@@ -8,6 +8,10 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 - **Font** now comes first in Personalize, always in view, and Shuffle changes it (so the ligature's
   and cap's lettering match the mouthpiece's). Lettering style moved under its More.
+- Baffle texture: where the baffle is steep (a rollover, a step, the drop to the tip) the grooves or
+  dimples stop short where they would have cut through or come loose, so every texture now makes a
+  sound mouthpiece. **Shuffle** now uses grooves across cut in as well as standing out, and gives the
+  soprano baffle textures too.
 
 ## 2026-11-16
 

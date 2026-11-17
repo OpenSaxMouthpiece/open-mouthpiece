@@ -238,11 +238,11 @@ static site (docs/HOSTING.md).
   No OpenSCAD runs before it shows: an echo in the browser costs as much as a render (~6s). A rare
   design with every lever at its end stays a little outside (within ±10%). `npm run shuffle:check`
   runs the same path with the CLI and renders each design; `node scripts/shuffle_fit.mjs` refits the
-  formula after a change to the interior or to the ranges. Soprano: never shorter, no knurling, no
-  baffle texture (each broke the mesh there). Shank bands: rings (1-3), flutes, spiral, engraved or
-  raised, knurling raised. Baffle textures: along and dimples either style, across always raised and
-  0.2-0.3mm (engraved broke most baffle types, genus 3; 0.4mm raised on a 2.5mm baffle closed the
-  airway). `shuffle:check -- --where k=v,...` renders only designs with those values.
+  formula after a change to the interior or to the ranges. Soprano: never shorter, no knurling (each
+  broke the mesh there). Shank bands: rings (1-3), flutes, spiral, engraved or raised, knurling
+  raised. Baffle textures: along, across and dimples, engraved or raised, 0.25-0.6mm, on every voice
+  (the generator keeps each dent clear of the side walls and the window's ends: GEOMETRY.md, Baffle
+  texture). `shuffle:check -- --where k=v,...` renders only designs with those values.
   `shuffleLettering` letters one side `{voice_letter} {tip}` ("B .106"; a random `SHUFFLE_FONTS`
   face as the main `lettering_font`, `side_text_font` back to same, script faces 5mm) when both
   sides are empty or still a shuffle's own; the soprano's a size smaller and 3mm toward the tip

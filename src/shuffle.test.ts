@@ -61,7 +61,6 @@ describe("sampleDesign", () => {
         if (v === "Soprano") {
           expect(d.overall_length).toBeGreaterThanOrEqual(SHUFFLE_DATA.Soprano.preset.overall_length);
           expect(d.shank_detail).not.toBe("knurled");
-          expect(d.baffle_texture).toBe("none");
         }
       }
   });
@@ -72,29 +71,31 @@ describe("sampleDesign", () => {
     expect(share((d) => Number(d.beak_squareness) <= 2)).toBeGreaterThan(0.65);
     expect(share((d) => Number(d.body_squareness) > 2.4)).toBeGreaterThan(0.1);
   });
-  it("uses every baffle texture and shank band, in both styles where they're safe", () => {
+  it("uses every baffle texture in both styles on every voice, and every shank band", () => {
     const r = seeded(7);
     const seen = new Set<string>();
     for (let i = 0; i < 600; i++) {
       const v = sampleDesign("Alto", r);
       seen.add(`band ${v.shank_detail} ${v.shank_detail_style}`);
       seen.add(`baffle ${v.baffle_texture} ${v.baffle_texture_style}`);
-      if (v.baffle_texture === "across") expect(v.baffle_texture_style).toBe("raised");
       if (v.shank_detail === "knurled") expect(v.shank_detail_style).toBe("raised");
       if (v.shank_detail === "rings") expect(Number(v.shank_detail_count)).toBeLessThanOrEqual(3);
       expect(Number(v.baffle_texture_thickness)).toBeLessThan(Number(v.baffle_texture_spacing));
     }
     for (const b of ["rings", "flutes", "spiral"])
       for (const st of ["engraved", "raised"]) expect(seen).toContain(`band ${b} ${st}`);
-    for (const t of ["along", "dimples"])
+    for (const t of ["along", "across", "dimples"])
       for (const st of ["engraved", "raised"]) expect(seen).toContain(`baffle ${t} ${st}`);
     expect(seen).toContain("band knurled raised");
-    expect(seen).toContain("baffle across raised");
-    for (let i = 0; i < 200; i++) {
+    // the soprano too gets every baffle texture, in both styles (but no knurling)
+    const sop = new Set<string>();
+    for (let i = 0; i < 300; i++) {
       const v = sampleDesign("Soprano", r);
-      expect(v.baffle_texture).toBe("none");
+      sop.add(`${v.baffle_texture} ${v.baffle_texture_style}`);
       expect(v.shank_detail).not.toBe("knurled");
     }
+    for (const t of ["along", "across", "dimples"])
+      for (const st of ["engraved", "raised"]) expect(sop).toContain(`${t} ${st}`);
   });
   it("makes different shapes, not one design", () => {
     const shapes = new Set(

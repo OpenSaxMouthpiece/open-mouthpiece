@@ -1363,8 +1363,10 @@ function lean_in_allowed(I, y, ta) = ta == 0 ? 1e3 : max(0.3 * I[I_HW], I[I_HW] 
 // no side hangs flatter than 45 degrees: it prints without support. Grooves are hulls of
 // neighbouring dents. Guarantees, per sample: engraved, the wall over the dent keeps
 // interior_wall (and room for lettering where there is lettering); raised, the roof keeps 1mm above the floor and the
-// reed line; either way the whole sphere stays inside the air path's width (the window's width
-// under the window), so it can't reach the side walls or the rails. Raised bumps are cut out of the
+// reed line; either way the whole dent, its sides' base disc included (measured: on a steep roof it
+// spans mm), stays inside the air path's width (the window's width under the window), so it can't
+// reach the side walls or the rails; a raised bump's disc stays inside the wall at its far edges
+// (btx_rim_in_wall). Raised bumps are cut out of the
 // interior before it is cut out of the body, so they only ever fill air. The data (BTX_ROWS) is
 // computed once, after LETTERING_SPAN; the air readout counts it (BTX_AIR).
 // y of a superellipse ring's upper half at x (cy = mid-height); undef outside it
@@ -1395,19 +1397,44 @@ function btx_row(z, xs) =
     // the roof's normal (up, into the wall), for the 45-degree sides
     let(n = [sx * sign(x), 1, -sz] / k)
     // the lowest the dent reaches: the sphere's bottom or the sides' base disc (engraved)
-    let(disc = is_undef(roof) || BTX_RAISED ? undef : btx_disc(x, c, z, d0, n))
+    let(disc = is_undef(roof) ? undef : btx_disc(x, c, z, d0, n))
     let(lowest = is_undef(roof) ? 0 : BTX_RAISED ? roof - d0 * k
       : min(c - BTX_R, disc[0][1] - disc[1] * sqrt(max(0, 1 - disc[2][1] * disc[2][1]))))
-    let(room = z > win_z0 ? wsh : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[I_BOT], lowest)))
-    // grooves across may also run into the side walls (wall to wall): above the rails (0.5mm over
-    // the facing), leaving the wall's keep to the outside at the roof's height
-    let(wall = BTX_LINES && !is_undef(roof) && min(lowest, roof - d0 * k) >= facing_at_z(z) + 0.5
-      ? ring_half_width_at_y(E, roof) - keep : 0)
+    // how far the dent reaches from its sample, across (x) and along (z): the sphere, or the sides'
+    // base disc, which grows where the roof leans over as printed (on a steep rollover or step,
+    // several mm), so it is measured, not assumed
+    let(rx = is_undef(disc) || BTX_RAISED ? BTX_X : max(BTX_X, abs(disc[0][0] - x) + disc[1] * sqrt(max(0, 1 - disc[2][0] * disc[2][0]))))
+    let(rz = is_undef(disc) || BTX_RAISED ? BTX_R : max(BTX_R, abs(disc[0][2] - z) + disc[1] * sqrt(max(0, 1 - disc[2][2] * disc[2][2]))))
+    // the air's width it must stay within: under the window the window's own, over the whole length
+    // the dent spans (narrower toward the tip curve, none past the window's front); a dent dipping
+    // under the floor (into the window's slot) must also stay clear of the window's rear end, or
+    // it would cut round the floor's edge and leave a bar of it (a handle)
+    let(room = z > win_z0 ? (lowest < I[I_BOT] && z - rz < win_z0 ? 0 : min(wsh, window_side_hw(z - rz), window_side_hw(z + rz)))
+             : is_undef(roof) ? 0 : int_hw_at_y(I, max(I[I_BOT], lowest)))
+    // grooves across may also run into the side walls (wall to wall), where the whole dent is in the
+    // airway's upper half: lower down it would cut round the corner where the floor meets the side
+    // walls (or the window's slot) and leave a bar of wall along it (a handle). The wall's keep to
+    // the outside is held at the dent's top and bottom (the outside is widest between them or below).
+    let(wall = BTX_LINES && !is_undef(roof) && lowest >= cy && min(lowest, roof - d0 * k) >= facing_at_z(z) + 0.5
+      ? min(ring_half_width_at_y(E, roof), ring_half_width_at_y(E, lowest)) - keep : 0)
     // how far across: the dent's centre within that share of the roof's half-width
-    let(fits = !is_undef(roof) && abs(x) + BTX_X <= max(room, wall) && abs(x) <= baffle_texture_extent * I[I_HW] + 0.01
-               && (BTX_RAISED || z > win_z0 || lowest >= I[I_BOT]))
+    let(fits = !is_undef(roof) && abs(x) + rx <= max(room, wall) && abs(x) <= baffle_texture_extent * I[I_HW] + 0.01
+               && (BTX_RAISED ? btx_rim_in_wall(disc, I) : z > win_z0 || lowest >= I[I_BOT]))
     // left out where the wall allows under 40% of the depth meant there (a faint dent looks like a speck)
     [x, c, z, fits && d0 >= max(0.05, 0.4 * BTX_D * fade) ? d0 : 0, roof, k, fits, n]];
+// A raised bump's sides' base disc must lie inside the wall at its far edges too (the ends of its
+// rim along z, either way, and across), BTX_E/2 past the roof there, measured on the roof itself
+// (that ring's top at that x): where the roof is steep as printed, the 45-degree sides run nearly
+// along it and the disc ends up a plate reaching mm along the roof, which a curved roof (a
+// rollover's crest) can let back out into the air; a rim grazing the roof leaves a sliver of a
+// bump loose in the air. There the bump is left out (less texture where there is no room).
+function btx_rim_in_wall(disc, I) =
+  let(a = disc[2], r = disc[1])
+  min([for (e = [[0, 0, 1], [1, 0, 0]], sg = [-1, 1])
+    let(u0 = e - (e * a) * a, u = u0 / max(1e-6, norm(u0)), p = disc[0] + sg * r * u)
+    let(J = e[2] == 1 ? interior_ring_at(p[2]) : I, cy = (J[I_TOP] + J[I_BOT]) / 2, top = se_top_y(J[I_HW], J[I_TOP], cy, J[I_NT], p[0]))
+    // past the ring's width: in the side wall
+    is_undef(top) ? 1 : p[1] - top - BTX_E / 2]) >= 0;
 // A groove across at one even depth: the shallowest any of its samples allows (none where that is
 // under 40% of the depth set: a faint line looks like a scratch), so it doesn't break up where the
 // wall over the middle gets thin.

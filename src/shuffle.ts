@@ -289,17 +289,14 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
             ? Math.floor(u(12, 21))
             : 3;
   const bandDepth = band === "spiral" && sop ? 0.7 : band === "none" ? 0.6 : snap("shank_detail_depth", u(0.4, 0.8));
-  // A texture on the baffle (none on the soprano: on its small, high baffle one cut through, genus 3,
-  // ~1 in 60): grooves along it or dimples, cut in or standing out, or raised grooves across it
-  // (straight, curved or a V, bending either way), of any size the baffle takes.
-  const texture = sop
-    ? "none"
-    : pick(rand, [
-        ["none", 0.5],
-        ["along", 0.15],
-        ["across", 0.15],
-        ["dimples", 0.2],
-      ]);
+  // A texture on the baffle: grooves along it, grooves across it (straight, curved or a V, bending
+  // either way) or dimples, cut in or standing out, of any size the baffle takes.
+  const texture = pick(rand, [
+    ["none", 0.5],
+    ["along", 0.15],
+    ["across", 0.15],
+    ["dimples", 0.2],
+  ]);
   const tex = texture !== "none";
   const across = texture === "across";
   const groove = tex ? snap("baffle_texture_thickness", u(1, 2.5)) : 2;
@@ -357,11 +354,9 @@ export function sampleDesign(voice: ShuffleVoice, rand: () => number): Record<Sh
     // a single ring anywhere along the band
     shank_detail_position: band === "rings" && bandCount === 1 ? snap("shank_detail_position", u(0.1, 0.9)) : 0.25,
     baffle_texture: texture,
-    // grooves across always stand out: cut in, they broke the mesh on most baffle types (genus 3, ~1 in 10)
-    baffle_texture_style: across || (tex && rand() < 0.5) ? "raised" : "engraved",
+    baffle_texture_style: tex && rand() < 0.5 ? "raised" : "engraved",
     baffle_texture_thickness: groove,
-    // (raised grooves across shallow: 0.4mm on a baffle at its highest closed the airway, genus 0)
-    baffle_texture_depth: tex ? snap("baffle_texture_depth", across ? u(0.2, 0.3) : u(0.25, 0.6)) : 0.4,
+    baffle_texture_depth: tex ? snap("baffle_texture_depth", u(0.25, 0.6)) : 0.4,
     baffle_texture_spacing: tex ? snap("baffle_texture_spacing", groove + u(0.8, 2.5)) : 3,
     baffle_texture_extent: tex ? snap("baffle_texture_extent", rand() < 0.5 ? 1 : u(0.6, 1)) : 1,
     baffle_texture_shape: across && rand() < 0.4 ? "v" : "curved",
