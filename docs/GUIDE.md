@@ -178,13 +178,14 @@ the body, with the shank's outside diameter under More. *Beak*: its height at th
 length and top. *Shoulder & sides*: the shoulder and the sides near the table, with the shoulder
 sweep and the body's cross-section under More.
 
-**Personalize.** Add text and a picture *On top*, text on the *Sides*, and text around the *Shank
-band*, where you can also add rings, flutes, a spiral or knurling. You can use one of the built-in
-pictures or upload your own SVG file. Click **Variables** next to a text box to insert values from
-the design, such as the tip opening (`{tip}`) or the design's name (`{title}`). Text can run over
-several lines. The same font is used for all text (*All lettering*) unless you choose a different
-one for a particular text under its group's More. Text on the mouthpiece is always engraved so the
-ligature can't catch on it.
+**Personalize.** *Lettering* comes first: its **Font** is used for all the text, the ligature's and
+cap's included, unless you choose a different one for a particular text under its group's More.
+Then add text and a picture *On top*, text on the *Sides*, and text around the *Shank band*, where
+you can also add rings, flutes, a spiral or knurling. You can use one of the built-in pictures or
+upload your own SVG file. Click **Variables** next to a text box to insert values from the design,
+such as the tip opening (`{tip}`) or the design's name (`{title}`). Text can run over several
+lines. Text on the mouthpiece is always engraved so the ligature can't catch on it; *Lettering
+style* (under Lettering's More) sets whether the ligature's and cap's are cut in or stand out.
 
 **Ligature and Cap.** Their settings come in groups too: the ligature's *Band*, *Fit* and *Text &
 picture*; the cap's *Goes over*, *Fit & slot*, *Shape*, *Air holes & vents* and *Text & picture*.

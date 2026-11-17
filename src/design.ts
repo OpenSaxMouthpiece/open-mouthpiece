@@ -255,6 +255,19 @@ export const DESIGN_SECTIONS: DesignSection[] = [
     plain: "Lettering and pictures",
     groups: [
       {
+        title: "Lettering",
+        items: [
+          {
+            name: "lettering_font",
+            label: "Font",
+            caption: "For all the lettering. Each text can have its own font under its More.",
+          },
+        ],
+        // (Lettering style only changes the ligature's and cap's art: under More, so nothing appears above
+        // a text box while you type in it)
+        more: ["lettering_style", "lettering_depth", "lettering_tip_clearance"],
+      },
+      {
         title: "On top",
         items: [
           { name: "top_text", label: "Text on top" },
@@ -318,32 +331,6 @@ export const DESIGN_SECTIONS: DesignSection[] = [
           { name: "shank_detail_length", label: "How far up the shank" },
         ],
         more: ["shank_text_font", "shank_text_around", "shank_detail_depth"],
-      },
-      {
-        title: "All lettering",
-        items: [
-          {
-            name: "lettering_font",
-            label: "Font",
-            showIf: ["top_text", "side_text_right", "side_text_left", "shank_text", "ligature_text", "cap_text"],
-            caption: "For all the lettering. Each text can have its own font under its More.",
-          },
-          {
-            name: "lettering_style",
-            label: "Lettering style",
-            showIf: [
-              "top_text",
-              "top_image",
-              "side_text_right",
-              "side_text_left",
-              "ligature_text",
-              "ligature_image",
-              "cap_text",
-              "cap_image",
-            ],
-          },
-        ],
-        more: ["lettering_depth", "lettering_tip_clearance"],
       },
     ],
   }),
@@ -647,6 +634,7 @@ const LABELS: Record<string, string> = {
   shank_detail_depth: "Shank decoration depth",
   ligature_text_font: "Ligature text font",
   cap_text_font: "Cap text font",
+  lettering_style: "Lettering style",
   lettering_tip_clearance: "Lettering distance from the tip",
   top_image_aspect: "Picture height / width",
   ligature_fit: "Gap to the body",
@@ -908,6 +896,25 @@ for (const i of DESIGN_SECTIONS.flatMap((s) => s.items)) {
   if (i.showIf && !INACTIVE[i.name])
     INACTIVE[i.name] = (get) => (anyText(get, i.showIf!) ? null : "no text or picture to apply it to");
 }
+// Font and Lettering style stay in sight (first in Personalize: nothing appears above a text box while
+// you type), greyed until there is something they change.
+INACTIVE.lettering_font = (get) =>
+  anyText(get, ["top_text", "side_text_right", "side_text_left", "shank_text", "ligature_text", "cap_text"])
+    ? null
+    : "no text to apply it to";
+INACTIVE.lettering_style = (get) =>
+  anyText(get, [
+    "top_text",
+    "top_image",
+    "side_text_right",
+    "side_text_left",
+    "ligature_text",
+    "ligature_image",
+    "cap_text",
+    "cap_image",
+  ])
+    ? null
+    : "no text or picture to apply it to";
 for (const n of ["lettering_depth", "lettering_tip_clearance", "side_text_vertical", "top_image_aspect"]) {
   const on = ["top_text", "top_image", "side_text_right", "side_text_left"];
   if (n === "lettering_depth") on.push("shank_text", "ligature_text", "ligature_image", "cap_text", "cap_image");

@@ -530,7 +530,8 @@ export async function correctAir(
 }
 
 // Lettering on one side: the voice's letter and the tip opening in thousandths of an inch ("B .106", as a
-// maker marks it), in a shuffled typeface; as the lettering variables, so the number follows the tip
+// maker marks it), in a shuffled typeface: the main Font (the side's own set back to "same"), so the
+// ligature's and cap's lettering match. As the lettering variables, so the number follows the tip
 // slider afterwards. Only when both sides are empty or still hold a shuffle's own lettering (also the
 // earlier {voice} / {tip} pair): a player's own side text (and its font and size) stays.
 export const SHUFFLE_FONTS = [
@@ -565,7 +566,8 @@ export function shuffleLettering(
   return {
     side_text_right: SIDE_TEXT,
     side_text_left: "",
-    side_text_font: f,
+    lettering_font: f,
+    side_text_font: "same",
     // the soprano's a size smaller, 3mm toward the tip: nearer the shank, wide or script faces broke its
     // mesh (genus 2), with "Soprano" and with "S .073" alike
     side_text_size: (SCRIPT_FONTS.has(f) ? 5 : 3.5) - (voice === "Soprano" ? 0.5 : 0),

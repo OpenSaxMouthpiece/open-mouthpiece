@@ -1157,7 +1157,7 @@ Presets: Alto `22` · Tenor `22` · Bari `22` · Soprano `22`.
 
 ### Top text font (`top_text_font`)
 
-The top text's own typeface; same = the Font above.
+The top text's own typeface; same = the Font at the top of Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
@@ -1167,7 +1167,7 @@ Presets: Alto `same` · Tenor `same` · Bari `same` · Soprano `same`.
 
 ### Side text font (`side_text_font`)
 
-The side texts' own typeface; same = the Font above.
+The side texts' own typeface; same = the Font at the top of Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
@@ -1207,7 +1207,7 @@ Presets: Alto `0` · Tenor `0` · Bari `0` · Soprano `0`.
 
 ### Shank text font (`shank_text_font`)
 
-The shank text's own typeface; same = the Font above.
+The shank text's own typeface; same = the Font at the top of Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
@@ -1697,7 +1697,7 @@ Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)
 
 ### Ligature text font (`ligature_text_font`)
 
-The ligature text's own typeface; same = the Font in Personalize.
+The ligature text's own typeface; same = the Font at the top of Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 
@@ -1969,7 +1969,7 @@ Presets: Alto `(empty)` · Tenor `(empty)` · Bari `(empty)` · Soprano `(empty)
 
 ### Cap text font (`cap_text_font`)
 
-The cap text's own typeface; same = the Font in Personalize.
+The cap text's own typeface; same = the Font at the top of Personalize.
 
 Range: `same`, `Sans Bold`, `Sans`, `Serif Bold`, `Serif`, `Serif Italic`, `Mono Bold`, `Bebas Neue`, `Marcellus SC`, `Rozha One`, `Alfa Slab One`, `Audiowide`, `Black Ops One`, `Lobster`, `Pacifico`, `Kaushan Script`.
 

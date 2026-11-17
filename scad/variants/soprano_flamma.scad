@@ -177,9 +177,9 @@ lettering_depth = 0.5; // [0.2:0.05:1.5]
 lettering_font = "Marcellus SC"; // [Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Keeps lettering this far back from the tip (mm).
 lettering_tip_clearance = 22; // [5:0.5:60]
-// The top text's own typeface; same = the Font above.
+// The top text's own typeface; same = the Font at the top of Personalize.
 top_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
-// The side texts' own typeface; same = the Font above.
+// The side texts' own typeface; same = the Font at the top of Personalize.
 side_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Text around the shank's round band at the neck end (empty = none); variables as on top.
 shank_text = "";
@@ -187,7 +187,7 @@ shank_text = "";
 shank_text_size = 3; // [1.5:0.5:8]
 // Where around the shank the text is centred (degrees): 0 = top, 90 = right, -90 = left.
 shank_text_around = 0; // [-180:15:180]
-// The shank text's own typeface; same = the Font above.
+// The shank text's own typeface; same = the Font at the top of Personalize.
 shank_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Decoration on the shank's band: rounded rings, V flutes along it, a spiral or knurling.
 shank_detail = "rings"; // [none, rings, flutes, spiral, knurled]
@@ -289,7 +289,7 @@ ligature_screw_size = "M3"; // [M3, M4, M5]
 ligature_hardware_fit = 0; // [-0.3:0.05:0.3]
 // Text on the ligature's top (empty = none). Lines, variables as on the top text.
 ligature_text = "";
-// The ligature text's own typeface; same = the Font in Personalize.
+// The ligature text's own typeface; same = the Font at the top of Personalize.
 ligature_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Ligature letter height (mm).
 ligature_text_size = 4; // [2:0.5:12]
@@ -345,7 +345,7 @@ cap_end_dome = 1; // [0.6:0.1:1]
 cap_rim_bead = 0.6; // [0:0.1:1.5]
 // Text on the cap's top (empty = none). Lines, variables as on the top text.
 cap_text = "";
-// The cap text's own typeface; same = the Font in Personalize.
+// The cap text's own typeface; same = the Font at the top of Personalize.
 cap_text_font = "same"; // [same, Sans Bold, Sans, Serif Bold, Serif, Serif Italic, Mono Bold, Bebas Neue, Marcellus SC, Rozha One, Alfa Slab One, Audiowide, Black Ops One, Lobster, Pacifico, Kaushan Script]
 // Cap letter height (mm).
 cap_text_size = 5; // [2:0.5:14]

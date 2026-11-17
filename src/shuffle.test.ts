@@ -186,7 +186,8 @@ describe("shuffleLettering", () => {
     expect(base).toMatch(/\["\{voice_letter\}", /);
     const faces = /^side_text_font = "same"; \/\/ \[same, ([^\]]+)\]/m.exec(base)![1].split(", ");
     expect([...SHUFFLE_FONTS].sort()).toEqual(faces.sort());
-    expect(faces).toContain(l.side_text_font);
+    expect(faces).toContain(l.lettering_font);
+    expect(l.side_text_font).toBe("same"); // the side follows the main Font
   });
   it("sets script faces 5mm tall, the generator's minimum for them", () => {
     expect(shuffleLettering("Alto", empty, r, "Pacifico").side_text_size).toBe(5);
@@ -194,7 +195,7 @@ describe("shuffleLettering", () => {
     expect(shuffleLettering("Soprano", empty, r, "Serif").side_text_size).toBe(3); // and 3mm toward the tip
   });
   it("re-letters its own lettering but leaves a player's side text alone", () => {
-    expect(shuffleLettering("Tenor", { right: "{voice_letter} {tip}", left: "" }, r).side_text_font).toBeDefined();
+    expect(shuffleLettering("Tenor", { right: "{voice_letter} {tip}", left: "" }, r).lettering_font).toBeDefined();
     expect(shuffleLettering("Tenor", { right: "{voice}", left: "{tip}" }, r).side_text_left).toBe(""); // the earlier pair
     expect(shuffleLettering("Tenor", { right: "Studio", left: "" }, r)).toEqual({});
     expect(shuffleLettering("Tenor", { right: "", left: "No. 7" }, r)).toEqual({});

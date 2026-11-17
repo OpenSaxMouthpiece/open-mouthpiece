@@ -1,6 +1,6 @@
 {
  "alto.scad": {
-  "hash": "a584761d-22945",
+  "hash": "3f8386ae-23027",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -926,7 +926,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -999,7 +999,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -1099,7 +1099,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -1524,7 +1524,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -1880,7 +1880,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -2206,7 +2206,7 @@
   ]
  },
  "baritone.scad": {
-  "hash": "218b9fa-23185",
+  "hash": "9762061b-23267",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -3132,7 +3132,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -3205,7 +3205,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -3305,7 +3305,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -3730,7 +3730,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -4086,7 +4086,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -4412,7 +4412,7 @@
   ]
  },
  "extras/c_melody.scad": {
-  "hash": "7b1cf671-23856",
+  "hash": "9ed730c0-23938",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -5338,7 +5338,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -5411,7 +5411,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -5511,7 +5511,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -5936,7 +5936,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -6292,7 +6292,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -6618,7 +6618,7 @@
   ]
  },
  "soprano.scad": {
-  "hash": "2cbd2c13-23147",
+  "hash": "e9575e6a-23229",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -7544,7 +7544,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -7617,7 +7617,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -7717,7 +7717,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -8142,7 +8142,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -8498,7 +8498,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -8824,7 +8824,7 @@
   ]
  },
  "tenor.scad": {
-  "hash": "c9785b42-23324",
+  "hash": "a6c627b1-23406",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -9750,7 +9750,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -9823,7 +9823,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -9923,7 +9923,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -10348,7 +10348,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -10704,7 +10704,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -11030,7 +11030,7 @@
   ]
  },
  "variants/alto_flamma.scad": {
-  "hash": "17cfabb6-23037",
+  "hash": "d6bcf727-23119",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -11956,7 +11956,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -12029,7 +12029,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -12129,7 +12129,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -12554,7 +12554,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -12910,7 +12910,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -13236,7 +13236,7 @@
   ]
  },
  "variants/alto_silva.scad": {
-  "hash": "9b63da6f-23076",
+  "hash": "8ef74f30-23158",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -14162,7 +14162,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -14235,7 +14235,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -14335,7 +14335,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -14760,7 +14760,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -15116,7 +15116,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -15442,7 +15442,7 @@
   ]
  },
  "variants/alto_unda.scad": {
-  "hash": "ca066273-23041",
+  "hash": "15a40754-23123",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -16368,7 +16368,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -16441,7 +16441,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -16541,7 +16541,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -16966,7 +16966,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -17322,7 +17322,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -17648,7 +17648,7 @@
   ]
  },
  "variants/baritone_flamma.scad": {
-  "hash": "d4f3e58f-23227",
+  "hash": "c08660b4-23309",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -18574,7 +18574,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -18647,7 +18647,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -18747,7 +18747,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -19172,7 +19172,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -19528,7 +19528,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -19854,7 +19854,7 @@
   ]
  },
  "variants/baritone_silva.scad": {
-  "hash": "a98cffa0-23260",
+  "hash": "40ff00e9-23342",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -20780,7 +20780,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -20853,7 +20853,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -20953,7 +20953,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -21378,7 +21378,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -21734,7 +21734,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -22060,7 +22060,7 @@
   ]
  },
  "variants/baritone_unda.scad": {
-  "hash": "928b84a2-23219",
+  "hash": "85ad6727-23301",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -22986,7 +22986,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -23059,7 +23059,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -23159,7 +23159,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -23584,7 +23584,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -23940,7 +23940,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -24266,7 +24266,7 @@
   ]
  },
  "variants/soprano_flamma.scad": {
-  "hash": "25e50d31-23248",
+  "hash": "4ea043da-23330",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -25192,7 +25192,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -25265,7 +25265,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -25365,7 +25365,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -25790,7 +25790,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -26146,7 +26146,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -26472,7 +26472,7 @@
   ]
  },
  "variants/soprano_silva.scad": {
-  "hash": "3a74ab62-23274",
+  "hash": "a7c343b-23356",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -27398,7 +27398,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -27471,7 +27471,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -27571,7 +27571,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -27996,7 +27996,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -28352,7 +28352,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -28678,7 +28678,7 @@
   ]
  },
  "variants/soprano_unda.scad": {
-  "hash": "8d42179b-23247",
+  "hash": "85ad2a92-23329",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -29604,7 +29604,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -29677,7 +29677,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -29777,7 +29777,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -30202,7 +30202,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -30558,7 +30558,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -30884,7 +30884,7 @@
   ]
  },
  "variants/tenor_flamma.scad": {
-  "hash": "d160bed8-23430",
+  "hash": "bd36df01-23512",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -31810,7 +31810,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -31883,7 +31883,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -31983,7 +31983,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -32408,7 +32408,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -32764,7 +32764,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -33090,7 +33090,7 @@
   ]
  },
  "variants/tenor_silva.scad": {
-  "hash": "5b056e14-23456",
+  "hash": "81126893-23538",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -34016,7 +34016,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -34089,7 +34089,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -34189,7 +34189,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -34614,7 +34614,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -34970,7 +34970,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",
@@ -35296,7 +35296,7 @@
   ]
  },
  "variants/tenor_unda.scad": {
-  "hash": "11d9e240-23424",
+  "hash": "59373ff7-23506",
   "parameters": [
    {
     "caption": "Inside diameter of the shank, where the neck cork goes (mm): smaller = tighter.",
@@ -36222,7 +36222,7 @@
     "type": "number"
    },
    {
-    "caption": "The top text's own typeface; same = the Font above.",
+    "caption": "The top text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "top_text_font",
@@ -36295,7 +36295,7 @@
     "type": "string"
    },
    {
-    "caption": "The side texts' own typeface; same = the Font above.",
+    "caption": "The side texts' own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "side_text_font",
@@ -36395,7 +36395,7 @@
     "type": "number"
    },
    {
-    "caption": "The shank text's own typeface; same = the Font above.",
+    "caption": "The shank text's own typeface; same = the Font at the top of Personalize.",
     "group": "Lettering",
     "initial": "same",
     "name": "shank_text_font",
@@ -36820,7 +36820,7 @@
     "type": "string"
    },
    {
-    "caption": "The ligature text's own typeface; same = the Font in Personalize.",
+    "caption": "The ligature text's own typeface; same = the Font at the top of Personalize.",
     "group": "Ligature",
     "initial": "same",
     "name": "ligature_text_font",
@@ -37176,7 +37176,7 @@
     "type": "string"
    },
    {
-    "caption": "The cap text's own typeface; same = the Font in Personalize.",
+    "caption": "The cap text's own typeface; same = the Font at the top of Personalize.",
     "group": "Cap",
     "initial": "same",
     "name": "cap_text_font",

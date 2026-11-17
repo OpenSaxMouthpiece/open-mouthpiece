@@ -6,6 +6,9 @@ What changed in Open Mouthpiece, newest first. Dates are when a change went live
 
 ## Coming next (on the dev site)
 
+- **Font** now comes first in Personalize, always in view, and Shuffle changes it (so the ligature's
+  and cap's lettering match the mouthpiece's). Lettering style moved under its More.
+
 ## 2026-11-16
 
 - **Shuffle**: the die beside Essentials makes a new design for your saxophone, with new chamber,

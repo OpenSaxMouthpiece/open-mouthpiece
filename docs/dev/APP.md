@@ -244,9 +244,10 @@ static site (docs/HOSTING.md).
   0.2-0.3mm (engraved broke most baffle types, genus 3; 0.4mm raised on a 2.5mm baffle closed the
   airway). `shuffle:check -- --where k=v,...` renders only designs with those values.
   `shuffleLettering` letters one side `{voice_letter} {tip}` ("B .106"; a random `SHUFFLE_FONTS`
-  face, script faces 5mm) when both sides are empty or still a shuffle's own; the soprano's a size smaller and
-  3mm toward the tip (nearer the shank, wide and script faces broke its mesh, genus 2).
-  `shuffle:check -- --font "Alfa Slab One"` tries one face. Usage: `shuffle`.
+  face as the main `lettering_font`, `side_text_font` back to same, script faces 5mm) when both
+  sides are empty or still a shuffle's own; the soprano's a size smaller and 3mm toward the tip
+  (nearer the shank, wide and script faces broke its mesh, genus 2). `shuffle:check -- --font "Alfa
+  Slab One"` tries one face. Usage: `shuffle`.
 - **Essentials** (pref `essentials`, off by default; the Essentials | All settings switch over the
   mouthpiece tab's sections): the shape sections show only `ESSENTIALS` (design.ts: the 16 settings
   changed most often, from the usage table, Nov 2026) and one "All settings: N more here" link each;
