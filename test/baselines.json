@@ -202,7 +202,7 @@
       8.591,
       27.267
     ],
-    "hash": "88cac411cebb39d6",
+    "hash": "d7ef63dbbf388223",
     "ligHash": "8f454a179d60e692",
     "ligVolume": 1719.779,
     "capHash": "bbe90e3d5f2079eb",
@@ -228,7 +228,7 @@
     "capVolume": 7358.602
   },
   "variants/soprano_unda.scad": {
-    "tris": 44294,
+    "tris": 44288,
     "volume": 12096.911,
     "size": [
       24.298,
@@ -240,7 +240,7 @@
       9.65,
       26.12
     ],
-    "hash": "1cba0b2d0b67de2c",
+    "hash": "19ef3fca94249547",
     "ligHash": "c4c58c9a779a22b0",
     "ligVolume": 1845.415,
     "capHash": "52167d04facad07f",
